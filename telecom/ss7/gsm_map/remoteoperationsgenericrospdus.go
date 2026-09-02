@@ -1236,6 +1236,7 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROS from BER/DER format.
 func (v *ROS) UnmarshalBER(data []byte) error {
+	*v = ROS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROS CHOICE")
 	}
@@ -1376,6 +1377,7 @@ func (v *Invoke) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Invoke from BER/DER format.
 func (v *Invoke) UnmarshalBER(data []byte) error {
+	*v = Invoke{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Invoke SEQUENCE: %w", err)
@@ -1490,6 +1492,7 @@ func (v *ReturnResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReturnResult from BER/DER format.
 func (v *ReturnResult) UnmarshalBER(data []byte) error {
+	*v = ReturnResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnResult SEQUENCE: %w", err)
@@ -1582,6 +1585,7 @@ func (v *ReturnError) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReturnError from BER/DER format.
 func (v *ReturnError) UnmarshalBER(data []byte) error {
+	*v = ReturnError{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnError SEQUENCE: %w", err)
@@ -1670,6 +1674,7 @@ func (v *Reject) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Reject from BER/DER format.
 func (v *Reject) UnmarshalBER(data []byte) error {
+	*v = Reject{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Reject SEQUENCE: %w", err)
@@ -1741,6 +1746,7 @@ func (v *InvokeId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InvokeId from BER/DER format.
 func (v *InvokeId) UnmarshalBER(data []byte) error {
+	*v = InvokeId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InvokeId CHOICE")
 	}
@@ -1832,6 +1838,7 @@ func (v *Bind) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Bind from BER/DER format.
 func (v *Bind) UnmarshalBER(data []byte) error {
+	*v = Bind{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Bind CHOICE")
 	}
@@ -1922,6 +1929,7 @@ func (v *Unbind) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Unbind from BER/DER format.
 func (v *Unbind) UnmarshalBER(data []byte) error {
+	*v = Unbind{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Unbind CHOICE")
 	}
@@ -1998,6 +2006,7 @@ func (v *ROSInvokeLinkedId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSInvokeLinkedId from BER/DER format.
 func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte) error {
+	*v = ROSInvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSInvokeLinkedId CHOICE")
 	}
@@ -2074,6 +2083,7 @@ func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSReturnResultResult from BER/DER format.
 func (v *ROSReturnResultResult) UnmarshalBER(data []byte) error {
+	*v = ROSReturnResultResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ROSReturnResultResult SEQUENCE: %w", err)
@@ -2152,6 +2162,7 @@ func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InvokeLinkedId from BER/DER format.
 func (v *InvokeLinkedId) UnmarshalBER(data []byte) error {
+	*v = InvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InvokeLinkedId CHOICE")
 	}
@@ -2228,6 +2239,7 @@ func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReturnResultResult from BER/DER format.
 func (v *ReturnResultResult) UnmarshalBER(data []byte) error {
+	*v = ReturnResultResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnResultResult SEQUENCE: %w", err)
@@ -2331,6 +2343,7 @@ func (v *OperationsRejectProblem) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OperationsRejectProblem from BER/DER format.
 func (v *OperationsRejectProblem) UnmarshalBER(data []byte) error {
+	*v = OperationsRejectProblem{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for OperationsRejectProblem CHOICE")
 	}

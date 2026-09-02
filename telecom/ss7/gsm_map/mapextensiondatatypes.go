@@ -19,7 +19,7 @@ var (
 
 const (
 
-	// MaxNumOfPrivateExtensions is the integer constant for MaxNumOfPrivateExtensions.
+	// MaxNumOfPrivateExtensions is the integer constant for maxNumOfPrivateExtensions.
 	MaxNumOfPrivateExtensions int64 = 10
 )
 
@@ -158,6 +158,7 @@ func (v *ExtensionContainer) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionContainer from BER/DER format.
 func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
+	*v = ExtensionContainer{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionContainer SEQUENCE: %w", err)
@@ -324,6 +325,7 @@ func (v *SLRArgExtensionContainer) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SLRArgExtensionContainer from BER/DER format.
 func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
+	*v = SLRArgExtensionContainer{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SLRArgExtensionContainer SEQUENCE: %w", err)
@@ -491,6 +493,7 @@ func (v *PrivateExtension) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrivateExtension from BER/DER format.
 func (v *PrivateExtension) UnmarshalBER(data []byte) error {
+	*v = PrivateExtension{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrivateExtension SEQUENCE: %w", err)
@@ -559,6 +562,7 @@ func (v *PCSExtensions) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PCSExtensions from BER/DER format.
 func (v *PCSExtensions) UnmarshalBER(data []byte) error {
+	*v = PCSExtensions{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PCSExtensions SEQUENCE: %w", err)
@@ -635,6 +639,7 @@ func (v *SLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SLRArgPCSExtensions from BER/DER format.
 func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte) error {
+	*v = SLRArgPCSExtensions{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SLRArgPCSExtensions SEQUENCE: %w", err)

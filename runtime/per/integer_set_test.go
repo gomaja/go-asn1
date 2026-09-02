@@ -344,3 +344,21 @@ func TestDecodeUnconstrainedUint64RejectsRedundantPositiveOctet(t *testing.T) {
 		}
 	}
 }
+
+func TestDecodeIntegerUint64AlignedRejectsNonMinimalConstrainedValue(t *testing.T) {
+	t.Parallel()
+
+	bb := NewBitBuffer()
+	if err := EncodeConstrainedWholeNumber(bb, 2, 1, 3); err != nil {
+		t.Fatal(err)
+	}
+	bb.AlignToOctetWrite()
+	if err := bb.WriteBytes([]byte{0x00, 0x01}); err != nil {
+		t.Fatal(err)
+	}
+
+	_, err := DecodeIntegerUint64Aligned(NewBitBufferFromBytes(bb.Bytes()), 0, 0xffffff, false)
+	if !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("decode error = %v, want ErrInvalidValue", err)
+	}
+}

@@ -19,19 +19,19 @@ var (
 
 const (
 
-	// MaxNumOfCCBSRequests4 is the integer constant for MaxNumOfCCBSRequests4.
+	// MaxNumOfCCBSRequests4 is the integer constant for maxNumOfCCBS-Requests.
 	MaxNumOfCCBSRequests4 int64 = 5
 
-	// MaxUSSDStringLength4 is the integer constant for MaxUSSDStringLength4.
+	// MaxUSSDStringLength4 is the integer constant for maxUSSD-StringLength.
 	MaxUSSDStringLength4 int64 = 160
 
-	// MaxNumOfSS4 is the integer constant for MaxNumOfSS4.
+	// MaxNumOfSS4 is the integer constant for maxNumOfSS.
 	MaxNumOfSS4 int64 = 30
 
-	// MaxNumOfBasicServiceGroups4 is the integer constant for MaxNumOfBasicServiceGroups4.
+	// MaxNumOfBasicServiceGroups4 is the integer constant for maxNumOfBasicServiceGroups.
 	MaxNumOfBasicServiceGroups4 int64 = 13
 
-	// MaxEventSpecification4 is the integer constant for MaxEventSpecification4.
+	// MaxEventSpecification4 is the integer constant for maxEventSpecification.
 	MaxEventSpecification4 int64 = 2
 )
 
@@ -653,6 +653,7 @@ func (v *RegisterSSArg4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RegisterSSArg4 from BER/DER format.
 func (v *RegisterSSArg4) UnmarshalBER(data []byte) error {
+	*v = RegisterSSArg4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RegisterSSArg4 SEQUENCE: %w", err)
@@ -945,6 +946,7 @@ func (v *SSInfo4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSInfo4 from BER/DER format.
 func (v *SSInfo4) UnmarshalBER(data []byte) error {
+	*v = SSInfo4{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SSInfo4 CHOICE")
 	}
@@ -1056,6 +1058,7 @@ func (v *ForwardingInfo4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardingInfo4 from BER/DER format.
 func (v *ForwardingInfo4) UnmarshalBER(data []byte) error {
+	*v = ForwardingInfo4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardingInfo4 SEQUENCE: %w", err)
@@ -1330,6 +1333,7 @@ func (v *ForwardingFeature4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardingFeature4 from BER/DER format.
 func (v *ForwardingFeature4) UnmarshalBER(data []byte) error {
+	*v = ForwardingFeature4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardingFeature4 SEQUENCE: %w", err)
@@ -1537,6 +1541,7 @@ func (v *CallBarringInfo4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CallBarringInfo4 from BER/DER format.
 func (v *CallBarringInfo4) UnmarshalBER(data []byte) error {
+	*v = CallBarringInfo4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CallBarringInfo4 SEQUENCE: %w", err)
@@ -1721,6 +1726,7 @@ func (v *CallBarringFeature4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CallBarringFeature4 from BER/DER format.
 func (v *CallBarringFeature4) UnmarshalBER(data []byte) error {
+	*v = CallBarringFeature4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CallBarringFeature4 SEQUENCE: %w", err)
@@ -1896,6 +1902,7 @@ func (v *SSData4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSData4 from BER/DER format.
 func (v *SSData4) UnmarshalBER(data []byte) error {
+	*v = SSData4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSData4 SEQUENCE: %w", err)
@@ -2080,6 +2087,7 @@ func (v *SSSubscriptionOption4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSSubscriptionOption4 from BER/DER format.
 func (v *SSSubscriptionOption4) UnmarshalBER(data []byte) error {
+	*v = SSSubscriptionOption4{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SSSubscriptionOption4 CHOICE")
 	}
@@ -2103,7 +2111,7 @@ func (v *SSSubscriptionOption4) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding cliRestrictionOption: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeEnumeratedValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding cliRestrictionOption: %w", intErr)
 		}
@@ -2115,7 +2123,7 @@ func (v *SSSubscriptionOption4) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding overrideCategory: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeEnumeratedValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding overrideCategory: %w", intErr)
 		}
@@ -2197,6 +2205,7 @@ func (v *SSForBSCode4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSForBSCode4 from BER/DER format.
 func (v *SSForBSCode4) UnmarshalBER(data []byte) error {
+	*v = SSForBSCode4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSForBSCode4 SEQUENCE: %w", err)
@@ -2439,6 +2448,7 @@ func (v *GenericServiceInfo4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GenericServiceInfo4 from BER/DER format.
 func (v *GenericServiceInfo4) UnmarshalBER(data []byte) error {
+	*v = GenericServiceInfo4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GenericServiceInfo4 SEQUENCE: %w", err)
@@ -2462,7 +2472,7 @@ func (v *GenericServiceInfo4) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_clirestrictionoption, n, err := ber.DecodeInteger(content[offset:])
+				val_clirestrictionoption, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cliRestrictionOption: %w", err)
 				}
@@ -2787,6 +2797,7 @@ func (v *CCBSFeature4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CCBSFeature4 from BER/DER format.
 func (v *CCBSFeature4) UnmarshalBER(data []byte) error {
+	*v = CCBSFeature4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CCBSFeature4 SEQUENCE: %w", err)
@@ -3007,6 +3018,7 @@ func (v *InterrogateSSRes4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InterrogateSSRes4 from BER/DER format.
 func (v *InterrogateSSRes4) UnmarshalBER(data []byte) error {
+	*v = InterrogateSSRes4{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InterrogateSSRes4 CHOICE")
 	}
@@ -3142,6 +3154,7 @@ func (v *USSDArg4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes USSDArg4 from BER/DER format.
 func (v *USSDArg4) UnmarshalBER(data []byte) error {
+	*v = USSDArg4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding USSDArg4 SEQUENCE: %w", err)
@@ -3261,6 +3274,7 @@ func (v *USSDRes4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes USSDRes4 from BER/DER format.
 func (v *USSDRes4) UnmarshalBER(data []byte) error {
+	*v = USSDRes4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding USSDRes4 SEQUENCE: %w", err)
@@ -3630,6 +3644,7 @@ func (v *SSInvocationNotificationArg4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSInvocationNotificationArg4 from BER/DER format.
 func (v *SSInvocationNotificationArg4) UnmarshalBER(data []byte) error {
+	*v = SSInvocationNotificationArg4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSInvocationNotificationArg4 SEQUENCE: %w", err)
@@ -3773,7 +3788,7 @@ func (v *SSInvocationNotificationArg4) UnmarshalBER(data []byte) error {
 				if decodedTag_ccbsrequeststate.Class != tag.ClassContextSpecific || decodedTag_ccbsrequeststate.Number != 6 || decodedTag_ccbsrequeststate.Constructed != false {
 					return fmt.Errorf("decoding ccbs-RequestState: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsrequeststate)
 				}
-				decVal_ccbsrequeststate, intErr := ber.DecodeIntegerValue(rawVal_ccbsrequeststate)
+				decVal_ccbsrequeststate, intErr := ber.DecodeEnumeratedValue(rawVal_ccbsrequeststate)
 				if intErr != nil {
 					return fmt.Errorf("decoding ccbs-RequestState: %w", intErr)
 				}
@@ -3847,6 +3862,7 @@ func (v *SSInvocationNotificationRes4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSInvocationNotificationRes4 from BER/DER format.
 func (v *SSInvocationNotificationRes4) UnmarshalBER(data []byte) error {
+	*v = SSInvocationNotificationRes4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSInvocationNotificationRes4 SEQUENCE: %w", err)
@@ -4006,6 +4022,7 @@ func (v *RegisterCCEntryArg4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RegisterCCEntryArg4 from BER/DER format.
 func (v *RegisterCCEntryArg4) UnmarshalBER(data []byte) error {
+	*v = RegisterCCEntryArg4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RegisterCCEntryArg4 SEQUENCE: %w", err)
@@ -4196,6 +4213,7 @@ func (v *CCBSData4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CCBSData4 from BER/DER format.
 func (v *CCBSData4) UnmarshalBER(data []byte) error {
+	*v = CCBSData4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CCBSData4 SEQUENCE: %w", err)
@@ -4255,7 +4273,7 @@ func (v *CCBSData4) UnmarshalBER(data []byte) error {
 				if decodedTag_serviceindicator.Class != tag.ClassContextSpecific || decodedTag_serviceindicator.Number != 2 {
 					return fmt.Errorf("decoding serviceIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_serviceindicator)
 				}
-				bsBytes_serviceindicator, bsUnused_serviceindicator, bsErr := ber.DecodeBitStringValue(rawVal_serviceindicator)
+				bsBytes_serviceindicator, bsUnused_serviceindicator, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_serviceindicator.Constructed, rawVal_serviceindicator)
 				if bsErr != nil {
 					return fmt.Errorf("decoding serviceIndicator: %w", bsErr)
 				}
@@ -4381,6 +4399,7 @@ func (v *RegisterCCEntryRes4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RegisterCCEntryRes4 from BER/DER format.
 func (v *RegisterCCEntryRes4) UnmarshalBER(data []byte) error {
+	*v = RegisterCCEntryRes4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RegisterCCEntryRes4 SEQUENCE: %w", err)
@@ -4493,6 +4512,7 @@ func (v *EraseCCEntryArg4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EraseCCEntryArg4 from BER/DER format.
 func (v *EraseCCEntryArg4) UnmarshalBER(data []byte) error {
+	*v = EraseCCEntryArg4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EraseCCEntryArg4 SEQUENCE: %w", err)
@@ -4623,6 +4643,7 @@ func (v *EraseCCEntryRes4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EraseCCEntryRes4 from BER/DER format.
 func (v *EraseCCEntryRes4) UnmarshalBER(data []byte) error {
+	*v = EraseCCEntryRes4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EraseCCEntryRes4 SEQUENCE: %w", err)

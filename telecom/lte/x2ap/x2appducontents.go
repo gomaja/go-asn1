@@ -3644,13 +3644,15 @@ func (v *HandoverRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -3682,29 +3684,24 @@ func (v *HandoverRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -3771,13 +3768,15 @@ func (v *UEContextInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding subscriberProfileIDforRFP: %w", err)
 		}
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeSetupList)), 1, 256); err != nil {
-		return fmt.Errorf("encoding e-RABs-ToBeSetup-List length: %w", err)
-	}
-	for _, elem := range v.ERABsToBeSetupList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeSetup-List element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeSetupList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobesetuplist, fragmentLength_erabstobesetuplist int64) error {
+		for _, elem := range v.ERABsToBeSetupList[fragmentOffset_erabstobesetuplist : fragmentOffset_erabstobesetuplist+fragmentLength_erabstobesetuplist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding e-RABs-ToBeSetup-List element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding e-RABs-ToBeSetup-List: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.RRCContext), 0, 0, false); err != nil {
 		return fmt.Errorf("encoding rRC-Context: %w", err)
@@ -3793,13 +3792,15 @@ func (v *UEContextInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -3832,6 +3833,7 @@ func (v *UEContextInformation) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextInformation{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3875,25 +3877,19 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
 		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
 	}
-	var seqLen_erabstobesetuplist int64
-	var errLength_erabstobesetuplist error
-	seqLen_erabstobesetuplist, errLength_erabstobesetuplist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_erabstobesetuplist != nil {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length: %w", errLength_erabstobesetuplist)
-	}
-	if seqLen_erabstobesetuplist < 1 {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length %d below lower bound 1", seqLen_erabstobesetuplist)
-	}
-	if seqLen_erabstobesetuplist > 256 {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-List length %d above upper bound 256", seqLen_erabstobesetuplist)
-	}
 	v.ERABsToBeSetupList = make(ERABsToBeSetupList, 0)
-	for i := int64(0); i < seqLen_erabstobesetuplist; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeSetup-List element %d: %w", i, err)
+	_, errCollection_erabstobesetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobesetuplist, fragmentLength_erabstobesetuplist int64) error {
+		for i := int64(0); i < fragmentLength_erabstobesetuplist; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeSetup-List element %d: %w", fragmentOffset_erabstobesetuplist+i, err)
+			}
+			v.ERABsToBeSetupList = append(v.ERABsToBeSetupList, elem)
 		}
-		v.ERABsToBeSetupList = append(v.ERABsToBeSetupList, elem)
+		return nil
+	})
+	if errCollection_erabstobesetuplist != nil {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-List: %w", errCollection_erabstobesetuplist)
 	}
 	val_rrccontext, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
@@ -3915,25 +3911,19 @@ func (v *UEContextInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.LocationReportingInformation = &dec_locationreportinginformation
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -3972,13 +3962,15 @@ func MarshalAPERERABsToBeSetupList(list ERABsToBeSetupList) ([]byte, error) {
 // MarshalAPERERABsToBeSetupListTo appends a ERABsToBeSetupList list to bb.
 func MarshalAPERERABsToBeSetupListTo(list ERABsToBeSetupList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeSetupListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -3999,25 +3991,19 @@ func UnmarshalAPERERABsToBeSetupListFrom(bb *per.BitBuffer) (ERABsToBeSetupList,
 }
 
 func unmarshalAPERERABsToBeSetupListInto(v *asn1cAPERERABsToBeSetupListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeSetupList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -4058,13 +4044,15 @@ func (v *ERABsToBeSetupItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding uL-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -4097,6 +4085,7 @@ func (v *ERABsToBeSetupItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeSetupItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeSetupItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4130,25 +4119,19 @@ func (v *ERABsToBeSetupItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding uL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4201,13 +4184,15 @@ func (v *UEContextReferenceAtSeNB) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding seNB-UE-X2AP-ID-Extension: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -4240,6 +4225,7 @@ func (v *UEContextReferenceAtSeNB) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextReferenceAtSeNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextReferenceAtSeNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4263,25 +4249,19 @@ func (v *UEContextReferenceAtSeNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SeNBUEX2APIDExtension = val_senbuex2apidextension
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4331,13 +4311,15 @@ func (v *UEContextReferenceAtWT) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding wT-UE-XwAP-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -4370,6 +4352,7 @@ func (v *UEContextReferenceAtWT) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextReferenceAtWT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextReferenceAtWT{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4388,25 +4371,19 @@ func (v *UEContextReferenceAtWT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.WTUEXwAPID = WTUEXwAPID(val_wtuexwapid)
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4456,13 +4433,15 @@ func (v *UEContextReferenceAtSgNB) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding sgNB-UE-X2AP-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -4495,6 +4474,7 @@ func (v *UEContextReferenceAtSgNB) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextReferenceAtSgNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextReferenceAtSgNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4513,25 +4493,19 @@ func (v *UEContextReferenceAtSgNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SgNBUEX2APID = SgNBUEX2APID(val_sgnbuex2apid)
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4570,13 +4544,15 @@ func (v *HandoverRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -4608,29 +4584,24 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverRequestAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -4667,13 +4638,15 @@ func MarshalAPERERABsAdmittedList(list ERABsAdmittedList) ([]byte, error) {
 // MarshalAPERERABsAdmittedListTo appends a ERABsAdmittedList list to bb.
 func MarshalAPERERABsAdmittedListTo(list ERABsAdmittedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -4694,25 +4667,19 @@ func UnmarshalAPERERABsAdmittedListFrom(bb *per.BitBuffer) (ERABsAdmittedList, e
 }
 
 func unmarshalAPERERABsAdmittedListInto(v *asn1cAPERERABsAdmittedListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -4755,13 +4722,15 @@ func (v *ERABsAdmittedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -4794,6 +4763,7 @@ func (v *ERABsAdmittedItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -4831,25 +4801,19 @@ func (v *ERABsAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.DLGTPTunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -4888,13 +4852,15 @@ func (v *HandoverPreparationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -4926,29 +4892,24 @@ func (v *HandoverPreparationFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -4985,13 +4946,15 @@ func (v *HandoverReport) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -5023,29 +4986,24 @@ func (v *HandoverReport) UnmarshalAPER(data []byte) error {
 }
 
 func (v *HandoverReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverReport{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5082,13 +5040,15 @@ func (v *EarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -5120,29 +5080,24 @@ func (v *EarlyStatusTransfer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *EarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EarlyStatusTransfer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5213,6 +5168,7 @@ func (v *ProcedureStageChoice) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProcedureStageChoice) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProcedureStageChoice{}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
@@ -5259,22 +5215,26 @@ func (v *FirstDLCount) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtension != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsSubjectToEarlyStatusTransfer)), 1, 256); err != nil {
-		return fmt.Errorf("encoding e-RABsSubjectToEarlyStatusTransfer length: %w", err)
-	}
-	for _, elem := range v.ERABsSubjectToEarlyStatusTransfer {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding e-RABsSubjectToEarlyStatusTransfer element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ERABsSubjectToEarlyStatusTransfer)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabssubjecttoearlystatustransfer, fragmentLength_erabssubjecttoearlystatustransfer int64) error {
+		for _, elem := range v.ERABsSubjectToEarlyStatusTransfer[fragmentOffset_erabssubjecttoearlystatustransfer : fragmentOffset_erabssubjecttoearlystatustransfer+fragmentLength_erabssubjecttoearlystatustransfer] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding e-RABsSubjectToEarlyStatusTransfer element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding e-RABsSubjectToEarlyStatusTransfer: %w", err)
 	}
 	if v.IEExtension != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtension)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extension length: %w", err)
-		}
-		for _, elem := range v.IEExtension {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extension element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtension)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
+			for _, elem := range v.IEExtension[fragmentOffset_ieextension : fragmentOffset_ieextension+fragmentLength_ieextension] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extension element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extension: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -5307,6 +5267,7 @@ func (v *FirstDLCount) UnmarshalAPER(data []byte) error {
 }
 
 func (v *FirstDLCount) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = FirstDLCount{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -5316,46 +5277,34 @@ func (v *FirstDLCount) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	var seqLen_erabssubjecttoearlystatustransfer int64
-	var errLength_erabssubjecttoearlystatustransfer error
-	seqLen_erabssubjecttoearlystatustransfer, errLength_erabssubjecttoearlystatustransfer = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_erabssubjecttoearlystatustransfer != nil {
-		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length: %w", errLength_erabssubjecttoearlystatustransfer)
-	}
-	if seqLen_erabssubjecttoearlystatustransfer < 1 {
-		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length %d below lower bound 1", seqLen_erabssubjecttoearlystatustransfer)
-	}
-	if seqLen_erabssubjecttoearlystatustransfer > 256 {
-		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer length %d above upper bound 256", seqLen_erabssubjecttoearlystatustransfer)
-	}
 	v.ERABsSubjectToEarlyStatusTransfer = make(ERABsSubjectToEarlyStatusTransferList, 0)
-	for i := int64(0); i < seqLen_erabssubjecttoearlystatustransfer; i++ {
-		var elem ERABsSubjectToEarlyStatusTransferItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer element %d: %w", i, err)
+	_, errCollection_erabssubjecttoearlystatustransfer := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabssubjecttoearlystatustransfer, fragmentLength_erabssubjecttoearlystatustransfer int64) error {
+		for i := int64(0); i < fragmentLength_erabssubjecttoearlystatustransfer; i++ {
+			var elem ERABsSubjectToEarlyStatusTransferItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer element %d: %w", fragmentOffset_erabssubjecttoearlystatustransfer+i, err)
+			}
+			v.ERABsSubjectToEarlyStatusTransfer = append(v.ERABsSubjectToEarlyStatusTransfer, elem)
 		}
-		v.ERABsSubjectToEarlyStatusTransfer = append(v.ERABsSubjectToEarlyStatusTransfer, elem)
+		return nil
+	})
+	if errCollection_erabssubjecttoearlystatustransfer != nil {
+		return fmt.Errorf("decoding e-RABsSubjectToEarlyStatusTransfer: %w", errCollection_erabssubjecttoearlystatustransfer)
 	}
 	if opt_ieextension {
-		var seqLen_ieextension int64
-		var errLength_ieextension error
-		seqLen_ieextension, errLength_ieextension = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextension != nil {
-			return fmt.Errorf("decoding iE-Extension length: %w", errLength_ieextension)
-		}
-		if seqLen_ieextension < 1 {
-			return fmt.Errorf("decoding iE-Extension length %d below lower bound 1", seqLen_ieextension)
-		}
-		if seqLen_ieextension > 65535 {
-			return fmt.Errorf("decoding iE-Extension length %d above upper bound 65535", seqLen_ieextension)
-		}
 		tmp_ieextension := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextension; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extension element %d: %w", i, err)
+		_, errCollection_ieextension := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
+			for i := int64(0); i < fragmentLength_ieextension; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extension element %d: %w", fragmentOffset_ieextension+i, err)
+				}
+				tmp_ieextension = append(tmp_ieextension, elem)
 			}
-			tmp_ieextension = append(tmp_ieextension, elem)
+			return nil
+		})
+		if errCollection_ieextension != nil {
+			return fmt.Errorf("decoding iE-Extension: %w", errCollection_ieextension)
 		}
 		v.IEExtension = tmp_ieextension
 	}
@@ -5398,22 +5347,26 @@ func (v *DLDiscarding) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.IEExtension != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsSubjectToDLDiscardingList)), 1, 256); err != nil {
-		return fmt.Errorf("encoding e-RABsSubjectToDLDiscarding-List length: %w", err)
-	}
-	for _, elem := range v.ERABsSubjectToDLDiscardingList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding e-RABsSubjectToDLDiscarding-List element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ERABsSubjectToDLDiscardingList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabssubjecttodldiscardinglist, fragmentLength_erabssubjecttodldiscardinglist int64) error {
+		for _, elem := range v.ERABsSubjectToDLDiscardingList[fragmentOffset_erabssubjecttodldiscardinglist : fragmentOffset_erabssubjecttodldiscardinglist+fragmentLength_erabssubjecttodldiscardinglist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding e-RABsSubjectToDLDiscarding-List element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding e-RABsSubjectToDLDiscarding-List: %w", err)
 	}
 	if v.IEExtension != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtension)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extension length: %w", err)
-		}
-		for _, elem := range v.IEExtension {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extension element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtension)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
+			for _, elem := range v.IEExtension[fragmentOffset_ieextension : fragmentOffset_ieextension+fragmentLength_ieextension] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extension element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extension: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -5446,6 +5399,7 @@ func (v *DLDiscarding) UnmarshalAPER(data []byte) error {
 }
 
 func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = DLDiscarding{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -5455,46 +5409,34 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	var seqLen_erabssubjecttodldiscardinglist int64
-	var errLength_erabssubjecttodldiscardinglist error
-	seqLen_erabssubjecttodldiscardinglist, errLength_erabssubjecttodldiscardinglist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_erabssubjecttodldiscardinglist != nil {
-		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length: %w", errLength_erabssubjecttodldiscardinglist)
-	}
-	if seqLen_erabssubjecttodldiscardinglist < 1 {
-		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length %d below lower bound 1", seqLen_erabssubjecttodldiscardinglist)
-	}
-	if seqLen_erabssubjecttodldiscardinglist > 256 {
-		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List length %d above upper bound 256", seqLen_erabssubjecttodldiscardinglist)
-	}
 	v.ERABsSubjectToDLDiscardingList = make(ERABsSubjectToDLDiscardingList, 0)
-	for i := int64(0); i < seqLen_erabssubjecttodldiscardinglist; i++ {
-		var elem ERABsSubjectToDLDiscardingItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List element %d: %w", i, err)
+	_, errCollection_erabssubjecttodldiscardinglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabssubjecttodldiscardinglist, fragmentLength_erabssubjecttodldiscardinglist int64) error {
+		for i := int64(0); i < fragmentLength_erabssubjecttodldiscardinglist; i++ {
+			var elem ERABsSubjectToDLDiscardingItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List element %d: %w", fragmentOffset_erabssubjecttodldiscardinglist+i, err)
+			}
+			v.ERABsSubjectToDLDiscardingList = append(v.ERABsSubjectToDLDiscardingList, elem)
 		}
-		v.ERABsSubjectToDLDiscardingList = append(v.ERABsSubjectToDLDiscardingList, elem)
+		return nil
+	})
+	if errCollection_erabssubjecttodldiscardinglist != nil {
+		return fmt.Errorf("decoding e-RABsSubjectToDLDiscarding-List: %w", errCollection_erabssubjecttodldiscardinglist)
 	}
 	if opt_ieextension {
-		var seqLen_ieextension int64
-		var errLength_ieextension error
-		seqLen_ieextension, errLength_ieextension = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextension != nil {
-			return fmt.Errorf("decoding iE-Extension length: %w", errLength_ieextension)
-		}
-		if seqLen_ieextension < 1 {
-			return fmt.Errorf("decoding iE-Extension length %d below lower bound 1", seqLen_ieextension)
-		}
-		if seqLen_ieextension > 65535 {
-			return fmt.Errorf("decoding iE-Extension length %d above upper bound 65535", seqLen_ieextension)
-		}
 		tmp_ieextension := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextension; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extension element %d: %w", i, err)
+		_, errCollection_ieextension := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextension, fragmentLength_ieextension int64) error {
+			for i := int64(0); i < fragmentLength_ieextension; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extension element %d: %w", fragmentOffset_ieextension+i, err)
+				}
+				tmp_ieextension = append(tmp_ieextension, elem)
 			}
-			tmp_ieextension = append(tmp_ieextension, elem)
+			return nil
+		})
+		if errCollection_ieextension != nil {
+			return fmt.Errorf("decoding iE-Extension: %w", errCollection_ieextension)
 		}
 		v.IEExtension = tmp_ieextension
 	}
@@ -5533,13 +5475,15 @@ func (v *SNStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -5571,29 +5515,24 @@ func (v *SNStatusTransfer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SNStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SNStatusTransfer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5632,13 +5571,15 @@ func MarshalAPERERABsSubjectToStatusTransferList(list ERABsSubjectToStatusTransf
 // MarshalAPERERABsSubjectToStatusTransferListTo appends a ERABsSubjectToStatusTransferList list to bb.
 func MarshalAPERERABsSubjectToStatusTransferListTo(list ERABsSubjectToStatusTransferList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsSubjectToStatusTransferListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -5659,25 +5600,19 @@ func UnmarshalAPERERABsSubjectToStatusTransferListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsSubjectToStatusTransferListInto(v *asn1cAPERERABsSubjectToStatusTransferListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsSubjectToStatusTransferList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -5718,13 +5653,15 @@ func (v *ERABsSubjectToStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding dL-COUNTvalue: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -5757,6 +5694,7 @@ func (v *ERABsSubjectToStatusTransferItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsSubjectToStatusTransferItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -5790,25 +5728,19 @@ func (v *ERABsSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding dL-COUNTvalue: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -5847,13 +5779,15 @@ func (v *UEContextRelease) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -5885,29 +5819,24 @@ func (v *UEContextRelease) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextRelease) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextRelease{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -5944,13 +5873,15 @@ func (v *HandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -5982,29 +5913,24 @@ func (v *HandoverCancel) UnmarshalAPER(data []byte) error {
 }
 
 func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverCancel{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6041,13 +5967,15 @@ func (v *HandoverSuccess) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6079,29 +6007,24 @@ func (v *HandoverSuccess) UnmarshalAPER(data []byte) error {
 }
 
 func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverSuccess{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6138,13 +6061,15 @@ func (v *ConditionalHandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6176,29 +6101,24 @@ func (v *ConditionalHandoverCancel) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ConditionalHandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ConditionalHandoverCancel{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6235,13 +6155,15 @@ func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6273,29 +6195,24 @@ func (v *ErrorIndication) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ErrorIndication{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6332,13 +6249,15 @@ func (v *ResetRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6370,29 +6289,24 @@ func (v *ResetRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResetRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResetRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6429,13 +6343,15 @@ func (v *ResetResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6467,29 +6383,24 @@ func (v *ResetResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResetResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResetResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6526,13 +6437,15 @@ func (v *X2SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6564,29 +6477,24 @@ func (v *X2SetupRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2SetupRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6623,13 +6531,15 @@ func (v *X2SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6661,29 +6571,24 @@ func (v *X2SetupResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2SetupResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6720,13 +6625,15 @@ func (v *X2SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6758,29 +6665,24 @@ func (v *X2SetupFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2SetupFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6817,13 +6719,15 @@ func (v *LoadInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -6855,29 +6759,24 @@ func (v *LoadInformation) UnmarshalAPER(data []byte) error {
 }
 
 func (v *LoadInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = LoadInformation{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -6914,13 +6813,15 @@ func MarshalAPERCellInformationList(list CellInformationList) ([]byte, error) {
 // MarshalAPERCellInformationListTo appends a CellInformationList list to bb.
 func MarshalAPERCellInformationListTo(list CellInformationList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellInformationListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -6941,25 +6842,19 @@ func UnmarshalAPERCellInformationListFrom(bb *per.BitBuffer) (CellInformationLis
 }
 
 func unmarshalAPERCellInformationListInto(v *asn1cAPERCellInformationListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(CellInformationList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -6995,23 +6890,27 @@ func (v *CellInformationItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cell-ID: %w", err)
 	}
 	if v.UlInterferenceOverloadIndication != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.UlInterferenceOverloadIndication)), 1, 110); err != nil {
-			return fmt.Errorf("encoding ul-InterferenceOverloadIndication length: %w", err)
-		}
-		for _, elem := range v.UlInterferenceOverloadIndication {
-			if err := per.EncodeEnumeratedAligned(bb, int64(elem), 3, true); err != nil {
-				return fmt.Errorf("encoding ul-InterferenceOverloadIndication element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.UlInterferenceOverloadIndication)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 110, HasUpper: true}, true, func(fragmentOffset_ulinterferenceoverloadindication, fragmentLength_ulinterferenceoverloadindication int64) error {
+			for _, elem := range v.UlInterferenceOverloadIndication[fragmentOffset_ulinterferenceoverloadindication : fragmentOffset_ulinterferenceoverloadindication+fragmentLength_ulinterferenceoverloadindication] {
+				if err := per.EncodeEnumeratedAligned(bb, int64(elem), 3, true); err != nil {
+					return fmt.Errorf("encoding ul-InterferenceOverloadIndication element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding ul-InterferenceOverloadIndication: %w", err)
 		}
 	}
 	if v.UlHighInterferenceIndicationInfo != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.UlHighInterferenceIndicationInfo)), 1, 256); err != nil {
-			return fmt.Errorf("encoding ul-HighInterferenceIndicationInfo length: %w", err)
-		}
-		for _, elem := range v.UlHighInterferenceIndicationInfo {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding ul-HighInterferenceIndicationInfo element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.UlHighInterferenceIndicationInfo)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_ulhighinterferenceindicationinfo, fragmentLength_ulhighinterferenceindicationinfo int64) error {
+			for _, elem := range v.UlHighInterferenceIndicationInfo[fragmentOffset_ulhighinterferenceindicationinfo : fragmentOffset_ulhighinterferenceindicationinfo+fragmentLength_ulhighinterferenceindicationinfo] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding ul-HighInterferenceIndicationInfo element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding ul-HighInterferenceIndicationInfo: %w", err)
 		}
 	}
 	if v.RelativeNarrowbandTxPower != nil {
@@ -7020,13 +6919,15 @@ func (v *CellInformationItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -7059,6 +6960,7 @@ func (v *CellInformationItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellInformationItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7084,48 +6986,36 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
 	if opt_ulinterferenceoverloadindication {
-		var seqLen_ulinterferenceoverloadindication int64
-		var errLength_ulinterferenceoverloadindication error
-		seqLen_ulinterferenceoverloadindication, errLength_ulinterferenceoverloadindication = per.DecodeConstrainedWholeNumberAligned(bb, 1, 110)
-		if errLength_ulinterferenceoverloadindication != nil {
-			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length: %w", errLength_ulinterferenceoverloadindication)
-		}
-		if seqLen_ulinterferenceoverloadindication < 1 {
-			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length %d below lower bound 1", seqLen_ulinterferenceoverloadindication)
-		}
-		if seqLen_ulinterferenceoverloadindication > 110 {
-			return fmt.Errorf("decoding ul-InterferenceOverloadIndication length %d above upper bound 110", seqLen_ulinterferenceoverloadindication)
-		}
 		tmp_ulinterferenceoverloadindication := make(ULInterferenceOverloadIndication, 0)
-		for i := int64(0); i < seqLen_ulinterferenceoverloadindication; i++ {
-			val, err := per.DecodeEnumeratedAligned(bb, 3, true)
-			if err != nil {
-				return fmt.Errorf("decoding ul-InterferenceOverloadIndication element %d: %w", i, err)
+		_, errCollection_ulinterferenceoverloadindication := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 110, HasUpper: true}, true, func(fragmentOffset_ulinterferenceoverloadindication, fragmentLength_ulinterferenceoverloadindication int64) error {
+			for i := int64(0); i < fragmentLength_ulinterferenceoverloadindication; i++ {
+				val, err := per.DecodeEnumeratedAligned(bb, 3, true)
+				if err != nil {
+					return fmt.Errorf("decoding ul-InterferenceOverloadIndication element %d: %w", fragmentOffset_ulinterferenceoverloadindication+i, err)
+				}
+				tmp_ulinterferenceoverloadindication = append(tmp_ulinterferenceoverloadindication, ULInterferenceOverloadIndicationItem(val))
 			}
-			tmp_ulinterferenceoverloadindication = append(tmp_ulinterferenceoverloadindication, ULInterferenceOverloadIndicationItem(val))
+			return nil
+		})
+		if errCollection_ulinterferenceoverloadindication != nil {
+			return fmt.Errorf("decoding ul-InterferenceOverloadIndication: %w", errCollection_ulinterferenceoverloadindication)
 		}
 		v.UlInterferenceOverloadIndication = tmp_ulinterferenceoverloadindication
 	}
 	if opt_ulhighinterferenceindicationinfo {
-		var seqLen_ulhighinterferenceindicationinfo int64
-		var errLength_ulhighinterferenceindicationinfo error
-		seqLen_ulhighinterferenceindicationinfo, errLength_ulhighinterferenceindicationinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if errLength_ulhighinterferenceindicationinfo != nil {
-			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length: %w", errLength_ulhighinterferenceindicationinfo)
-		}
-		if seqLen_ulhighinterferenceindicationinfo < 1 {
-			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length %d below lower bound 1", seqLen_ulhighinterferenceindicationinfo)
-		}
-		if seqLen_ulhighinterferenceindicationinfo > 256 {
-			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo length %d above upper bound 256", seqLen_ulhighinterferenceindicationinfo)
-		}
 		tmp_ulhighinterferenceindicationinfo := make(ULHighInterferenceIndicationInfo, 0)
-		for i := int64(0); i < seqLen_ulhighinterferenceindicationinfo; i++ {
-			var elem ULHighInterferenceIndicationInfoItem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo element %d: %w", i, err)
+		_, errCollection_ulhighinterferenceindicationinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_ulhighinterferenceindicationinfo, fragmentLength_ulhighinterferenceindicationinfo int64) error {
+			for i := int64(0); i < fragmentLength_ulhighinterferenceindicationinfo; i++ {
+				var elem ULHighInterferenceIndicationInfoItem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo element %d: %w", fragmentOffset_ulhighinterferenceindicationinfo+i, err)
+				}
+				tmp_ulhighinterferenceindicationinfo = append(tmp_ulhighinterferenceindicationinfo, elem)
 			}
-			tmp_ulhighinterferenceindicationinfo = append(tmp_ulhighinterferenceindicationinfo, elem)
+			return nil
+		})
+		if errCollection_ulhighinterferenceindicationinfo != nil {
+			return fmt.Errorf("decoding ul-HighInterferenceIndicationInfo: %w", errCollection_ulhighinterferenceindicationinfo)
 		}
 		v.UlHighInterferenceIndicationInfo = tmp_ulhighinterferenceindicationinfo
 	}
@@ -7137,25 +7027,19 @@ func (v *CellInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.RelativeNarrowbandTxPower = &dec_relativenarrowbandtxpower
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7194,13 +7078,15 @@ func (v *ENBConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -7232,29 +7118,24 @@ func (v *ENBConfigurationUpdate) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENBConfigurationUpdate{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7291,13 +7172,15 @@ func MarshalAPERServedCellsToModify(list ServedCellsToModify) ([]byte, error) {
 // MarshalAPERServedCellsToModifyTo appends a ServedCellsToModify list to bb.
 func MarshalAPERServedCellsToModifyTo(list ServedCellsToModify, bb *per.BitBuffer) error {
 	v := asn1cAPERServedCellsToModifyListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -7318,25 +7201,19 @@ func UnmarshalAPERServedCellsToModifyFrom(bb *per.BitBuffer) (ServedCellsToModif
 }
 
 func unmarshalAPERServedCellsToModifyInto(v *asn1cAPERServedCellsToModifyListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ServedCellsToModify, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ServedCellsToModifyItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ServedCellsToModifyItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -7369,23 +7246,27 @@ func (v *ServedCellsToModifyItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding servedCellInfo: %w", err)
 	}
 	if v.NeighbourInfo != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.NeighbourInfo)), 0, 512); err != nil {
-			return fmt.Errorf("encoding neighbour-Info length: %w", err)
-		}
-		for _, elem := range v.NeighbourInfo {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding neighbour-Info element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.NeighbourInfo)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 512, HasUpper: true}, true, func(fragmentOffset_neighbourinfo, fragmentLength_neighbourinfo int64) error {
+			for _, elem := range v.NeighbourInfo[fragmentOffset_neighbourinfo : fragmentOffset_neighbourinfo+fragmentLength_neighbourinfo] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding neighbour-Info element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding neighbour-Info: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -7418,6 +7299,7 @@ func (v *ServedCellsToModifyItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ServedCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedCellsToModifyItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7438,48 +7320,36 @@ func (v *ServedCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding servedCellInfo: %w", err)
 	}
 	if opt_neighbourinfo {
-		var seqLen_neighbourinfo int64
-		var errLength_neighbourinfo error
-		seqLen_neighbourinfo, errLength_neighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 0, 512)
-		if errLength_neighbourinfo != nil {
-			return fmt.Errorf("decoding neighbour-Info length: %w", errLength_neighbourinfo)
-		}
-		if seqLen_neighbourinfo < 0 {
-			return fmt.Errorf("decoding neighbour-Info length %d below lower bound 0", seqLen_neighbourinfo)
-		}
-		if seqLen_neighbourinfo > 512 {
-			return fmt.Errorf("decoding neighbour-Info length %d above upper bound 512", seqLen_neighbourinfo)
-		}
 		tmp_neighbourinfo := make(NeighbourInformation, 0)
-		for i := int64(0); i < seqLen_neighbourinfo; i++ {
-			var elem NeighbourInformationElem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding neighbour-Info element %d: %w", i, err)
+		_, errCollection_neighbourinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 512, HasUpper: true}, true, func(fragmentOffset_neighbourinfo, fragmentLength_neighbourinfo int64) error {
+			for i := int64(0); i < fragmentLength_neighbourinfo; i++ {
+				var elem NeighbourInformationElem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding neighbour-Info element %d: %w", fragmentOffset_neighbourinfo+i, err)
+				}
+				tmp_neighbourinfo = append(tmp_neighbourinfo, elem)
 			}
-			tmp_neighbourinfo = append(tmp_neighbourinfo, elem)
+			return nil
+		})
+		if errCollection_neighbourinfo != nil {
+			return fmt.Errorf("decoding neighbour-Info: %w", errCollection_neighbourinfo)
 		}
 		v.NeighbourInfo = tmp_neighbourinfo
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7518,13 +7388,15 @@ func MarshalAPEROldECGIs(list OldECGIs) ([]byte, error) {
 // MarshalAPEROldECGIsTo appends a OldECGIs list to bb.
 func MarshalAPEROldECGIsTo(list OldECGIs, bb *per.BitBuffer) error {
 	v := asn1cAPEROldECGIsListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -7545,25 +7417,19 @@ func UnmarshalAPEROldECGIsFrom(bb *per.BitBuffer) (OldECGIs, error) {
 }
 
 func unmarshalAPEROldECGIsInto(v *asn1cAPEROldECGIsListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(OldECGIs, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ECGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ECGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -7582,13 +7448,15 @@ func (v *ENBConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -7620,29 +7488,24 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENBConfigurationUpdateAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7679,13 +7542,15 @@ func (v *ENBConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -7717,29 +7582,24 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENBConfigurationUpdateFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7776,13 +7636,15 @@ func (v *ResourceStatusRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -7814,29 +7676,24 @@ func (v *ResourceStatusRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResourceStatusRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResourceStatusRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -7873,13 +7730,15 @@ func MarshalAPERCellToReportList(list CellToReportList) ([]byte, error) {
 // MarshalAPERCellToReportListTo appends a CellToReportList list to bb.
 func MarshalAPERCellToReportListTo(list CellToReportList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellToReportListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -7900,25 +7759,19 @@ func UnmarshalAPERCellToReportListFrom(bb *per.BitBuffer) (CellToReportList, err
 }
 
 func unmarshalAPERCellToReportListInto(v *asn1cAPERCellToReportListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(CellToReportList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -7945,13 +7798,15 @@ func (v *CellToReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cell-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -7984,6 +7839,7 @@ func (v *CellToReportItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellToReportItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -7997,25 +7853,19 @@ func (v *CellToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8054,13 +7904,15 @@ func (v *ResourceStatusResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -8092,29 +7944,24 @@ func (v *ResourceStatusResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResourceStatusResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResourceStatusResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -8153,13 +8000,15 @@ func MarshalAPERMeasurementInitiationResultList(list MeasurementInitiationResult
 // MarshalAPERMeasurementInitiationResultListTo appends a MeasurementInitiationResultList list to bb.
 func MarshalAPERMeasurementInitiationResultListTo(list MeasurementInitiationResultList, bb *per.BitBuffer) error {
 	v := asn1cAPERMeasurementInitiationResultListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -8180,25 +8029,19 @@ func UnmarshalAPERMeasurementInitiationResultListFrom(bb *per.BitBuffer) (Measur
 }
 
 func unmarshalAPERMeasurementInitiationResultListInto(v *asn1cAPERMeasurementInitiationResultListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(MeasurementInitiationResultList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -8228,23 +8071,27 @@ func (v *MeasurementInitiationResultItem) MarshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding cell-ID: %w", err)
 	}
 	if v.MeasurementFailureCauseList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.MeasurementFailureCauseList)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measurementFailureCause-List length: %w", err)
-		}
-		for _, elem := range v.MeasurementFailureCauseList {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measurementFailureCause-List element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasurementFailureCauseList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_measurementfailurecauselist, fragmentLength_measurementfailurecauselist int64) error {
+			for _, elem := range v.MeasurementFailureCauseList[fragmentOffset_measurementfailurecauselist : fragmentOffset_measurementfailurecauselist+fragmentLength_measurementfailurecauselist] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measurementFailureCause-List element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measurementFailureCause-List: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -8277,6 +8124,7 @@ func (v *MeasurementInitiationResultItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *MeasurementInitiationResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = MeasurementInitiationResultItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8294,48 +8142,36 @@ func (v *MeasurementInitiationResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
 	if opt_measurementfailurecauselist {
-		var seqLen_measurementfailurecauselist int64
-		var errLength_measurementfailurecauselist error
-		seqLen_measurementfailurecauselist, errLength_measurementfailurecauselist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
-		if errLength_measurementfailurecauselist != nil {
-			return fmt.Errorf("decoding measurementFailureCause-List length: %w", errLength_measurementfailurecauselist)
-		}
-		if seqLen_measurementfailurecauselist < 1 {
-			return fmt.Errorf("decoding measurementFailureCause-List length %d below lower bound 1", seqLen_measurementfailurecauselist)
-		}
-		if seqLen_measurementfailurecauselist > 32 {
-			return fmt.Errorf("decoding measurementFailureCause-List length %d above upper bound 32", seqLen_measurementfailurecauselist)
-		}
 		tmp_measurementfailurecauselist := make(MeasurementFailureCauseList, 0)
-		for i := int64(0); i < seqLen_measurementfailurecauselist; i++ {
-			var elem ProtocolIESingleContainer
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measurementFailureCause-List element %d: %w", i, err)
+		_, errCollection_measurementfailurecauselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_measurementfailurecauselist, fragmentLength_measurementfailurecauselist int64) error {
+			for i := int64(0); i < fragmentLength_measurementfailurecauselist; i++ {
+				var elem ProtocolIESingleContainer
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measurementFailureCause-List element %d: %w", fragmentOffset_measurementfailurecauselist+i, err)
+				}
+				tmp_measurementfailurecauselist = append(tmp_measurementfailurecauselist, elem)
 			}
-			tmp_measurementfailurecauselist = append(tmp_measurementfailurecauselist, elem)
+			return nil
+		})
+		if errCollection_measurementfailurecauselist != nil {
+			return fmt.Errorf("decoding measurementFailureCause-List: %w", errCollection_measurementfailurecauselist)
 		}
 		v.MeasurementFailureCauseList = tmp_measurementfailurecauselist
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8374,13 +8210,15 @@ func MarshalAPERMeasurementFailureCauseList(list MeasurementFailureCauseList) ([
 // MarshalAPERMeasurementFailureCauseListTo appends a MeasurementFailureCauseList list to bb.
 func MarshalAPERMeasurementFailureCauseListTo(list MeasurementFailureCauseList, bb *per.BitBuffer) error {
 	v := asn1cAPERMeasurementFailureCauseListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 32); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -8401,25 +8239,19 @@ func UnmarshalAPERMeasurementFailureCauseListFrom(bb *per.BitBuffer) (Measuremen
 }
 
 func unmarshalAPERMeasurementFailureCauseListInto(v *asn1cAPERMeasurementFailureCauseListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 32 {
-		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
-	}
 	v.Value = make(MeasurementFailureCauseList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -8449,13 +8281,15 @@ func (v *MeasurementFailureCauseItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -8488,6 +8322,7 @@ func (v *MeasurementFailureCauseItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *MeasurementFailureCauseItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = MeasurementFailureCauseItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8506,25 +8341,19 @@ func (v *MeasurementFailureCauseItem) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8563,13 +8392,15 @@ func (v *ResourceStatusFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -8601,29 +8432,24 @@ func (v *ResourceStatusFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResourceStatusFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResourceStatusFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -8662,13 +8488,15 @@ func MarshalAPERCompleteFailureCauseInformationList(list CompleteFailureCauseInf
 // MarshalAPERCompleteFailureCauseInformationListTo appends a CompleteFailureCauseInformationList list to bb.
 func MarshalAPERCompleteFailureCauseInformationListTo(list CompleteFailureCauseInformationList, bb *per.BitBuffer) error {
 	v := asn1cAPERCompleteFailureCauseInformationListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -8689,25 +8517,19 @@ func UnmarshalAPERCompleteFailureCauseInformationListFrom(bb *per.BitBuffer) (Co
 }
 
 func unmarshalAPERCompleteFailureCauseInformationListInto(v *asn1cAPERCompleteFailureCauseInformationListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(CompleteFailureCauseInformationList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -8733,22 +8555,26 @@ func (v *CompleteFailureCauseInformationItem) MarshalAPERTo(bb *per.BitBuffer) e
 	if err := v.CellID.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding cell-ID: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.MeasurementFailureCauseList)), 1, 32); err != nil {
-		return fmt.Errorf("encoding measurementFailureCause-List length: %w", err)
-	}
-	for _, elem := range v.MeasurementFailureCauseList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding measurementFailureCause-List element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.MeasurementFailureCauseList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_measurementfailurecauselist, fragmentLength_measurementfailurecauselist int64) error {
+		for _, elem := range v.MeasurementFailureCauseList[fragmentOffset_measurementfailurecauselist : fragmentOffset_measurementfailurecauselist+fragmentLength_measurementfailurecauselist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding measurementFailureCause-List element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding measurementFailureCause-List: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -8781,6 +8607,7 @@ func (v *CompleteFailureCauseInformationItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CompleteFailureCauseInformationItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CompleteFailureCauseInformationItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -8793,46 +8620,34 @@ func (v *CompleteFailureCauseInformationItem) UnmarshalAPERFrom(bb *per.BitBuffe
 	if err := v.CellID.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding cell-ID: %w", err)
 	}
-	var seqLen_measurementfailurecauselist int64
-	var errLength_measurementfailurecauselist error
-	seqLen_measurementfailurecauselist, errLength_measurementfailurecauselist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 32)
-	if errLength_measurementfailurecauselist != nil {
-		return fmt.Errorf("decoding measurementFailureCause-List length: %w", errLength_measurementfailurecauselist)
-	}
-	if seqLen_measurementfailurecauselist < 1 {
-		return fmt.Errorf("decoding measurementFailureCause-List length %d below lower bound 1", seqLen_measurementfailurecauselist)
-	}
-	if seqLen_measurementfailurecauselist > 32 {
-		return fmt.Errorf("decoding measurementFailureCause-List length %d above upper bound 32", seqLen_measurementfailurecauselist)
-	}
 	v.MeasurementFailureCauseList = make(MeasurementFailureCauseList, 0)
-	for i := int64(0); i < seqLen_measurementfailurecauselist; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measurementFailureCause-List element %d: %w", i, err)
+	_, errCollection_measurementfailurecauselist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_measurementfailurecauselist, fragmentLength_measurementfailurecauselist int64) error {
+		for i := int64(0); i < fragmentLength_measurementfailurecauselist; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measurementFailureCause-List element %d: %w", fragmentOffset_measurementfailurecauselist+i, err)
+			}
+			v.MeasurementFailureCauseList = append(v.MeasurementFailureCauseList, elem)
 		}
-		v.MeasurementFailureCauseList = append(v.MeasurementFailureCauseList, elem)
+		return nil
+	})
+	if errCollection_measurementfailurecauselist != nil {
+		return fmt.Errorf("decoding measurementFailureCause-List: %w", errCollection_measurementfailurecauselist)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8871,13 +8686,15 @@ func (v *ResourceStatusUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -8909,29 +8726,24 @@ func (v *ResourceStatusUpdate) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResourceStatusUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResourceStatusUpdate{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -8968,13 +8780,15 @@ func MarshalAPERCellMeasurementResultList(list CellMeasurementResultList) ([]byt
 // MarshalAPERCellMeasurementResultListTo appends a CellMeasurementResultList list to bb.
 func MarshalAPERCellMeasurementResultListTo(list CellMeasurementResultList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellMeasurementResultListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -8995,25 +8809,19 @@ func UnmarshalAPERCellMeasurementResultListFrom(bb *per.BitBuffer) (CellMeasurem
 }
 
 func unmarshalAPERCellMeasurementResultListInto(v *asn1cAPERCellMeasurementResultListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(CellMeasurementResultList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -9064,13 +8872,15 @@ func (v *CellMeasurementResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -9103,6 +8913,7 @@ func (v *CellMeasurementResultItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellMeasurementResultItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9149,25 +8960,19 @@ func (v *CellMeasurementResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.RadioResourceStatus = &dec_radioresourcestatus
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9206,13 +9011,15 @@ func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.PrivateIEs)), 1, 65535); err != nil {
-		return fmt.Errorf("encoding privateIEs length: %w", err)
-	}
-	for _, elem := range v.PrivateIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding privateIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.PrivateIEs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_privateies, fragmentLength_privateies int64) error {
+		for _, elem := range v.PrivateIEs[fragmentOffset_privateies : fragmentOffset_privateies+fragmentLength_privateies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding privateIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding privateIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -9244,29 +9051,24 @@ func (v *PrivateMessage) UnmarshalAPER(data []byte) error {
 }
 
 func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = PrivateMessage{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_privateies int64
-	var errLength_privateies error
-	seqLen_privateies, errLength_privateies = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if errLength_privateies != nil {
-		return fmt.Errorf("decoding privateIEs length: %w", errLength_privateies)
-	}
-	if seqLen_privateies < 1 {
-		return fmt.Errorf("decoding privateIEs length %d below lower bound 1", seqLen_privateies)
-	}
-	if seqLen_privateies > 65535 {
-		return fmt.Errorf("decoding privateIEs length %d above upper bound 65535", seqLen_privateies)
-	}
 	v.PrivateIEs = make(PrivateIEContainer, 0)
-	for i := int64(0); i < seqLen_privateies; i++ {
-		var elem PrivateIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding privateIEs element %d: %w", i, err)
+	_, errCollection_privateies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_privateies, fragmentLength_privateies int64) error {
+		for i := int64(0); i < fragmentLength_privateies; i++ {
+			var elem PrivateIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding privateIEs element %d: %w", fragmentOffset_privateies+i, err)
+			}
+			v.PrivateIEs = append(v.PrivateIEs, elem)
 		}
-		v.PrivateIEs = append(v.PrivateIEs, elem)
+		return nil
+	})
+	if errCollection_privateies != nil {
+		return fmt.Errorf("decoding privateIEs: %w", errCollection_privateies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9303,13 +9105,15 @@ func (v *MobilityChangeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -9341,29 +9145,24 @@ func (v *MobilityChangeRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *MobilityChangeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = MobilityChangeRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9400,13 +9199,15 @@ func (v *MobilityChangeAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -9438,29 +9239,24 @@ func (v *MobilityChangeAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *MobilityChangeAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = MobilityChangeAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9497,13 +9293,15 @@ func (v *MobilityChangeFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -9535,29 +9333,24 @@ func (v *MobilityChangeFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *MobilityChangeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = MobilityChangeFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9594,13 +9387,15 @@ func (v *RLFIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -9632,29 +9427,24 @@ func (v *RLFIndication) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RLFIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RLFIndication{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9691,13 +9481,15 @@ func (v *CellActivationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -9729,29 +9521,24 @@ func (v *CellActivationRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellActivationRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -9788,13 +9575,15 @@ func MarshalAPERServedCellsToActivate(list ServedCellsToActivate) ([]byte, error
 // MarshalAPERServedCellsToActivateTo appends a ServedCellsToActivate list to bb.
 func MarshalAPERServedCellsToActivateTo(list ServedCellsToActivate, bb *per.BitBuffer) error {
 	v := asn1cAPERServedCellsToActivateListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -9815,25 +9604,19 @@ func UnmarshalAPERServedCellsToActivateFrom(bb *per.BitBuffer) (ServedCellsToAct
 }
 
 func unmarshalAPERServedCellsToActivateInto(v *asn1cAPERServedCellsToActivateListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ServedCellsToActivate, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ServedCellsToActivateItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ServedCellsToActivateItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -9860,13 +9643,15 @@ func (v *ServedCellsToActivateItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding ecgi: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -9899,6 +9684,7 @@ func (v *ServedCellsToActivateItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ServedCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedCellsToActivateItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -9912,25 +9698,19 @@ func (v *ServedCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding ecgi: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9969,13 +9749,15 @@ func (v *CellActivationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -10007,29 +9789,24 @@ func (v *CellActivationResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellActivationResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10066,13 +9843,15 @@ func MarshalAPERActivatedCellList(list ActivatedCellList) ([]byte, error) {
 // MarshalAPERActivatedCellListTo appends a ActivatedCellList list to bb.
 func MarshalAPERActivatedCellListTo(list ActivatedCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERActivatedCellListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -10093,25 +9872,19 @@ func UnmarshalAPERActivatedCellListFrom(bb *per.BitBuffer) (ActivatedCellList, e
 }
 
 func unmarshalAPERActivatedCellListInto(v *asn1cAPERActivatedCellListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ActivatedCellList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ActivatedCellListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ActivatedCellListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -10138,13 +9911,15 @@ func (v *ActivatedCellListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding ecgi: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -10177,6 +9952,7 @@ func (v *ActivatedCellListItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ActivatedCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ActivatedCellListItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -10190,25 +9966,19 @@ func (v *ActivatedCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding ecgi: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10247,13 +10017,15 @@ func (v *CellActivationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -10285,29 +10057,24 @@ func (v *CellActivationFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellActivationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellActivationFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10344,13 +10111,15 @@ func (v *X2Release) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -10382,29 +10151,24 @@ func (v *X2Release) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2Release) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2Release{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10441,13 +10205,15 @@ func (v *X2APMessageTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -10479,29 +10245,24 @@ func (v *X2APMessageTransfer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2APMessageTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2APMessageTransfer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10554,13 +10315,15 @@ func (v *RNLHeader) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -10593,6 +10356,7 @@ func (v *RNLHeader) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RNLHeader) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RNLHeader{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -10617,25 +10381,19 @@ func (v *RNLHeader) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.TargetGlobalENBID = &dec_targetglobalenbid
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10674,13 +10432,15 @@ func (v *SeNBAdditionRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -10712,29 +10472,24 @@ func (v *SeNBAdditionRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBAdditionRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBAdditionRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -10771,13 +10526,15 @@ func MarshalAPERERABsToBeAddedList(list ERABsToBeAddedList) ([]byte, error) {
 // MarshalAPERERABsToBeAddedListTo appends a ERABsToBeAddedList list to bb.
 func MarshalAPERERABsToBeAddedListTo(list ERABsToBeAddedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -10798,25 +10555,19 @@ func UnmarshalAPERERABsToBeAddedListFrom(bb *per.BitBuffer) (ERABsToBeAddedList,
 }
 
 func unmarshalAPERERABsToBeAddedListInto(v *asn1cAPERERABsToBeAddedListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeAddedList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -10869,6 +10620,7 @@ func (v *ERABsToBeAddedItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -10938,13 +10690,15 @@ func (v *ERABsToBeAddedItemSCGBearer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -10977,6 +10731,7 @@ func (v *ERABsToBeAddedItemSCGBearer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11010,25 +10765,19 @@ func (v *ERABsToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11081,13 +10830,15 @@ func (v *ERABsToBeAddedItemSplitBearer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding meNB-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -11120,6 +10871,7 @@ func (v *ERABsToBeAddedItemSplitBearer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11141,25 +10893,19 @@ func (v *ERABsToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		return fmt.Errorf("decoding meNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11198,13 +10944,15 @@ func (v *SeNBAdditionRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error 
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -11236,29 +10984,24 @@ func (v *SeNBAdditionRequestAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBAdditionRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBAdditionRequestAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -11295,13 +11038,15 @@ func MarshalAPERERABsAdmittedToBeAddedList(list ERABsAdmittedToBeAddedList) ([]b
 // MarshalAPERERABsAdmittedToBeAddedListTo appends a ERABsAdmittedToBeAddedList list to bb.
 func MarshalAPERERABsAdmittedToBeAddedListTo(list ERABsAdmittedToBeAddedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -11322,25 +11067,19 @@ func UnmarshalAPERERABsAdmittedToBeAddedListFrom(bb *per.BitBuffer) (ERABsAdmitt
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedListInto(v *asn1cAPERERABsAdmittedToBeAddedListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeAddedList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -11393,6 +11132,7 @@ func (v *ERABsAdmittedToBeAddedItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsAdmittedToBeAddedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11467,13 +11207,15 @@ func (v *ERABsAdmittedToBeAddedItemSCGBearer) MarshalAPERTo(bb *per.BitBuffer) e
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -11506,6 +11248,7 @@ func (v *ERABsAdmittedToBeAddedItemSCGBearer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsAdmittedToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11546,25 +11289,19 @@ func (v *ERABsAdmittedToBeAddedItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 		v.ULForwardingGTPtunnelEndpoint = &dec_ulforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11614,13 +11351,15 @@ func (v *ERABsAdmittedToBeAddedItemSplitBearer) MarshalAPERTo(bb *per.BitBuffer)
 		return fmt.Errorf("encoding seNB-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -11653,6 +11392,7 @@ func (v *ERABsAdmittedToBeAddedItemSplitBearer) UnmarshalAPER(data []byte) error
 }
 
 func (v *ERABsAdmittedToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -11671,25 +11411,19 @@ func (v *ERABsAdmittedToBeAddedItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuf
 		return fmt.Errorf("decoding seNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11728,13 +11462,15 @@ func (v *SeNBAdditionRequestReject) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -11766,29 +11502,24 @@ func (v *SeNBAdditionRequestReject) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBAdditionRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBAdditionRequestReject{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -11825,13 +11556,15 @@ func (v *SeNBReconfigurationComplete) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -11863,29 +11596,24 @@ func (v *SeNBReconfigurationComplete) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBReconfigurationComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBReconfigurationComplete{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -11956,6 +11684,7 @@ func (v *ResponseInformationSeNBReconfComp) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResponseInformationSeNBReconfComp) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResponseInformationSeNBReconfComp{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12016,13 +11745,15 @@ func (v *ResponseInformationSeNBReconfCompSuccessItem) MarshalAPERTo(bb *per.Bit
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -12055,6 +11786,7 @@ func (v *ResponseInformationSeNBReconfCompSuccessItem) UnmarshalAPER(data []byte
 }
 
 func (v *ResponseInformationSeNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResponseInformationSeNBReconfCompSuccessItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12077,25 +11809,19 @@ func (v *ResponseInformationSeNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per
 		v.MeNBtoSeNBContainer = &tmp_menbtosenbcontainer
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12150,13 +11876,15 @@ func (v *ResponseInformationSeNBReconfCompRejectByMeNBItem) MarshalAPERTo(bb *pe
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -12189,6 +11917,7 @@ func (v *ResponseInformationSeNBReconfCompRejectByMeNBItem) UnmarshalAPER(data [
 }
 
 func (v *ResponseInformationSeNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResponseInformationSeNBReconfCompRejectByMeNBItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12214,25 +11943,19 @@ func (v *ResponseInformationSeNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb
 		v.MeNBtoSeNBContainer = &tmp_menbtosenbcontainer
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12271,13 +11994,15 @@ func (v *SeNBModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -12309,29 +12034,24 @@ func (v *SeNBModificationRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBModificationRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -12406,43 +12126,51 @@ func (v *UEContextInformationSeNBModReq) MarshalAPERTo(bb *per.BitBuffer) error 
 		}
 	}
 	if v.ERABsToBeAdded != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeAdded)), 1, 256); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeAdded length: %w", err)
-		}
-		for _, elem := range v.ERABsToBeAdded {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding e-RABs-ToBeAdded element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeAdded)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobeadded, fragmentLength_erabstobeadded int64) error {
+			for _, elem := range v.ERABsToBeAdded[fragmentOffset_erabstobeadded : fragmentOffset_erabstobeadded+fragmentLength_erabstobeadded] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding e-RABs-ToBeAdded element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding e-RABs-ToBeAdded: %w", err)
 		}
 	}
 	if v.ERABsToBeModified != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeModified)), 1, 256); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeModified length: %w", err)
-		}
-		for _, elem := range v.ERABsToBeModified {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding e-RABs-ToBeModified element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeModified)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobemodified, fragmentLength_erabstobemodified int64) error {
+			for _, elem := range v.ERABsToBeModified[fragmentOffset_erabstobemodified : fragmentOffset_erabstobemodified+fragmentLength_erabstobemodified] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding e-RABs-ToBeModified element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding e-RABs-ToBeModified: %w", err)
 		}
 	}
 	if v.ERABsToBeReleased != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeReleased)), 1, 256); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeReleased length: %w", err)
-		}
-		for _, elem := range v.ERABsToBeReleased {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding e-RABs-ToBeReleased element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeReleased)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobereleased, fragmentLength_erabstobereleased int64) error {
+			for _, elem := range v.ERABsToBeReleased[fragmentOffset_erabstobereleased : fragmentOffset_erabstobereleased+fragmentLength_erabstobereleased] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding e-RABs-ToBeReleased element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding e-RABs-ToBeReleased: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -12475,6 +12203,7 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextInformationSeNBModReq{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12531,94 +12260,70 @@ func (v *UEContextInformationSeNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.SeNBUEAggregateMaximumBitRate = &dec_senbueaggregatemaximumbitrate
 	}
 	if opt_erabstobeadded {
-		var seqLen_erabstobeadded int64
-		var errLength_erabstobeadded error
-		seqLen_erabstobeadded, errLength_erabstobeadded = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if errLength_erabstobeadded != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length: %w", errLength_erabstobeadded)
-		}
-		if seqLen_erabstobeadded < 1 {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d below lower bound 1", seqLen_erabstobeadded)
-		}
-		if seqLen_erabstobeadded > 256 {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d above upper bound 256", seqLen_erabstobeadded)
-		}
 		tmp_erabstobeadded := make(ERABsToBeAddedListModReq, 0)
-		for i := int64(0); i < seqLen_erabstobeadded; i++ {
-			var elem ProtocolIESingleContainer
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeAdded element %d: %w", i, err)
+		_, errCollection_erabstobeadded := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobeadded, fragmentLength_erabstobeadded int64) error {
+			for i := int64(0); i < fragmentLength_erabstobeadded; i++ {
+				var elem ProtocolIESingleContainer
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding e-RABs-ToBeAdded element %d: %w", fragmentOffset_erabstobeadded+i, err)
+				}
+				tmp_erabstobeadded = append(tmp_erabstobeadded, elem)
 			}
-			tmp_erabstobeadded = append(tmp_erabstobeadded, elem)
+			return nil
+		})
+		if errCollection_erabstobeadded != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded: %w", errCollection_erabstobeadded)
 		}
 		v.ERABsToBeAdded = tmp_erabstobeadded
 	}
 	if opt_erabstobemodified {
-		var seqLen_erabstobemodified int64
-		var errLength_erabstobemodified error
-		seqLen_erabstobemodified, errLength_erabstobemodified = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if errLength_erabstobemodified != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length: %w", errLength_erabstobemodified)
-		}
-		if seqLen_erabstobemodified < 1 {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length %d below lower bound 1", seqLen_erabstobemodified)
-		}
-		if seqLen_erabstobemodified > 256 {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length %d above upper bound 256", seqLen_erabstobemodified)
-		}
 		tmp_erabstobemodified := make(ERABsToBeModifiedListModReq, 0)
-		for i := int64(0); i < seqLen_erabstobemodified; i++ {
-			var elem ProtocolIESingleContainer
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeModified element %d: %w", i, err)
+		_, errCollection_erabstobemodified := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobemodified, fragmentLength_erabstobemodified int64) error {
+			for i := int64(0); i < fragmentLength_erabstobemodified; i++ {
+				var elem ProtocolIESingleContainer
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding e-RABs-ToBeModified element %d: %w", fragmentOffset_erabstobemodified+i, err)
+				}
+				tmp_erabstobemodified = append(tmp_erabstobemodified, elem)
 			}
-			tmp_erabstobemodified = append(tmp_erabstobemodified, elem)
+			return nil
+		})
+		if errCollection_erabstobemodified != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeModified: %w", errCollection_erabstobemodified)
 		}
 		v.ERABsToBeModified = tmp_erabstobemodified
 	}
 	if opt_erabstobereleased {
-		var seqLen_erabstobereleased int64
-		var errLength_erabstobereleased error
-		seqLen_erabstobereleased, errLength_erabstobereleased = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if errLength_erabstobereleased != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length: %w", errLength_erabstobereleased)
-		}
-		if seqLen_erabstobereleased < 1 {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d below lower bound 1", seqLen_erabstobereleased)
-		}
-		if seqLen_erabstobereleased > 256 {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d above upper bound 256", seqLen_erabstobereleased)
-		}
 		tmp_erabstobereleased := make(ERABsToBeReleasedListModReq, 0)
-		for i := int64(0); i < seqLen_erabstobereleased; i++ {
-			var elem ProtocolIESingleContainer
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeReleased element %d: %w", i, err)
+		_, errCollection_erabstobereleased := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobereleased, fragmentLength_erabstobereleased int64) error {
+			for i := int64(0); i < fragmentLength_erabstobereleased; i++ {
+				var elem ProtocolIESingleContainer
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding e-RABs-ToBeReleased element %d: %w", fragmentOffset_erabstobereleased+i, err)
+				}
+				tmp_erabstobereleased = append(tmp_erabstobereleased, elem)
 			}
-			tmp_erabstobereleased = append(tmp_erabstobereleased, elem)
+			return nil
+		})
+		if errCollection_erabstobereleased != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased: %w", errCollection_erabstobereleased)
 		}
 		v.ERABsToBeReleased = tmp_erabstobereleased
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12657,13 +12362,15 @@ func MarshalAPERERABsToBeAddedListModReq(list ERABsToBeAddedListModReq) ([]byte,
 // MarshalAPERERABsToBeAddedListModReqTo appends a ERABsToBeAddedListModReq list to bb.
 func MarshalAPERERABsToBeAddedListModReqTo(list ERABsToBeAddedListModReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedListModReqListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -12684,25 +12391,19 @@ func UnmarshalAPERERABsToBeAddedListModReqFrom(bb *per.BitBuffer) (ERABsToBeAdde
 }
 
 func unmarshalAPERERABsToBeAddedListModReqInto(v *asn1cAPERERABsToBeAddedListModReqListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeAddedListModReq, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -12755,6 +12456,7 @@ func (v *ERABsToBeAddedModReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedModReqItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12824,13 +12526,15 @@ func (v *ERABsToBeAddedModReqItemSCGBearer) MarshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -12863,6 +12567,7 @@ func (v *ERABsToBeAddedModReqItemSCGBearer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedModReqItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -12896,25 +12601,19 @@ func (v *ERABsToBeAddedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer)
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12967,13 +12666,15 @@ func (v *ERABsToBeAddedModReqItemSplitBearer) MarshalAPERTo(bb *per.BitBuffer) e
 		return fmt.Errorf("encoding meNB-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -13006,6 +12707,7 @@ func (v *ERABsToBeAddedModReqItemSplitBearer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedModReqItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13027,25 +12729,19 @@ func (v *ERABsToBeAddedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffe
 		return fmt.Errorf("decoding meNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13084,13 +12780,15 @@ func MarshalAPERERABsToBeModifiedListModReq(list ERABsToBeModifiedListModReq) ([
 // MarshalAPERERABsToBeModifiedListModReqTo appends a ERABsToBeModifiedListModReq list to bb.
 func MarshalAPERERABsToBeModifiedListModReqTo(list ERABsToBeModifiedListModReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeModifiedListModReqListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -13111,25 +12809,19 @@ func UnmarshalAPERERABsToBeModifiedListModReqFrom(bb *per.BitBuffer) (ERABsToBeM
 }
 
 func unmarshalAPERERABsToBeModifiedListModReqInto(v *asn1cAPERERABsToBeModifiedListModReqListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeModifiedListModReq, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -13182,6 +12874,7 @@ func (v *ERABsToBeModifiedModReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeModifiedModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedModReqItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13253,13 +12946,15 @@ func (v *ERABsToBeModifiedModReqItemSCGBearer) MarshalAPERTo(bb *per.BitBuffer) 
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -13292,6 +12987,7 @@ func (v *ERABsToBeModifiedModReqItemSCGBearer) UnmarshalAPER(data []byte) error 
 }
 
 func (v *ERABsToBeModifiedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedModReqItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13329,25 +13025,19 @@ func (v *ERABsToBeModifiedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		v.S1ULGTPtunnelEndpoint = &dec_s1ulgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13410,13 +13100,15 @@ func (v *ERABsToBeModifiedModReqItemSplitBearer) MarshalAPERTo(bb *per.BitBuffer
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -13449,6 +13141,7 @@ func (v *ERABsToBeModifiedModReqItemSplitBearer) UnmarshalAPER(data []byte) erro
 }
 
 func (v *ERABsToBeModifiedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedModReqItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13486,25 +13179,19 @@ func (v *ERABsToBeModifiedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		v.MeNBGTPtunnelEndpoint = &dec_menbgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13543,13 +13230,15 @@ func MarshalAPERERABsToBeReleasedListModReq(list ERABsToBeReleasedListModReq) ([
 // MarshalAPERERABsToBeReleasedListModReqTo appends a ERABsToBeReleasedListModReq list to bb.
 func MarshalAPERERABsToBeReleasedListModReqTo(list ERABsToBeReleasedListModReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedListModReqListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -13570,25 +13259,19 @@ func UnmarshalAPERERABsToBeReleasedListModReqFrom(bb *per.BitBuffer) (ERABsToBeR
 }
 
 func unmarshalAPERERABsToBeReleasedListModReqInto(v *asn1cAPERERABsToBeReleasedListModReqListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedListModReq, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -13641,6 +13324,7 @@ func (v *ERABsToBeReleasedModReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedModReqItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13712,13 +13396,15 @@ func (v *ERABsToBeReleasedModReqItemSCGBearer) MarshalAPERTo(bb *per.BitBuffer) 
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -13751,6 +13437,7 @@ func (v *ERABsToBeReleasedModReqItemSCGBearer) UnmarshalAPER(data []byte) error 
 }
 
 func (v *ERABsToBeReleasedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedModReqItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13788,25 +13475,19 @@ func (v *ERABsToBeReleasedModReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		v.ULForwardingGTPtunnelEndpoint = &dec_ulforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13861,13 +13542,15 @@ func (v *ERABsToBeReleasedModReqItemSplitBearer) MarshalAPERTo(bb *per.BitBuffer
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -13900,6 +13583,7 @@ func (v *ERABsToBeReleasedModReqItemSplitBearer) UnmarshalAPER(data []byte) erro
 }
 
 func (v *ERABsToBeReleasedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedModReqItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -13926,25 +13610,19 @@ func (v *ERABsToBeReleasedModReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13983,13 +13661,15 @@ func (v *SeNBModificationRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) er
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -14021,29 +13701,24 @@ func (v *SeNBModificationRequestAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBModificationRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBModificationRequestAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -14082,13 +13757,15 @@ func MarshalAPERERABsAdmittedToBeAddedModAckList(list ERABsAdmittedToBeAddedModA
 // MarshalAPERERABsAdmittedToBeAddedModAckListTo appends a ERABsAdmittedToBeAddedModAckList list to bb.
 func MarshalAPERERABsAdmittedToBeAddedModAckListTo(list ERABsAdmittedToBeAddedModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedModAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -14109,25 +13786,19 @@ func UnmarshalAPERERABsAdmittedToBeAddedModAckListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedModAckListInto(v *asn1cAPERERABsAdmittedToBeAddedModAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeAddedModAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -14180,6 +13851,7 @@ func (v *ERABsAdmittedToBeAddedModAckItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsAdmittedToBeAddedModAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedModAckItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -14254,13 +13926,15 @@ func (v *ERABsAdmittedToBeAddedModAckItemSCGBearer) MarshalAPERTo(bb *per.BitBuf
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -14293,6 +13967,7 @@ func (v *ERABsAdmittedToBeAddedModAckItemSCGBearer) UnmarshalAPER(data []byte) e
 }
 
 func (v *ERABsAdmittedToBeAddedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedModAckItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -14333,25 +14008,19 @@ func (v *ERABsAdmittedToBeAddedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per.Bi
 		v.ULForwardingGTPtunnelEndpoint = &dec_ulforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14401,13 +14070,15 @@ func (v *ERABsAdmittedToBeAddedModAckItemSplitBearer) MarshalAPERTo(bb *per.BitB
 		return fmt.Errorf("encoding seNB-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -14440,6 +14111,7 @@ func (v *ERABsAdmittedToBeAddedModAckItemSplitBearer) UnmarshalAPER(data []byte)
 }
 
 func (v *ERABsAdmittedToBeAddedModAckItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedModAckItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -14458,25 +14130,19 @@ func (v *ERABsAdmittedToBeAddedModAckItemSplitBearer) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding seNB-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14517,13 +14183,15 @@ func MarshalAPERERABsAdmittedToBeModifiedModAckList(list ERABsAdmittedToBeModifi
 // MarshalAPERERABsAdmittedToBeModifiedModAckListTo appends a ERABsAdmittedToBeModifiedModAckList list to bb.
 func MarshalAPERERABsAdmittedToBeModifiedModAckListTo(list ERABsAdmittedToBeModifiedModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeModifiedModAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -14544,25 +14212,19 @@ func UnmarshalAPERERABsAdmittedToBeModifiedModAckListFrom(bb *per.BitBuffer) (ER
 }
 
 func unmarshalAPERERABsAdmittedToBeModifiedModAckListInto(v *asn1cAPERERABsAdmittedToBeModifiedModAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeModifiedModAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -14615,6 +14277,7 @@ func (v *ERABsAdmittedToBeModifiedModAckItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsAdmittedToBeModifiedModAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedModAckItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -14678,13 +14341,15 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSCGBearer) MarshalAPERTo(bb *per.Bit
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -14717,6 +14382,7 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSCGBearer) UnmarshalAPER(data []byte
 }
 
 func (v *ERABsAdmittedToBeModifiedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedModAckItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -14743,25 +14409,19 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 		v.S1DLGTPtunnelEndpoint = &dec_s1dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14816,13 +14476,15 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSplitBearer) MarshalAPERTo(bb *per.B
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -14855,6 +14517,7 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSplitBearer) UnmarshalAPER(data []by
 }
 
 func (v *ERABsAdmittedToBeModifiedModAckItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedModAckItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -14881,25 +14544,19 @@ func (v *ERABsAdmittedToBeModifiedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 		v.SeNBGTPtunnelEndpoint = &dec_senbgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14940,13 +14597,15 @@ func MarshalAPERERABsAdmittedToBeReleasedModAckList(list ERABsAdmittedToBeReleas
 // MarshalAPERERABsAdmittedToBeReleasedModAckListTo appends a ERABsAdmittedToBeReleasedModAckList list to bb.
 func MarshalAPERERABsAdmittedToBeReleasedModAckListTo(list ERABsAdmittedToBeReleasedModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeReleasedModAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -14967,25 +14626,19 @@ func UnmarshalAPERERABsAdmittedToBeReleasedModAckListFrom(bb *per.BitBuffer) (ER
 }
 
 func unmarshalAPERERABsAdmittedToBeReleasedModAckListInto(v *asn1cAPERERABsAdmittedToBeReleasedModAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeReleasedModAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -15038,6 +14691,7 @@ func (v *ERABsAdmittedToReleasedModAckItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsAdmittedToReleasedModAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToReleasedModAckItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -15093,13 +14747,15 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) MarshalAPERTo(bb *per.Bit
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -15132,6 +14788,7 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) UnmarshalAPER(data []byte
 }
 
 func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeReleasedModAckItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -15147,25 +14804,19 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSCGBearer) UnmarshalAPERFrom(bb *per
 	}
 	v.ERABID = val_erabid
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15212,13 +14863,15 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) MarshalAPERTo(bb *per.B
 		return fmt.Errorf("encoding e-RAB-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -15251,6 +14904,7 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) UnmarshalAPER(data []by
 }
 
 func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeReleasedModAckItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -15266,25 +14920,19 @@ func (v *ERABsAdmittedToBeReleasedModAckItemSplitBearer) UnmarshalAPERFrom(bb *p
 	}
 	v.ERABID = val_erabid
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15323,13 +14971,15 @@ func (v *SeNBModificationRequestReject) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -15361,29 +15011,24 @@ func (v *SeNBModificationRequestReject) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBModificationRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBModificationRequestReject{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15420,13 +15065,15 @@ func (v *SeNBModificationRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -15458,29 +15105,24 @@ func (v *SeNBModificationRequired) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBModificationRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBModificationRequired{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15517,13 +15159,15 @@ func MarshalAPERERABsToBeReleasedModReqd(list ERABsToBeReleasedModReqd) ([]byte,
 // MarshalAPERERABsToBeReleasedModReqdTo appends a ERABsToBeReleasedModReqd list to bb.
 func MarshalAPERERABsToBeReleasedModReqdTo(list ERABsToBeReleasedModReqd, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedModReqdListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -15544,25 +15188,19 @@ func UnmarshalAPERERABsToBeReleasedModReqdFrom(bb *per.BitBuffer) (ERABsToBeRele
 }
 
 func unmarshalAPERERABsToBeReleasedModReqdInto(v *asn1cAPERERABsToBeReleasedModReqdListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedModReqd, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -15592,13 +15230,15 @@ func (v *ERABsToBeReleasedModReqdItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -15631,6 +15271,7 @@ func (v *ERABsToBeReleasedModReqdItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedModReqdItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -15649,25 +15290,19 @@ func (v *ERABsToBeReleasedModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15706,13 +15341,15 @@ func (v *SeNBModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -15744,29 +15381,24 @@ func (v *SeNBModificationConfirm) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBModificationConfirm{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15803,13 +15435,15 @@ func (v *SeNBModificationRefuse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -15841,29 +15475,24 @@ func (v *SeNBModificationRefuse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBModificationRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBModificationRefuse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15900,13 +15529,15 @@ func (v *SeNBReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -15938,29 +15569,24 @@ func (v *SeNBReleaseRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBReleaseRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -15997,13 +15623,15 @@ func MarshalAPERERABsToBeReleasedListRelReq(list ERABsToBeReleasedListRelReq) ([
 // MarshalAPERERABsToBeReleasedListRelReqTo appends a ERABsToBeReleasedListRelReq list to bb.
 func MarshalAPERERABsToBeReleasedListRelReqTo(list ERABsToBeReleasedListRelReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedListRelReqListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -16024,25 +15652,19 @@ func UnmarshalAPERERABsToBeReleasedListRelReqFrom(bb *per.BitBuffer) (ERABsToBeR
 }
 
 func unmarshalAPERERABsToBeReleasedListRelReqInto(v *asn1cAPERERABsToBeReleasedListRelReqListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedListRelReq, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -16095,6 +15717,7 @@ func (v *ERABsToBeReleasedRelReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedRelReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedRelReqItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -16166,13 +15789,15 @@ func (v *ERABsToBeReleasedRelReqItemSCGBearer) MarshalAPERTo(bb *per.BitBuffer) 
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -16205,6 +15830,7 @@ func (v *ERABsToBeReleasedRelReqItemSCGBearer) UnmarshalAPER(data []byte) error 
 }
 
 func (v *ERABsToBeReleasedRelReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedRelReqItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -16242,25 +15868,19 @@ func (v *ERABsToBeReleasedRelReqItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuff
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16315,13 +15935,15 @@ func (v *ERABsToBeReleasedRelReqItemSplitBearer) MarshalAPERTo(bb *per.BitBuffer
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -16354,6 +15976,7 @@ func (v *ERABsToBeReleasedRelReqItemSplitBearer) UnmarshalAPER(data []byte) erro
 }
 
 func (v *ERABsToBeReleasedRelReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedRelReqItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -16380,25 +16003,19 @@ func (v *ERABsToBeReleasedRelReqItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBu
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16437,13 +16054,15 @@ func (v *SeNBReleaseRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -16475,29 +16094,24 @@ func (v *SeNBReleaseRequired) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBReleaseRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBReleaseRequired{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -16534,13 +16148,15 @@ func (v *SeNBReleaseConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -16572,29 +16188,24 @@ func (v *SeNBReleaseConfirm) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBReleaseConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBReleaseConfirm{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -16631,13 +16242,15 @@ func MarshalAPERERABsToBeReleasedListRelConf(list ERABsToBeReleasedListRelConf) 
 // MarshalAPERERABsToBeReleasedListRelConfTo appends a ERABsToBeReleasedListRelConf list to bb.
 func MarshalAPERERABsToBeReleasedListRelConfTo(list ERABsToBeReleasedListRelConf, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedListRelConfListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -16658,25 +16271,19 @@ func UnmarshalAPERERABsToBeReleasedListRelConfFrom(bb *per.BitBuffer) (ERABsToBe
 }
 
 func unmarshalAPERERABsToBeReleasedListRelConfInto(v *asn1cAPERERABsToBeReleasedListRelConfListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedListRelConf, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -16729,6 +16336,7 @@ func (v *ERABsToBeReleasedRelConfItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedRelConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedRelConfItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -16800,13 +16408,15 @@ func (v *ERABsToBeReleasedRelConfItemSCGBearer) MarshalAPERTo(bb *per.BitBuffer)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -16839,6 +16449,7 @@ func (v *ERABsToBeReleasedRelConfItemSCGBearer) UnmarshalAPER(data []byte) error
 }
 
 func (v *ERABsToBeReleasedRelConfItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedRelConfItemSCGBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -16876,25 +16487,19 @@ func (v *ERABsToBeReleasedRelConfItemSCGBearer) UnmarshalAPERFrom(bb *per.BitBuf
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16949,13 +16554,15 @@ func (v *ERABsToBeReleasedRelConfItemSplitBearer) MarshalAPERTo(bb *per.BitBuffe
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -16988,6 +16595,7 @@ func (v *ERABsToBeReleasedRelConfItemSplitBearer) UnmarshalAPER(data []byte) err
 }
 
 func (v *ERABsToBeReleasedRelConfItemSplitBearer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedRelConfItemSplitBearer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -17014,25 +16622,19 @@ func (v *ERABsToBeReleasedRelConfItemSplitBearer) UnmarshalAPERFrom(bb *per.BitB
 		v.DLForwardingGTPtunnelEndpoint = &dec_dlforwardinggtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17071,13 +16673,15 @@ func (v *SeNBCounterCheckRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -17109,29 +16713,24 @@ func (v *SeNBCounterCheckRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SeNBCounterCheckRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SeNBCounterCheckRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17170,13 +16769,15 @@ func MarshalAPERERABsSubjectToCounterCheckList(list ERABsSubjectToCounterCheckLi
 // MarshalAPERERABsSubjectToCounterCheckListTo appends a ERABsSubjectToCounterCheckList list to bb.
 func MarshalAPERERABsSubjectToCounterCheckListTo(list ERABsSubjectToCounterCheckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsSubjectToCounterCheckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -17197,25 +16798,19 @@ func UnmarshalAPERERABsSubjectToCounterCheckListFrom(bb *per.BitBuffer) (ERABsSu
 }
 
 func unmarshalAPERERABsSubjectToCounterCheckListInto(v *asn1cAPERERABsSubjectToCounterCheckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsSubjectToCounterCheckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -17248,13 +16843,15 @@ func (v *ERABsSubjectToCounterCheckItem) MarshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding dL-Count: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -17287,6 +16884,7 @@ func (v *ERABsSubjectToCounterCheckItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsSubjectToCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsSubjectToCounterCheckItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -17312,25 +16910,19 @@ func (v *ERABsSubjectToCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	}
 	v.DLCount = val_dlcount
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17369,13 +16961,15 @@ func (v *X2RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -17407,29 +17001,24 @@ func (v *X2RemovalRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2RemovalRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17466,13 +17055,15 @@ func (v *X2RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -17504,29 +17095,24 @@ func (v *X2RemovalResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2RemovalResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17563,13 +17149,15 @@ func (v *X2RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -17601,29 +17189,24 @@ func (v *X2RemovalFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2RemovalFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17660,13 +17243,15 @@ func (v *RetrieveUEContextRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -17698,29 +17283,24 @@ func (v *RetrieveUEContextRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RetrieveUEContextRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RetrieveUEContextRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17757,13 +17337,15 @@ func (v *RetrieveUEContextResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -17795,29 +17377,24 @@ func (v *RetrieveUEContextResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RetrieveUEContextResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RetrieveUEContextResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -17890,13 +17467,15 @@ func (v *UEContextInformationRetrieve) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding subscriberProfileIDforRFP: %w", err)
 		}
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeSetupListRetrieve)), 1, 256); err != nil {
-		return fmt.Errorf("encoding e-RABs-ToBeSetup-ListRetrieve length: %w", err)
-	}
-	for _, elem := range v.ERABsToBeSetupListRetrieve {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeSetup-ListRetrieve element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeSetupListRetrieve)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobesetuplistretrieve, fragmentLength_erabstobesetuplistretrieve int64) error {
+		for _, elem := range v.ERABsToBeSetupListRetrieve[fragmentOffset_erabstobesetuplistretrieve : fragmentOffset_erabstobesetuplistretrieve+fragmentLength_erabstobesetuplistretrieve] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding e-RABs-ToBeSetup-ListRetrieve element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding e-RABs-ToBeSetup-ListRetrieve: %w", err)
 	}
 	if err := per.EncodeOctetStringAligned(bb, []byte(v.RRCContext), 0, 0, false); err != nil {
 		return fmt.Errorf("encoding rRC-Context: %w", err)
@@ -17917,23 +17496,27 @@ func (v *UEContextInformationRetrieve) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.ManagBasedMDTPLMNList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ManagBasedMDTPLMNList)), 1, 16); err != nil {
-			return fmt.Errorf("encoding managBasedMDTPLMNList length: %w", err)
-		}
-		for _, elem := range v.ManagBasedMDTPLMNList {
-			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
-				return fmt.Errorf("encoding managBasedMDTPLMNList element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ManagBasedMDTPLMNList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_managbasedmdtplmnlist, fragmentLength_managbasedmdtplmnlist int64) error {
+			for _, elem := range v.ManagBasedMDTPLMNList[fragmentOffset_managbasedmdtplmnlist : fragmentOffset_managbasedmdtplmnlist+fragmentLength_managbasedmdtplmnlist] {
+				if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
+					return fmt.Errorf("encoding managBasedMDTPLMNList element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding managBasedMDTPLMNList: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -17966,6 +17549,7 @@ func (v *UEContextInformationRetrieve) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextInformationRetrieve{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -18017,25 +17601,19 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
 		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
 	}
-	var seqLen_erabstobesetuplistretrieve int64
-	var errLength_erabstobesetuplistretrieve error
-	seqLen_erabstobesetuplistretrieve, errLength_erabstobesetuplistretrieve = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_erabstobesetuplistretrieve != nil {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length: %w", errLength_erabstobesetuplistretrieve)
-	}
-	if seqLen_erabstobesetuplistretrieve < 1 {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length %d below lower bound 1", seqLen_erabstobesetuplistretrieve)
-	}
-	if seqLen_erabstobesetuplistretrieve > 256 {
-		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve length %d above upper bound 256", seqLen_erabstobesetuplistretrieve)
-	}
 	v.ERABsToBeSetupListRetrieve = make(ERABsToBeSetupListRetrieve, 0)
-	for i := int64(0); i < seqLen_erabstobesetuplistretrieve; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve element %d: %w", i, err)
+	_, errCollection_erabstobesetuplistretrieve := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobesetuplistretrieve, fragmentLength_erabstobesetuplistretrieve int64) error {
+		for i := int64(0); i < fragmentLength_erabstobesetuplistretrieve; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve element %d: %w", fragmentOffset_erabstobesetuplistretrieve+i, err)
+			}
+			v.ERABsToBeSetupListRetrieve = append(v.ERABsToBeSetupListRetrieve, elem)
 		}
-		v.ERABsToBeSetupListRetrieve = append(v.ERABsToBeSetupListRetrieve, elem)
+		return nil
+	})
+	if errCollection_erabstobesetuplistretrieve != nil {
+		return fmt.Errorf("decoding e-RABs-ToBeSetup-ListRetrieve: %w", errCollection_erabstobesetuplistretrieve)
 	}
 	val_rrccontext, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
@@ -18065,48 +17643,36 @@ func (v *UEContextInformationRetrieve) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		v.ManagBasedMDTallowed = &tmp_managbasedmdtallowed
 	}
 	if opt_managbasedmdtplmnlist {
-		var seqLen_managbasedmdtplmnlist int64
-		var errLength_managbasedmdtplmnlist error
-		seqLen_managbasedmdtplmnlist, errLength_managbasedmdtplmnlist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-		if errLength_managbasedmdtplmnlist != nil {
-			return fmt.Errorf("decoding managBasedMDTPLMNList length: %w", errLength_managbasedmdtplmnlist)
-		}
-		if seqLen_managbasedmdtplmnlist < 1 {
-			return fmt.Errorf("decoding managBasedMDTPLMNList length %d below lower bound 1", seqLen_managbasedmdtplmnlist)
-		}
-		if seqLen_managbasedmdtplmnlist > 16 {
-			return fmt.Errorf("decoding managBasedMDTPLMNList length %d above upper bound 16", seqLen_managbasedmdtplmnlist)
-		}
 		tmp_managbasedmdtplmnlist := make(MDTPLMNList, 0)
-		for i := int64(0); i < seqLen_managbasedmdtplmnlist; i++ {
-			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
-			if err != nil {
-				return fmt.Errorf("decoding managBasedMDTPLMNList element: %w", err)
+		_, errCollection_managbasedmdtplmnlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_managbasedmdtplmnlist, fragmentLength_managbasedmdtplmnlist int64) error {
+			for i := int64(0); i < fragmentLength_managbasedmdtplmnlist; i++ {
+				val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+				if err != nil {
+					return fmt.Errorf("decoding managBasedMDTPLMNList element %d: %w", fragmentOffset_managbasedmdtplmnlist+i, err)
+				}
+				tmp_managbasedmdtplmnlist = append(tmp_managbasedmdtplmnlist, val)
 			}
-			tmp_managbasedmdtplmnlist = append(tmp_managbasedmdtplmnlist, val)
+			return nil
+		})
+		if errCollection_managbasedmdtplmnlist != nil {
+			return fmt.Errorf("decoding managBasedMDTPLMNList: %w", errCollection_managbasedmdtplmnlist)
 		}
 		v.ManagBasedMDTPLMNList = tmp_managbasedmdtplmnlist
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18145,13 +17711,15 @@ func MarshalAPERERABsToBeSetupListRetrieve(list ERABsToBeSetupListRetrieve) ([]b
 // MarshalAPERERABsToBeSetupListRetrieveTo appends a ERABsToBeSetupListRetrieve list to bb.
 func MarshalAPERERABsToBeSetupListRetrieveTo(list ERABsToBeSetupListRetrieve, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeSetupListRetrieveListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -18172,25 +17740,19 @@ func UnmarshalAPERERABsToBeSetupListRetrieveFrom(bb *per.BitBuffer) (ERABsToBeSe
 }
 
 func unmarshalAPERERABsToBeSetupListRetrieveInto(v *asn1cAPERERABsToBeSetupListRetrieveListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeSetupListRetrieve, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -18228,13 +17790,15 @@ func (v *ERABsToBeSetupRetrieveItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -18267,6 +17831,7 @@ func (v *ERABsToBeSetupRetrieveItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeSetupRetrieveItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeSetupRetrieveItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -18297,25 +17862,19 @@ func (v *ERABsToBeSetupRetrieveItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 		v.BearerType = &tmp_bearertype
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18354,13 +17913,15 @@ func (v *RetrieveUEContextFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -18392,29 +17953,24 @@ func (v *RetrieveUEContextFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RetrieveUEContextFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RetrieveUEContextFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -18451,13 +18007,15 @@ func (v *SgNBAdditionRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -18489,29 +18047,24 @@ func (v *SgNBAdditionRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBAdditionRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBAdditionRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -18548,13 +18101,15 @@ func MarshalAPERERABsToBeAddedSgNBAddReqList(list ERABsToBeAddedSgNBAddReqList) 
 // MarshalAPERERABsToBeAddedSgNBAddReqListTo appends a ERABsToBeAddedSgNBAddReqList list to bb.
 func MarshalAPERERABsToBeAddedSgNBAddReqListTo(list ERABsToBeAddedSgNBAddReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedSgNBAddReqListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -18575,25 +18130,19 @@ func UnmarshalAPERERABsToBeAddedSgNBAddReqListFrom(bb *per.BitBuffer) (ERABsToBe
 }
 
 func unmarshalAPERERABsToBeAddedSgNBAddReqListInto(v *asn1cAPERERABsToBeAddedSgNBAddReqListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeAddedSgNBAddReqList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -18629,13 +18178,15 @@ func (v *ERABsToBeAddedSgNBAddReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -18668,6 +18219,7 @@ func (v *ERABsToBeAddedSgNBAddReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedSgNBAddReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBAddReqItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -18694,25 +18246,19 @@ func (v *ERABsToBeAddedSgNBAddReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18786,13 +18332,15 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent) MarshalAPERTo(bb *per.BitB
 		return fmt.Errorf("encoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -18825,6 +18373,7 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent) UnmarshalAPER(data []byte)
 }
 
 func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -18875,25 +18424,19 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18962,13 +18505,15 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent) MarshalAPERTo(bb *per.B
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -19001,6 +18546,7 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent) UnmarshalAPER(data []by
 }
 
 func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -19044,25 +18590,19 @@ func (v *ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *p
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19101,13 +18641,15 @@ func (v *SgNBAdditionRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error 
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -19139,29 +18681,24 @@ func (v *SgNBAdditionRequestAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBAdditionRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBAdditionRequestAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -19200,13 +18737,15 @@ func MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList(list ERABsAdmittedToBeAd
 // MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo appends a ERABsAdmittedToBeAddedSgNBAddReqAckList list to bb.
 func MarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListTo(list ERABsAdmittedToBeAddedSgNBAddReqAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedSgNBAddReqAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -19227,25 +18766,19 @@ func UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckListInto(v *asn1cAPERERABsAdmittedToBeAddedSgNBAddReqAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeAddedSgNBAddReqAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -19278,13 +18811,15 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItem) MarshalAPERTo(bb *per.BitBuffe
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -19317,6 +18852,7 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItem) UnmarshalAPER(data []byte) err
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBAddReqAckItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -19338,25 +18874,19 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItem) UnmarshalAPERFrom(bb *per.BitB
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19451,13 +18981,15 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent) MarshalAPERTo(b
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -19490,6 +19022,7 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent) UnmarshalAPER(d
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -19570,25 +19103,19 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19643,13 +19170,15 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent) MarshalAPERT
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -19682,6 +19211,7 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent) UnmarshalAPE
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -19706,25 +19236,19 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		v.SecondarySgNBDLGTPTEIDatSCG = &dec_secondarysgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19763,13 +19287,15 @@ func (v *SgNBAdditionRequestReject) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -19801,29 +19327,24 @@ func (v *SgNBAdditionRequestReject) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBAdditionRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBAdditionRequestReject{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -19860,13 +19381,15 @@ func (v *SgNBReconfigurationComplete) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -19898,29 +19421,24 @@ func (v *SgNBReconfigurationComplete) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBReconfigurationComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBReconfigurationComplete{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -19991,6 +19509,7 @@ func (v *ResponseInformationSgNBReconfComp) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ResponseInformationSgNBReconfComp) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResponseInformationSgNBReconfComp{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -20051,13 +19570,15 @@ func (v *ResponseInformationSgNBReconfCompSuccessItem) MarshalAPERTo(bb *per.Bit
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -20090,6 +19611,7 @@ func (v *ResponseInformationSgNBReconfCompSuccessItem) UnmarshalAPER(data []byte
 }
 
 func (v *ResponseInformationSgNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResponseInformationSgNBReconfCompSuccessItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -20112,25 +19634,19 @@ func (v *ResponseInformationSgNBReconfCompSuccessItem) UnmarshalAPERFrom(bb *per
 		v.MeNBtoSgNBContainer = &tmp_menbtosgnbcontainer
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20177,13 +19693,15 @@ func (v *ResponseInformationSgNBReconfCompRejectByMeNBItem) MarshalAPERTo(bb *pe
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -20216,6 +19734,7 @@ func (v *ResponseInformationSgNBReconfCompRejectByMeNBItem) UnmarshalAPER(data [
 }
 
 func (v *ResponseInformationSgNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ResponseInformationSgNBReconfCompRejectByMeNBItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -20229,25 +19748,19 @@ func (v *ResponseInformationSgNBReconfCompRejectByMeNBItem) UnmarshalAPERFrom(bb
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20286,13 +19799,15 @@ func (v *SgNBModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -20324,29 +19839,24 @@ func (v *SgNBModificationRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBModificationRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -20421,43 +19931,51 @@ func (v *UEContextInformationSgNBModReq) MarshalAPERTo(bb *per.BitBuffer) error 
 		}
 	}
 	if v.ERABsToBeAdded != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeAdded)), 1, 256); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeAdded length: %w", err)
-		}
-		for _, elem := range v.ERABsToBeAdded {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding e-RABs-ToBeAdded element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeAdded)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobeadded, fragmentLength_erabstobeadded int64) error {
+			for _, elem := range v.ERABsToBeAdded[fragmentOffset_erabstobeadded : fragmentOffset_erabstobeadded+fragmentLength_erabstobeadded] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding e-RABs-ToBeAdded element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding e-RABs-ToBeAdded: %w", err)
 		}
 	}
 	if v.ERABsToBeModified != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeModified)), 1, 256); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeModified length: %w", err)
-		}
-		for _, elem := range v.ERABsToBeModified {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding e-RABs-ToBeModified element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeModified)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobemodified, fragmentLength_erabstobemodified int64) error {
+			for _, elem := range v.ERABsToBeModified[fragmentOffset_erabstobemodified : fragmentOffset_erabstobemodified+fragmentLength_erabstobemodified] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding e-RABs-ToBeModified element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding e-RABs-ToBeModified: %w", err)
 		}
 	}
 	if v.ERABsToBeReleased != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ERABsToBeReleased)), 1, 256); err != nil {
-			return fmt.Errorf("encoding e-RABs-ToBeReleased length: %w", err)
-		}
-		for _, elem := range v.ERABsToBeReleased {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding e-RABs-ToBeReleased element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ERABsToBeReleased)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobereleased, fragmentLength_erabstobereleased int64) error {
+			for _, elem := range v.ERABsToBeReleased[fragmentOffset_erabstobereleased : fragmentOffset_erabstobereleased+fragmentLength_erabstobereleased] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding e-RABs-ToBeReleased element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding e-RABs-ToBeReleased: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -20490,6 +20008,7 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UEContextInformationSgNBModReq{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -20546,94 +20065,70 @@ func (v *UEContextInformationSgNBModReq) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		v.SgNBUEAggregateMaximumBitRate = &dec_sgnbueaggregatemaximumbitrate
 	}
 	if opt_erabstobeadded {
-		var seqLen_erabstobeadded int64
-		var errLength_erabstobeadded error
-		seqLen_erabstobeadded, errLength_erabstobeadded = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if errLength_erabstobeadded != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length: %w", errLength_erabstobeadded)
-		}
-		if seqLen_erabstobeadded < 1 {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d below lower bound 1", seqLen_erabstobeadded)
-		}
-		if seqLen_erabstobeadded > 256 {
-			return fmt.Errorf("decoding e-RABs-ToBeAdded length %d above upper bound 256", seqLen_erabstobeadded)
-		}
 		tmp_erabstobeadded := make(ERABsToBeAddedSgNBModReqList, 0)
-		for i := int64(0); i < seqLen_erabstobeadded; i++ {
-			var elem ProtocolIESingleContainer
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeAdded element %d: %w", i, err)
+		_, errCollection_erabstobeadded := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobeadded, fragmentLength_erabstobeadded int64) error {
+			for i := int64(0); i < fragmentLength_erabstobeadded; i++ {
+				var elem ProtocolIESingleContainer
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding e-RABs-ToBeAdded element %d: %w", fragmentOffset_erabstobeadded+i, err)
+				}
+				tmp_erabstobeadded = append(tmp_erabstobeadded, elem)
 			}
-			tmp_erabstobeadded = append(tmp_erabstobeadded, elem)
+			return nil
+		})
+		if errCollection_erabstobeadded != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeAdded: %w", errCollection_erabstobeadded)
 		}
 		v.ERABsToBeAdded = tmp_erabstobeadded
 	}
 	if opt_erabstobemodified {
-		var seqLen_erabstobemodified int64
-		var errLength_erabstobemodified error
-		seqLen_erabstobemodified, errLength_erabstobemodified = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if errLength_erabstobemodified != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length: %w", errLength_erabstobemodified)
-		}
-		if seqLen_erabstobemodified < 1 {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length %d below lower bound 1", seqLen_erabstobemodified)
-		}
-		if seqLen_erabstobemodified > 256 {
-			return fmt.Errorf("decoding e-RABs-ToBeModified length %d above upper bound 256", seqLen_erabstobemodified)
-		}
 		tmp_erabstobemodified := make(ERABsToBeModifiedSgNBModReqList, 0)
-		for i := int64(0); i < seqLen_erabstobemodified; i++ {
-			var elem ProtocolIESingleContainer
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeModified element %d: %w", i, err)
+		_, errCollection_erabstobemodified := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobemodified, fragmentLength_erabstobemodified int64) error {
+			for i := int64(0); i < fragmentLength_erabstobemodified; i++ {
+				var elem ProtocolIESingleContainer
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding e-RABs-ToBeModified element %d: %w", fragmentOffset_erabstobemodified+i, err)
+				}
+				tmp_erabstobemodified = append(tmp_erabstobemodified, elem)
 			}
-			tmp_erabstobemodified = append(tmp_erabstobemodified, elem)
+			return nil
+		})
+		if errCollection_erabstobemodified != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeModified: %w", errCollection_erabstobemodified)
 		}
 		v.ERABsToBeModified = tmp_erabstobemodified
 	}
 	if opt_erabstobereleased {
-		var seqLen_erabstobereleased int64
-		var errLength_erabstobereleased error
-		seqLen_erabstobereleased, errLength_erabstobereleased = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-		if errLength_erabstobereleased != nil {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length: %w", errLength_erabstobereleased)
-		}
-		if seqLen_erabstobereleased < 1 {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d below lower bound 1", seqLen_erabstobereleased)
-		}
-		if seqLen_erabstobereleased > 256 {
-			return fmt.Errorf("decoding e-RABs-ToBeReleased length %d above upper bound 256", seqLen_erabstobereleased)
-		}
 		tmp_erabstobereleased := make(ERABsToBeReleasedSgNBModReqList, 0)
-		for i := int64(0); i < seqLen_erabstobereleased; i++ {
-			var elem ProtocolIESingleContainer
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABs-ToBeReleased element %d: %w", i, err)
+		_, errCollection_erabstobereleased := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabstobereleased, fragmentLength_erabstobereleased int64) error {
+			for i := int64(0); i < fragmentLength_erabstobereleased; i++ {
+				var elem ProtocolIESingleContainer
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding e-RABs-ToBeReleased element %d: %w", fragmentOffset_erabstobereleased+i, err)
+				}
+				tmp_erabstobereleased = append(tmp_erabstobereleased, elem)
 			}
-			tmp_erabstobereleased = append(tmp_erabstobereleased, elem)
+			return nil
+		})
+		if errCollection_erabstobereleased != nil {
+			return fmt.Errorf("decoding e-RABs-ToBeReleased: %w", errCollection_erabstobereleased)
 		}
 		v.ERABsToBeReleased = tmp_erabstobereleased
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20672,13 +20167,15 @@ func MarshalAPERERABsToBeAddedSgNBModReqList(list ERABsToBeAddedSgNBModReqList) 
 // MarshalAPERERABsToBeAddedSgNBModReqListTo appends a ERABsToBeAddedSgNBModReqList list to bb.
 func MarshalAPERERABsToBeAddedSgNBModReqListTo(list ERABsToBeAddedSgNBModReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeAddedSgNBModReqListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -20699,25 +20196,19 @@ func UnmarshalAPERERABsToBeAddedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsToBe
 }
 
 func unmarshalAPERERABsToBeAddedSgNBModReqListInto(v *asn1cAPERERABsToBeAddedSgNBModReqListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeAddedSgNBModReqList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -20753,13 +20244,15 @@ func (v *ERABsToBeAddedSgNBModReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -20792,6 +20285,7 @@ func (v *ERABsToBeAddedSgNBModReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeAddedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBModReqItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -20818,25 +20312,19 @@ func (v *ERABsToBeAddedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20910,13 +20398,15 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent) MarshalAPERTo(bb *per.BitB
 		return fmt.Errorf("encoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -20949,6 +20439,7 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPER(data []byte)
 }
 
 func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -20999,25 +20490,19 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding s1-UL-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21086,13 +20571,15 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent) MarshalAPERTo(bb *per.B
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -21125,6 +20612,7 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPER(data []by
 }
 
 func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -21168,25 +20656,19 @@ func (v *ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *p
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21227,13 +20709,15 @@ func MarshalAPERERABsToBeModifiedSgNBModReqList(list ERABsToBeModifiedSgNBModReq
 // MarshalAPERERABsToBeModifiedSgNBModReqListTo appends a ERABsToBeModifiedSgNBModReqList list to bb.
 func MarshalAPERERABsToBeModifiedSgNBModReqListTo(list ERABsToBeModifiedSgNBModReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeModifiedSgNBModReqListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -21254,25 +20738,19 @@ func UnmarshalAPERERABsToBeModifiedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsT
 }
 
 func unmarshalAPERERABsToBeModifiedSgNBModReqListInto(v *asn1cAPERERABsToBeModifiedSgNBModReqListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeModifiedSgNBModReqList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -21305,13 +20783,15 @@ func (v *ERABsToBeModifiedSgNBModReqItem) MarshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -21344,6 +20824,7 @@ func (v *ERABsToBeModifiedSgNBModReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeModifiedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -21365,25 +20846,19 @@ func (v *ERABsToBeModifiedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21459,13 +20934,15 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent) MarshalAPERTo(bb *per.B
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -21498,6 +20975,7 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPER(data []by
 }
 
 func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -21552,25 +21030,19 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		v.S1ULGTPtunnelEndpoint = &dec_s1ulgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21638,13 +21110,15 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent) MarshalAPERTo(bb *pe
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -21677,6 +21151,7 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPER(data [
 }
 
 func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -21720,25 +21195,19 @@ func (v *ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21779,13 +21248,15 @@ func MarshalAPERERABsToBeReleasedSgNBModReqList(list ERABsToBeReleasedSgNBModReq
 // MarshalAPERERABsToBeReleasedSgNBModReqListTo appends a ERABsToBeReleasedSgNBModReqList list to bb.
 func MarshalAPERERABsToBeReleasedSgNBModReqListTo(list ERABsToBeReleasedSgNBModReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBModReqListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -21806,25 +21277,19 @@ func UnmarshalAPERERABsToBeReleasedSgNBModReqListFrom(bb *per.BitBuffer) (ERABsT
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBModReqListInto(v *asn1cAPERERABsToBeReleasedSgNBModReqListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedSgNBModReqList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -21857,13 +21322,15 @@ func (v *ERABsToBeReleasedSgNBModReqItem) MarshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -21896,6 +21363,7 @@ func (v *ERABsToBeReleasedSgNBModReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBModReqItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -21917,25 +21385,19 @@ func (v *ERABsToBeReleasedSgNBModReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21995,13 +21457,15 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent) MarshalAPERTo(bb *per.B
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -22034,6 +21498,7 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPER(data []by
 }
 
 func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -22066,25 +21531,19 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		v.ULGTPtunnelEndpoint = &dec_ulgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22128,13 +21587,15 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent) MarshalAPERTo(bb *pe
 		return err
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -22167,6 +21628,7 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPER(data [
 }
 
 func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -22177,25 +21639,19 @@ func (v *ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		return err
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22234,13 +21690,15 @@ func (v *SgNBModificationRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) er
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -22272,29 +21730,24 @@ func (v *SgNBModificationRequestAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBModificationRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBModificationRequestAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -22333,13 +21786,15 @@ func MarshalAPERERABsAdmittedToBeAddedSgNBModAckList(list ERABsAdmittedToBeAdded
 // MarshalAPERERABsAdmittedToBeAddedSgNBModAckListTo appends a ERABsAdmittedToBeAddedSgNBModAckList list to bb.
 func MarshalAPERERABsAdmittedToBeAddedSgNBModAckListTo(list ERABsAdmittedToBeAddedSgNBModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeAddedSgNBModAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -22360,25 +21815,19 @@ func UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckListFrom(bb *per.BitBuffer) (E
 }
 
 func unmarshalAPERERABsAdmittedToBeAddedSgNBModAckListInto(v *asn1cAPERERABsAdmittedToBeAddedSgNBModAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeAddedSgNBModAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -22411,13 +21860,15 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItem) MarshalAPERTo(bb *per.BitBuffer) 
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -22450,6 +21901,7 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItem) UnmarshalAPER(data []byte) error 
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBModAckItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -22471,25 +21923,19 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuff
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22584,13 +22030,15 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent) MarshalAPERTo(bb *
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -22623,6 +22071,7 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPER(data
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -22703,25 +22152,19 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFrom(
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22776,13 +22219,15 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent) MarshalAPERTo(b
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -22815,6 +22260,7 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPER(d
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -22839,25 +22285,19 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPERFr
 		v.SecondarySgNBDLGTPTEIDatSCG = &dec_secondarysgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22898,13 +22338,15 @@ func MarshalAPERERABsAdmittedToBeModifiedSgNBModAckList(list ERABsAdmittedToBeMo
 // MarshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo appends a ERABsAdmittedToBeModifiedSgNBModAckList list to bb.
 func MarshalAPERERABsAdmittedToBeModifiedSgNBModAckListTo(list ERABsAdmittedToBeModifiedSgNBModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeModifiedSgNBModAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -22925,25 +22367,19 @@ func UnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERERABsAdmittedToBeModifiedSgNBModAckListInto(v *asn1cAPERERABsAdmittedToBeModifiedSgNBModAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeModifiedSgNBModAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -22976,13 +22412,15 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItem) MarshalAPERTo(bb *per.BitBuffe
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -23015,6 +22453,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItem) UnmarshalAPER(data []byte) err
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModAckItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -23036,25 +22475,19 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitB
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23130,13 +22563,15 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent) MarshalAPERTo(b
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -23169,6 +22604,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPER(d
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -23223,25 +22659,19 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		v.ULConfiguration = &dec_ulconfiguration
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23293,13 +22723,15 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent) MarshalAPERT
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -23332,6 +22764,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -23353,25 +22786,19 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		v.SgNBDLGTPTEIDatSCG = &dec_sgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23412,13 +22839,15 @@ func MarshalAPERERABsAdmittedToBeReleasedSgNBModAckList(list ERABsAdmittedToBeRe
 // MarshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo appends a ERABsAdmittedToBeReleasedSgNBModAckList list to bb.
 func MarshalAPERERABsAdmittedToBeReleasedSgNBModAckListTo(list ERABsAdmittedToBeReleasedSgNBModAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeReleasedSgNBModAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -23439,25 +22868,19 @@ func UnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERERABsAdmittedToBeReleasedSgNBModAckListInto(v *asn1cAPERERABsAdmittedToBeReleasedSgNBModAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeReleasedSgNBModAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -23490,13 +22913,15 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItem) MarshalAPERTo(bb *per.BitBuffer)
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -23529,6 +22954,7 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItem) UnmarshalAPER(data []byte) error
 }
 
 func (v *ERABsAdmittedToReleasedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToReleasedSgNBModAckItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -23550,25 +22976,19 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItem) UnmarshalAPERFrom(bb *per.BitBuf
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23612,13 +23032,15 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent) MarshalAPERTo(b
 		return err
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -23651,6 +23073,7 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPER(d
 }
 
 func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -23661,25 +23084,19 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent) UnmarshalAPERFr
 		return err
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23723,13 +23140,15 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent) MarshalAPERT
 		return err
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -23762,6 +23181,7 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 }
 
 func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -23772,25 +23192,19 @@ func (v *ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent) UnmarshalAPE
 		return err
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23829,13 +23243,15 @@ func (v *SgNBModificationRequestReject) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -23867,29 +23283,24 @@ func (v *SgNBModificationRequestReject) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBModificationRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBModificationRequestReject{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -23926,13 +23337,15 @@ func (v *SgNBModificationRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -23964,29 +23377,24 @@ func (v *SgNBModificationRequired) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBModificationRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBModificationRequired{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -24025,13 +23433,15 @@ func MarshalAPERERABsToBeReleasedSgNBModReqdList(list ERABsToBeReleasedSgNBModRe
 // MarshalAPERERABsToBeReleasedSgNBModReqdListTo appends a ERABsToBeReleasedSgNBModReqdList list to bb.
 func MarshalAPERERABsToBeReleasedSgNBModReqdListTo(list ERABsToBeReleasedSgNBModReqdList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBModReqdListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -24052,25 +23462,19 @@ func UnmarshalAPERERABsToBeReleasedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBModReqdListInto(v *asn1cAPERERABsToBeReleasedSgNBModReqdListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedSgNBModReqdList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -24100,13 +23504,15 @@ func (v *ERABsToBeReleasedSgNBModReqdItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding cause: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -24139,6 +23545,7 @@ func (v *ERABsToBeReleasedSgNBModReqdItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBModReqdItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -24157,25 +23564,19 @@ func (v *ERABsToBeReleasedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding cause: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24216,13 +23617,15 @@ func MarshalAPERERABsToBeModifiedSgNBModReqdList(list ERABsToBeModifiedSgNBModRe
 // MarshalAPERERABsToBeModifiedSgNBModReqdListTo appends a ERABsToBeModifiedSgNBModReqdList list to bb.
 func MarshalAPERERABsToBeModifiedSgNBModReqdListTo(list ERABsToBeModifiedSgNBModReqdList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeModifiedSgNBModReqdListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -24243,25 +23646,19 @@ func UnmarshalAPERERABsToBeModifiedSgNBModReqdListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeModifiedSgNBModReqdListInto(v *asn1cAPERERABsToBeModifiedSgNBModReqdListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeModifiedSgNBModReqdList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -24294,13 +23691,15 @@ func (v *ERABsToBeModifiedSgNBModReqdItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -24333,6 +23732,7 @@ func (v *ERABsToBeModifiedSgNBModReqdItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeModifiedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqdItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -24354,25 +23754,19 @@ func (v *ERABsToBeModifiedSgNBModReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24448,13 +23842,15 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent) MarshalAPERTo(bb *per.
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -24487,6 +23883,7 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent) UnmarshalAPER(data []b
 }
 
 func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -24541,25 +23938,19 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		v.S1DLGTPTEIDatSgNB = &dec_s1dlgtpteidatsgnb
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24619,13 +24010,15 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent) MarshalAPERTo(bb *p
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -24658,6 +24051,7 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent) UnmarshalAPER(data 
 }
 
 func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -24690,25 +24084,19 @@ func (v *ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		v.SecondarySgNBDLGTPTEIDatSCG = &dec_secondarysgnbdlgtpteidatscg
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24747,13 +24135,15 @@ func (v *SgNBModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -24785,29 +24175,24 @@ func (v *SgNBModificationConfirm) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBModificationConfirm{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -24846,13 +24231,15 @@ func MarshalAPERERABsAdmittedToBeModifiedSgNBModConfList(list ERABsAdmittedToBeM
 // MarshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo appends a ERABsAdmittedToBeModifiedSgNBModConfList list to bb.
 func MarshalAPERERABsAdmittedToBeModifiedSgNBModConfListTo(list ERABsAdmittedToBeModifiedSgNBModConfList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeModifiedSgNBModConfListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -24873,25 +24260,19 @@ func UnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListFrom(bb *per.BitBuffer
 }
 
 func unmarshalAPERERABsAdmittedToBeModifiedSgNBModConfListInto(v *asn1cAPERERABsAdmittedToBeModifiedSgNBModConfListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeModifiedSgNBModConfList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -24924,13 +24305,15 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItem) MarshalAPERTo(bb *per.BitBuff
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -24963,6 +24346,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItem) UnmarshalAPER(data []byte) er
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModConfItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -24984,25 +24368,19 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItem) UnmarshalAPERFrom(bb *per.Bit
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25046,13 +24424,15 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent) MarshalAPERTo(
 		return err
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -25085,6 +24465,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent) UnmarshalAPER(
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -25095,25 +24476,19 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent) UnmarshalAPERF
 		return err
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25165,13 +24540,15 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent) MarshalAPER
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -25204,6 +24581,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent) UnmarshalAP
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -25225,25 +24603,19 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent) UnmarshalAP
 		v.SecondaryMeNBULGTPTEIDatPDCP = &dec_secondarymenbulgtpteidatpdcp
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25282,13 +24654,15 @@ func (v *SgNBModificationRefuse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -25320,29 +24694,24 @@ func (v *SgNBModificationRefuse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBModificationRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBModificationRefuse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -25379,13 +24748,15 @@ func (v *SgNBReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -25417,29 +24788,24 @@ func (v *SgNBReleaseRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBReleaseRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -25478,13 +24844,15 @@ func MarshalAPERERABsToBeReleasedSgNBRelReqList(list ERABsToBeReleasedSgNBRelReq
 // MarshalAPERERABsToBeReleasedSgNBRelReqListTo appends a ERABsToBeReleasedSgNBRelReqList list to bb.
 func MarshalAPERERABsToBeReleasedSgNBRelReqListTo(list ERABsToBeReleasedSgNBRelReqList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBRelReqListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -25505,25 +24873,19 @@ func UnmarshalAPERERABsToBeReleasedSgNBRelReqListFrom(bb *per.BitBuffer) (ERABsT
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBRelReqListInto(v *asn1cAPERERABsToBeReleasedSgNBRelReqListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedSgNBRelReqList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -25556,13 +24918,15 @@ func (v *ERABsToBeReleasedSgNBRelReqItem) MarshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -25595,6 +24959,7 @@ func (v *ERABsToBeReleasedSgNBRelReqItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedSgNBRelReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelReqItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -25616,25 +24981,19 @@ func (v *ERABsToBeReleasedSgNBRelReqItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25694,13 +25053,15 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent) MarshalAPERTo(bb *per.B
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -25733,6 +25094,7 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent) UnmarshalAPER(data []by
 }
 
 func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -25765,25 +25127,19 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *p
 		v.DLGTPtunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25827,13 +25183,15 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent) MarshalAPERTo(bb *pe
 		return err
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -25866,6 +25224,7 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent) UnmarshalAPER(data [
 }
 
 func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -25876,25 +25235,19 @@ func (v *ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb
 		return err
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25933,13 +25286,15 @@ func (v *SgNBReleaseRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -25971,29 +25326,24 @@ func (v *SgNBReleaseRequestAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBReleaseRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBReleaseRequestAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -26032,13 +25382,15 @@ func MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckList(list ERABsAdmittedToB
 // MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo appends a ERABsAdmittedToBeReleasedSgNBRelReqAckList list to bb.
 func MarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListTo(list ERABsAdmittedToBeReleasedSgNBRelReqAckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsAdmittedToBeReleasedSgNBRelReqAckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -26059,25 +25411,19 @@ func UnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListFrom(bb *per.BitBuff
 }
 
 func unmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckListInto(v *asn1cAPERERABsAdmittedToBeReleasedSgNBRelReqAckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsAdmittedToBeReleasedSgNBRelReqAckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -26107,13 +25453,15 @@ func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItem) MarshalAPERTo(bb *per.BitBu
 		return fmt.Errorf("encoding rlc-Mode-transferred: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -26146,6 +25494,7 @@ func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItem) UnmarshalAPER(data []byte) 
 }
 
 func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeReleasedSgNBRelReqAckItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -26166,25 +25515,19 @@ func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItem) UnmarshalAPERFrom(bb *per.B
 	}
 	v.RlcModeTransferred = RLCMode(val_rlcmodetransferred)
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26223,13 +25566,15 @@ func (v *SgNBReleaseRequestReject) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -26261,29 +25606,24 @@ func (v *SgNBReleaseRequestReject) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBReleaseRequestReject) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBReleaseRequestReject{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -26320,13 +25660,15 @@ func (v *SgNBReleaseRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -26358,29 +25700,24 @@ func (v *SgNBReleaseRequired) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBReleaseRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBReleaseRequired{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -26419,13 +25756,15 @@ func MarshalAPERERABsToBeReleasedSgNBRelReqdList(list ERABsToBeReleasedSgNBRelRe
 // MarshalAPERERABsToBeReleasedSgNBRelReqdListTo appends a ERABsToBeReleasedSgNBRelReqdList list to bb.
 func MarshalAPERERABsToBeReleasedSgNBRelReqdListTo(list ERABsToBeReleasedSgNBRelReqdList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBRelReqdListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -26446,25 +25785,19 @@ func UnmarshalAPERERABsToBeReleasedSgNBRelReqdListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBRelReqdListInto(v *asn1cAPERERABsToBeReleasedSgNBRelReqdListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedSgNBRelReqdList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -26494,13 +25827,15 @@ func (v *ERABsToBeReleasedSgNBRelReqdItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding rlc-Mode-transferred: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -26533,6 +25868,7 @@ func (v *ERABsToBeReleasedSgNBRelReqdItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedSgNBRelReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelReqdItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -26553,25 +25889,19 @@ func (v *ERABsToBeReleasedSgNBRelReqdItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	}
 	v.RlcModeTransferred = RLCMode(val_rlcmodetransferred)
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26610,13 +25940,15 @@ func (v *SgNBReleaseConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -26648,29 +25980,24 @@ func (v *SgNBReleaseConfirm) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBReleaseConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBReleaseConfirm{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -26709,13 +26036,15 @@ func MarshalAPERERABsToBeReleasedSgNBRelConfList(list ERABsToBeReleasedSgNBRelCo
 // MarshalAPERERABsToBeReleasedSgNBRelConfListTo appends a ERABsToBeReleasedSgNBRelConfList list to bb.
 func MarshalAPERERABsToBeReleasedSgNBRelConfListTo(list ERABsToBeReleasedSgNBRelConfList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBRelConfListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -26736,25 +26065,19 @@ func UnmarshalAPERERABsToBeReleasedSgNBRelConfListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBRelConfListInto(v *asn1cAPERERABsToBeReleasedSgNBRelConfListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedSgNBRelConfList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -26787,13 +26110,15 @@ func (v *ERABsToBeReleasedSgNBRelConfItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -26826,6 +26151,7 @@ func (v *ERABsToBeReleasedSgNBRelConfItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedSgNBRelConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelConfItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -26847,25 +26173,19 @@ func (v *ERABsToBeReleasedSgNBRelConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26925,13 +26245,15 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent) MarshalAPERTo(bb *per.
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -26964,6 +26286,7 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent) UnmarshalAPER(data []b
 }
 
 func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -26996,25 +26319,19 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		v.DLGTPtunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27058,13 +26375,15 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent) MarshalAPERTo(bb *p
 		return err
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -27097,6 +26416,7 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent) UnmarshalAPER(data 
 }
 
 func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -27107,25 +26427,19 @@ func (v *ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		return err
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27164,13 +26478,15 @@ func (v *SgNBCounterCheckRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -27202,29 +26518,24 @@ func (v *SgNBCounterCheckRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBCounterCheckRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBCounterCheckRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27263,13 +26574,15 @@ func MarshalAPERERABsSubjectToSgNBCounterCheckList(list ERABsSubjectToSgNBCounte
 // MarshalAPERERABsSubjectToSgNBCounterCheckListTo appends a ERABsSubjectToSgNBCounterCheckList list to bb.
 func MarshalAPERERABsSubjectToSgNBCounterCheckListTo(list ERABsSubjectToSgNBCounterCheckList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsSubjectToSgNBCounterCheckListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -27290,25 +26603,19 @@ func UnmarshalAPERERABsSubjectToSgNBCounterCheckListFrom(bb *per.BitBuffer) (ERA
 }
 
 func unmarshalAPERERABsSubjectToSgNBCounterCheckListInto(v *asn1cAPERERABsSubjectToSgNBCounterCheckListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsSubjectToSgNBCounterCheckList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -27341,13 +26648,15 @@ func (v *ERABsSubjectToSgNBCounterCheckItem) MarshalAPERTo(bb *per.BitBuffer) er
 		return fmt.Errorf("encoding dL-Count: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -27380,6 +26689,7 @@ func (v *ERABsSubjectToSgNBCounterCheckItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsSubjectToSgNBCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsSubjectToSgNBCounterCheckItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -27405,25 +26715,19 @@ func (v *ERABsSubjectToSgNBCounterCheckItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	}
 	v.DLCount = val_dlcount
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27462,13 +26766,15 @@ func (v *SgNBChangeRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -27500,29 +26806,24 @@ func (v *SgNBChangeRequired) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBChangeRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBChangeRequired{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27559,13 +26860,15 @@ func (v *AccessAndMobilityIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -27597,29 +26900,24 @@ func (v *AccessAndMobilityIndication) UnmarshalAPER(data []byte) error {
 }
 
 func (v *AccessAndMobilityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = AccessAndMobilityIndication{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27656,13 +26954,15 @@ func (v *SgNBChangeConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -27694,29 +26994,24 @@ func (v *SgNBChangeConfirm) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBChangeConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBChangeConfirm{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -27755,13 +27050,15 @@ func MarshalAPERERABsToBeReleasedSgNBChaConfList(list ERABsToBeReleasedSgNBChaCo
 // MarshalAPERERABsToBeReleasedSgNBChaConfListTo appends a ERABsToBeReleasedSgNBChaConfList list to bb.
 func MarshalAPERERABsToBeReleasedSgNBChaConfListTo(list ERABsToBeReleasedSgNBChaConfList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsToBeReleasedSgNBChaConfListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -27782,25 +27079,19 @@ func UnmarshalAPERERABsToBeReleasedSgNBChaConfListFrom(bb *per.BitBuffer) (ERABs
 }
 
 func unmarshalAPERERABsToBeReleasedSgNBChaConfListInto(v *asn1cAPERERABsToBeReleasedSgNBChaConfListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsToBeReleasedSgNBChaConfList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -27833,13 +27124,15 @@ func (v *ERABsToBeReleasedSgNBChaConfItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		return fmt.Errorf("encoding resource-configuration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -27872,6 +27165,7 @@ func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBChaConfItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -27893,25 +27187,19 @@ func (v *ERABsToBeReleasedSgNBChaConfItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return fmt.Errorf("decoding resource-configuration: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27971,13 +27259,15 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) MarshalAPERTo(bb *per.
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -28010,6 +27300,7 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) UnmarshalAPER(data []b
 }
 
 func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -28042,25 +27333,19 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent) UnmarshalAPERFrom(bb *
 		v.DLGTPtunnelEndpoint = &dec_dlgtptunnelendpoint
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28104,13 +27389,15 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent) MarshalAPERTo(bb *p
 		return err
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -28143,6 +27430,7 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent) UnmarshalAPER(data 
 }
 
 func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -28153,25 +27441,19 @@ func (v *ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent) UnmarshalAPERFrom(b
 		return err
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28210,13 +27492,15 @@ func (v *RRCTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -28248,29 +27532,24 @@ func (v *RRCTransfer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RRCTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RRCTransfer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -28307,13 +27586,15 @@ func (v *SgNBChangeRefuse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -28345,29 +27626,24 @@ func (v *SgNBChangeRefuse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBChangeRefuse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBChangeRefuse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -28404,13 +27680,15 @@ func (v *ENDCX2SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -28442,29 +27720,24 @@ func (v *ENDCX2SetupRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCX2SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCX2SetupRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -28509,22 +27782,26 @@ func (v *InitiatingNodeTypeEndcX2Setup) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case InitiatingNodeTypeEndcX2SetupChoiceInitENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding init-eNB length: %w", err)
-		}
-		for _, elem := range v.InitENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding init-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
+			for _, elem := range v.InitENB[fragmentOffset_initenb : fragmentOffset_initenb+fragmentLength_initenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding init-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding init-eNB: %w", err)
 		}
 	case InitiatingNodeTypeEndcX2SetupChoiceInitEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding init-en-gNB length: %w", err)
-		}
-		for _, elem := range v.InitEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding init-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
+			for _, elem := range v.InitEnGNB[fragmentOffset_initengnb : fragmentOffset_initengnb+fragmentLength_initengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding init-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding init-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown InitiatingNodeTypeEndcX2Setup choice %d", v.Choice)
@@ -28539,6 +27816,7 @@ func (v *InitiatingNodeTypeEndcX2Setup) UnmarshalAPER(data []byte) error {
 }
 
 func (v *InitiatingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = InitiatingNodeTypeEndcX2Setup{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -28557,47 +27835,35 @@ func (v *InitiatingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEndcX2SetupChoiceInitENB:
-		var seqLen_initenb int64
-		var errLength_initenb error
-		seqLen_initenb, errLength_initenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initenb != nil {
-			return fmt.Errorf("decoding init-eNB length: %w", errLength_initenb)
-		}
-		if seqLen_initenb < 0 {
-			return fmt.Errorf("decoding init-eNB length %d below lower bound 0", seqLen_initenb)
-		}
-		if seqLen_initenb > 65535 {
-			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
-		}
 		tmp_initenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-eNB element %d: %w", i, err)
+		_, errCollection_initenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
+			for i := int64(0); i < fragmentLength_initenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding init-eNB element %d: %w", fragmentOffset_initenb+i, err)
+				}
+				tmp_initenb = append(tmp_initenb, elem)
 			}
-			tmp_initenb = append(tmp_initenb, elem)
+			return nil
+		})
+		if errCollection_initenb != nil {
+			return fmt.Errorf("decoding init-eNB: %w", errCollection_initenb)
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcX2SetupChoiceInitEnGNB:
-		var seqLen_initengnb int64
-		var errLength_initengnb error
-		seqLen_initengnb, errLength_initengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initengnb != nil {
-			return fmt.Errorf("decoding init-en-gNB length: %w", errLength_initengnb)
-		}
-		if seqLen_initengnb < 0 {
-			return fmt.Errorf("decoding init-en-gNB length %d below lower bound 0", seqLen_initengnb)
-		}
-		if seqLen_initengnb > 65535 {
-			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
-		}
 		tmp_initengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-en-gNB element %d: %w", i, err)
+		_, errCollection_initengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
+			for i := int64(0); i < fragmentLength_initengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding init-en-gNB element %d: %w", fragmentOffset_initengnb+i, err)
+				}
+				tmp_initengnb = append(tmp_initengnb, elem)
 			}
-			tmp_initengnb = append(tmp_initengnb, elem)
+			return nil
+		})
+		if errCollection_initengnb != nil {
+			return fmt.Errorf("decoding init-en-gNB: %w", errCollection_initengnb)
 		}
 		v.InitEnGNB = tmp_initengnb
 	}
@@ -28620,13 +27886,15 @@ func MarshalAPERServedEUTRAcellsENDCX2ManagementList(list ServedEUTRAcellsENDCX2
 // MarshalAPERServedEUTRAcellsENDCX2ManagementListTo appends a ServedEUTRAcellsENDCX2ManagementList list to bb.
 func MarshalAPERServedEUTRAcellsENDCX2ManagementListTo(list ServedEUTRAcellsENDCX2ManagementList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedEUTRAcellsENDCX2ManagementListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -28647,25 +27915,19 @@ func UnmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (S
 }
 
 func unmarshalAPERServedEUTRAcellsENDCX2ManagementListInto(v *asn1cAPERServedEUTRAcellsENDCX2ManagementListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ServedEUTRAcellsENDCX2ManagementList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ServedEUTRAcellsENDCX2ManagementListElem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ServedEUTRAcellsENDCX2ManagementListElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -28686,13 +27948,15 @@ func MarshalAPERServedNRcellsENDCX2ManagementList(list ServedNRcellsENDCX2Manage
 // MarshalAPERServedNRcellsENDCX2ManagementListTo appends a ServedNRcellsENDCX2ManagementList list to bb.
 func MarshalAPERServedNRcellsENDCX2ManagementListTo(list ServedNRcellsENDCX2ManagementList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRcellsENDCX2ManagementListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -28713,25 +27977,19 @@ func UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb *per.BitBuffer) (Serv
 }
 
 func unmarshalAPERServedNRcellsENDCX2ManagementListInto(v *asn1cAPERServedNRcellsENDCX2ManagementListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(ServedNRcellsENDCX2ManagementList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ServedNRcellsENDCX2ManagementListElem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ServedNRcellsENDCX2ManagementListElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -28776,13 +28034,15 @@ func (v *ServedNRCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("encoding configured-TAC: %w", err)
 		}
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.BroadcastPLMNs)), 1, 6); err != nil {
-		return fmt.Errorf("encoding broadcastPLMNs length: %w", err)
-	}
-	for _, elem := range v.BroadcastPLMNs {
-		if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
-			return fmt.Errorf("encoding broadcastPLMNs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.BroadcastPLMNs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_broadcastplmns, fragmentLength_broadcastplmns int64) error {
+		for _, elem := range v.BroadcastPLMNs[fragmentOffset_broadcastplmns : fragmentOffset_broadcastplmns+fragmentLength_broadcastplmns] {
+			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
+				return fmt.Errorf("encoding broadcastPLMNs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding broadcastPLMNs: %w", err)
 	}
 	if err := v.NrModeInfo.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding nrModeInfo: %w", err)
@@ -28791,13 +28051,15 @@ func (v *ServedNRCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding measurementTimingConfiguration: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -28830,6 +28092,7 @@ func (v *ServedNRCellInformation) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedNRCellInformation{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -28871,25 +28134,19 @@ func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		tmp_configuredtac := TAC(val_configuredtac)
 		v.ConfiguredTAC = &tmp_configuredtac
 	}
-	var seqLen_broadcastplmns int64
-	var errLength_broadcastplmns error
-	seqLen_broadcastplmns, errLength_broadcastplmns = per.DecodeConstrainedWholeNumberAligned(bb, 1, 6)
-	if errLength_broadcastplmns != nil {
-		return fmt.Errorf("decoding broadcastPLMNs length: %w", errLength_broadcastplmns)
-	}
-	if seqLen_broadcastplmns < 1 {
-		return fmt.Errorf("decoding broadcastPLMNs length %d below lower bound 1", seqLen_broadcastplmns)
-	}
-	if seqLen_broadcastplmns > 6 {
-		return fmt.Errorf("decoding broadcastPLMNs length %d above upper bound 6", seqLen_broadcastplmns)
-	}
 	v.BroadcastPLMNs = make(BroadcastPLMNsItem, 0)
-	for i := int64(0); i < seqLen_broadcastplmns; i++ {
-		val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
-		if err != nil {
-			return fmt.Errorf("decoding broadcastPLMNs element: %w", err)
+	_, errCollection_broadcastplmns := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_broadcastplmns, fragmentLength_broadcastplmns int64) error {
+		for i := int64(0); i < fragmentLength_broadcastplmns; i++ {
+			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+			if err != nil {
+				return fmt.Errorf("decoding broadcastPLMNs element %d: %w", fragmentOffset_broadcastplmns+i, err)
+			}
+			v.BroadcastPLMNs = append(v.BroadcastPLMNs, val)
 		}
-		v.BroadcastPLMNs = append(v.BroadcastPLMNs, val)
+		return nil
+	})
+	if errCollection_broadcastplmns != nil {
+		return fmt.Errorf("decoding broadcastPLMNs: %w", errCollection_broadcastplmns)
 	}
 	if err := v.NrModeInfo.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding nrModeInfo: %w", err)
@@ -28900,25 +28157,19 @@ func (v *ServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.MeasurementTimingConfiguration = val_measurementtimingconfiguration
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28974,13 +28225,15 @@ func (v *FDDInfoServedNRCellInformation) MarshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding dl-NR-TxBW: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -29013,6 +28266,7 @@ func (v *FDDInfoServedNRCellInformation) UnmarshalAPER(data []byte) error {
 }
 
 func (v *FDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = FDDInfoServedNRCellInformation{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -29035,25 +28289,19 @@ func (v *FDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		return fmt.Errorf("decoding dl-NR-TxBW: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29103,13 +28351,15 @@ func (v *TDDInfoServedNRCellInformation) MarshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding nR-TxBW: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -29142,6 +28392,7 @@ func (v *TDDInfoServedNRCellInformation) UnmarshalAPER(data []byte) error {
 }
 
 func (v *TDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = TDDInfoServedNRCellInformation{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -29158,25 +28409,19 @@ func (v *TDDInfoServedNRCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		return fmt.Errorf("decoding nR-TxBW: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29236,13 +28481,15 @@ func (v *CellandCapacityAssistInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -29275,6 +28522,7 @@ func (v *CellandCapacityAssistInfo) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellandCapacityAssistInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellandCapacityAssistInfo{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -29307,25 +28555,19 @@ func (v *CellandCapacityAssistInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.CellAssistanceInformation = &dec_cellassistanceinformation
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29372,13 +28614,15 @@ func (v *CellAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case CellAssistanceInformationChoiceLimitedList:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.LimitedList)), 1, 16384); err != nil {
-			return fmt.Errorf("encoding limited-list length: %w", err)
-		}
-		for _, elem := range v.LimitedList {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding limited-list element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.LimitedList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_limitedlist, fragmentLength_limitedlist int64) error {
+			for _, elem := range v.LimitedList[fragmentOffset_limitedlist : fragmentOffset_limitedlist+fragmentLength_limitedlist] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding limited-list element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding limited-list: %w", err)
 		}
 	case CellAssistanceInformationChoiceFullList:
 		if v.FullList == nil {
@@ -29400,6 +28644,7 @@ func (v *CellAssistanceInformation) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellAssistanceInformation{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -29418,25 +28663,19 @@ func (v *CellAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case CellAssistanceInformationChoiceLimitedList:
-		var seqLen_limitedlist int64
-		var errLength_limitedlist error
-		seqLen_limitedlist, errLength_limitedlist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-		if errLength_limitedlist != nil {
-			return fmt.Errorf("decoding limited-list length: %w", errLength_limitedlist)
-		}
-		if seqLen_limitedlist < 1 {
-			return fmt.Errorf("decoding limited-list length %d below lower bound 1", seqLen_limitedlist)
-		}
-		if seqLen_limitedlist > 16384 {
-			return fmt.Errorf("decoding limited-list length %d above upper bound 16384", seqLen_limitedlist)
-		}
 		tmp_limitedlist := make(LimitedList, 0)
-		for i := int64(0); i < seqLen_limitedlist; i++ {
-			var elem LimitedListElem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding limited-list element %d: %w", i, err)
+		_, errCollection_limitedlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_limitedlist, fragmentLength_limitedlist int64) error {
+			for i := int64(0); i < fragmentLength_limitedlist; i++ {
+				var elem LimitedListElem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding limited-list element %d: %w", fragmentOffset_limitedlist+i, err)
+				}
+				tmp_limitedlist = append(tmp_limitedlist, elem)
 			}
-			tmp_limitedlist = append(tmp_limitedlist, elem)
+			return nil
+		})
+		if errCollection_limitedlist != nil {
+			return fmt.Errorf("decoding limited-list: %w", errCollection_limitedlist)
 		}
 		v.LimitedList = tmp_limitedlist
 	case CellAssistanceInformationChoiceFullList:
@@ -29463,13 +28702,15 @@ func MarshalAPERLimitedList(list LimitedList) ([]byte, error) {
 // MarshalAPERLimitedListTo appends a LimitedList list to bb.
 func MarshalAPERLimitedListTo(list LimitedList, bb *per.BitBuffer) error {
 	v := asn1cAPERLimitedListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -29490,25 +28731,19 @@ func UnmarshalAPERLimitedListFrom(bb *per.BitBuffer) (LimitedList, error) {
 }
 
 func unmarshalAPERLimitedListInto(v *asn1cAPERLimitedListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(LimitedList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem LimitedListElem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem LimitedListElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -29527,13 +28762,15 @@ func (v *ENDCX2SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -29565,29 +28802,24 @@ func (v *ENDCX2SetupResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCX2SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCX2SetupResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -29632,22 +28864,26 @@ func (v *RespondingNodeTypeEndcX2Setup) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case RespondingNodeTypeEndcX2SetupChoiceRespondENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-eNB length: %w", err)
-		}
-		for _, elem := range v.RespondENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for _, elem := range v.RespondENB[fragmentOffset_respondenb : fragmentOffset_respondenb+fragmentLength_respondenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-eNB: %w", err)
 		}
 	case RespondingNodeTypeEndcX2SetupChoiceRespondEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-en-gNB length: %w", err)
-		}
-		for _, elem := range v.RespondEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for _, elem := range v.RespondEnGNB[fragmentOffset_respondengnb : fragmentOffset_respondengnb+fragmentLength_respondengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown RespondingNodeTypeEndcX2Setup choice %d", v.Choice)
@@ -29662,6 +28898,7 @@ func (v *RespondingNodeTypeEndcX2Setup) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RespondingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RespondingNodeTypeEndcX2Setup{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -29680,47 +28917,35 @@ func (v *RespondingNodeTypeEndcX2Setup) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEndcX2SetupChoiceRespondENB:
-		var seqLen_respondenb int64
-		var errLength_respondenb error
-		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondenb != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
-		}
-		if seqLen_respondenb < 0 {
-			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
-		}
-		if seqLen_respondenb > 65535 {
-			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
-		}
 		tmp_respondenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
+		_, errCollection_respondenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for i := int64(0); i < fragmentLength_respondenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-eNB element %d: %w", fragmentOffset_respondenb+i, err)
+				}
+				tmp_respondenb = append(tmp_respondenb, elem)
 			}
-			tmp_respondenb = append(tmp_respondenb, elem)
+			return nil
+		})
+		if errCollection_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB: %w", errCollection_respondenb)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcX2SetupChoiceRespondEnGNB:
-		var seqLen_respondengnb int64
-		var errLength_respondengnb error
-		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondengnb != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
-		}
-		if seqLen_respondengnb < 0 {
-			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
-		}
-		if seqLen_respondengnb > 65535 {
-			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
-		}
 		tmp_respondengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
+		_, errCollection_respondengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for i := int64(0); i < fragmentLength_respondengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-en-gNB element %d: %w", fragmentOffset_respondengnb+i, err)
+				}
+				tmp_respondengnb = append(tmp_respondengnb, elem)
 			}
-			tmp_respondengnb = append(tmp_respondengnb, elem)
+			return nil
+		})
+		if errCollection_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB: %w", errCollection_respondengnb)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -29741,13 +28966,15 @@ func (v *ENDCX2SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -29779,29 +29006,24 @@ func (v *ENDCX2SetupFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCX2SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCX2SetupFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -29838,13 +29060,15 @@ func (v *ENDCConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -29876,29 +29100,24 @@ func (v *ENDCConfigurationUpdate) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCConfigurationUpdate{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -29943,22 +29162,26 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) MarshalAPERTo(bb *per.BitBuffer) er
 	}
 	switch v.Choice {
 	case InitiatingNodeTypeEndcConfigUpdateChoiceInitENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding init-eNB length: %w", err)
-		}
-		for _, elem := range v.InitENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding init-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
+			for _, elem := range v.InitENB[fragmentOffset_initenb : fragmentOffset_initenb+fragmentLength_initenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding init-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding init-eNB: %w", err)
 		}
 	case InitiatingNodeTypeEndcConfigUpdateChoiceInitEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding init-en-gNB length: %w", err)
-		}
-		for _, elem := range v.InitEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding init-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
+			for _, elem := range v.InitEnGNB[fragmentOffset_initengnb : fragmentOffset_initengnb+fragmentLength_initengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding init-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding init-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown InitiatingNodeTypeEndcConfigUpdate choice %d", v.Choice)
@@ -29973,6 +29196,7 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) UnmarshalAPER(data []byte) error {
 }
 
 func (v *InitiatingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = InitiatingNodeTypeEndcConfigUpdate{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -29991,47 +29215,35 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEndcConfigUpdateChoiceInitENB:
-		var seqLen_initenb int64
-		var errLength_initenb error
-		seqLen_initenb, errLength_initenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initenb != nil {
-			return fmt.Errorf("decoding init-eNB length: %w", errLength_initenb)
-		}
-		if seqLen_initenb < 0 {
-			return fmt.Errorf("decoding init-eNB length %d below lower bound 0", seqLen_initenb)
-		}
-		if seqLen_initenb > 65535 {
-			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
-		}
 		tmp_initenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-eNB element %d: %w", i, err)
+		_, errCollection_initenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
+			for i := int64(0); i < fragmentLength_initenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding init-eNB element %d: %w", fragmentOffset_initenb+i, err)
+				}
+				tmp_initenb = append(tmp_initenb, elem)
 			}
-			tmp_initenb = append(tmp_initenb, elem)
+			return nil
+		})
+		if errCollection_initenb != nil {
+			return fmt.Errorf("decoding init-eNB: %w", errCollection_initenb)
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcConfigUpdateChoiceInitEnGNB:
-		var seqLen_initengnb int64
-		var errLength_initengnb error
-		seqLen_initengnb, errLength_initengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initengnb != nil {
-			return fmt.Errorf("decoding init-en-gNB length: %w", errLength_initengnb)
-		}
-		if seqLen_initengnb < 0 {
-			return fmt.Errorf("decoding init-en-gNB length %d below lower bound 0", seqLen_initengnb)
-		}
-		if seqLen_initengnb > 65535 {
-			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
-		}
 		tmp_initengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-en-gNB element %d: %w", i, err)
+		_, errCollection_initengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
+			for i := int64(0); i < fragmentLength_initengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding init-en-gNB element %d: %w", fragmentOffset_initengnb+i, err)
+				}
+				tmp_initengnb = append(tmp_initengnb, elem)
 			}
-			tmp_initengnb = append(tmp_initengnb, elem)
+			return nil
+		})
+		if errCollection_initengnb != nil {
+			return fmt.Errorf("decoding init-en-gNB: %w", errCollection_initengnb)
 		}
 		v.InitEnGNB = tmp_initengnb
 	}
@@ -30054,13 +29266,15 @@ func MarshalAPERServedEUTRAcellsToModifyListENDCConfUpd(list ServedEUTRAcellsToM
 // MarshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo appends a ServedEUTRAcellsToModifyListENDCConfUpd list to bb.
 func MarshalAPERServedEUTRAcellsToModifyListENDCConfUpdTo(list ServedEUTRAcellsToModifyListENDCConfUpd, bb *per.BitBuffer) error {
 	v := asn1cAPERServedEUTRAcellsToModifyListENDCConfUpdListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -30081,25 +29295,19 @@ func UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdInto(v *asn1cAPERServedEUTRAcellsToModifyListENDCConfUpdListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ServedEUTRAcellsToModifyListENDCConfUpd, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ServedEUTRAcellsToModifyListENDCConfUpdElem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ServedEUTRAcellsToModifyListENDCConfUpdElem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -30120,13 +29328,15 @@ func MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd(list ServedEUTRAcellsToD
 // MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo appends a ServedEUTRAcellsToDeleteListENDCConfUpd list to bb.
 func MarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdTo(list ServedEUTRAcellsToDeleteListENDCConfUpd, bb *per.BitBuffer) error {
 	v := asn1cAPERServedEUTRAcellsToDeleteListENDCConfUpdListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -30147,25 +29357,19 @@ func UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdInto(v *asn1cAPERServedEUTRAcellsToDeleteListENDCConfUpdListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ServedEUTRAcellsToDeleteListENDCConfUpd, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ECGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ECGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -30186,13 +29390,15 @@ func MarshalAPERServedNRcellsToModifyENDCConfUpdList(list ServedNRcellsToModifyE
 // MarshalAPERServedNRcellsToModifyENDCConfUpdListTo appends a ServedNRcellsToModifyENDCConfUpdList list to bb.
 func MarshalAPERServedNRcellsToModifyENDCConfUpdListTo(list ServedNRcellsToModifyENDCConfUpdList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRcellsToModifyENDCConfUpdListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -30213,25 +29419,19 @@ func UnmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb *per.BitBuffer) (S
 }
 
 func unmarshalAPERServedNRcellsToModifyENDCConfUpdListInto(v *asn1cAPERServedNRcellsToModifyENDCConfUpdListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(ServedNRcellsToModifyENDCConfUpdList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ServedNRCellsToModifyItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ServedNRCellsToModifyItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -30267,13 +29467,15 @@ func (v *ServedNRCellsToModifyItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding servedNRCellInformation: %w", err)
 	}
 	if v.NrNeighbourInformation != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.NrNeighbourInformation)), 1, 1024); err != nil {
-			return fmt.Errorf("encoding nrNeighbourInformation length: %w", err)
-		}
-		for _, elem := range v.NrNeighbourInformation {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding nrNeighbourInformation element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.NrNeighbourInformation)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinformation, fragmentLength_nrneighbourinformation int64) error {
+			for _, elem := range v.NrNeighbourInformation[fragmentOffset_nrneighbourinformation : fragmentOffset_nrneighbourinformation+fragmentLength_nrneighbourinformation] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding nrNeighbourInformation element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding nrNeighbourInformation: %w", err)
 		}
 	}
 	if v.NrDeactivationIndication != nil {
@@ -30282,13 +29484,15 @@ func (v *ServedNRCellsToModifyItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -30321,6 +29525,7 @@ func (v *ServedNRCellsToModifyItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ServedNRCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedNRCellsToModifyItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -30345,25 +29550,19 @@ func (v *ServedNRCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding servedNRCellInformation: %w", err)
 	}
 	if opt_nrneighbourinformation {
-		var seqLen_nrneighbourinformation int64
-		var errLength_nrneighbourinformation error
-		seqLen_nrneighbourinformation, errLength_nrneighbourinformation = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if errLength_nrneighbourinformation != nil {
-			return fmt.Errorf("decoding nrNeighbourInformation length: %w", errLength_nrneighbourinformation)
-		}
-		if seqLen_nrneighbourinformation < 1 {
-			return fmt.Errorf("decoding nrNeighbourInformation length %d below lower bound 1", seqLen_nrneighbourinformation)
-		}
-		if seqLen_nrneighbourinformation > 1024 {
-			return fmt.Errorf("decoding nrNeighbourInformation length %d above upper bound 1024", seqLen_nrneighbourinformation)
-		}
 		tmp_nrneighbourinformation := make(NRNeighbourInformation, 0)
-		for i := int64(0); i < seqLen_nrneighbourinformation; i++ {
-			var elem NRNeighbourInformationElem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nrNeighbourInformation element %d: %w", i, err)
+		_, errCollection_nrneighbourinformation := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinformation, fragmentLength_nrneighbourinformation int64) error {
+			for i := int64(0); i < fragmentLength_nrneighbourinformation; i++ {
+				var elem NRNeighbourInformationElem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding nrNeighbourInformation element %d: %w", fragmentOffset_nrneighbourinformation+i, err)
+				}
+				tmp_nrneighbourinformation = append(tmp_nrneighbourinformation, elem)
 			}
-			tmp_nrneighbourinformation = append(tmp_nrneighbourinformation, elem)
+			return nil
+		})
+		if errCollection_nrneighbourinformation != nil {
+			return fmt.Errorf("decoding nrNeighbourInformation: %w", errCollection_nrneighbourinformation)
 		}
 		v.NrNeighbourInformation = tmp_nrneighbourinformation
 	}
@@ -30376,25 +29575,19 @@ func (v *ServedNRCellsToModifyItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		v.NrDeactivationIndication = &tmp_nrdeactivationindication
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30435,13 +29628,15 @@ func MarshalAPERServedNRcellsToDeleteENDCConfUpdList(list ServedNRcellsToDeleteE
 // MarshalAPERServedNRcellsToDeleteENDCConfUpdListTo appends a ServedNRcellsToDeleteENDCConfUpdList list to bb.
 func MarshalAPERServedNRcellsToDeleteENDCConfUpdListTo(list ServedNRcellsToDeleteENDCConfUpdList, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRcellsToDeleteENDCConfUpdListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -30462,25 +29657,19 @@ func UnmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb *per.BitBuffer) (S
 }
 
 func unmarshalAPERServedNRcellsToDeleteENDCConfUpdListInto(v *asn1cAPERServedNRcellsToDeleteENDCConfUpdListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(ServedNRcellsToDeleteENDCConfUpdList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem NRCGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem NRCGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -30499,13 +29688,15 @@ func (v *ENDCConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) er
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -30537,29 +29728,24 @@ func (v *ENDCConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCConfigurationUpdateAcknowledge{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30604,22 +29790,26 @@ func (v *RespondingNodeTypeEndcConfigUpdate) MarshalAPERTo(bb *per.BitBuffer) er
 	}
 	switch v.Choice {
 	case RespondingNodeTypeEndcConfigUpdateChoiceRespondENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-eNB length: %w", err)
-		}
-		for _, elem := range v.RespondENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for _, elem := range v.RespondENB[fragmentOffset_respondenb : fragmentOffset_respondenb+fragmentLength_respondenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-eNB: %w", err)
 		}
 	case RespondingNodeTypeEndcConfigUpdateChoiceRespondEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-en-gNB length: %w", err)
-		}
-		for _, elem := range v.RespondEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for _, elem := range v.RespondEnGNB[fragmentOffset_respondengnb : fragmentOffset_respondengnb+fragmentLength_respondengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown RespondingNodeTypeEndcConfigUpdate choice %d", v.Choice)
@@ -30634,6 +29824,7 @@ func (v *RespondingNodeTypeEndcConfigUpdate) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RespondingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RespondingNodeTypeEndcConfigUpdate{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -30652,47 +29843,35 @@ func (v *RespondingNodeTypeEndcConfigUpdate) UnmarshalAPERFrom(bb *per.BitBuffer
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEndcConfigUpdateChoiceRespondENB:
-		var seqLen_respondenb int64
-		var errLength_respondenb error
-		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondenb != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
-		}
-		if seqLen_respondenb < 0 {
-			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
-		}
-		if seqLen_respondenb > 65535 {
-			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
-		}
 		tmp_respondenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
+		_, errCollection_respondenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for i := int64(0); i < fragmentLength_respondenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-eNB element %d: %w", fragmentOffset_respondenb+i, err)
+				}
+				tmp_respondenb = append(tmp_respondenb, elem)
 			}
-			tmp_respondenb = append(tmp_respondenb, elem)
+			return nil
+		})
+		if errCollection_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB: %w", errCollection_respondenb)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcConfigUpdateChoiceRespondEnGNB:
-		var seqLen_respondengnb int64
-		var errLength_respondengnb error
-		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondengnb != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
-		}
-		if seqLen_respondengnb < 0 {
-			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
-		}
-		if seqLen_respondengnb > 65535 {
-			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
-		}
 		tmp_respondengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
+		_, errCollection_respondengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for i := int64(0); i < fragmentLength_respondengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-en-gNB element %d: %w", fragmentOffset_respondengnb+i, err)
+				}
+				tmp_respondengnb = append(tmp_respondengnb, elem)
 			}
-			tmp_respondengnb = append(tmp_respondengnb, elem)
+			return nil
+		})
+		if errCollection_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB: %w", errCollection_respondengnb)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -30713,13 +29892,15 @@ func (v *ENDCConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error 
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -30751,29 +29932,24 @@ func (v *ENDCConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCConfigurationUpdateFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30810,13 +29986,15 @@ func (v *ENDCCellActivationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -30848,29 +30026,24 @@ func (v *ENDCCellActivationRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCCellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCCellActivationRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -30907,13 +30080,15 @@ func MarshalAPERServedNRCellsToActivate(list ServedNRCellsToActivate) ([]byte, e
 // MarshalAPERServedNRCellsToActivateTo appends a ServedNRCellsToActivate list to bb.
 func MarshalAPERServedNRCellsToActivateTo(list ServedNRCellsToActivate, bb *per.BitBuffer) error {
 	v := asn1cAPERServedNRCellsToActivateListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -30934,25 +30109,19 @@ func UnmarshalAPERServedNRCellsToActivateFrom(bb *per.BitBuffer) (ServedNRCellsT
 }
 
 func unmarshalAPERServedNRCellsToActivateInto(v *asn1cAPERServedNRCellsToActivateListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(ServedNRCellsToActivate, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ServedNRCellsToActivateItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ServedNRCellsToActivateItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -30979,13 +30148,15 @@ func (v *ServedNRCellsToActivateItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nrCellID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -31018,6 +30189,7 @@ func (v *ServedNRCellsToActivateItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ServedNRCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedNRCellsToActivateItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -31031,25 +30203,19 @@ func (v *ServedNRCellsToActivateItem) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		return fmt.Errorf("decoding nrCellID: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31088,13 +30254,15 @@ func (v *ENDCCellActivationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -31126,29 +30294,24 @@ func (v *ENDCCellActivationResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCCellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCCellActivationResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -31185,13 +30348,15 @@ func MarshalAPERActivatedNRCellList(list ActivatedNRCellList) ([]byte, error) {
 // MarshalAPERActivatedNRCellListTo appends a ActivatedNRCellList list to bb.
 func MarshalAPERActivatedNRCellListTo(list ActivatedNRCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERActivatedNRCellListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -31212,25 +30377,19 @@ func UnmarshalAPERActivatedNRCellListFrom(bb *per.BitBuffer) (ActivatedNRCellLis
 }
 
 func unmarshalAPERActivatedNRCellListInto(v *asn1cAPERActivatedNRCellListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(ActivatedNRCellList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ActivatedNRCellListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ActivatedNRCellListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -31257,13 +30416,15 @@ func (v *ActivatedNRCellListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nrCellID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -31296,6 +30457,7 @@ func (v *ActivatedNRCellListItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ActivatedNRCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ActivatedNRCellListItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -31309,25 +30471,19 @@ func (v *ActivatedNRCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding nrCellID: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31366,13 +30522,15 @@ func (v *ENDCCellActivationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -31404,29 +30562,24 @@ func (v *ENDCCellActivationFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCCellActivationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCCellActivationFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -31463,13 +30616,15 @@ func (v *ENDCResourceStatusRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -31501,29 +30656,24 @@ func (v *ENDCResourceStatusRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCResourceStatusRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCResourceStatusRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -31560,13 +30710,15 @@ func MarshalAPERCellToReportNRENDCList(list CellToReportNRENDCList) ([]byte, err
 // MarshalAPERCellToReportNRENDCListTo appends a CellToReportNRENDCList list to bb.
 func MarshalAPERCellToReportNRENDCListTo(list CellToReportNRENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellToReportNRENDCListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -31587,25 +30739,19 @@ func UnmarshalAPERCellToReportNRENDCListFrom(bb *per.BitBuffer) (CellToReportNRE
 }
 
 func unmarshalAPERCellToReportNRENDCListInto(v *asn1cAPERCellToReportNRENDCListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(CellToReportNRENDCList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -31635,23 +30781,27 @@ func (v *CellToReportNRENDCItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nr-cell-ID: %w", err)
 	}
 	if v.SsbToReportList != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.SsbToReportList)), 1, 64); err != nil {
-			return fmt.Errorf("encoding ssbToReport-List length: %w", err)
-		}
-		for _, elem := range v.SsbToReportList {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding ssbToReport-List element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.SsbToReportList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_ssbtoreportlist, fragmentLength_ssbtoreportlist int64) error {
+			for _, elem := range v.SsbToReportList[fragmentOffset_ssbtoreportlist : fragmentOffset_ssbtoreportlist+fragmentLength_ssbtoreportlist] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding ssbToReport-List element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding ssbToReport-List: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -31684,6 +30834,7 @@ func (v *CellToReportNRENDCItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellToReportNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellToReportNRENDCItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -31701,48 +30852,36 @@ func (v *CellToReportNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding nr-cell-ID: %w", err)
 	}
 	if opt_ssbtoreportlist {
-		var seqLen_ssbtoreportlist int64
-		var errLength_ssbtoreportlist error
-		seqLen_ssbtoreportlist, errLength_ssbtoreportlist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
-		if errLength_ssbtoreportlist != nil {
-			return fmt.Errorf("decoding ssbToReport-List length: %w", errLength_ssbtoreportlist)
-		}
-		if seqLen_ssbtoreportlist < 1 {
-			return fmt.Errorf("decoding ssbToReport-List length %d below lower bound 1", seqLen_ssbtoreportlist)
-		}
-		if seqLen_ssbtoreportlist > 64 {
-			return fmt.Errorf("decoding ssbToReport-List length %d above upper bound 64", seqLen_ssbtoreportlist)
-		}
 		tmp_ssbtoreportlist := make(SSBToReportList, 0)
-		for i := int64(0); i < seqLen_ssbtoreportlist; i++ {
-			var elem SSBToReportItem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding ssbToReport-List element %d: %w", i, err)
+		_, errCollection_ssbtoreportlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_ssbtoreportlist, fragmentLength_ssbtoreportlist int64) error {
+			for i := int64(0); i < fragmentLength_ssbtoreportlist; i++ {
+				var elem SSBToReportItem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding ssbToReport-List element %d: %w", fragmentOffset_ssbtoreportlist+i, err)
+				}
+				tmp_ssbtoreportlist = append(tmp_ssbtoreportlist, elem)
 			}
-			tmp_ssbtoreportlist = append(tmp_ssbtoreportlist, elem)
+			return nil
+		})
+		if errCollection_ssbtoreportlist != nil {
+			return fmt.Errorf("decoding ssbToReport-List: %w", errCollection_ssbtoreportlist)
 		}
 		v.SsbToReportList = tmp_ssbtoreportlist
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31781,13 +30920,15 @@ func MarshalAPERCellToReportEUTRAENDCList(list CellToReportEUTRAENDCList) ([]byt
 // MarshalAPERCellToReportEUTRAENDCListTo appends a CellToReportEUTRAENDCList list to bb.
 func MarshalAPERCellToReportEUTRAENDCListTo(list CellToReportEUTRAENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellToReportEUTRAENDCListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -31808,25 +30949,19 @@ func UnmarshalAPERCellToReportEUTRAENDCListFrom(bb *per.BitBuffer) (CellToReport
 }
 
 func unmarshalAPERCellToReportEUTRAENDCListInto(v *asn1cAPERCellToReportEUTRAENDCListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(CellToReportEUTRAENDCList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -31853,13 +30988,15 @@ func (v *CellToReportEUTRAENDCItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding e-utra-cell-ID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -31892,6 +31029,7 @@ func (v *CellToReportEUTRAENDCItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellToReportEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellToReportEUTRAENDCItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -31905,25 +31043,19 @@ func (v *CellToReportEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding e-utra-cell-ID: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31962,13 +31094,15 @@ func MarshalAPERSSBToReportList(list SSBToReportList) ([]byte, error) {
 // MarshalAPERSSBToReportListTo appends a SSBToReportList list to bb.
 func MarshalAPERSSBToReportListTo(list SSBToReportList, bb *per.BitBuffer) error {
 	v := asn1cAPERSSBToReportListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 64); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -31989,25 +31123,19 @@ func UnmarshalAPERSSBToReportListFrom(bb *per.BitBuffer) (SSBToReportList, error
 }
 
 func unmarshalAPERSSBToReportListInto(v *asn1cAPERSSBToReportListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 64)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 64 {
-		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
-	}
 	v.Value = make(SSBToReportList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem SSBToReportItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem SSBToReportItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -32034,13 +31162,15 @@ func (v *SSBToReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding ssbIndex: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -32073,6 +31203,7 @@ func (v *SSBToReportItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SSBToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SSBToReportItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -32088,25 +31219,19 @@ func (v *SSBToReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SsbIndex = SSBIndex(val_ssbindex)
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32145,13 +31270,15 @@ func (v *ENDCResourceStatusResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -32183,29 +31310,24 @@ func (v *ENDCResourceStatusResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCResourceStatusResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCResourceStatusResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32242,13 +31364,15 @@ func (v *ENDCResourceStatusFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -32280,29 +31404,24 @@ func (v *ENDCResourceStatusFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCResourceStatusFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCResourceStatusFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32339,13 +31458,15 @@ func (v *ENDCResourceStatusUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -32377,29 +31498,24 @@ func (v *ENDCResourceStatusUpdate) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCResourceStatusUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCResourceStatusUpdate{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -32438,13 +31554,15 @@ func MarshalAPERCellMeasurementResultNRENDCList(list CellMeasurementResultNRENDC
 // MarshalAPERCellMeasurementResultNRENDCListTo appends a CellMeasurementResultNRENDCList list to bb.
 func MarshalAPERCellMeasurementResultNRENDCListTo(list CellMeasurementResultNRENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellMeasurementResultNRENDCListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16384); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -32465,25 +31583,19 @@ func UnmarshalAPERCellMeasurementResultNRENDCListFrom(bb *per.BitBuffer) (CellMe
 }
 
 func unmarshalAPERCellMeasurementResultNRENDCListInto(v *asn1cAPERCellMeasurementResultNRENDCListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16384)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16384 {
-		return fmt.Errorf("decoding value length %d above upper bound 16384", seqLen_value)
-	}
 	v.Value = make(CellMeasurementResultNRENDCList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -32542,13 +31654,15 @@ func (v *CellMeasurementResultNRENDCItem) MarshalAPERTo(bb *per.BitBuffer) error
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -32581,6 +31695,7 @@ func (v *CellMeasurementResultNRENDCItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellMeasurementResultNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellMeasurementResultNRENDCItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -32638,25 +31753,19 @@ func (v *CellMeasurementResultNRENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		v.NumberofActiveUEs = val_numberofactiveues
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32697,13 +31806,15 @@ func MarshalAPERCellMeasurementResultEUTRAENDCList(list CellMeasurementResultEUT
 // MarshalAPERCellMeasurementResultEUTRAENDCListTo appends a CellMeasurementResultEUTRAENDCList list to bb.
 func MarshalAPERCellMeasurementResultEUTRAENDCListTo(list CellMeasurementResultEUTRAENDCList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellMeasurementResultEUTRAENDCListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -32724,25 +31835,19 @@ func UnmarshalAPERCellMeasurementResultEUTRAENDCListFrom(bb *per.BitBuffer) (Cel
 }
 
 func unmarshalAPERCellMeasurementResultEUTRAENDCListInto(v *asn1cAPERCellMeasurementResultEUTRAENDCListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(CellMeasurementResultEUTRAENDCList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -32801,13 +31906,15 @@ func (v *CellMeasurementResultEUTRAENDCItem) MarshalAPERTo(bb *per.BitBuffer) er
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -32840,6 +31947,7 @@ func (v *CellMeasurementResultEUTRAENDCItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellMeasurementResultEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellMeasurementResultEUTRAENDCItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -32897,25 +32005,19 @@ func (v *CellMeasurementResultEUTRAENDCItem) UnmarshalAPERFrom(bb *per.BitBuffer
 		v.CompositeAvailableCapacityGroup = &dec_compositeavailablecapacitygroup
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32954,13 +32056,15 @@ func (v *SecondaryRATDataUsageReport) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -32992,29 +32096,24 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SecondaryRATDataUsageReport{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33051,13 +32150,15 @@ func (v *SgNBActivityNotification) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -33089,29 +32190,24 @@ func (v *SgNBActivityNotification) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SgNBActivityNotification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SgNBActivityNotification{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33148,13 +32244,15 @@ func (v *ENDCPartialResetRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -33186,29 +32284,24 @@ func (v *ENDCPartialResetRequired) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCPartialResetRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCPartialResetRequired{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33245,13 +32338,15 @@ func (v *ENDCPartialResetConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -33283,29 +32378,24 @@ func (v *ENDCPartialResetConfirm) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCPartialResetConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCPartialResetConfirm{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33342,13 +32432,15 @@ func (v *EUTRANRCellResourceCoordinationRequest) MarshalAPERTo(bb *per.BitBuffer
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -33380,29 +32472,24 @@ func (v *EUTRANRCellResourceCoordinationRequest) UnmarshalAPER(data []byte) erro
 }
 
 func (v *EUTRANRCellResourceCoordinationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EUTRANRCellResourceCoordinationRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33447,22 +32534,26 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) MarshalAPERTo(bb *pe
 	}
 	switch v.Choice {
 	case InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitiateENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding initiate-eNB length: %w", err)
-		}
-		for _, elem := range v.InitiateENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding initiate-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitiateENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initiateenb, fragmentLength_initiateenb int64) error {
+			for _, elem := range v.InitiateENB[fragmentOffset_initiateenb : fragmentOffset_initiateenb+fragmentLength_initiateenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding initiate-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding initiate-eNB: %w", err)
 		}
 	case InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitiateEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding initiate-en-gNB length: %w", err)
-		}
-		for _, elem := range v.InitiateEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding initiate-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitiateEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initiateengnb, fragmentLength_initiateengnb int64) error {
+			for _, elem := range v.InitiateEnGNB[fragmentOffset_initiateengnb : fragmentOffset_initiateengnb+fragmentLength_initiateengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding initiate-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding initiate-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown InitiatingNodeTypeEutranrCellResourceCoordination choice %d", v.Choice)
@@ -33477,6 +32568,7 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) UnmarshalAPER(data [
 }
 
 func (v *InitiatingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = InitiatingNodeTypeEutranrCellResourceCoordination{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -33495,47 +32587,35 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateENB:
-		var seqLen_initiateenb int64
-		var errLength_initiateenb error
-		seqLen_initiateenb, errLength_initiateenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initiateenb != nil {
-			return fmt.Errorf("decoding initiate-eNB length: %w", errLength_initiateenb)
-		}
-		if seqLen_initiateenb < 0 {
-			return fmt.Errorf("decoding initiate-eNB length %d below lower bound 0", seqLen_initiateenb)
-		}
-		if seqLen_initiateenb > 65535 {
-			return fmt.Errorf("decoding initiate-eNB length %d above upper bound 65535", seqLen_initiateenb)
-		}
 		tmp_initiateenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initiateenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding initiate-eNB element %d: %w", i, err)
+		_, errCollection_initiateenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initiateenb, fragmentLength_initiateenb int64) error {
+			for i := int64(0); i < fragmentLength_initiateenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding initiate-eNB element %d: %w", fragmentOffset_initiateenb+i, err)
+				}
+				tmp_initiateenb = append(tmp_initiateenb, elem)
 			}
-			tmp_initiateenb = append(tmp_initiateenb, elem)
+			return nil
+		})
+		if errCollection_initiateenb != nil {
+			return fmt.Errorf("decoding initiate-eNB: %w", errCollection_initiateenb)
 		}
 		v.InitiateENB = tmp_initiateenb
 	case InitiatingNodeTypeEutranrCellResourceCoordinationChoiceInitiateEnGNB:
-		var seqLen_initiateengnb int64
-		var errLength_initiateengnb error
-		seqLen_initiateengnb, errLength_initiateengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initiateengnb != nil {
-			return fmt.Errorf("decoding initiate-en-gNB length: %w", errLength_initiateengnb)
-		}
-		if seqLen_initiateengnb < 0 {
-			return fmt.Errorf("decoding initiate-en-gNB length %d below lower bound 0", seqLen_initiateengnb)
-		}
-		if seqLen_initiateengnb > 65535 {
-			return fmt.Errorf("decoding initiate-en-gNB length %d above upper bound 65535", seqLen_initiateengnb)
-		}
 		tmp_initiateengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initiateengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding initiate-en-gNB element %d: %w", i, err)
+		_, errCollection_initiateengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initiateengnb, fragmentLength_initiateengnb int64) error {
+			for i := int64(0); i < fragmentLength_initiateengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding initiate-en-gNB element %d: %w", fragmentOffset_initiateengnb+i, err)
+				}
+				tmp_initiateengnb = append(tmp_initiateengnb, elem)
 			}
-			tmp_initiateengnb = append(tmp_initiateengnb, elem)
+			return nil
+		})
+		if errCollection_initiateengnb != nil {
+			return fmt.Errorf("decoding initiate-en-gNB: %w", errCollection_initiateengnb)
 		}
 		v.InitiateEnGNB = tmp_initiateengnb
 	}
@@ -33558,13 +32638,15 @@ func MarshalAPERListofEUTRACellsinEUTRACoordinationReq(list ListofEUTRACellsinEU
 // MarshalAPERListofEUTRACellsinEUTRACoordinationReqTo appends a ListofEUTRACellsinEUTRACoordinationReq list to bb.
 func MarshalAPERListofEUTRACellsinEUTRACoordinationReqTo(list ListofEUTRACellsinEUTRACoordinationReq, bb *per.BitBuffer) error {
 	v := asn1cAPERListofEUTRACellsinEUTRACoordinationReqListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -33585,25 +32667,19 @@ func UnmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb *per.BitBuffer) 
 }
 
 func unmarshalAPERListofEUTRACellsinEUTRACoordinationReqInto(v *asn1cAPERListofEUTRACellsinEUTRACoordinationReqListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 0 {
-		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ListofEUTRACellsinEUTRACoordinationReq, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ECGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ECGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -33624,13 +32700,15 @@ func MarshalAPERListofEUTRACellsinNRCoordinationReq(list ListofEUTRACellsinNRCoo
 // MarshalAPERListofEUTRACellsinNRCoordinationReqTo appends a ListofEUTRACellsinNRCoordinationReq list to bb.
 func MarshalAPERListofEUTRACellsinNRCoordinationReqTo(list ListofEUTRACellsinNRCoordinationReq, bb *per.BitBuffer) error {
 	v := asn1cAPERListofEUTRACellsinNRCoordinationReqListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -33651,25 +32729,19 @@ func UnmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb *per.BitBuffer) (Li
 }
 
 func unmarshalAPERListofEUTRACellsinNRCoordinationReqInto(v *asn1cAPERListofEUTRACellsinNRCoordinationReqListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ListofEUTRACellsinNRCoordinationReq, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ECGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ECGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -33690,13 +32762,15 @@ func MarshalAPERListofNRCellsinNRCoordinationReq(list ListofNRCellsinNRCoordinat
 // MarshalAPERListofNRCellsinNRCoordinationReqTo appends a ListofNRCellsinNRCoordinationReq list to bb.
 func MarshalAPERListofNRCellsinNRCoordinationReqTo(list ListofNRCellsinNRCoordinationReq, bb *per.BitBuffer) error {
 	v := asn1cAPERListofNRCellsinNRCoordinationReqListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 64); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -33717,25 +32791,19 @@ func UnmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb *per.BitBuffer) (Listo
 }
 
 func unmarshalAPERListofNRCellsinNRCoordinationReqInto(v *asn1cAPERListofNRCellsinNRCoordinationReqListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 0 {
-		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
-	}
-	if seqLen_value > 64 {
-		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
-	}
 	v.Value = make(ListofNRCellsinNRCoordinationReq, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem NRCGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem NRCGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -33754,13 +32822,15 @@ func (v *EUTRANRCellResourceCoordinationResponse) MarshalAPERTo(bb *per.BitBuffe
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -33792,29 +32862,24 @@ func (v *EUTRANRCellResourceCoordinationResponse) UnmarshalAPER(data []byte) err
 }
 
 func (v *EUTRANRCellResourceCoordinationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EUTRANRCellResourceCoordinationResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -33859,22 +32924,26 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) MarshalAPERTo(bb *pe
 	}
 	switch v.Choice {
 	case RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-eNB length: %w", err)
-		}
-		for _, elem := range v.RespondENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for _, elem := range v.RespondENB[fragmentOffset_respondenb : fragmentOffset_respondenb+fragmentLength_respondenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-eNB: %w", err)
 		}
 	case RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-en-gNB length: %w", err)
-		}
-		for _, elem := range v.RespondEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for _, elem := range v.RespondEnGNB[fragmentOffset_respondengnb : fragmentOffset_respondengnb+fragmentLength_respondengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown RespondingNodeTypeEutranrCellResourceCoordination choice %d", v.Choice)
@@ -33889,6 +32958,7 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) UnmarshalAPER(data [
 }
 
 func (v *RespondingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RespondingNodeTypeEutranrCellResourceCoordination{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -33907,47 +32977,35 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) UnmarshalAPERFrom(bb
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondENB:
-		var seqLen_respondenb int64
-		var errLength_respondenb error
-		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondenb != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
-		}
-		if seqLen_respondenb < 0 {
-			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
-		}
-		if seqLen_respondenb > 65535 {
-			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
-		}
 		tmp_respondenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
+		_, errCollection_respondenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for i := int64(0); i < fragmentLength_respondenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-eNB element %d: %w", fragmentOffset_respondenb+i, err)
+				}
+				tmp_respondenb = append(tmp_respondenb, elem)
 			}
-			tmp_respondenb = append(tmp_respondenb, elem)
+			return nil
+		})
+		if errCollection_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB: %w", errCollection_respondenb)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB:
-		var seqLen_respondengnb int64
-		var errLength_respondengnb error
-		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondengnb != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
-		}
-		if seqLen_respondengnb < 0 {
-			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
-		}
-		if seqLen_respondengnb > 65535 {
-			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
-		}
 		tmp_respondengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
+		_, errCollection_respondengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for i := int64(0); i < fragmentLength_respondengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-en-gNB element %d: %w", fragmentOffset_respondengnb+i, err)
+				}
+				tmp_respondengnb = append(tmp_respondengnb, elem)
 			}
-			tmp_respondengnb = append(tmp_respondengnb, elem)
+			return nil
+		})
+		if errCollection_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB: %w", errCollection_respondengnb)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -33970,13 +33028,15 @@ func MarshalAPERListofEUTRACellsinEUTRACoordinationResp(list ListofEUTRACellsinE
 // MarshalAPERListofEUTRACellsinEUTRACoordinationRespTo appends a ListofEUTRACellsinEUTRACoordinationResp list to bb.
 func MarshalAPERListofEUTRACellsinEUTRACoordinationRespTo(list ListofEUTRACellsinEUTRACoordinationResp, bb *per.BitBuffer) error {
 	v := asn1cAPERListofEUTRACellsinEUTRACoordinationRespListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -33997,25 +33057,19 @@ func UnmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb *per.BitBuffer)
 }
 
 func unmarshalAPERListofEUTRACellsinEUTRACoordinationRespInto(v *asn1cAPERListofEUTRACellsinEUTRACoordinationRespListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 0 {
-		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ListofEUTRACellsinEUTRACoordinationResp, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ECGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ECGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -34036,13 +33090,15 @@ func MarshalAPERListofNRCellsinNRCoordinationResp(list ListofNRCellsinNRCoordina
 // MarshalAPERListofNRCellsinNRCoordinationRespTo appends a ListofNRCellsinNRCoordinationResp list to bb.
 func MarshalAPERListofNRCellsinNRCoordinationRespTo(list ListofNRCellsinNRCoordinationResp, bb *per.BitBuffer) error {
 	v := asn1cAPERListofNRCellsinNRCoordinationRespListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 64); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -34063,25 +33119,19 @@ func UnmarshalAPERListofNRCellsinNRCoordinationRespFrom(bb *per.BitBuffer) (List
 }
 
 func unmarshalAPERListofNRCellsinNRCoordinationRespInto(v *asn1cAPERListofNRCellsinNRCoordinationRespListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 64)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 0 {
-		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
-	}
-	if seqLen_value > 64 {
-		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
-	}
 	v.Value = make(ListofNRCellsinNRCoordinationResp, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem NRCGI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem NRCGI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -34100,13 +33150,15 @@ func (v *ENDCX2RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -34138,29 +33190,24 @@ func (v *ENDCX2RemovalRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCX2RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCX2RemovalRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34205,22 +33252,26 @@ func (v *InitiatingNodeTypeEndcX2Removal) MarshalAPERTo(bb *per.BitBuffer) error
 	}
 	switch v.Choice {
 	case InitiatingNodeTypeEndcX2RemovalChoiceInitENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding init-eNB length: %w", err)
-		}
-		for _, elem := range v.InitENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding init-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
+			for _, elem := range v.InitENB[fragmentOffset_initenb : fragmentOffset_initenb+fragmentLength_initenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding init-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding init-eNB: %w", err)
 		}
 	case InitiatingNodeTypeEndcX2RemovalChoiceInitEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.InitEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding init-en-gNB length: %w", err)
-		}
-		for _, elem := range v.InitEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding init-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.InitEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
+			for _, elem := range v.InitEnGNB[fragmentOffset_initengnb : fragmentOffset_initengnb+fragmentLength_initengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding init-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding init-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown InitiatingNodeTypeEndcX2Removal choice %d", v.Choice)
@@ -34235,6 +33286,7 @@ func (v *InitiatingNodeTypeEndcX2Removal) UnmarshalAPER(data []byte) error {
 }
 
 func (v *InitiatingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = InitiatingNodeTypeEndcX2Removal{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -34253,47 +33305,35 @@ func (v *InitiatingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InitiatingNodeTypeEndcX2RemovalChoiceInitENB:
-		var seqLen_initenb int64
-		var errLength_initenb error
-		seqLen_initenb, errLength_initenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initenb != nil {
-			return fmt.Errorf("decoding init-eNB length: %w", errLength_initenb)
-		}
-		if seqLen_initenb < 0 {
-			return fmt.Errorf("decoding init-eNB length %d below lower bound 0", seqLen_initenb)
-		}
-		if seqLen_initenb > 65535 {
-			return fmt.Errorf("decoding init-eNB length %d above upper bound 65535", seqLen_initenb)
-		}
 		tmp_initenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-eNB element %d: %w", i, err)
+		_, errCollection_initenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
+			for i := int64(0); i < fragmentLength_initenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding init-eNB element %d: %w", fragmentOffset_initenb+i, err)
+				}
+				tmp_initenb = append(tmp_initenb, elem)
 			}
-			tmp_initenb = append(tmp_initenb, elem)
+			return nil
+		})
+		if errCollection_initenb != nil {
+			return fmt.Errorf("decoding init-eNB: %w", errCollection_initenb)
 		}
 		v.InitENB = tmp_initenb
 	case InitiatingNodeTypeEndcX2RemovalChoiceInitEnGNB:
-		var seqLen_initengnb int64
-		var errLength_initengnb error
-		seqLen_initengnb, errLength_initengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_initengnb != nil {
-			return fmt.Errorf("decoding init-en-gNB length: %w", errLength_initengnb)
-		}
-		if seqLen_initengnb < 0 {
-			return fmt.Errorf("decoding init-en-gNB length %d below lower bound 0", seqLen_initengnb)
-		}
-		if seqLen_initengnb > 65535 {
-			return fmt.Errorf("decoding init-en-gNB length %d above upper bound 65535", seqLen_initengnb)
-		}
 		tmp_initengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_initengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding init-en-gNB element %d: %w", i, err)
+		_, errCollection_initengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
+			for i := int64(0); i < fragmentLength_initengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding init-en-gNB element %d: %w", fragmentOffset_initengnb+i, err)
+				}
+				tmp_initengnb = append(tmp_initengnb, elem)
 			}
-			tmp_initengnb = append(tmp_initengnb, elem)
+			return nil
+		})
+		if errCollection_initengnb != nil {
+			return fmt.Errorf("decoding init-en-gNB: %w", errCollection_initengnb)
 		}
 		v.InitEnGNB = tmp_initengnb
 	}
@@ -34314,13 +33354,15 @@ func (v *ENDCX2RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -34352,29 +33394,24 @@ func (v *ENDCX2RemovalResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCX2RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCX2RemovalResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34419,22 +33456,26 @@ func (v *RespondingNodeTypeEndcX2Removal) MarshalAPERTo(bb *per.BitBuffer) error
 	}
 	switch v.Choice {
 	case RespondingNodeTypeEndcX2RemovalChoiceRespondENB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondENB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-eNB length: %w", err)
-		}
-		for _, elem := range v.RespondENB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-eNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondENB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for _, elem := range v.RespondENB[fragmentOffset_respondenb : fragmentOffset_respondenb+fragmentLength_respondenb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-eNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-eNB: %w", err)
 		}
 	case RespondingNodeTypeEndcX2RemovalChoiceRespondEnGNB:
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RespondEnGNB)), 0, 65535); err != nil {
-			return fmt.Errorf("encoding respond-en-gNB length: %w", err)
-		}
-		for _, elem := range v.RespondEnGNB {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RespondEnGNB)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for _, elem := range v.RespondEnGNB[fragmentOffset_respondengnb : fragmentOffset_respondengnb+fragmentLength_respondengnb] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding respond-en-gNB element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding respond-en-gNB: %w", err)
 		}
 	default:
 		return fmt.Errorf("unknown RespondingNodeTypeEndcX2Removal choice %d", v.Choice)
@@ -34449,6 +33490,7 @@ func (v *RespondingNodeTypeEndcX2Removal) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RespondingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RespondingNodeTypeEndcX2Removal{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -34467,47 +33509,35 @@ func (v *RespondingNodeTypeEndcX2Removal) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case RespondingNodeTypeEndcX2RemovalChoiceRespondENB:
-		var seqLen_respondenb int64
-		var errLength_respondenb error
-		seqLen_respondenb, errLength_respondenb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondenb != nil {
-			return fmt.Errorf("decoding respond-eNB length: %w", errLength_respondenb)
-		}
-		if seqLen_respondenb < 0 {
-			return fmt.Errorf("decoding respond-eNB length %d below lower bound 0", seqLen_respondenb)
-		}
-		if seqLen_respondenb > 65535 {
-			return fmt.Errorf("decoding respond-eNB length %d above upper bound 65535", seqLen_respondenb)
-		}
 		tmp_respondenb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondenb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-eNB element %d: %w", i, err)
+		_, errCollection_respondenb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
+			for i := int64(0); i < fragmentLength_respondenb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-eNB element %d: %w", fragmentOffset_respondenb+i, err)
+				}
+				tmp_respondenb = append(tmp_respondenb, elem)
 			}
-			tmp_respondenb = append(tmp_respondenb, elem)
+			return nil
+		})
+		if errCollection_respondenb != nil {
+			return fmt.Errorf("decoding respond-eNB: %w", errCollection_respondenb)
 		}
 		v.RespondENB = tmp_respondenb
 	case RespondingNodeTypeEndcX2RemovalChoiceRespondEnGNB:
-		var seqLen_respondengnb int64
-		var errLength_respondengnb error
-		seqLen_respondengnb, errLength_respondengnb = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-		if errLength_respondengnb != nil {
-			return fmt.Errorf("decoding respond-en-gNB length: %w", errLength_respondengnb)
-		}
-		if seqLen_respondengnb < 0 {
-			return fmt.Errorf("decoding respond-en-gNB length %d below lower bound 0", seqLen_respondengnb)
-		}
-		if seqLen_respondengnb > 65535 {
-			return fmt.Errorf("decoding respond-en-gNB length %d above upper bound 65535", seqLen_respondengnb)
-		}
 		tmp_respondengnb := make(ProtocolIEContainer, 0)
-		for i := int64(0); i < seqLen_respondengnb; i++ {
-			var elem ProtocolIEField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding respond-en-gNB element %d: %w", i, err)
+		_, errCollection_respondengnb := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
+			for i := int64(0); i < fragmentLength_respondengnb; i++ {
+				var elem ProtocolIEField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding respond-en-gNB element %d: %w", fragmentOffset_respondengnb+i, err)
+				}
+				tmp_respondengnb = append(tmp_respondengnb, elem)
 			}
-			tmp_respondengnb = append(tmp_respondengnb, elem)
+			return nil
+		})
+		if errCollection_respondengnb != nil {
+			return fmt.Errorf("decoding respond-en-gNB: %w", errCollection_respondengnb)
 		}
 		v.RespondEnGNB = tmp_respondengnb
 	}
@@ -34528,13 +33558,15 @@ func (v *ENDCX2RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -34566,29 +33598,24 @@ func (v *ENDCX2RemovalFailure) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCX2RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCX2RemovalFailure{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34625,13 +33652,15 @@ func (v *DataForwardingAddressIndication) MarshalAPERTo(bb *per.BitBuffer) error
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -34663,29 +33692,24 @@ func (v *DataForwardingAddressIndication) UnmarshalAPER(data []byte) error {
 }
 
 func (v *DataForwardingAddressIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = DataForwardingAddressIndication{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -34724,13 +33748,15 @@ func MarshalAPERERABsDataForwardingAddressList(list ERABsDataForwardingAddressLi
 // MarshalAPERERABsDataForwardingAddressListTo appends a ERABsDataForwardingAddressList list to bb.
 func MarshalAPERERABsDataForwardingAddressListTo(list ERABsDataForwardingAddressList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABsDataForwardingAddressListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -34751,25 +33777,19 @@ func UnmarshalAPERERABsDataForwardingAddressListFrom(bb *per.BitBuffer) (ERABsDa
 }
 
 func unmarshalAPERERABsDataForwardingAddressListInto(v *asn1cAPERERABsDataForwardingAddressListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ERABsDataForwardingAddressList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -34799,13 +33819,15 @@ func (v *ERABsDataForwardingAddressItem) MarshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding dl-GTPtunnelEndpoint: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -34838,6 +33860,7 @@ func (v *ERABsDataForwardingAddressItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ERABsDataForwardingAddressItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsDataForwardingAddressItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -34856,25 +33879,19 @@ func (v *ERABsDataForwardingAddressItem) UnmarshalAPERFrom(bb *per.BitBuffer) er
 		return fmt.Errorf("decoding dl-GTPtunnelEndpoint: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34913,13 +33930,15 @@ func (v *GNBStatusIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -34951,29 +33970,24 @@ func (v *GNBStatusIndication) UnmarshalAPER(data []byte) error {
 }
 
 func (v *GNBStatusIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = GNBStatusIndication{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35010,13 +34024,15 @@ func (v *ENDCConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35048,29 +34064,24 @@ func (v *ENDCConfigurationTransfer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ENDCConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ENDCConfigurationTransfer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35107,13 +34118,15 @@ func (v *TraceStart) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35145,29 +34158,24 @@ func (v *TraceStart) UnmarshalAPER(data []byte) error {
 }
 
 func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = TraceStart{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35204,13 +34212,15 @@ func (v *DeactivateTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35242,29 +34252,24 @@ func (v *DeactivateTrace) UnmarshalAPER(data []byte) error {
 }
 
 func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = DeactivateTrace{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35301,13 +34306,15 @@ func (v *CellTrafficTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35339,29 +34346,24 @@ func (v *CellTrafficTrace) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellTrafficTrace{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35398,13 +34400,15 @@ func (v *F1CTrafficTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35436,29 +34440,24 @@ func (v *F1CTrafficTransfer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *F1CTrafficTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = F1CTrafficTransfer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35495,13 +34494,15 @@ func (v *UERadioCapabilityIDMappingRequest) MarshalAPERTo(bb *per.BitBuffer) err
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35533,29 +34534,24 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioCapabilityIDMappingRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35592,13 +34588,15 @@ func (v *UERadioCapabilityIDMappingResponse) MarshalAPERTo(bb *per.BitBuffer) er
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35630,29 +34628,24 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioCapabilityIDMappingResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35689,13 +34682,15 @@ func (v *CPCCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35727,29 +34722,24 @@ func (v *CPCCancel) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CPCCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CPCCancel{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35786,13 +34776,15 @@ func (v *RachIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35824,29 +34816,24 @@ func (v *RachIndication) UnmarshalAPER(data []byte) error {
 }
 
 func (v *RachIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = RachIndication{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35883,13 +34870,15 @@ func (v *SCGFailureInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -35921,29 +34910,24 @@ func (v *SCGFailureInformationReport) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SCGFailureInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SCGFailureInformationReport{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -35980,13 +34964,15 @@ func (v *SCGFailureTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ProtocolIEs)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding protocolIEs length: %w", err)
-	}
-	for _, elem := range v.ProtocolIEs {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding protocolIEs element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -36018,29 +35004,24 @@ func (v *SCGFailureTransfer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SCGFailureTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SCGFailureTransfer{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_protocolies int64
-	var errLength_protocolies error
-	seqLen_protocolies, errLength_protocolies = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_protocolies != nil {
-		return fmt.Errorf("decoding protocolIEs length: %w", errLength_protocolies)
-	}
-	if seqLen_protocolies < 0 {
-		return fmt.Errorf("decoding protocolIEs length %d below lower bound 0", seqLen_protocolies)
-	}
-	if seqLen_protocolies > 65535 {
-		return fmt.Errorf("decoding protocolIEs length %d above upper bound 65535", seqLen_protocolies)
-	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_protocolies; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding protocolIEs element %d: %w", i, err)
+	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		for i := int64(0); i < fragmentLength_protocolies; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding protocolIEs element %d: %w", fragmentOffset_protocolies+i, err)
+			}
+			v.ProtocolIEs = append(v.ProtocolIEs, elem)
 		}
-		v.ProtocolIEs = append(v.ProtocolIEs, elem)
+		return nil
+	})
+	if errCollection_protocolies != nil {
+		return fmt.Errorf("decoding protocolIEs: %w", errCollection_protocolies)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -36111,6 +35092,7 @@ func (v *ERABsToBeAddedSgNBAddReqItemResourceConfiguration) UnmarshalAPER(data [
 }
 
 func (v *ERABsToBeAddedSgNBAddReqItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBAddReqItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36192,6 +35174,7 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration) Unmarshal
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36273,6 +35256,7 @@ func (v *ERABsToBeAddedSgNBModReqItemResourceConfiguration) UnmarshalAPER(data [
 }
 
 func (v *ERABsToBeAddedSgNBModReqItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeAddedSgNBModReqItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36354,6 +35338,7 @@ func (v *ERABsToBeModifiedSgNBModReqItemResourceConfiguration) UnmarshalAPER(dat
 }
 
 func (v *ERABsToBeModifiedSgNBModReqItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36435,6 +35420,7 @@ func (v *ERABsToBeReleasedSgNBModReqItemResourceConfiguration) UnmarshalAPER(dat
 }
 
 func (v *ERABsToBeReleasedSgNBModReqItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBModReqItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36516,6 +35502,7 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration) UnmarshalAPE
 }
 
 func (v *ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36597,6 +35584,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration) Unmarshal
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36678,6 +35666,7 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration) UnmarshalAP
 }
 
 func (v *ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36759,6 +35748,7 @@ func (v *ERABsToBeModifiedSgNBModReqdItemResourceConfiguration) UnmarshalAPER(da
 }
 
 func (v *ERABsToBeModifiedSgNBModReqdItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeModifiedSgNBModReqdItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36840,6 +35830,7 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration) Unmarsha
 }
 
 func (v *ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -36921,6 +35912,7 @@ func (v *ERABsToBeReleasedSgNBRelReqItemResourceConfiguration) UnmarshalAPER(dat
 }
 
 func (v *ERABsToBeReleasedSgNBRelReqItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelReqItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37002,6 +35994,7 @@ func (v *ERABsToBeReleasedSgNBRelConfItemResourceConfiguration) UnmarshalAPER(da
 }
 
 func (v *ERABsToBeReleasedSgNBRelConfItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBRelConfItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37083,6 +36076,7 @@ func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) UnmarshalAPER(da
 }
 
 func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ERABsToBeReleasedSgNBChaConfItemResourceConfiguration{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37141,23 +36135,27 @@ func (v *ServedEUTRAcellsENDCX2ManagementListElem) MarshalAPERTo(bb *per.BitBuff
 		return fmt.Errorf("encoding servedEUTRACellInfo: %w", err)
 	}
 	if v.NrNeighbourInfo != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.NrNeighbourInfo)), 1, 1024); err != nil {
-			return fmt.Errorf("encoding nrNeighbourInfo length: %w", err)
-		}
-		for _, elem := range v.NrNeighbourInfo {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding nrNeighbourInfo element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.NrNeighbourInfo)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinfo, fragmentLength_nrneighbourinfo int64) error {
+			for _, elem := range v.NrNeighbourInfo[fragmentOffset_nrneighbourinfo : fragmentOffset_nrneighbourinfo+fragmentLength_nrneighbourinfo] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding nrNeighbourInfo element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding nrNeighbourInfo: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -37190,6 +36188,7 @@ func (v *ServedEUTRAcellsENDCX2ManagementListElem) UnmarshalAPER(data []byte) er
 }
 
 func (v *ServedEUTRAcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedEUTRAcellsENDCX2ManagementListElem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37207,48 +36206,36 @@ func (v *ServedEUTRAcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.Bit
 		return fmt.Errorf("decoding servedEUTRACellInfo: %w", err)
 	}
 	if opt_nrneighbourinfo {
-		var seqLen_nrneighbourinfo int64
-		var errLength_nrneighbourinfo error
-		seqLen_nrneighbourinfo, errLength_nrneighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if errLength_nrneighbourinfo != nil {
-			return fmt.Errorf("decoding nrNeighbourInfo length: %w", errLength_nrneighbourinfo)
-		}
-		if seqLen_nrneighbourinfo < 1 {
-			return fmt.Errorf("decoding nrNeighbourInfo length %d below lower bound 1", seqLen_nrneighbourinfo)
-		}
-		if seqLen_nrneighbourinfo > 1024 {
-			return fmt.Errorf("decoding nrNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
-		}
 		tmp_nrneighbourinfo := make(NRNeighbourInformation, 0)
-		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
-			var elem NRNeighbourInformationElem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nrNeighbourInfo element %d: %w", i, err)
+		_, errCollection_nrneighbourinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinfo, fragmentLength_nrneighbourinfo int64) error {
+			for i := int64(0); i < fragmentLength_nrneighbourinfo; i++ {
+				var elem NRNeighbourInformationElem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding nrNeighbourInfo element %d: %w", fragmentOffset_nrneighbourinfo+i, err)
+				}
+				tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
 			}
-			tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
+			return nil
+		})
+		if errCollection_nrneighbourinfo != nil {
+			return fmt.Errorf("decoding nrNeighbourInfo: %w", errCollection_nrneighbourinfo)
 		}
 		v.NrNeighbourInfo = tmp_nrneighbourinfo
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -37298,23 +36285,27 @@ func (v *ServedNRcellsENDCX2ManagementListElem) MarshalAPERTo(bb *per.BitBuffer)
 		return fmt.Errorf("encoding servedNRCellInfo: %w", err)
 	}
 	if v.NRNeighbourInfo != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.NRNeighbourInfo)), 1, 1024); err != nil {
-			return fmt.Errorf("encoding nRNeighbourInfo length: %w", err)
-		}
-		for _, elem := range v.NRNeighbourInfo {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding nRNeighbourInfo element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.NRNeighbourInfo)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinfo, fragmentLength_nrneighbourinfo int64) error {
+			for _, elem := range v.NRNeighbourInfo[fragmentOffset_nrneighbourinfo : fragmentOffset_nrneighbourinfo+fragmentLength_nrneighbourinfo] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding nRNeighbourInfo element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding nRNeighbourInfo: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -37347,6 +36338,7 @@ func (v *ServedNRcellsENDCX2ManagementListElem) UnmarshalAPER(data []byte) error
 }
 
 func (v *ServedNRcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedNRcellsENDCX2ManagementListElem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37364,48 +36356,36 @@ func (v *ServedNRcellsENDCX2ManagementListElem) UnmarshalAPERFrom(bb *per.BitBuf
 		return fmt.Errorf("decoding servedNRCellInfo: %w", err)
 	}
 	if opt_nrneighbourinfo {
-		var seqLen_nrneighbourinfo int64
-		var errLength_nrneighbourinfo error
-		seqLen_nrneighbourinfo, errLength_nrneighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if errLength_nrneighbourinfo != nil {
-			return fmt.Errorf("decoding nRNeighbourInfo length: %w", errLength_nrneighbourinfo)
-		}
-		if seqLen_nrneighbourinfo < 1 {
-			return fmt.Errorf("decoding nRNeighbourInfo length %d below lower bound 1", seqLen_nrneighbourinfo)
-		}
-		if seqLen_nrneighbourinfo > 1024 {
-			return fmt.Errorf("decoding nRNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
-		}
 		tmp_nrneighbourinfo := make(NRNeighbourInformation, 0)
-		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
-			var elem NRNeighbourInformationElem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nRNeighbourInfo element %d: %w", i, err)
+		_, errCollection_nrneighbourinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinfo, fragmentLength_nrneighbourinfo int64) error {
+			for i := int64(0); i < fragmentLength_nrneighbourinfo; i++ {
+				var elem NRNeighbourInformationElem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding nRNeighbourInfo element %d: %w", fragmentOffset_nrneighbourinfo+i, err)
+				}
+				tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
 			}
-			tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
+			return nil
+		})
+		if errCollection_nrneighbourinfo != nil {
+			return fmt.Errorf("decoding nRNeighbourInfo: %w", errCollection_nrneighbourinfo)
 		}
 		v.NRNeighbourInfo = tmp_nrneighbourinfo
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -37478,6 +36458,7 @@ func (v *ServedNRCellInformationNrModeInfo) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ServedNRCellInformationNrModeInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedNRCellInformationNrModeInfo{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37533,13 +36514,15 @@ func (v *LimitedListElem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding nrCellID: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -37572,6 +36555,7 @@ func (v *LimitedListElem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *LimitedListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = LimitedListElem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37585,25 +36569,19 @@ func (v *LimitedListElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding nrCellID: %w", err)
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -37656,23 +36634,27 @@ func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) MarshalAPERTo(bb *per.BitB
 		return fmt.Errorf("encoding servedEUTRACellInfo: %w", err)
 	}
 	if v.NrNeighbourInfo != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.NrNeighbourInfo)), 1, 1024); err != nil {
-			return fmt.Errorf("encoding nrNeighbourInfo length: %w", err)
-		}
-		for _, elem := range v.NrNeighbourInfo {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding nrNeighbourInfo element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.NrNeighbourInfo)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinfo, fragmentLength_nrneighbourinfo int64) error {
+			for _, elem := range v.NrNeighbourInfo[fragmentOffset_nrneighbourinfo : fragmentOffset_nrneighbourinfo+fragmentLength_nrneighbourinfo] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding nrNeighbourInfo element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding nrNeighbourInfo: %w", err)
 		}
 	}
 	if v.IEExtensions != nil {
-		if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.IEExtensions)), 1, 65535); err != nil {
-			return fmt.Errorf("encoding iE-Extensions length: %w", err)
-		}
-		for _, elem := range v.IEExtensions {
-			if err := elem.MarshalAPERTo(bb); err != nil {
-				return fmt.Errorf("encoding iE-Extensions element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := elem.MarshalAPERTo(bb); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -37705,6 +36687,7 @@ func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) UnmarshalAPER(data []byte)
 }
 
 func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ServedEUTRAcellsToModifyListENDCConfUpdElem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -37725,48 +36708,36 @@ func (v *ServedEUTRAcellsToModifyListENDCConfUpdElem) UnmarshalAPERFrom(bb *per.
 		return fmt.Errorf("decoding servedEUTRACellInfo: %w", err)
 	}
 	if opt_nrneighbourinfo {
-		var seqLen_nrneighbourinfo int64
-		var errLength_nrneighbourinfo error
-		seqLen_nrneighbourinfo, errLength_nrneighbourinfo = per.DecodeConstrainedWholeNumberAligned(bb, 1, 1024)
-		if errLength_nrneighbourinfo != nil {
-			return fmt.Errorf("decoding nrNeighbourInfo length: %w", errLength_nrneighbourinfo)
-		}
-		if seqLen_nrneighbourinfo < 1 {
-			return fmt.Errorf("decoding nrNeighbourInfo length %d below lower bound 1", seqLen_nrneighbourinfo)
-		}
-		if seqLen_nrneighbourinfo > 1024 {
-			return fmt.Errorf("decoding nrNeighbourInfo length %d above upper bound 1024", seqLen_nrneighbourinfo)
-		}
 		tmp_nrneighbourinfo := make(NRNeighbourInformation, 0)
-		for i := int64(0); i < seqLen_nrneighbourinfo; i++ {
-			var elem NRNeighbourInformationElem
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding nrNeighbourInfo element %d: %w", i, err)
+		_, errCollection_nrneighbourinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 1024, HasUpper: true}, true, func(fragmentOffset_nrneighbourinfo, fragmentLength_nrneighbourinfo int64) error {
+			for i := int64(0); i < fragmentLength_nrneighbourinfo; i++ {
+				var elem NRNeighbourInformationElem
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding nrNeighbourInfo element %d: %w", fragmentOffset_nrneighbourinfo+i, err)
+				}
+				tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
 			}
-			tmp_nrneighbourinfo = append(tmp_nrneighbourinfo, elem)
+			return nil
+		})
+		if errCollection_nrneighbourinfo != nil {
+			return fmt.Errorf("decoding nrNeighbourInfo: %w", errCollection_nrneighbourinfo)
 		}
 		v.NrNeighbourInfo = tmp_nrneighbourinfo
 	}
 	if opt_ieextensions {
-		var seqLen_ieextensions int64
-		var errLength_ieextensions error
-		seqLen_ieextensions, errLength_ieextensions = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-		if errLength_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions length: %w", errLength_ieextensions)
-		}
-		if seqLen_ieextensions < 1 {
-			return fmt.Errorf("decoding iE-Extensions length %d below lower bound 1", seqLen_ieextensions)
-		}
-		if seqLen_ieextensions > 65535 {
-			return fmt.Errorf("decoding iE-Extensions length %d above upper bound 65535", seqLen_ieextensions)
-		}
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
-		for i := int64(0); i < seqLen_ieextensions; i++ {
-			var elem ProtocolExtensionField
-			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding iE-Extensions element %d: %w", i, err)
+		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem ProtocolExtensionField
+				if err := elem.UnmarshalAPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+				}
+				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
-			tmp_ieextensions = append(tmp_ieextensions, elem)
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
 		}
 		v.IEExtensions = tmp_ieextensions
 	}

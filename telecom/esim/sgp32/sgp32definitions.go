@@ -8584,6 +8584,7 @@ func (v *EuiccPackageRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageRequest from BER/DER format.
 func (v *EuiccPackageRequest) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageRequest: %w", err)
@@ -8758,6 +8759,7 @@ func (v *EuiccPackageSigned) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageSigned from BER/DER format.
 func (v *EuiccPackageSigned) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageSigned{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageSigned SEQUENCE: %w", err)
@@ -8949,6 +8951,7 @@ func (v *EuiccPackage) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackage from BER/DER format.
 func (v *EuiccPackage) UnmarshalBER(data []byte) error {
+	*v = EuiccPackage{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EuiccPackage CHOICE")
 	}
@@ -9247,6 +9250,7 @@ func (v *EimConfigurationData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimConfigurationData from BER/DER format.
 func (v *EimConfigurationData) UnmarshalBER(data []byte) error {
+	*v = EimConfigurationData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EimConfigurationData SEQUENCE: %w", err)
@@ -9421,7 +9425,7 @@ func (v *EimConfigurationData) UnmarshalBER(data []byte) error {
 				if decodedTag_eimsupportedprotocol.Class != tag.ClassContextSpecific || decodedTag_eimsupportedprotocol.Number != 7 {
 					return fmt.Errorf("decoding eimSupportedProtocol: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eimsupportedprotocol)
 				}
-				bsBytes_eimsupportedprotocol, bsUnused_eimsupportedprotocol, bsErr := ber.DecodeBitStringValue(rawVal_eimsupportedprotocol)
+				bsBytes_eimsupportedprotocol, bsUnused_eimsupportedprotocol, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_eimsupportedprotocol.Constructed, rawVal_eimsupportedprotocol)
 				if bsErr != nil {
 					return fmt.Errorf("decoding eimSupportedProtocol: %w", bsErr)
 				}
@@ -9662,6 +9666,7 @@ func (v *Eco) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Eco from BER/DER format.
 func (v *Eco) UnmarshalBER(data []byte) error {
+	*v = Eco{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Eco CHOICE")
 	}
@@ -10016,6 +10021,7 @@ func (v *Psmo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Psmo from BER/DER format.
 func (v *Psmo) UnmarshalBER(data []byte) error {
+	*v = Psmo{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Psmo CHOICE")
 	}
@@ -10248,6 +10254,7 @@ func (v *IpaEuiccDataRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IpaEuiccDataRequest from BER/DER format.
 func (v *IpaEuiccDataRequest) UnmarshalBER(data []byte) error {
+	*v = IpaEuiccDataRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IpaEuiccDataRequest: %w", err)
@@ -10443,6 +10450,7 @@ func (v *ProfileDownloadTriggerRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProfileDownloadTriggerRequest from BER/DER format.
 func (v *ProfileDownloadTriggerRequest) UnmarshalBER(data []byte) error {
+	*v = ProfileDownloadTriggerRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadTriggerRequest: %w", err)
@@ -10587,6 +10595,7 @@ func (v *ProfileDownloadData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProfileDownloadData from BER/DER format.
 func (v *ProfileDownloadData) UnmarshalBER(data []byte) error {
+	*v = ProfileDownloadData{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ProfileDownloadData CHOICE")
 	}
@@ -10824,6 +10833,7 @@ func (v *EuiccPackageResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageResult from BER/DER format.
 func (v *EuiccPackageResult) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageResult{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EuiccPackageResult CHOICE")
 	}
@@ -10954,6 +10964,7 @@ func (v *EuiccPackageResultSigned) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageResultSigned from BER/DER format.
 func (v *EuiccPackageResultSigned) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageResultSigned{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageResultSigned SEQUENCE: %w", err)
@@ -11131,6 +11142,7 @@ func (v *EuiccPackageResultDataSigned) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageResultDataSigned from BER/DER format.
 func (v *EuiccPackageResultDataSigned) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageResultDataSigned{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageResultDataSigned SEQUENCE: %w", err)
@@ -11504,6 +11516,7 @@ func (v *EuiccResultData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccResultData from BER/DER format.
 func (v *EuiccResultData) UnmarshalBER(data []byte) error {
+	*v = EuiccResultData{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EuiccResultData CHOICE")
 	}
@@ -11779,6 +11792,7 @@ func (v *EuiccPackageErrorSigned) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageErrorSigned from BER/DER format.
 func (v *EuiccPackageErrorSigned) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageErrorSigned{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageErrorSigned SEQUENCE: %w", err)
@@ -11930,6 +11944,7 @@ func (v *EuiccPackageErrorDataSigned) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageErrorDataSigned from BER/DER format.
 func (v *EuiccPackageErrorDataSigned) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageErrorDataSigned{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageErrorDataSigned SEQUENCE: %w", err)
@@ -12138,6 +12153,7 @@ func (v *EuiccPackageErrorUnsigned) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EuiccPackageErrorUnsigned from BER/DER format.
 func (v *EuiccPackageErrorUnsigned) UnmarshalBER(data []byte) error {
+	*v = EuiccPackageErrorUnsigned{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EuiccPackageErrorUnsigned SEQUENCE: %w", err)
@@ -12311,6 +12327,7 @@ func (v *SGPProfileInfoListResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPProfileInfoListResponse from BER/DER format.
 func (v *SGPProfileInfoListResponse) UnmarshalBER(data []byte) error {
+	*v = SGPProfileInfoListResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SGPProfileInfoListResponse CHOICE")
 	}
@@ -12413,6 +12430,7 @@ func (v *AddEimResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AddEimResult from BER/DER format.
 func (v *AddEimResult) UnmarshalBER(data []byte) error {
+	*v = AddEimResult{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AddEimResult CHOICE")
 	}
@@ -12518,6 +12536,7 @@ func (v *ListEimResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ListEimResult from BER/DER format.
 func (v *ListEimResult) UnmarshalBER(data []byte) error {
+	*v = ListEimResult{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ListEimResult CHOICE")
 	}
@@ -12640,6 +12659,7 @@ func (v *EimIdInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimIdInfo from BER/DER format.
 func (v *EimIdInfo) UnmarshalBER(data []byte) error {
+	*v = EimIdInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EimIdInfo SEQUENCE: %w", err)
@@ -12767,6 +12787,7 @@ func (v *IpaEuiccDataResponseError) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IpaEuiccDataResponseError from BER/DER format.
 func (v *IpaEuiccDataResponseError) UnmarshalBER(data []byte) error {
+	*v = IpaEuiccDataResponseError{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IpaEuiccDataResponseError SEQUENCE: %w", err)
@@ -12913,6 +12934,7 @@ func (v *IpaEuiccDataResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IpaEuiccDataResponse from BER/DER format.
 func (v *IpaEuiccDataResponse) UnmarshalBER(data []byte) error {
+	*v = IpaEuiccDataResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for IpaEuiccDataResponse CHOICE")
 	}
@@ -13393,6 +13415,7 @@ func (v *IpaEuiccData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IpaEuiccData from BER/DER format.
 func (v *IpaEuiccData) UnmarshalBER(data []byte) error {
+	*v = IpaEuiccData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IpaEuiccData SEQUENCE: %w", err)
@@ -13749,6 +13772,7 @@ func (v *ProfileDownloadTriggerResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProfileDownloadTriggerResult from BER/DER format.
 func (v *ProfileDownloadTriggerResult) UnmarshalBER(data []byte) error {
+	*v = ProfileDownloadTriggerResult{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadTriggerResult: %w", err)
@@ -13860,6 +13884,7 @@ func (v *ISDRProprietaryApplicationTemplateIoT) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ISDRProprietaryApplicationTemplateIoT from BER/DER format.
 func (v *ISDRProprietaryApplicationTemplateIoT) UnmarshalBER(data []byte) error {
+	*v = ISDRProprietaryApplicationTemplateIoT{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ISDRProprietaryApplicationTemplateIoT: %w", err)
@@ -13887,7 +13912,7 @@ func (v *ISDRProprietaryApplicationTemplateIoT) UnmarshalBER(data []byte) error 
 	if decodedTag_euiccconfiguration.Class != tag.ClassContextSpecific || decodedTag_euiccconfiguration.Number != 0 {
 		return fmt.Errorf("decoding euiccConfiguration: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_euiccconfiguration)
 	}
-	bsBytes_euiccconfiguration, bsUnused_euiccconfiguration, bsErr := ber.DecodeBitStringValue(rawVal_euiccconfiguration)
+	bsBytes_euiccconfiguration, bsUnused_euiccconfiguration, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_euiccconfiguration.Constructed, rawVal_euiccconfiguration)
 	if bsErr != nil {
 		return fmt.Errorf("decoding euiccConfiguration: %w", bsErr)
 	}
@@ -13962,6 +13987,7 @@ func (v *IpaeActivationRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IpaeActivationRequest from BER/DER format.
 func (v *IpaeActivationRequest) UnmarshalBER(data []byte) error {
+	*v = IpaeActivationRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IpaeActivationRequest: %w", err)
@@ -13989,7 +14015,7 @@ func (v *IpaeActivationRequest) UnmarshalBER(data []byte) error {
 	if decodedTag_ipaeoption.Class != tag.ClassContextSpecific || decodedTag_ipaeoption.Number != 0 {
 		return fmt.Errorf("decoding ipaeOption: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipaeoption)
 	}
-	bsBytes_ipaeoption, bsUnused_ipaeoption, bsErr := ber.DecodeBitStringValue(rawVal_ipaeoption)
+	bsBytes_ipaeoption, bsUnused_ipaeoption, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_ipaeoption.Constructed, rawVal_ipaeoption)
 	if bsErr != nil {
 		return fmt.Errorf("decoding ipaeOption: %w", bsErr)
 	}
@@ -14064,6 +14090,7 @@ func (v *IpaeActivationResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IpaeActivationResponse from BER/DER format.
 func (v *IpaeActivationResponse) UnmarshalBER(data []byte) error {
+	*v = IpaeActivationResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IpaeActivationResponse: %w", err)
@@ -14216,6 +14243,7 @@ func (v *IpaCapabilities) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IpaCapabilities from BER/DER format.
 func (v *IpaCapabilities) UnmarshalBER(data []byte) error {
+	*v = IpaCapabilities{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IpaCapabilities SEQUENCE: %w", err)
@@ -14240,7 +14268,7 @@ func (v *IpaCapabilities) UnmarshalBER(data []byte) error {
 	if decodedTag_ipafeatures.Class != tag.ClassContextSpecific || decodedTag_ipafeatures.Number != 0 {
 		return fmt.Errorf("decoding ipaFeatures: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipafeatures)
 	}
-	bsBytes_ipafeatures, bsUnused_ipafeatures, bsErr := ber.DecodeBitStringValue(rawVal_ipafeatures)
+	bsBytes_ipafeatures, bsUnused_ipafeatures, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_ipafeatures.Constructed, rawVal_ipafeatures)
 	if bsErr != nil {
 		return fmt.Errorf("decoding ipaFeatures: %w", bsErr)
 	}
@@ -14258,7 +14286,7 @@ func (v *IpaCapabilities) UnmarshalBER(data []byte) error {
 				if decodedTag_ipasupportedprotocols.Class != tag.ClassContextSpecific || decodedTag_ipasupportedprotocols.Number != 1 {
 					return fmt.Errorf("decoding ipaSupportedProtocols: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipasupportedprotocols)
 				}
-				bsBytes_ipasupportedprotocols, bsUnused_ipasupportedprotocols, bsErr := ber.DecodeBitStringValue(rawVal_ipasupportedprotocols)
+				bsBytes_ipasupportedprotocols, bsUnused_ipasupportedprotocols, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_ipasupportedprotocols.Constructed, rawVal_ipasupportedprotocols)
 				if bsErr != nil {
 					return fmt.Errorf("decoding ipaSupportedProtocols: %w", bsErr)
 				}
@@ -14757,6 +14785,7 @@ func (v *SGPProfileInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPProfileInfo from BER/DER format.
 func (v *SGPProfileInfo) UnmarshalBER(data []byte) error {
+	*v = SGPProfileInfo{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPProfileInfo: %w", err)
@@ -15045,7 +15074,7 @@ func (v *SGPProfileInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_profilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_profilepolicyrules.Number != 25 {
 					return fmt.Errorf("decoding profilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilepolicyrules)
 				}
-				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_profilepolicyrules)
+				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_profilepolicyrules.Constructed, rawVal_profilepolicyrules)
 				if bsErr != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", bsErr)
 				}
@@ -15391,6 +15420,7 @@ func (v *SGPUpdateMetadataRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPUpdateMetadataRequest from BER/DER format.
 func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte) error {
+	*v = SGPUpdateMetadataRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPUpdateMetadataRequest: %w", err)
@@ -15499,7 +15529,7 @@ func (v *SGPUpdateMetadataRequest) UnmarshalBER(data []byte) error {
 				if decodedTag_profilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_profilepolicyrules.Number != 25 {
 					return fmt.Errorf("decoding profilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilepolicyrules)
 				}
-				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_profilepolicyrules)
+				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_profilepolicyrules.Constructed, rawVal_profilepolicyrules)
 				if bsErr != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", bsErr)
 				}
@@ -15936,6 +15966,7 @@ func (v *SGPStoreMetadataRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPStoreMetadataRequest from BER/DER format.
 func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte) error {
+	*v = SGPStoreMetadataRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPStoreMetadataRequest: %w", err)
@@ -16140,7 +16171,7 @@ func (v *SGPStoreMetadataRequest) UnmarshalBER(data []byte) error {
 				if decodedTag_profilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_profilepolicyrules.Number != 25 {
 					return fmt.Errorf("decoding profilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_profilepolicyrules)
 				}
-				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_profilepolicyrules)
+				bsBytes_profilepolicyrules, bsUnused_profilepolicyrules, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_profilepolicyrules.Constructed, rawVal_profilepolicyrules)
 				if bsErr != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", bsErr)
 				}
@@ -16357,6 +16388,7 @@ func (v *SGPAuthenticateClientRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPAuthenticateClientRequest from BER/DER format.
 func (v *SGPAuthenticateClientRequest) UnmarshalBER(data []byte) error {
+	*v = SGPAuthenticateClientRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPAuthenticateClientRequest: %w", err)
@@ -16915,6 +16947,7 @@ func (v *SGPEUICCInfo2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPEUICCInfo2 from BER/DER format.
 func (v *SGPEUICCInfo2) UnmarshalBER(data []byte) error {
+	*v = SGPEUICCInfo2{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEUICCInfo2: %w", err)
@@ -17014,7 +17047,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte) error {
 	if decodedTag_uicccapability.Class != tag.ClassContextSpecific || decodedTag_uicccapability.Number != 5 {
 		return fmt.Errorf("decoding uiccCapability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uicccapability)
 	}
-	bsBytes_uicccapability, bsUnused_uicccapability, bsErr := ber.DecodeBitStringValue(rawVal_uicccapability)
+	bsBytes_uicccapability, bsUnused_uicccapability, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_uicccapability.Constructed, rawVal_uicccapability)
 	if bsErr != nil {
 		return fmt.Errorf("decoding uiccCapability: %w", bsErr)
 	}
@@ -17072,7 +17105,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte) error {
 	if decodedTag_rspcapability.Class != tag.ClassContextSpecific || decodedTag_rspcapability.Number != 8 {
 		return fmt.Errorf("decoding rspCapability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rspcapability)
 	}
-	bsBytes_rspcapability, bsUnused_rspcapability, bsErr := ber.DecodeBitStringValue(rawVal_rspcapability)
+	bsBytes_rspcapability, bsUnused_rspcapability, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_rspcapability.Constructed, rawVal_rspcapability)
 	if bsErr != nil {
 		return fmt.Errorf("decoding rspCapability: %w", bsErr)
 	}
@@ -17175,7 +17208,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte) error {
 				if decodedTag_forbiddenprofilepolicyrules.Class != tag.ClassContextSpecific || decodedTag_forbiddenprofilepolicyrules.Number != 25 {
 					return fmt.Errorf("decoding forbiddenProfilePolicyRules: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forbiddenprofilepolicyrules)
 				}
-				bsBytes_forbiddenprofilepolicyrules, bsUnused_forbiddenprofilepolicyrules, bsErr := ber.DecodeBitStringValue(rawVal_forbiddenprofilepolicyrules)
+				bsBytes_forbiddenprofilepolicyrules, bsUnused_forbiddenprofilepolicyrules, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_forbiddenprofilepolicyrules.Constructed, rawVal_forbiddenprofilepolicyrules)
 				if bsErr != nil {
 					return fmt.Errorf("decoding forbiddenProfilePolicyRules: %w", bsErr)
 				}
@@ -17239,7 +17272,7 @@ func (v *SGPEUICCInfo2) UnmarshalBER(data []byte) error {
 				if decodedTag_treproperties.Class != tag.ClassContextSpecific || decodedTag_treproperties.Number != 13 {
 					return fmt.Errorf("decoding treProperties: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_treproperties)
 				}
-				bsBytes_treproperties, bsUnused_treproperties, bsErr := ber.DecodeBitStringValue(rawVal_treproperties)
+				bsBytes_treproperties, bsUnused_treproperties, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_treproperties.Constructed, rawVal_treproperties)
 				if bsErr != nil {
 					return fmt.Errorf("decoding treProperties: %w", bsErr)
 				}
@@ -17562,6 +17595,7 @@ func (v *SGPIoTSpecificInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPIoTSpecificInfo from BER/DER format.
 func (v *SGPIoTSpecificInfo) UnmarshalBER(data []byte) error {
+	*v = SGPIoTSpecificInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPIoTSpecificInfo SEQUENCE: %w", err)
@@ -17744,6 +17778,7 @@ func (v *AddInitialEimRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AddInitialEimRequest from BER/DER format.
 func (v *AddInitialEimRequest) UnmarshalBER(data []byte) error {
+	*v = AddInitialEimRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AddInitialEimRequest: %w", err)
@@ -17864,6 +17899,7 @@ func (v *AddInitialEimResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AddInitialEimResponse from BER/DER format.
 func (v *AddInitialEimResponse) UnmarshalBER(data []byte) error {
+	*v = AddInitialEimResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AddInitialEimResponse CHOICE")
 	}
@@ -17980,6 +18016,7 @@ func (v *SGPEuiccMemoryResetRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPEuiccMemoryResetRequest from BER/DER format.
 func (v *SGPEuiccMemoryResetRequest) UnmarshalBER(data []byte) error {
+	*v = SGPEuiccMemoryResetRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEuiccMemoryResetRequest: %w", err)
@@ -18007,7 +18044,7 @@ func (v *SGPEuiccMemoryResetRequest) UnmarshalBER(data []byte) error {
 	if decodedTag_resetoptions.Class != tag.ClassContextSpecific || decodedTag_resetoptions.Number != 2 {
 		return fmt.Errorf("decoding resetOptions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_resetoptions)
 	}
-	bsBytes_resetoptions, bsUnused_resetoptions, bsErr := ber.DecodeBitStringValue(rawVal_resetoptions)
+	bsBytes_resetoptions, bsUnused_resetoptions, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_resetoptions.Constructed, rawVal_resetoptions)
 	if bsErr != nil {
 		return fmt.Errorf("decoding resetOptions: %w", bsErr)
 	}
@@ -18118,6 +18155,7 @@ func (v *SGPEuiccMemoryResetResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPEuiccMemoryResetResponse from BER/DER format.
 func (v *SGPEuiccMemoryResetResponse) UnmarshalBER(data []byte) error {
+	*v = SGPEuiccMemoryResetResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEuiccMemoryResetResponse: %w", err)
@@ -18278,6 +18316,7 @@ func (v *GetCertsRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetCertsRequest from BER/DER format.
 func (v *GetCertsRequest) UnmarshalBER(data []byte) error {
+	*v = GetCertsRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetCertsRequest: %w", err)
@@ -18392,6 +18431,7 @@ func (v *GetCertsResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetCertsResponse from BER/DER format.
 func (v *GetCertsResponse) UnmarshalBER(data []byte) error {
+	*v = GetCertsResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GetCertsResponse CHOICE")
 	}
@@ -18510,6 +18550,7 @@ func (v *SGPRetrieveNotificationsListRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPRetrieveNotificationsListRequest from BER/DER format.
 func (v *SGPRetrieveNotificationsListRequest) UnmarshalBER(data []byte) error {
+	*v = SGPRetrieveNotificationsListRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPRetrieveNotificationsListRequest: %w", err)
@@ -18649,6 +18690,7 @@ func (v *SGPRetrieveNotificationsListResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPRetrieveNotificationsListResponse from BER/DER format.
 func (v *SGPRetrieveNotificationsListResponse) UnmarshalBER(data []byte) error {
+	*v = SGPRetrieveNotificationsListResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SGPRetrieveNotificationsListResponse CHOICE")
 	}
@@ -18782,6 +18824,7 @@ func (v *ImmediateEnableRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ImmediateEnableRequest from BER/DER format.
 func (v *ImmediateEnableRequest) UnmarshalBER(data []byte) error {
+	*v = ImmediateEnableRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ImmediateEnableRequest: %w", err)
@@ -18887,6 +18930,7 @@ func (v *ImmediateEnableResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ImmediateEnableResponse from BER/DER format.
 func (v *ImmediateEnableResponse) UnmarshalBER(data []byte) error {
+	*v = ImmediateEnableResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ImmediateEnableResponse: %w", err)
@@ -18998,6 +19042,7 @@ func (v *ProfileRollbackRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProfileRollbackRequest from BER/DER format.
 func (v *ProfileRollbackRequest) UnmarshalBER(data []byte) error {
+	*v = ProfileRollbackRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileRollbackRequest: %w", err)
@@ -19107,6 +19152,7 @@ func (v *ProfileRollbackResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProfileRollbackResponse from BER/DER format.
 func (v *ProfileRollbackResponse) UnmarshalBER(data []byte) error {
+	*v = ProfileRollbackResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileRollbackResponse: %w", err)
@@ -19272,6 +19318,7 @@ func (v *ConfigureImmediateProfileEnablingRequest) MarshalDER() ([]byte, error) 
 
 // UnmarshalBER decodes ConfigureImmediateProfileEnablingRequest from BER/DER format.
 func (v *ConfigureImmediateProfileEnablingRequest) UnmarshalBER(data []byte) error {
+	*v = ConfigureImmediateProfileEnablingRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ConfigureImmediateProfileEnablingRequest: %w", err)
@@ -19415,6 +19462,7 @@ func (v *ConfigureImmediateProfileEnablingResponse) MarshalDER() ([]byte, error)
 
 // UnmarshalBER decodes ConfigureImmediateProfileEnablingResponse from BER/DER format.
 func (v *ConfigureImmediateProfileEnablingResponse) UnmarshalBER(data []byte) error {
+	*v = ConfigureImmediateProfileEnablingResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ConfigureImmediateProfileEnablingResponse: %w", err)
@@ -19523,6 +19571,7 @@ func (v *GetEimConfigurationDataRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetEimConfigurationDataRequest from BER/DER format.
 func (v *GetEimConfigurationDataRequest) UnmarshalBER(data []byte) error {
+	*v = GetEimConfigurationDataRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetEimConfigurationDataRequest: %w", err)
@@ -19640,6 +19689,7 @@ func (v *GetEimConfigurationDataResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetEimConfigurationDataResponse from BER/DER format.
 func (v *GetEimConfigurationDataResponse) UnmarshalBER(data []byte) error {
+	*v = GetEimConfigurationDataResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetEimConfigurationDataResponse: %w", err)
@@ -19755,6 +19805,7 @@ func (v *ExecuteFallbackMechanismRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExecuteFallbackMechanismRequest from BER/DER format.
 func (v *ExecuteFallbackMechanismRequest) UnmarshalBER(data []byte) error {
+	*v = ExecuteFallbackMechanismRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExecuteFallbackMechanismRequest: %w", err)
@@ -19860,6 +19911,7 @@ func (v *ExecuteFallbackMechanismResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExecuteFallbackMechanismResponse from BER/DER format.
 func (v *ExecuteFallbackMechanismResponse) UnmarshalBER(data []byte) error {
+	*v = ExecuteFallbackMechanismResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExecuteFallbackMechanismResponse: %w", err)
@@ -19971,6 +20023,7 @@ func (v *ReturnFromFallbackRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReturnFromFallbackRequest from BER/DER format.
 func (v *ReturnFromFallbackRequest) UnmarshalBER(data []byte) error {
+	*v = ReturnFromFallbackRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnFromFallbackRequest: %w", err)
@@ -20076,6 +20129,7 @@ func (v *ReturnFromFallbackResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReturnFromFallbackResponse from BER/DER format.
 func (v *ReturnFromFallbackResponse) UnmarshalBER(data []byte) error {
+	*v = ReturnFromFallbackResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnFromFallbackResponse: %w", err)
@@ -20187,6 +20241,7 @@ func (v *EnableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EnableEmergencyProfileRequest from BER/DER format.
 func (v *EnableEmergencyProfileRequest) UnmarshalBER(data []byte) error {
+	*v = EnableEmergencyProfileRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EnableEmergencyProfileRequest: %w", err)
@@ -20292,6 +20347,7 @@ func (v *EnableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EnableEmergencyProfileResponse from BER/DER format.
 func (v *EnableEmergencyProfileResponse) UnmarshalBER(data []byte) error {
+	*v = EnableEmergencyProfileResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EnableEmergencyProfileResponse: %w", err)
@@ -20403,6 +20459,7 @@ func (v *DisableEmergencyProfileRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DisableEmergencyProfileRequest from BER/DER format.
 func (v *DisableEmergencyProfileRequest) UnmarshalBER(data []byte) error {
+	*v = DisableEmergencyProfileRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DisableEmergencyProfileRequest: %w", err)
@@ -20508,6 +20565,7 @@ func (v *DisableEmergencyProfileResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DisableEmergencyProfileResponse from BER/DER format.
 func (v *DisableEmergencyProfileResponse) UnmarshalBER(data []byte) error {
+	*v = DisableEmergencyProfileResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DisableEmergencyProfileResponse: %w", err)
@@ -20600,6 +20658,7 @@ func (v *GetConnectivityParametersRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetConnectivityParametersRequest from BER/DER format.
 func (v *GetConnectivityParametersRequest) UnmarshalBER(data []byte) error {
+	*v = GetConnectivityParametersRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetConnectivityParametersRequest: %w", err)
@@ -20696,6 +20755,7 @@ func (v *GetConnectivityParametersResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetConnectivityParametersResponse from BER/DER format.
 func (v *GetConnectivityParametersResponse) UnmarshalBER(data []byte) error {
+	*v = GetConnectivityParametersResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GetConnectivityParametersResponse CHOICE")
 	}
@@ -20811,6 +20871,7 @@ func (v *ConnectivityParameters) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ConnectivityParameters from BER/DER format.
 func (v *ConnectivityParameters) UnmarshalBER(data []byte) error {
+	*v = ConnectivityParameters{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ConnectivityParameters SEQUENCE: %w", err)
@@ -20912,6 +20973,7 @@ func (v *SGPSetDefaultDpAddressRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPSetDefaultDpAddressRequest from BER/DER format.
 func (v *SGPSetDefaultDpAddressRequest) UnmarshalBER(data []byte) error {
+	*v = SGPSetDefaultDpAddressRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPSetDefaultDpAddressRequest: %w", err)
@@ -21014,6 +21076,7 @@ func (v *SGPSetDefaultDpAddressResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPSetDefaultDpAddressResponse from BER/DER format.
 func (v *SGPSetDefaultDpAddressResponse) UnmarshalBER(data []byte) error {
+	*v = SGPSetDefaultDpAddressResponse{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPSetDefaultDpAddressResponse: %w", err)
@@ -21190,6 +21253,7 @@ func (v *SGPPrepareDownloadResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPPrepareDownloadResponse from BER/DER format.
 func (v *SGPPrepareDownloadResponse) UnmarshalBER(data []byte) error {
+	*v = SGPPrepareDownloadResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SGPPrepareDownloadResponse CHOICE")
 	}
@@ -21320,6 +21384,7 @@ func (v *CompactPrepareDownloadResponseOk) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactPrepareDownloadResponseOk from BER/DER format.
 func (v *CompactPrepareDownloadResponseOk) UnmarshalBER(data []byte) error {
+	*v = CompactPrepareDownloadResponseOk{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactPrepareDownloadResponseOk SEQUENCE: %w", err)
@@ -21435,6 +21500,7 @@ func (v *CompactEuiccSigned2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactEuiccSigned2 from BER/DER format.
 func (v *CompactEuiccSigned2) UnmarshalBER(data []byte) error {
+	*v = CompactEuiccSigned2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactEuiccSigned2 SEQUENCE: %w", err)
@@ -21594,6 +21660,7 @@ func (v *SGPEuiccSigned1) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPEuiccSigned1 from BER/DER format.
 func (v *SGPEuiccSigned1) UnmarshalBER(data []byte) error {
+	*v = SGPEuiccSigned1{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPEuiccSigned1 SEQUENCE: %w", err)
@@ -21785,6 +21852,7 @@ func (v *SGPAuthenticateResponseOk) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPAuthenticateResponseOk from BER/DER format.
 func (v *SGPAuthenticateResponseOk) UnmarshalBER(data []byte) error {
+	*v = SGPAuthenticateResponseOk{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPAuthenticateResponseOk SEQUENCE: %w", err)
@@ -21989,6 +22057,7 @@ func (v *SGPAuthenticateServerResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPAuthenticateServerResponse from BER/DER format.
 func (v *SGPAuthenticateServerResponse) UnmarshalBER(data []byte) error {
+	*v = SGPAuthenticateServerResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SGPAuthenticateServerResponse CHOICE")
 	}
@@ -22167,6 +22236,7 @@ func (v *CompactAuthenticateResponseOk) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactAuthenticateResponseOk from BER/DER format.
 func (v *CompactAuthenticateResponseOk) UnmarshalBER(data []byte) error {
+	*v = CompactAuthenticateResponseOk{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactAuthenticateResponseOk SEQUENCE: %w", err)
@@ -22330,6 +22400,7 @@ func (v *CompactEuiccSigned1) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactEuiccSigned1 from BER/DER format.
 func (v *CompactEuiccSigned1) UnmarshalBER(data []byte) error {
+	*v = CompactEuiccSigned1{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactEuiccSigned1 SEQUENCE: %w", err)
@@ -22522,6 +22593,7 @@ func (v *SGPPendingNotification) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPPendingNotification from BER/DER format.
 func (v *SGPPendingNotification) UnmarshalBER(data []byte) error {
+	*v = SGPPendingNotification{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SGPPendingNotification CHOICE")
 	}
@@ -22646,6 +22718,7 @@ func (v *SGPProfileInstallationResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPProfileInstallationResult from BER/DER format.
 func (v *SGPProfileInstallationResult) UnmarshalBER(data []byte) error {
+	*v = SGPProfileInstallationResult{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPProfileInstallationResult: %w", err)
@@ -22777,6 +22850,7 @@ func (v *CompactProfileInstallationResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactProfileInstallationResult from BER/DER format.
 func (v *CompactProfileInstallationResult) UnmarshalBER(data []byte) error {
+	*v = CompactProfileInstallationResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactProfileInstallationResult SEQUENCE: %w", err)
@@ -22923,6 +22997,7 @@ func (v *CompactProfileInstallationResultData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactProfileInstallationResultData from BER/DER format.
 func (v *CompactProfileInstallationResultData) UnmarshalBER(data []byte) error {
+	*v = CompactProfileInstallationResultData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactProfileInstallationResultData SEQUENCE: %w", err)
@@ -23067,6 +23142,7 @@ func (v *CompactSuccessResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactSuccessResult from BER/DER format.
 func (v *CompactSuccessResult) UnmarshalBER(data []byte) error {
+	*v = CompactSuccessResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactSuccessResult SEQUENCE: %w", err)
@@ -23208,6 +23284,7 @@ func (v *CompactOtherSignedNotification) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactOtherSignedNotification from BER/DER format.
 func (v *CompactOtherSignedNotification) UnmarshalBER(data []byte) error {
+	*v = CompactOtherSignedNotification{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactOtherSignedNotification SEQUENCE: %w", err)
@@ -23398,6 +23475,7 @@ func (v *SGPCancelSessionResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPCancelSessionResponse from BER/DER format.
 func (v *SGPCancelSessionResponse) UnmarshalBER(data []byte) error {
+	*v = SGPCancelSessionResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SGPCancelSessionResponse CHOICE")
 	}
@@ -23531,6 +23609,7 @@ func (v *CompactCancelSessionResponseOk) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactCancelSessionResponseOk from BER/DER format.
 func (v *CompactCancelSessionResponseOk) UnmarshalBER(data []byte) error {
+	*v = CompactCancelSessionResponseOk{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactCancelSessionResponseOk SEQUENCE: %w", err)
@@ -23638,6 +23717,7 @@ func (v *CompactEuiccCancelSessionSigned) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactEuiccCancelSessionSigned from BER/DER format.
 func (v *CompactEuiccCancelSessionSigned) UnmarshalBER(data []byte) error {
+	*v = CompactEuiccCancelSessionSigned{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CompactEuiccCancelSessionSigned SEQUENCE: %w", err)
@@ -23879,6 +23959,7 @@ func (v *EsipaMessageFromIpaToEim) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EsipaMessageFromIpaToEim from BER/DER format.
 func (v *EsipaMessageFromIpaToEim) UnmarshalBER(data []byte) error {
+	*v = EsipaMessageFromIpaToEim{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EsipaMessageFromIpaToEim CHOICE")
 	}
@@ -24129,6 +24210,7 @@ func (v *EsipaMessageFromEimToIpa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EsipaMessageFromEimToIpa from BER/DER format.
 func (v *EsipaMessageFromEimToIpa) UnmarshalBER(data []byte) error {
+	*v = EsipaMessageFromEimToIpa{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EsipaMessageFromEimToIpa CHOICE")
 	}
@@ -24310,6 +24392,7 @@ func (v *InitiateAuthenticationRequestEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InitiateAuthenticationRequestEsipa from BER/DER format.
 func (v *InitiateAuthenticationRequestEsipa) UnmarshalBER(data []byte) error {
+	*v = InitiateAuthenticationRequestEsipa{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding InitiateAuthenticationRequestEsipa: %w", err)
@@ -24482,6 +24565,7 @@ func (v *InitiateAuthenticationResponseEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InitiateAuthenticationResponseEsipa from BER/DER format.
 func (v *InitiateAuthenticationResponseEsipa) UnmarshalBER(data []byte) error {
+	*v = InitiateAuthenticationResponseEsipa{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InitiateAuthenticationResponseEsipa CHOICE")
 	}
@@ -24665,6 +24749,7 @@ func (v *InitiateAuthenticationOkEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InitiateAuthenticationOkEsipa from BER/DER format.
 func (v *InitiateAuthenticationOkEsipa) UnmarshalBER(data []byte) error {
+	*v = InitiateAuthenticationOkEsipa{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding InitiateAuthenticationOkEsipa SEQUENCE: %w", err)
@@ -24860,6 +24945,7 @@ func (v *AuthenticateClientRequestEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticateClientRequestEsipa from BER/DER format.
 func (v *AuthenticateClientRequestEsipa) UnmarshalBER(data []byte) error {
+	*v = AuthenticateClientRequestEsipa{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientRequestEsipa: %w", err)
@@ -25025,6 +25111,7 @@ func (v *AuthenticateClientResponseEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticateClientResponseEsipa from BER/DER format.
 func (v *AuthenticateClientResponseEsipa) UnmarshalBER(data []byte) error {
+	*v = AuthenticateClientResponseEsipa{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AuthenticateClientResponseEsipa CHOICE")
 	}
@@ -25208,6 +25295,7 @@ func (v *AuthenticateClientOkDPEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticateClientOkDPEsipa from BER/DER format.
 func (v *AuthenticateClientOkDPEsipa) UnmarshalBER(data []byte) error {
+	*v = AuthenticateClientOkDPEsipa{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientOkDPEsipa SEQUENCE: %w", err)
@@ -25390,6 +25478,7 @@ func (v *AuthenticateClientOkDSEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticateClientOkDSEsipa from BER/DER format.
 func (v *AuthenticateClientOkDSEsipa) UnmarshalBER(data []byte) error {
+	*v = AuthenticateClientOkDSEsipa{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticateClientOkDSEsipa SEQUENCE: %w", err)
@@ -25514,6 +25603,7 @@ func (v *GetBoundProfilePackageRequestEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetBoundProfilePackageRequestEsipa from BER/DER format.
 func (v *GetBoundProfilePackageRequestEsipa) UnmarshalBER(data []byte) error {
+	*v = GetBoundProfilePackageRequestEsipa{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetBoundProfilePackageRequestEsipa: %w", err)
@@ -25646,6 +25736,7 @@ func (v *GetBoundProfilePackageResponseEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetBoundProfilePackageResponseEsipa from BER/DER format.
 func (v *GetBoundProfilePackageResponseEsipa) UnmarshalBER(data []byte) error {
+	*v = GetBoundProfilePackageResponseEsipa{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GetBoundProfilePackageResponseEsipa CHOICE")
 	}
@@ -25771,6 +25862,7 @@ func (v *GetBoundProfilePackageOkEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetBoundProfilePackageOkEsipa from BER/DER format.
 func (v *GetBoundProfilePackageOkEsipa) UnmarshalBER(data []byte) error {
+	*v = GetBoundProfilePackageOkEsipa{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetBoundProfilePackageOkEsipa SEQUENCE: %w", err)
@@ -25903,6 +25995,7 @@ func (v *HandleNotificationEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes HandleNotificationEsipa from BER/DER format.
 func (v *HandleNotificationEsipa) UnmarshalBER(data []byte) error {
+	*v = HandleNotificationEsipa{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for HandleNotificationEsipa CHOICE")
 	}
@@ -26022,6 +26115,7 @@ func (v *CancelSessionRequestEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CancelSessionRequestEsipa from BER/DER format.
 func (v *CancelSessionRequestEsipa) UnmarshalBER(data []byte) error {
+	*v = CancelSessionRequestEsipa{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CancelSessionRequestEsipa: %w", err)
@@ -26157,6 +26251,7 @@ func (v *CancelSessionResponseEsipa) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CancelSessionResponseEsipa from BER/DER format.
 func (v *CancelSessionResponseEsipa) UnmarshalBER(data []byte) error {
+	*v = CancelSessionResponseEsipa{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CancelSessionResponseEsipa CHOICE")
 	}
@@ -26254,6 +26349,7 @@ func (v *SGPCancelSessionOk) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPCancelSessionOk from BER/DER format.
 func (v *SGPCancelSessionOk) UnmarshalBER(data []byte) error {
+	*v = SGPCancelSessionOk{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPCancelSessionOk SEQUENCE: %w", err)
@@ -26385,6 +26481,7 @@ func (v *GetEimPackageRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetEimPackageRequest from BER/DER format.
 func (v *GetEimPackageRequest) UnmarshalBER(data []byte) error {
+	*v = GetEimPackageRequest{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetEimPackageRequest: %w", err)
@@ -26593,6 +26690,7 @@ func (v *GetEimPackageResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetEimPackageResponse from BER/DER format.
 func (v *GetEimPackageResponse) UnmarshalBER(data []byte) error {
+	*v = GetEimPackageResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GetEimPackageResponse CHOICE")
 	}
@@ -26717,6 +26815,7 @@ func (v *EimPackageResultResponseError) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimPackageResultResponseError from BER/DER format.
 func (v *EimPackageResultResponseError) UnmarshalBER(data []byte) error {
+	*v = EimPackageResultResponseError{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageResultResponseError SEQUENCE: %w", err)
@@ -26912,6 +27011,7 @@ func (v *EimPackageResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimPackageResult from BER/DER format.
 func (v *EimPackageResult) UnmarshalBER(data []byte) error {
+	*v = EimPackageResult{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EimPackageResult CHOICE")
 	}
@@ -27042,6 +27142,7 @@ func (v *ProvideEimPackageResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProvideEimPackageResult from BER/DER format.
 func (v *ProvideEimPackageResult) UnmarshalBER(data []byte) error {
+	*v = ProvideEimPackageResult{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideEimPackageResult: %w", err)
@@ -27171,6 +27272,7 @@ func (v *ProvideEimPackageResultResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProvideEimPackageResultResponse from BER/DER format.
 func (v *ProvideEimPackageResultResponse) UnmarshalBER(data []byte) error {
+	*v = ProvideEimPackageResultResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ProvideEimPackageResultResponse CHOICE")
 	}
@@ -27342,6 +27444,7 @@ func (v *TransferEimPackageRequest) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TransferEimPackageRequest from BER/DER format.
 func (v *TransferEimPackageRequest) UnmarshalBER(data []byte) error {
+	*v = TransferEimPackageRequest{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for TransferEimPackageRequest CHOICE")
 	}
@@ -27576,6 +27679,7 @@ func (v *TransferEimPackageResponse) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TransferEimPackageResponse from BER/DER format.
 func (v *TransferEimPackageResponse) UnmarshalBER(data []byte) error {
+	*v = TransferEimPackageResponse{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for TransferEimPackageResponse CHOICE")
 	}
@@ -27724,6 +27828,7 @@ func (v *EimPackageReceivedWithCid) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimPackageReceivedWithCid from BER/DER format.
 func (v *EimPackageReceivedWithCid) UnmarshalBER(data []byte) error {
+	*v = EimPackageReceivedWithCid{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageReceivedWithCid SEQUENCE: %w", err)
@@ -27834,6 +27939,7 @@ func (v *EimPackageErrorWithCid) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimPackageErrorWithCid from BER/DER format.
 func (v *EimPackageErrorWithCid) UnmarshalBER(data []byte) error {
+	*v = EimPackageErrorWithCid{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageErrorWithCid SEQUENCE: %w", err)
@@ -28104,6 +28210,7 @@ func (v *EimConfigurationDataEimPublicKeyData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimConfigurationDataEimPublicKeyData from BER/DER format.
 func (v *EimConfigurationDataEimPublicKeyData) UnmarshalBER(data []byte) error {
+	*v = EimConfigurationDataEimPublicKeyData{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EimConfigurationDataEimPublicKeyData CHOICE")
 	}
@@ -28237,6 +28344,7 @@ func (v *EimConfigurationDataTrustedPublicKeyDataTls) MarshalDER() ([]byte, erro
 
 // UnmarshalBER decodes EimConfigurationDataTrustedPublicKeyDataTls from BER/DER format.
 func (v *EimConfigurationDataTrustedPublicKeyDataTls) UnmarshalBER(data []byte) error {
+	*v = EimConfigurationDataTrustedPublicKeyDataTls{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EimConfigurationDataTrustedPublicKeyDataTls CHOICE")
 	}
@@ -28338,6 +28446,7 @@ func (v *EcoDeleteEim) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EcoDeleteEim from BER/DER format.
 func (v *EcoDeleteEim) UnmarshalBER(data []byte) error {
+	*v = EcoDeleteEim{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EcoDeleteEim SEQUENCE: %w", err)
@@ -28418,6 +28527,7 @@ func (v *EcoListEim) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EcoListEim from BER/DER format.
 func (v *EcoListEim) UnmarshalBER(data []byte) error {
+	*v = EcoListEim{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EcoListEim SEQUENCE: %w", err)
@@ -28498,6 +28608,7 @@ func (v *PsmoEnable) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PsmoEnable from BER/DER format.
 func (v *PsmoEnable) UnmarshalBER(data []byte) error {
+	*v = PsmoEnable{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoEnable SEQUENCE: %w", err)
@@ -28602,6 +28713,7 @@ func (v *PsmoDisable) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PsmoDisable from BER/DER format.
 func (v *PsmoDisable) UnmarshalBER(data []byte) error {
+	*v = PsmoDisable{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoDisable SEQUENCE: %w", err)
@@ -28692,6 +28804,7 @@ func (v *PsmoDelete) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PsmoDelete from BER/DER format.
 func (v *PsmoDelete) UnmarshalBER(data []byte) error {
+	*v = PsmoDelete{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoDelete SEQUENCE: %w", err)
@@ -28768,6 +28881,7 @@ func (v *PsmoGetRAT) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PsmoGetRAT from BER/DER format.
 func (v *PsmoGetRAT) UnmarshalBER(data []byte) error {
+	*v = PsmoGetRAT{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoGetRAT SEQUENCE: %w", err)
@@ -28892,6 +29006,7 @@ func (v *PsmoConfigureImmediateEnable) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PsmoConfigureImmediateEnable from BER/DER format.
 func (v *PsmoConfigureImmediateEnable) UnmarshalBER(data []byte) error {
+	*v = PsmoConfigureImmediateEnable{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoConfigureImmediateEnable SEQUENCE: %w", err)
@@ -29027,6 +29142,7 @@ func (v *PsmoSetFallbackAttribute) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PsmoSetFallbackAttribute from BER/DER format.
 func (v *PsmoSetFallbackAttribute) UnmarshalBER(data []byte) error {
+	*v = PsmoSetFallbackAttribute{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoSetFallbackAttribute SEQUENCE: %w", err)
@@ -29103,6 +29219,7 @@ func (v *PsmoUnsetFallbackAttribute) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PsmoUnsetFallbackAttribute from BER/DER format.
 func (v *PsmoUnsetFallbackAttribute) UnmarshalBER(data []byte) error {
+	*v = PsmoUnsetFallbackAttribute{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PsmoUnsetFallbackAttribute SEQUENCE: %w", err)
@@ -29168,6 +29285,7 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) MarshalDER() ([]byte, er
 
 // UnmarshalBER decodes IpaEuiccDataRequestSearchCriteriaNotification from BER/DER format.
 func (v *IpaEuiccDataRequestSearchCriteriaNotification) UnmarshalBER(data []byte) error {
+	*v = IpaEuiccDataRequestSearchCriteriaNotification{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for IpaEuiccDataRequestSearchCriteriaNotification CHOICE")
 	}
@@ -29202,7 +29320,7 @@ func (v *IpaEuiccDataRequestSearchCriteriaNotification) UnmarshalBER(data []byte
 		if tlvErr != nil {
 			return fmt.Errorf("decoding profileManagementOperation: %w", tlvErr)
 		}
-		bsBytes, bsUnused, bsErr := ber.DecodeBitStringValue(rawVal)
+		bsBytes, bsUnused, bsErr := ber.DecodeImplicitBitStringValue(peekTag.Constructed, rawVal)
 		if bsErr != nil {
 			return fmt.Errorf("decoding profileManagementOperation: %w", bsErr)
 		}
@@ -29247,6 +29365,7 @@ func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) MarshalDER() ([]by
 
 // UnmarshalBER decodes IpaEuiccDataRequestSearchCriteriaEuiccPackageResult from BER/DER format.
 func (v *IpaEuiccDataRequestSearchCriteriaEuiccPackageResult) UnmarshalBER(data []byte) error {
+	*v = IpaEuiccDataRequestSearchCriteriaEuiccPackageResult{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for IpaEuiccDataRequestSearchCriteriaEuiccPackageResult CHOICE")
 	}
@@ -29339,6 +29458,7 @@ func (v *ProfileDownloadDataContactSmds) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProfileDownloadDataContactSmds from BER/DER format.
 func (v *ProfileDownloadDataContactSmds) UnmarshalBER(data []byte) error {
+	*v = ProfileDownloadDataContactSmds{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadDataContactSmds SEQUENCE: %w", err)
@@ -29618,6 +29738,7 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) MarshalDE
 
 // UnmarshalBER decodes ProfileDownloadTriggerResultProfileDownloadTriggerResultData from BER/DER format.
 func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultData) UnmarshalBER(data []byte) error {
+	*v = ProfileDownloadTriggerResultProfileDownloadTriggerResultData{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ProfileDownloadTriggerResultProfileDownloadTriggerResultData CHOICE")
 	}
@@ -29711,6 +29832,7 @@ func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDown
 
 // UnmarshalBER decodes ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError from BER/DER format.
 func (v *ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError) UnmarshalBER(data []byte) error {
+	*v = ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProfileDownloadTriggerResultProfileDownloadTriggerResultDataProfileDownloadError SEQUENCE: %w", err)
@@ -29866,6 +29988,7 @@ func (v *SGPProfileInfoIotSpecificProfileInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGPProfileInfoIotSpecificProfileInfo from BER/DER format.
 func (v *SGPProfileInfoIotSpecificProfileInfo) UnmarshalBER(data []byte) error {
+	*v = SGPProfileInfoIotSpecificProfileInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPProfileInfoIotSpecificProfileInfo SEQUENCE: %w", err)
@@ -29980,6 +30103,7 @@ func (v *SGPStoreMetadataRequestIotSpecificMetadata) MarshalDER() ([]byte, error
 
 // UnmarshalBER decodes SGPStoreMetadataRequestIotSpecificMetadata from BER/DER format.
 func (v *SGPStoreMetadataRequestIotSpecificMetadata) UnmarshalBER(data []byte) error {
+	*v = SGPStoreMetadataRequestIotSpecificMetadata{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGPStoreMetadataRequestIotSpecificMetadata SEQUENCE: %w", err)
@@ -30316,6 +30440,7 @@ func (v *AddInitialEimResponseAddInitialEimOkElem) MarshalDER() ([]byte, error) 
 
 // UnmarshalBER decodes AddInitialEimResponseAddInitialEimOkElem from BER/DER format.
 func (v *AddInitialEimResponseAddInitialEimOkElem) UnmarshalBER(data []byte) error {
+	*v = AddInitialEimResponseAddInitialEimOkElem{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AddInitialEimResponseAddInitialEimOkElem CHOICE")
 	}
@@ -30486,6 +30611,7 @@ func (v *GetCertsResponseCerts) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GetCertsResponseCerts from BER/DER format.
 func (v *GetCertsResponseCerts) UnmarshalBER(data []byte) error {
+	*v = GetCertsResponseCerts{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GetCertsResponseCerts SEQUENCE: %w", err)
@@ -30601,6 +30727,7 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) MarshalDER() ([]byte
 
 // UnmarshalBER decodes SGPRetrieveNotificationsListRequestSearchCriteria from BER/DER format.
 func (v *SGPRetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byte) error {
+	*v = SGPRetrieveNotificationsListRequestSearchCriteria{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SGPRetrieveNotificationsListRequestSearchCriteria CHOICE")
 	}
@@ -30635,7 +30762,7 @@ func (v *SGPRetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []
 		if tlvErr != nil {
 			return fmt.Errorf("decoding profileManagementOperation: %w", tlvErr)
 		}
-		bsBytes, bsUnused, bsErr := ber.DecodeBitStringValue(rawVal)
+		bsBytes, bsUnused, bsErr := ber.DecodeImplicitBitStringValue(peekTag.Constructed, rawVal)
 		if bsErr != nil {
 			return fmt.Errorf("decoding profileManagementOperation: %w", bsErr)
 		}
@@ -30693,6 +30820,7 @@ func (v *GetEimConfigurationDataRequestSearchCriteria) MarshalDER() ([]byte, err
 
 // UnmarshalBER decodes GetEimConfigurationDataRequestSearchCriteria from BER/DER format.
 func (v *GetEimConfigurationDataRequestSearchCriteria) UnmarshalBER(data []byte) error {
+	*v = GetEimConfigurationDataRequestSearchCriteria{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GetEimConfigurationDataRequestSearchCriteria CHOICE")
 	}
@@ -30859,6 +30987,7 @@ func (v *CompactAuthenticateResponseOkSignedData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CompactAuthenticateResponseOkSignedData from BER/DER format.
 func (v *CompactAuthenticateResponseOkSignedData) UnmarshalBER(data []byte) error {
+	*v = CompactAuthenticateResponseOkSignedData{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CompactAuthenticateResponseOkSignedData CHOICE")
 	}
@@ -30987,6 +31116,7 @@ func (v *CompactProfileInstallationResultDataCompactFinalResult) MarshalDER() ([
 
 // UnmarshalBER decodes CompactProfileInstallationResultDataCompactFinalResult from BER/DER format.
 func (v *CompactProfileInstallationResultDataCompactFinalResult) UnmarshalBER(data []byte) error {
+	*v = CompactProfileInstallationResultDataCompactFinalResult{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CompactProfileInstallationResultDataCompactFinalResult CHOICE")
 	}
@@ -31107,6 +31237,7 @@ func (v *EimPackageResultEPRAndNotifications) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimPackageResultEPRAndNotifications from BER/DER format.
 func (v *EimPackageResultEPRAndNotifications) UnmarshalBER(data []byte) error {
+	*v = EimPackageResultEPRAndNotifications{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EimPackageResultEPRAndNotifications SEQUENCE: %w", err)
@@ -31213,6 +31344,7 @@ func (v *ProvideEimPackageResultResponseEmptyResponse) MarshalDER() ([]byte, err
 
 // UnmarshalBER decodes ProvideEimPackageResultResponseEmptyResponse from BER/DER format.
 func (v *ProvideEimPackageResultResponseEmptyResponse) UnmarshalBER(data []byte) error {
+	*v = ProvideEimPackageResultResponseEmptyResponse{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideEimPackageResultResponseEmptyResponse SEQUENCE: %w", err)
@@ -31310,6 +31442,7 @@ func (v *TransferEimPackageResponseEPRAndNotifications) MarshalDER() ([]byte, er
 
 // UnmarshalBER decodes TransferEimPackageResponseEPRAndNotifications from BER/DER format.
 func (v *TransferEimPackageResponseEPRAndNotifications) UnmarshalBER(data []byte) error {
+	*v = TransferEimPackageResponseEPRAndNotifications{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TransferEimPackageResponseEPRAndNotifications SEQUENCE: %w", err)
@@ -31426,6 +31559,7 @@ func (v *EimPackageReceivedWithCidCorrelationId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimPackageReceivedWithCidCorrelationId from BER/DER format.
 func (v *EimPackageReceivedWithCidCorrelationId) UnmarshalBER(data []byte) error {
+	*v = EimPackageReceivedWithCidCorrelationId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EimPackageReceivedWithCidCorrelationId CHOICE")
 	}
@@ -31509,6 +31643,7 @@ func (v *EimPackageErrorWithCidCorrelationId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EimPackageErrorWithCidCorrelationId from BER/DER format.
 func (v *EimPackageErrorWithCidCorrelationId) UnmarshalBER(data []byte) error {
+	*v = EimPackageErrorWithCidCorrelationId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for EimPackageErrorWithCidCorrelationId CHOICE")
 	}

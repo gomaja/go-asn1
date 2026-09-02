@@ -413,6 +413,7 @@ func (v *PrepareGroupCallArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareGroupCallArg from BER/DER format.
 func (v *PrepareGroupCallArg) UnmarshalBER(data []byte) error {
+	*v = PrepareGroupCallArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareGroupCallArg SEQUENCE: %w", err)
@@ -709,6 +710,7 @@ func (v *PrepareGroupCallRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareGroupCallRes from BER/DER format.
 func (v *PrepareGroupCallRes) UnmarshalBER(data []byte) error {
+	*v = PrepareGroupCallRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareGroupCallRes SEQUENCE: %w", err)
@@ -854,6 +856,7 @@ func (v *SendGroupCallEndSignalArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallEndSignalArg from BER/DER format.
 func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte) error {
+	*v = SendGroupCallEndSignalArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallEndSignalArg SEQUENCE: %w", err)
@@ -908,7 +911,7 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte) error {
 				if decodedTag_talkerpriority.Class != tag.ClassContextSpecific || decodedTag_talkerpriority.Number != 0 || decodedTag_talkerpriority.Constructed != false {
 					return fmt.Errorf("decoding talkerPriority: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_talkerpriority)
 				}
-				decVal_talkerpriority, intErr := ber.DecodeIntegerValue(rawVal_talkerpriority)
+				decVal_talkerpriority, intErr := ber.DecodeEnumeratedValue(rawVal_talkerpriority)
 				if intErr != nil {
 					return fmt.Errorf("decoding talkerPriority: %w", intErr)
 				}
@@ -930,7 +933,7 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalinfo.Number != 1 {
 					return fmt.Errorf("decoding additionalInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalinfo)
 				}
-				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeBitStringValue(rawVal_additionalinfo)
+				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_additionalinfo.Constructed, rawVal_additionalinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
@@ -1004,6 +1007,7 @@ func (v *SendGroupCallEndSignalRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallEndSignalRes from BER/DER format.
 func (v *SendGroupCallEndSignalRes) UnmarshalBER(data []byte) error {
+	*v = SendGroupCallEndSignalRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallEndSignalRes SEQUENCE: %w", err)
@@ -1313,6 +1317,7 @@ func (v *ForwardGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardGroupCallSignallingArg from BER/DER format.
 func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
+	*v = ForwardGroupCallSignallingArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardGroupCallSignallingArg SEQUENCE: %w", err)
@@ -1489,7 +1494,7 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 				if decodedTag_talkerpriority.Class != tag.ClassContextSpecific || decodedTag_talkerpriority.Number != 6 || decodedTag_talkerpriority.Constructed != false {
 					return fmt.Errorf("decoding talkerPriority: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_talkerpriority)
 				}
-				decVal_talkerpriority, intErr := ber.DecodeIntegerValue(rawVal_talkerpriority)
+				decVal_talkerpriority, intErr := ber.DecodeEnumeratedValue(rawVal_talkerpriority)
 				if intErr != nil {
 					return fmt.Errorf("decoding talkerPriority: %w", intErr)
 				}
@@ -1511,7 +1516,7 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalinfo.Number != 7 {
 					return fmt.Errorf("decoding additionalInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalinfo)
 				}
-				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeBitStringValue(rawVal_additionalinfo)
+				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_additionalinfo.Constructed, rawVal_additionalinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
@@ -1777,6 +1782,7 @@ func (v *ProcessGroupCallSignallingArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProcessGroupCallSignallingArg from BER/DER format.
 func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
+	*v = ProcessGroupCallSignallingArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProcessGroupCallSignallingArg SEQUENCE: %w", err)
@@ -1876,7 +1882,7 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 				if decodedTag_talkerpriority.Class != tag.ClassContextSpecific || decodedTag_talkerpriority.Number != 3 || decodedTag_talkerpriority.Constructed != false {
 					return fmt.Errorf("decoding talkerPriority: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_talkerpriority)
 				}
-				decVal_talkerpriority, intErr := ber.DecodeIntegerValue(rawVal_talkerpriority)
+				decVal_talkerpriority, intErr := ber.DecodeEnumeratedValue(rawVal_talkerpriority)
 				if intErr != nil {
 					return fmt.Errorf("decoding talkerPriority: %w", intErr)
 				}
@@ -1898,7 +1904,7 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalinfo.Number != 4 {
 					return fmt.Errorf("decoding additionalInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalinfo)
 				}
-				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeBitStringValue(rawVal_additionalinfo)
+				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_additionalinfo.Constructed, rawVal_additionalinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
@@ -2056,6 +2062,7 @@ func (v *StateAttributes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes StateAttributes from BER/DER format.
 func (v *StateAttributes) UnmarshalBER(data []byte) error {
+	*v = StateAttributes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding StateAttributes SEQUENCE: %w", err)
@@ -2328,6 +2335,7 @@ func (v *SendGroupCallInfoArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallInfoArg from BER/DER format.
 func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
+	*v = SendGroupCallInfoArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallInfoArg SEQUENCE: %w", err)
@@ -2340,7 +2348,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field requestedInfo")
 	}
-	val_requestedinfo, n, err := ber.DecodeInteger(content[offset:])
+	val_requestedinfo, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding requestedInfo: %w", err)
 	}
@@ -2432,7 +2440,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalinfo.Number != 3 {
 					return fmt.Errorf("decoding additionalInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalinfo)
 				}
-				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeBitStringValue(rawVal_additionalinfo)
+				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_additionalinfo.Constructed, rawVal_additionalinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
@@ -2454,7 +2462,7 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte) error {
 				if decodedTag_talkerpriority.Class != tag.ClassContextSpecific || decodedTag_talkerpriority.Number != 4 || decodedTag_talkerpriority.Constructed != false {
 					return fmt.Errorf("decoding talkerPriority: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_talkerpriority)
 				}
-				decVal_talkerpriority, intErr := ber.DecodeIntegerValue(rawVal_talkerpriority)
+				decVal_talkerpriority, intErr := ber.DecodeEnumeratedValue(rawVal_talkerpriority)
 				if intErr != nil {
 					return fmt.Errorf("decoding talkerPriority: %w", intErr)
 				}
@@ -2686,6 +2694,7 @@ func (v *SendGroupCallInfoRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendGroupCallInfoRes from BER/DER format.
 func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte) error {
+	*v = SendGroupCallInfoRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendGroupCallInfoRes SEQUENCE: %w", err)
@@ -2760,7 +2769,7 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalinfo.Number != 3 {
 					return fmt.Errorf("decoding additionalInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalinfo)
 				}
-				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeBitStringValue(rawVal_additionalinfo)
+				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_additionalinfo.Constructed, rawVal_additionalinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
@@ -2782,7 +2791,7 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalsubscriptions.Class != tag.ClassContextSpecific || decodedTag_additionalsubscriptions.Number != 4 {
 					return fmt.Errorf("decoding additionalSubscriptions: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalsubscriptions)
 				}
-				bsBytes_additionalsubscriptions, bsUnused_additionalsubscriptions, bsErr := ber.DecodeBitStringValue(rawVal_additionalsubscriptions)
+				bsBytes_additionalsubscriptions, bsUnused_additionalsubscriptions, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_additionalsubscriptions.Constructed, rawVal_additionalsubscriptions)
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalSubscriptions: %w", bsErr)
 				}

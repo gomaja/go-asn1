@@ -718,6 +718,7 @@ func (v *CHCUGCheckInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHCUGCheckInfo from BER/DER format.
 func (v *CHCUGCheckInfo) UnmarshalBER(data []byte) error {
+	*v = CHCUGCheckInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHCUGCheckInfo SEQUENCE: %w", err)
@@ -1343,6 +1344,7 @@ func (v *CHSendRoutingInfoArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHSendRoutingInfoArg from BER/DER format.
 func (v *CHSendRoutingInfoArg) UnmarshalBER(data []byte) error {
+	*v = CHSendRoutingInfoArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHSendRoutingInfoArg SEQUENCE: %w", err)
@@ -1429,7 +1431,7 @@ func (v *CHSendRoutingInfoArg) UnmarshalBER(data []byte) error {
 	if decodedTag_interrogationtype.Class != tag.ClassContextSpecific || decodedTag_interrogationtype.Number != 3 || decodedTag_interrogationtype.Constructed != false {
 		return fmt.Errorf("decoding interrogationType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_interrogationtype)
 	}
-	decVal_interrogationtype, intErr := ber.DecodeIntegerValue(rawVal_interrogationtype)
+	decVal_interrogationtype, intErr := ber.DecodeEnumeratedValue(rawVal_interrogationtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding interrogationType: %w", intErr)
 	}
@@ -1525,7 +1527,7 @@ func (v *CHSendRoutingInfoArg) UnmarshalBER(data []byte) error {
 				if decodedTag_forwardingreason.Class != tag.ClassContextSpecific || decodedTag_forwardingreason.Number != 8 || decodedTag_forwardingreason.Constructed != false {
 					return fmt.Errorf("decoding forwardingReason: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_forwardingreason)
 				}
-				decVal_forwardingreason, intErr := ber.DecodeIntegerValue(rawVal_forwardingreason)
+				decVal_forwardingreason, intErr := ber.DecodeEnumeratedValue(rawVal_forwardingreason)
 				if intErr != nil {
 					return fmt.Errorf("decoding forwardingReason: %w", intErr)
 				}
@@ -1737,7 +1739,7 @@ func (v *CHSendRoutingInfoArg) UnmarshalBER(data []byte) error {
 				if decodedTag_istsupportindicator.Class != tag.ClassContextSpecific || decodedTag_istsupportindicator.Number != 18 || decodedTag_istsupportindicator.Constructed != false {
 					return fmt.Errorf("decoding istSupportIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_istsupportindicator)
 				}
-				decVal_istsupportindicator, intErr := ber.DecodeIntegerValue(rawVal_istsupportindicator)
+				decVal_istsupportindicator, intErr := ber.DecodeEnumeratedValue(rawVal_istsupportindicator)
 				if intErr != nil {
 					return fmt.Errorf("decoding istSupportIndicator: %w", intErr)
 				}
@@ -1921,7 +1923,7 @@ func (v *CHSendRoutingInfoArg) UnmarshalBER(data []byte) error {
 				if decodedTag_suppressmtss.Class != tag.ClassContextSpecific || decodedTag_suppressmtss.Number != 27 {
 					return fmt.Errorf("decoding suppressMTSS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressmtss)
 				}
-				bsBytes_suppressmtss, bsUnused_suppressmtss, bsErr := ber.DecodeBitStringValue(rawVal_suppressmtss)
+				bsBytes_suppressmtss, bsUnused_suppressmtss, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_suppressmtss.Constructed, rawVal_suppressmtss)
 				if bsErr != nil {
 					return fmt.Errorf("decoding suppressMTSS: %w", bsErr)
 				}
@@ -2474,6 +2476,7 @@ func (v *CHSendRoutingInfoRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHSendRoutingInfoRes from BER/DER format.
 func (v *CHSendRoutingInfoRes) UnmarshalBER(data []byte) error {
+	*v = CHSendRoutingInfoRes{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHSendRoutingInfoRes: %w", err)
@@ -2771,7 +2774,7 @@ func (v *CHSendRoutingInfoRes) UnmarshalBER(data []byte) error {
 				if decodedTag_numberportabilitystatus.Class != tag.ClassContextSpecific || decodedTag_numberportabilitystatus.Number != 13 || decodedTag_numberportabilitystatus.Constructed != false {
 					return fmt.Errorf("decoding numberPortabilityStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_numberportabilitystatus)
 				}
-				decVal_numberportabilitystatus, intErr := ber.DecodeIntegerValue(rawVal_numberportabilitystatus)
+				decVal_numberportabilitystatus, intErr := ber.DecodeEnumeratedValue(rawVal_numberportabilitystatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding numberPortabilityStatus: %w", intErr)
 				}
@@ -2815,7 +2818,7 @@ func (v *CHSendRoutingInfoRes) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedcamelphasesinvmsc.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphasesinvmsc.Number != 15 {
 					return fmt.Errorf("decoding supportedCamelPhasesInVMSC: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphasesinvmsc)
 				}
-				bsBytes_supportedcamelphasesinvmsc, bsUnused_supportedcamelphasesinvmsc, bsErr := ber.DecodeBitStringValue(rawVal_supportedcamelphasesinvmsc)
+				bsBytes_supportedcamelphasesinvmsc, bsUnused_supportedcamelphasesinvmsc, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphasesinvmsc.Constructed, rawVal_supportedcamelphasesinvmsc)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhasesInVMSC: %w", bsErr)
 				}
@@ -2837,7 +2840,7 @@ func (v *CHSendRoutingInfoRes) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csisinvmsc.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csisinvmsc.Number != 16 {
 					return fmt.Errorf("decoding offeredCamel4CSIsInVMSC: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csisinvmsc)
 				}
-				bsBytes_offeredcamel4csisinvmsc, bsUnused_offeredcamel4csisinvmsc, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csisinvmsc)
+				bsBytes_offeredcamel4csisinvmsc, bsUnused_offeredcamel4csisinvmsc, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csisinvmsc.Constructed, rawVal_offeredcamel4csisinvmsc)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInVMSC: %w", bsErr)
 				}
@@ -2932,7 +2935,7 @@ func (v *CHSendRoutingInfoRes) UnmarshalBER(data []byte) error {
 				if decodedTag_allowedservices.Class != tag.ClassContextSpecific || decodedTag_allowedservices.Number != 20 {
 					return fmt.Errorf("decoding allowedServices: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_allowedservices)
 				}
-				bsBytes_allowedservices, bsUnused_allowedservices, bsErr := ber.DecodeBitStringValue(rawVal_allowedservices)
+				bsBytes_allowedservices, bsUnused_allowedservices, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_allowedservices.Constructed, rawVal_allowedservices)
 				if bsErr != nil {
 					return fmt.Errorf("decoding allowedServices: %w", bsErr)
 				}
@@ -2954,7 +2957,7 @@ func (v *CHSendRoutingInfoRes) UnmarshalBER(data []byte) error {
 				if decodedTag_unavailabilitycause.Class != tag.ClassContextSpecific || decodedTag_unavailabilitycause.Number != 21 || decodedTag_unavailabilitycause.Constructed != false {
 					return fmt.Errorf("decoding unavailabilityCause: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unavailabilitycause)
 				}
-				decVal_unavailabilitycause, intErr := ber.DecodeIntegerValue(rawVal_unavailabilitycause)
+				decVal_unavailabilitycause, intErr := ber.DecodeEnumeratedValue(rawVal_unavailabilitycause)
 				if intErr != nil {
 					return fmt.Errorf("decoding unavailabilityCause: %w", intErr)
 				}
@@ -3116,6 +3119,7 @@ func (v *CHCCBSIndicators) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHCCBSIndicators from BER/DER format.
 func (v *CHCCBSIndicators) UnmarshalBER(data []byte) error {
+	*v = CHCCBSIndicators{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHCCBSIndicators SEQUENCE: %w", err)
@@ -3253,6 +3257,7 @@ func (v *CHRoutingInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHRoutingInfo from BER/DER format.
 func (v *CHRoutingInfo) UnmarshalBER(data []byte) error {
+	*v = CHRoutingInfo{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CHRoutingInfo CHOICE")
 	}
@@ -3421,6 +3426,7 @@ func (v *CHForwardingData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHForwardingData from BER/DER format.
 func (v *CHForwardingData) UnmarshalBER(data []byte) error {
+	*v = CHForwardingData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHForwardingData SEQUENCE: %w", err)
@@ -3949,6 +3955,7 @@ func (v *CHProvideRoamingNumberArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHProvideRoamingNumberArg from BER/DER format.
 func (v *CHProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
+	*v = CHProvideRoamingNumberArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHProvideRoamingNumberArg SEQUENCE: %w", err)
@@ -4221,7 +4228,7 @@ func (v *CHProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedcamelphasesininterrogatingnode.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphasesininterrogatingnode.Number != 15 {
 					return fmt.Errorf("decoding supportedCamelPhasesInInterrogatingNode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphasesininterrogatingnode)
 				}
-				bsBytes_supportedcamelphasesininterrogatingnode, bsUnused_supportedcamelphasesininterrogatingnode, bsErr := ber.DecodeBitStringValue(rawVal_supportedcamelphasesininterrogatingnode)
+				bsBytes_supportedcamelphasesininterrogatingnode, bsUnused_supportedcamelphasesininterrogatingnode, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphasesininterrogatingnode.Constructed, rawVal_supportedcamelphasesininterrogatingnode)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhasesInInterrogatingNode: %w", bsErr)
 				}
@@ -4345,7 +4352,7 @@ func (v *CHProvideRoamingNumberArg) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csisininterrogatingnode.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csisininterrogatingnode.Number != 20 {
 					return fmt.Errorf("decoding offeredCamel4CSIsInInterrogatingNode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csisininterrogatingnode)
 				}
-				bsBytes_offeredcamel4csisininterrogatingnode, bsUnused_offeredcamel4csisininterrogatingnode, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csisininterrogatingnode)
+				bsBytes_offeredcamel4csisininterrogatingnode, bsUnused_offeredcamel4csisininterrogatingnode, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csisininterrogatingnode.Constructed, rawVal_offeredcamel4csisininterrogatingnode)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInInterrogatingNode: %w", bsErr)
 				}
@@ -4431,6 +4438,7 @@ func (v *CHProvideRoamingNumberRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHProvideRoamingNumberRes from BER/DER format.
 func (v *CHProvideRoamingNumberRes) UnmarshalBER(data []byte) error {
+	*v = CHProvideRoamingNumberRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHProvideRoamingNumberRes SEQUENCE: %w", err)
@@ -4831,6 +4839,7 @@ func (v *CHResumeCallHandlingArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHResumeCallHandlingArg from BER/DER format.
 func (v *CHResumeCallHandlingArg) UnmarshalBER(data []byte) error {
+	*v = CHResumeCallHandlingArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHResumeCallHandlingArg SEQUENCE: %w", err)
@@ -5266,6 +5275,7 @@ func (v *CHUUData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHUUData from BER/DER format.
 func (v *CHUUData) UnmarshalBER(data []byte) error {
+	*v = CHUUData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHUUData SEQUENCE: %w", err)
@@ -5416,6 +5426,7 @@ func (v *CHResumeCallHandlingRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHResumeCallHandlingRes from BER/DER format.
 func (v *CHResumeCallHandlingRes) UnmarshalBER(data []byte) error {
+	*v = CHResumeCallHandlingRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHResumeCallHandlingRes SEQUENCE: %w", err)
@@ -5537,6 +5548,7 @@ func (v *CHCamelInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHCamelInfo from BER/DER format.
 func (v *CHCamelInfo) UnmarshalBER(data []byte) error {
+	*v = CHCamelInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHCamelInfo SEQUENCE: %w", err)
@@ -5600,7 +5612,7 @@ func (v *CHCamelInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csis.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csis.Number != 0 {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csis)
 				}
-				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csis)
+				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csis.Constructed, rawVal_offeredcamel4csis)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
@@ -5702,6 +5714,7 @@ func (v *CHExtendedRoutingInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHExtendedRoutingInfo from BER/DER format.
 func (v *CHExtendedRoutingInfo) UnmarshalBER(data []byte) error {
+	*v = CHExtendedRoutingInfo{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CHExtendedRoutingInfo CHOICE")
 	}
@@ -5834,6 +5847,7 @@ func (v *CHCamelRoutingInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHCamelRoutingInfo from BER/DER format.
 func (v *CHCamelRoutingInfo) UnmarshalBER(data []byte) error {
+	*v = CHCamelRoutingInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHCamelRoutingInfo SEQUENCE: %w", err)
@@ -6116,6 +6130,7 @@ func (v *CHGmscCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHGmscCamelSubscriptionInfo from BER/DER format.
 func (v *CHGmscCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
+	*v = CHGmscCamelSubscriptionInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHGmscCamelSubscriptionInfo SEQUENCE: %w", err)
@@ -6398,6 +6413,7 @@ func (v *CHSetReportingStateArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHSetReportingStateArg from BER/DER format.
 func (v *CHSetReportingStateArg) UnmarshalBER(data []byte) error {
+	*v = CHSetReportingStateArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHSetReportingStateArg SEQUENCE: %w", err)
@@ -6454,7 +6470,7 @@ func (v *CHSetReportingStateArg) UnmarshalBER(data []byte) error {
 				if decodedTag_ccbsmonitoring.Class != tag.ClassContextSpecific || decodedTag_ccbsmonitoring.Number != 2 || decodedTag_ccbsmonitoring.Constructed != false {
 					return fmt.Errorf("decoding ccbs-Monitoring: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsmonitoring)
 				}
-				decVal_ccbsmonitoring, intErr := ber.DecodeIntegerValue(rawVal_ccbsmonitoring)
+				decVal_ccbsmonitoring, intErr := ber.DecodeEnumeratedValue(rawVal_ccbsmonitoring)
 				if intErr != nil {
 					return fmt.Errorf("decoding ccbs-Monitoring: %w", intErr)
 				}
@@ -6578,6 +6594,7 @@ func (v *CHSetReportingStateRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHSetReportingStateRes from BER/DER format.
 func (v *CHSetReportingStateRes) UnmarshalBER(data []byte) error {
+	*v = CHSetReportingStateRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHSetReportingStateRes SEQUENCE: %w", err)
@@ -6598,7 +6615,7 @@ func (v *CHSetReportingStateRes) UnmarshalBER(data []byte) error {
 				if decodedTag_ccbssubscriberstatus.Class != tag.ClassContextSpecific || decodedTag_ccbssubscriberstatus.Number != 0 || decodedTag_ccbssubscriberstatus.Constructed != false {
 					return fmt.Errorf("decoding ccbs-SubscriberStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbssubscriberstatus)
 				}
-				decVal_ccbssubscriberstatus, intErr := ber.DecodeIntegerValue(rawVal_ccbssubscriberstatus)
+				decVal_ccbssubscriberstatus, intErr := ber.DecodeEnumeratedValue(rawVal_ccbssubscriberstatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding ccbs-SubscriberStatus: %w", intErr)
 				}
@@ -6766,6 +6783,7 @@ func (v *CHStatusReportArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHStatusReportArg from BER/DER format.
 func (v *CHStatusReportArg) UnmarshalBER(data []byte) error {
+	*v = CHStatusReportArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHStatusReportArg SEQUENCE: %w", err)
@@ -6950,6 +6968,7 @@ func (v *CHEventReportData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHEventReportData from BER/DER format.
 func (v *CHEventReportData) UnmarshalBER(data []byte) error {
+	*v = CHEventReportData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHEventReportData SEQUENCE: %w", err)
@@ -6970,7 +6989,7 @@ func (v *CHEventReportData) UnmarshalBER(data []byte) error {
 				if decodedTag_ccbssubscriberstatus.Class != tag.ClassContextSpecific || decodedTag_ccbssubscriberstatus.Number != 0 || decodedTag_ccbssubscriberstatus.Constructed != false {
 					return fmt.Errorf("decoding ccbs-SubscriberStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbssubscriberstatus)
 				}
-				decVal_ccbssubscriberstatus, intErr := ber.DecodeIntegerValue(rawVal_ccbssubscriberstatus)
+				decVal_ccbssubscriberstatus, intErr := ber.DecodeEnumeratedValue(rawVal_ccbssubscriberstatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding ccbs-SubscriberStatus: %w", intErr)
 				}
@@ -7112,6 +7131,7 @@ func (v *CHCallReportData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHCallReportData from BER/DER format.
 func (v *CHCallReportData) UnmarshalBER(data []byte) error {
+	*v = CHCallReportData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHCallReportData SEQUENCE: %w", err)
@@ -7132,7 +7152,7 @@ func (v *CHCallReportData) UnmarshalBER(data []byte) error {
 				if decodedTag_monitoringmode.Class != tag.ClassContextSpecific || decodedTag_monitoringmode.Number != 0 || decodedTag_monitoringmode.Constructed != false {
 					return fmt.Errorf("decoding monitoringMode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_monitoringmode)
 				}
-				decVal_monitoringmode, intErr := ber.DecodeIntegerValue(rawVal_monitoringmode)
+				decVal_monitoringmode, intErr := ber.DecodeEnumeratedValue(rawVal_monitoringmode)
 				if intErr != nil {
 					return fmt.Errorf("decoding monitoringMode: %w", intErr)
 				}
@@ -7154,7 +7174,7 @@ func (v *CHCallReportData) UnmarshalBER(data []byte) error {
 				if decodedTag_calloutcome.Class != tag.ClassContextSpecific || decodedTag_calloutcome.Number != 1 || decodedTag_calloutcome.Constructed != false {
 					return fmt.Errorf("decoding callOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_calloutcome)
 				}
-				decVal_calloutcome, intErr := ber.DecodeIntegerValue(rawVal_calloutcome)
+				decVal_calloutcome, intErr := ber.DecodeEnumeratedValue(rawVal_calloutcome)
 				if intErr != nil {
 					return fmt.Errorf("decoding callOutcome: %w", intErr)
 				}
@@ -7260,6 +7280,7 @@ func (v *CHStatusReportRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHStatusReportRes from BER/DER format.
 func (v *CHStatusReportRes) UnmarshalBER(data []byte) error {
+	*v = CHStatusReportRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHStatusReportRes SEQUENCE: %w", err)
@@ -7468,6 +7489,7 @@ func (v *CHRemoteUserFreeArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHRemoteUserFreeArg from BER/DER format.
 func (v *CHRemoteUserFreeArg) UnmarshalBER(data []byte) error {
+	*v = CHRemoteUserFreeArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHRemoteUserFreeArg SEQUENCE: %w", err)
@@ -7702,6 +7724,7 @@ func (v *CHRemoteUserFreeRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHRemoteUserFreeRes from BER/DER format.
 func (v *CHRemoteUserFreeRes) UnmarshalBER(data []byte) error {
+	*v = CHRemoteUserFreeRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHRemoteUserFreeRes SEQUENCE: %w", err)
@@ -7726,7 +7749,7 @@ func (v *CHRemoteUserFreeRes) UnmarshalBER(data []byte) error {
 	if decodedTag_rufoutcome.Class != tag.ClassContextSpecific || decodedTag_rufoutcome.Number != 0 || decodedTag_rufoutcome.Constructed != false {
 		return fmt.Errorf("decoding ruf-Outcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rufoutcome)
 	}
-	decVal_rufoutcome, intErr := ber.DecodeIntegerValue(rawVal_rufoutcome)
+	decVal_rufoutcome, intErr := ber.DecodeEnumeratedValue(rawVal_rufoutcome)
 	if intErr != nil {
 		return fmt.Errorf("decoding ruf-Outcome: %w", intErr)
 	}
@@ -7842,6 +7865,7 @@ func (v *CHISTAlertArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHISTAlertArg from BER/DER format.
 func (v *CHISTAlertArg) UnmarshalBER(data []byte) error {
+	*v = CHISTAlertArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHISTAlertArg SEQUENCE: %w", err)
@@ -8018,6 +8042,7 @@ func (v *CHISTAlertRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHISTAlertRes from BER/DER format.
 func (v *CHISTAlertRes) UnmarshalBER(data []byte) error {
+	*v = CHISTAlertRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHISTAlertRes SEQUENCE: %w", err)
@@ -8080,7 +8105,7 @@ func (v *CHISTAlertRes) UnmarshalBER(data []byte) error {
 				if decodedTag_callterminationindicator.Class != tag.ClassContextSpecific || decodedTag_callterminationindicator.Number != 2 || decodedTag_callterminationindicator.Constructed != false {
 					return fmt.Errorf("decoding callTerminationIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callterminationindicator)
 				}
-				decVal_callterminationindicator, intErr := ber.DecodeIntegerValue(rawVal_callterminationindicator)
+				decVal_callterminationindicator, intErr := ber.DecodeEnumeratedValue(rawVal_callterminationindicator)
 				if intErr != nil {
 					return fmt.Errorf("decoding callTerminationIndicator: %w", intErr)
 				}
@@ -8200,6 +8225,7 @@ func (v *CHISTCommandArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHISTCommandArg from BER/DER format.
 func (v *CHISTCommandArg) UnmarshalBER(data []byte) error {
+	*v = CHISTCommandArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHISTCommandArg SEQUENCE: %w", err)
@@ -8312,6 +8338,7 @@ func (v *CHISTCommandRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHISTCommandRes from BER/DER format.
 func (v *CHISTCommandRes) UnmarshalBER(data []byte) error {
+	*v = CHISTCommandRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHISTCommandRes SEQUENCE: %w", err)
@@ -8407,6 +8434,7 @@ func (v *CHReleaseResourcesArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHReleaseResourcesArg from BER/DER format.
 func (v *CHReleaseResourcesArg) UnmarshalBER(data []byte) error {
+	*v = CHReleaseResourcesArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHReleaseResourcesArg SEQUENCE: %w", err)
@@ -8508,6 +8536,7 @@ func (v *CHReleaseResourcesRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CHReleaseResourcesRes from BER/DER format.
 func (v *CHReleaseResourcesRes) UnmarshalBER(data []byte) error {
+	*v = CHReleaseResourcesRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CHReleaseResourcesRes SEQUENCE: %w", err)

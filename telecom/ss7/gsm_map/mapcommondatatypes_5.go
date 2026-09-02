@@ -19,328 +19,328 @@ var (
 
 const (
 
-	// MaxAddressLength5 is the integer constant for MaxAddressLength5.
+	// MaxAddressLength5 is the integer constant for maxAddressLength.
 	MaxAddressLength5 int64 = 20
 
-	// MaxISDNAddressLength5 is the integer constant for MaxISDNAddressLength5.
+	// MaxISDNAddressLength5 is the integer constant for maxISDN-AddressLength.
 	MaxISDNAddressLength5 int64 = 9
 
-	// MaxFTNAddressLength5 is the integer constant for MaxFTNAddressLength5.
+	// MaxFTNAddressLength5 is the integer constant for maxFTN-AddressLength.
 	MaxFTNAddressLength5 int64 = 15
 
-	// MaxISDNSubaddressLength5 is the integer constant for MaxISDNSubaddressLength5.
+	// MaxISDNSubaddressLength5 is the integer constant for maxISDN-SubaddressLength.
 	MaxISDNSubaddressLength5 int64 = 21
 
-	// MaxSignalInfoLength5 is the integer constant for MaxSignalInfoLength5.
+	// MaxSignalInfoLength5 is the integer constant for maxSignalInfoLength.
 	MaxSignalInfoLength5 int64 = 200
 
-	// MaxLongSignalInfoLength5 is the integer constant for MaxLongSignalInfoLength5.
+	// MaxLongSignalInfoLength5 is the integer constant for maxLongSignalInfoLength.
 	MaxLongSignalInfoLength5 int64 = 2560
 
-	// AlertingLevel05 is the octet string constant for AlertingLevel05.
+	// AlertingLevel05 is the octet string constant for alertingLevel-0.
 	AlertingLevel05 = "\x00"
 
-	// AlertingLevel15 is the octet string constant for AlertingLevel15.
+	// AlertingLevel15 is the octet string constant for alertingLevel-1.
 	AlertingLevel15 = "\x01"
 
-	// AlertingLevel25 is the octet string constant for AlertingLevel25.
+	// AlertingLevel25 is the octet string constant for alertingLevel-2.
 	AlertingLevel25 = "\x02"
 
-	// AlertingCategory15 is the octet string constant for AlertingCategory15.
+	// AlertingCategory15 is the octet string constant for alertingCategory-1.
 	AlertingCategory15 = "\x04"
 
-	// AlertingCategory25 is the octet string constant for AlertingCategory25.
+	// AlertingCategory25 is the octet string constant for alertingCategory-2.
 	AlertingCategory25 = "\x05"
 
-	// AlertingCategory35 is the octet string constant for AlertingCategory35.
+	// AlertingCategory35 is the octet string constant for alertingCategory-3.
 	AlertingCategory35 = "\x06"
 
-	// AlertingCategory45 is the octet string constant for AlertingCategory45.
+	// AlertingCategory45 is the octet string constant for alertingCategory-4.
 	AlertingCategory45 = "\x07"
 
-	// AlertingCategory55 is the octet string constant for AlertingCategory55.
+	// AlertingCategory55 is the octet string constant for alertingCategory-5.
 	AlertingCategory55 = "\x08"
 
-	// MaxNumOfHLRId5 is the integer constant for MaxNumOfHLRId5.
+	// MaxNumOfHLRId5 is the integer constant for maxNumOfHLR-Id.
 	MaxNumOfHLRId5 int64 = 50
 
-	// EmergencyServices5 is the integer constant for EmergencyServices5.
+	// EmergencyServices5 is the integer constant for emergencyServices.
 	EmergencyServices5 int64 = 0
 
-	// EmergencyAlertServices5 is the integer constant for EmergencyAlertServices5.
+	// EmergencyAlertServices5 is the integer constant for emergencyAlertServices.
 	EmergencyAlertServices5 int64 = 1
 
-	// PersonTracking5 is the integer constant for PersonTracking5.
+	// PersonTracking5 is the integer constant for personTracking.
 	PersonTracking5 int64 = 2
 
-	// FleetManagement5 is the integer constant for FleetManagement5.
+	// FleetManagement5 is the integer constant for fleetManagement.
 	FleetManagement5 int64 = 3
 
-	// AssetManagement5 is the integer constant for AssetManagement5.
+	// AssetManagement5 is the integer constant for assetManagement.
 	AssetManagement5 int64 = 4
 
-	// TrafficCongestionReporting5 is the integer constant for TrafficCongestionReporting5.
+	// TrafficCongestionReporting5 is the integer constant for trafficCongestionReporting.
 	TrafficCongestionReporting5 int64 = 5
 
-	// RoadsideAssistance5 is the integer constant for RoadsideAssistance5.
+	// RoadsideAssistance5 is the integer constant for roadsideAssistance.
 	RoadsideAssistance5 int64 = 6
 
-	// RoutingToNearestCommercialEnterprise5 is the integer constant for RoutingToNearestCommercialEnterprise5.
+	// RoutingToNearestCommercialEnterprise5 is the integer constant for routingToNearestCommercialEnterprise.
 	RoutingToNearestCommercialEnterprise5 int64 = 7
 
-	// Navigation5 is the integer constant for Navigation5.
+	// Navigation5 is the integer constant for navigation.
 	Navigation5 int64 = 8
 
-	// CitySightseeing5 is the integer constant for CitySightseeing5.
+	// CitySightseeing5 is the integer constant for citySightseeing.
 	CitySightseeing5 int64 = 9
 
-	// LocalizedAdvertising5 is the integer constant for LocalizedAdvertising5.
+	// LocalizedAdvertising5 is the integer constant for localizedAdvertising.
 	LocalizedAdvertising5 int64 = 10
 
-	// MobileYellowPages5 is the integer constant for MobileYellowPages5.
+	// MobileYellowPages5 is the integer constant for mobileYellowPages.
 	MobileYellowPages5 int64 = 11
 
-	// TrafficAndPublicTransportationInfo5 is the integer constant for TrafficAndPublicTransportationInfo5.
+	// TrafficAndPublicTransportationInfo5 is the integer constant for trafficAndPublicTransportationInfo.
 	TrafficAndPublicTransportationInfo5 int64 = 12
 
-	// Weather5 is the integer constant for Weather5.
+	// Weather5 is the integer constant for weather.
 	Weather5 int64 = 13
 
-	// AssetAndServiceFinding5 is the integer constant for AssetAndServiceFinding5.
+	// AssetAndServiceFinding5 is the integer constant for assetAndServiceFinding.
 	AssetAndServiceFinding5 int64 = 14
 
-	// Gaming5 is the integer constant for Gaming5.
+	// Gaming5 is the integer constant for gaming.
 	Gaming5 int64 = 15
 
-	// FindYourFriend5 is the integer constant for FindYourFriend5.
+	// FindYourFriend5 is the integer constant for findYourFriend.
 	FindYourFriend5 int64 = 16
 
-	// Dating5 is the integer constant for Dating5.
+	// Dating5 is the integer constant for dating.
 	Dating5 int64 = 17
 
-	// Chatting5 is the integer constant for Chatting5.
+	// Chatting5 is the integer constant for chatting.
 	Chatting5 int64 = 18
 
-	// RouteFinding5 is the integer constant for RouteFinding5.
+	// RouteFinding5 is the integer constant for routeFinding.
 	RouteFinding5 int64 = 19
 
-	// WhereAmI5 is the integer constant for WhereAmI5.
+	// WhereAmI5 is the integer constant for whereAmI.
 	WhereAmI5 int64 = 20
 
-	// Serv645 is the integer constant for Serv645.
+	// Serv645 is the integer constant for serv64.
 	Serv645 int64 = 64
 
-	// Serv655 is the integer constant for Serv655.
+	// Serv655 is the integer constant for serv65.
 	Serv655 int64 = 65
 
-	// Serv665 is the integer constant for Serv665.
+	// Serv665 is the integer constant for serv66.
 	Serv665 int64 = 66
 
-	// Serv675 is the integer constant for Serv675.
+	// Serv675 is the integer constant for serv67.
 	Serv675 int64 = 67
 
-	// Serv685 is the integer constant for Serv685.
+	// Serv685 is the integer constant for serv68.
 	Serv685 int64 = 68
 
-	// Serv695 is the integer constant for Serv695.
+	// Serv695 is the integer constant for serv69.
 	Serv695 int64 = 69
 
-	// Serv705 is the integer constant for Serv705.
+	// Serv705 is the integer constant for serv70.
 	Serv705 int64 = 70
 
-	// Serv715 is the integer constant for Serv715.
+	// Serv715 is the integer constant for serv71.
 	Serv715 int64 = 71
 
-	// Serv725 is the integer constant for Serv725.
+	// Serv725 is the integer constant for serv72.
 	Serv725 int64 = 72
 
-	// Serv735 is the integer constant for Serv735.
+	// Serv735 is the integer constant for serv73.
 	Serv735 int64 = 73
 
-	// Serv745 is the integer constant for Serv745.
+	// Serv745 is the integer constant for serv74.
 	Serv745 int64 = 74
 
-	// Serv755 is the integer constant for Serv755.
+	// Serv755 is the integer constant for serv75.
 	Serv755 int64 = 75
 
-	// Serv765 is the integer constant for Serv765.
+	// Serv765 is the integer constant for serv76.
 	Serv765 int64 = 76
 
-	// Serv775 is the integer constant for Serv775.
+	// Serv775 is the integer constant for serv77.
 	Serv775 int64 = 77
 
-	// Serv785 is the integer constant for Serv785.
+	// Serv785 is the integer constant for serv78.
 	Serv785 int64 = 78
 
-	// Serv795 is the integer constant for Serv795.
+	// Serv795 is the integer constant for serv79.
 	Serv795 int64 = 79
 
-	// Serv805 is the integer constant for Serv805.
+	// Serv805 is the integer constant for serv80.
 	Serv805 int64 = 80
 
-	// Serv815 is the integer constant for Serv815.
+	// Serv815 is the integer constant for serv81.
 	Serv815 int64 = 81
 
-	// Serv825 is the integer constant for Serv825.
+	// Serv825 is the integer constant for serv82.
 	Serv825 int64 = 82
 
-	// Serv835 is the integer constant for Serv835.
+	// Serv835 is the integer constant for serv83.
 	Serv835 int64 = 83
 
-	// Serv845 is the integer constant for Serv845.
+	// Serv845 is the integer constant for serv84.
 	Serv845 int64 = 84
 
-	// Serv855 is the integer constant for Serv855.
+	// Serv855 is the integer constant for serv85.
 	Serv855 int64 = 85
 
-	// Serv865 is the integer constant for Serv865.
+	// Serv865 is the integer constant for serv86.
 	Serv865 int64 = 86
 
-	// Serv875 is the integer constant for Serv875.
+	// Serv875 is the integer constant for serv87.
 	Serv875 int64 = 87
 
-	// Serv885 is the integer constant for Serv885.
+	// Serv885 is the integer constant for serv88.
 	Serv885 int64 = 88
 
-	// Serv895 is the integer constant for Serv895.
+	// Serv895 is the integer constant for serv89.
 	Serv895 int64 = 89
 
-	// Serv905 is the integer constant for Serv905.
+	// Serv905 is the integer constant for serv90.
 	Serv905 int64 = 90
 
-	// Serv915 is the integer constant for Serv915.
+	// Serv915 is the integer constant for serv91.
 	Serv915 int64 = 91
 
-	// Serv925 is the integer constant for Serv925.
+	// Serv925 is the integer constant for serv92.
 	Serv925 int64 = 92
 
-	// Serv935 is the integer constant for Serv935.
+	// Serv935 is the integer constant for serv93.
 	Serv935 int64 = 93
 
-	// Serv945 is the integer constant for Serv945.
+	// Serv945 is the integer constant for serv94.
 	Serv945 int64 = 94
 
-	// Serv955 is the integer constant for Serv955.
+	// Serv955 is the integer constant for serv95.
 	Serv955 int64 = 95
 
-	// Serv965 is the integer constant for Serv965.
+	// Serv965 is the integer constant for serv96.
 	Serv965 int64 = 96
 
-	// Serv975 is the integer constant for Serv975.
+	// Serv975 is the integer constant for serv97.
 	Serv975 int64 = 97
 
-	// Serv985 is the integer constant for Serv985.
+	// Serv985 is the integer constant for serv98.
 	Serv985 int64 = 98
 
-	// Serv995 is the integer constant for Serv995.
+	// Serv995 is the integer constant for serv99.
 	Serv995 int64 = 99
 
-	// Serv1005 is the integer constant for Serv1005.
+	// Serv1005 is the integer constant for serv100.
 	Serv1005 int64 = 100
 
-	// Serv1015 is the integer constant for Serv1015.
+	// Serv1015 is the integer constant for serv101.
 	Serv1015 int64 = 101
 
-	// Serv1025 is the integer constant for Serv1025.
+	// Serv1025 is the integer constant for serv102.
 	Serv1025 int64 = 102
 
-	// Serv1035 is the integer constant for Serv1035.
+	// Serv1035 is the integer constant for serv103.
 	Serv1035 int64 = 103
 
-	// Serv1045 is the integer constant for Serv1045.
+	// Serv1045 is the integer constant for serv104.
 	Serv1045 int64 = 104
 
-	// Serv1055 is the integer constant for Serv1055.
+	// Serv1055 is the integer constant for serv105.
 	Serv1055 int64 = 105
 
-	// Serv1065 is the integer constant for Serv1065.
+	// Serv1065 is the integer constant for serv106.
 	Serv1065 int64 = 106
 
-	// Serv1075 is the integer constant for Serv1075.
+	// Serv1075 is the integer constant for serv107.
 	Serv1075 int64 = 107
 
-	// Serv1085 is the integer constant for Serv1085.
+	// Serv1085 is the integer constant for serv108.
 	Serv1085 int64 = 108
 
-	// Serv1095 is the integer constant for Serv1095.
+	// Serv1095 is the integer constant for serv109.
 	Serv1095 int64 = 109
 
-	// Serv1105 is the integer constant for Serv1105.
+	// Serv1105 is the integer constant for serv110.
 	Serv1105 int64 = 110
 
-	// Serv1115 is the integer constant for Serv1115.
+	// Serv1115 is the integer constant for serv111.
 	Serv1115 int64 = 111
 
-	// Serv1125 is the integer constant for Serv1125.
+	// Serv1125 is the integer constant for serv112.
 	Serv1125 int64 = 112
 
-	// Serv1135 is the integer constant for Serv1135.
+	// Serv1135 is the integer constant for serv113.
 	Serv1135 int64 = 113
 
-	// Serv1145 is the integer constant for Serv1145.
+	// Serv1145 is the integer constant for serv114.
 	Serv1145 int64 = 114
 
-	// Serv1155 is the integer constant for Serv1155.
+	// Serv1155 is the integer constant for serv115.
 	Serv1155 int64 = 115
 
-	// Serv1165 is the integer constant for Serv1165.
+	// Serv1165 is the integer constant for serv116.
 	Serv1165 int64 = 116
 
-	// Serv1175 is the integer constant for Serv1175.
+	// Serv1175 is the integer constant for serv117.
 	Serv1175 int64 = 117
 
-	// Serv1185 is the integer constant for Serv1185.
+	// Serv1185 is the integer constant for serv118.
 	Serv1185 int64 = 118
 
-	// Serv1195 is the integer constant for Serv1195.
+	// Serv1195 is the integer constant for serv119.
 	Serv1195 int64 = 119
 
-	// Serv1205 is the integer constant for Serv1205.
+	// Serv1205 is the integer constant for serv120.
 	Serv1205 int64 = 120
 
-	// Serv1215 is the integer constant for Serv1215.
+	// Serv1215 is the integer constant for serv121.
 	Serv1215 int64 = 121
 
-	// Serv1225 is the integer constant for Serv1225.
+	// Serv1225 is the integer constant for serv122.
 	Serv1225 int64 = 122
 
-	// Serv1235 is the integer constant for Serv1235.
+	// Serv1235 is the integer constant for serv123.
 	Serv1235 int64 = 123
 
-	// Serv1245 is the integer constant for Serv1245.
+	// Serv1245 is the integer constant for serv124.
 	Serv1245 int64 = 124
 
-	// Serv1255 is the integer constant for Serv1255.
+	// Serv1255 is the integer constant for serv125.
 	Serv1255 int64 = 125
 
-	// Serv1265 is the integer constant for Serv1265.
+	// Serv1265 is the integer constant for serv126.
 	Serv1265 int64 = 126
 
-	// Serv1275 is the integer constant for Serv1275.
+	// Serv1275 is the integer constant for serv127.
 	Serv1275 int64 = 127
 
-	// PriorityLevelA5 is the integer constant for PriorityLevelA5.
+	// PriorityLevelA5 is the integer constant for priorityLevelA.
 	PriorityLevelA5 int64 = 6
 
-	// PriorityLevelB5 is the integer constant for PriorityLevelB5.
+	// PriorityLevelB5 is the integer constant for priorityLevelB.
 	PriorityLevelB5 int64 = 5
 
-	// PriorityLevel05 is the integer constant for PriorityLevel05.
+	// PriorityLevel05 is the integer constant for priorityLevel0.
 	PriorityLevel05 int64 = 0
 
-	// PriorityLevel15 is the integer constant for PriorityLevel15.
+	// PriorityLevel15 is the integer constant for priorityLevel1.
 	PriorityLevel15 int64 = 1
 
-	// PriorityLevel25 is the integer constant for PriorityLevel25.
+	// PriorityLevel25 is the integer constant for priorityLevel2.
 	PriorityLevel25 int64 = 2
 
-	// PriorityLevel35 is the integer constant for PriorityLevel35.
+	// PriorityLevel35 is the integer constant for priorityLevel3.
 	PriorityLevel35 int64 = 3
 
-	// PriorityLevel45 is the integer constant for PriorityLevel45.
+	// PriorityLevel45 is the integer constant for priorityLevel4.
 	PriorityLevel45 int64 = 4
 
-	// MaxNumOfMCBearers5 is the integer constant for MaxNumOfMCBearers5.
+	// MaxNumOfMCBearers5 is the integer constant for maxNumOfMC-Bearers.
 	MaxNumOfMCBearers5 int64 = 7
 )
 
@@ -887,6 +887,7 @@ func (v *ExternalSignalInfo5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExternalSignalInfo5 from BER/DER format.
 func (v *ExternalSignalInfo5) UnmarshalBER(data []byte) error {
+	*v = ExternalSignalInfo5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExternalSignalInfo5 SEQUENCE: %w", err)
@@ -899,7 +900,7 @@ func (v *ExternalSignalInfo5) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field protocolId")
 	}
-	val_protocolid, n, err := ber.DecodeInteger(content[offset:])
+	val_protocolid, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
@@ -1006,6 +1007,7 @@ func (v *ExtExternalSignalInfo5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtExternalSignalInfo5 from BER/DER format.
 func (v *ExtExternalSignalInfo5) UnmarshalBER(data []byte) error {
+	*v = ExtExternalSignalInfo5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtExternalSignalInfo5 SEQUENCE: %w", err)
@@ -1018,7 +1020,7 @@ func (v *ExtExternalSignalInfo5) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ext-ProtocolId")
 	}
-	val_extprotocolid, n, err := ber.DecodeInteger(content[offset:])
+	val_extprotocolid, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ext-ProtocolId: %w", err)
 	}
@@ -1125,6 +1127,7 @@ func (v *AccessNetworkSignalInfo5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AccessNetworkSignalInfo5 from BER/DER format.
 func (v *AccessNetworkSignalInfo5) UnmarshalBER(data []byte) error {
+	*v = AccessNetworkSignalInfo5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AccessNetworkSignalInfo5 SEQUENCE: %w", err)
@@ -1137,7 +1140,7 @@ func (v *AccessNetworkSignalInfo5) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field accessNetworkProtocolId")
 	}
-	val_accessnetworkprotocolid, n, err := ber.DecodeInteger(content[offset:])
+	val_accessnetworkprotocolid, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding accessNetworkProtocolId: %w", err)
 	}
@@ -1239,6 +1242,7 @@ func (v *Identity5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Identity5 from BER/DER format.
 func (v *Identity5) UnmarshalBER(data []byte) error {
+	*v = Identity5{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Identity5 CHOICE")
 	}
@@ -1319,6 +1323,7 @@ func (v *IMSIWithLMSI5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IMSIWithLMSI5 from BER/DER format.
 func (v *IMSIWithLMSI5) UnmarshalBER(data []byte) error {
+	*v = IMSIWithLMSI5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IMSIWithLMSI5 SEQUENCE: %w", err)
@@ -1407,6 +1412,7 @@ func (v *SubscriberId5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubscriberId5 from BER/DER format.
 func (v *SubscriberId5) UnmarshalBER(data []byte) error {
+	*v = SubscriberId5{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SubscriberId5 CHOICE")
 	}
@@ -1562,6 +1568,7 @@ func (v *NAEAPreferredCI5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NAEAPreferredCI5 from BER/DER format.
 func (v *NAEAPreferredCI5) UnmarshalBER(data []byte) error {
+	*v = NAEAPreferredCI5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NAEAPreferredCI5 SEQUENCE: %w", err)
@@ -1670,6 +1677,7 @@ func (v *SubscriberIdentity5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubscriberIdentity5 from BER/DER format.
 func (v *SubscriberIdentity5) UnmarshalBER(data []byte) error {
+	*v = SubscriberIdentity5{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SubscriberIdentity5 CHOICE")
 	}
@@ -1785,6 +1793,7 @@ func (v *LCSClientExternalID5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LCSClientExternalID5 from BER/DER format.
 func (v *LCSClientExternalID5) UnmarshalBER(data []byte) error {
+	*v = LCSClientExternalID5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSClientExternalID5 SEQUENCE: %w", err)
@@ -1893,6 +1902,7 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CellGlobalIdOrServiceAreaIdOrLAI5 from BER/DER format.
 func (v *CellGlobalIdOrServiceAreaIdOrLAI5) UnmarshalBER(data []byte) error {
+	*v = CellGlobalIdOrServiceAreaIdOrLAI5{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CellGlobalIdOrServiceAreaIdOrLAI5 CHOICE")
 	}
@@ -1976,6 +1986,7 @@ func (v *BasicServiceCode5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BasicServiceCode5 from BER/DER format.
 func (v *BasicServiceCode5) UnmarshalBER(data []byte) error {
+	*v = BasicServiceCode5{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for BasicServiceCode5 CHOICE")
 	}
@@ -2059,6 +2070,7 @@ func (v *ExtBasicServiceCode5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtBasicServiceCode5 from BER/DER format.
 func (v *ExtBasicServiceCode5) UnmarshalBER(data []byte) error {
+	*v = ExtBasicServiceCode5{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ExtBasicServiceCode5 CHOICE")
 	}
@@ -2154,6 +2166,7 @@ func (v *EMLPPInfo5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EMLPPInfo5 from BER/DER format.
 func (v *EMLPPInfo5) UnmarshalBER(data []byte) error {
+	*v = EMLPPInfo5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EMLPPInfo5 SEQUENCE: %w", err)
@@ -2331,6 +2344,7 @@ func (v *MCSSInfo5) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MCSSInfo5 from BER/DER format.
 func (v *MCSSInfo5) UnmarshalBER(data []byte) error {
+	*v = MCSSInfo5{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MCSSInfo5 SEQUENCE: %w", err)

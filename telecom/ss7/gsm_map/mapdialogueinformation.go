@@ -17,7 +17,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// MapDialogueAS returns the OID value for MapDialogueAS.
+// MapDialogueAS returns the OID value for map-DialogueAS.
 func MapDialogueAS() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 4, 0, 0, 1, 1, 1, 1}
 }
@@ -498,6 +498,7 @@ func (v *MAPDialoguePDU) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPDialoguePDU from BER/DER format.
 func (v *MAPDialoguePDU) UnmarshalBER(data []byte) error {
+	*v = MAPDialoguePDU{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MAPDialoguePDU CHOICE")
 	}
@@ -677,6 +678,7 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPOpenInfo from BER/DER format.
 func (v *MAPOpenInfo) UnmarshalBER(data []byte) error {
+	*v = MAPOpenInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MAPOpenInfo SEQUENCE: %w", err)
@@ -804,6 +806,7 @@ func (v *MAPAcceptInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPAcceptInfo from BER/DER format.
 func (v *MAPAcceptInfo) UnmarshalBER(data []byte) error {
+	*v = MAPAcceptInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MAPAcceptInfo SEQUENCE: %w", err)
@@ -895,6 +898,7 @@ func (v *MAPCloseInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPCloseInfo from BER/DER format.
 func (v *MAPCloseInfo) UnmarshalBER(data []byte) error {
+	*v = MAPCloseInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MAPCloseInfo SEQUENCE: %w", err)
@@ -1004,6 +1008,7 @@ func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPRefuseInfo from BER/DER format.
 func (v *MAPRefuseInfo) UnmarshalBER(data []byte) error {
+	*v = MAPRefuseInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MAPRefuseInfo SEQUENCE: %w", err)
@@ -1016,7 +1021,7 @@ func (v *MAPRefuseInfo) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field reason")
 	}
-	val_reason, n, err := ber.DecodeInteger(content[offset:])
+	val_reason, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding reason: %w", err)
 	}
@@ -1130,6 +1135,7 @@ func (v *MAPUserAbortInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPUserAbortInfo from BER/DER format.
 func (v *MAPUserAbortInfo) UnmarshalBER(data []byte) error {
+	*v = MAPUserAbortInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MAPUserAbortInfo SEQUENCE: %w", err)
@@ -1246,6 +1252,7 @@ func (v *MAPUserAbortChoice) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPUserAbortChoice from BER/DER format.
 func (v *MAPUserAbortChoice) UnmarshalBER(data []byte) error {
+	*v = MAPUserAbortChoice{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MAPUserAbortChoice CHOICE")
 	}
@@ -1289,7 +1296,7 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding resourceUnavailable: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeEnumeratedValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding resourceUnavailable: %w", intErr)
 		}
@@ -1301,7 +1308,7 @@ func (v *MAPUserAbortChoice) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding applicationProcedureCancellation: %w", tlvErr)
 		}
-		decVal, intErr := ber.DecodeIntegerValue(rawVal)
+		decVal, intErr := ber.DecodeEnumeratedValue(rawVal)
 		if intErr != nil {
 			return fmt.Errorf("decoding applicationProcedureCancellation: %w", intErr)
 		}
@@ -1365,6 +1372,7 @@ func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPProviderAbortInfo from BER/DER format.
 func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte) error {
+	*v = MAPProviderAbortInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MAPProviderAbortInfo SEQUENCE: %w", err)
@@ -1377,7 +1385,7 @@ func (v *MAPProviderAbortInfo) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field map-ProviderAbortReason")
 	}
-	val_mapproviderabortreason, n, err := ber.DecodeInteger(content[offset:])
+	val_mapproviderabortreason, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding map-ProviderAbortReason: %w", err)
 	}

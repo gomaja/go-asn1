@@ -142,7 +142,16 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 		length, err = DecodeConstrainedWholeNumber(bb, 1, int64(maximumLength))
 		if err == nil {
 			bb.AlignToOctetRead()
-			offset, err = bb.ReadBits(int(length) * 8)
+			var data []byte
+			data, err = bb.ReadBytes(int(length))
+			if err == nil {
+				err = validateMinimalUnsigned(data)
+			}
+			if err == nil {
+				for _, item := range data {
+					offset = offset<<8 | uint64(item)
+				}
+			}
 		}
 	}
 	if err != nil {

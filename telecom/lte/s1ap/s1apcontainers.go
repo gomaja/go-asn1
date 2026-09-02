@@ -84,13 +84,15 @@ func MarshalAPERProtocolIEContainer(list ProtocolIEContainer) ([]byte, error) {
 // MarshalAPERProtocolIEContainerTo appends a ProtocolIEContainer list to bb.
 func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -111,25 +113,19 @@ func UnmarshalAPERProtocolIEContainerFrom(bb *per.BitBuffer) (ProtocolIEContaine
 }
 
 func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 0 {
-		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
-	}
-	if seqLen_value > 65535 {
-		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
-	}
 	v.Value = make(ProtocolIEContainer, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -163,6 +159,7 @@ func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolIESingleContainer{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
@@ -210,6 +207,7 @@ func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolIEField{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
@@ -242,13 +240,15 @@ func MarshalAPERProtocolIEContainerPair(list ProtocolIEContainerPair) ([]byte, e
 // MarshalAPERProtocolIEContainerPairTo appends a ProtocolIEContainerPair list to bb.
 func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerPairListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 65535); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -269,25 +269,19 @@ func UnmarshalAPERProtocolIEContainerPairFrom(bb *per.BitBuffer) (ProtocolIECont
 }
 
 func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPairListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 65535)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 0 {
-		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
-	}
-	if seqLen_value > 65535 {
-		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
-	}
 	v.Value = make(ProtocolIEContainerPair, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIEFieldPair
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIEFieldPair
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -327,6 +321,7 @@ func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolIEFieldPair{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
@@ -369,13 +364,15 @@ func MarshalAPERProtocolIEContainerList(list ProtocolIEContainerList) ([]byte, e
 // MarshalAPERProtocolIEContainerListTo appends a ProtocolIEContainerList list to bb.
 func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerListListValue{Value: list}
-	if err := per.EncodeLengthAligned(bb, int64(len(v.Value)), false); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -396,19 +393,19 @@ func UnmarshalAPERProtocolIEContainerListFrom(bb *per.BitBuffer) (ProtocolIECont
 }
 
 func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeLengthAligned(bb, false)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
 	v.Value = make(ProtocolIEContainerList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolIESingleContainer
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -427,13 +424,15 @@ func MarshalAPERProtocolIEContainerPairList(list ProtocolIEContainerPairList) ([
 // MarshalAPERProtocolIEContainerPairListTo appends a ProtocolIEContainerPairList list to bb.
 func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerPairListListValue{Value: list}
-	if err := per.EncodeLengthAligned(bb, int64(len(v.Value)), false); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, outerElem := range v.Value {
-		if err := MarshalAPERProtocolIEContainerPairTo(outerElem, bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, outerElem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := MarshalAPERProtocolIEContainerPairTo(outerElem, bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -454,19 +453,19 @@ func UnmarshalAPERProtocolIEContainerPairListFrom(bb *per.BitBuffer) (ProtocolIE
 }
 
 func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContainerPairListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeLengthAligned(bb, false)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
 	v.Value = make(ProtocolIEContainerPairList, 0)
-	for i_value := int64(0); i_value < seqLen_value; i_value++ {
-		elem, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
-		if err != nil {
-			return fmt.Errorf("decoding value element: %w", err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
+			elem, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
+			if err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i_value, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -485,13 +484,15 @@ func MarshalAPERProtocolExtensionContainer(list ProtocolExtensionContainer) ([]b
 // MarshalAPERProtocolExtensionContainerTo appends a ProtocolExtensionContainer list to bb.
 func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolExtensionContainerListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 65535); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -512,25 +513,19 @@ func UnmarshalAPERProtocolExtensionContainerFrom(bb *per.BitBuffer) (ProtocolExt
 }
 
 func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionContainerListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 65535 {
-		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
-	}
 	v.Value = make(ProtocolExtensionContainer, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ProtocolExtensionField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -564,6 +559,7 @@ func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolExtensionField{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
@@ -596,13 +592,15 @@ func MarshalAPERPrivateIEContainer(list PrivateIEContainer) ([]byte, error) {
 // MarshalAPERPrivateIEContainerTo appends a PrivateIEContainer list to bb.
 func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *per.BitBuffer) error {
 	v := asn1cAPERPrivateIEContainerListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 65535); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -623,25 +621,19 @@ func UnmarshalAPERPrivateIEContainerFrom(bb *per.BitBuffer) (PrivateIEContainer,
 }
 
 func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 65535)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 65535 {
-		return fmt.Errorf("decoding value length %d above upper bound 65535", seqLen_value)
-	}
 	v.Value = make(PrivateIEContainer, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem PrivateIEField
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem PrivateIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -675,6 +667,7 @@ func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
 }
 
 func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = PrivateIEField{}
 	if err := v.Id.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding id: %w", err)
 	}

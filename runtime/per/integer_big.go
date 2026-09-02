@@ -5,8 +5,6 @@ import (
 	"math/big"
 )
 
-const perFragmentUnit = 16 * 1024
-
 // EncodeIntegerBig encodes an arbitrary-width INTEGER using unaligned PER.
 // See ITU-T X.691 (02/2021), clauses 11.4, 11.7-11.9, and 13.
 func EncodeIntegerBig(bb *BitBuffer, value *big.Int, lower, upper *int64, extensible bool) error {
@@ -491,86 +489,4 @@ func validateMinimalTwosComplement(data []byte) error {
 		return fmt.Errorf("%w: non-minimal two's-complement INTEGER", ErrInvalidValue)
 	}
 	return nil
-}
-
-func encodeLengthDelimitedOctets(bb *BitBuffer, data []byte, aligned bool) error {
-	remaining := data
-	for len(remaining) >= perFragmentUnit {
-		multiplier := len(remaining) / perFragmentUnit
-		if multiplier > 4 {
-			multiplier = 4
-		}
-		fragmentLength := multiplier * perFragmentUnit
-		if aligned {
-			bb.AlignToOctetWrite()
-		}
-		if err := bb.WriteBits(uint64(0xc0|multiplier), 8); err != nil {
-			return err
-		}
-		if err := bb.WriteBytes(remaining[:fragmentLength]); err != nil {
-			return err
-		}
-		remaining = remaining[fragmentLength:]
-	}
-	if aligned {
-		bb.AlignToOctetWrite()
-	}
-	if err := EncodeUnconstrainedLength(bb, int64(len(remaining))); err != nil {
-		return err
-	}
-	return bb.WriteBytes(remaining)
-}
-
-func decodeLengthDelimitedOctets(bb *BitBuffer, aligned bool) ([]byte, error) {
-	var result []byte
-	previousFragmentMultiplier := 0
-	for {
-		if aligned {
-			bb.AlignToOctetRead()
-		}
-		first, err := bb.ReadBits(8)
-		if err != nil {
-			return nil, err
-		}
-		var length int
-		switch {
-		case first&0x80 == 0:
-			length = int(first)
-		case first&0xc0 == 0x80:
-			second, readErr := bb.ReadBits(8)
-			if readErr != nil {
-				return nil, readErr
-			}
-			length = int(first&0x3f)<<8 | int(second)
-			if length < 128 {
-				return nil, fmt.Errorf("%w: non-minimal PER length determinant", ErrInvalidValue)
-			}
-		case first&0xc0 == 0xc0:
-			multiplier := int(first & 0x3f)
-			if multiplier < 1 || multiplier > 4 {
-				return nil, fmt.Errorf("%w: invalid PER fragment multiplier %d", ErrInvalidValue, multiplier)
-			}
-			// X.691 (02/2021), 11.9.3.8.1 requires the largest applicable
-			// multiplier. A following fragment proves that a prior multiplier
-			// below four was not maximal.
-			if previousFragmentMultiplier != 0 && previousFragmentMultiplier != 4 {
-				return nil, fmt.Errorf("%w: non-maximal PER fragment multiplier %d", ErrInvalidValue, previousFragmentMultiplier)
-			}
-			previousFragmentMultiplier = multiplier
-			length = multiplier * perFragmentUnit
-		default:
-			return nil, fmt.Errorf("%w: invalid PER length determinant", ErrInvalidValue)
-		}
-		if length > bb.BitsRemaining()/8 {
-			return nil, ErrTruncated
-		}
-		fragment, err := bb.ReadBytes(length)
-		if err != nil {
-			return nil, err
-		}
-		result = append(result, fragment...)
-		if first&0xc0 != 0xc0 {
-			return result, nil
-		}
-	}
 }

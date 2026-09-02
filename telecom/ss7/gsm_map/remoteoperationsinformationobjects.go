@@ -84,6 +84,7 @@ func (v *Code) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Code from BER/DER format.
 func (v *Code) UnmarshalBER(data []byte) error {
+	*v = Code{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Code CHOICE")
 	}

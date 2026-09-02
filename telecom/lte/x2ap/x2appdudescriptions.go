@@ -130,6 +130,7 @@ func (v *X2APPDU) UnmarshalAPER(data []byte) error {
 }
 
 func (v *X2APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = X2APPDU{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -198,6 +199,7 @@ func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
 }
 
 func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = InitiatingMessage{}
 	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return fmt.Errorf("decoding procedureCode: %w", err)
@@ -245,6 +247,7 @@ func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SuccessfulOutcome{}
 	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return fmt.Errorf("decoding procedureCode: %w", err)
@@ -292,6 +295,7 @@ func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
 }
 
 func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = UnsuccessfulOutcome{}
 	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return fmt.Errorf("decoding procedureCode: %w", err)

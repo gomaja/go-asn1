@@ -251,8 +251,8 @@ func DecodeInteger(data []byte) (int64, int, error) {
 	if err != nil {
 		return 0, 0, err
 	}
-	if t.Class != tag.ClassUniversal || (t.Number != tag.TagInteger && t.Number != tag.TagEnumerated) {
-		return 0, 0, fmt.Errorf("%w: expected INTEGER/ENUMERATED tag, got %s", ErrInvalidTag, t)
+	if t.Class != tag.ClassUniversal || t.Number != tag.TagInteger {
+		return 0, 0, fmt.Errorf("%w: expected INTEGER tag, got %s", ErrInvalidTag, t)
 	}
 	if t.Constructed {
 		return 0, 0, fmt.Errorf("%w: INTEGER must be primitive, got constructed", ErrInvalidTag)
@@ -328,17 +328,8 @@ func DecodeBitString(data []byte) ([]byte, int, int, error) {
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagBitString {
 		return nil, 0, 0, fmt.Errorf("%w: expected BIT STRING tag, got %s", ErrInvalidTag, t)
 	}
-	if len(value) == 0 {
-		return nil, 0, 0, fmt.Errorf("%w: BIT STRING content must contain at least the unused-bits octet", ErrInvalidValue)
-	}
-	unusedBits := int(value[0])
-	if unusedBits > 7 {
-		return nil, 0, 0, fmt.Errorf("%w: invalid unused bits count %d", ErrInvalidValue, unusedBits)
-	}
-	if len(value) == 1 && unusedBits != 0 {
-		return nil, 0, 0, fmt.Errorf("%w: BIT STRING unused bits %d with no content bytes", ErrInvalidValue, unusedBits)
-	}
-	return value[1:], unusedBits, total, nil
+	decoded, unusedBits, err := decodeBitStringValue(t.Constructed, value)
+	return decoded, unusedBits, total, err
 }
 
 // DecodeOctetString decodes an octet string from raw TLV bytes.
@@ -715,6 +706,12 @@ func DecodeIntegerValue(value []byte) (int64, error) {
 	return decodeIntBytes(value)
 }
 
+// DecodeEnumeratedValue decodes primitive ENUMERATED contents after its tag
+// and length have been consumed by an implicit-tag decoder.
+func DecodeEnumeratedValue(value []byte) (int64, error) {
+	return decodeIntBytes(value)
+}
+
 // DecodeBooleanValue decodes a boolean from raw value bytes.
 func DecodeBooleanValue(value []byte) (bool, error) {
 	if len(value) != 1 {
@@ -725,6 +722,45 @@ func DecodeBooleanValue(value []byte) (bool, error) {
 
 // DecodeBitStringValue decodes a bit string from raw value bytes.
 func DecodeBitStringValue(value []byte) ([]byte, int, error) {
+	return decodePrimitiveBitStringValue(value)
+}
+
+// DecodeImplicitBitStringValue decodes primitive or constructed BIT STRING
+// contents after an implicit tag has been consumed. X.690 (02/2021) 8.6.1
+// permits both forms and 8.6.4.1 requires recursive, ordered segments.
+func DecodeImplicitBitStringValue(constructed bool, value []byte) ([]byte, int, error) {
+	return decodeBitStringValue(constructed, value)
+}
+
+func decodeBitStringValue(constructed bool, value []byte) ([]byte, int, error) {
+	if !constructed {
+		return decodePrimitiveBitStringValue(value)
+	}
+
+	children, err := DecodeSequenceChildren(value)
+	if err != nil {
+		return nil, 0, fmt.Errorf("decoding constructed BIT STRING: %w", err)
+	}
+	var result []byte
+	unusedBits := 0
+	for index, child := range children {
+		segment, segmentUnused, consumed, err := DecodeBitString(child)
+		if err != nil {
+			return nil, 0, fmt.Errorf("decoding constructed BIT STRING segment %d: %w", index, err)
+		}
+		if consumed != len(child) {
+			return nil, 0, fmt.Errorf("decoding constructed BIT STRING segment %d: %w", index, ErrExtraData)
+		}
+		if index != len(children)-1 && segmentUnused != 0 {
+			return nil, 0, fmt.Errorf("%w: BIT STRING segment %d has %d unused bits before the final segment", ErrInvalidValue, index, segmentUnused)
+		}
+		result = append(result, segment...)
+		unusedBits = segmentUnused
+	}
+	return result, unusedBits, nil
+}
+
+func decodePrimitiveBitStringValue(value []byte) ([]byte, int, error) {
 	if len(value) == 0 {
 		return nil, 0, fmt.Errorf("%w: empty BIT STRING value", ErrInvalidValue)
 	}

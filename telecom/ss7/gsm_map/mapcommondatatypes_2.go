@@ -19,328 +19,328 @@ var (
 
 const (
 
-	// CommonDataTypesMaxAddressLength is the integer constant for CommonDataTypesMaxAddressLength.
+	// CommonDataTypesMaxAddressLength is the integer constant for maxAddressLength.
 	CommonDataTypesMaxAddressLength int64 = 20
 
-	// CommonDataTypesMaxISDNAddressLength is the integer constant for CommonDataTypesMaxISDNAddressLength.
+	// CommonDataTypesMaxISDNAddressLength is the integer constant for maxISDN-AddressLength.
 	CommonDataTypesMaxISDNAddressLength int64 = 9
 
-	// CommonDataTypesMaxFTNAddressLength is the integer constant for CommonDataTypesMaxFTNAddressLength.
+	// CommonDataTypesMaxFTNAddressLength is the integer constant for maxFTN-AddressLength.
 	CommonDataTypesMaxFTNAddressLength int64 = 15
 
-	// CommonDataTypesMaxISDNSubaddressLength is the integer constant for CommonDataTypesMaxISDNSubaddressLength.
+	// CommonDataTypesMaxISDNSubaddressLength is the integer constant for maxISDN-SubaddressLength.
 	CommonDataTypesMaxISDNSubaddressLength int64 = 21
 
-	// CommonDataTypesMaxSignalInfoLength is the integer constant for CommonDataTypesMaxSignalInfoLength.
+	// CommonDataTypesMaxSignalInfoLength is the integer constant for maxSignalInfoLength.
 	CommonDataTypesMaxSignalInfoLength int64 = 200
 
-	// CommonDataTypesMaxLongSignalInfoLength is the integer constant for CommonDataTypesMaxLongSignalInfoLength.
+	// CommonDataTypesMaxLongSignalInfoLength is the integer constant for maxLongSignalInfoLength.
 	CommonDataTypesMaxLongSignalInfoLength int64 = 2560
 
-	// CommonDataTypesAlertingLevel0 is the octet string constant for CommonDataTypesAlertingLevel0.
+	// CommonDataTypesAlertingLevel0 is the octet string constant for alertingLevel-0.
 	CommonDataTypesAlertingLevel0 = "\x00"
 
-	// CommonDataTypesAlertingLevel1 is the octet string constant for CommonDataTypesAlertingLevel1.
+	// CommonDataTypesAlertingLevel1 is the octet string constant for alertingLevel-1.
 	CommonDataTypesAlertingLevel1 = "\x01"
 
-	// CommonDataTypesAlertingLevel2 is the octet string constant for CommonDataTypesAlertingLevel2.
+	// CommonDataTypesAlertingLevel2 is the octet string constant for alertingLevel-2.
 	CommonDataTypesAlertingLevel2 = "\x02"
 
-	// CommonDataTypesAlertingCategory1 is the octet string constant for CommonDataTypesAlertingCategory1.
+	// CommonDataTypesAlertingCategory1 is the octet string constant for alertingCategory-1.
 	CommonDataTypesAlertingCategory1 = "\x04"
 
-	// CommonDataTypesAlertingCategory2 is the octet string constant for CommonDataTypesAlertingCategory2.
+	// CommonDataTypesAlertingCategory2 is the octet string constant for alertingCategory-2.
 	CommonDataTypesAlertingCategory2 = "\x05"
 
-	// CommonDataTypesAlertingCategory3 is the octet string constant for CommonDataTypesAlertingCategory3.
+	// CommonDataTypesAlertingCategory3 is the octet string constant for alertingCategory-3.
 	CommonDataTypesAlertingCategory3 = "\x06"
 
-	// CommonDataTypesAlertingCategory4 is the octet string constant for CommonDataTypesAlertingCategory4.
+	// CommonDataTypesAlertingCategory4 is the octet string constant for alertingCategory-4.
 	CommonDataTypesAlertingCategory4 = "\x07"
 
-	// CommonDataTypesAlertingCategory5 is the octet string constant for CommonDataTypesAlertingCategory5.
+	// CommonDataTypesAlertingCategory5 is the octet string constant for alertingCategory-5.
 	CommonDataTypesAlertingCategory5 = "\x08"
 
-	// CommonDataTypesMaxNumOfHLRId is the integer constant for CommonDataTypesMaxNumOfHLRId.
+	// CommonDataTypesMaxNumOfHLRId is the integer constant for maxNumOfHLR-Id.
 	CommonDataTypesMaxNumOfHLRId int64 = 50
 
-	// CommonDataTypesEmergencyServices is the integer constant for CommonDataTypesEmergencyServices.
+	// CommonDataTypesEmergencyServices is the integer constant for emergencyServices.
 	CommonDataTypesEmergencyServices int64 = 0
 
-	// CommonDataTypesEmergencyAlertServices is the integer constant for CommonDataTypesEmergencyAlertServices.
+	// CommonDataTypesEmergencyAlertServices is the integer constant for emergencyAlertServices.
 	CommonDataTypesEmergencyAlertServices int64 = 1
 
-	// CommonDataTypesPersonTracking is the integer constant for CommonDataTypesPersonTracking.
+	// CommonDataTypesPersonTracking is the integer constant for personTracking.
 	CommonDataTypesPersonTracking int64 = 2
 
-	// CommonDataTypesFleetManagement is the integer constant for CommonDataTypesFleetManagement.
+	// CommonDataTypesFleetManagement is the integer constant for fleetManagement.
 	CommonDataTypesFleetManagement int64 = 3
 
-	// CommonDataTypesAssetManagement is the integer constant for CommonDataTypesAssetManagement.
+	// CommonDataTypesAssetManagement is the integer constant for assetManagement.
 	CommonDataTypesAssetManagement int64 = 4
 
-	// CommonDataTypesTrafficCongestionReporting is the integer constant for CommonDataTypesTrafficCongestionReporting.
+	// CommonDataTypesTrafficCongestionReporting is the integer constant for trafficCongestionReporting.
 	CommonDataTypesTrafficCongestionReporting int64 = 5
 
-	// CommonDataTypesRoadsideAssistance is the integer constant for CommonDataTypesRoadsideAssistance.
+	// CommonDataTypesRoadsideAssistance is the integer constant for roadsideAssistance.
 	CommonDataTypesRoadsideAssistance int64 = 6
 
-	// CommonDataTypesRoutingToNearestCommercialEnterprise is the integer constant for CommonDataTypesRoutingToNearestCommercialEnterprise.
+	// CommonDataTypesRoutingToNearestCommercialEnterprise is the integer constant for routingToNearestCommercialEnterprise.
 	CommonDataTypesRoutingToNearestCommercialEnterprise int64 = 7
 
-	// CommonDataTypesNavigation is the integer constant for CommonDataTypesNavigation.
+	// CommonDataTypesNavigation is the integer constant for navigation.
 	CommonDataTypesNavigation int64 = 8
 
-	// CommonDataTypesCitySightseeing is the integer constant for CommonDataTypesCitySightseeing.
+	// CommonDataTypesCitySightseeing is the integer constant for citySightseeing.
 	CommonDataTypesCitySightseeing int64 = 9
 
-	// CommonDataTypesLocalizedAdvertising is the integer constant for CommonDataTypesLocalizedAdvertising.
+	// CommonDataTypesLocalizedAdvertising is the integer constant for localizedAdvertising.
 	CommonDataTypesLocalizedAdvertising int64 = 10
 
-	// CommonDataTypesMobileYellowPages is the integer constant for CommonDataTypesMobileYellowPages.
+	// CommonDataTypesMobileYellowPages is the integer constant for mobileYellowPages.
 	CommonDataTypesMobileYellowPages int64 = 11
 
-	// CommonDataTypesTrafficAndPublicTransportationInfo is the integer constant for CommonDataTypesTrafficAndPublicTransportationInfo.
+	// CommonDataTypesTrafficAndPublicTransportationInfo is the integer constant for trafficAndPublicTransportationInfo.
 	CommonDataTypesTrafficAndPublicTransportationInfo int64 = 12
 
-	// CommonDataTypesWeather is the integer constant for CommonDataTypesWeather.
+	// CommonDataTypesWeather is the integer constant for weather.
 	CommonDataTypesWeather int64 = 13
 
-	// CommonDataTypesAssetAndServiceFinding is the integer constant for CommonDataTypesAssetAndServiceFinding.
+	// CommonDataTypesAssetAndServiceFinding is the integer constant for assetAndServiceFinding.
 	CommonDataTypesAssetAndServiceFinding int64 = 14
 
-	// CommonDataTypesGaming is the integer constant for CommonDataTypesGaming.
+	// CommonDataTypesGaming is the integer constant for gaming.
 	CommonDataTypesGaming int64 = 15
 
-	// CommonDataTypesFindYourFriend is the integer constant for CommonDataTypesFindYourFriend.
+	// CommonDataTypesFindYourFriend is the integer constant for findYourFriend.
 	CommonDataTypesFindYourFriend int64 = 16
 
-	// CommonDataTypesDating is the integer constant for CommonDataTypesDating.
+	// CommonDataTypesDating is the integer constant for dating.
 	CommonDataTypesDating int64 = 17
 
-	// CommonDataTypesChatting is the integer constant for CommonDataTypesChatting.
+	// CommonDataTypesChatting is the integer constant for chatting.
 	CommonDataTypesChatting int64 = 18
 
-	// CommonDataTypesRouteFinding is the integer constant for CommonDataTypesRouteFinding.
+	// CommonDataTypesRouteFinding is the integer constant for routeFinding.
 	CommonDataTypesRouteFinding int64 = 19
 
-	// CommonDataTypesWhereAmI is the integer constant for CommonDataTypesWhereAmI.
+	// CommonDataTypesWhereAmI is the integer constant for whereAmI.
 	CommonDataTypesWhereAmI int64 = 20
 
-	// CommonDataTypesServ64 is the integer constant for CommonDataTypesServ64.
+	// CommonDataTypesServ64 is the integer constant for serv64.
 	CommonDataTypesServ64 int64 = 64
 
-	// CommonDataTypesServ65 is the integer constant for CommonDataTypesServ65.
+	// CommonDataTypesServ65 is the integer constant for serv65.
 	CommonDataTypesServ65 int64 = 65
 
-	// CommonDataTypesServ66 is the integer constant for CommonDataTypesServ66.
+	// CommonDataTypesServ66 is the integer constant for serv66.
 	CommonDataTypesServ66 int64 = 66
 
-	// CommonDataTypesServ67 is the integer constant for CommonDataTypesServ67.
+	// CommonDataTypesServ67 is the integer constant for serv67.
 	CommonDataTypesServ67 int64 = 67
 
-	// CommonDataTypesServ68 is the integer constant for CommonDataTypesServ68.
+	// CommonDataTypesServ68 is the integer constant for serv68.
 	CommonDataTypesServ68 int64 = 68
 
-	// CommonDataTypesServ69 is the integer constant for CommonDataTypesServ69.
+	// CommonDataTypesServ69 is the integer constant for serv69.
 	CommonDataTypesServ69 int64 = 69
 
-	// CommonDataTypesServ70 is the integer constant for CommonDataTypesServ70.
+	// CommonDataTypesServ70 is the integer constant for serv70.
 	CommonDataTypesServ70 int64 = 70
 
-	// CommonDataTypesServ71 is the integer constant for CommonDataTypesServ71.
+	// CommonDataTypesServ71 is the integer constant for serv71.
 	CommonDataTypesServ71 int64 = 71
 
-	// CommonDataTypesServ72 is the integer constant for CommonDataTypesServ72.
+	// CommonDataTypesServ72 is the integer constant for serv72.
 	CommonDataTypesServ72 int64 = 72
 
-	// CommonDataTypesServ73 is the integer constant for CommonDataTypesServ73.
+	// CommonDataTypesServ73 is the integer constant for serv73.
 	CommonDataTypesServ73 int64 = 73
 
-	// CommonDataTypesServ74 is the integer constant for CommonDataTypesServ74.
+	// CommonDataTypesServ74 is the integer constant for serv74.
 	CommonDataTypesServ74 int64 = 74
 
-	// CommonDataTypesServ75 is the integer constant for CommonDataTypesServ75.
+	// CommonDataTypesServ75 is the integer constant for serv75.
 	CommonDataTypesServ75 int64 = 75
 
-	// CommonDataTypesServ76 is the integer constant for CommonDataTypesServ76.
+	// CommonDataTypesServ76 is the integer constant for serv76.
 	CommonDataTypesServ76 int64 = 76
 
-	// CommonDataTypesServ77 is the integer constant for CommonDataTypesServ77.
+	// CommonDataTypesServ77 is the integer constant for serv77.
 	CommonDataTypesServ77 int64 = 77
 
-	// CommonDataTypesServ78 is the integer constant for CommonDataTypesServ78.
+	// CommonDataTypesServ78 is the integer constant for serv78.
 	CommonDataTypesServ78 int64 = 78
 
-	// CommonDataTypesServ79 is the integer constant for CommonDataTypesServ79.
+	// CommonDataTypesServ79 is the integer constant for serv79.
 	CommonDataTypesServ79 int64 = 79
 
-	// CommonDataTypesServ80 is the integer constant for CommonDataTypesServ80.
+	// CommonDataTypesServ80 is the integer constant for serv80.
 	CommonDataTypesServ80 int64 = 80
 
-	// CommonDataTypesServ81 is the integer constant for CommonDataTypesServ81.
+	// CommonDataTypesServ81 is the integer constant for serv81.
 	CommonDataTypesServ81 int64 = 81
 
-	// CommonDataTypesServ82 is the integer constant for CommonDataTypesServ82.
+	// CommonDataTypesServ82 is the integer constant for serv82.
 	CommonDataTypesServ82 int64 = 82
 
-	// CommonDataTypesServ83 is the integer constant for CommonDataTypesServ83.
+	// CommonDataTypesServ83 is the integer constant for serv83.
 	CommonDataTypesServ83 int64 = 83
 
-	// CommonDataTypesServ84 is the integer constant for CommonDataTypesServ84.
+	// CommonDataTypesServ84 is the integer constant for serv84.
 	CommonDataTypesServ84 int64 = 84
 
-	// CommonDataTypesServ85 is the integer constant for CommonDataTypesServ85.
+	// CommonDataTypesServ85 is the integer constant for serv85.
 	CommonDataTypesServ85 int64 = 85
 
-	// CommonDataTypesServ86 is the integer constant for CommonDataTypesServ86.
+	// CommonDataTypesServ86 is the integer constant for serv86.
 	CommonDataTypesServ86 int64 = 86
 
-	// CommonDataTypesServ87 is the integer constant for CommonDataTypesServ87.
+	// CommonDataTypesServ87 is the integer constant for serv87.
 	CommonDataTypesServ87 int64 = 87
 
-	// CommonDataTypesServ88 is the integer constant for CommonDataTypesServ88.
+	// CommonDataTypesServ88 is the integer constant for serv88.
 	CommonDataTypesServ88 int64 = 88
 
-	// CommonDataTypesServ89 is the integer constant for CommonDataTypesServ89.
+	// CommonDataTypesServ89 is the integer constant for serv89.
 	CommonDataTypesServ89 int64 = 89
 
-	// CommonDataTypesServ90 is the integer constant for CommonDataTypesServ90.
+	// CommonDataTypesServ90 is the integer constant for serv90.
 	CommonDataTypesServ90 int64 = 90
 
-	// CommonDataTypesServ91 is the integer constant for CommonDataTypesServ91.
+	// CommonDataTypesServ91 is the integer constant for serv91.
 	CommonDataTypesServ91 int64 = 91
 
-	// CommonDataTypesServ92 is the integer constant for CommonDataTypesServ92.
+	// CommonDataTypesServ92 is the integer constant for serv92.
 	CommonDataTypesServ92 int64 = 92
 
-	// CommonDataTypesServ93 is the integer constant for CommonDataTypesServ93.
+	// CommonDataTypesServ93 is the integer constant for serv93.
 	CommonDataTypesServ93 int64 = 93
 
-	// CommonDataTypesServ94 is the integer constant for CommonDataTypesServ94.
+	// CommonDataTypesServ94 is the integer constant for serv94.
 	CommonDataTypesServ94 int64 = 94
 
-	// CommonDataTypesServ95 is the integer constant for CommonDataTypesServ95.
+	// CommonDataTypesServ95 is the integer constant for serv95.
 	CommonDataTypesServ95 int64 = 95
 
-	// CommonDataTypesServ96 is the integer constant for CommonDataTypesServ96.
+	// CommonDataTypesServ96 is the integer constant for serv96.
 	CommonDataTypesServ96 int64 = 96
 
-	// CommonDataTypesServ97 is the integer constant for CommonDataTypesServ97.
+	// CommonDataTypesServ97 is the integer constant for serv97.
 	CommonDataTypesServ97 int64 = 97
 
-	// CommonDataTypesServ98 is the integer constant for CommonDataTypesServ98.
+	// CommonDataTypesServ98 is the integer constant for serv98.
 	CommonDataTypesServ98 int64 = 98
 
-	// CommonDataTypesServ99 is the integer constant for CommonDataTypesServ99.
+	// CommonDataTypesServ99 is the integer constant for serv99.
 	CommonDataTypesServ99 int64 = 99
 
-	// CommonDataTypesServ100 is the integer constant for CommonDataTypesServ100.
+	// CommonDataTypesServ100 is the integer constant for serv100.
 	CommonDataTypesServ100 int64 = 100
 
-	// CommonDataTypesServ101 is the integer constant for CommonDataTypesServ101.
+	// CommonDataTypesServ101 is the integer constant for serv101.
 	CommonDataTypesServ101 int64 = 101
 
-	// CommonDataTypesServ102 is the integer constant for CommonDataTypesServ102.
+	// CommonDataTypesServ102 is the integer constant for serv102.
 	CommonDataTypesServ102 int64 = 102
 
-	// CommonDataTypesServ103 is the integer constant for CommonDataTypesServ103.
+	// CommonDataTypesServ103 is the integer constant for serv103.
 	CommonDataTypesServ103 int64 = 103
 
-	// CommonDataTypesServ104 is the integer constant for CommonDataTypesServ104.
+	// CommonDataTypesServ104 is the integer constant for serv104.
 	CommonDataTypesServ104 int64 = 104
 
-	// CommonDataTypesServ105 is the integer constant for CommonDataTypesServ105.
+	// CommonDataTypesServ105 is the integer constant for serv105.
 	CommonDataTypesServ105 int64 = 105
 
-	// CommonDataTypesServ106 is the integer constant for CommonDataTypesServ106.
+	// CommonDataTypesServ106 is the integer constant for serv106.
 	CommonDataTypesServ106 int64 = 106
 
-	// CommonDataTypesServ107 is the integer constant for CommonDataTypesServ107.
+	// CommonDataTypesServ107 is the integer constant for serv107.
 	CommonDataTypesServ107 int64 = 107
 
-	// CommonDataTypesServ108 is the integer constant for CommonDataTypesServ108.
+	// CommonDataTypesServ108 is the integer constant for serv108.
 	CommonDataTypesServ108 int64 = 108
 
-	// CommonDataTypesServ109 is the integer constant for CommonDataTypesServ109.
+	// CommonDataTypesServ109 is the integer constant for serv109.
 	CommonDataTypesServ109 int64 = 109
 
-	// CommonDataTypesServ110 is the integer constant for CommonDataTypesServ110.
+	// CommonDataTypesServ110 is the integer constant for serv110.
 	CommonDataTypesServ110 int64 = 110
 
-	// CommonDataTypesServ111 is the integer constant for CommonDataTypesServ111.
+	// CommonDataTypesServ111 is the integer constant for serv111.
 	CommonDataTypesServ111 int64 = 111
 
-	// CommonDataTypesServ112 is the integer constant for CommonDataTypesServ112.
+	// CommonDataTypesServ112 is the integer constant for serv112.
 	CommonDataTypesServ112 int64 = 112
 
-	// CommonDataTypesServ113 is the integer constant for CommonDataTypesServ113.
+	// CommonDataTypesServ113 is the integer constant for serv113.
 	CommonDataTypesServ113 int64 = 113
 
-	// CommonDataTypesServ114 is the integer constant for CommonDataTypesServ114.
+	// CommonDataTypesServ114 is the integer constant for serv114.
 	CommonDataTypesServ114 int64 = 114
 
-	// CommonDataTypesServ115 is the integer constant for CommonDataTypesServ115.
+	// CommonDataTypesServ115 is the integer constant for serv115.
 	CommonDataTypesServ115 int64 = 115
 
-	// CommonDataTypesServ116 is the integer constant for CommonDataTypesServ116.
+	// CommonDataTypesServ116 is the integer constant for serv116.
 	CommonDataTypesServ116 int64 = 116
 
-	// CommonDataTypesServ117 is the integer constant for CommonDataTypesServ117.
+	// CommonDataTypesServ117 is the integer constant for serv117.
 	CommonDataTypesServ117 int64 = 117
 
-	// CommonDataTypesServ118 is the integer constant for CommonDataTypesServ118.
+	// CommonDataTypesServ118 is the integer constant for serv118.
 	CommonDataTypesServ118 int64 = 118
 
-	// CommonDataTypesServ119 is the integer constant for CommonDataTypesServ119.
+	// CommonDataTypesServ119 is the integer constant for serv119.
 	CommonDataTypesServ119 int64 = 119
 
-	// CommonDataTypesServ120 is the integer constant for CommonDataTypesServ120.
+	// CommonDataTypesServ120 is the integer constant for serv120.
 	CommonDataTypesServ120 int64 = 120
 
-	// CommonDataTypesServ121 is the integer constant for CommonDataTypesServ121.
+	// CommonDataTypesServ121 is the integer constant for serv121.
 	CommonDataTypesServ121 int64 = 121
 
-	// CommonDataTypesServ122 is the integer constant for CommonDataTypesServ122.
+	// CommonDataTypesServ122 is the integer constant for serv122.
 	CommonDataTypesServ122 int64 = 122
 
-	// CommonDataTypesServ123 is the integer constant for CommonDataTypesServ123.
+	// CommonDataTypesServ123 is the integer constant for serv123.
 	CommonDataTypesServ123 int64 = 123
 
-	// CommonDataTypesServ124 is the integer constant for CommonDataTypesServ124.
+	// CommonDataTypesServ124 is the integer constant for serv124.
 	CommonDataTypesServ124 int64 = 124
 
-	// CommonDataTypesServ125 is the integer constant for CommonDataTypesServ125.
+	// CommonDataTypesServ125 is the integer constant for serv125.
 	CommonDataTypesServ125 int64 = 125
 
-	// CommonDataTypesServ126 is the integer constant for CommonDataTypesServ126.
+	// CommonDataTypesServ126 is the integer constant for serv126.
 	CommonDataTypesServ126 int64 = 126
 
-	// CommonDataTypesServ127 is the integer constant for CommonDataTypesServ127.
+	// CommonDataTypesServ127 is the integer constant for serv127.
 	CommonDataTypesServ127 int64 = 127
 
-	// CommonDataTypesPriorityLevelA is the integer constant for CommonDataTypesPriorityLevelA.
+	// CommonDataTypesPriorityLevelA is the integer constant for priorityLevelA.
 	CommonDataTypesPriorityLevelA int64 = 6
 
-	// CommonDataTypesPriorityLevelB is the integer constant for CommonDataTypesPriorityLevelB.
+	// CommonDataTypesPriorityLevelB is the integer constant for priorityLevelB.
 	CommonDataTypesPriorityLevelB int64 = 5
 
-	// CommonDataTypesPriorityLevel0 is the integer constant for CommonDataTypesPriorityLevel0.
+	// CommonDataTypesPriorityLevel0 is the integer constant for priorityLevel0.
 	CommonDataTypesPriorityLevel0 int64 = 0
 
-	// CommonDataTypesPriorityLevel1 is the integer constant for CommonDataTypesPriorityLevel1.
+	// CommonDataTypesPriorityLevel1 is the integer constant for priorityLevel1.
 	CommonDataTypesPriorityLevel1 int64 = 1
 
-	// CommonDataTypesPriorityLevel2 is the integer constant for CommonDataTypesPriorityLevel2.
+	// CommonDataTypesPriorityLevel2 is the integer constant for priorityLevel2.
 	CommonDataTypesPriorityLevel2 int64 = 2
 
-	// CommonDataTypesPriorityLevel3 is the integer constant for CommonDataTypesPriorityLevel3.
+	// CommonDataTypesPriorityLevel3 is the integer constant for priorityLevel3.
 	CommonDataTypesPriorityLevel3 int64 = 3
 
-	// CommonDataTypesPriorityLevel4 is the integer constant for CommonDataTypesPriorityLevel4.
+	// CommonDataTypesPriorityLevel4 is the integer constant for priorityLevel4.
 	CommonDataTypesPriorityLevel4 int64 = 4
 
-	// CommonDataTypesMaxNumOfMCBearers is the integer constant for CommonDataTypesMaxNumOfMCBearers.
+	// CommonDataTypesMaxNumOfMCBearers is the integer constant for maxNumOfMC-Bearers.
 	CommonDataTypesMaxNumOfMCBearers int64 = 7
 )
 
@@ -887,6 +887,7 @@ func (v *CommonDataTypesExternalSignalInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesExternalSignalInfo from BER/DER format.
 func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesExternalSignalInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesExternalSignalInfo SEQUENCE: %w", err)
@@ -899,7 +900,7 @@ func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field protocolId")
 	}
-	val_protocolid, n, err := ber.DecodeInteger(content[offset:])
+	val_protocolid, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
@@ -1006,6 +1007,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesExtExternalSignalInfo from BER/DER format.
 func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesExtExternalSignalInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesExtExternalSignalInfo SEQUENCE: %w", err)
@@ -1018,7 +1020,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field ext-ProtocolId")
 	}
-	val_extprotocolid, n, err := ber.DecodeInteger(content[offset:])
+	val_extprotocolid, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ext-ProtocolId: %w", err)
 	}
@@ -1125,6 +1127,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesAccessNetworkSignalInfo from BER/DER format.
 func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesAccessNetworkSignalInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesAccessNetworkSignalInfo SEQUENCE: %w", err)
@@ -1137,7 +1140,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte) error
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field accessNetworkProtocolId")
 	}
-	val_accessnetworkprotocolid, n, err := ber.DecodeInteger(content[offset:])
+	val_accessnetworkprotocolid, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding accessNetworkProtocolId: %w", err)
 	}
@@ -1239,6 +1242,7 @@ func (v *CommonDataTypesIdentity) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesIdentity from BER/DER format.
 func (v *CommonDataTypesIdentity) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesIdentity{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesIdentity CHOICE")
 	}
@@ -1319,6 +1323,7 @@ func (v *CommonDataTypesIMSIWithLMSI) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesIMSIWithLMSI from BER/DER format.
 func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesIMSIWithLMSI{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesIMSIWithLMSI SEQUENCE: %w", err)
@@ -1407,6 +1412,7 @@ func (v *CommonDataTypesSubscriberId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesSubscriberId from BER/DER format.
 func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesSubscriberId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesSubscriberId CHOICE")
 	}
@@ -1562,6 +1568,7 @@ func (v *CommonDataTypesNAEAPreferredCI) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesNAEAPreferredCI from BER/DER format.
 func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesNAEAPreferredCI{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesNAEAPreferredCI SEQUENCE: %w", err)
@@ -1670,6 +1677,7 @@ func (v *CommonDataTypesSubscriberIdentity) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesSubscriberIdentity from BER/DER format.
 func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesSubscriberIdentity{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesSubscriberIdentity CHOICE")
 	}
@@ -1785,6 +1793,7 @@ func (v *CommonDataTypesLCSClientExternalID) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesLCSClientExternalID from BER/DER format.
 func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesLCSClientExternalID{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesLCSClientExternalID SEQUENCE: %w", err)
@@ -1893,6 +1902,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) MarshalDER() ([]byte, 
 
 // UnmarshalBER decodes CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI from BER/DER format.
 func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI CHOICE")
 	}
@@ -1976,6 +1986,7 @@ func (v *CommonDataTypesBasicServiceCode) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesBasicServiceCode from BER/DER format.
 func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesBasicServiceCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesBasicServiceCode CHOICE")
 	}
@@ -2059,6 +2070,7 @@ func (v *CommonDataTypesExtBasicServiceCode) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesExtBasicServiceCode from BER/DER format.
 func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesExtBasicServiceCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesExtBasicServiceCode CHOICE")
 	}
@@ -2154,6 +2166,7 @@ func (v *CommonDataTypesEMLPPInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesEMLPPInfo from BER/DER format.
 func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesEMLPPInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesEMLPPInfo SEQUENCE: %w", err)
@@ -2331,6 +2344,7 @@ func (v *CommonDataTypesMCSSInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CommonDataTypesMCSSInfo from BER/DER format.
 func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte) error {
+	*v = CommonDataTypesMCSSInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CommonDataTypesMCSSInfo SEQUENCE: %w", err)

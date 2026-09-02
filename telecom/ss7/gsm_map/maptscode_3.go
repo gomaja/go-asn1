@@ -17,100 +17,100 @@ var (
 
 const (
 
-	// AllTeleservices3 is the octet string constant for AllTeleservices3.
+	// AllTeleservices3 is the octet string constant for allTeleservices.
 	AllTeleservices3 = "\x00"
 
-	// AllSpeechTransmissionServices3 is the octet string constant for AllSpeechTransmissionServices3.
+	// AllSpeechTransmissionServices3 is the octet string constant for allSpeechTransmissionServices.
 	AllSpeechTransmissionServices3 = "\x10"
 
-	// Telephony3 is the octet string constant for Telephony3.
+	// Telephony3 is the octet string constant for telephony.
 	Telephony3 = "\x11"
 
-	// EmergencyCalls3 is the octet string constant for EmergencyCalls3.
+	// EmergencyCalls3 is the octet string constant for emergencyCalls.
 	EmergencyCalls3 = "\x12"
 
-	// AllShortMessageServices3 is the octet string constant for AllShortMessageServices3.
+	// AllShortMessageServices3 is the octet string constant for allShortMessageServices.
 	AllShortMessageServices3 = "\x20"
 
-	// ShortMessageMTPP3 is the octet string constant for ShortMessageMTPP3.
+	// ShortMessageMTPP3 is the octet string constant for shortMessageMT-PP.
 	ShortMessageMTPP3 = "\x21"
 
-	// ShortMessageMOPP3 is the octet string constant for ShortMessageMOPP3.
+	// ShortMessageMOPP3 is the octet string constant for shortMessageMO-PP.
 	ShortMessageMOPP3 = "\x22"
 
-	// AllFacsimileTransmissionServices3 is the octet string constant for AllFacsimileTransmissionServices3.
+	// AllFacsimileTransmissionServices3 is the octet string constant for allFacsimileTransmissionServices.
 	AllFacsimileTransmissionServices3 = "\x60"
 
-	// FacsimileGroup3AndAlterSpeech3 is the octet string constant for FacsimileGroup3AndAlterSpeech3.
+	// FacsimileGroup3AndAlterSpeech3 is the octet string constant for facsimileGroup3AndAlterSpeech.
 	FacsimileGroup3AndAlterSpeech3 = "\x61"
 
-	// AutomaticFacsimileGroup33 is the octet string constant for AutomaticFacsimileGroup33.
+	// AutomaticFacsimileGroup33 is the octet string constant for automaticFacsimileGroup3.
 	AutomaticFacsimileGroup33 = "\x62"
 
-	// FacsimileGroup43 is the octet string constant for FacsimileGroup43.
+	// FacsimileGroup43 is the octet string constant for facsimileGroup4.
 	FacsimileGroup43 = "\x63"
 
-	// AllDataTeleservices3 is the octet string constant for AllDataTeleservices3.
+	// AllDataTeleservices3 is the octet string constant for allDataTeleservices.
 	AllDataTeleservices3 = "\x70"
 
-	// AllTeleservicesExeptSMS3 is the octet string constant for AllTeleservicesExeptSMS3.
+	// AllTeleservicesExeptSMS3 is the octet string constant for allTeleservices-ExeptSMS.
 	AllTeleservicesExeptSMS3 = "\x80"
 
-	// AllVoiceGroupCallServices3 is the octet string constant for AllVoiceGroupCallServices3.
+	// AllVoiceGroupCallServices3 is the octet string constant for allVoiceGroupCallServices.
 	AllVoiceGroupCallServices3 = "\x90"
 
-	// VoiceGroupCall3 is the octet string constant for VoiceGroupCall3.
+	// VoiceGroupCall3 is the octet string constant for voiceGroupCall.
 	VoiceGroupCall3 = "\x91"
 
-	// VoiceBroadcastCall3 is the octet string constant for VoiceBroadcastCall3.
+	// VoiceBroadcastCall3 is the octet string constant for voiceBroadcastCall.
 	VoiceBroadcastCall3 = "\x92"
 
-	// AllPLMNSpecificTS3 is the octet string constant for AllPLMNSpecificTS3.
+	// AllPLMNSpecificTS3 is the octet string constant for allPLMN-specificTS.
 	AllPLMNSpecificTS3 = "\xd0"
 
-	// PlmnSpecificTS13 is the octet string constant for PlmnSpecificTS13.
+	// PlmnSpecificTS13 is the octet string constant for plmn-specificTS-1.
 	PlmnSpecificTS13 = "\xd1"
 
-	// PlmnSpecificTS23 is the octet string constant for PlmnSpecificTS23.
+	// PlmnSpecificTS23 is the octet string constant for plmn-specificTS-2.
 	PlmnSpecificTS23 = "\xd2"
 
-	// PlmnSpecificTS33 is the octet string constant for PlmnSpecificTS33.
+	// PlmnSpecificTS33 is the octet string constant for plmn-specificTS-3.
 	PlmnSpecificTS33 = "\xd3"
 
-	// PlmnSpecificTS43 is the octet string constant for PlmnSpecificTS43.
+	// PlmnSpecificTS43 is the octet string constant for plmn-specificTS-4.
 	PlmnSpecificTS43 = "\xd4"
 
-	// PlmnSpecificTS53 is the octet string constant for PlmnSpecificTS53.
+	// PlmnSpecificTS53 is the octet string constant for plmn-specificTS-5.
 	PlmnSpecificTS53 = "\xd5"
 
-	// PlmnSpecificTS63 is the octet string constant for PlmnSpecificTS63.
+	// PlmnSpecificTS63 is the octet string constant for plmn-specificTS-6.
 	PlmnSpecificTS63 = "\xd6"
 
-	// PlmnSpecificTS73 is the octet string constant for PlmnSpecificTS73.
+	// PlmnSpecificTS73 is the octet string constant for plmn-specificTS-7.
 	PlmnSpecificTS73 = "\xd7"
 
-	// PlmnSpecificTS83 is the octet string constant for PlmnSpecificTS83.
+	// PlmnSpecificTS83 is the octet string constant for plmn-specificTS-8.
 	PlmnSpecificTS83 = "\xd8"
 
-	// PlmnSpecificTS93 is the octet string constant for PlmnSpecificTS93.
+	// PlmnSpecificTS93 is the octet string constant for plmn-specificTS-9.
 	PlmnSpecificTS93 = "\xd9"
 
-	// PlmnSpecificTSA3 is the octet string constant for PlmnSpecificTSA3.
+	// PlmnSpecificTSA3 is the octet string constant for plmn-specificTS-A.
 	PlmnSpecificTSA3 = "\xda"
 
-	// PlmnSpecificTSB3 is the octet string constant for PlmnSpecificTSB3.
+	// PlmnSpecificTSB3 is the octet string constant for plmn-specificTS-B.
 	PlmnSpecificTSB3 = "\xdb"
 
-	// PlmnSpecificTSC3 is the octet string constant for PlmnSpecificTSC3.
+	// PlmnSpecificTSC3 is the octet string constant for plmn-specificTS-C.
 	PlmnSpecificTSC3 = "\xdc"
 
-	// PlmnSpecificTSD3 is the octet string constant for PlmnSpecificTSD3.
+	// PlmnSpecificTSD3 is the octet string constant for plmn-specificTS-D.
 	PlmnSpecificTSD3 = "\xdd"
 
-	// PlmnSpecificTSE3 is the octet string constant for PlmnSpecificTSE3.
+	// PlmnSpecificTSE3 is the octet string constant for plmn-specificTS-E.
 	PlmnSpecificTSE3 = "\xde"
 
-	// PlmnSpecificTSF3 is the octet string constant for PlmnSpecificTSF3.
+	// PlmnSpecificTSF3 is the octet string constant for plmn-specificTS-F.
 	PlmnSpecificTSF3 = "\xdf"
 )
 

@@ -20,124 +20,124 @@ var (
 
 const (
 
-	// MaxPermittedIntegrityProtectionAlgorithmsLength3 is the integer constant for MaxPermittedIntegrityProtectionAlgorithmsLength3.
+	// MaxPermittedIntegrityProtectionAlgorithmsLength3 is the integer constant for maxPermittedIntegrityProtectionAlgorithmsLength.
 	MaxPermittedIntegrityProtectionAlgorithmsLength3 int64 = 9
 
-	// MaxPermittedEncryptionAlgorithmsLength3 is the integer constant for MaxPermittedEncryptionAlgorithmsLength3.
+	// MaxPermittedEncryptionAlgorithmsLength3 is the integer constant for maxPermittedEncryptionAlgorithmsLength.
 	MaxPermittedEncryptionAlgorithmsLength3 int64 = 9
 
-	// MaxNumOfServiceHandovers3 is the integer constant for MaxNumOfServiceHandovers3.
+	// MaxNumOfServiceHandovers3 is the integer constant for maxNumOfServiceHandovers.
 	MaxNumOfServiceHandovers3 int64 = 7
 
-	// MaxNumOfRadioResources3 is the integer constant for MaxNumOfRadioResources3.
+	// MaxNumOfRadioResources3 is the integer constant for maxNumOfRadioResources.
 	MaxNumOfRadioResources3 int64 = 7
 
-	// MaxNrOfRABs3 is the integer constant for MaxNrOfRABs3.
+	// MaxNrOfRABs3 is the integer constant for maxNrOfRABs.
 	MaxNrOfRABs3 int64 = 255
 
-	// MaxNumOfRelocationNumber3 is the integer constant for MaxNumOfRelocationNumber3.
+	// MaxNumOfRelocationNumber3 is the integer constant for maxNumOfRelocationNumber.
 	MaxNumOfRelocationNumber3 int64 = 7
 
-	// MaxNumOfIntegrityInfo3 is the integer constant for MaxNumOfIntegrityInfo3.
+	// MaxNumOfIntegrityInfo3 is the integer constant for maxNumOfIntegrityInfo.
 	MaxNumOfIntegrityInfo3 int64 = 100
 
-	// MaxNumOfEncryptionInfo3 is the integer constant for MaxNumOfEncryptionInfo3.
+	// MaxNumOfEncryptionInfo3 is the integer constant for maxNumOfEncryptionInfo.
 	MaxNumOfEncryptionInfo3 int64 = 100
 
-	// MSMaxNumOfLIPAAllowedAPN is the integer constant for MSMaxNumOfLIPAAllowedAPN.
+	// MSMaxNumOfLIPAAllowedAPN is the integer constant for maxNumOfLIPAAllowedAPN.
 	MSMaxNumOfLIPAAllowedAPN int64 = 50
 
-	// MSMaxNumOfAPNConfigurations is the integer constant for MSMaxNumOfAPNConfigurations.
+	// MSMaxNumOfAPNConfigurations is the integer constant for maxNumOfAPN-Configurations.
 	MSMaxNumOfAPNConfigurations int64 = 50
 
-	// MSMaxNumOfSpecificAPNInfos is the integer constant for MSMaxNumOfSpecificAPNInfos.
+	// MSMaxNumOfSpecificAPNInfos is the integer constant for maxNumOfSpecificAPNInfos.
 	MSMaxNumOfSpecificAPNInfos int64 = 50
 
-	// MaxNumOfGMLC3 is the integer constant for MaxNumOfGMLC3.
+	// MaxNumOfGMLC3 is the integer constant for maxNumOfGMLC.
 	MaxNumOfGMLC3 int64 = 5
 
-	// MaxNumOfPDPContexts3 is the integer constant for MaxNumOfPDPContexts3.
+	// MaxNumOfPDPContexts3 is the integer constant for maxNumOfPDP-Contexts.
 	MaxNumOfPDPContexts3 int64 = 50
 
-	// MaxNumOfLSAs3 is the integer constant for MaxNumOfLSAs3.
+	// MaxNumOfLSAs3 is the integer constant for maxNumOfLSAs.
 	MaxNumOfLSAs3 int64 = 20
 
-	// MaxNumOfBearerServices3 is the integer constant for MaxNumOfBearerServices3.
+	// MaxNumOfBearerServices3 is the integer constant for maxNumOfBearerServices.
 	MaxNumOfBearerServices3 int64 = 50
 
-	// MaxNumOfTeleservices3 is the integer constant for MaxNumOfTeleservices3.
+	// MaxNumOfTeleservices3 is the integer constant for maxNumOfTeleservices.
 	MaxNumOfTeleservices3 int64 = 20
 
-	// MaxNumOfCUG3 is the integer constant for MaxNumOfCUG3.
+	// MaxNumOfCUG3 is the integer constant for maxNumOfCUG.
 	MaxNumOfCUG3 int64 = 10
 
-	// MaxNumOfExtBasicServiceGroups3 is the integer constant for MaxNumOfExtBasicServiceGroups3.
+	// MaxNumOfExtBasicServiceGroups3 is the integer constant for maxNumOfExt-BasicServiceGroups.
 	MaxNumOfExtBasicServiceGroups3 int64 = 32
 
-	// MaxNumOfPrivacyClass3 is the integer constant for MaxNumOfPrivacyClass3.
+	// MaxNumOfPrivacyClass3 is the integer constant for maxNumOfPrivacyClass.
 	MaxNumOfPrivacyClass3 int64 = 4
 
-	// MaxNumOfExternalClient3 is the integer constant for MaxNumOfExternalClient3.
+	// MaxNumOfExternalClient3 is the integer constant for maxNumOfExternalClient.
 	MaxNumOfExternalClient3 int64 = 5
 
-	// MaxNumOfPLMNClient3 is the integer constant for MaxNumOfPLMNClient3.
+	// MaxNumOfPLMNClient3 is the integer constant for maxNumOfPLMNClient.
 	MaxNumOfPLMNClient3 int64 = 5
 
-	// MaxNumOfExtExternalClient3 is the integer constant for MaxNumOfExtExternalClient3.
+	// MaxNumOfExtExternalClient3 is the integer constant for maxNumOfExt-ExternalClient.
 	MaxNumOfExtExternalClient3 int64 = 35
 
-	// MaxNumOfServiceType3 is the integer constant for MaxNumOfServiceType3.
+	// MaxNumOfServiceType3 is the integer constant for maxNumOfServiceType.
 	MaxNumOfServiceType3 int64 = 32
 
-	// MaxNumOfMOLRClass3 is the integer constant for MaxNumOfMOLRClass3.
+	// MaxNumOfMOLRClass3 is the integer constant for maxNumOfMOLR-Class.
 	MaxNumOfMOLRClass3 int64 = 3
 
-	// MaxNumOfZoneCodes3 is the integer constant for MaxNumOfZoneCodes3.
+	// MaxNumOfZoneCodes3 is the integer constant for maxNumOfZoneCodes.
 	MaxNumOfZoneCodes3 int64 = 10
 
-	// MaxNumOfBasicServices3 is the integer constant for MaxNumOfBasicServices3.
+	// MaxNumOfBasicServices3 is the integer constant for maxNumOfBasicServices.
 	MaxNumOfBasicServices3 int64 = 70
 
-	// MaxNumOfTPDUTypes3 is the integer constant for MaxNumOfTPDUTypes3.
+	// MaxNumOfTPDUTypes3 is the integer constant for maxNumOfTPDUTypes.
 	MaxNumOfTPDUTypes3 int64 = 5
 
-	// MaxNumOfDPAnalysedInfoCriteria3 is the integer constant for MaxNumOfDPAnalysedInfoCriteria3.
+	// MaxNumOfDPAnalysedInfoCriteria3 is the integer constant for maxNumOfDP-AnalysedInfoCriteria.
 	MaxNumOfDPAnalysedInfoCriteria3 int64 = 10
 
-	// MaxNumOfCamelSSEvents3 is the integer constant for MaxNumOfCamelSSEvents3.
+	// MaxNumOfCamelSSEvents3 is the integer constant for maxNumOfCamelSSEvents.
 	MaxNumOfCamelSSEvents3 int64 = 10
 
-	// MaxNumOfCamelTDPData3 is the integer constant for MaxNumOfCamelTDPData3.
+	// MaxNumOfCamelTDPData3 is the integer constant for maxNumOfCamelTDPData.
 	MaxNumOfCamelTDPData3 int64 = 10
 
-	// MaxNumOfISDNAddressDigits3 is the integer constant for MaxNumOfISDNAddressDigits3.
+	// MaxNumOfISDNAddressDigits3 is the integer constant for maxNumOfISDN-AddressDigits.
 	MaxNumOfISDNAddressDigits3 int64 = 15
 
-	// MaxNumOfCamelDestinationNumbers3 is the integer constant for MaxNumOfCamelDestinationNumbers3.
+	// MaxNumOfCamelDestinationNumbers3 is the integer constant for maxNumOfCamelDestinationNumbers.
 	MaxNumOfCamelDestinationNumbers3 int64 = 10
 
-	// MaxNumOfCamelDestinationNumberLengths3 is the integer constant for MaxNumOfCamelDestinationNumberLengths3.
+	// MaxNumOfCamelDestinationNumberLengths3 is the integer constant for maxNumOfCamelDestinationNumberLengths.
 	MaxNumOfCamelDestinationNumberLengths3 int64 = 3
 
-	// MaxNumOfCamelBasicServiceCriteria3 is the integer constant for MaxNumOfCamelBasicServiceCriteria3.
+	// MaxNumOfCamelBasicServiceCriteria3 is the integer constant for maxNumOfCamelBasicServiceCriteria.
 	MaxNumOfCamelBasicServiceCriteria3 int64 = 5
 
-	// MaxNumOfCAMELOCauseValueCriteria3 is the integer constant for MaxNumOfCAMELOCauseValueCriteria3.
+	// MaxNumOfCAMELOCauseValueCriteria3 is the integer constant for maxNumOfCAMEL-O-CauseValueCriteria.
 	MaxNumOfCAMELOCauseValueCriteria3 int64 = 5
 
-	// MaxNumOfCAMELTCauseValueCriteria3 is the integer constant for MaxNumOfCAMELTCauseValueCriteria3.
+	// MaxNumOfCAMELTCauseValueCriteria3 is the integer constant for maxNumOfCAMEL-T-CauseValueCriteria.
 	MaxNumOfCAMELTCauseValueCriteria3 int64 = 5
 
-	// MaxNumOfMobilityTriggers3 is the integer constant for MaxNumOfMobilityTriggers3.
+	// MaxNumOfMobilityTriggers3 is the integer constant for maxNumOfMobilityTriggers.
 	MaxNumOfMobilityTriggers3 int64 = 10
 
-	// MaxNumOfVBSGroupIds3 is the integer constant for MaxNumOfVBSGroupIds3.
+	// MaxNumOfVBSGroupIds3 is the integer constant for maxNumOfVBSGroupIds.
 	MaxNumOfVBSGroupIds3 int64 = 50
 
-	// MaxNumOfVGCSGroupIds3 is the integer constant for MaxNumOfVGCSGroupIds3.
+	// MaxNumOfVGCSGroupIds3 is the integer constant for maxNumOfVGCSGroupIds.
 	MaxNumOfVGCSGroupIds3 int64 = 50
 
-	// MaxNumOfMSISDN3 is the integer constant for MaxNumOfMSISDN3.
+	// MaxNumOfMSISDN3 is the integer constant for maxNumOfMSISDN.
 	MaxNumOfMSISDN3 int64 = 50
 )
 
@@ -4500,6 +4500,7 @@ func (v *UpdateLocationArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UpdateLocationArg3 from BER/DER format.
 func (v *UpdateLocationArg3) UnmarshalBER(data []byte) error {
+	*v = UpdateLocationArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UpdateLocationArg3 SEQUENCE: %w", err)
@@ -5065,6 +5066,7 @@ func (v *VLRCapability3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes VLRCapability3 from BER/DER format.
 func (v *VLRCapability3) UnmarshalBER(data []byte) error {
+	*v = VLRCapability3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding VLRCapability3 SEQUENCE: %w", err)
@@ -5085,7 +5087,7 @@ func (v *VLRCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedcamelphases.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphases.Number != 0 {
 					return fmt.Errorf("decoding supportedCamelPhases: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphases)
 				}
-				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeBitStringValue(rawVal_supportedcamelphases)
+				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphases.Constructed, rawVal_supportedcamelphases)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhases: %w", bsErr)
 				}
@@ -5146,7 +5148,7 @@ func (v *VLRCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_istsupportindicator.Class != tag.ClassContextSpecific || decodedTag_istsupportindicator.Number != 1 || decodedTag_istsupportindicator.Constructed != false {
 					return fmt.Errorf("decoding istSupportIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_istsupportindicator)
 				}
-				decVal_istsupportindicator, intErr := ber.DecodeIntegerValue(rawVal_istsupportindicator)
+				decVal_istsupportindicator, intErr := ber.DecodeEnumeratedValue(rawVal_istsupportindicator)
 				if intErr != nil {
 					return fmt.Errorf("decoding istSupportIndicator: %w", intErr)
 				}
@@ -5210,7 +5212,7 @@ func (v *VLRCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedlcscapabilitysets.Class != tag.ClassContextSpecific || decodedTag_supportedlcscapabilitysets.Number != 5 {
 					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedlcscapabilitysets)
 				}
-				bsBytes_supportedlcscapabilitysets, bsUnused_supportedlcscapabilitysets, bsErr := ber.DecodeBitStringValue(rawVal_supportedlcscapabilitysets)
+				bsBytes_supportedlcscapabilitysets, bsUnused_supportedlcscapabilitysets, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedlcscapabilitysets.Constructed, rawVal_supportedlcscapabilitysets)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsErr)
 				}
@@ -5232,7 +5234,7 @@ func (v *VLRCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csis.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csis.Number != 6 {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csis)
 				}
-				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csis)
+				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csis.Constructed, rawVal_offeredcamel4csis)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
@@ -5254,7 +5256,7 @@ func (v *VLRCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedrattypesindicator.Class != tag.ClassContextSpecific || decodedTag_supportedrattypesindicator.Number != 7 {
 					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedrattypesindicator)
 				}
-				bsBytes_supportedrattypesindicator, bsUnused_supportedrattypesindicator, bsErr := ber.DecodeBitStringValue(rawVal_supportedrattypesindicator)
+				bsBytes_supportedrattypesindicator, bsUnused_supportedrattypesindicator, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedrattypesindicator.Constructed, rawVal_supportedrattypesindicator)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w", bsErr)
 				}
@@ -5381,6 +5383,7 @@ func (v *SuperChargerInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SuperChargerInfo3 from BER/DER format.
 func (v *SuperChargerInfo3) UnmarshalBER(data []byte) error {
+	*v = SuperChargerInfo3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SuperChargerInfo3 CHOICE")
 	}
@@ -5500,6 +5503,7 @@ func (v *UpdateLocationRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UpdateLocationRes3 from BER/DER format.
 func (v *UpdateLocationRes3) UnmarshalBER(data []byte) error {
+	*v = UpdateLocationRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UpdateLocationRes3 SEQUENCE: %w", err)
@@ -5653,6 +5657,7 @@ func (v *ADDInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ADDInfo3 from BER/DER format.
 func (v *ADDInfo3) UnmarshalBER(data []byte) error {
+	*v = ADDInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ADDInfo3 SEQUENCE: %w", err)
@@ -5815,6 +5820,7 @@ func (v *MSLocationArea) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSLocationArea from BER/DER format.
 func (v *MSLocationArea) UnmarshalBER(data []byte) error {
+	*v = MSLocationArea{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MSLocationArea CHOICE")
 	}
@@ -6051,6 +6057,7 @@ func (v *CancelLocationArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CancelLocationArg3 from BER/DER format.
 func (v *CancelLocationArg3) UnmarshalBER(data []byte) error {
+	*v = CancelLocationArg3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CancelLocationArg3: %w", err)
@@ -6080,7 +6087,7 @@ func (v *CancelLocationArg3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_cancellationtype, n, err := ber.DecodeInteger(content[offset:])
+				val_cancellationtype, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cancellationType: %w", err)
 				}
@@ -6121,7 +6128,7 @@ func (v *CancelLocationArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_typeofupdate.Class != tag.ClassContextSpecific || decodedTag_typeofupdate.Number != 0 || decodedTag_typeofupdate.Constructed != false {
 					return fmt.Errorf("decoding typeOfUpdate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_typeofupdate)
 				}
-				decVal_typeofupdate, intErr := ber.DecodeIntegerValue(rawVal_typeofupdate)
+				decVal_typeofupdate, intErr := ber.DecodeEnumeratedValue(rawVal_typeofupdate)
 				if intErr != nil {
 					return fmt.Errorf("decoding typeOfUpdate: %w", intErr)
 				}
@@ -6309,6 +6316,7 @@ func (v *CancelLocationRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CancelLocationRes3 from BER/DER format.
 func (v *CancelLocationRes3) UnmarshalBER(data []byte) error {
+	*v = CancelLocationRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CancelLocationRes3 SEQUENCE: %w", err)
@@ -6517,6 +6525,7 @@ func (v *PurgeMSArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PurgeMSArg3 from BER/DER format.
 func (v *PurgeMSArg3) UnmarshalBER(data []byte) error {
+	*v = PurgeMSArg3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PurgeMSArg3: %w", err)
@@ -6777,6 +6786,7 @@ func (v *PurgeMSRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PurgeMSRes3 from BER/DER format.
 func (v *PurgeMSRes3) UnmarshalBER(data []byte) error {
+	*v = PurgeMSRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PurgeMSRes3 SEQUENCE: %w", err)
@@ -7046,6 +7056,7 @@ func (v *SendIdentificationArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendIdentificationArg3 from BER/DER format.
 func (v *SendIdentificationArg3) UnmarshalBER(data []byte) error {
+	*v = SendIdentificationArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendIdentificationArg3 SEQUENCE: %w", err)
@@ -7376,6 +7387,7 @@ func (v *SendIdentificationRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendIdentificationRes3 from BER/DER format.
 func (v *SendIdentificationRes3) UnmarshalBER(data []byte) error {
+	*v = SendIdentificationRes3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendIdentificationRes3: %w", err)
@@ -7593,6 +7605,7 @@ func (v *AuthenticationSetList3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticationSetList3 from BER/DER format.
 func (v *AuthenticationSetList3) UnmarshalBER(data []byte) error {
+	*v = AuthenticationSetList3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AuthenticationSetList3 CHOICE")
 	}
@@ -7798,6 +7811,7 @@ func (v *AuthenticationTriplet3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticationTriplet3 from BER/DER format.
 func (v *AuthenticationTriplet3) UnmarshalBER(data []byte) error {
+	*v = AuthenticationTriplet3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticationTriplet3 SEQUENCE: %w", err)
@@ -7906,6 +7920,7 @@ func (v *AuthenticationQuintuplet3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticationQuintuplet3 from BER/DER format.
 func (v *AuthenticationQuintuplet3) UnmarshalBER(data []byte) error {
+	*v = AuthenticationQuintuplet3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticationQuintuplet3 SEQUENCE: %w", err)
@@ -8066,6 +8081,7 @@ func (v *CurrentSecurityContext3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CurrentSecurityContext3 from BER/DER format.
 func (v *CurrentSecurityContext3) UnmarshalBER(data []byte) error {
+	*v = CurrentSecurityContext3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CurrentSecurityContext3 CHOICE")
 	}
@@ -8155,6 +8171,7 @@ func (v *GSMSecurityContextData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GSMSecurityContextData3 from BER/DER format.
 func (v *GSMSecurityContextData3) UnmarshalBER(data []byte) error {
+	*v = GSMSecurityContextData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GSMSecurityContextData3 SEQUENCE: %w", err)
@@ -8245,6 +8262,7 @@ func (v *UMTSSecurityContextData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UMTSSecurityContextData3 from BER/DER format.
 func (v *UMTSSecurityContextData3) UnmarshalBER(data []byte) error {
+	*v = UMTSSecurityContextData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UMTSSecurityContextData3 SEQUENCE: %w", err)
@@ -8420,6 +8438,7 @@ func (v *AuthenticationFailureReportArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticationFailureReportArg3 from BER/DER format.
 func (v *AuthenticationFailureReportArg3) UnmarshalBER(data []byte) error {
+	*v = AuthenticationFailureReportArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticationFailureReportArg3 SEQUENCE: %w", err)
@@ -8442,7 +8461,7 @@ func (v *AuthenticationFailureReportArg3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field failureCause")
 	}
-	val_failurecause, n, err := ber.DecodeInteger(content[offset:])
+	val_failurecause, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding failureCause: %w", err)
 	}
@@ -8487,7 +8506,7 @@ func (v *AuthenticationFailureReportArg3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_accesstype, n, err := ber.DecodeInteger(content[offset:])
+				val_accesstype, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding accessType: %w", err)
 				}
@@ -8612,6 +8631,7 @@ func (v *AuthenticationFailureReportRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticationFailureReportRes3 from BER/DER format.
 func (v *AuthenticationFailureReportRes3) UnmarshalBER(data []byte) error {
+	*v = AuthenticationFailureReportRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticationFailureReportRes3 SEQUENCE: %w", err)
@@ -9154,6 +9174,7 @@ func (v *UpdateGprsLocationArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UpdateGprsLocationArg3 from BER/DER format.
 func (v *UpdateGprsLocationArg3) UnmarshalBER(data []byte) error {
+	*v = UpdateGprsLocationArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UpdateGprsLocationArg3 SEQUENCE: %w", err)
@@ -9387,7 +9408,7 @@ func (v *UpdateGprsLocationArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_usedrattype.Class != tag.ClassContextSpecific || decodedTag_usedrattype.Number != 8 || decodedTag_usedrattype.Constructed != false {
 					return fmt.Errorf("decoding usedRAT-Type: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_usedrattype)
 				}
-				decVal_usedrattype, intErr := ber.DecodeIntegerValue(rawVal_usedrattype)
+				decVal_usedrattype, intErr := ber.DecodeEnumeratedValue(rawVal_usedrattype)
 				if intErr != nil {
 					return fmt.Errorf("decoding usedRAT-Type: %w", intErr)
 				}
@@ -9509,7 +9530,7 @@ func (v *UpdateGprsLocationArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_uesrvcccapability.Class != tag.ClassContextSpecific || decodedTag_uesrvcccapability.Number != 14 || decodedTag_uesrvcccapability.Constructed != false {
 					return fmt.Errorf("decoding ue-srvcc-Capability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uesrvcccapability)
 				}
-				decVal_uesrvcccapability, intErr := ber.DecodeIntegerValue(rawVal_uesrvcccapability)
+				decVal_uesrvcccapability, intErr := ber.DecodeEnumeratedValue(rawVal_uesrvcccapability)
 				if intErr != nil {
 					return fmt.Errorf("decoding ue-srvcc-Capability: %w", intErr)
 				}
@@ -9578,7 +9599,7 @@ func (v *UpdateGprsLocationArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_smsregisterrequest.Class != tag.ClassContextSpecific || decodedTag_smsregisterrequest.Number != 17 || decodedTag_smsregisterrequest.Constructed != false {
 					return fmt.Errorf("decoding smsRegisterRequest: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsregisterrequest)
 				}
-				decVal_smsregisterrequest, intErr := ber.DecodeIntegerValue(rawVal_smsregisterrequest)
+				decVal_smsregisterrequest, intErr := ber.DecodeEnumeratedValue(rawVal_smsregisterrequest)
 				if intErr != nil {
 					return fmt.Errorf("decoding smsRegisterRequest: %w", intErr)
 				}
@@ -9763,6 +9784,7 @@ func (v *MSEPSInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSEPSInfo from BER/DER format.
 func (v *MSEPSInfo) UnmarshalBER(data []byte) error {
+	*v = MSEPSInfo{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MSEPSInfo CHOICE")
 	}
@@ -9798,7 +9820,7 @@ func (v *MSEPSInfo) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding isr-Information: %w", tlvErr)
 		}
-		bsBytes, bsUnused, bsErr := ber.DecodeBitStringValue(rawVal)
+		bsBytes, bsUnused, bsErr := ber.DecodeImplicitBitStringValue(peekTag.Constructed, rawVal)
 		if bsErr != nil {
 			return fmt.Errorf("decoding isr-Information: %w", bsErr)
 		}
@@ -9928,6 +9950,7 @@ func (v *MSPDNGWUpdate) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSPDNGWUpdate from BER/DER format.
 func (v *MSPDNGWUpdate) UnmarshalBER(data []byte) error {
+	*v = MSPDNGWUpdate{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSPDNGWUpdate SEQUENCE: %w", err)
@@ -10339,6 +10362,7 @@ func (v *SGSNCapability3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGSNCapability3 from BER/DER format.
 func (v *SGSNCapability3) UnmarshalBER(data []byte) error {
+	*v = SGSNCapability3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGSNCapability3 SEQUENCE: %w", err)
@@ -10437,7 +10461,7 @@ func (v *SGSNCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedcamelphases.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphases.Number != 4 {
 					return fmt.Errorf("decoding supportedCamelPhases: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphases)
 				}
-				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeBitStringValue(rawVal_supportedcamelphases)
+				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphases.Constructed, rawVal_supportedcamelphases)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhases: %w", bsErr)
 				}
@@ -10459,7 +10483,7 @@ func (v *SGSNCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedlcscapabilitysets.Class != tag.ClassContextSpecific || decodedTag_supportedlcscapabilitysets.Number != 5 {
 					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedlcscapabilitysets)
 				}
-				bsBytes_supportedlcscapabilitysets, bsUnused_supportedlcscapabilitysets, bsErr := ber.DecodeBitStringValue(rawVal_supportedlcscapabilitysets)
+				bsBytes_supportedlcscapabilitysets, bsUnused_supportedlcscapabilitysets, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedlcscapabilitysets.Constructed, rawVal_supportedlcscapabilitysets)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsErr)
 				}
@@ -10481,7 +10505,7 @@ func (v *SGSNCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csis.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csis.Number != 6 {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csis)
 				}
-				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csis)
+				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csis.Constructed, rawVal_offeredcamel4csis)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
@@ -10523,7 +10547,7 @@ func (v *SGSNCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedrattypesindicator.Class != tag.ClassContextSpecific || decodedTag_supportedrattypesindicator.Number != 8 {
 					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedrattypesindicator)
 				}
-				bsBytes_supportedrattypesindicator, bsUnused_supportedrattypesindicator, bsErr := ber.DecodeBitStringValue(rawVal_supportedrattypesindicator)
+				bsBytes_supportedrattypesindicator, bsUnused_supportedrattypesindicator, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedrattypesindicator.Constructed, rawVal_supportedrattypesindicator)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w", bsErr)
 				}
@@ -10545,7 +10569,7 @@ func (v *SGSNCapability3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedfeatures.Class != tag.ClassContextSpecific || decodedTag_supportedfeatures.Number != 9 {
 					return fmt.Errorf("decoding supportedFeatures: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedfeatures)
 				}
-				bsBytes_supportedfeatures, bsUnused_supportedfeatures, bsErr := ber.DecodeBitStringValue(rawVal_supportedfeatures)
+				bsBytes_supportedfeatures, bsUnused_supportedfeatures, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedfeatures.Constructed, rawVal_supportedfeatures)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedFeatures: %w", bsErr)
 				}
@@ -10771,6 +10795,7 @@ func (v *UpdateGprsLocationRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UpdateGprsLocationRes3 from BER/DER format.
 func (v *UpdateGprsLocationRes3) UnmarshalBER(data []byte) error {
+	*v = UpdateGprsLocationRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UpdateGprsLocationRes3 SEQUENCE: %w", err)
@@ -11373,6 +11398,7 @@ func (v *ForwardAccessSignallingArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardAccessSignallingArg3 from BER/DER format.
 func (v *ForwardAccessSignallingArg3) UnmarshalBER(data []byte) error {
+	*v = ForwardAccessSignallingArg3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardAccessSignallingArg3: %w", err)
@@ -11445,7 +11471,7 @@ func (v *ForwardAccessSignallingArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_keystatus.Class != tag.ClassContextSpecific || decodedTag_keystatus.Number != 2 || decodedTag_keystatus.Constructed != false {
 					return fmt.Errorf("decoding keyStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_keystatus)
 				}
-				decVal_keystatus, intErr := ber.DecodeIntegerValue(rawVal_keystatus)
+				decVal_keystatus, intErr := ber.DecodeEnumeratedValue(rawVal_keystatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding keyStatus: %w", intErr)
 				}
@@ -11897,6 +11923,7 @@ func (v *AllowedUMTSAlgorithms3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AllowedUMTSAlgorithms3 from BER/DER format.
 func (v *AllowedUMTSAlgorithms3) UnmarshalBER(data []byte) error {
+	*v = AllowedUMTSAlgorithms3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AllowedUMTSAlgorithms3 SEQUENCE: %w", err)
@@ -12686,6 +12713,7 @@ func (v *PrepareHOArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareHOArg3 from BER/DER format.
 func (v *PrepareHOArg3) UnmarshalBER(data []byte) error {
+	*v = PrepareHOArg3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareHOArg3: %w", err)
@@ -13296,7 +13324,7 @@ func (v *PrepareHOArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_lclsnegotiation.Class != tag.ClassContextSpecific || decodedTag_lclsnegotiation.Number != 29 {
 					return fmt.Errorf("decoding lcls-Negotiation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lclsnegotiation)
 				}
-				bsBytes_lclsnegotiation, bsUnused_lclsnegotiation, bsErr := ber.DecodeBitStringValue(rawVal_lclsnegotiation)
+				bsBytes_lclsnegotiation, bsUnused_lclsnegotiation, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_lclsnegotiation.Constructed, rawVal_lclsnegotiation)
 				if bsErr != nil {
 					return fmt.Errorf("decoding lcls-Negotiation: %w", bsErr)
 				}
@@ -13318,7 +13346,7 @@ func (v *PrepareHOArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_lclsconfigurationpreference.Class != tag.ClassContextSpecific || decodedTag_lclsconfigurationpreference.Number != 30 {
 					return fmt.Errorf("decoding lcls-Configuration-Preference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lclsconfigurationpreference)
 				}
-				bsBytes_lclsconfigurationpreference, bsUnused_lclsconfigurationpreference, bsErr := ber.DecodeBitStringValue(rawVal_lclsconfigurationpreference)
+				bsBytes_lclsconfigurationpreference, bsUnused_lclsconfigurationpreference, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_lclsconfigurationpreference.Constructed, rawVal_lclsconfigurationpreference)
 				if bsErr != nil {
 					return fmt.Errorf("decoding lcls-Configuration-Preference: %w", bsErr)
 				}
@@ -13471,6 +13499,7 @@ func (v *BSSMAPServiceHandoverInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BSSMAPServiceHandoverInfo3 from BER/DER format.
 func (v *BSSMAPServiceHandoverInfo3) UnmarshalBER(data []byte) error {
+	*v = BSSMAPServiceHandoverInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BSSMAPServiceHandoverInfo3 SEQUENCE: %w", err)
@@ -13613,6 +13642,7 @@ func (v *RadioResource3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RadioResource3 from BER/DER format.
 func (v *RadioResource3) UnmarshalBER(data []byte) error {
+	*v = RadioResource3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RadioResource3 SEQUENCE: %w", err)
@@ -13953,6 +13983,7 @@ func (v *PrepareHORes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareHORes3 from BER/DER format.
 func (v *PrepareHORes3) UnmarshalBER(data []byte) error {
+	*v = PrepareHORes3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareHORes3: %w", err)
@@ -14325,6 +14356,7 @@ func (v *SelectedUMTSAlgorithms3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SelectedUMTSAlgorithms3 from BER/DER format.
 func (v *SelectedUMTSAlgorithms3) UnmarshalBER(data []byte) error {
+	*v = SelectedUMTSAlgorithms3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SelectedUMTSAlgorithms3 SEQUENCE: %w", err)
@@ -14477,6 +14509,7 @@ func (v *ChosenRadioResourceInformation3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ChosenRadioResourceInformation3 from BER/DER format.
 func (v *ChosenRadioResourceInformation3) UnmarshalBER(data []byte) error {
+	*v = ChosenRadioResourceInformation3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ChosenRadioResourceInformation3 SEQUENCE: %w", err)
@@ -14728,6 +14761,7 @@ func (v *PrepareSubsequentHOArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareSubsequentHOArg3 from BER/DER format.
 func (v *PrepareSubsequentHOArg3) UnmarshalBER(data []byte) error {
+	*v = PrepareSubsequentHOArg3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareSubsequentHOArg3: %w", err)
@@ -14986,6 +15020,7 @@ func (v *PrepareSubsequentHORes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareSubsequentHORes3 from BER/DER format.
 func (v *PrepareSubsequentHORes3) UnmarshalBER(data []byte) error {
+	*v = PrepareSubsequentHORes3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareSubsequentHORes3: %w", err)
@@ -15289,6 +15324,7 @@ func (v *ProcessAccessSignallingArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProcessAccessSignallingArg3 from BER/DER format.
 func (v *ProcessAccessSignallingArg3) UnmarshalBER(data []byte) error {
+	*v = ProcessAccessSignallingArg3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProcessAccessSignallingArg3: %w", err)
@@ -15713,6 +15749,7 @@ func (v *MSAoIPCodecsList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSAoIPCodecsList from BER/DER format.
 func (v *MSAoIPCodecsList) UnmarshalBER(data []byte) error {
+	*v = MSAoIPCodecsList{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSAoIPCodecsList SEQUENCE: %w", err)
@@ -16009,6 +16046,7 @@ func (v *SupportedCodecsList3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SupportedCodecsList3 from BER/DER format.
 func (v *SupportedCodecsList3) UnmarshalBER(data []byte) error {
+	*v = SupportedCodecsList3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SupportedCodecsList3 SEQUENCE: %w", err)
@@ -16297,6 +16335,7 @@ func (v *CodecList3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CodecList3 from BER/DER format.
 func (v *CodecList3) UnmarshalBER(data []byte) error {
+	*v = CodecList3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CodecList3 SEQUENCE: %w", err)
@@ -16560,6 +16599,7 @@ func (v *SendEndSignalArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendEndSignalArg3 from BER/DER format.
 func (v *SendEndSignalArg3) UnmarshalBER(data []byte) error {
+	*v = SendEndSignalArg3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendEndSignalArg3: %w", err)
@@ -16680,6 +16720,7 @@ func (v *SendEndSignalRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendEndSignalRes3 from BER/DER format.
 func (v *SendEndSignalRes3) UnmarshalBER(data []byte) error {
+	*v = SendEndSignalRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendEndSignalRes3 SEQUENCE: %w", err)
@@ -16824,6 +16865,7 @@ func (v *RelocationNumber3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RelocationNumber3 from BER/DER format.
 func (v *RelocationNumber3) UnmarshalBER(data []byte) error {
+	*v = RelocationNumber3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RelocationNumber3 SEQUENCE: %w", err)
@@ -17056,6 +17098,7 @@ func (v *SendAuthenticationInfoArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendAuthenticationInfoArg3 from BER/DER format.
 func (v *SendAuthenticationInfoArg3) UnmarshalBER(data []byte) error {
+	*v = SendAuthenticationInfoArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendAuthenticationInfoArg3 SEQUENCE: %w", err)
@@ -17179,7 +17222,7 @@ func (v *SendAuthenticationInfoArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_requestingnodetype.Class != tag.ClassContextSpecific || decodedTag_requestingnodetype.Number != 3 || decodedTag_requestingnodetype.Constructed != false {
 					return fmt.Errorf("decoding requestingNodeType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestingnodetype)
 				}
-				decVal_requestingnodetype, intErr := ber.DecodeIntegerValue(rawVal_requestingnodetype)
+				decVal_requestingnodetype, intErr := ber.DecodeEnumeratedValue(rawVal_requestingnodetype)
 				if intErr != nil {
 					return fmt.Errorf("decoding requestingNodeType: %w", intErr)
 				}
@@ -17307,6 +17350,7 @@ func (v *ReSynchronisationInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReSynchronisationInfo3 from BER/DER format.
 func (v *ReSynchronisationInfo3) UnmarshalBER(data []byte) error {
+	*v = ReSynchronisationInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReSynchronisationInfo3 SEQUENCE: %w", err)
@@ -17451,6 +17495,7 @@ func (v *SendAuthenticationInfoRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendAuthenticationInfoRes3 from BER/DER format.
 func (v *SendAuthenticationInfoRes3) UnmarshalBER(data []byte) error {
+	*v = SendAuthenticationInfoRes3{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendAuthenticationInfoRes3: %w", err)
@@ -17665,6 +17710,7 @@ func (v *MSEPCAV) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSEPCAV from BER/DER format.
 func (v *MSEPCAV) UnmarshalBER(data []byte) error {
+	*v = MSEPCAV{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSEPCAV SEQUENCE: %w", err)
@@ -17804,6 +17850,7 @@ func (v *CheckIMEIArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CheckIMEIArg3 from BER/DER format.
 func (v *CheckIMEIArg3) UnmarshalBER(data []byte) error {
+	*v = CheckIMEIArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CheckIMEIArg3 SEQUENCE: %w", err)
@@ -17947,6 +17994,7 @@ func (v *CheckIMEIRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CheckIMEIRes3 from BER/DER format.
 func (v *CheckIMEIRes3) UnmarshalBER(data []byte) error {
+	*v = CheckIMEIRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CheckIMEIRes3 SEQUENCE: %w", err)
@@ -17960,7 +18008,7 @@ func (v *CheckIMEIRes3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_equipmentstatus, n, err := ber.DecodeInteger(content[offset:])
+				val_equipmentstatus, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding equipmentStatus: %w", err)
 				}
@@ -18097,6 +18145,7 @@ func (v *UESBIIu3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UESBIIu3 from BER/DER format.
 func (v *UESBIIu3) UnmarshalBER(data []byte) error {
+	*v = UESBIIu3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UESBIIu3 SEQUENCE: %w", err)
@@ -18117,7 +18166,7 @@ func (v *UESBIIu3) UnmarshalBER(data []byte) error {
 				if decodedTag_uesbiiua.Class != tag.ClassContextSpecific || decodedTag_uesbiiua.Number != 0 {
 					return fmt.Errorf("decoding uesbi-IuA: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uesbiiua)
 				}
-				bsBytes_uesbiiua, bsUnused_uesbiiua, bsErr := ber.DecodeBitStringValue(rawVal_uesbiiua)
+				bsBytes_uesbiiua, bsUnused_uesbiiua, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_uesbiiua.Constructed, rawVal_uesbiiua)
 				if bsErr != nil {
 					return fmt.Errorf("decoding uesbi-IuA: %w", bsErr)
 				}
@@ -18139,7 +18188,7 @@ func (v *UESBIIu3) UnmarshalBER(data []byte) error {
 				if decodedTag_uesbiiub.Class != tag.ClassContextSpecific || decodedTag_uesbiiub.Number != 1 {
 					return fmt.Errorf("decoding uesbi-IuB: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uesbiiub)
 				}
-				bsBytes_uesbiiub, bsUnused_uesbiiub, bsErr := ber.DecodeBitStringValue(rawVal_uesbiiub)
+				bsBytes_uesbiiub, bsUnused_uesbiiub, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_uesbiiub.Constructed, rawVal_uesbiiub)
 				if bsErr != nil {
 					return fmt.Errorf("decoding uesbi-IuB: %w", bsErr)
 				}
@@ -19145,6 +19194,7 @@ func (v *InsertSubscriberDataArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InsertSubscriberDataArg3 from BER/DER format.
 func (v *InsertSubscriberDataArg3) UnmarshalBER(data []byte) error {
+	*v = InsertSubscriberDataArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding InsertSubscriberDataArg3 SEQUENCE: %w", err)
@@ -19219,7 +19269,7 @@ func (v *InsertSubscriberDataArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_subscriberstatus.Class != tag.ClassContextSpecific || decodedTag_subscriberstatus.Number != 3 || decodedTag_subscriberstatus.Constructed != false {
 					return fmt.Errorf("decoding subscriberStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberstatus)
 				}
-				decVal_subscriberstatus, intErr := ber.DecodeIntegerValue(rawVal_subscriberstatus)
+				decVal_subscriberstatus, intErr := ber.DecodeEnumeratedValue(rawVal_subscriberstatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding subscriberStatus: %w", intErr)
 				}
@@ -19565,7 +19615,7 @@ func (v *InsertSubscriberDataArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_networkaccessmode.Class != tag.ClassContextSpecific || decodedTag_networkaccessmode.Number != 24 || decodedTag_networkaccessmode.Constructed != false {
 					return fmt.Errorf("decoding networkAccessMode: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networkaccessmode)
 				}
-				decVal_networkaccessmode, intErr := ber.DecodeIntegerValue(rawVal_networkaccessmode)
+				decVal_networkaccessmode, intErr := ber.DecodeEnumeratedValue(rawVal_networkaccessmode)
 				if intErr != nil {
 					return fmt.Errorf("decoding networkAccessMode: %w", intErr)
 				}
@@ -19771,7 +19821,7 @@ func (v *InsertSubscriberDataArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_accessrestrictiondata.Class != tag.ClassContextSpecific || decodedTag_accessrestrictiondata.Number != 19 {
 					return fmt.Errorf("decoding accessRestrictionData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_accessrestrictiondata)
 				}
-				bsBytes_accessrestrictiondata, bsUnused_accessrestrictiondata, bsErr := ber.DecodeBitStringValue(rawVal_accessrestrictiondata)
+				bsBytes_accessrestrictiondata, bsUnused_accessrestrictiondata, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_accessrestrictiondata.Constructed, rawVal_accessrestrictiondata)
 				if bsErr != nil {
 					return fmt.Errorf("decoding accessRestrictionData: %w", bsErr)
 				}
@@ -20270,6 +20320,7 @@ func (v *MSCSGSubscriptionData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSCSGSubscriptionData from BER/DER format.
 func (v *MSCSGSubscriptionData) UnmarshalBER(data []byte) error {
+	*v = MSCSGSubscriptionData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSCSGSubscriptionData SEQUENCE: %w", err)
@@ -20699,6 +20750,7 @@ func (v *MSEPSSubscriptionData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSEPSSubscriptionData from BER/DER format.
 func (v *MSEPSSubscriptionData) UnmarshalBER(data []byte) error {
+	*v = MSEPSSubscriptionData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSEPSSubscriptionData SEQUENCE: %w", err)
@@ -21006,6 +21058,7 @@ func (v *MSAPNConfigurationProfile) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSAPNConfigurationProfile from BER/DER format.
 func (v *MSAPNConfigurationProfile) UnmarshalBER(data []byte) error {
+	*v = MSAPNConfigurationProfile{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSAPNConfigurationProfile SEQUENCE: %w", err)
@@ -21543,6 +21596,7 @@ func (v *MSAPNConfiguration) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSAPNConfiguration from BER/DER format.
 func (v *MSAPNConfiguration) UnmarshalBER(data []byte) error {
+	*v = MSAPNConfiguration{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSAPNConfiguration SEQUENCE: %w", err)
@@ -21682,7 +21736,7 @@ func (v *MSAPNConfiguration) UnmarshalBER(data []byte) error {
 				if decodedTag_pdngwallocationtype.Class != tag.ClassContextSpecific || decodedTag_pdngwallocationtype.Number != 6 || decodedTag_pdngwallocationtype.Constructed != false {
 					return fmt.Errorf("decoding pdn-gw-AllocationType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pdngwallocationtype)
 				}
-				decVal_pdngwallocationtype, intErr := ber.DecodeIntegerValue(rawVal_pdngwallocationtype)
+				decVal_pdngwallocationtype, intErr := ber.DecodeEnumeratedValue(rawVal_pdngwallocationtype)
 				if intErr != nil {
 					return fmt.Errorf("decoding pdn-gw-AllocationType: %w", intErr)
 				}
@@ -21851,7 +21905,7 @@ func (v *MSAPNConfiguration) UnmarshalBER(data []byte) error {
 				if decodedTag_siptopermission.Class != tag.ClassContextSpecific || decodedTag_siptopermission.Number != 14 || decodedTag_siptopermission.Constructed != false {
 					return fmt.Errorf("decoding sipto-Permission: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_siptopermission)
 				}
-				decVal_siptopermission, intErr := ber.DecodeIntegerValue(rawVal_siptopermission)
+				decVal_siptopermission, intErr := ber.DecodeEnumeratedValue(rawVal_siptopermission)
 				if intErr != nil {
 					return fmt.Errorf("decoding sipto-Permission: %w", intErr)
 				}
@@ -21873,7 +21927,7 @@ func (v *MSAPNConfiguration) UnmarshalBER(data []byte) error {
 				if decodedTag_lipapermission.Class != tag.ClassContextSpecific || decodedTag_lipapermission.Number != 15 || decodedTag_lipapermission.Constructed != false {
 					return fmt.Errorf("decoding lipa-Permission: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lipapermission)
 				}
-				decVal_lipapermission, intErr := ber.DecodeIntegerValue(rawVal_lipapermission)
+				decVal_lipapermission, intErr := ber.DecodeEnumeratedValue(rawVal_lipapermission)
 				if intErr != nil {
 					return fmt.Errorf("decoding lipa-Permission: %w", intErr)
 				}
@@ -21913,7 +21967,7 @@ func (v *MSAPNConfiguration) UnmarshalBER(data []byte) error {
 				if decodedTag_siptolocalnetworkpermission.Class != tag.ClassContextSpecific || decodedTag_siptolocalnetworkpermission.Number != 17 || decodedTag_siptolocalnetworkpermission.Constructed != false {
 					return fmt.Errorf("decoding sipto-local-network-Permission: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_siptolocalnetworkpermission)
 				}
-				decVal_siptolocalnetworkpermission, intErr := ber.DecodeIntegerValue(rawVal_siptolocalnetworkpermission)
+				decVal_siptolocalnetworkpermission, intErr := ber.DecodeEnumeratedValue(rawVal_siptolocalnetworkpermission)
 				if intErr != nil {
 					return fmt.Errorf("decoding sipto-local-network-Permission: %w", intErr)
 				}
@@ -22031,6 +22085,7 @@ func (v *MSEPSQoSSubscribed) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSEPSQoSSubscribed from BER/DER format.
 func (v *MSEPSQoSSubscribed) UnmarshalBER(data []byte) error {
+	*v = MSEPSQoSSubscribed{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSEPSQoSSubscribed SEQUENCE: %w", err)
@@ -22218,6 +22273,7 @@ func (v *MSAMBR) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSAMBR from BER/DER format.
 func (v *MSAMBR) UnmarshalBER(data []byte) error {
+	*v = MSAMBR{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSAMBR SEQUENCE: %w", err)
@@ -22456,6 +22512,7 @@ func (v *MSSpecificAPNInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSSpecificAPNInfo from BER/DER format.
 func (v *MSSpecificAPNInfo) UnmarshalBER(data []byte) error {
+	*v = MSSpecificAPNInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSSpecificAPNInfo SEQUENCE: %w", err)
@@ -22665,6 +22722,7 @@ func (v *MSAllocationRetentionPriority) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSAllocationRetentionPriority from BER/DER format.
 func (v *MSAllocationRetentionPriority) UnmarshalBER(data []byte) error {
+	*v = MSAllocationRetentionPriority{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSAllocationRetentionPriority SEQUENCE: %w", err)
@@ -22893,6 +22951,7 @@ func (v *MSPDNGWIdentity) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSPDNGWIdentity from BER/DER format.
 func (v *MSPDNGWIdentity) UnmarshalBER(data []byte) error {
+	*v = MSPDNGWIdentity{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSPDNGWIdentity SEQUENCE: %w", err)
@@ -23159,6 +23218,7 @@ func (v *LCSInformation3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LCSInformation3 from BER/DER format.
 func (v *LCSInformation3) UnmarshalBER(data []byte) error {
+	*v = LCSInformation3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSInformation3 SEQUENCE: %w", err)
@@ -23779,6 +23839,7 @@ func (v *PDPContext3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PDPContext3 from BER/DER format.
 func (v *PDPContext3) UnmarshalBER(data []byte) error {
+	*v = PDPContext3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PDPContext3 SEQUENCE: %w", err)
@@ -24089,7 +24150,7 @@ func (v *PDPContext3) UnmarshalBER(data []byte) error {
 				if decodedTag_siptopermission.Class != tag.ClassContextSpecific || decodedTag_siptopermission.Number != 8 || decodedTag_siptopermission.Constructed != false {
 					return fmt.Errorf("decoding sipto-Permission: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_siptopermission)
 				}
-				decVal_siptopermission, intErr := ber.DecodeIntegerValue(rawVal_siptopermission)
+				decVal_siptopermission, intErr := ber.DecodeEnumeratedValue(rawVal_siptopermission)
 				if intErr != nil {
 					return fmt.Errorf("decoding sipto-Permission: %w", intErr)
 				}
@@ -24111,7 +24172,7 @@ func (v *PDPContext3) UnmarshalBER(data []byte) error {
 				if decodedTag_lipapermission.Class != tag.ClassContextSpecific || decodedTag_lipapermission.Number != 9 || decodedTag_lipapermission.Constructed != false {
 					return fmt.Errorf("decoding lipa-Permission: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lipapermission)
 				}
-				decVal_lipapermission, intErr := ber.DecodeIntegerValue(rawVal_lipapermission)
+				decVal_lipapermission, intErr := ber.DecodeEnumeratedValue(rawVal_lipapermission)
 				if intErr != nil {
 					return fmt.Errorf("decoding lipa-Permission: %w", intErr)
 				}
@@ -24151,7 +24212,7 @@ func (v *PDPContext3) UnmarshalBER(data []byte) error {
 				if decodedTag_siptolocalnetworkpermission.Class != tag.ClassContextSpecific || decodedTag_siptolocalnetworkpermission.Number != 12 || decodedTag_siptolocalnetworkpermission.Constructed != false {
 					return fmt.Errorf("decoding sipto-local-network-Permission: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_siptolocalnetworkpermission)
 				}
-				decVal_siptolocalnetworkpermission, intErr := ber.DecodeIntegerValue(rawVal_siptolocalnetworkpermission)
+				decVal_siptolocalnetworkpermission, intErr := ber.DecodeEnumeratedValue(rawVal_siptolocalnetworkpermission)
 				if intErr != nil {
 					return fmt.Errorf("decoding sipto-local-network-Permission: %w", intErr)
 				}
@@ -24290,6 +24351,7 @@ func (v *GPRSSubscriptionData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GPRSSubscriptionData3 from BER/DER format.
 func (v *GPRSSubscriptionData3) UnmarshalBER(data []byte) error {
+	*v = GPRSSubscriptionData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GPRSSubscriptionData3 SEQUENCE: %w", err)
@@ -24585,6 +24647,7 @@ func (v *SGSNCAMELSubscriptionInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SGSNCAMELSubscriptionInfo3 from BER/DER format.
 func (v *SGSNCAMELSubscriptionInfo3) UnmarshalBER(data []byte) error {
+	*v = SGSNCAMELSubscriptionInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SGSNCAMELSubscriptionInfo3 SEQUENCE: %w", err)
@@ -24893,6 +24956,7 @@ func (v *GPRSCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GPRSCSI3 from BER/DER format.
 func (v *GPRSCSI3) UnmarshalBER(data []byte) error {
+	*v = GPRSCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GPRSCSI3 SEQUENCE: %w", err)
@@ -25200,6 +25264,7 @@ func (v *GPRSCamelTDPData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GPRSCamelTDPData3 from BER/DER format.
 func (v *GPRSCamelTDPData3) UnmarshalBER(data []byte) error {
+	*v = GPRSCamelTDPData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GPRSCamelTDPData3 SEQUENCE: %w", err)
@@ -25224,7 +25289,7 @@ func (v *GPRSCamelTDPData3) UnmarshalBER(data []byte) error {
 	if decodedTag_gprstriggerdetectionpoint.Class != tag.ClassContextSpecific || decodedTag_gprstriggerdetectionpoint.Number != 0 || decodedTag_gprstriggerdetectionpoint.Constructed != false {
 		return fmt.Errorf("decoding gprs-TriggerDetectionPoint: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gprstriggerdetectionpoint)
 	}
-	decVal_gprstriggerdetectionpoint, intErr := ber.DecodeIntegerValue(rawVal_gprstriggerdetectionpoint)
+	decVal_gprstriggerdetectionpoint, intErr := ber.DecodeEnumeratedValue(rawVal_gprstriggerdetectionpoint)
 	if intErr != nil {
 		return fmt.Errorf("decoding gprs-TriggerDetectionPoint: %w", intErr)
 	}
@@ -25286,7 +25351,7 @@ func (v *GPRSCamelTDPData3) UnmarshalBER(data []byte) error {
 	if decodedTag_defaultsessionhandling.Class != tag.ClassContextSpecific || decodedTag_defaultsessionhandling.Number != 3 || decodedTag_defaultsessionhandling.Constructed != false {
 		return fmt.Errorf("decoding defaultSessionHandling: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_defaultsessionhandling)
 	}
-	decVal_defaultsessionhandling, intErr := ber.DecodeIntegerValue(rawVal_defaultsessionhandling)
+	decVal_defaultsessionhandling, intErr := ber.DecodeEnumeratedValue(rawVal_defaultsessionhandling)
 	if intErr != nil {
 		return fmt.Errorf("decoding defaultSessionHandling: %w", intErr)
 	}
@@ -25490,6 +25555,7 @@ func (v *LSAData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LSAData3 from BER/DER format.
 func (v *LSAData3) UnmarshalBER(data []byte) error {
+	*v = LSAData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LSAData3 SEQUENCE: %w", err)
@@ -25709,6 +25775,7 @@ func (v *LSAInformation3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LSAInformation3 from BER/DER format.
 func (v *LSAInformation3) UnmarshalBER(data []byte) error {
+	*v = LSAInformation3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LSAInformation3 SEQUENCE: %w", err)
@@ -25743,7 +25810,7 @@ func (v *LSAInformation3) UnmarshalBER(data []byte) error {
 				if decodedTag_lsaonlyaccessindicator.Class != tag.ClassContextSpecific || decodedTag_lsaonlyaccessindicator.Number != 1 || decodedTag_lsaonlyaccessindicator.Constructed != false {
 					return fmt.Errorf("decoding lsaOnlyAccessIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lsaonlyaccessindicator)
 				}
-				decVal_lsaonlyaccessindicator, intErr := ber.DecodeIntegerValue(rawVal_lsaonlyaccessindicator)
+				decVal_lsaonlyaccessindicator, intErr := ber.DecodeEnumeratedValue(rawVal_lsaonlyaccessindicator)
 				if intErr != nil {
 					return fmt.Errorf("decoding lsaOnlyAccessIndicator: %w", intErr)
 				}
@@ -26156,6 +26223,7 @@ func (v *SubscriberData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubscriberData3 from BER/DER format.
 func (v *SubscriberData3) UnmarshalBER(data []byte) error {
+	*v = SubscriberData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SubscriberData3 SEQUENCE: %w", err)
@@ -26212,7 +26280,7 @@ func (v *SubscriberData3) UnmarshalBER(data []byte) error {
 				if decodedTag_subscriberstatus.Class != tag.ClassContextSpecific || decodedTag_subscriberstatus.Number != 3 || decodedTag_subscriberstatus.Constructed != false {
 					return fmt.Errorf("decoding subscriberStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subscriberstatus)
 				}
-				decVal_subscriberstatus, intErr := ber.DecodeIntegerValue(rawVal_subscriberstatus)
+				decVal_subscriberstatus, intErr := ber.DecodeEnumeratedValue(rawVal_subscriberstatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding subscriberStatus: %w", intErr)
 				}
@@ -26614,6 +26682,7 @@ func (v *ODBData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ODBData3 from BER/DER format.
 func (v *ODBData3) UnmarshalBER(data []byte) error {
+	*v = ODBData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ODBData3 SEQUENCE: %w", err)
@@ -26917,6 +26986,7 @@ func (v *ExtSSInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtSSInfo3 from BER/DER format.
 func (v *ExtSSInfo3) UnmarshalBER(data []byte) error {
+	*v = ExtSSInfo3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ExtSSInfo3 CHOICE")
 	}
@@ -27072,6 +27142,7 @@ func (v *ExtForwInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtForwInfo3 from BER/DER format.
 func (v *ExtForwInfo3) UnmarshalBER(data []byte) error {
+	*v = ExtForwInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtForwInfo3 SEQUENCE: %w", err)
@@ -27383,6 +27454,7 @@ func (v *ExtForwFeature3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtForwFeature3 from BER/DER format.
 func (v *ExtForwFeature3) UnmarshalBER(data []byte) error {
+	*v = ExtForwFeature3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtForwFeature3 SEQUENCE: %w", err)
@@ -27622,6 +27694,7 @@ func (v *ExtCallBarInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtCallBarInfo3 from BER/DER format.
 func (v *ExtCallBarInfo3) UnmarshalBER(data []byte) error {
+	*v = ExtCallBarInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtCallBarInfo3 SEQUENCE: %w", err)
@@ -27830,6 +27903,7 @@ func (v *ExtCallBarringFeature3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtCallBarringFeature3 from BER/DER format.
 func (v *ExtCallBarringFeature3) UnmarshalBER(data []byte) error {
+	*v = ExtCallBarringFeature3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtCallBarringFeature3 SEQUENCE: %w", err)
@@ -27992,6 +28066,7 @@ func (v *CUGInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CUGInfo3 from BER/DER format.
 func (v *CUGInfo3) UnmarshalBER(data []byte) error {
+	*v = CUGInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CUGInfo3 SEQUENCE: %w", err)
@@ -28228,6 +28303,7 @@ func (v *CUGSubscription3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CUGSubscription3 from BER/DER format.
 func (v *CUGSubscription3) UnmarshalBER(data []byte) error {
+	*v = CUGSubscription3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CUGSubscription3 SEQUENCE: %w", err)
@@ -28260,7 +28336,7 @@ func (v *CUGSubscription3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field intraCUG-Options")
 	}
-	val_intracugoptions, n, err := ber.DecodeInteger(content[offset:])
+	val_intracugoptions, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding intraCUG-Options: %w", err)
 	}
@@ -28517,6 +28593,7 @@ func (v *CUGFeature3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CUGFeature3 from BER/DER format.
 func (v *CUGFeature3) UnmarshalBER(data []byte) error {
+	*v = CUGFeature3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CUGFeature3 SEQUENCE: %w", err)
@@ -28708,6 +28785,7 @@ func (v *ExtSSData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtSSData3 from BER/DER format.
 func (v *ExtSSData3) UnmarshalBER(data []byte) error {
+	*v = ExtSSData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtSSData3 SEQUENCE: %w", err)
@@ -29100,6 +29178,7 @@ func (v *LCSPrivacyClass3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LCSPrivacyClass3 from BER/DER format.
 func (v *LCSPrivacyClass3) UnmarshalBER(data []byte) error {
+	*v = LCSPrivacyClass3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPrivacyClass3 SEQUENCE: %w", err)
@@ -29140,7 +29219,7 @@ func (v *LCSPrivacyClass3) UnmarshalBER(data []byte) error {
 				if decodedTag_notificationtomsuser.Class != tag.ClassContextSpecific || decodedTag_notificationtomsuser.Number != 0 || decodedTag_notificationtomsuser.Constructed != false {
 					return fmt.Errorf("decoding notificationToMSUser: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_notificationtomsuser)
 				}
-				decVal_notificationtomsuser, intErr := ber.DecodeIntegerValue(rawVal_notificationtomsuser)
+				decVal_notificationtomsuser, intErr := ber.DecodeEnumeratedValue(rawVal_notificationtomsuser)
 				if intErr != nil {
 					return fmt.Errorf("decoding notificationToMSUser: %w", intErr)
 				}
@@ -29394,7 +29473,7 @@ func UnmarshalBERPLMNClientList3(data []byte) (PLMNClientList3, error) {
 	var result PLMNClientList3
 	offset := 0
 	for offset < len(content) {
-		val, n, intErr := ber.DecodeInteger(content[offset:])
+		val, n, intErr := ber.DecodeEnumerated(content[offset:])
 		if intErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", intErr)
 		}
@@ -29564,6 +29643,7 @@ func (v *ExternalClient3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExternalClient3 from BER/DER format.
 func (v *ExternalClient3) UnmarshalBER(data []byte) error {
+	*v = ExternalClient3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExternalClient3 SEQUENCE: %w", err)
@@ -29597,7 +29677,7 @@ func (v *ExternalClient3) UnmarshalBER(data []byte) error {
 				if decodedTag_gmlcrestriction.Class != tag.ClassContextSpecific || decodedTag_gmlcrestriction.Number != 0 || decodedTag_gmlcrestriction.Constructed != false {
 					return fmt.Errorf("decoding gmlc-Restriction: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gmlcrestriction)
 				}
-				decVal_gmlcrestriction, intErr := ber.DecodeIntegerValue(rawVal_gmlcrestriction)
+				decVal_gmlcrestriction, intErr := ber.DecodeEnumeratedValue(rawVal_gmlcrestriction)
 				if intErr != nil {
 					return fmt.Errorf("decoding gmlc-Restriction: %w", intErr)
 				}
@@ -29619,7 +29699,7 @@ func (v *ExternalClient3) UnmarshalBER(data []byte) error {
 				if decodedTag_notificationtomsuser.Class != tag.ClassContextSpecific || decodedTag_notificationtomsuser.Number != 1 || decodedTag_notificationtomsuser.Constructed != false {
 					return fmt.Errorf("decoding notificationToMSUser: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_notificationtomsuser)
 				}
-				decVal_notificationtomsuser, intErr := ber.DecodeIntegerValue(rawVal_notificationtomsuser)
+				decVal_notificationtomsuser, intErr := ber.DecodeEnumeratedValue(rawVal_notificationtomsuser)
 				if intErr != nil {
 					return fmt.Errorf("decoding notificationToMSUser: %w", intErr)
 				}
@@ -29821,6 +29901,7 @@ func (v *ServiceType3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ServiceType3 from BER/DER format.
 func (v *ServiceType3) UnmarshalBER(data []byte) error {
+	*v = ServiceType3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ServiceType3 SEQUENCE: %w", err)
@@ -29851,7 +29932,7 @@ func (v *ServiceType3) UnmarshalBER(data []byte) error {
 				if decodedTag_gmlcrestriction.Class != tag.ClassContextSpecific || decodedTag_gmlcrestriction.Number != 0 || decodedTag_gmlcrestriction.Constructed != false {
 					return fmt.Errorf("decoding gmlc-Restriction: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gmlcrestriction)
 				}
-				decVal_gmlcrestriction, intErr := ber.DecodeIntegerValue(rawVal_gmlcrestriction)
+				decVal_gmlcrestriction, intErr := ber.DecodeEnumeratedValue(rawVal_gmlcrestriction)
 				if intErr != nil {
 					return fmt.Errorf("decoding gmlc-Restriction: %w", intErr)
 				}
@@ -29873,7 +29954,7 @@ func (v *ServiceType3) UnmarshalBER(data []byte) error {
 				if decodedTag_notificationtomsuser.Class != tag.ClassContextSpecific || decodedTag_notificationtomsuser.Number != 1 || decodedTag_notificationtomsuser.Constructed != false {
 					return fmt.Errorf("decoding notificationToMSUser: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_notificationtomsuser)
 				}
-				decVal_notificationtomsuser, intErr := ber.DecodeIntegerValue(rawVal_notificationtomsuser)
+				decVal_notificationtomsuser, intErr := ber.DecodeEnumeratedValue(rawVal_notificationtomsuser)
 				if intErr != nil {
 					return fmt.Errorf("decoding notificationToMSUser: %w", intErr)
 				}
@@ -30043,6 +30124,7 @@ func (v *MOLRClass3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MOLRClass3 from BER/DER format.
 func (v *MOLRClass3) UnmarshalBER(data []byte) error {
+	*v = MOLRClass3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MOLRClass3 SEQUENCE: %w", err)
@@ -30400,6 +30482,7 @@ func (v *InsertSubscriberDataRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InsertSubscriberDataRes3 from BER/DER format.
 func (v *InsertSubscriberDataRes3) UnmarshalBER(data []byte) error {
+	*v = InsertSubscriberDataRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding InsertSubscriberDataRes3 SEQUENCE: %w", err)
@@ -30507,7 +30590,7 @@ func (v *InsertSubscriberDataRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_odbgeneraldata.Class != tag.ClassContextSpecific || decodedTag_odbgeneraldata.Number != 4 {
 					return fmt.Errorf("decoding odb-GeneralData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_odbgeneraldata)
 				}
-				bsBytes_odbgeneraldata, bsUnused_odbgeneraldata, bsErr := ber.DecodeBitStringValue(rawVal_odbgeneraldata)
+				bsBytes_odbgeneraldata, bsUnused_odbgeneraldata, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_odbgeneraldata.Constructed, rawVal_odbgeneraldata)
 				if bsErr != nil {
 					return fmt.Errorf("decoding odb-GeneralData: %w", bsErr)
 				}
@@ -30529,7 +30612,7 @@ func (v *InsertSubscriberDataRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_regionalsubscriptionresponse.Class != tag.ClassContextSpecific || decodedTag_regionalsubscriptionresponse.Number != 5 || decodedTag_regionalsubscriptionresponse.Constructed != false {
 					return fmt.Errorf("decoding regionalSubscriptionResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_regionalsubscriptionresponse)
 				}
-				decVal_regionalsubscriptionresponse, intErr := ber.DecodeIntegerValue(rawVal_regionalsubscriptionresponse)
+				decVal_regionalsubscriptionresponse, intErr := ber.DecodeEnumeratedValue(rawVal_regionalsubscriptionresponse)
 				if intErr != nil {
 					return fmt.Errorf("decoding regionalSubscriptionResponse: %w", intErr)
 				}
@@ -30551,7 +30634,7 @@ func (v *InsertSubscriberDataRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedcamelphases.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphases.Number != 6 {
 					return fmt.Errorf("decoding supportedCamelPhases: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphases)
 				}
-				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeBitStringValue(rawVal_supportedcamelphases)
+				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphases.Constructed, rawVal_supportedcamelphases)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhases: %w", bsErr)
 				}
@@ -30595,7 +30678,7 @@ func (v *InsertSubscriberDataRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csis.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csis.Number != 8 {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csis)
 				}
-				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csis)
+				bsBytes_offeredcamel4csis, bsUnused_offeredcamel4csis, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csis.Constructed, rawVal_offeredcamel4csis)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
@@ -30617,7 +30700,7 @@ func (v *InsertSubscriberDataRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedfeatures.Class != tag.ClassContextSpecific || decodedTag_supportedfeatures.Number != 9 {
 					return fmt.Errorf("decoding supportedFeatures: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedfeatures)
 				}
-				bsBytes_supportedfeatures, bsUnused_supportedfeatures, bsErr := ber.DecodeBitStringValue(rawVal_supportedfeatures)
+				bsBytes_supportedfeatures, bsUnused_supportedfeatures, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedfeatures.Constructed, rawVal_supportedfeatures)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedFeatures: %w", bsErr)
 				}
@@ -31153,6 +31236,7 @@ func (v *DeleteSubscriberDataArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DeleteSubscriberDataArg3 from BER/DER format.
 func (v *DeleteSubscriberDataArg3) UnmarshalBER(data []byte) error {
+	*v = DeleteSubscriberDataArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DeleteSubscriberDataArg3 SEQUENCE: %w", err)
@@ -31473,7 +31557,7 @@ func (v *DeleteSubscriberDataArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_specificcsiwithdraw.Class != tag.ClassContextSpecific || decodedTag_specificcsiwithdraw.Number != 15 {
 					return fmt.Errorf("decoding specificCSI-Withdraw: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_specificcsiwithdraw)
 				}
-				bsBytes_specificcsiwithdraw, bsUnused_specificcsiwithdraw, bsErr := ber.DecodeBitStringValue(rawVal_specificcsiwithdraw)
+				bsBytes_specificcsiwithdraw, bsUnused_specificcsiwithdraw, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_specificcsiwithdraw.Constructed, rawVal_specificcsiwithdraw)
 				if bsErr != nil {
 					return fmt.Errorf("decoding specificCSI-Withdraw: %w", bsErr)
 				}
@@ -31743,6 +31827,7 @@ func (v *GPRSSubscriptionDataWithdraw3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GPRSSubscriptionDataWithdraw3 from BER/DER format.
 func (v *GPRSSubscriptionDataWithdraw3) UnmarshalBER(data []byte) error {
+	*v = GPRSSubscriptionDataWithdraw3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GPRSSubscriptionDataWithdraw3 CHOICE")
 	}
@@ -31821,6 +31906,7 @@ func (v *MSEPSSubscriptionDataWithdraw) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSEPSSubscriptionDataWithdraw from BER/DER format.
 func (v *MSEPSSubscriptionDataWithdraw) UnmarshalBER(data []byte) error {
+	*v = MSEPSSubscriptionDataWithdraw{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MSEPSSubscriptionDataWithdraw CHOICE")
 	}
@@ -31943,6 +32029,7 @@ func (v *LSAInformationWithdraw3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LSAInformationWithdraw3 from BER/DER format.
 func (v *LSAInformationWithdraw3) UnmarshalBER(data []byte) error {
+	*v = LSAInformationWithdraw3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for LSAInformationWithdraw3 CHOICE")
 	}
@@ -32145,6 +32232,7 @@ func (v *DeleteSubscriberDataRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DeleteSubscriberDataRes3 from BER/DER format.
 func (v *DeleteSubscriberDataRes3) UnmarshalBER(data []byte) error {
+	*v = DeleteSubscriberDataRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DeleteSubscriberDataRes3 SEQUENCE: %w", err)
@@ -32165,7 +32253,7 @@ func (v *DeleteSubscriberDataRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_regionalsubscriptionresponse.Class != tag.ClassContextSpecific || decodedTag_regionalsubscriptionresponse.Number != 0 || decodedTag_regionalsubscriptionresponse.Constructed != false {
 					return fmt.Errorf("decoding regionalSubscriptionResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_regionalsubscriptionresponse)
 				}
-				decVal_regionalsubscriptionresponse, intErr := ber.DecodeIntegerValue(rawVal_regionalsubscriptionresponse)
+				decVal_regionalsubscriptionresponse, intErr := ber.DecodeEnumeratedValue(rawVal_regionalsubscriptionresponse)
 				if intErr != nil {
 					return fmt.Errorf("decoding regionalSubscriptionResponse: %w", intErr)
 				}
@@ -32553,6 +32641,7 @@ func (v *VlrCamelSubscriptionInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes VlrCamelSubscriptionInfo3 from BER/DER format.
 func (v *VlrCamelSubscriptionInfo3) UnmarshalBER(data []byte) error {
+	*v = VlrCamelSubscriptionInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding VlrCamelSubscriptionInfo3 SEQUENCE: %w", err)
@@ -32987,6 +33076,7 @@ func (v *MTSmsCAMELTDPCriteria3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MTSmsCAMELTDPCriteria3 from BER/DER format.
 func (v *MTSmsCAMELTDPCriteria3) UnmarshalBER(data []byte) error {
+	*v = MTSmsCAMELTDPCriteria3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MTSmsCAMELTDPCriteria3 SEQUENCE: %w", err)
@@ -32999,7 +33089,7 @@ func (v *MTSmsCAMELTDPCriteria3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sms-TriggerDetectionPoint")
 	}
-	val_smstriggerdetectionpoint, n, err := ber.DecodeInteger(content[offset:])
+	val_smstriggerdetectionpoint, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sms-TriggerDetectionPoint: %w", err)
 	}
@@ -33084,7 +33174,7 @@ func UnmarshalBERTPDUTypeCriterion3(data []byte) (TPDUTypeCriterion3, error) {
 	var result TPDUTypeCriterion3
 	offset := 0
 	for offset < len(content) {
-		val, n, intErr := ber.DecodeInteger(content[offset:])
+		val, n, intErr := ber.DecodeEnumerated(content[offset:])
 		if intErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", intErr)
 		}
@@ -33239,6 +33329,7 @@ func (v *DCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DCSI3 from BER/DER format.
 func (v *DCSI3) UnmarshalBER(data []byte) error {
+	*v = DCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DCSI3 SEQUENCE: %w", err)
@@ -33496,6 +33587,7 @@ func (v *DPAnalysedInfoCriterium3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DPAnalysedInfoCriterium3 from BER/DER format.
 func (v *DPAnalysedInfoCriterium3) UnmarshalBER(data []byte) error {
+	*v = DPAnalysedInfoCriterium3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DPAnalysedInfoCriterium3 SEQUENCE: %w", err)
@@ -33538,7 +33630,7 @@ func (v *DPAnalysedInfoCriterium3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field defaultCallHandling")
 	}
-	val_defaultcallhandling, n, err := ber.DecodeInteger(content[offset:])
+	val_defaultcallhandling, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding defaultCallHandling: %w", err)
 	}
@@ -33673,6 +33765,7 @@ func (v *SSCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSCSI3 from BER/DER format.
 func (v *SSCSI3) UnmarshalBER(data []byte) error {
+	*v = SSCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSCSI3 SEQUENCE: %w", err)
@@ -33841,6 +33934,7 @@ func (v *SSCamelData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSCamelData3 from BER/DER format.
 func (v *SSCamelData3) UnmarshalBER(data []byte) error {
+	*v = SSCamelData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSCamelData3 SEQUENCE: %w", err)
@@ -34076,6 +34170,7 @@ func (v *OCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OCSI3 from BER/DER format.
 func (v *OCSI3) UnmarshalBER(data []byte) error {
+	*v = OCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding OCSI3 SEQUENCE: %w", err)
@@ -34354,6 +34449,7 @@ func (v *OBcsmCamelTDPData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OBcsmCamelTDPData3 from BER/DER format.
 func (v *OBcsmCamelTDPData3) UnmarshalBER(data []byte) error {
+	*v = OBcsmCamelTDPData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding OBcsmCamelTDPData3 SEQUENCE: %w", err)
@@ -34366,7 +34462,7 @@ func (v *OBcsmCamelTDPData3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field o-BcsmTriggerDetectionPoint")
 	}
-	val_obcsmtriggerdetectionpoint, n, err := ber.DecodeInteger(content[offset:])
+	val_obcsmtriggerdetectionpoint, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding o-BcsmTriggerDetectionPoint: %w", err)
 	}
@@ -34416,7 +34512,7 @@ func (v *OBcsmCamelTDPData3) UnmarshalBER(data []byte) error {
 	if decodedTag_defaultcallhandling.Class != tag.ClassContextSpecific || decodedTag_defaultcallhandling.Number != 1 || decodedTag_defaultcallhandling.Constructed != false {
 		return fmt.Errorf("decoding defaultCallHandling: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_defaultcallhandling)
 	}
-	decVal_defaultcallhandling, intErr := ber.DecodeIntegerValue(rawVal_defaultcallhandling)
+	decVal_defaultcallhandling, intErr := ber.DecodeEnumeratedValue(rawVal_defaultcallhandling)
 	if intErr != nil {
 		return fmt.Errorf("decoding defaultCallHandling: %w", intErr)
 	}
@@ -34742,6 +34838,7 @@ func (v *OBcsmCamelTDPCriteria3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OBcsmCamelTDPCriteria3 from BER/DER format.
 func (v *OBcsmCamelTDPCriteria3) UnmarshalBER(data []byte) error {
+	*v = OBcsmCamelTDPCriteria3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding OBcsmCamelTDPCriteria3 SEQUENCE: %w", err)
@@ -34754,7 +34851,7 @@ func (v *OBcsmCamelTDPCriteria3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field o-BcsmTriggerDetectionPoint")
 	}
-	val_obcsmtriggerdetectionpoint, n, err := ber.DecodeInteger(content[offset:])
+	val_obcsmtriggerdetectionpoint, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding o-BcsmTriggerDetectionPoint: %w", err)
 	}
@@ -34823,7 +34920,7 @@ func (v *OBcsmCamelTDPCriteria3) UnmarshalBER(data []byte) error {
 				if decodedTag_calltypecriteria.Class != tag.ClassContextSpecific || decodedTag_calltypecriteria.Number != 2 || decodedTag_calltypecriteria.Constructed != false {
 					return fmt.Errorf("decoding callTypeCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_calltypecriteria)
 				}
-				decVal_calltypecriteria, intErr := ber.DecodeIntegerValue(rawVal_calltypecriteria)
+				decVal_calltypecriteria, intErr := ber.DecodeEnumeratedValue(rawVal_calltypecriteria)
 				if intErr != nil {
 					return fmt.Errorf("decoding callTypeCriteria: %w", intErr)
 				}
@@ -35004,6 +35101,7 @@ func (v *TBCSMCAMELTDPCriteria3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TBCSMCAMELTDPCriteria3 from BER/DER format.
 func (v *TBCSMCAMELTDPCriteria3) UnmarshalBER(data []byte) error {
+	*v = TBCSMCAMELTDPCriteria3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TBCSMCAMELTDPCriteria3 SEQUENCE: %w", err)
@@ -35016,7 +35114,7 @@ func (v *TBCSMCAMELTDPCriteria3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field t-BCSM-TriggerDetectionPoint")
 	}
-	val_tbcsmtriggerdetectionpoint, n, err := ber.DecodeInteger(content[offset:])
+	val_tbcsmtriggerdetectionpoint, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding t-BCSM-TriggerDetectionPoint: %w", err)
 	}
@@ -35210,6 +35308,7 @@ func (v *DestinationNumberCriteria3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DestinationNumberCriteria3 from BER/DER format.
 func (v *DestinationNumberCriteria3) UnmarshalBER(data []byte) error {
+	*v = DestinationNumberCriteria3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DestinationNumberCriteria3 SEQUENCE: %w", err)
@@ -35234,7 +35333,7 @@ func (v *DestinationNumberCriteria3) UnmarshalBER(data []byte) error {
 	if decodedTag_matchtype.Class != tag.ClassContextSpecific || decodedTag_matchtype.Number != 0 || decodedTag_matchtype.Constructed != false {
 		return fmt.Errorf("decoding matchType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_matchtype)
 	}
-	decVal_matchtype, intErr := ber.DecodeIntegerValue(rawVal_matchtype)
+	decVal_matchtype, intErr := ber.DecodeEnumeratedValue(rawVal_matchtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding matchType: %w", intErr)
 	}
@@ -35691,6 +35790,7 @@ func (v *SMSCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMSCSI3 from BER/DER format.
 func (v *SMSCSI3) UnmarshalBER(data []byte) error {
+	*v = SMSCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMSCSI3 SEQUENCE: %w", err)
@@ -35998,6 +36098,7 @@ func (v *SMSCAMELTDPData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMSCAMELTDPData3 from BER/DER format.
 func (v *SMSCAMELTDPData3) UnmarshalBER(data []byte) error {
+	*v = SMSCAMELTDPData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMSCAMELTDPData3 SEQUENCE: %w", err)
@@ -36022,7 +36123,7 @@ func (v *SMSCAMELTDPData3) UnmarshalBER(data []byte) error {
 	if decodedTag_smstriggerdetectionpoint.Class != tag.ClassContextSpecific || decodedTag_smstriggerdetectionpoint.Number != 0 || decodedTag_smstriggerdetectionpoint.Constructed != false {
 		return fmt.Errorf("decoding sms-TriggerDetectionPoint: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smstriggerdetectionpoint)
 	}
-	decVal_smstriggerdetectionpoint, intErr := ber.DecodeIntegerValue(rawVal_smstriggerdetectionpoint)
+	decVal_smstriggerdetectionpoint, intErr := ber.DecodeEnumeratedValue(rawVal_smstriggerdetectionpoint)
 	if intErr != nil {
 		return fmt.Errorf("decoding sms-TriggerDetectionPoint: %w", intErr)
 	}
@@ -36084,7 +36185,7 @@ func (v *SMSCAMELTDPData3) UnmarshalBER(data []byte) error {
 	if decodedTag_defaultsmshandling.Class != tag.ClassContextSpecific || decodedTag_defaultsmshandling.Number != 3 || decodedTag_defaultsmshandling.Constructed != false {
 		return fmt.Errorf("decoding defaultSMS-Handling: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_defaultsmshandling)
 	}
-	decVal_defaultsmshandling, intErr := ber.DecodeIntegerValue(rawVal_defaultsmshandling)
+	decVal_defaultsmshandling, intErr := ber.DecodeEnumeratedValue(rawVal_defaultsmshandling)
 	if intErr != nil {
 		return fmt.Errorf("decoding defaultSMS-Handling: %w", intErr)
 	}
@@ -36250,6 +36351,7 @@ func (v *MCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MCSI3 from BER/DER format.
 func (v *MCSI3) UnmarshalBER(data []byte) error {
+	*v = MCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MCSI3 SEQUENCE: %w", err)
@@ -36509,6 +36611,7 @@ func (v *MGCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MGCSI3 from BER/DER format.
 func (v *MGCSI3) UnmarshalBER(data []byte) error {
+	*v = MGCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MGCSI3 SEQUENCE: %w", err)
@@ -36802,6 +36905,7 @@ func (v *TCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TCSI3 from BER/DER format.
 func (v *TCSI3) UnmarshalBER(data []byte) error {
+	*v = TCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TCSI3 SEQUENCE: %w", err)
@@ -37080,6 +37184,7 @@ func (v *TBcsmCamelTDPData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TBcsmCamelTDPData3 from BER/DER format.
 func (v *TBcsmCamelTDPData3) UnmarshalBER(data []byte) error {
+	*v = TBcsmCamelTDPData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TBcsmCamelTDPData3 SEQUENCE: %w", err)
@@ -37092,7 +37197,7 @@ func (v *TBcsmCamelTDPData3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field t-BcsmTriggerDetectionPoint")
 	}
-	val_tbcsmtriggerdetectionpoint, n, err := ber.DecodeInteger(content[offset:])
+	val_tbcsmtriggerdetectionpoint, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding t-BcsmTriggerDetectionPoint: %w", err)
 	}
@@ -37142,7 +37247,7 @@ func (v *TBcsmCamelTDPData3) UnmarshalBER(data []byte) error {
 	if decodedTag_defaultcallhandling.Class != tag.ClassContextSpecific || decodedTag_defaultcallhandling.Number != 1 || decodedTag_defaultcallhandling.Constructed != false {
 		return fmt.Errorf("decoding defaultCallHandling: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_defaultcallhandling)
 	}
-	decVal_defaultcallhandling, intErr := ber.DecodeIntegerValue(rawVal_defaultcallhandling)
+	decVal_defaultcallhandling, intErr := ber.DecodeEnumeratedValue(rawVal_defaultcallhandling)
 	if intErr != nil {
 		return fmt.Errorf("decoding defaultCallHandling: %w", intErr)
 	}
@@ -37290,6 +37395,7 @@ func (v *SendRoutingInfoForGprsArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendRoutingInfoForGprsArg3 from BER/DER format.
 func (v *SendRoutingInfoForGprsArg3) UnmarshalBER(data []byte) error {
+	*v = SendRoutingInfoForGprsArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendRoutingInfoForGprsArg3 SEQUENCE: %w", err)
@@ -37498,6 +37604,7 @@ func (v *SendRoutingInfoForGprsRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendRoutingInfoForGprsRes3 from BER/DER format.
 func (v *SendRoutingInfoForGprsRes3) UnmarshalBER(data []byte) error {
+	*v = SendRoutingInfoForGprsRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendRoutingInfoForGprsRes3 SEQUENCE: %w", err)
@@ -37706,6 +37813,7 @@ func (v *FailureReportArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes FailureReportArg3 from BER/DER format.
 func (v *FailureReportArg3) UnmarshalBER(data []byte) error {
+	*v = FailureReportArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding FailureReportArg3 SEQUENCE: %w", err)
@@ -37882,6 +37990,7 @@ func (v *FailureReportRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes FailureReportRes3 from BER/DER format.
 func (v *FailureReportRes3) UnmarshalBER(data []byte) error {
+	*v = FailureReportRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding FailureReportRes3 SEQUENCE: %w", err)
@@ -38050,6 +38159,7 @@ func (v *NoteMsPresentForGprsArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoteMsPresentForGprsArg3 from BER/DER format.
 func (v *NoteMsPresentForGprsArg3) UnmarshalBER(data []byte) error {
+	*v = NoteMsPresentForGprsArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoteMsPresentForGprsArg3 SEQUENCE: %w", err)
@@ -38208,6 +38318,7 @@ func (v *NoteMsPresentForGprsRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoteMsPresentForGprsRes3 from BER/DER format.
 func (v *NoteMsPresentForGprsRes3) UnmarshalBER(data []byte) error {
+	*v = NoteMsPresentForGprsRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoteMsPresentForGprsRes3 SEQUENCE: %w", err)
@@ -38336,6 +38447,7 @@ func (v *ResetArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ResetArg3 from BER/DER format.
 func (v *ResetArg3) UnmarshalBER(data []byte) error {
+	*v = ResetArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ResetArg3 SEQUENCE: %w", err)
@@ -38461,6 +38573,7 @@ func (v *MSSendingNodeNumber) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSSendingNodeNumber from BER/DER format.
 func (v *MSSendingNodeNumber) UnmarshalBER(data []byte) error {
+	*v = MSSendingNodeNumber{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MSSendingNodeNumber CHOICE")
 	}
@@ -38602,6 +38715,7 @@ func (v *RestoreDataArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RestoreDataArg3 from BER/DER format.
 func (v *RestoreDataArg3) UnmarshalBER(data []byte) error {
+	*v = RestoreDataArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RestoreDataArg3 SEQUENCE: %w", err)
@@ -38772,6 +38886,7 @@ func (v *RestoreDataRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RestoreDataRes3 from BER/DER format.
 func (v *RestoreDataRes3) UnmarshalBER(data []byte) error {
+	*v = RestoreDataRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RestoreDataRes3 SEQUENCE: %w", err)
@@ -39047,6 +39162,7 @@ func (v *VoiceGroupCallData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes VoiceGroupCallData3 from BER/DER format.
 func (v *VoiceGroupCallData3) UnmarshalBER(data []byte) error {
+	*v = VoiceGroupCallData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding VoiceGroupCallData3 SEQUENCE: %w", err)
@@ -39111,7 +39227,7 @@ func (v *VoiceGroupCallData3) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalinfo.Class != tag.ClassContextSpecific || decodedTag_additionalinfo.Number != 0 {
 					return fmt.Errorf("decoding additionalInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalinfo)
 				}
-				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeBitStringValue(rawVal_additionalinfo)
+				bsBytes_additionalinfo, bsUnused_additionalinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_additionalinfo.Constructed, rawVal_additionalinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
@@ -39233,6 +39349,7 @@ func (v *VoiceBroadcastData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes VoiceBroadcastData3 from BER/DER format.
 func (v *VoiceBroadcastData3) UnmarshalBER(data []byte) error {
+	*v = VoiceBroadcastData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding VoiceBroadcastData3 SEQUENCE: %w", err)
@@ -39446,6 +39563,7 @@ func (v *ProvideSubscriberInfoArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProvideSubscriberInfoArg3 from BER/DER format.
 func (v *ProvideSubscriberInfoArg3) UnmarshalBER(data []byte) error {
+	*v = ProvideSubscriberInfoArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideSubscriberInfoArg3 SEQUENCE: %w", err)
@@ -39629,6 +39747,7 @@ func (v *ProvideSubscriberInfoRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProvideSubscriberInfoRes3 from BER/DER format.
 func (v *ProvideSubscriberInfoRes3) UnmarshalBER(data []byte) error {
+	*v = ProvideSubscriberInfoRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideSubscriberInfoRes3 SEQUENCE: %w", err)
@@ -40037,6 +40156,7 @@ func (v *SubscriberInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubscriberInfo3 from BER/DER format.
 func (v *SubscriberInfo3) UnmarshalBER(data []byte) error {
+	*v = SubscriberInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SubscriberInfo3 SEQUENCE: %w", err)
@@ -40247,7 +40367,7 @@ func (v *SubscriberInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_imsvoiceoverpssessionsindication.Class != tag.ClassContextSpecific || decodedTag_imsvoiceoverpssessionsindication.Number != 9 || decodedTag_imsvoiceoverpssessionsindication.Constructed != false {
 					return fmt.Errorf("decoding imsVoiceOverPS-SessionsIndication: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsvoiceoverpssessionsindication)
 				}
-				decVal_imsvoiceoverpssessionsindication, intErr := ber.DecodeIntegerValue(rawVal_imsvoiceoverpssessionsindication)
+				decVal_imsvoiceoverpssessionsindication, intErr := ber.DecodeEnumeratedValue(rawVal_imsvoiceoverpssessionsindication)
 				if intErr != nil {
 					return fmt.Errorf("decoding imsVoiceOverPS-SessionsIndication: %w", intErr)
 				}
@@ -40287,7 +40407,7 @@ func (v *SubscriberInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_lastrattype.Class != tag.ClassContextSpecific || decodedTag_lastrattype.Number != 11 || decodedTag_lastrattype.Constructed != false {
 					return fmt.Errorf("decoding lastRAT-Type: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lastrattype)
 				}
-				decVal_lastrattype, intErr := ber.DecodeIntegerValue(rawVal_lastrattype)
+				decVal_lastrattype, intErr := ber.DecodeEnumeratedValue(rawVal_lastrattype)
 				if intErr != nil {
 					return fmt.Errorf("decoding lastRAT-Type: %w", intErr)
 				}
@@ -40371,7 +40491,7 @@ func (v *SubscriberInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_daylightsavingtime.Class != tag.ClassContextSpecific || decodedTag_daylightsavingtime.Number != 15 || decodedTag_daylightsavingtime.Constructed != false {
 					return fmt.Errorf("decoding daylightSavingTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_daylightsavingtime)
 				}
-				decVal_daylightsavingtime, intErr := ber.DecodeIntegerValue(rawVal_daylightsavingtime)
+				decVal_daylightsavingtime, intErr := ber.DecodeEnumeratedValue(rawVal_daylightsavingtime)
 				if intErr != nil {
 					return fmt.Errorf("decoding daylightSavingTime: %w", intErr)
 				}
@@ -40527,6 +40647,7 @@ func (v *MNPInfoRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MNPInfoRes3 from BER/DER format.
 func (v *MNPInfoRes3) UnmarshalBER(data []byte) error {
+	*v = MNPInfoRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MNPInfoRes3 SEQUENCE: %w", err)
@@ -40601,7 +40722,7 @@ func (v *MNPInfoRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_numberportabilitystatus.Class != tag.ClassContextSpecific || decodedTag_numberportabilitystatus.Number != 3 || decodedTag_numberportabilitystatus.Constructed != false {
 					return fmt.Errorf("decoding numberPortabilityStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_numberportabilitystatus)
 				}
-				decVal_numberportabilitystatus, intErr := ber.DecodeIntegerValue(rawVal_numberportabilitystatus)
+				decVal_numberportabilitystatus, intErr := ber.DecodeEnumeratedValue(rawVal_numberportabilitystatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding numberPortabilityStatus: %w", intErr)
 				}
@@ -40699,6 +40820,7 @@ func (v *GPRSMSClass3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GPRSMSClass3 from BER/DER format.
 func (v *GPRSMSClass3) UnmarshalBER(data []byte) error {
+	*v = GPRSMSClass3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GPRSMSClass3 SEQUENCE: %w", err)
@@ -41023,6 +41145,7 @@ func (v *RequestedInfo4) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RequestedInfo4 from BER/DER format.
 func (v *RequestedInfo4) UnmarshalBER(data []byte) error {
+	*v = RequestedInfo4{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RequestedInfo4 SEQUENCE: %w", err)
@@ -41125,7 +41248,7 @@ func (v *RequestedInfo4) UnmarshalBER(data []byte) error {
 				if decodedTag_requesteddomain.Class != tag.ClassContextSpecific || decodedTag_requesteddomain.Number != 4 || decodedTag_requesteddomain.Constructed != false {
 					return fmt.Errorf("decoding requestedDomain: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requesteddomain)
 				}
-				decVal_requesteddomain, intErr := ber.DecodeIntegerValue(rawVal_requesteddomain)
+				decVal_requesteddomain, intErr := ber.DecodeEnumeratedValue(rawVal_requesteddomain)
 				if intErr != nil {
 					return fmt.Errorf("decoding requestedDomain: %w", intErr)
 				}
@@ -41247,7 +41370,7 @@ func (v *RequestedInfo4) UnmarshalBER(data []byte) error {
 				if decodedTag_requestednodes.Class != tag.ClassContextSpecific || decodedTag_requestednodes.Number != 9 {
 					return fmt.Errorf("decoding requestedNodes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestednodes)
 				}
-				bsBytes_requestednodes, bsUnused_requestednodes, bsErr := ber.DecodeBitStringValue(rawVal_requestednodes)
+				bsBytes_requestednodes, bsUnused_requestednodes, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_requestednodes.Constructed, rawVal_requestednodes)
 				if bsErr != nil {
 					return fmt.Errorf("decoding requestedNodes: %w", bsErr)
 				}
@@ -41587,6 +41710,7 @@ func (v *LocationInformation3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LocationInformation3 from BER/DER format.
 func (v *LocationInformation3) UnmarshalBER(data []byte) error {
+	*v = LocationInformation3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LocationInformation3 SEQUENCE: %w", err)
@@ -42046,6 +42170,7 @@ func (v *MSLocationInformationEPS) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSLocationInformationEPS from BER/DER format.
 func (v *MSLocationInformationEPS) UnmarshalBER(data []byte) error {
+	*v = MSLocationInformationEPS{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSLocationInformationEPS SEQUENCE: %w", err)
@@ -42466,6 +42591,7 @@ func (v *LocationInformationGPRS3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LocationInformationGPRS3 from BER/DER format.
 func (v *LocationInformationGPRS3) UnmarshalBER(data []byte) error {
+	*v = LocationInformationGPRS3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LocationInformationGPRS3 SEQUENCE: %w", err)
@@ -42816,6 +42942,7 @@ func (v *MSUserCSGInformation) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSUserCSGInformation from BER/DER format.
 func (v *MSUserCSGInformation) UnmarshalBER(data []byte) error {
+	*v = MSUserCSGInformation{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSUserCSGInformation SEQUENCE: %w", err)
@@ -42840,7 +42967,7 @@ func (v *MSUserCSGInformation) UnmarshalBER(data []byte) error {
 	if decodedTag_csgid.Class != tag.ClassContextSpecific || decodedTag_csgid.Number != 0 {
 		return fmt.Errorf("decoding csg-Id: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_csgid)
 	}
-	bsBytes_csgid, bsUnused_csgid, bsErr := ber.DecodeBitStringValue(rawVal_csgid)
+	bsBytes_csgid, bsUnused_csgid, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_csgid.Constructed, rawVal_csgid)
 	if bsErr != nil {
 		return fmt.Errorf("decoding csg-Id: %w", bsErr)
 	}
@@ -42972,6 +43099,7 @@ func (v *SubscriberState3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubscriberState3 from BER/DER format.
 func (v *SubscriberState3) UnmarshalBER(data []byte) error {
+	*v = SubscriberState3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SubscriberState3 CHOICE")
 	}
@@ -43011,7 +43139,7 @@ func (v *SubscriberState3) UnmarshalBER(data []byte) error {
 		v.CamelBusy = &struct{}{}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = SubscriberState3ChoiceNetDetNotReachable
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeEnumerated(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding netDetNotReachable: %w", intErr)
 		}
@@ -43145,6 +43273,7 @@ func (v *PSSubscriberState3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PSSubscriberState3 from BER/DER format.
 func (v *PSSubscriberState3) UnmarshalBER(data []byte) error {
+	*v = PSSubscriberState3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PSSubscriberState3 CHOICE")
 	}
@@ -43228,7 +43357,7 @@ func (v *PSSubscriberState3) UnmarshalBER(data []byte) error {
 		v.PsPDPActiveReachableForPaging = dec
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = PSSubscriberState3ChoiceNetDetNotReachable
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeEnumerated(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding netDetNotReachable: %w", intErr)
 		}
@@ -43850,6 +43979,7 @@ func (v *PDPContextInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PDPContextInfo3 from BER/DER format.
 func (v *PDPContextInfo3) UnmarshalBER(data []byte) error {
+	*v = PDPContextInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PDPContextInfo3 SEQUENCE: %w", err)
@@ -44514,6 +44644,7 @@ func (v *AnyTimeInterrogationArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimeInterrogationArg3 from BER/DER format.
 func (v *AnyTimeInterrogationArg3) UnmarshalBER(data []byte) error {
+	*v = AnyTimeInterrogationArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimeInterrogationArg3 SEQUENCE: %w", err)
@@ -44678,6 +44809,7 @@ func (v *AnyTimeInterrogationRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimeInterrogationRes3 from BER/DER format.
 func (v *AnyTimeInterrogationRes3) UnmarshalBER(data []byte) error {
+	*v = AnyTimeInterrogationRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimeInterrogationRes3 SEQUENCE: %w", err)
@@ -44856,6 +44988,7 @@ func (v *AnyTimeSubscriptionInterrogationArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimeSubscriptionInterrogationArg3 from BER/DER format.
 func (v *AnyTimeSubscriptionInterrogationArg3) UnmarshalBER(data []byte) error {
+	*v = AnyTimeSubscriptionInterrogationArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimeSubscriptionInterrogationArg3 SEQUENCE: %w", err)
@@ -45394,6 +45527,7 @@ func (v *AnyTimeSubscriptionInterrogationRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimeSubscriptionInterrogationRes3 from BER/DER format.
 func (v *AnyTimeSubscriptionInterrogationRes3) UnmarshalBER(data []byte) error {
+	*v = AnyTimeSubscriptionInterrogationRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimeSubscriptionInterrogationRes3 SEQUENCE: %w", err)
@@ -45502,7 +45636,7 @@ func (v *AnyTimeSubscriptionInterrogationRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedvlrcamelphases.Class != tag.ClassContextSpecific || decodedTag_supportedvlrcamelphases.Number != 5 {
 					return fmt.Errorf("decoding supportedVLR-CAMEL-Phases: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedvlrcamelphases)
 				}
-				bsBytes_supportedvlrcamelphases, bsUnused_supportedvlrcamelphases, bsErr := ber.DecodeBitStringValue(rawVal_supportedvlrcamelphases)
+				bsBytes_supportedvlrcamelphases, bsUnused_supportedvlrcamelphases, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedvlrcamelphases.Constructed, rawVal_supportedvlrcamelphases)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedVLR-CAMEL-Phases: %w", bsErr)
 				}
@@ -45524,7 +45658,7 @@ func (v *AnyTimeSubscriptionInterrogationRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedsgsncamelphases.Class != tag.ClassContextSpecific || decodedTag_supportedsgsncamelphases.Number != 6 {
 					return fmt.Errorf("decoding supportedSGSN-CAMEL-Phases: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedsgsncamelphases)
 				}
-				bsBytes_supportedsgsncamelphases, bsUnused_supportedsgsncamelphases, bsErr := ber.DecodeBitStringValue(rawVal_supportedsgsncamelphases)
+				bsBytes_supportedsgsncamelphases, bsUnused_supportedsgsncamelphases, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedsgsncamelphases.Constructed, rawVal_supportedsgsncamelphases)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedSGSN-CAMEL-Phases: %w", bsErr)
 				}
@@ -45568,7 +45702,7 @@ func (v *AnyTimeSubscriptionInterrogationRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csisinvlr.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csisinvlr.Number != 8 {
 					return fmt.Errorf("decoding offeredCamel4CSIsInVLR: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csisinvlr)
 				}
-				bsBytes_offeredcamel4csisinvlr, bsUnused_offeredcamel4csisinvlr, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csisinvlr)
+				bsBytes_offeredcamel4csisinvlr, bsUnused_offeredcamel4csisinvlr, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csisinvlr.Constructed, rawVal_offeredcamel4csisinvlr)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInVLR: %w", bsErr)
 				}
@@ -45590,7 +45724,7 @@ func (v *AnyTimeSubscriptionInterrogationRes3) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4csisinsgsn.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4csisinsgsn.Number != 9 {
 					return fmt.Errorf("decoding offeredCamel4CSIsInSGSN: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4csisinsgsn)
 				}
-				bsBytes_offeredcamel4csisinsgsn, bsUnused_offeredcamel4csisinsgsn, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4csisinsgsn)
+				bsBytes_offeredcamel4csisinsgsn, bsUnused_offeredcamel4csisinsgsn, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4csisinsgsn.Constructed, rawVal_offeredcamel4csisinsgsn)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInSGSN: %w", bsErr)
 				}
@@ -45865,6 +45999,7 @@ func (v *MSCallWaitingData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSCallWaitingData from BER/DER format.
 func (v *MSCallWaitingData) UnmarshalBER(data []byte) error {
+	*v = MSCallWaitingData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSCallWaitingData SEQUENCE: %w", err)
@@ -46055,6 +46190,7 @@ func (v *MSExtCwFeature) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSExtCwFeature from BER/DER format.
 func (v *MSExtCwFeature) UnmarshalBER(data []byte) error {
+	*v = MSExtCwFeature{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSExtCwFeature SEQUENCE: %w", err)
@@ -46198,6 +46334,7 @@ func (v *MSClipData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSClipData from BER/DER format.
 func (v *MSClipData) UnmarshalBER(data []byte) error {
+	*v = MSClipData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSClipData SEQUENCE: %w", err)
@@ -46240,7 +46377,7 @@ func (v *MSClipData) UnmarshalBER(data []byte) error {
 	if decodedTag_overridecategory.Class != tag.ClassContextSpecific || decodedTag_overridecategory.Number != 2 || decodedTag_overridecategory.Constructed != false {
 		return fmt.Errorf("decoding overrideCategory: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_overridecategory)
 	}
-	decVal_overridecategory, intErr := ber.DecodeIntegerValue(rawVal_overridecategory)
+	decVal_overridecategory, intErr := ber.DecodeEnumeratedValue(rawVal_overridecategory)
 	if intErr != nil {
 		return fmt.Errorf("decoding overrideCategory: %w", intErr)
 	}
@@ -46366,6 +46503,7 @@ func (v *MSClirData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSClirData from BER/DER format.
 func (v *MSClirData) UnmarshalBER(data []byte) error {
+	*v = MSClirData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSClirData SEQUENCE: %w", err)
@@ -46404,7 +46542,7 @@ func (v *MSClirData) UnmarshalBER(data []byte) error {
 				if decodedTag_clirestrictionoption.Class != tag.ClassContextSpecific || decodedTag_clirestrictionoption.Number != 2 || decodedTag_clirestrictionoption.Constructed != false {
 					return fmt.Errorf("decoding cliRestrictionOption: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_clirestrictionoption)
 				}
-				decVal_clirestrictionoption, intErr := ber.DecodeIntegerValue(rawVal_clirestrictionoption)
+				decVal_clirestrictionoption, intErr := ber.DecodeEnumeratedValue(rawVal_clirestrictionoption)
 				if intErr != nil {
 					return fmt.Errorf("decoding cliRestrictionOption: %w", intErr)
 				}
@@ -46516,6 +46654,7 @@ func (v *MSCallHoldData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSCallHoldData from BER/DER format.
 func (v *MSCallHoldData) UnmarshalBER(data []byte) error {
+	*v = MSCallHoldData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSCallHoldData SEQUENCE: %w", err)
@@ -46644,6 +46783,7 @@ func (v *MSEctData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSEctData from BER/DER format.
 func (v *MSEctData) UnmarshalBER(data []byte) error {
+	*v = MSEctData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSEctData SEQUENCE: %w", err)
@@ -47004,6 +47144,7 @@ func (v *RequestedSubscriptionInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RequestedSubscriptionInfo3 from BER/DER format.
 func (v *RequestedSubscriptionInfo3) UnmarshalBER(data []byte) error {
+	*v = RequestedSubscriptionInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RequestedSubscriptionInfo3 SEQUENCE: %w", err)
@@ -47066,7 +47207,7 @@ func (v *RequestedSubscriptionInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_requestedcamelsubscriptioninfo.Class != tag.ClassContextSpecific || decodedTag_requestedcamelsubscriptioninfo.Number != 3 || decodedTag_requestedcamelsubscriptioninfo.Constructed != false {
 					return fmt.Errorf("decoding requestedCAMEL-SubscriptionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestedcamelsubscriptioninfo)
 				}
-				decVal_requestedcamelsubscriptioninfo, intErr := ber.DecodeIntegerValue(rawVal_requestedcamelsubscriptioninfo)
+				decVal_requestedcamelsubscriptioninfo, intErr := ber.DecodeEnumeratedValue(rawVal_requestedcamelsubscriptioninfo)
 				if intErr != nil {
 					return fmt.Errorf("decoding requestedCAMEL-SubscriptionInfo: %w", intErr)
 				}
@@ -47150,7 +47291,7 @@ func (v *RequestedSubscriptionInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalrequestedcamelsubscriptioninfo.Class != tag.ClassContextSpecific || decodedTag_additionalrequestedcamelsubscriptioninfo.Number != 7 || decodedTag_additionalrequestedcamelsubscriptioninfo.Constructed != false {
 					return fmt.Errorf("decoding additionalRequestedCAMEL-SubscriptionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalrequestedcamelsubscriptioninfo)
 				}
-				decVal_additionalrequestedcamelsubscriptioninfo, intErr := ber.DecodeIntegerValue(rawVal_additionalrequestedcamelsubscriptioninfo)
+				decVal_additionalrequestedcamelsubscriptioninfo, intErr := ber.DecodeEnumeratedValue(rawVal_additionalrequestedcamelsubscriptioninfo)
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalRequestedCAMEL-SubscriptionInfo: %w", intErr)
 				}
@@ -47467,6 +47608,7 @@ func (v *MSISDNBS3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSISDNBS3 from BER/DER format.
 func (v *MSISDNBS3) UnmarshalBER(data []byte) error {
+	*v = MSISDNBS3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSISDNBS3 SEQUENCE: %w", err)
@@ -47628,6 +47770,7 @@ func (v *CallForwardingData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CallForwardingData3 from BER/DER format.
 func (v *CallForwardingData3) UnmarshalBER(data []byte) error {
+	*v = CallForwardingData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CallForwardingData3 SEQUENCE: %w", err)
@@ -47799,6 +47942,7 @@ func (v *CallBarringData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CallBarringData3 from BER/DER format.
 func (v *CallBarringData3) UnmarshalBER(data []byte) error {
+	*v = CallBarringData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CallBarringData3 SEQUENCE: %w", err)
@@ -47974,6 +48118,7 @@ func (v *ODBInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ODBInfo3 from BER/DER format.
 func (v *ODBInfo3) UnmarshalBER(data []byte) error {
+	*v = ODBInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ODBInfo3 SEQUENCE: %w", err)
@@ -48666,6 +48811,7 @@ func (v *CAMELSubscriptionInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CAMELSubscriptionInfo3 from BER/DER format.
 func (v *CAMELSubscriptionInfo3) UnmarshalBER(data []byte) error {
+	*v = CAMELSubscriptionInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CAMELSubscriptionInfo3 SEQUENCE: %w", err)
@@ -49011,7 +49157,7 @@ func (v *CAMELSubscriptionInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_specificcsideletedlist.Class != tag.ClassContextSpecific || decodedTag_specificcsideletedlist.Number != 14 {
 					return fmt.Errorf("decoding specificCSIDeletedList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_specificcsideletedlist)
 				}
-				bsBytes_specificcsideletedlist, bsUnused_specificcsideletedlist, bsErr := ber.DecodeBitStringValue(rawVal_specificcsideletedlist)
+				bsBytes_specificcsideletedlist, bsUnused_specificcsideletedlist, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_specificcsideletedlist.Constructed, rawVal_specificcsideletedlist)
 				if bsErr != nil {
 					return fmt.Errorf("decoding specificCSIDeletedList: %w", bsErr)
 				}
@@ -49618,6 +49764,7 @@ func (v *AnyTimeModificationArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimeModificationArg3 from BER/DER format.
 func (v *AnyTimeModificationArg3) UnmarshalBER(data []byte) error {
+	*v = AnyTimeModificationArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimeModificationArg3 SEQUENCE: %w", err)
@@ -49829,7 +49976,7 @@ func (v *AnyTimeModificationArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_activationrequestforuereachability.Class != tag.ClassContextSpecific || decodedTag_activationrequestforuereachability.Number != 9 {
 					return fmt.Errorf("decoding activationRequestForUE-reachability: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_activationrequestforuereachability)
 				}
-				bsBytes_activationrequestforuereachability, bsUnused_activationrequestforuereachability, bsErr := ber.DecodeBitStringValue(rawVal_activationrequestforuereachability)
+				bsBytes_activationrequestforuereachability, bsUnused_activationrequestforuereachability, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_activationrequestforuereachability.Constructed, rawVal_activationrequestforuereachability)
 				if bsErr != nil {
 					return fmt.Errorf("decoding activationRequestForUE-reachability: %w", bsErr)
 				}
@@ -50097,6 +50244,7 @@ func (v *MSModificationRequestForCWInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSModificationRequestForCWInfo from BER/DER format.
 func (v *MSModificationRequestForCWInfo) UnmarshalBER(data []byte) error {
+	*v = MSModificationRequestForCWInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSModificationRequestForCWInfo SEQUENCE: %w", err)
@@ -50157,7 +50305,7 @@ func (v *MSModificationRequestForCWInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 2 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -50299,6 +50447,7 @@ func (v *MSModificationRequestForCHInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSModificationRequestForCHInfo from BER/DER format.
 func (v *MSModificationRequestForCHInfo) UnmarshalBER(data []byte) error {
+	*v = MSModificationRequestForCHInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSModificationRequestForCHInfo SEQUENCE: %w", err)
@@ -50337,7 +50486,7 @@ func (v *MSModificationRequestForCHInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 1 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -50479,6 +50628,7 @@ func (v *MSModificationRequestForECTInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSModificationRequestForECTInfo from BER/DER format.
 func (v *MSModificationRequestForECTInfo) UnmarshalBER(data []byte) error {
+	*v = MSModificationRequestForECTInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSModificationRequestForECTInfo SEQUENCE: %w", err)
@@ -50517,7 +50667,7 @@ func (v *MSModificationRequestForECTInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 1 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -50677,6 +50827,7 @@ func (v *MSModificationRequestForCLIRInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSModificationRequestForCLIRInfo from BER/DER format.
 func (v *MSModificationRequestForCLIRInfo) UnmarshalBER(data []byte) error {
+	*v = MSModificationRequestForCLIRInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSModificationRequestForCLIRInfo SEQUENCE: %w", err)
@@ -50715,7 +50866,7 @@ func (v *MSModificationRequestForCLIRInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_clirestrictionoption.Class != tag.ClassContextSpecific || decodedTag_clirestrictionoption.Number != 1 || decodedTag_clirestrictionoption.Constructed != false {
 					return fmt.Errorf("decoding cliRestrictionOption: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_clirestrictionoption)
 				}
-				decVal_clirestrictionoption, intErr := ber.DecodeIntegerValue(rawVal_clirestrictionoption)
+				decVal_clirestrictionoption, intErr := ber.DecodeEnumeratedValue(rawVal_clirestrictionoption)
 				if intErr != nil {
 					return fmt.Errorf("decoding cliRestrictionOption: %w", intErr)
 				}
@@ -50737,7 +50888,7 @@ func (v *MSModificationRequestForCLIRInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 2 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -50897,6 +51048,7 @@ func (v *MSModificationRequestForCLIPInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSModificationRequestForCLIPInfo from BER/DER format.
 func (v *MSModificationRequestForCLIPInfo) UnmarshalBER(data []byte) error {
+	*v = MSModificationRequestForCLIPInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSModificationRequestForCLIPInfo SEQUENCE: %w", err)
@@ -50935,7 +51087,7 @@ func (v *MSModificationRequestForCLIPInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_overridecategory.Class != tag.ClassContextSpecific || decodedTag_overridecategory.Number != 1 || decodedTag_overridecategory.Constructed != false {
 					return fmt.Errorf("decoding overrideCategory: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_overridecategory)
 				}
-				decVal_overridecategory, intErr := ber.DecodeIntegerValue(rawVal_overridecategory)
+				decVal_overridecategory, intErr := ber.DecodeEnumeratedValue(rawVal_overridecategory)
 				if intErr != nil {
 					return fmt.Errorf("decoding overrideCategory: %w", intErr)
 				}
@@ -50957,7 +51109,7 @@ func (v *MSModificationRequestForCLIPInfo) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 2 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -51081,6 +51233,7 @@ func (v *MSModificationRequestForCSG) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSModificationRequestForCSG from BER/DER format.
 func (v *MSModificationRequestForCSG) UnmarshalBER(data []byte) error {
+	*v = MSModificationRequestForCSG{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSModificationRequestForCSG SEQUENCE: %w", err)
@@ -51101,7 +51254,7 @@ func (v *MSModificationRequestForCSG) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 0 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -51409,6 +51562,7 @@ func (v *AnyTimeModificationRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimeModificationRes3 from BER/DER format.
 func (v *AnyTimeModificationRes3) UnmarshalBER(data []byte) error {
+	*v = AnyTimeModificationRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimeModificationRes3 SEQUENCE: %w", err)
@@ -51827,6 +51981,7 @@ func (v *ModificationRequestForCFInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ModificationRequestForCFInfo3 from BER/DER format.
 func (v *ModificationRequestForCFInfo3) UnmarshalBER(data []byte) error {
+	*v = ModificationRequestForCFInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ModificationRequestForCFInfo3 SEQUENCE: %w", err)
@@ -51963,7 +52118,7 @@ func (v *ModificationRequestForCFInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 6 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -52177,6 +52332,7 @@ func (v *ModificationRequestForCBInfo3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ModificationRequestForCBInfo3 from BER/DER format.
 func (v *ModificationRequestForCBInfo3) UnmarshalBER(data []byte) error {
+	*v = ModificationRequestForCBInfo3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ModificationRequestForCBInfo3 SEQUENCE: %w", err)
@@ -52298,7 +52454,7 @@ func (v *ModificationRequestForCBInfo3) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 5 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -52446,6 +52602,7 @@ func (v *ModificationRequestForODBData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ModificationRequestForODBData3 from BER/DER format.
 func (v *ModificationRequestForODBData3) UnmarshalBER(data []byte) error {
+	*v = ModificationRequestForODBData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ModificationRequestForODBData3 SEQUENCE: %w", err)
@@ -52488,7 +52645,7 @@ func (v *ModificationRequestForODBData3) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 1 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -52662,6 +52819,7 @@ func (v *ModificationRequestForCSI3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ModificationRequestForCSI3 from BER/DER format.
 func (v *ModificationRequestForCSI3) UnmarshalBER(data []byte) error {
+	*v = ModificationRequestForCSI3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ModificationRequestForCSI3 SEQUENCE: %w", err)
@@ -52686,7 +52844,7 @@ func (v *ModificationRequestForCSI3) UnmarshalBER(data []byte) error {
 	if decodedTag_requestedcamelsubscriptioninfo.Class != tag.ClassContextSpecific || decodedTag_requestedcamelsubscriptioninfo.Number != 0 || decodedTag_requestedcamelsubscriptioninfo.Constructed != false {
 		return fmt.Errorf("decoding requestedCamel-SubscriptionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_requestedcamelsubscriptioninfo)
 	}
-	decVal_requestedcamelsubscriptioninfo, intErr := ber.DecodeIntegerValue(rawVal_requestedcamelsubscriptioninfo)
+	decVal_requestedcamelsubscriptioninfo, intErr := ber.DecodeEnumeratedValue(rawVal_requestedcamelsubscriptioninfo)
 	if intErr != nil {
 		return fmt.Errorf("decoding requestedCamel-SubscriptionInfo: %w", intErr)
 	}
@@ -52704,7 +52862,7 @@ func (v *ModificationRequestForCSI3) UnmarshalBER(data []byte) error {
 				if decodedTag_modifynotificationtocse.Class != tag.ClassContextSpecific || decodedTag_modifynotificationtocse.Number != 1 || decodedTag_modifynotificationtocse.Constructed != false {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifynotificationtocse)
 				}
-				decVal_modifynotificationtocse, intErr := ber.DecodeIntegerValue(rawVal_modifynotificationtocse)
+				decVal_modifynotificationtocse, intErr := ber.DecodeEnumeratedValue(rawVal_modifynotificationtocse)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyNotificationToCSE: %w", intErr)
 				}
@@ -52726,7 +52884,7 @@ func (v *ModificationRequestForCSI3) UnmarshalBER(data []byte) error {
 				if decodedTag_modifycsistate.Class != tag.ClassContextSpecific || decodedTag_modifycsistate.Number != 2 || decodedTag_modifycsistate.Constructed != false {
 					return fmt.Errorf("decoding modifyCSI-State: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifycsistate)
 				}
-				decVal_modifycsistate, intErr := ber.DecodeIntegerValue(rawVal_modifycsistate)
+				decVal_modifycsistate, intErr := ber.DecodeEnumeratedValue(rawVal_modifycsistate)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyCSI-State: %w", intErr)
 				}
@@ -52770,7 +52928,7 @@ func (v *ModificationRequestForCSI3) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalrequestedcamelsubscriptioninfo.Class != tag.ClassContextSpecific || decodedTag_additionalrequestedcamelsubscriptioninfo.Number != 4 || decodedTag_additionalrequestedcamelsubscriptioninfo.Constructed != false {
 					return fmt.Errorf("decoding additionalRequestedCAMEL-SubscriptionInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalrequestedcamelsubscriptioninfo)
 				}
-				decVal_additionalrequestedcamelsubscriptioninfo, intErr := ber.DecodeIntegerValue(rawVal_additionalrequestedcamelsubscriptioninfo)
+				decVal_additionalrequestedcamelsubscriptioninfo, intErr := ber.DecodeEnumeratedValue(rawVal_additionalrequestedcamelsubscriptioninfo)
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalRequestedCAMEL-SubscriptionInfo: %w", intErr)
 				}
@@ -52896,6 +53054,7 @@ func (v *ModificationRequestForIPSMGWData3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ModificationRequestForIPSMGWData3 from BER/DER format.
 func (v *ModificationRequestForIPSMGWData3) UnmarshalBER(data []byte) error {
+	*v = ModificationRequestForIPSMGWData3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ModificationRequestForIPSMGWData3 SEQUENCE: %w", err)
@@ -52916,7 +53075,7 @@ func (v *ModificationRequestForIPSMGWData3) UnmarshalBER(data []byte) error {
 				if decodedTag_modifyregistrationstatus.Class != tag.ClassContextSpecific || decodedTag_modifyregistrationstatus.Number != 0 || decodedTag_modifyregistrationstatus.Constructed != false {
 					return fmt.Errorf("decoding modifyRegistrationStatus: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_modifyregistrationstatus)
 				}
-				decVal_modifyregistrationstatus, intErr := ber.DecodeIntegerValue(rawVal_modifyregistrationstatus)
+				decVal_modifyregistrationstatus, intErr := ber.DecodeEnumeratedValue(rawVal_modifyregistrationstatus)
 				if intErr != nil {
 					return fmt.Errorf("decoding modifyRegistrationStatus: %w", intErr)
 				}
@@ -53327,6 +53486,7 @@ func (v *NoteSubscriberDataModifiedArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoteSubscriberDataModifiedArg3 from BER/DER format.
 func (v *NoteSubscriberDataModifiedArg3) UnmarshalBER(data []byte) error {
+	*v = NoteSubscriberDataModifiedArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoteSubscriberDataModifiedArg3 SEQUENCE: %w", err)
@@ -53494,7 +53654,7 @@ func (v *NoteSubscriberDataModifiedArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_uereachable.Class != tag.ClassContextSpecific || decodedTag_uereachable.Number != 5 {
 					return fmt.Errorf("decoding ue-reachable: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uereachable)
 				}
-				bsBytes_uereachable, bsUnused_uereachable, bsErr := ber.DecodeBitStringValue(rawVal_uereachable)
+				bsBytes_uereachable, bsUnused_uereachable, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_uereachable.Constructed, rawVal_uereachable)
 				if bsErr != nil {
 					return fmt.Errorf("decoding ue-reachable: %w", bsErr)
 				}
@@ -53707,6 +53867,7 @@ func (v *NoteSubscriberDataModifiedRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoteSubscriberDataModifiedRes3 from BER/DER format.
 func (v *NoteSubscriberDataModifiedRes3) UnmarshalBER(data []byte) error {
+	*v = NoteSubscriberDataModifiedRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoteSubscriberDataModifiedRes3 SEQUENCE: %w", err)
@@ -53938,6 +54099,7 @@ func (v *NoteMMEventArg3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoteMMEventArg3 from BER/DER format.
 func (v *NoteMMEventArg3) UnmarshalBER(data []byte) error {
+	*v = NoteMMEventArg3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoteMMEventArg3 SEQUENCE: %w", err)
@@ -54044,7 +54206,7 @@ func (v *NoteMMEventArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_supportedcamelphases.Class != tag.ClassContextSpecific || decodedTag_supportedcamelphases.Number != 5 {
 					return fmt.Errorf("decoding supportedCAMELPhases: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedcamelphases)
 				}
-				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeBitStringValue(rawVal_supportedcamelphases)
+				bsBytes_supportedcamelphases, bsUnused_supportedcamelphases, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedcamelphases.Constructed, rawVal_supportedcamelphases)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCAMELPhases: %w", bsErr)
 				}
@@ -54110,7 +54272,7 @@ func (v *NoteMMEventArg3) UnmarshalBER(data []byte) error {
 				if decodedTag_offeredcamel4functionalities.Class != tag.ClassContextSpecific || decodedTag_offeredcamel4functionalities.Number != 8 {
 					return fmt.Errorf("decoding offeredCamel4Functionalities: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_offeredcamel4functionalities)
 				}
-				bsBytes_offeredcamel4functionalities, bsUnused_offeredcamel4functionalities, bsErr := ber.DecodeBitStringValue(rawVal_offeredcamel4functionalities)
+				bsBytes_offeredcamel4functionalities, bsUnused_offeredcamel4functionalities, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_offeredcamel4functionalities.Constructed, rawVal_offeredcamel4functionalities)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4Functionalities: %w", bsErr)
 				}
@@ -54184,6 +54346,7 @@ func (v *NoteMMEventRes3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoteMMEventRes3 from BER/DER format.
 func (v *NoteMMEventRes3) UnmarshalBER(data []byte) error {
+	*v = NoteMMEventRes3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoteMMEventRes3 SEQUENCE: %w", err)
@@ -54313,6 +54476,7 @@ func (v *ExtSSInfoForCSE3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtSSInfoForCSE3 from BER/DER format.
 func (v *ExtSSInfoForCSE3) UnmarshalBER(data []byte) error {
+	*v = ExtSSInfoForCSE3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ExtSSInfoForCSE3 CHOICE")
 	}
@@ -54479,6 +54643,7 @@ func (v *ExtForwardingInfoForCSE3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtForwardingInfoForCSE3 from BER/DER format.
 func (v *ExtForwardingInfoForCSE3) UnmarshalBER(data []byte) error {
+	*v = ExtForwardingInfoForCSE3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtForwardingInfoForCSE3 SEQUENCE: %w", err)
@@ -54754,6 +54919,7 @@ func (v *ExtCallBarringInfoForCSE3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtCallBarringInfoForCSE3 from BER/DER format.
 func (v *ExtCallBarringInfoForCSE3) UnmarshalBER(data []byte) error {
+	*v = ExtCallBarringInfoForCSE3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtCallBarringInfoForCSE3 SEQUENCE: %w", err)
@@ -55017,6 +55183,7 @@ func (v *MSUpdateVcsgLocationArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSUpdateVcsgLocationArg from BER/DER format.
 func (v *MSUpdateVcsgLocationArg) UnmarshalBER(data []byte) error {
+	*v = MSUpdateVcsgLocationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSUpdateVcsgLocationArg SEQUENCE: %w", err)
@@ -55180,6 +55347,7 @@ func (v *MSUpdateVcsgLocationRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSUpdateVcsgLocationRes from BER/DER format.
 func (v *MSUpdateVcsgLocationRes) UnmarshalBER(data []byte) error {
+	*v = MSUpdateVcsgLocationRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSUpdateVcsgLocationRes SEQUENCE: %w", err)
@@ -55295,6 +55463,7 @@ func (v *MSCancelVcsgLocationArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSCancelVcsgLocationArg from BER/DER format.
 func (v *MSCancelVcsgLocationArg) UnmarshalBER(data []byte) error {
+	*v = MSCancelVcsgLocationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSCancelVcsgLocationArg SEQUENCE: %w", err)
@@ -55399,6 +55568,7 @@ func (v *MSCancelVcsgLocationRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MSCancelVcsgLocationRes from BER/DER format.
 func (v *MSCancelVcsgLocationRes) UnmarshalBER(data []byte) error {
+	*v = MSCancelVcsgLocationRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MSCancelVcsgLocationRes SEQUENCE: %w", err)

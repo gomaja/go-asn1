@@ -19,10 +19,10 @@ var (
 
 const (
 
-	// SMMaxNumOfDispatchers is the integer constant for SMMaxNumOfDispatchers.
+	// SMMaxNumOfDispatchers is the integer constant for maxNumOfDispatchers.
 	SMMaxNumOfDispatchers int64 = 5
 
-	// SMMaxNumOfAdditionalDispatchers is the integer constant for SMMaxNumOfAdditionalDispatchers.
+	// SMMaxNumOfAdditionalDispatchers is the integer constant for maxNumOfAdditionalDispatchers.
 	SMMaxNumOfAdditionalDispatchers int64 = 15
 )
 
@@ -710,6 +710,7 @@ func (v *SMRoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMRoutingInfoForSMArg from BER/DER format.
 func (v *SMRoutingInfoForSMArg) UnmarshalBER(data []byte) error {
+	*v = SMRoutingInfoForSMArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMRoutingInfoForSMArg SEQUENCE: %w", err)
@@ -873,7 +874,7 @@ func (v *SMRoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 				if decodedTag_smdeliverynotintended.Class != tag.ClassContextSpecific || decodedTag_smdeliverynotintended.Number != 10 || decodedTag_smdeliverynotintended.Constructed != false {
 					return fmt.Errorf("decoding sm-deliveryNotIntended: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdeliverynotintended)
 				}
-				decVal_smdeliverynotintended, intErr := ber.DecodeIntegerValue(rawVal_smdeliverynotintended)
+				decVal_smdeliverynotintended, intErr := ber.DecodeEnumeratedValue(rawVal_smdeliverynotintended)
 				if intErr != nil {
 					return fmt.Errorf("decoding sm-deliveryNotIntended: %w", intErr)
 				}
@@ -1105,6 +1106,7 @@ func (v *SMRoutingInfoForSMRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMRoutingInfoForSMRes from BER/DER format.
 func (v *SMRoutingInfoForSMRes) UnmarshalBER(data []byte) error {
+	*v = SMRoutingInfoForSMRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMRoutingInfoForSMRes SEQUENCE: %w", err)
@@ -1260,6 +1262,7 @@ func (v *SMIPSMGWGuidance) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMIPSMGWGuidance from BER/DER format.
 func (v *SMIPSMGWGuidance) UnmarshalBER(data []byte) error {
+	*v = SMIPSMGWGuidance{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMIPSMGWGuidance SEQUENCE: %w", err)
@@ -1533,6 +1536,7 @@ func (v *SMLocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMLocationInfoWithLMSI from BER/DER format.
 func (v *SMLocationInfoWithLMSI) UnmarshalBER(data []byte) error {
+	*v = SMLocationInfoWithLMSI{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMLocationInfoWithLMSI SEQUENCE: %w", err)
@@ -1803,6 +1807,7 @@ func (v *SMAdditionalNumber) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMAdditionalNumber from BER/DER format.
 func (v *SMAdditionalNumber) UnmarshalBER(data []byte) error {
+	*v = SMAdditionalNumber{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SMAdditionalNumber CHOICE")
 	}
@@ -1964,6 +1969,7 @@ func (v *SMMOForwardSMArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMMOForwardSMArg from BER/DER format.
 func (v *SMMOForwardSMArg) UnmarshalBER(data []byte) error {
+	*v = SMMOForwardSMArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMMOForwardSMArg SEQUENCE: %w", err)
@@ -2076,7 +2082,7 @@ func (v *SMMOForwardSMArg) UnmarshalBER(data []byte) error {
 				if decodedTag_smdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_smdeliveryoutcome.Number != 1 || decodedTag_smdeliveryoutcome.Constructed != false {
 					return fmt.Errorf("decoding sm-DeliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smdeliveryoutcome)
 				}
-				decVal_smdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_smdeliveryoutcome)
+				decVal_smdeliveryoutcome, intErr := ber.DecodeEnumeratedValue(rawVal_smdeliveryoutcome)
 				if intErr != nil {
 					return fmt.Errorf("decoding sm-DeliveryOutcome: %w", intErr)
 				}
@@ -2158,6 +2164,7 @@ func (v *SMMOForwardSMRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMMOForwardSMRes from BER/DER format.
 func (v *SMMOForwardSMRes) UnmarshalBER(data []byte) error {
+	*v = SMMOForwardSMRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMMOForwardSMRes SEQUENCE: %w", err)
@@ -2354,6 +2361,7 @@ func (v *SMMTForwardSMArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMMTForwardSMArg from BER/DER format.
 func (v *SMMTForwardSMArg) UnmarshalBER(data []byte) error {
+	*v = SMMTForwardSMArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMMTForwardSMArg SEQUENCE: %w", err)
@@ -2587,6 +2595,7 @@ func (v *SMCorrelationID) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMCorrelationID from BER/DER format.
 func (v *SMCorrelationID) UnmarshalBER(data []byte) error {
+	*v = SMCorrelationID{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMCorrelationID SEQUENCE: %w", err)
@@ -2711,6 +2720,7 @@ func (v *SMMTForwardSMRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMMTForwardSMRes from BER/DER format.
 func (v *SMMTForwardSMRes) UnmarshalBER(data []byte) error {
+	*v = SMMTForwardSMRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMMTForwardSMRes SEQUENCE: %w", err)
@@ -2832,6 +2842,7 @@ func (v *SMSMRPDA) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMSMRPDA from BER/DER format.
 func (v *SMSMRPDA) UnmarshalBER(data []byte) error {
+	*v = SMSMRPDA{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SMSMRPDA CHOICE")
 	}
@@ -2941,6 +2952,7 @@ func (v *SMSMRPOA) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMSMRPOA from BER/DER format.
 func (v *SMSMRPOA) UnmarshalBER(data []byte) error {
+	*v = SMSMRPOA{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SMSMRPOA CHOICE")
 	}
@@ -3264,6 +3276,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMReportSMDeliveryStatusArg from BER/DER format.
 func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
+	*v = SMReportSMDeliveryStatusArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMReportSMDeliveryStatusArg SEQUENCE: %w", err)
@@ -3296,7 +3309,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sm-DeliveryOutcome")
 	}
-	val_smdeliveryoutcome, n, err := ber.DecodeInteger(content[offset:])
+	val_smdeliveryoutcome, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sm-DeliveryOutcome: %w", err)
 	}
@@ -3398,7 +3411,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalsmdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_additionalsmdeliveryoutcome.Number != 4 || decodedTag_additionalsmdeliveryoutcome.Constructed != false {
 					return fmt.Errorf("decoding additionalSM-DeliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalsmdeliveryoutcome)
 				}
-				decVal_additionalsmdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_additionalsmdeliveryoutcome)
+				decVal_additionalsmdeliveryoutcome, intErr := ber.DecodeEnumeratedValue(rawVal_additionalsmdeliveryoutcome)
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalSM-DeliveryOutcome: %w", intErr)
 				}
@@ -3462,7 +3475,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 				if decodedTag_ipsmgwsmdeliveryoutcome.Class != tag.ClassContextSpecific || decodedTag_ipsmgwsmdeliveryoutcome.Number != 7 || decodedTag_ipsmgwsmdeliveryoutcome.Constructed != false {
 					return fmt.Errorf("decoding ip-sm-gw-sm-deliveryOutcome: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipsmgwsmdeliveryoutcome)
 				}
-				decVal_ipsmgwsmdeliveryoutcome, intErr := ber.DecodeIntegerValue(rawVal_ipsmgwsmdeliveryoutcome)
+				decVal_ipsmgwsmdeliveryoutcome, intErr := ber.DecodeEnumeratedValue(rawVal_ipsmgwsmdeliveryoutcome)
 				if intErr != nil {
 					return fmt.Errorf("decoding ip-sm-gw-sm-deliveryOutcome: %w", intErr)
 				}
@@ -3626,6 +3639,7 @@ func (v *SMReportSMDeliveryStatusRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMReportSMDeliveryStatusRes from BER/DER format.
 func (v *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte) error {
+	*v = SMReportSMDeliveryStatusRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMReportSMDeliveryStatusRes SEQUENCE: %w", err)
@@ -3748,6 +3762,7 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMAlertServiceCentreArg from BER/DER format.
 func (v *SMAlertServiceCentreArg) UnmarshalBER(data []byte) error {
+	*v = SMAlertServiceCentreArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMAlertServiceCentreArg SEQUENCE: %w", err)
@@ -3916,6 +3931,7 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMInformServiceCentreArg from BER/DER format.
 func (v *SMInformServiceCentreArg) UnmarshalBER(data []byte) error {
+	*v = SMInformServiceCentreArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMInformServiceCentreArg SEQUENCE: %w", err)
@@ -4118,6 +4134,7 @@ func (v *SMReadyForSMArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMReadyForSMArg from BER/DER format.
 func (v *SMReadyForSMArg) UnmarshalBER(data []byte) error {
+	*v = SMReadyForSMArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMReadyForSMArg SEQUENCE: %w", err)
@@ -4148,7 +4165,7 @@ func (v *SMReadyForSMArg) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field alertReason")
 	}
-	val_alertreason, n, err := ber.DecodeInteger(content[offset:])
+	val_alertreason, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding alertReason: %w", err)
 	}
@@ -4271,6 +4288,7 @@ func (v *SMReadyForSMRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMReadyForSMRes from BER/DER format.
 func (v *SMReadyForSMRes) UnmarshalBER(data []byte) error {
+	*v = SMReadyForSMRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMReadyForSMRes SEQUENCE: %w", err)
@@ -4380,6 +4398,7 @@ func (v *SMMTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMMTForwardSMVGCSArg from BER/DER format.
 func (v *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte) error {
+	*v = SMMTForwardSMVGCSArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMMTForwardSMVGCSArg SEQUENCE: %w", err)
@@ -4606,6 +4625,7 @@ func (v *SMMTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMMTForwardSMVGCSRes from BER/DER format.
 func (v *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
+	*v = SMMTForwardSMVGCSRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMMTForwardSMVGCSRes SEQUENCE: %w", err)

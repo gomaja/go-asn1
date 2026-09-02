@@ -821,6 +821,7 @@ func (v *RoamingNotAllowedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RoamingNotAllowedParam3 from BER/DER format.
 func (v *RoamingNotAllowedParam3) UnmarshalBER(data []byte) error {
+	*v = RoamingNotAllowedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RoamingNotAllowedParam3 SEQUENCE: %w", err)
@@ -833,7 +834,7 @@ func (v *RoamingNotAllowedParam3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field roamingNotAllowedCause")
 	}
-	val_roamingnotallowedcause, n, err := ber.DecodeInteger(content[offset:])
+	val_roamingnotallowedcause, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding roamingNotAllowedCause: %w", err)
 	}
@@ -870,7 +871,7 @@ func (v *RoamingNotAllowedParam3) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalroamingnotallowedcause.Class != tag.ClassContextSpecific || decodedTag_additionalroamingnotallowedcause.Number != 0 || decodedTag_additionalroamingnotallowedcause.Constructed != false {
 					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalroamingnotallowedcause)
 				}
-				decVal_additionalroamingnotallowedcause, intErr := ber.DecodeIntegerValue(rawVal_additionalroamingnotallowedcause)
+				decVal_additionalroamingnotallowedcause, intErr := ber.DecodeEnumeratedValue(rawVal_additionalroamingnotallowedcause)
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalRoamingNotAllowedCause: %w", intErr)
 				}
@@ -947,6 +948,7 @@ func (v *CallBarredParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CallBarredParam3 from BER/DER format.
 func (v *CallBarredParam3) UnmarshalBER(data []byte) error {
+	*v = CallBarredParam3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CallBarredParam3 CHOICE")
 	}
@@ -966,7 +968,7 @@ func (v *CallBarredParam3) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = CallBarredParam3ChoiceCallBarringCause
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeEnumerated(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding callBarringCause: %w", intErr)
 		}
@@ -1077,6 +1079,7 @@ func (v *ExtensibleCallBarredParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensibleCallBarredParam3 from BER/DER format.
 func (v *ExtensibleCallBarredParam3) UnmarshalBER(data []byte) error {
+	*v = ExtensibleCallBarredParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensibleCallBarredParam3 SEQUENCE: %w", err)
@@ -1090,7 +1093,7 @@ func (v *ExtensibleCallBarredParam3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_callbarringcause, n, err := ber.DecodeInteger(content[offset:])
+				val_callbarringcause, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding callBarringCause: %w", err)
 				}
@@ -1231,6 +1234,7 @@ func (v *CUGRejectParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CUGRejectParam3 from BER/DER format.
 func (v *CUGRejectParam3) UnmarshalBER(data []byte) error {
+	*v = CUGRejectParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CUGRejectParam3 SEQUENCE: %w", err)
@@ -1244,7 +1248,7 @@ func (v *CUGRejectParam3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_cugrejectcause, n, err := ber.DecodeInteger(content[offset:])
+				val_cugrejectcause, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cug-RejectCause: %w", err)
 				}
@@ -1373,6 +1377,7 @@ func (v *SSIncompatibilityCause3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSIncompatibilityCause3 from BER/DER format.
 func (v *SSIncompatibilityCause3) UnmarshalBER(data []byte) error {
+	*v = SSIncompatibilityCause3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSIncompatibilityCause3 SEQUENCE: %w", err)
@@ -1512,6 +1517,7 @@ func (v *SMDeliveryFailureCause3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMDeliveryFailureCause3 from BER/DER format.
 func (v *SMDeliveryFailureCause3) UnmarshalBER(data []byte) error {
+	*v = SMDeliveryFailureCause3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMDeliveryFailureCause3 SEQUENCE: %w", err)
@@ -1524,7 +1530,7 @@ func (v *SMDeliveryFailureCause3) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field sm-EnumeratedDeliveryFailureCause")
 	}
-	val_smenumerateddeliveryfailurecause, n, err := ber.DecodeInteger(content[offset:])
+	val_smenumerateddeliveryfailurecause, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sm-EnumeratedDeliveryFailureCause: %w", err)
 	}
@@ -1672,6 +1678,7 @@ func (v *AbsentSubscriberSMParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AbsentSubscriberSMParam3 from BER/DER format.
 func (v *AbsentSubscriberSMParam3) UnmarshalBER(data []byte) error {
+	*v = AbsentSubscriberSMParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AbsentSubscriberSMParam3 SEQUENCE: %w", err)
@@ -1821,6 +1828,7 @@ func (v *SystemFailureParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SystemFailureParam3 from BER/DER format.
 func (v *SystemFailureParam3) UnmarshalBER(data []byte) error {
+	*v = SystemFailureParam3{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SystemFailureParam3 CHOICE")
 	}
@@ -1840,7 +1848,7 @@ func (v *SystemFailureParam3) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = SystemFailureParam3ChoiceNetworkResource
-		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		decVal, _, intErr := ber.DecodeEnumerated(choiceData)
 		if intErr != nil {
 			return fmt.Errorf("decoding networkResource: %w", intErr)
 		}
@@ -1951,6 +1959,7 @@ func (v *ExtensibleSystemFailureParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensibleSystemFailureParam3 from BER/DER format.
 func (v *ExtensibleSystemFailureParam3) UnmarshalBER(data []byte) error {
+	*v = ExtensibleSystemFailureParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensibleSystemFailureParam3 SEQUENCE: %w", err)
@@ -1964,7 +1973,7 @@ func (v *ExtensibleSystemFailureParam3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_networkresource, n, err := ber.DecodeInteger(content[offset:])
+				val_networkresource, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding networkResource: %w", err)
 				}
@@ -2005,7 +2014,7 @@ func (v *ExtensibleSystemFailureParam3) UnmarshalBER(data []byte) error {
 				if decodedTag_additionalnetworkresource.Class != tag.ClassContextSpecific || decodedTag_additionalnetworkresource.Number != 0 || decodedTag_additionalnetworkresource.Constructed != false {
 					return fmt.Errorf("decoding additionalNetworkResource: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnetworkresource)
 				}
-				decVal_additionalnetworkresource, intErr := ber.DecodeIntegerValue(rawVal_additionalnetworkresource)
+				decVal_additionalnetworkresource, intErr := ber.DecodeEnumeratedValue(rawVal_additionalnetworkresource)
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalNetworkResource: %w", intErr)
 				}
@@ -2027,7 +2036,7 @@ func (v *ExtensibleSystemFailureParam3) UnmarshalBER(data []byte) error {
 				if decodedTag_failurecauseparam.Class != tag.ClassContextSpecific || decodedTag_failurecauseparam.Number != 1 || decodedTag_failurecauseparam.Constructed != false {
 					return fmt.Errorf("decoding failureCauseParam: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_failurecauseparam)
 				}
-				decVal_failurecauseparam, intErr := ber.DecodeIntegerValue(rawVal_failurecauseparam)
+				decVal_failurecauseparam, intErr := ber.DecodeEnumeratedValue(rawVal_failurecauseparam)
 				if intErr != nil {
 					return fmt.Errorf("decoding failureCauseParam: %w", intErr)
 				}
@@ -2101,6 +2110,7 @@ func (v *DataMissingParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DataMissingParam3 from BER/DER format.
 func (v *DataMissingParam3) UnmarshalBER(data []byte) error {
+	*v = DataMissingParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DataMissingParam3 SEQUENCE: %w", err)
@@ -2210,6 +2220,7 @@ func (v *UnexpectedDataParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UnexpectedDataParam3 from BER/DER format.
 func (v *UnexpectedDataParam3) UnmarshalBER(data []byte) error {
+	*v = UnexpectedDataParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UnexpectedDataParam3 SEQUENCE: %w", err)
@@ -2357,6 +2368,7 @@ func (v *FacilityNotSupParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes FacilityNotSupParam3 from BER/DER format.
 func (v *FacilityNotSupParam3) UnmarshalBER(data []byte) error {
+	*v = FacilityNotSupParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding FacilityNotSupParam3 SEQUENCE: %w", err)
@@ -2488,6 +2500,7 @@ func (v *ORNotAllowedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ORNotAllowedParam3 from BER/DER format.
 func (v *ORNotAllowedParam3) UnmarshalBER(data []byte) error {
+	*v = ORNotAllowedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ORNotAllowedParam3 SEQUENCE: %w", err)
@@ -2587,6 +2600,7 @@ func (v *UnknownSubscriberParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UnknownSubscriberParam3 from BER/DER format.
 func (v *UnknownSubscriberParam3) UnmarshalBER(data []byte) error {
+	*v = UnknownSubscriberParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UnknownSubscriberParam3 SEQUENCE: %w", err)
@@ -2619,7 +2633,7 @@ func (v *UnknownSubscriberParam3) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_unknownsubscriberdiagnostic, n, err := ber.DecodeInteger(content[offset:])
+				val_unknownsubscriberdiagnostic, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding unknownSubscriberDiagnostic: %w", err)
 				}
@@ -2693,6 +2707,7 @@ func (v *NumberChangedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NumberChangedParam3 from BER/DER format.
 func (v *NumberChangedParam3) UnmarshalBER(data []byte) error {
+	*v = NumberChangedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NumberChangedParam3 SEQUENCE: %w", err)
@@ -2784,6 +2799,7 @@ func (v *UnidentifiedSubParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UnidentifiedSubParam3 from BER/DER format.
 func (v *UnidentifiedSubParam3) UnmarshalBER(data []byte) error {
+	*v = UnidentifiedSubParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UnidentifiedSubParam3 SEQUENCE: %w", err)
@@ -2875,6 +2891,7 @@ func (v *IllegalSubscriberParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IllegalSubscriberParam3 from BER/DER format.
 func (v *IllegalSubscriberParam3) UnmarshalBER(data []byte) error {
+	*v = IllegalSubscriberParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IllegalSubscriberParam3 SEQUENCE: %w", err)
@@ -2966,6 +2983,7 @@ func (v *IllegalEquipmentParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IllegalEquipmentParam3 from BER/DER format.
 func (v *IllegalEquipmentParam3) UnmarshalBER(data []byte) error {
+	*v = IllegalEquipmentParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IllegalEquipmentParam3 SEQUENCE: %w", err)
@@ -3057,6 +3075,7 @@ func (v *BearerServNotProvParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BearerServNotProvParam3 from BER/DER format.
 func (v *BearerServNotProvParam3) UnmarshalBER(data []byte) error {
+	*v = BearerServNotProvParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BearerServNotProvParam3 SEQUENCE: %w", err)
@@ -3148,6 +3167,7 @@ func (v *TeleservNotProvParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TeleservNotProvParam3 from BER/DER format.
 func (v *TeleservNotProvParam3) UnmarshalBER(data []byte) error {
+	*v = TeleservNotProvParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TeleservNotProvParam3 SEQUENCE: %w", err)
@@ -3239,6 +3259,7 @@ func (v *TracingBufferFullParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TracingBufferFullParam3 from BER/DER format.
 func (v *TracingBufferFullParam3) UnmarshalBER(data []byte) error {
+	*v = TracingBufferFullParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TracingBufferFullParam3 SEQUENCE: %w", err)
@@ -3330,6 +3351,7 @@ func (v *NoRoamingNbParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoRoamingNbParam3 from BER/DER format.
 func (v *NoRoamingNbParam3) UnmarshalBER(data []byte) error {
+	*v = NoRoamingNbParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoRoamingNbParam3 SEQUENCE: %w", err)
@@ -3439,6 +3461,7 @@ func (v *AbsentSubscriberParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AbsentSubscriberParam3 from BER/DER format.
 func (v *AbsentSubscriberParam3) UnmarshalBER(data []byte) error {
+	*v = AbsentSubscriberParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AbsentSubscriberParam3 SEQUENCE: %w", err)
@@ -3478,7 +3501,7 @@ func (v *AbsentSubscriberParam3) UnmarshalBER(data []byte) error {
 				if decodedTag_absentsubscriberreason.Class != tag.ClassContextSpecific || decodedTag_absentsubscriberreason.Number != 0 || decodedTag_absentsubscriberreason.Constructed != false {
 					return fmt.Errorf("decoding absentSubscriberReason: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absentsubscriberreason)
 				}
-				decVal_absentsubscriberreason, intErr := ber.DecodeIntegerValue(rawVal_absentsubscriberreason)
+				decVal_absentsubscriberreason, intErr := ber.DecodeEnumeratedValue(rawVal_absentsubscriberreason)
 				if intErr != nil {
 					return fmt.Errorf("decoding absentSubscriberReason: %w", intErr)
 				}
@@ -3588,6 +3611,7 @@ func (v *BusySubscriberParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BusySubscriberParam3 from BER/DER format.
 func (v *BusySubscriberParam3) UnmarshalBER(data []byte) error {
+	*v = BusySubscriberParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BusySubscriberParam3 SEQUENCE: %w", err)
@@ -3719,6 +3743,7 @@ func (v *NoSubscriberReplyParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoSubscriberReplyParam3 from BER/DER format.
 func (v *NoSubscriberReplyParam3) UnmarshalBER(data []byte) error {
+	*v = NoSubscriberReplyParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoSubscriberReplyParam3 SEQUENCE: %w", err)
@@ -3810,6 +3835,7 @@ func (v *ForwardingViolationParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardingViolationParam3 from BER/DER format.
 func (v *ForwardingViolationParam3) UnmarshalBER(data []byte) error {
+	*v = ForwardingViolationParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardingViolationParam3 SEQUENCE: %w", err)
@@ -3901,6 +3927,7 @@ func (v *ForwardingFailedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardingFailedParam3 from BER/DER format.
 func (v *ForwardingFailedParam3) UnmarshalBER(data []byte) error {
+	*v = ForwardingFailedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardingFailedParam3 SEQUENCE: %w", err)
@@ -3992,6 +4019,7 @@ func (v *ATINotAllowedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ATINotAllowedParam3 from BER/DER format.
 func (v *ATINotAllowedParam3) UnmarshalBER(data []byte) error {
+	*v = ATINotAllowedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ATINotAllowedParam3 SEQUENCE: %w", err)
@@ -4083,6 +4111,7 @@ func (v *ATSINotAllowedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ATSINotAllowedParam3 from BER/DER format.
 func (v *ATSINotAllowedParam3) UnmarshalBER(data []byte) error {
+	*v = ATSINotAllowedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ATSINotAllowedParam3 SEQUENCE: %w", err)
@@ -4174,6 +4203,7 @@ func (v *ATMNotAllowedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ATMNotAllowedParam3 from BER/DER format.
 func (v *ATMNotAllowedParam3) UnmarshalBER(data []byte) error {
+	*v = ATMNotAllowedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ATMNotAllowedParam3 SEQUENCE: %w", err)
@@ -4265,6 +4295,7 @@ func (v *IllegalSSOperationParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IllegalSSOperationParam3 from BER/DER format.
 func (v *IllegalSSOperationParam3) UnmarshalBER(data []byte) error {
+	*v = IllegalSSOperationParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IllegalSSOperationParam3 SEQUENCE: %w", err)
@@ -4356,6 +4387,7 @@ func (v *SSNotAvailableParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSNotAvailableParam3 from BER/DER format.
 func (v *SSNotAvailableParam3) UnmarshalBER(data []byte) error {
+	*v = SSNotAvailableParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSNotAvailableParam3 SEQUENCE: %w", err)
@@ -4447,6 +4479,7 @@ func (v *SSSubscriptionViolationParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSSubscriptionViolationParam3 from BER/DER format.
 func (v *SSSubscriptionViolationParam3) UnmarshalBER(data []byte) error {
+	*v = SSSubscriptionViolationParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSSubscriptionViolationParam3 SEQUENCE: %w", err)
@@ -4538,6 +4571,7 @@ func (v *InformationNotAvailableParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes InformationNotAvailableParam3 from BER/DER format.
 func (v *InformationNotAvailableParam3) UnmarshalBER(data []byte) error {
+	*v = InformationNotAvailableParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding InformationNotAvailableParam3 SEQUENCE: %w", err)
@@ -4637,6 +4671,7 @@ func (v *SubBusyForMTSMSParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubBusyForMTSMSParam3 from BER/DER format.
 func (v *SubBusyForMTSMSParam3) UnmarshalBER(data []byte) error {
+	*v = SubBusyForMTSMSParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SubBusyForMTSMSParam3 SEQUENCE: %w", err)
@@ -4742,6 +4777,7 @@ func (v *MessageWaitListFullParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MessageWaitListFullParam3 from BER/DER format.
 func (v *MessageWaitListFullParam3) UnmarshalBER(data []byte) error {
+	*v = MessageWaitListFullParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MessageWaitListFullParam3 SEQUENCE: %w", err)
@@ -4833,6 +4869,7 @@ func (v *ResourceLimitationParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ResourceLimitationParam3 from BER/DER format.
 func (v *ResourceLimitationParam3) UnmarshalBER(data []byte) error {
+	*v = ResourceLimitationParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ResourceLimitationParam3 SEQUENCE: %w", err)
@@ -4924,6 +4961,7 @@ func (v *NoGroupCallNbParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoGroupCallNbParam3 from BER/DER format.
 func (v *NoGroupCallNbParam3) UnmarshalBER(data []byte) error {
+	*v = NoGroupCallNbParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoGroupCallNbParam3 SEQUENCE: %w", err)
@@ -5015,6 +5053,7 @@ func (v *IncompatibleTerminalParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IncompatibleTerminalParam3 from BER/DER format.
 func (v *IncompatibleTerminalParam3) UnmarshalBER(data []byte) error {
+	*v = IncompatibleTerminalParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IncompatibleTerminalParam3 SEQUENCE: %w", err)
@@ -5092,6 +5131,7 @@ func (v *ShortTermDenialParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ShortTermDenialParam3 from BER/DER format.
 func (v *ShortTermDenialParam3) UnmarshalBER(data []byte) error {
+	*v = ShortTermDenialParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ShortTermDenialParam3 SEQUENCE: %w", err)
@@ -5150,6 +5190,7 @@ func (v *LongTermDenialParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LongTermDenialParam3 from BER/DER format.
 func (v *LongTermDenialParam3) UnmarshalBER(data []byte) error {
+	*v = LongTermDenialParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LongTermDenialParam3 SEQUENCE: %w", err)
@@ -5222,6 +5263,7 @@ func (v *UnauthorizedRequestingNetworkParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UnauthorizedRequestingNetworkParam3 from BER/DER format.
 func (v *UnauthorizedRequestingNetworkParam3) UnmarshalBER(data []byte) error {
+	*v = UnauthorizedRequestingNetworkParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UnauthorizedRequestingNetworkParam3 SEQUENCE: %w", err)
@@ -5341,6 +5383,7 @@ func (v *UnauthorizedLCSClientParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UnauthorizedLCSClientParam3 from BER/DER format.
 func (v *UnauthorizedLCSClientParam3) UnmarshalBER(data []byte) error {
+	*v = UnauthorizedLCSClientParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UnauthorizedLCSClientParam3 SEQUENCE: %w", err)
@@ -5361,7 +5404,7 @@ func (v *UnauthorizedLCSClientParam3) UnmarshalBER(data []byte) error {
 				if decodedTag_unauthorizedlcsclientdiagnostic.Class != tag.ClassContextSpecific || decodedTag_unauthorizedlcsclientdiagnostic.Number != 0 || decodedTag_unauthorizedlcsclientdiagnostic.Constructed != false {
 					return fmt.Errorf("decoding unauthorizedLCSClient-Diagnostic: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unauthorizedlcsclientdiagnostic)
 				}
-				decVal_unauthorizedlcsclientdiagnostic, intErr := ber.DecodeIntegerValue(rawVal_unauthorizedlcsclientdiagnostic)
+				decVal_unauthorizedlcsclientdiagnostic, intErr := ber.DecodeEnumeratedValue(rawVal_unauthorizedlcsclientdiagnostic)
 				if intErr != nil {
 					return fmt.Errorf("decoding unauthorizedLCSClient-Diagnostic: %w", intErr)
 				}
@@ -5485,6 +5528,7 @@ func (v *PositionMethodFailureParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PositionMethodFailureParam3 from BER/DER format.
 func (v *PositionMethodFailureParam3) UnmarshalBER(data []byte) error {
+	*v = PositionMethodFailureParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PositionMethodFailureParam3 SEQUENCE: %w", err)
@@ -5505,7 +5549,7 @@ func (v *PositionMethodFailureParam3) UnmarshalBER(data []byte) error {
 				if decodedTag_positionmethodfailurediagnostic.Class != tag.ClassContextSpecific || decodedTag_positionmethodfailurediagnostic.Number != 0 || decodedTag_positionmethodfailurediagnostic.Constructed != false {
 					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_positionmethodfailurediagnostic)
 				}
-				decVal_positionmethodfailurediagnostic, intErr := ber.DecodeIntegerValue(rawVal_positionmethodfailurediagnostic)
+				decVal_positionmethodfailurediagnostic, intErr := ber.DecodeEnumeratedValue(rawVal_positionmethodfailurediagnostic)
 				if intErr != nil {
 					return fmt.Errorf("decoding positionMethodFailure-Diagnostic: %w", intErr)
 				}
@@ -5601,6 +5645,7 @@ func (v *UnknownOrUnreachableLCSClientParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UnknownOrUnreachableLCSClientParam3 from BER/DER format.
 func (v *UnknownOrUnreachableLCSClientParam3) UnmarshalBER(data []byte) error {
+	*v = UnknownOrUnreachableLCSClientParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UnknownOrUnreachableLCSClientParam3 SEQUENCE: %w", err)
@@ -5692,6 +5737,7 @@ func (v *MMEventNotSupportedParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MMEventNotSupportedParam3 from BER/DER format.
 func (v *MMEventNotSupportedParam3) UnmarshalBER(data []byte) error {
+	*v = MMEventNotSupportedParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MMEventNotSupportedParam3 SEQUENCE: %w", err)
@@ -5783,6 +5829,7 @@ func (v *TargetCellOutsideGCAParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TargetCellOutsideGCAParam3 from BER/DER format.
 func (v *TargetCellOutsideGCAParam3) UnmarshalBER(data []byte) error {
+	*v = TargetCellOutsideGCAParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TargetCellOutsideGCAParam3 SEQUENCE: %w", err)
@@ -5874,6 +5921,7 @@ func (v *OngoingGroupCallParam3) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OngoingGroupCallParam3 from BER/DER format.
 func (v *OngoingGroupCallParam3) UnmarshalBER(data []byte) error {
+	*v = OngoingGroupCallParam3{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding OngoingGroupCallParam3 SEQUENCE: %w", err)

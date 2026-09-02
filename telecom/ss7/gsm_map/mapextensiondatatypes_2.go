@@ -19,7 +19,7 @@ var (
 
 const (
 
-	// ExtensionDataTypesMaxNumOfPrivateExtensions is the integer constant for ExtensionDataTypesMaxNumOfPrivateExtensions.
+	// ExtensionDataTypesMaxNumOfPrivateExtensions is the integer constant for maxNumOfPrivateExtensions.
 	ExtensionDataTypesMaxNumOfPrivateExtensions int64 = 10
 )
 
@@ -158,6 +158,7 @@ func (v *ExtensionDataTypesExtensionContainer) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionDataTypesExtensionContainer from BER/DER format.
 func (v *ExtensionDataTypesExtensionContainer) UnmarshalBER(data []byte) error {
+	*v = ExtensionDataTypesExtensionContainer{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionDataTypesExtensionContainer SEQUENCE: %w", err)
@@ -324,6 +325,7 @@ func (v *ExtensionDataTypesSLRArgExtensionContainer) MarshalDER() ([]byte, error
 
 // UnmarshalBER decodes ExtensionDataTypesSLRArgExtensionContainer from BER/DER format.
 func (v *ExtensionDataTypesSLRArgExtensionContainer) UnmarshalBER(data []byte) error {
+	*v = ExtensionDataTypesSLRArgExtensionContainer{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionDataTypesSLRArgExtensionContainer SEQUENCE: %w", err)
@@ -491,6 +493,7 @@ func (v *ExtensionDataTypesPrivateExtension) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionDataTypesPrivateExtension from BER/DER format.
 func (v *ExtensionDataTypesPrivateExtension) UnmarshalBER(data []byte) error {
+	*v = ExtensionDataTypesPrivateExtension{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionDataTypesPrivateExtension SEQUENCE: %w", err)
@@ -559,6 +562,7 @@ func (v *ExtensionDataTypesPCSExtensions) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionDataTypesPCSExtensions from BER/DER format.
 func (v *ExtensionDataTypesPCSExtensions) UnmarshalBER(data []byte) error {
+	*v = ExtensionDataTypesPCSExtensions{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionDataTypesPCSExtensions SEQUENCE: %w", err)
@@ -635,6 +639,7 @@ func (v *ExtensionDataTypesSLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionDataTypesSLRArgPCSExtensions from BER/DER format.
 func (v *ExtensionDataTypesSLRArgPCSExtensions) UnmarshalBER(data []byte) error {
+	*v = ExtensionDataTypesSLRArgPCSExtensions{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionDataTypesSLRArgPCSExtensions SEQUENCE: %w", err)

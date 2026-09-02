@@ -76,6 +76,7 @@ func (v *SBCCHSLBCHMessage) UnmarshalUPER(data []byte) error {
 }
 
 func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = SBCCHSLBCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding message: %w", err)
 	}
@@ -105,6 +106,7 @@ func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPER(data []byte) error {
 }
 
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = SBCCHSLBCHMessageV2XR14{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding message: %w", err)
 	}
@@ -149,6 +151,7 @@ func (v *MasterInformationBlockSL) UnmarshalUPER(data []byte) error {
 }
 
 func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = MasterInformationBlockSL{}
 	val_slbandwidthr12, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
 		return fmt.Errorf("decoding sl-Bandwidth-r12: %w", err)
@@ -218,6 +221,7 @@ func (v *MasterInformationBlockSLV2XR14) UnmarshalUPER(data []byte) error {
 }
 
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = MasterInformationBlockSLV2XR14{}
 	val_slbandwidthr14, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
 		return fmt.Errorf("decoding sl-Bandwidth-r14: %w", err)

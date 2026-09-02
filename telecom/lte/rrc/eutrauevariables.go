@@ -18,7 +18,7 @@ var (
 
 const (
 
-	// MaxLogMeasR10 is the integer constant for MaxLogMeasR10.
+	// MaxLogMeasR10 is the integer constant for maxLogMeas-r10.
 	MaxLogMeasR10 int64 = 4060
 )
 
@@ -419,13 +419,15 @@ func (v *VarConditionalReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.CondReconfigurationListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CondReconfigurationListR16)), 1, 8); err != nil {
-			return fmt.Errorf("encoding condReconfigurationList-r16 length: %w", err)
-		}
-		for _, elem := range v.CondReconfigurationListR16 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding condReconfigurationList-r16 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.CondReconfigurationListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_condreconfigurationlistr16, fragmentLength_condreconfigurationlistr16 int64) error {
+			for _, elem := range v.CondReconfigurationListR16[fragmentOffset_condreconfigurationlistr16 : fragmentOffset_condreconfigurationlistr16+fragmentLength_condreconfigurationlistr16] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding condReconfigurationList-r16 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding condReconfigurationList-r16: %w", err)
 		}
 	}
 	return nil
@@ -438,31 +440,26 @@ func (v *VarConditionalReconfiguration) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarConditionalReconfiguration) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarConditionalReconfiguration{}
 	// Read preamble bitmap for optional root fields
 	opt_condreconfigurationlistr16, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	if opt_condreconfigurationlistr16 {
-		var seqLen_condreconfigurationlistr16 int64
-		var errLength_condreconfigurationlistr16 error
-		seqLen_condreconfigurationlistr16, errLength_condreconfigurationlistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if errLength_condreconfigurationlistr16 != nil {
-			return fmt.Errorf("decoding condReconfigurationList-r16 length: %w", errLength_condreconfigurationlistr16)
-		}
-		if seqLen_condreconfigurationlistr16 < 1 {
-			return fmt.Errorf("decoding condReconfigurationList-r16 length %d below lower bound 1", seqLen_condreconfigurationlistr16)
-		}
-		if seqLen_condreconfigurationlistr16 > 8 {
-			return fmt.Errorf("decoding condReconfigurationList-r16 length %d above upper bound 8", seqLen_condreconfigurationlistr16)
-		}
 		tmp_condreconfigurationlistr16 := make(CondReconfigurationToAddModListR16, 0)
-		for i := int64(0); i < seqLen_condreconfigurationlistr16; i++ {
-			var elem CondReconfigurationAddModR16
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding condReconfigurationList-r16 element %d: %w", i, err)
+		_, errCollection_condreconfigurationlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_condreconfigurationlistr16, fragmentLength_condreconfigurationlistr16 int64) error {
+			for i := int64(0); i < fragmentLength_condreconfigurationlistr16; i++ {
+				var elem CondReconfigurationAddModR16
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding condReconfigurationList-r16 element %d: %w", fragmentOffset_condreconfigurationlistr16+i, err)
+				}
+				tmp_condreconfigurationlistr16 = append(tmp_condreconfigurationlistr16, elem)
 			}
-			tmp_condreconfigurationlistr16 = append(tmp_condreconfigurationlistr16, elem)
+			return nil
+		})
+		if errCollection_condreconfigurationlistr16 != nil {
+			return fmt.Errorf("decoding condReconfigurationList-r16: %w", errCollection_condreconfigurationlistr16)
 		}
 		v.CondReconfigurationListR16 = tmp_condreconfigurationlistr16
 	}
@@ -495,6 +492,7 @@ func (v *VarConnEstFailReportR11) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarConnEstFailReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarConnEstFailReportR11{}
 	if err := v.ConnEstFailReportR11.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding connEstFailReport-r11: %w", err)
 	}
@@ -539,6 +537,7 @@ func (v *VarLogMeasConfigR10) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarLogMeasConfigR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarLogMeasConfigR10{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -607,6 +606,7 @@ func (v *VarLogMeasConfigR11) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarLogMeasConfigR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarLogMeasConfigR11{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -680,13 +680,15 @@ func (v *VarLogMeasConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingInterval-r10: %w", err)
 	}
 	if v.TargetMBSFNAreaListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
-			return fmt.Errorf("encoding targetMBSFN-AreaList-r12 length: %w", err)
-		}
-		for _, elem := range v.TargetMBSFNAreaListR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.TargetMBSFNAreaListR12)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
+			for _, elem := range v.TargetMBSFNAreaListR12[fragmentOffset_targetmbsfnarealistr12 : fragmentOffset_targetmbsfnarealistr12+fragmentLength_targetmbsfnarealistr12] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding targetMBSFN-AreaList-r12: %w", err)
 		}
 	}
 	return nil
@@ -699,6 +701,7 @@ func (v *VarLogMeasConfigR12) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarLogMeasConfigR12{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -737,25 +740,19 @@ func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.LoggingIntervalR10 = LoggingIntervalR10(val_loggingintervalr10)
 	if opt_targetmbsfnarealistr12 {
-		var seqLen_targetmbsfnarealistr12 int64
-		var errLength_targetmbsfnarealistr12 error
-		seqLen_targetmbsfnarealistr12, errLength_targetmbsfnarealistr12 = per.DecodeConstrainedWholeNumber(bb, 0, 8)
-		if errLength_targetmbsfnarealistr12 != nil {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length: %w", errLength_targetmbsfnarealistr12)
-		}
-		if seqLen_targetmbsfnarealistr12 < 0 {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d below lower bound 0", seqLen_targetmbsfnarealistr12)
-		}
-		if seqLen_targetmbsfnarealistr12 > 8 {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d above upper bound 8", seqLen_targetmbsfnarealistr12)
-		}
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
-		for i := int64(0); i < seqLen_targetmbsfnarealistr12; i++ {
-			var elem TargetMBSFNAreaR12
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", i, err)
+		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
+			for i := int64(0); i < fragmentLength_targetmbsfnarealistr12; i++ {
+				var elem TargetMBSFNAreaR12
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", fragmentOffset_targetmbsfnarealistr12+i, err)
+				}
+				tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 			}
-			tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
+			return nil
+		})
+		if errCollection_targetmbsfnarealistr12 != nil {
+			return fmt.Errorf("decoding targetMBSFN-AreaList-r12: %w", errCollection_targetmbsfnarealistr12)
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
@@ -805,33 +802,39 @@ func (v *VarLogMeasConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingInterval-r10: %w", err)
 	}
 	if v.TargetMBSFNAreaListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
-			return fmt.Errorf("encoding targetMBSFN-AreaList-r12 length: %w", err)
-		}
-		for _, elem := range v.TargetMBSFNAreaListR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.TargetMBSFNAreaListR12)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
+			for _, elem := range v.TargetMBSFNAreaListR12[fragmentOffset_targetmbsfnarealistr12 : fragmentOffset_targetmbsfnarealistr12+fragmentLength_targetmbsfnarealistr12] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding targetMBSFN-AreaList-r12: %w", err)
 		}
 	}
 	if v.BtNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.BtNameListR15)), 1, 4); err != nil {
-			return fmt.Errorf("encoding bt-NameList-r15 length: %w", err)
-		}
-		for _, elem := range v.BtNameListR15 {
-			if err := per.EncodeOctetString(bb, []byte(elem), 1, 248, true); err != nil {
-				return fmt.Errorf("encoding bt-NameList-r15 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.BtNameListR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
+			for _, elem := range v.BtNameListR15[fragmentOffset_btnamelistr15 : fragmentOffset_btnamelistr15+fragmentLength_btnamelistr15] {
+				if err := per.EncodeOctetString(bb, []byte(elem), 1, 248, true); err != nil {
+					return fmt.Errorf("encoding bt-NameList-r15 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding bt-NameList-r15: %w", err)
 		}
 	}
 	if v.WlanNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.WlanNameListR15)), 1, 4); err != nil {
-			return fmt.Errorf("encoding wlan-NameList-r15 length: %w", err)
-		}
-		for _, elem := range v.WlanNameListR15 {
-			if err := per.EncodeOctetString(bb, []byte(elem), 1, 32, true); err != nil {
-				return fmt.Errorf("encoding wlan-NameList-r15 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.WlanNameListR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
+			for _, elem := range v.WlanNameListR15[fragmentOffset_wlannamelistr15 : fragmentOffset_wlannamelistr15+fragmentLength_wlannamelistr15] {
+				if err := per.EncodeOctetString(bb, []byte(elem), 1, 32, true); err != nil {
+					return fmt.Errorf("encoding wlan-NameList-r15 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding wlan-NameList-r15: %w", err)
 		}
 	}
 	return nil
@@ -844,6 +847,7 @@ func (v *VarLogMeasConfigR15) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarLogMeasConfigR15{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -890,71 +894,53 @@ func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.LoggingIntervalR10 = LoggingIntervalR10(val_loggingintervalr10)
 	if opt_targetmbsfnarealistr12 {
-		var seqLen_targetmbsfnarealistr12 int64
-		var errLength_targetmbsfnarealistr12 error
-		seqLen_targetmbsfnarealistr12, errLength_targetmbsfnarealistr12 = per.DecodeConstrainedWholeNumber(bb, 0, 8)
-		if errLength_targetmbsfnarealistr12 != nil {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length: %w", errLength_targetmbsfnarealistr12)
-		}
-		if seqLen_targetmbsfnarealistr12 < 0 {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d below lower bound 0", seqLen_targetmbsfnarealistr12)
-		}
-		if seqLen_targetmbsfnarealistr12 > 8 {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d above upper bound 8", seqLen_targetmbsfnarealistr12)
-		}
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
-		for i := int64(0); i < seqLen_targetmbsfnarealistr12; i++ {
-			var elem TargetMBSFNAreaR12
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", i, err)
+		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
+			for i := int64(0); i < fragmentLength_targetmbsfnarealistr12; i++ {
+				var elem TargetMBSFNAreaR12
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", fragmentOffset_targetmbsfnarealistr12+i, err)
+				}
+				tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 			}
-			tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
+			return nil
+		})
+		if errCollection_targetmbsfnarealistr12 != nil {
+			return fmt.Errorf("decoding targetMBSFN-AreaList-r12: %w", errCollection_targetmbsfnarealistr12)
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
 	if opt_btnamelistr15 {
-		var seqLen_btnamelistr15 int64
-		var errLength_btnamelistr15 error
-		seqLen_btnamelistr15, errLength_btnamelistr15 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if errLength_btnamelistr15 != nil {
-			return fmt.Errorf("decoding bt-NameList-r15 length: %w", errLength_btnamelistr15)
-		}
-		if seqLen_btnamelistr15 < 1 {
-			return fmt.Errorf("decoding bt-NameList-r15 length %d below lower bound 1", seqLen_btnamelistr15)
-		}
-		if seqLen_btnamelistr15 > 4 {
-			return fmt.Errorf("decoding bt-NameList-r15 length %d above upper bound 4", seqLen_btnamelistr15)
-		}
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
-		for i := int64(0); i < seqLen_btnamelistr15; i++ {
-			val, err := per.DecodeOctetString(bb, 1, 248, true)
-			if err != nil {
-				return fmt.Errorf("decoding bt-NameList-r15 element: %w", err)
+		_, errCollection_btnamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
+			for i := int64(0); i < fragmentLength_btnamelistr15; i++ {
+				val, err := per.DecodeOctetString(bb, 1, 248, true)
+				if err != nil {
+					return fmt.Errorf("decoding bt-NameList-r15 element %d: %w", fragmentOffset_btnamelistr15+i, err)
+				}
+				tmp_btnamelistr15 = append(tmp_btnamelistr15, val)
 			}
-			tmp_btnamelistr15 = append(tmp_btnamelistr15, val)
+			return nil
+		})
+		if errCollection_btnamelistr15 != nil {
+			return fmt.Errorf("decoding bt-NameList-r15: %w", errCollection_btnamelistr15)
 		}
 		v.BtNameListR15 = tmp_btnamelistr15
 	}
 	if opt_wlannamelistr15 {
-		var seqLen_wlannamelistr15 int64
-		var errLength_wlannamelistr15 error
-		seqLen_wlannamelistr15, errLength_wlannamelistr15 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if errLength_wlannamelistr15 != nil {
-			return fmt.Errorf("decoding wlan-NameList-r15 length: %w", errLength_wlannamelistr15)
-		}
-		if seqLen_wlannamelistr15 < 1 {
-			return fmt.Errorf("decoding wlan-NameList-r15 length %d below lower bound 1", seqLen_wlannamelistr15)
-		}
-		if seqLen_wlannamelistr15 > 4 {
-			return fmt.Errorf("decoding wlan-NameList-r15 length %d above upper bound 4", seqLen_wlannamelistr15)
-		}
 		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
-		for i := int64(0); i < seqLen_wlannamelistr15; i++ {
-			val, err := per.DecodeOctetString(bb, 1, 32, true)
-			if err != nil {
-				return fmt.Errorf("decoding wlan-NameList-r15 element: %w", err)
+		_, errCollection_wlannamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
+			for i := int64(0); i < fragmentLength_wlannamelistr15; i++ {
+				val, err := per.DecodeOctetString(bb, 1, 32, true)
+				if err != nil {
+					return fmt.Errorf("decoding wlan-NameList-r15 element %d: %w", fragmentOffset_wlannamelistr15+i, err)
+				}
+				tmp_wlannamelistr15 = append(tmp_wlannamelistr15, val)
 			}
-			tmp_wlannamelistr15 = append(tmp_wlannamelistr15, val)
+			return nil
+		})
+		if errCollection_wlannamelistr15 != nil {
+			return fmt.Errorf("decoding wlan-NameList-r15: %w", errCollection_wlannamelistr15)
 		}
 		v.WlanNameListR15 = tmp_wlannamelistr15
 	}
@@ -1010,33 +996,39 @@ func (v *VarLogMeasConfigR17) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding loggingInterval-r10: %w", err)
 	}
 	if v.TargetMBSFNAreaListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.TargetMBSFNAreaListR12)), 0, 8); err != nil {
-			return fmt.Errorf("encoding targetMBSFN-AreaList-r12 length: %w", err)
-		}
-		for _, elem := range v.TargetMBSFNAreaListR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.TargetMBSFNAreaListR12)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
+			for _, elem := range v.TargetMBSFNAreaListR12[fragmentOffset_targetmbsfnarealistr12 : fragmentOffset_targetmbsfnarealistr12+fragmentLength_targetmbsfnarealistr12] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding targetMBSFN-AreaList-r12 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding targetMBSFN-AreaList-r12: %w", err)
 		}
 	}
 	if v.BtNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.BtNameListR15)), 1, 4); err != nil {
-			return fmt.Errorf("encoding bt-NameList-r15 length: %w", err)
-		}
-		for _, elem := range v.BtNameListR15 {
-			if err := per.EncodeOctetString(bb, []byte(elem), 1, 248, true); err != nil {
-				return fmt.Errorf("encoding bt-NameList-r15 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.BtNameListR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
+			for _, elem := range v.BtNameListR15[fragmentOffset_btnamelistr15 : fragmentOffset_btnamelistr15+fragmentLength_btnamelistr15] {
+				if err := per.EncodeOctetString(bb, []byte(elem), 1, 248, true); err != nil {
+					return fmt.Errorf("encoding bt-NameList-r15 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding bt-NameList-r15: %w", err)
 		}
 	}
 	if v.WlanNameListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.WlanNameListR15)), 1, 4); err != nil {
-			return fmt.Errorf("encoding wlan-NameList-r15 length: %w", err)
-		}
-		for _, elem := range v.WlanNameListR15 {
-			if err := per.EncodeOctetString(bb, []byte(elem), 1, 32, true); err != nil {
-				return fmt.Errorf("encoding wlan-NameList-r15 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.WlanNameListR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
+			for _, elem := range v.WlanNameListR15[fragmentOffset_wlannamelistr15 : fragmentOffset_wlannamelistr15+fragmentLength_wlannamelistr15] {
+				if err := per.EncodeOctetString(bb, []byte(elem), 1, 32, true); err != nil {
+					return fmt.Errorf("encoding wlan-NameList-r15 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding wlan-NameList-r15: %w", err)
 		}
 	}
 	if v.LoggedEventTriggerConfigR17 != nil {
@@ -1059,6 +1051,7 @@ func (v *VarLogMeasConfigR17) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarLogMeasConfigR17{}
 	// Read preamble bitmap for optional root fields
 	opt_areaconfigurationr10, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -1113,71 +1106,53 @@ func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.LoggingIntervalR10 = LoggingIntervalR10(val_loggingintervalr10)
 	if opt_targetmbsfnarealistr12 {
-		var seqLen_targetmbsfnarealistr12 int64
-		var errLength_targetmbsfnarealistr12 error
-		seqLen_targetmbsfnarealistr12, errLength_targetmbsfnarealistr12 = per.DecodeConstrainedWholeNumber(bb, 0, 8)
-		if errLength_targetmbsfnarealistr12 != nil {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length: %w", errLength_targetmbsfnarealistr12)
-		}
-		if seqLen_targetmbsfnarealistr12 < 0 {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d below lower bound 0", seqLen_targetmbsfnarealistr12)
-		}
-		if seqLen_targetmbsfnarealistr12 > 8 {
-			return fmt.Errorf("decoding targetMBSFN-AreaList-r12 length %d above upper bound 8", seqLen_targetmbsfnarealistr12)
-		}
 		tmp_targetmbsfnarealistr12 := make(TargetMBSFNAreaListR12, 0)
-		for i := int64(0); i < seqLen_targetmbsfnarealistr12; i++ {
-			var elem TargetMBSFNAreaR12
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", i, err)
+		_, errCollection_targetmbsfnarealistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_targetmbsfnarealistr12, fragmentLength_targetmbsfnarealistr12 int64) error {
+			for i := int64(0); i < fragmentLength_targetmbsfnarealistr12; i++ {
+				var elem TargetMBSFNAreaR12
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding targetMBSFN-AreaList-r12 element %d: %w", fragmentOffset_targetmbsfnarealistr12+i, err)
+				}
+				tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
 			}
-			tmp_targetmbsfnarealistr12 = append(tmp_targetmbsfnarealistr12, elem)
+			return nil
+		})
+		if errCollection_targetmbsfnarealistr12 != nil {
+			return fmt.Errorf("decoding targetMBSFN-AreaList-r12: %w", errCollection_targetmbsfnarealistr12)
 		}
 		v.TargetMBSFNAreaListR12 = tmp_targetmbsfnarealistr12
 	}
 	if opt_btnamelistr15 {
-		var seqLen_btnamelistr15 int64
-		var errLength_btnamelistr15 error
-		seqLen_btnamelistr15, errLength_btnamelistr15 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if errLength_btnamelistr15 != nil {
-			return fmt.Errorf("decoding bt-NameList-r15 length: %w", errLength_btnamelistr15)
-		}
-		if seqLen_btnamelistr15 < 1 {
-			return fmt.Errorf("decoding bt-NameList-r15 length %d below lower bound 1", seqLen_btnamelistr15)
-		}
-		if seqLen_btnamelistr15 > 4 {
-			return fmt.Errorf("decoding bt-NameList-r15 length %d above upper bound 4", seqLen_btnamelistr15)
-		}
 		tmp_btnamelistr15 := make(BTNameListR15, 0)
-		for i := int64(0); i < seqLen_btnamelistr15; i++ {
-			val, err := per.DecodeOctetString(bb, 1, 248, true)
-			if err != nil {
-				return fmt.Errorf("decoding bt-NameList-r15 element: %w", err)
+		_, errCollection_btnamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_btnamelistr15, fragmentLength_btnamelistr15 int64) error {
+			for i := int64(0); i < fragmentLength_btnamelistr15; i++ {
+				val, err := per.DecodeOctetString(bb, 1, 248, true)
+				if err != nil {
+					return fmt.Errorf("decoding bt-NameList-r15 element %d: %w", fragmentOffset_btnamelistr15+i, err)
+				}
+				tmp_btnamelistr15 = append(tmp_btnamelistr15, val)
 			}
-			tmp_btnamelistr15 = append(tmp_btnamelistr15, val)
+			return nil
+		})
+		if errCollection_btnamelistr15 != nil {
+			return fmt.Errorf("decoding bt-NameList-r15: %w", errCollection_btnamelistr15)
 		}
 		v.BtNameListR15 = tmp_btnamelistr15
 	}
 	if opt_wlannamelistr15 {
-		var seqLen_wlannamelistr15 int64
-		var errLength_wlannamelistr15 error
-		seqLen_wlannamelistr15, errLength_wlannamelistr15 = per.DecodeConstrainedWholeNumber(bb, 1, 4)
-		if errLength_wlannamelistr15 != nil {
-			return fmt.Errorf("decoding wlan-NameList-r15 length: %w", errLength_wlannamelistr15)
-		}
-		if seqLen_wlannamelistr15 < 1 {
-			return fmt.Errorf("decoding wlan-NameList-r15 length %d below lower bound 1", seqLen_wlannamelistr15)
-		}
-		if seqLen_wlannamelistr15 > 4 {
-			return fmt.Errorf("decoding wlan-NameList-r15 length %d above upper bound 4", seqLen_wlannamelistr15)
-		}
 		tmp_wlannamelistr15 := make(WLANNameListR15, 0)
-		for i := int64(0); i < seqLen_wlannamelistr15; i++ {
-			val, err := per.DecodeOctetString(bb, 1, 32, true)
-			if err != nil {
-				return fmt.Errorf("decoding wlan-NameList-r15 element: %w", err)
+		_, errCollection_wlannamelistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_wlannamelistr15, fragmentLength_wlannamelistr15 int64) error {
+			for i := int64(0); i < fragmentLength_wlannamelistr15; i++ {
+				val, err := per.DecodeOctetString(bb, 1, 32, true)
+				if err != nil {
+					return fmt.Errorf("decoding wlan-NameList-r15 element %d: %w", fragmentOffset_wlannamelistr15+i, err)
+				}
+				tmp_wlannamelistr15 = append(tmp_wlannamelistr15, val)
 			}
-			tmp_wlannamelistr15 = append(tmp_wlannamelistr15, val)
+			return nil
+		})
+		if errCollection_wlannamelistr15 != nil {
+			return fmt.Errorf("decoding wlan-NameList-r15: %w", errCollection_wlannamelistr15)
 		}
 		v.WlanNameListR15 = tmp_wlannamelistr15
 	}
@@ -1223,13 +1198,15 @@ func (v *VarLogMeasReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBitStringExt(bb, v.AbsoluteTimeInfoR10.Bytes, v.AbsoluteTimeInfoR10.BitLength, 48, 48, true, false); err != nil {
 		return fmt.Errorf("encoding absoluteTimeInfo-r10: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.LogMeasInfoListR10)), 1, 4060); err != nil {
-		return fmt.Errorf("encoding logMeasInfoList-r10 length: %w", err)
-	}
-	for _, elem := range v.LogMeasInfoListR10 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding logMeasInfoList-r10 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.LogMeasInfoListR10)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
+		for _, elem := range v.LogMeasInfoListR10[fragmentOffset_logmeasinfolistr10 : fragmentOffset_logmeasinfolistr10+fragmentLength_logmeasinfolistr10] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding logMeasInfoList-r10 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding logMeasInfoList-r10: %w", err)
 	}
 	return nil
 }
@@ -1241,6 +1218,7 @@ func (v *VarLogMeasReportR10) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarLogMeasReportR10{}
 	if err := v.TraceReferenceR10.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding traceReference-r10: %w", err)
 	}
@@ -1262,25 +1240,19 @@ func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding absoluteTimeInfo-r10: %w", err)
 	}
 	v.AbsoluteTimeInfoR10 = runtime.BitString{Bytes: bsBytes_absolutetimeinfor10, BitLength: bsBitLen_absolutetimeinfor10}
-	var seqLen_logmeasinfolistr10 int64
-	var errLength_logmeasinfolistr10 error
-	seqLen_logmeasinfolistr10, errLength_logmeasinfolistr10 = per.DecodeConstrainedWholeNumber(bb, 1, 4060)
-	if errLength_logmeasinfolistr10 != nil {
-		return fmt.Errorf("decoding logMeasInfoList-r10 length: %w", errLength_logmeasinfolistr10)
-	}
-	if seqLen_logmeasinfolistr10 < 1 {
-		return fmt.Errorf("decoding logMeasInfoList-r10 length %d below lower bound 1", seqLen_logmeasinfolistr10)
-	}
-	if seqLen_logmeasinfolistr10 > 4060 {
-		return fmt.Errorf("decoding logMeasInfoList-r10 length %d above upper bound 4060", seqLen_logmeasinfolistr10)
-	}
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
-	for i := int64(0); i < seqLen_logmeasinfolistr10; i++ {
-		var elem LogMeasInfoR10
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding logMeasInfoList-r10 element %d: %w", i, err)
+	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
+		for i := int64(0); i < fragmentLength_logmeasinfolistr10; i++ {
+			var elem LogMeasInfoR10
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding logMeasInfoList-r10 element %d: %w", fragmentOffset_logmeasinfolistr10+i, err)
+			}
+			v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
 		}
-		v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
+		return nil
+	})
+	if errCollection_logmeasinfolistr10 != nil {
+		return fmt.Errorf("decoding logMeasInfoList-r10: %w", errCollection_logmeasinfolistr10)
 	}
 	return nil
 }
@@ -1304,24 +1276,28 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeOctetStringExt(bb, v.TceIdR10, 1, 1, true, false); err != nil {
 		return fmt.Errorf("encoding tce-Id-r10: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PlmnIdentityListR11)), 1, 16); err != nil {
-		return fmt.Errorf("encoding plmn-IdentityList-r11 length: %w", err)
-	}
-	for _, elem := range v.PlmnIdentityListR11 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding plmn-IdentityList-r11 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.PlmnIdentityListR11)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
+		for _, elem := range v.PlmnIdentityListR11[fragmentOffset_plmnidentitylistr11 : fragmentOffset_plmnidentitylistr11+fragmentLength_plmnidentitylistr11] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding plmn-IdentityList-r11 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding plmn-IdentityList-r11: %w", err)
 	}
 	if err := per.EncodeBitStringExt(bb, v.AbsoluteTimeInfoR10.Bytes, v.AbsoluteTimeInfoR10.BitLength, 48, 48, true, false); err != nil {
 		return fmt.Errorf("encoding absoluteTimeInfo-r10: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.LogMeasInfoListR10)), 1, 4060); err != nil {
-		return fmt.Errorf("encoding logMeasInfoList-r10 length: %w", err)
-	}
-	for _, elem := range v.LogMeasInfoListR10 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding logMeasInfoList-r10 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.LogMeasInfoListR10)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
+		for _, elem := range v.LogMeasInfoListR10[fragmentOffset_logmeasinfolistr10 : fragmentOffset_logmeasinfolistr10+fragmentLength_logmeasinfolistr10] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding logMeasInfoList-r10 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding logMeasInfoList-r10: %w", err)
 	}
 	if err := per.EncodeEnumerated(bb, int64(v.SigLoggedMeasTypeR18), 1, false); err != nil {
 		return fmt.Errorf("encoding sigLoggedMeasType-r18: %w", err)
@@ -1336,6 +1312,7 @@ func (v *VarLogMeasReportR11) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarLogMeasReportR11{}
 	if err := v.TraceReferenceR10.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding traceReference-r10: %w", err)
 	}
@@ -1349,50 +1326,38 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding tce-Id-r10: %w", err)
 	}
 	v.TceIdR10 = val_tceidr10
-	var seqLen_plmnidentitylistr11 int64
-	var errLength_plmnidentitylistr11 error
-	seqLen_plmnidentitylistr11, errLength_plmnidentitylistr11 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if errLength_plmnidentitylistr11 != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r11 length: %w", errLength_plmnidentitylistr11)
-	}
-	if seqLen_plmnidentitylistr11 < 1 {
-		return fmt.Errorf("decoding plmn-IdentityList-r11 length %d below lower bound 1", seqLen_plmnidentitylistr11)
-	}
-	if seqLen_plmnidentitylistr11 > 16 {
-		return fmt.Errorf("decoding plmn-IdentityList-r11 length %d above upper bound 16", seqLen_plmnidentitylistr11)
-	}
 	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
-	for i := int64(0); i < seqLen_plmnidentitylistr11; i++ {
-		var elem PLMNIdentity
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r11 element %d: %w", i, err)
+	_, errCollection_plmnidentitylistr11 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
+		for i := int64(0); i < fragmentLength_plmnidentitylistr11; i++ {
+			var elem PLMNIdentity
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding plmn-IdentityList-r11 element %d: %w", fragmentOffset_plmnidentitylistr11+i, err)
+			}
+			v.PlmnIdentityListR11 = append(v.PlmnIdentityListR11, elem)
 		}
-		v.PlmnIdentityListR11 = append(v.PlmnIdentityListR11, elem)
+		return nil
+	})
+	if errCollection_plmnidentitylistr11 != nil {
+		return fmt.Errorf("decoding plmn-IdentityList-r11: %w", errCollection_plmnidentitylistr11)
 	}
 	bsBytes_absolutetimeinfor10, bsBitLen_absolutetimeinfor10, err := per.DecodeBitStringExt(bb, 48, 48, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding absoluteTimeInfo-r10: %w", err)
 	}
 	v.AbsoluteTimeInfoR10 = runtime.BitString{Bytes: bsBytes_absolutetimeinfor10, BitLength: bsBitLen_absolutetimeinfor10}
-	var seqLen_logmeasinfolistr10 int64
-	var errLength_logmeasinfolistr10 error
-	seqLen_logmeasinfolistr10, errLength_logmeasinfolistr10 = per.DecodeConstrainedWholeNumber(bb, 1, 4060)
-	if errLength_logmeasinfolistr10 != nil {
-		return fmt.Errorf("decoding logMeasInfoList-r10 length: %w", errLength_logmeasinfolistr10)
-	}
-	if seqLen_logmeasinfolistr10 < 1 {
-		return fmt.Errorf("decoding logMeasInfoList-r10 length %d below lower bound 1", seqLen_logmeasinfolistr10)
-	}
-	if seqLen_logmeasinfolistr10 > 4060 {
-		return fmt.Errorf("decoding logMeasInfoList-r10 length %d above upper bound 4060", seqLen_logmeasinfolistr10)
-	}
 	v.LogMeasInfoListR10 = make(LogMeasInfoList2R10, 0)
-	for i := int64(0); i < seqLen_logmeasinfolistr10; i++ {
-		var elem LogMeasInfoR10
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding logMeasInfoList-r10 element %d: %w", i, err)
+	_, errCollection_logmeasinfolistr10 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_logmeasinfolistr10, fragmentLength_logmeasinfolistr10 int64) error {
+		for i := int64(0); i < fragmentLength_logmeasinfolistr10; i++ {
+			var elem LogMeasInfoR10
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding logMeasInfoList-r10 element %d: %w", fragmentOffset_logmeasinfolistr10+i, err)
+			}
+			v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
 		}
-		v.LogMeasInfoListR10 = append(v.LogMeasInfoListR10, elem)
+		return nil
+	})
+	if errCollection_logmeasinfolistr10 != nil {
+		return fmt.Errorf("decoding logMeasInfoList-r10: %w", errCollection_logmeasinfolistr10)
 	}
 	val_sigloggedmeastyper18, err := per.DecodeEnumerated(bb, 1, false)
 	if err != nil {
@@ -1416,13 +1381,15 @@ func MarshalUPERLogMeasInfoList2R10(list LogMeasInfoList2R10) ([]byte, error) {
 // MarshalUPERLogMeasInfoList2R10To appends a LogMeasInfoList2R10 list to bb.
 func MarshalUPERLogMeasInfoList2R10To(list LogMeasInfoList2R10, bb *per.BitBuffer) error {
 	v := asn1cUPERLogMeasInfoList2R10ListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 4060); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -1443,25 +1410,19 @@ func UnmarshalUPERLogMeasInfoList2R10From(bb *per.BitBuffer) (LogMeasInfoList2R1
 }
 
 func unmarshalUPERLogMeasInfoList2R10Into(v *asn1cUPERLogMeasInfoList2R10ListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 4060)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 4060 {
-		return fmt.Errorf("decoding value length %d above upper bound 4060", seqLen_value)
-	}
 	v.Value = make(LogMeasInfoList2R10, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem LogMeasInfoR10
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4060, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem LogMeasInfoR10
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -1517,83 +1478,99 @@ func (v *VarMeasConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasIdList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdList)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measIdList length: %w", err)
-		}
-		for _, elem := range v.MeasIdList {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measIdList element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasIdList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlist, fragmentLength_measidlist int64) error {
+			for _, elem := range v.MeasIdList[fragmentOffset_measidlist : fragmentOffset_measidlist+fragmentLength_measidlist] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measIdList element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measIdList: %w", err)
 		}
 	}
 	if v.MeasIdListExtR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdListExtR12)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measIdListExt-r12 length: %w", err)
-		}
-		for _, elem := range v.MeasIdListExtR12 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measIdListExt-r12 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasIdListExtR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextr12, fragmentLength_measidlistextr12 int64) error {
+			for _, elem := range v.MeasIdListExtR12[fragmentOffset_measidlistextr12 : fragmentOffset_measidlistextr12+fragmentLength_measidlistextr12] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measIdListExt-r12 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measIdListExt-r12: %w", err)
 		}
 	}
 	if v.MeasIdListV1310 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdListV1310)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measIdList-v1310 length: %w", err)
-		}
-		for _, elem := range v.MeasIdListV1310 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measIdList-v1310 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasIdListV1310)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistv1310, fragmentLength_measidlistv1310 int64) error {
+			for _, elem := range v.MeasIdListV1310[fragmentOffset_measidlistv1310 : fragmentOffset_measidlistv1310+fragmentLength_measidlistv1310] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measIdList-v1310 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measIdList-v1310: %w", err)
 		}
 	}
 	if v.MeasIdListExtV1310 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdListExtV1310)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measIdListExt-v1310 length: %w", err)
-		}
-		for _, elem := range v.MeasIdListExtV1310 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measIdListExt-v1310 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasIdListExtV1310)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextv1310, fragmentLength_measidlistextv1310 int64) error {
+			for _, elem := range v.MeasIdListExtV1310[fragmentOffset_measidlistextv1310 : fragmentOffset_measidlistextv1310+fragmentLength_measidlistextv1310] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measIdListExt-v1310 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measIdListExt-v1310: %w", err)
 		}
 	}
 	if v.MeasObjectList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasObjectList)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measObjectList length: %w", err)
-		}
-		for _, elem := range v.MeasObjectList {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measObjectList element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasObjectList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlist, fragmentLength_measobjectlist int64) error {
+			for _, elem := range v.MeasObjectList[fragmentOffset_measobjectlist : fragmentOffset_measobjectlist+fragmentLength_measobjectlist] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measObjectList element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measObjectList: %w", err)
 		}
 	}
 	if v.MeasObjectListExtR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasObjectListExtR13)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measObjectListExt-r13 length: %w", err)
-		}
-		for _, elem := range v.MeasObjectListExtR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measObjectListExt-r13 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasObjectListExtR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistextr13, fragmentLength_measobjectlistextr13 int64) error {
+			for _, elem := range v.MeasObjectListExtR13[fragmentOffset_measobjectlistextr13 : fragmentOffset_measobjectlistextr13+fragmentLength_measobjectlistextr13] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measObjectListExt-r13 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measObjectListExt-r13: %w", err)
 		}
 	}
 	if v.MeasObjectListV9i0 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasObjectListV9i0)), 1, 32); err != nil {
-			return fmt.Errorf("encoding measObjectList-v9i0 length: %w", err)
-		}
-		for _, elem := range v.MeasObjectListV9i0 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measObjectList-v9i0 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasObjectListV9i0)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistv9i0, fragmentLength_measobjectlistv9i0 int64) error {
+			for _, elem := range v.MeasObjectListV9i0[fragmentOffset_measobjectlistv9i0 : fragmentOffset_measobjectlistv9i0+fragmentLength_measobjectlistv9i0] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measObjectList-v9i0 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measObjectList-v9i0: %w", err)
 		}
 	}
 	if v.ReportConfigList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.ReportConfigList)), 1, 32); err != nil {
-			return fmt.Errorf("encoding reportConfigList length: %w", err)
-		}
-		for _, elem := range v.ReportConfigList {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding reportConfigList element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ReportConfigList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_reportconfiglist, fragmentLength_reportconfiglist int64) error {
+			for _, elem := range v.ReportConfigList[fragmentOffset_reportconfiglist : fragmentOffset_reportconfiglist+fragmentLength_reportconfiglist] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding reportConfigList element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding reportConfigList: %w", err)
 		}
 	}
 	if v.QuantityConfig != nil {
@@ -1631,6 +1608,7 @@ func (v *VarMeasConfig) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarMeasConfig{}
 	// Read preamble bitmap for optional root fields
 	opt_measidlist, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -1685,186 +1663,138 @@ func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_measidlist {
-		var seqLen_measidlist int64
-		var errLength_measidlist error
-		seqLen_measidlist, errLength_measidlist = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_measidlist != nil {
-			return fmt.Errorf("decoding measIdList length: %w", errLength_measidlist)
-		}
-		if seqLen_measidlist < 1 {
-			return fmt.Errorf("decoding measIdList length %d below lower bound 1", seqLen_measidlist)
-		}
-		if seqLen_measidlist > 32 {
-			return fmt.Errorf("decoding measIdList length %d above upper bound 32", seqLen_measidlist)
-		}
 		tmp_measidlist := make(MeasIdToAddModList, 0)
-		for i := int64(0); i < seqLen_measidlist; i++ {
-			var elem MeasIdToAddMod
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdList element %d: %w", i, err)
+		_, errCollection_measidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlist, fragmentLength_measidlist int64) error {
+			for i := int64(0); i < fragmentLength_measidlist; i++ {
+				var elem MeasIdToAddMod
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measIdList element %d: %w", fragmentOffset_measidlist+i, err)
+				}
+				tmp_measidlist = append(tmp_measidlist, elem)
 			}
-			tmp_measidlist = append(tmp_measidlist, elem)
+			return nil
+		})
+		if errCollection_measidlist != nil {
+			return fmt.Errorf("decoding measIdList: %w", errCollection_measidlist)
 		}
 		v.MeasIdList = tmp_measidlist
 	}
 	if opt_measidlistextr12 {
-		var seqLen_measidlistextr12 int64
-		var errLength_measidlistextr12 error
-		seqLen_measidlistextr12, errLength_measidlistextr12 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_measidlistextr12 != nil {
-			return fmt.Errorf("decoding measIdListExt-r12 length: %w", errLength_measidlistextr12)
-		}
-		if seqLen_measidlistextr12 < 1 {
-			return fmt.Errorf("decoding measIdListExt-r12 length %d below lower bound 1", seqLen_measidlistextr12)
-		}
-		if seqLen_measidlistextr12 > 32 {
-			return fmt.Errorf("decoding measIdListExt-r12 length %d above upper bound 32", seqLen_measidlistextr12)
-		}
 		tmp_measidlistextr12 := make(MeasIdToAddModListExtR12, 0)
-		for i := int64(0); i < seqLen_measidlistextr12; i++ {
-			var elem MeasIdToAddModExtR12
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdListExt-r12 element %d: %w", i, err)
+		_, errCollection_measidlistextr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextr12, fragmentLength_measidlistextr12 int64) error {
+			for i := int64(0); i < fragmentLength_measidlistextr12; i++ {
+				var elem MeasIdToAddModExtR12
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measIdListExt-r12 element %d: %w", fragmentOffset_measidlistextr12+i, err)
+				}
+				tmp_measidlistextr12 = append(tmp_measidlistextr12, elem)
 			}
-			tmp_measidlistextr12 = append(tmp_measidlistextr12, elem)
+			return nil
+		})
+		if errCollection_measidlistextr12 != nil {
+			return fmt.Errorf("decoding measIdListExt-r12: %w", errCollection_measidlistextr12)
 		}
 		v.MeasIdListExtR12 = tmp_measidlistextr12
 	}
 	if opt_measidlistv1310 {
-		var seqLen_measidlistv1310 int64
-		var errLength_measidlistv1310 error
-		seqLen_measidlistv1310, errLength_measidlistv1310 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_measidlistv1310 != nil {
-			return fmt.Errorf("decoding measIdList-v1310 length: %w", errLength_measidlistv1310)
-		}
-		if seqLen_measidlistv1310 < 1 {
-			return fmt.Errorf("decoding measIdList-v1310 length %d below lower bound 1", seqLen_measidlistv1310)
-		}
-		if seqLen_measidlistv1310 > 32 {
-			return fmt.Errorf("decoding measIdList-v1310 length %d above upper bound 32", seqLen_measidlistv1310)
-		}
 		tmp_measidlistv1310 := make(MeasIdToAddModListV1310, 0)
-		for i := int64(0); i < seqLen_measidlistv1310; i++ {
-			var elem MeasIdToAddModV1310
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdList-v1310 element %d: %w", i, err)
+		_, errCollection_measidlistv1310 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistv1310, fragmentLength_measidlistv1310 int64) error {
+			for i := int64(0); i < fragmentLength_measidlistv1310; i++ {
+				var elem MeasIdToAddModV1310
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measIdList-v1310 element %d: %w", fragmentOffset_measidlistv1310+i, err)
+				}
+				tmp_measidlistv1310 = append(tmp_measidlistv1310, elem)
 			}
-			tmp_measidlistv1310 = append(tmp_measidlistv1310, elem)
+			return nil
+		})
+		if errCollection_measidlistv1310 != nil {
+			return fmt.Errorf("decoding measIdList-v1310: %w", errCollection_measidlistv1310)
 		}
 		v.MeasIdListV1310 = tmp_measidlistv1310
 	}
 	if opt_measidlistextv1310 {
-		var seqLen_measidlistextv1310 int64
-		var errLength_measidlistextv1310 error
-		seqLen_measidlistextv1310, errLength_measidlistextv1310 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_measidlistextv1310 != nil {
-			return fmt.Errorf("decoding measIdListExt-v1310 length: %w", errLength_measidlistextv1310)
-		}
-		if seqLen_measidlistextv1310 < 1 {
-			return fmt.Errorf("decoding measIdListExt-v1310 length %d below lower bound 1", seqLen_measidlistextv1310)
-		}
-		if seqLen_measidlistextv1310 > 32 {
-			return fmt.Errorf("decoding measIdListExt-v1310 length %d above upper bound 32", seqLen_measidlistextv1310)
-		}
 		tmp_measidlistextv1310 := make(MeasIdToAddModListExtV1310, 0)
-		for i := int64(0); i < seqLen_measidlistextv1310; i++ {
-			var elem MeasIdToAddModV1310
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdListExt-v1310 element %d: %w", i, err)
+		_, errCollection_measidlistextv1310 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measidlistextv1310, fragmentLength_measidlistextv1310 int64) error {
+			for i := int64(0); i < fragmentLength_measidlistextv1310; i++ {
+				var elem MeasIdToAddModV1310
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measIdListExt-v1310 element %d: %w", fragmentOffset_measidlistextv1310+i, err)
+				}
+				tmp_measidlistextv1310 = append(tmp_measidlistextv1310, elem)
 			}
-			tmp_measidlistextv1310 = append(tmp_measidlistextv1310, elem)
+			return nil
+		})
+		if errCollection_measidlistextv1310 != nil {
+			return fmt.Errorf("decoding measIdListExt-v1310: %w", errCollection_measidlistextv1310)
 		}
 		v.MeasIdListExtV1310 = tmp_measidlistextv1310
 	}
 	if opt_measobjectlist {
-		var seqLen_measobjectlist int64
-		var errLength_measobjectlist error
-		seqLen_measobjectlist, errLength_measobjectlist = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_measobjectlist != nil {
-			return fmt.Errorf("decoding measObjectList length: %w", errLength_measobjectlist)
-		}
-		if seqLen_measobjectlist < 1 {
-			return fmt.Errorf("decoding measObjectList length %d below lower bound 1", seqLen_measobjectlist)
-		}
-		if seqLen_measobjectlist > 32 {
-			return fmt.Errorf("decoding measObjectList length %d above upper bound 32", seqLen_measobjectlist)
-		}
 		tmp_measobjectlist := make(MeasObjectToAddModList, 0)
-		for i := int64(0); i < seqLen_measobjectlist; i++ {
-			var elem MeasObjectToAddMod
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measObjectList element %d: %w", i, err)
+		_, errCollection_measobjectlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlist, fragmentLength_measobjectlist int64) error {
+			for i := int64(0); i < fragmentLength_measobjectlist; i++ {
+				var elem MeasObjectToAddMod
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measObjectList element %d: %w", fragmentOffset_measobjectlist+i, err)
+				}
+				tmp_measobjectlist = append(tmp_measobjectlist, elem)
 			}
-			tmp_measobjectlist = append(tmp_measobjectlist, elem)
+			return nil
+		})
+		if errCollection_measobjectlist != nil {
+			return fmt.Errorf("decoding measObjectList: %w", errCollection_measobjectlist)
 		}
 		v.MeasObjectList = tmp_measobjectlist
 	}
 	if opt_measobjectlistextr13 {
-		var seqLen_measobjectlistextr13 int64
-		var errLength_measobjectlistextr13 error
-		seqLen_measobjectlistextr13, errLength_measobjectlistextr13 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_measobjectlistextr13 != nil {
-			return fmt.Errorf("decoding measObjectListExt-r13 length: %w", errLength_measobjectlistextr13)
-		}
-		if seqLen_measobjectlistextr13 < 1 {
-			return fmt.Errorf("decoding measObjectListExt-r13 length %d below lower bound 1", seqLen_measobjectlistextr13)
-		}
-		if seqLen_measobjectlistextr13 > 32 {
-			return fmt.Errorf("decoding measObjectListExt-r13 length %d above upper bound 32", seqLen_measobjectlistextr13)
-		}
 		tmp_measobjectlistextr13 := make(MeasObjectToAddModListExtR13, 0)
-		for i := int64(0); i < seqLen_measobjectlistextr13; i++ {
-			var elem MeasObjectToAddModExtR13
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measObjectListExt-r13 element %d: %w", i, err)
+		_, errCollection_measobjectlistextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistextr13, fragmentLength_measobjectlistextr13 int64) error {
+			for i := int64(0); i < fragmentLength_measobjectlistextr13; i++ {
+				var elem MeasObjectToAddModExtR13
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measObjectListExt-r13 element %d: %w", fragmentOffset_measobjectlistextr13+i, err)
+				}
+				tmp_measobjectlistextr13 = append(tmp_measobjectlistextr13, elem)
 			}
-			tmp_measobjectlistextr13 = append(tmp_measobjectlistextr13, elem)
+			return nil
+		})
+		if errCollection_measobjectlistextr13 != nil {
+			return fmt.Errorf("decoding measObjectListExt-r13: %w", errCollection_measobjectlistextr13)
 		}
 		v.MeasObjectListExtR13 = tmp_measobjectlistextr13
 	}
 	if opt_measobjectlistv9i0 {
-		var seqLen_measobjectlistv9i0 int64
-		var errLength_measobjectlistv9i0 error
-		seqLen_measobjectlistv9i0, errLength_measobjectlistv9i0 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_measobjectlistv9i0 != nil {
-			return fmt.Errorf("decoding measObjectList-v9i0 length: %w", errLength_measobjectlistv9i0)
-		}
-		if seqLen_measobjectlistv9i0 < 1 {
-			return fmt.Errorf("decoding measObjectList-v9i0 length %d below lower bound 1", seqLen_measobjectlistv9i0)
-		}
-		if seqLen_measobjectlistv9i0 > 32 {
-			return fmt.Errorf("decoding measObjectList-v9i0 length %d above upper bound 32", seqLen_measobjectlistv9i0)
-		}
 		tmp_measobjectlistv9i0 := make(MeasObjectToAddModListV9e0, 0)
-		for i := int64(0); i < seqLen_measobjectlistv9i0; i++ {
-			var elem MeasObjectToAddModV9e0
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measObjectList-v9i0 element %d: %w", i, err)
+		_, errCollection_measobjectlistv9i0 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measobjectlistv9i0, fragmentLength_measobjectlistv9i0 int64) error {
+			for i := int64(0); i < fragmentLength_measobjectlistv9i0; i++ {
+				var elem MeasObjectToAddModV9e0
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measObjectList-v9i0 element %d: %w", fragmentOffset_measobjectlistv9i0+i, err)
+				}
+				tmp_measobjectlistv9i0 = append(tmp_measobjectlistv9i0, elem)
 			}
-			tmp_measobjectlistv9i0 = append(tmp_measobjectlistv9i0, elem)
+			return nil
+		})
+		if errCollection_measobjectlistv9i0 != nil {
+			return fmt.Errorf("decoding measObjectList-v9i0: %w", errCollection_measobjectlistv9i0)
 		}
 		v.MeasObjectListV9i0 = tmp_measobjectlistv9i0
 	}
 	if opt_reportconfiglist {
-		var seqLen_reportconfiglist int64
-		var errLength_reportconfiglist error
-		seqLen_reportconfiglist, errLength_reportconfiglist = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_reportconfiglist != nil {
-			return fmt.Errorf("decoding reportConfigList length: %w", errLength_reportconfiglist)
-		}
-		if seqLen_reportconfiglist < 1 {
-			return fmt.Errorf("decoding reportConfigList length %d below lower bound 1", seqLen_reportconfiglist)
-		}
-		if seqLen_reportconfiglist > 32 {
-			return fmt.Errorf("decoding reportConfigList length %d above upper bound 32", seqLen_reportconfiglist)
-		}
 		tmp_reportconfiglist := make(ReportConfigToAddModList, 0)
-		for i := int64(0); i < seqLen_reportconfiglist; i++ {
-			var elem ReportConfigToAddMod
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding reportConfigList element %d: %w", i, err)
+		_, errCollection_reportconfiglist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_reportconfiglist, fragmentLength_reportconfiglist int64) error {
+			for i := int64(0); i < fragmentLength_reportconfiglist; i++ {
+				var elem ReportConfigToAddMod
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding reportConfigList element %d: %w", fragmentOffset_reportconfiglist+i, err)
+				}
+				tmp_reportconfiglist = append(tmp_reportconfiglist, elem)
 			}
-			tmp_reportconfiglist = append(tmp_reportconfiglist, elem)
+			return nil
+		})
+		if errCollection_reportconfiglist != nil {
+			return fmt.Errorf("decoding reportConfigList: %w", errCollection_reportconfiglist)
 		}
 		v.ReportConfigList = tmp_reportconfiglist
 	}
@@ -1922,13 +1852,15 @@ func (v *VarMeasIdleConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasIdleCarrierListEUTRAR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdleCarrierListEUTRAR15)), 1, 8); err != nil {
-			return fmt.Errorf("encoding measIdleCarrierListEUTRA-r15 length: %w", err)
-		}
-		for _, elem := range v.MeasIdleCarrierListEUTRAR15 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measIdleCarrierListEUTRA-r15 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasIdleCarrierListEUTRAR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlisteutrar15, fragmentLength_measidlecarrierlisteutrar15 int64) error {
+			for _, elem := range v.MeasIdleCarrierListEUTRAR15[fragmentOffset_measidlecarrierlisteutrar15 : fragmentOffset_measidlecarrierlisteutrar15+fragmentLength_measidlecarrierlisteutrar15] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measIdleCarrierListEUTRA-r15 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measIdleCarrierListEUTRA-r15: %w", err)
 		}
 	}
 	if err := per.EncodeEnumerated(bb, int64(v.MeasIdleDurationR15), 7, false); err != nil {
@@ -1944,31 +1876,26 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarMeasIdleConfigR15{}
 	// Read preamble bitmap for optional root fields
 	opt_measidlecarrierlisteutrar15, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	if opt_measidlecarrierlisteutrar15 {
-		var seqLen_measidlecarrierlisteutrar15 int64
-		var errLength_measidlecarrierlisteutrar15 error
-		seqLen_measidlecarrierlisteutrar15, errLength_measidlecarrierlisteutrar15 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if errLength_measidlecarrierlisteutrar15 != nil {
-			return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 length: %w", errLength_measidlecarrierlisteutrar15)
-		}
-		if seqLen_measidlecarrierlisteutrar15 < 1 {
-			return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 length %d below lower bound 1", seqLen_measidlecarrierlisteutrar15)
-		}
-		if seqLen_measidlecarrierlisteutrar15 > 8 {
-			return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 length %d above upper bound 8", seqLen_measidlecarrierlisteutrar15)
-		}
 		tmp_measidlecarrierlisteutrar15 := make(EUTRACarrierListR15, 0)
-		for i := int64(0); i < seqLen_measidlecarrierlisteutrar15; i++ {
-			var elem MeasIdleCarrierEUTRAR15
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 element %d: %w", i, err)
+		_, errCollection_measidlecarrierlisteutrar15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlisteutrar15, fragmentLength_measidlecarrierlisteutrar15 int64) error {
+			for i := int64(0); i < fragmentLength_measidlecarrierlisteutrar15; i++ {
+				var elem MeasIdleCarrierEUTRAR15
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15 element %d: %w", fragmentOffset_measidlecarrierlisteutrar15+i, err)
+				}
+				tmp_measidlecarrierlisteutrar15 = append(tmp_measidlecarrierlisteutrar15, elem)
 			}
-			tmp_measidlecarrierlisteutrar15 = append(tmp_measidlecarrierlisteutrar15, elem)
+			return nil
+		})
+		if errCollection_measidlecarrierlisteutrar15 != nil {
+			return fmt.Errorf("decoding measIdleCarrierListEUTRA-r15: %w", errCollection_measidlecarrierlisteutrar15)
 		}
 		v.MeasIdleCarrierListEUTRAR15 = tmp_measidlecarrierlisteutrar15
 	}
@@ -1998,23 +1925,27 @@ func (v *VarMeasIdleConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasIdleCarrierListNRR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasIdleCarrierListNRR16)), 1, 8); err != nil {
-			return fmt.Errorf("encoding measIdleCarrierListNR-r16 length: %w", err)
-		}
-		for _, elem := range v.MeasIdleCarrierListNRR16 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measIdleCarrierListNR-r16 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasIdleCarrierListNRR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlistnrr16, fragmentLength_measidlecarrierlistnrr16 int64) error {
+			for _, elem := range v.MeasIdleCarrierListNRR16[fragmentOffset_measidlecarrierlistnrr16 : fragmentOffset_measidlecarrierlistnrr16+fragmentLength_measidlecarrierlistnrr16] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measIdleCarrierListNR-r16 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measIdleCarrierListNR-r16: %w", err)
 		}
 	}
 	if v.ValidityAreaListR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.ValidityAreaListR16)), 1, 8); err != nil {
-			return fmt.Errorf("encoding validityAreaList-r16 length: %w", err)
-		}
-		for _, elem := range v.ValidityAreaListR16 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding validityAreaList-r16 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.ValidityAreaListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_validityarealistr16, fragmentLength_validityarealistr16 int64) error {
+			for _, elem := range v.ValidityAreaListR16[fragmentOffset_validityarealistr16 : fragmentOffset_validityarealistr16+fragmentLength_validityarealistr16] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding validityAreaList-r16 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding validityAreaList-r16: %w", err)
 		}
 	}
 	return nil
@@ -2027,6 +1958,7 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarMeasIdleConfigR16{}
 	// Read preamble bitmap for optional root fields
 	opt_measidlecarrierlistnrr16, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -2037,48 +1969,36 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_measidlecarrierlistnrr16 {
-		var seqLen_measidlecarrierlistnrr16 int64
-		var errLength_measidlecarrierlistnrr16 error
-		seqLen_measidlecarrierlistnrr16, errLength_measidlecarrierlistnrr16 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if errLength_measidlecarrierlistnrr16 != nil {
-			return fmt.Errorf("decoding measIdleCarrierListNR-r16 length: %w", errLength_measidlecarrierlistnrr16)
-		}
-		if seqLen_measidlecarrierlistnrr16 < 1 {
-			return fmt.Errorf("decoding measIdleCarrierListNR-r16 length %d below lower bound 1", seqLen_measidlecarrierlistnrr16)
-		}
-		if seqLen_measidlecarrierlistnrr16 > 8 {
-			return fmt.Errorf("decoding measIdleCarrierListNR-r16 length %d above upper bound 8", seqLen_measidlecarrierlistnrr16)
-		}
 		tmp_measidlecarrierlistnrr16 := make(NRCarrierListR16, 0)
-		for i := int64(0); i < seqLen_measidlecarrierlistnrr16; i++ {
-			var elem MeasIdleCarrierNRR16
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measIdleCarrierListNR-r16 element %d: %w", i, err)
+		_, errCollection_measidlecarrierlistnrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measidlecarrierlistnrr16, fragmentLength_measidlecarrierlistnrr16 int64) error {
+			for i := int64(0); i < fragmentLength_measidlecarrierlistnrr16; i++ {
+				var elem MeasIdleCarrierNRR16
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measIdleCarrierListNR-r16 element %d: %w", fragmentOffset_measidlecarrierlistnrr16+i, err)
+				}
+				tmp_measidlecarrierlistnrr16 = append(tmp_measidlecarrierlistnrr16, elem)
 			}
-			tmp_measidlecarrierlistnrr16 = append(tmp_measidlecarrierlistnrr16, elem)
+			return nil
+		})
+		if errCollection_measidlecarrierlistnrr16 != nil {
+			return fmt.Errorf("decoding measIdleCarrierListNR-r16: %w", errCollection_measidlecarrierlistnrr16)
 		}
 		v.MeasIdleCarrierListNRR16 = tmp_measidlecarrierlistnrr16
 	}
 	if opt_validityarealistr16 {
-		var seqLen_validityarealistr16 int64
-		var errLength_validityarealistr16 error
-		seqLen_validityarealistr16, errLength_validityarealistr16 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if errLength_validityarealistr16 != nil {
-			return fmt.Errorf("decoding validityAreaList-r16 length: %w", errLength_validityarealistr16)
-		}
-		if seqLen_validityarealistr16 < 1 {
-			return fmt.Errorf("decoding validityAreaList-r16 length %d below lower bound 1", seqLen_validityarealistr16)
-		}
-		if seqLen_validityarealistr16 > 8 {
-			return fmt.Errorf("decoding validityAreaList-r16 length %d above upper bound 8", seqLen_validityarealistr16)
-		}
 		tmp_validityarealistr16 := make(ValidityAreaListR16, 0)
-		for i := int64(0); i < seqLen_validityarealistr16; i++ {
-			var elem ValidityAreaR16
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding validityAreaList-r16 element %d: %w", i, err)
+		_, errCollection_validityarealistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_validityarealistr16, fragmentLength_validityarealistr16 int64) error {
+			for i := int64(0); i < fragmentLength_validityarealistr16; i++ {
+				var elem ValidityAreaR16
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding validityAreaList-r16 element %d: %w", fragmentOffset_validityarealistr16+i, err)
+				}
+				tmp_validityarealistr16 = append(tmp_validityarealistr16, elem)
 			}
-			tmp_validityarealistr16 = append(tmp_validityarealistr16, elem)
+			return nil
+		})
+		if errCollection_validityarealistr16 != nil {
+			return fmt.Errorf("decoding validityAreaList-r16: %w", errCollection_validityarealistr16)
 		}
 		v.ValidityAreaListR16 = tmp_validityarealistr16
 	}
@@ -2095,13 +2015,15 @@ func (v *VarMeasIdleReportR15) MarshalUPER() ([]byte, error) {
 }
 
 func (v *VarMeasIdleReportR15) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasReportIdleR15)), 1, 3); err != nil {
-		return fmt.Errorf("encoding measReportIdle-r15 length: %w", err)
-	}
-	for _, elem := range v.MeasReportIdleR15 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding measReportIdle-r15 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.MeasReportIdleR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_measreportidler15, fragmentLength_measreportidler15 int64) error {
+		for _, elem := range v.MeasReportIdleR15[fragmentOffset_measreportidler15 : fragmentOffset_measreportidler15+fragmentLength_measreportidler15] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding measReportIdle-r15 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding measReportIdle-r15: %w", err)
 	}
 	return nil
 }
@@ -2113,25 +2035,20 @@ func (v *VarMeasIdleReportR15) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	var seqLen_measreportidler15 int64
-	var errLength_measreportidler15 error
-	seqLen_measreportidler15, errLength_measreportidler15 = per.DecodeConstrainedWholeNumber(bb, 1, 3)
-	if errLength_measreportidler15 != nil {
-		return fmt.Errorf("decoding measReportIdle-r15 length: %w", errLength_measreportidler15)
-	}
-	if seqLen_measreportidler15 < 1 {
-		return fmt.Errorf("decoding measReportIdle-r15 length %d below lower bound 1", seqLen_measreportidler15)
-	}
-	if seqLen_measreportidler15 > 3 {
-		return fmt.Errorf("decoding measReportIdle-r15 length %d above upper bound 3", seqLen_measreportidler15)
-	}
+	*v = VarMeasIdleReportR15{}
 	v.MeasReportIdleR15 = make(MeasResultListIdleR15, 0)
-	for i := int64(0); i < seqLen_measreportidler15; i++ {
-		var elem MeasResultIdleR15
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measReportIdle-r15 element %d: %w", i, err)
+	_, errCollection_measreportidler15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, false, func(fragmentOffset_measreportidler15, fragmentLength_measreportidler15 int64) error {
+		for i := int64(0); i < fragmentLength_measreportidler15; i++ {
+			var elem MeasResultIdleR15
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measReportIdle-r15 element %d: %w", fragmentOffset_measreportidler15+i, err)
+			}
+			v.MeasReportIdleR15 = append(v.MeasReportIdleR15, elem)
 		}
-		v.MeasReportIdleR15 = append(v.MeasReportIdleR15, elem)
+		return nil
+	})
+	if errCollection_measreportidler15 != nil {
+		return fmt.Errorf("decoding measReportIdle-r15: %w", errCollection_measreportidler15)
 	}
 	return nil
 }
@@ -2154,23 +2071,27 @@ func (v *VarMeasIdleReportR16) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.MeasReportIdleR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasReportIdleR16)), 1, 5); err != nil {
-			return fmt.Errorf("encoding measReportIdle-r16 length: %w", err)
-		}
-		for _, outerElem := range v.MeasReportIdleR16 {
-			if err := MarshalUPERMeasResultIdleListEUTRAR15To(outerElem, bb); err != nil {
-				return fmt.Errorf("encoding measReportIdle-r16 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasReportIdleR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_measreportidler16, fragmentLength_measreportidler16 int64) error {
+			for _, outerElem := range v.MeasReportIdleR16[fragmentOffset_measreportidler16 : fragmentOffset_measreportidler16+fragmentLength_measreportidler16] {
+				if err := MarshalUPERMeasResultIdleListEUTRAR15To(outerElem, bb); err != nil {
+					return fmt.Errorf("encoding measReportIdle-r16 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measReportIdle-r16: %w", err)
 		}
 	}
 	if v.MeasReportIdleNRR16 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasReportIdleNRR16)), 1, 8); err != nil {
-			return fmt.Errorf("encoding measReportIdleNR-r16 length: %w", err)
-		}
-		for _, elem := range v.MeasReportIdleNRR16 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding measReportIdleNR-r16 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.MeasReportIdleNRR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measreportidlenrr16, fragmentLength_measreportidlenrr16 int64) error {
+			for _, elem := range v.MeasReportIdleNRR16[fragmentOffset_measreportidlenrr16 : fragmentOffset_measreportidlenrr16+fragmentLength_measreportidlenrr16] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding measReportIdleNR-r16 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding measReportIdleNR-r16: %w", err)
 		}
 	}
 	return nil
@@ -2183,6 +2104,7 @@ func (v *VarMeasIdleReportR16) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarMeasIdleReportR16{}
 	// Read preamble bitmap for optional root fields
 	opt_measreportidler16, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -2193,48 +2115,36 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_measreportidler16 {
-		var seqLen_measreportidler16 int64
-		var errLength_measreportidler16 error
-		seqLen_measreportidler16, errLength_measreportidler16 = per.DecodeConstrainedWholeNumber(bb, 1, 5)
-		if errLength_measreportidler16 != nil {
-			return fmt.Errorf("decoding measReportIdle-r16 length: %w", errLength_measreportidler16)
-		}
-		if seqLen_measreportidler16 < 1 {
-			return fmt.Errorf("decoding measReportIdle-r16 length %d below lower bound 1", seqLen_measreportidler16)
-		}
-		if seqLen_measreportidler16 > 5 {
-			return fmt.Errorf("decoding measReportIdle-r16 length %d above upper bound 5", seqLen_measreportidler16)
-		}
 		tmp_measreportidler16 := make(MeasResultListExtIdleR16, 0)
-		for i_measreportidler16 := int64(0); i_measreportidler16 < seqLen_measreportidler16; i_measreportidler16++ {
-			elem, err := UnmarshalUPERMeasResultIdleListEUTRAR15From(bb)
-			if err != nil {
-				return fmt.Errorf("decoding measReportIdle-r16 element: %w", err)
+		_, errCollection_measreportidler16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_measreportidler16, fragmentLength_measreportidler16 int64) error {
+			for i_measreportidler16 := int64(0); i_measreportidler16 < fragmentLength_measreportidler16; i_measreportidler16++ {
+				elem, err := UnmarshalUPERMeasResultIdleListEUTRAR15From(bb)
+				if err != nil {
+					return fmt.Errorf("decoding measReportIdle-r16 element %d: %w", fragmentOffset_measreportidler16+i_measreportidler16, err)
+				}
+				tmp_measreportidler16 = append(tmp_measreportidler16, elem)
 			}
-			tmp_measreportidler16 = append(tmp_measreportidler16, elem)
+			return nil
+		})
+		if errCollection_measreportidler16 != nil {
+			return fmt.Errorf("decoding measReportIdle-r16: %w", errCollection_measreportidler16)
 		}
 		v.MeasReportIdleR16 = tmp_measreportidler16
 	}
 	if opt_measreportidlenrr16 {
-		var seqLen_measreportidlenrr16 int64
-		var errLength_measreportidlenrr16 error
-		seqLen_measreportidlenrr16, errLength_measreportidlenrr16 = per.DecodeConstrainedWholeNumber(bb, 1, 8)
-		if errLength_measreportidlenrr16 != nil {
-			return fmt.Errorf("decoding measReportIdleNR-r16 length: %w", errLength_measreportidlenrr16)
-		}
-		if seqLen_measreportidlenrr16 < 1 {
-			return fmt.Errorf("decoding measReportIdleNR-r16 length %d below lower bound 1", seqLen_measreportidlenrr16)
-		}
-		if seqLen_measreportidlenrr16 > 8 {
-			return fmt.Errorf("decoding measReportIdleNR-r16 length %d above upper bound 8", seqLen_measreportidlenrr16)
-		}
 		tmp_measreportidlenrr16 := make(MeasResultListIdleNRR16, 0)
-		for i := int64(0); i < seqLen_measreportidlenrr16; i++ {
-			var elem MeasResultIdleNRR16
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measReportIdleNR-r16 element %d: %w", i, err)
+		_, errCollection_measreportidlenrr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_measreportidlenrr16, fragmentLength_measreportidlenrr16 int64) error {
+			for i := int64(0); i < fragmentLength_measreportidlenrr16; i++ {
+				var elem MeasResultIdleNRR16
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding measReportIdleNR-r16 element %d: %w", fragmentOffset_measreportidlenrr16+i, err)
+				}
+				tmp_measreportidlenrr16 = append(tmp_measreportidlenrr16, elem)
 			}
-			tmp_measreportidlenrr16 = append(tmp_measreportidlenrr16, elem)
+			return nil
+		})
+		if errCollection_measreportidlenrr16 != nil {
+			return fmt.Errorf("decoding measReportIdleNR-r16: %w", errCollection_measreportidlenrr16)
 		}
 		v.MeasReportIdleNRR16 = tmp_measreportidlenrr16
 	}
@@ -2255,13 +2165,15 @@ func MarshalUPERVarMeasReportList(list VarMeasReportList) ([]byte, error) {
 // MarshalUPERVarMeasReportListTo appends a VarMeasReportList list to bb.
 func MarshalUPERVarMeasReportListTo(list VarMeasReportList, bb *per.BitBuffer) error {
 	v := asn1cUPERVarMeasReportListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 32); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2282,25 +2194,19 @@ func UnmarshalUPERVarMeasReportListFrom(bb *per.BitBuffer) (VarMeasReportList, e
 }
 
 func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 32 {
-		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
-	}
 	v.Value = make(VarMeasReportList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem VarMeasReport
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem VarMeasReport
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2319,13 +2225,15 @@ func MarshalUPERVarMeasReportListR12(list VarMeasReportListR12) ([]byte, error) 
 // MarshalUPERVarMeasReportListR12To appends a VarMeasReportListR12 list to bb.
 func MarshalUPERVarMeasReportListR12To(list VarMeasReportListR12, bb *per.BitBuffer) error {
 	v := asn1cUPERVarMeasReportListR12ListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2346,25 +2254,19 @@ func UnmarshalUPERVarMeasReportListR12From(bb *per.BitBuffer) (VarMeasReportList
 }
 
 func unmarshalUPERVarMeasReportListR12Into(v *asn1cUPERVarMeasReportListR12ListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 64 {
-		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
-	}
 	v.Value = make(VarMeasReportListR12, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem VarMeasReport
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem VarMeasReport
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2401,33 +2303,39 @@ func (v *VarMeasReport) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.CellsTriggeredList != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CellsTriggeredList)), 1, 32); err != nil {
-			return fmt.Errorf("encoding cellsTriggeredList length: %w", err)
-		}
-		for _, elem := range v.CellsTriggeredList {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding cellsTriggeredList element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.CellsTriggeredList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cellstriggeredlist, fragmentLength_cellstriggeredlist int64) error {
+			for _, elem := range v.CellsTriggeredList[fragmentOffset_cellstriggeredlist : fragmentOffset_cellstriggeredlist+fragmentLength_cellstriggeredlist] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding cellsTriggeredList element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding cellsTriggeredList: %w", err)
 		}
 	}
 	if v.CsiRSTriggeredListR12 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.CsiRSTriggeredListR12)), 1, 96); err != nil {
-			return fmt.Errorf("encoding csi-RS-TriggeredList-r12 length: %w", err)
-		}
-		for _, elem := range v.CsiRSTriggeredListR12 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(96), false); err != nil {
-				return fmt.Errorf("encoding csi-RS-TriggeredList-r12 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.CsiRSTriggeredListR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_csirstriggeredlistr12, fragmentLength_csirstriggeredlistr12 int64) error {
+			for _, elem := range v.CsiRSTriggeredListR12[fragmentOffset_csirstriggeredlistr12 : fragmentOffset_csirstriggeredlistr12+fragmentLength_csirstriggeredlistr12] {
+				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(96), false); err != nil {
+					return fmt.Errorf("encoding csi-RS-TriggeredList-r12 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding csi-RS-TriggeredList-r12: %w", err)
 		}
 	}
 	if v.PoolsTriggeredListR14 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PoolsTriggeredListR14)), 1, 72); err != nil {
-			return fmt.Errorf("encoding poolsTriggeredList-r14 length: %w", err)
-		}
-		for _, elem := range v.PoolsTriggeredListR14 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(72), false); err != nil {
-				return fmt.Errorf("encoding poolsTriggeredList-r14 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.PoolsTriggeredListR14)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 72, HasUpper: true}, false, func(fragmentOffset_poolstriggeredlistr14, fragmentLength_poolstriggeredlistr14 int64) error {
+			for _, elem := range v.PoolsTriggeredListR14[fragmentOffset_poolstriggeredlistr14 : fragmentOffset_poolstriggeredlistr14+fragmentLength_poolstriggeredlistr14] {
+				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(72), false); err != nil {
+					return fmt.Errorf("encoding poolsTriggeredList-r14 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding poolsTriggeredList-r14: %w", err)
 		}
 	}
 	if err := per.EncodeIntegerBig(bb, v.NumberOfReportsSent, nil, nil, false); err != nil {
@@ -2443,6 +2351,7 @@ func (v *VarMeasReport) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarMeasReport{}
 	// Read preamble bitmap for optional root fields
 	opt_measidv1250, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -2474,71 +2383,53 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.MeasIdV1250 = &tmp_measidv1250
 	}
 	if opt_cellstriggeredlist {
-		var seqLen_cellstriggeredlist int64
-		var errLength_cellstriggeredlist error
-		seqLen_cellstriggeredlist, errLength_cellstriggeredlist = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_cellstriggeredlist != nil {
-			return fmt.Errorf("decoding cellsTriggeredList length: %w", errLength_cellstriggeredlist)
-		}
-		if seqLen_cellstriggeredlist < 1 {
-			return fmt.Errorf("decoding cellsTriggeredList length %d below lower bound 1", seqLen_cellstriggeredlist)
-		}
-		if seqLen_cellstriggeredlist > 32 {
-			return fmt.Errorf("decoding cellsTriggeredList length %d above upper bound 32", seqLen_cellstriggeredlist)
-		}
 		tmp_cellstriggeredlist := make(CellsTriggeredList, 0)
-		for i := int64(0); i < seqLen_cellstriggeredlist; i++ {
-			var elem CellsTriggeredListElem
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cellsTriggeredList element %d: %w", i, err)
+		_, errCollection_cellstriggeredlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cellstriggeredlist, fragmentLength_cellstriggeredlist int64) error {
+			for i := int64(0); i < fragmentLength_cellstriggeredlist; i++ {
+				var elem CellsTriggeredListElem
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding cellsTriggeredList element %d: %w", fragmentOffset_cellstriggeredlist+i, err)
+				}
+				tmp_cellstriggeredlist = append(tmp_cellstriggeredlist, elem)
 			}
-			tmp_cellstriggeredlist = append(tmp_cellstriggeredlist, elem)
+			return nil
+		})
+		if errCollection_cellstriggeredlist != nil {
+			return fmt.Errorf("decoding cellsTriggeredList: %w", errCollection_cellstriggeredlist)
 		}
 		v.CellsTriggeredList = tmp_cellstriggeredlist
 	}
 	if opt_csirstriggeredlistr12 {
-		var seqLen_csirstriggeredlistr12 int64
-		var errLength_csirstriggeredlistr12 error
-		seqLen_csirstriggeredlistr12, errLength_csirstriggeredlistr12 = per.DecodeConstrainedWholeNumber(bb, 1, 96)
-		if errLength_csirstriggeredlistr12 != nil {
-			return fmt.Errorf("decoding csi-RS-TriggeredList-r12 length: %w", errLength_csirstriggeredlistr12)
-		}
-		if seqLen_csirstriggeredlistr12 < 1 {
-			return fmt.Errorf("decoding csi-RS-TriggeredList-r12 length %d below lower bound 1", seqLen_csirstriggeredlistr12)
-		}
-		if seqLen_csirstriggeredlistr12 > 96 {
-			return fmt.Errorf("decoding csi-RS-TriggeredList-r12 length %d above upper bound 96", seqLen_csirstriggeredlistr12)
-		}
 		tmp_csirstriggeredlistr12 := make(CSIRSTriggeredListR12, 0)
-		for i := int64(0); i < seqLen_csirstriggeredlistr12; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(96), false)
-			if err != nil {
-				return fmt.Errorf("decoding csi-RS-TriggeredList-r12 element %d: %w", i, err)
+		_, errCollection_csirstriggeredlistr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_csirstriggeredlistr12, fragmentLength_csirstriggeredlistr12 int64) error {
+			for i := int64(0); i < fragmentLength_csirstriggeredlistr12; i++ {
+				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(96), false)
+				if err != nil {
+					return fmt.Errorf("decoding csi-RS-TriggeredList-r12 element %d: %w", fragmentOffset_csirstriggeredlistr12+i, err)
+				}
+				tmp_csirstriggeredlistr12 = append(tmp_csirstriggeredlistr12, MeasCSIRSIdR12(val))
 			}
-			tmp_csirstriggeredlistr12 = append(tmp_csirstriggeredlistr12, MeasCSIRSIdR12(val))
+			return nil
+		})
+		if errCollection_csirstriggeredlistr12 != nil {
+			return fmt.Errorf("decoding csi-RS-TriggeredList-r12: %w", errCollection_csirstriggeredlistr12)
 		}
 		v.CsiRSTriggeredListR12 = tmp_csirstriggeredlistr12
 	}
 	if opt_poolstriggeredlistr14 {
-		var seqLen_poolstriggeredlistr14 int64
-		var errLength_poolstriggeredlistr14 error
-		seqLen_poolstriggeredlistr14, errLength_poolstriggeredlistr14 = per.DecodeConstrainedWholeNumber(bb, 1, 72)
-		if errLength_poolstriggeredlistr14 != nil {
-			return fmt.Errorf("decoding poolsTriggeredList-r14 length: %w", errLength_poolstriggeredlistr14)
-		}
-		if seqLen_poolstriggeredlistr14 < 1 {
-			return fmt.Errorf("decoding poolsTriggeredList-r14 length %d below lower bound 1", seqLen_poolstriggeredlistr14)
-		}
-		if seqLen_poolstriggeredlistr14 > 72 {
-			return fmt.Errorf("decoding poolsTriggeredList-r14 length %d above upper bound 72", seqLen_poolstriggeredlistr14)
-		}
 		tmp_poolstriggeredlistr14 := make(TxResourcePoolMeasListR14, 0)
-		for i := int64(0); i < seqLen_poolstriggeredlistr14; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(72), false)
-			if err != nil {
-				return fmt.Errorf("decoding poolsTriggeredList-r14 element %d: %w", i, err)
+		_, errCollection_poolstriggeredlistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 72, HasUpper: true}, false, func(fragmentOffset_poolstriggeredlistr14, fragmentLength_poolstriggeredlistr14 int64) error {
+			for i := int64(0); i < fragmentLength_poolstriggeredlistr14; i++ {
+				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(72), false)
+				if err != nil {
+					return fmt.Errorf("decoding poolsTriggeredList-r14 element %d: %w", fragmentOffset_poolstriggeredlistr14+i, err)
+				}
+				tmp_poolstriggeredlistr14 = append(tmp_poolstriggeredlistr14, SLV2XTxPoolReportIdentityR14(val))
 			}
-			tmp_poolstriggeredlistr14 = append(tmp_poolstriggeredlistr14, SLV2XTxPoolReportIdentityR14(val))
+			return nil
+		})
+		if errCollection_poolstriggeredlistr14 != nil {
+			return fmt.Errorf("decoding poolsTriggeredList-r14: %w", errCollection_poolstriggeredlistr14)
 		}
 		v.PoolsTriggeredListR14 = tmp_poolstriggeredlistr14
 	}
@@ -2564,13 +2455,15 @@ func MarshalUPERCellsTriggeredList(list CellsTriggeredList) ([]byte, error) {
 // MarshalUPERCellsTriggeredListTo appends a CellsTriggeredList list to bb.
 func MarshalUPERCellsTriggeredListTo(list CellsTriggeredList, bb *per.BitBuffer) error {
 	v := asn1cUPERCellsTriggeredListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 32); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2591,25 +2484,19 @@ func UnmarshalUPERCellsTriggeredListFrom(bb *per.BitBuffer) (CellsTriggeredList,
 }
 
 func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 32 {
-		return fmt.Errorf("decoding value length %d above upper bound 32", seqLen_value)
-	}
 	v.Value = make(CellsTriggeredList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem CellsTriggeredListElem
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem CellsTriggeredListElem
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2628,13 +2515,15 @@ func MarshalUPERCSIRSTriggeredListR12(list CSIRSTriggeredListR12) ([]byte, error
 // MarshalUPERCSIRSTriggeredListR12To appends a CSIRSTriggeredListR12 list to bb.
 func MarshalUPERCSIRSTriggeredListR12To(list CSIRSTriggeredListR12, bb *per.BitBuffer) error {
 	v := asn1cUPERCSIRSTriggeredListR12ListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 96); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(96), false); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(96), false); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2655,25 +2544,19 @@ func UnmarshalUPERCSIRSTriggeredListR12From(bb *per.BitBuffer) (CSIRSTriggeredLi
 }
 
 func unmarshalUPERCSIRSTriggeredListR12Into(v *asn1cUPERCSIRSTriggeredListR12ListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 96)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 96 {
-		return fmt.Errorf("decoding value length %d above upper bound 96", seqLen_value)
-	}
 	v.Value = make(CSIRSTriggeredListR12, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(96), false)
-		if err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 96, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(96), false)
+			if err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, MeasCSIRSIdR12(val))
 		}
-		v.Value = append(v.Value, MeasCSIRSIdR12(val))
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2692,13 +2575,15 @@ func MarshalUPERSSBIndexListR15(list SSBIndexListR15) ([]byte, error) {
 // MarshalUPERSSBIndexListR15To appends a SSBIndexListR15 list to bb.
 func MarshalUPERSSBIndexListR15To(list SSBIndexListR15, bb *per.BitBuffer) error {
 	v := asn1cUPERSSBIndexListR15ListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.Value)), 1, 64); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(63), false); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(63), false); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2719,25 +2604,19 @@ func UnmarshalUPERSSBIndexListR15From(bb *per.BitBuffer) (SSBIndexListR15, error
 }
 
 func unmarshalUPERSSBIndexListR15Into(v *asn1cUPERSSBIndexListR15ListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumber(bb, 1, 64)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 64 {
-		return fmt.Errorf("decoding value length %d above upper bound 64", seqLen_value)
-	}
 	v.Value = make(SSBIndexListR15, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
-		if err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
+			if err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, RSIndexNRR15(val))
 		}
-		v.Value = append(v.Value, RSIndexNRR15(val))
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2771,6 +2650,7 @@ func (v *VarPendingRnaUpdateR15) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarPendingRnaUpdateR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarPendingRnaUpdateR15{}
 	// Read preamble bitmap for optional root fields
 	opt_pendingrnaupdate, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -2812,6 +2692,7 @@ func (v *VarRLFReportR10) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarRLFReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarRLFReportR10{}
 	if err := v.RlfReportR10.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding rlf-Report-r10: %w", err)
 	}
@@ -2834,13 +2715,15 @@ func (v *VarRLFReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := v.RlfReportR10.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding rlf-Report-r10: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PlmnIdentityListR11)), 1, 16); err != nil {
-		return fmt.Errorf("encoding plmn-IdentityList-r11 length: %w", err)
-	}
-	for _, elem := range v.PlmnIdentityListR11 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding plmn-IdentityList-r11 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.PlmnIdentityListR11)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
+		for _, elem := range v.PlmnIdentityListR11[fragmentOffset_plmnidentitylistr11 : fragmentOffset_plmnidentitylistr11+fragmentLength_plmnidentitylistr11] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding plmn-IdentityList-r11 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding plmn-IdentityList-r11: %w", err)
 	}
 	return nil
 }
@@ -2852,28 +2735,23 @@ func (v *VarRLFReportR11) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarRLFReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarRLFReportR11{}
 	if err := v.RlfReportR10.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding rlf-Report-r10: %w", err)
 	}
-	var seqLen_plmnidentitylistr11 int64
-	var errLength_plmnidentitylistr11 error
-	seqLen_plmnidentitylistr11, errLength_plmnidentitylistr11 = per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if errLength_plmnidentitylistr11 != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r11 length: %w", errLength_plmnidentitylistr11)
-	}
-	if seqLen_plmnidentitylistr11 < 1 {
-		return fmt.Errorf("decoding plmn-IdentityList-r11 length %d below lower bound 1", seqLen_plmnidentitylistr11)
-	}
-	if seqLen_plmnidentitylistr11 > 16 {
-		return fmt.Errorf("decoding plmn-IdentityList-r11 length %d above upper bound 16", seqLen_plmnidentitylistr11)
-	}
 	v.PlmnIdentityListR11 = make(PLMNIdentityList3R11, 0)
-	for i := int64(0); i < seqLen_plmnidentitylistr11; i++ {
-		var elem PLMNIdentity
-		if err := elem.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r11 element %d: %w", i, err)
+	_, errCollection_plmnidentitylistr11 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr11, fragmentLength_plmnidentitylistr11 int64) error {
+		for i := int64(0); i < fragmentLength_plmnidentitylistr11; i++ {
+			var elem PLMNIdentity
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding plmn-IdentityList-r11 element %d: %w", fragmentOffset_plmnidentitylistr11+i, err)
+			}
+			v.PlmnIdentityListR11 = append(v.PlmnIdentityListR11, elem)
 		}
-		v.PlmnIdentityListR11 = append(v.PlmnIdentityListR11, elem)
+		return nil
+	})
+	if errCollection_plmnidentitylistr11 != nil {
+		return fmt.Errorf("decoding plmn-IdentityList-r11: %w", errCollection_plmnidentitylistr11)
 	}
 	return nil
 }
@@ -2907,6 +2785,7 @@ func (v *VarShortINACTIVEMACInputR15) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarShortINACTIVEMACInputR15{}
 	bsBytes_cellidentityr15, bsBitLen_cellidentityr15, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding cellIdentity-r15: %w", err)
@@ -2954,6 +2833,7 @@ func (v *VarShortMACInput) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarShortMACInput) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarShortMACInput{}
 	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding cellIdentity: %w", err)
@@ -3004,6 +2884,7 @@ func (v *VarShortResumeMACInputR13) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarShortResumeMACInputR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarShortResumeMACInputR13{}
 	bsBytes_cellidentityr13, bsBitLen_cellidentityr13, err := per.DecodeBitStringExt(bb, 28, 28, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding cellIdentity-r13: %w", err)
@@ -3048,13 +2929,15 @@ func (v *VarWLANMobilityConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.WlanMobilitySetR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.WlanMobilitySetR13)), 1, 32); err != nil {
-			return fmt.Errorf("encoding wlan-MobilitySet-r13 length: %w", err)
-		}
-		for _, elem := range v.WlanMobilitySetR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding wlan-MobilitySet-r13 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.WlanMobilitySetR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_wlanmobilitysetr13, fragmentLength_wlanmobilitysetr13 int64) error {
+			for _, elem := range v.WlanMobilitySetR13[fragmentOffset_wlanmobilitysetr13 : fragmentOffset_wlanmobilitysetr13+fragmentLength_wlanmobilitysetr13] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding wlan-MobilitySet-r13 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding wlan-MobilitySet-r13: %w", err)
 		}
 	}
 	if v.SuccessReportRequested != nil {
@@ -3077,6 +2960,7 @@ func (v *VarWLANMobilityConfig) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarWLANMobilityConfig{}
 	// Read preamble bitmap for optional root fields
 	opt_wlanmobilitysetr13, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -3091,25 +2975,19 @@ func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if opt_wlanmobilitysetr13 {
-		var seqLen_wlanmobilitysetr13 int64
-		var errLength_wlanmobilitysetr13 error
-		seqLen_wlanmobilitysetr13, errLength_wlanmobilitysetr13 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_wlanmobilitysetr13 != nil {
-			return fmt.Errorf("decoding wlan-MobilitySet-r13 length: %w", errLength_wlanmobilitysetr13)
-		}
-		if seqLen_wlanmobilitysetr13 < 1 {
-			return fmt.Errorf("decoding wlan-MobilitySet-r13 length %d below lower bound 1", seqLen_wlanmobilitysetr13)
-		}
-		if seqLen_wlanmobilitysetr13 > 32 {
-			return fmt.Errorf("decoding wlan-MobilitySet-r13 length %d above upper bound 32", seqLen_wlanmobilitysetr13)
-		}
 		tmp_wlanmobilitysetr13 := make(WLANIdListR13, 0)
-		for i := int64(0); i < seqLen_wlanmobilitysetr13; i++ {
-			var elem WLANIdentifiersR12
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding wlan-MobilitySet-r13 element %d: %w", i, err)
+		_, errCollection_wlanmobilitysetr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_wlanmobilitysetr13, fragmentLength_wlanmobilitysetr13 int64) error {
+			for i := int64(0); i < fragmentLength_wlanmobilitysetr13; i++ {
+				var elem WLANIdentifiersR12
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding wlan-MobilitySet-r13 element %d: %w", fragmentOffset_wlanmobilitysetr13+i, err)
+				}
+				tmp_wlanmobilitysetr13 = append(tmp_wlanmobilitysetr13, elem)
 			}
-			tmp_wlanmobilitysetr13 = append(tmp_wlanmobilitysetr13, elem)
+			return nil
+		})
+		if errCollection_wlanmobilitysetr13 != nil {
+			return fmt.Errorf("decoding wlan-MobilitySet-r13: %w", errCollection_wlanmobilitysetr13)
 		}
 		v.WlanMobilitySetR13 = tmp_wlanmobilitysetr13
 	}
@@ -3162,6 +3040,7 @@ func (v *VarWLANStatusR13) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarWLANStatusR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarWLANStatusR13{}
 	// Read preamble bitmap for optional root fields
 	opt_statusr14, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -3218,6 +3097,7 @@ func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarMeasConfigSpeedStatePars{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -3261,6 +3141,7 @@ func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarMeasConfigSpeedStateParsSetup{}
 	if err := v.MobilityStateParameters.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding mobilityStateParameters: %w", err)
 	}
@@ -3339,6 +3220,7 @@ func (v *CellsTriggeredListElem) UnmarshalUPER(data []byte) error {
 }
 
 func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = CellsTriggeredListElem{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 5)
 	if err != nil {
 		return err
@@ -3428,6 +3310,7 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPER(data []byte) error 
 }
 
 func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = CellsTriggeredListElemPhysCellIdUTRA{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -3478,6 +3361,7 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPER(data []byte) error
 }
 
 func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = CellsTriggeredListElemPhysCellIdGERAN{}
 	if err := v.CarrierFreq.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding carrierFreq: %w", err)
 	}
@@ -3508,13 +3392,15 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPERTo(bb *per.BitBuffer)
 		return fmt.Errorf("encoding physCellId: %w", err)
 	}
 	if v.RsIndexListR15 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.RsIndexListR15)), 1, 64); err != nil {
-			return fmt.Errorf("encoding rs-IndexList-r15 length: %w", err)
-		}
-		for _, elem := range v.RsIndexListR15 {
-			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(63), false); err != nil {
-				return fmt.Errorf("encoding rs-IndexList-r15 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.RsIndexListR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_rsindexlistr15, fragmentLength_rsindexlistr15 int64) error {
+			for _, elem := range v.RsIndexListR15[fragmentOffset_rsindexlistr15 : fragmentOffset_rsindexlistr15+fragmentLength_rsindexlistr15] {
+				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(0), int64Ptr(63), false); err != nil {
+					return fmt.Errorf("encoding rs-IndexList-r15 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding rs-IndexList-r15: %w", err)
 		}
 	}
 	return nil
@@ -3527,6 +3413,7 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPER(data []byte) error
 }
 
 func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = CellsTriggeredListElemPhysCellIdNRR15{}
 	// Read preamble bitmap for optional root fields
 	opt_rsindexlistr15, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -3543,25 +3430,19 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuf
 	}
 	v.PhysCellId = PhysCellIdNRR15(val_physcellid)
 	if opt_rsindexlistr15 {
-		var seqLen_rsindexlistr15 int64
-		var errLength_rsindexlistr15 error
-		seqLen_rsindexlistr15, errLength_rsindexlistr15 = per.DecodeConstrainedWholeNumber(bb, 1, 64)
-		if errLength_rsindexlistr15 != nil {
-			return fmt.Errorf("decoding rs-IndexList-r15 length: %w", errLength_rsindexlistr15)
-		}
-		if seqLen_rsindexlistr15 < 1 {
-			return fmt.Errorf("decoding rs-IndexList-r15 length %d below lower bound 1", seqLen_rsindexlistr15)
-		}
-		if seqLen_rsindexlistr15 > 64 {
-			return fmt.Errorf("decoding rs-IndexList-r15 length %d above upper bound 64", seqLen_rsindexlistr15)
-		}
 		tmp_rsindexlistr15 := make(SSBIndexListR15, 0)
-		for i := int64(0); i < seqLen_rsindexlistr15; i++ {
-			val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
-			if err != nil {
-				return fmt.Errorf("decoding rs-IndexList-r15 element %d: %w", i, err)
+		_, errCollection_rsindexlistr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_rsindexlistr15, fragmentLength_rsindexlistr15 int64) error {
+			for i := int64(0); i < fragmentLength_rsindexlistr15; i++ {
+				val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(63), false)
+				if err != nil {
+					return fmt.Errorf("decoding rs-IndexList-r15 element %d: %w", fragmentOffset_rsindexlistr15+i, err)
+				}
+				tmp_rsindexlistr15 = append(tmp_rsindexlistr15, RSIndexNRR15(val))
 			}
-			tmp_rsindexlistr15 = append(tmp_rsindexlistr15, RSIndexNRR15(val))
+			return nil
+		})
+		if errCollection_rsindexlistr15 != nil {
+			return fmt.Errorf("decoding rs-IndexList-r15: %w", errCollection_rsindexlistr15)
 		}
 		v.RsIndexListR15 = tmp_rsindexlistr15
 	}

@@ -157,6 +157,7 @@ func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
 }
 
 func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = PrivateIEID{}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err

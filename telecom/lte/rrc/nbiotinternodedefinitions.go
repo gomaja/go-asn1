@@ -498,6 +498,7 @@ func (v *HandoverPreparationInformationNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *HandoverPreparationInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding criticalExtensions: %w", err)
 	}
@@ -555,6 +556,7 @@ func (v *HandoverPreparationInformationNBIEs) UnmarshalUPER(data []byte) error {
 }
 
 func (v *HandoverPreparationInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_rrmconfigr13, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -635,6 +637,7 @@ func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPER(data []byte) er
 }
 
 func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBV1380IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -703,6 +706,7 @@ func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPER(data []byte) e
 }
 
 func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBExtR14IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapabilityinfoextr14, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -756,6 +760,7 @@ func (v *UEPagingCoverageInformationNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *UEPagingCoverageInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding criticalExtensions: %w", err)
 	}
@@ -799,6 +804,7 @@ func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPER(data []byte) error {
 }
 
 func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_npdcchnumrepetitionpagingr13, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -862,6 +868,7 @@ func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPER(data []byte) error
 }
 
 func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBV1700IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_cbpindexr17, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -911,6 +918,7 @@ func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPER(data []byte) error 
 }
 
 func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding criticalExtensions: %w", err)
 	}
@@ -953,6 +961,7 @@ func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPER(data []byte) err
 }
 
 func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextension, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -1014,6 +1023,7 @@ func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPER(data []byte
 }
 
 func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBV1380IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -1082,6 +1092,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPER(data []byte) 
 }
 
 func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBR14IEs{}
 	// Read preamble bitmap for optional root fields
 	opt_ueradioaccesscapabilityinfor14, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -1135,6 +1146,7 @@ func (v *UERadioPagingInformationNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *UERadioPagingInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding criticalExtensions: %w", err)
 	}
@@ -1177,6 +1189,7 @@ func (v *UERadioPagingInformationNBIEs) UnmarshalUPER(data []byte) error {
 }
 
 func (v *UERadioPagingInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBIEs{}
 	// Read preamble bitmap for optional root fields
 	opt_noncriticalextension, err := per.DecodeBoolean(bb)
 	if err != nil {
@@ -1285,6 +1298,7 @@ func (v *ASConfigNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = ASConfigNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1396,6 +1410,7 @@ func (v *ASContextNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *ASContextNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = ASContextNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1458,13 +1473,15 @@ func (v *ReestablishmentInfoNB) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding targetCellShortMAC-I-r13: %w", err)
 	}
 	if v.AdditionalReestabInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AdditionalReestabInfoListR13)), 1, 32); err != nil {
-			return fmt.Errorf("encoding additionalReestabInfoList-r13 length: %w", err)
-		}
-		for _, elem := range v.AdditionalReestabInfoListR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding additionalReestabInfoList-r13 element: %w", err)
+		if err := per.EncodeCollection(bb, int64(len(v.AdditionalReestabInfoListR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolistr13, fragmentLength_additionalreestabinfolistr13 int64) error {
+			for _, elem := range v.AdditionalReestabInfoListR13[fragmentOffset_additionalreestabinfolistr13 : fragmentOffset_additionalreestabinfolistr13+fragmentLength_additionalreestabinfolistr13] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding additionalReestabInfoList-r13 element: %w", err)
+				}
 			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding additionalReestabInfoList-r13: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -1497,6 +1514,7 @@ func (v *ReestablishmentInfoNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = ReestablishmentInfoNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1517,25 +1535,19 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TargetCellShortMACIR13 = runtime.BitString{Bytes: bsBytes_targetcellshortmacir13, BitLength: bsBitLen_targetcellshortmacir13}
 	if opt_additionalreestabinfolistr13 {
-		var seqLen_additionalreestabinfolistr13 int64
-		var errLength_additionalreestabinfolistr13 error
-		seqLen_additionalreestabinfolistr13, errLength_additionalreestabinfolistr13 = per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if errLength_additionalreestabinfolistr13 != nil {
-			return fmt.Errorf("decoding additionalReestabInfoList-r13 length: %w", errLength_additionalreestabinfolistr13)
-		}
-		if seqLen_additionalreestabinfolistr13 < 1 {
-			return fmt.Errorf("decoding additionalReestabInfoList-r13 length %d below lower bound 1", seqLen_additionalreestabinfolistr13)
-		}
-		if seqLen_additionalreestabinfolistr13 > 32 {
-			return fmt.Errorf("decoding additionalReestabInfoList-r13 length %d above upper bound 32", seqLen_additionalreestabinfolistr13)
-		}
 		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, 0)
-		for i := int64(0); i < seqLen_additionalreestabinfolistr13; i++ {
-			var elem AdditionalReestabInfo
-			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding additionalReestabInfoList-r13 element %d: %w", i, err)
+		_, errCollection_additionalreestabinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolistr13, fragmentLength_additionalreestabinfolistr13 int64) error {
+			for i := int64(0); i < fragmentLength_additionalreestabinfolistr13; i++ {
+				var elem AdditionalReestabInfo
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding additionalReestabInfoList-r13 element %d: %w", fragmentOffset_additionalreestabinfolistr13+i, err)
+				}
+				tmp_additionalreestabinfolistr13 = append(tmp_additionalreestabinfolistr13, elem)
 			}
-			tmp_additionalreestabinfolistr13 = append(tmp_additionalreestabinfolistr13, elem)
+			return nil
+		})
+		if errCollection_additionalreestabinfolistr13 != nil {
+			return fmt.Errorf("decoding additionalReestabInfoList-r13: %w", errCollection_additionalreestabinfolistr13)
 		}
 		v.AdditionalReestabInfoListR13 = tmp_additionalreestabinfolistr13
 	}
@@ -1613,6 +1625,7 @@ func (v *RRMConfigNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *RRMConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = RRMConfigNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1691,6 +1704,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPER(data 
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -1750,6 +1764,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPER(dat
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -1789,6 +1804,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFut
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -1812,6 +1828,7 @@ func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) Unmarsha
 }
 
 func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBExtR14IEsNonCriticalExtension{}
 	return nil
 }
 
@@ -1856,6 +1873,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPER(data []b
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -1915,6 +1933,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPER(data [
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -1954,6 +1973,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -1977,6 +1997,7 @@ func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) UnmarshalUPE
 }
 
 func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBV1700IEsNonCriticalExtension{}
 	return nil
 }
 
@@ -2021,6 +2042,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPER(d
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -2080,6 +2102,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPER
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -2119,6 +2142,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtension
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -2142,6 +2166,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) Unmarsh
 }
 
 func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension{}
 	return nil
 }
 
@@ -2186,6 +2211,7 @@ func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPER(data []byte
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -2245,6 +2271,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPER(data []by
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -2284,6 +2311,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) U
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -2307,5 +2335,6 @@ func (v *UERadioPagingInformationNBIEsNonCriticalExtension) UnmarshalUPER(data [
 }
 
 func (v *UERadioPagingInformationNBIEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBIEsNonCriticalExtension{}
 	return nil
 }

@@ -19,156 +19,156 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// IdCe returns the OID value for IdCe.
+// IdCe returns the OID value for id-ce.
 func IdCe() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29} }
 
-// IdCeAuthorityKeyIdentifier returns the OID value for IdCeAuthorityKeyIdentifier.
+// IdCeAuthorityKeyIdentifier returns the OID value for id-ce-authorityKeyIdentifier.
 func IdCeAuthorityKeyIdentifier() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 35}
 }
 
-// IdCeSubjectKeyIdentifier returns the OID value for IdCeSubjectKeyIdentifier.
+// IdCeSubjectKeyIdentifier returns the OID value for id-ce-subjectKeyIdentifier.
 func IdCeSubjectKeyIdentifier() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 14}
 }
 
-// IdCeKeyUsage returns the OID value for IdCeKeyUsage.
+// IdCeKeyUsage returns the OID value for id-ce-keyUsage.
 func IdCeKeyUsage() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 15} }
 
-// IdCePrivateKeyUsagePeriod returns the OID value for IdCePrivateKeyUsagePeriod.
+// IdCePrivateKeyUsagePeriod returns the OID value for id-ce-privateKeyUsagePeriod.
 func IdCePrivateKeyUsagePeriod() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 16}
 }
 
-// IdCeCertificatePolicies returns the OID value for IdCeCertificatePolicies.
+// IdCeCertificatePolicies returns the OID value for id-ce-certificatePolicies.
 func IdCeCertificatePolicies() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 32}
 }
 
-// AnyPolicy returns the OID value for AnyPolicy.
+// AnyPolicy returns the OID value for anyPolicy.
 func AnyPolicy() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 32, 0} }
 
-// IdCePolicyMappings returns the OID value for IdCePolicyMappings.
+// IdCePolicyMappings returns the OID value for id-ce-policyMappings.
 func IdCePolicyMappings() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 33} }
 
-// IdCeSubjectAltName returns the OID value for IdCeSubjectAltName.
+// IdCeSubjectAltName returns the OID value for id-ce-subjectAltName.
 func IdCeSubjectAltName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 17} }
 
-// IdCeIssuerAltName returns the OID value for IdCeIssuerAltName.
+// IdCeIssuerAltName returns the OID value for id-ce-issuerAltName.
 func IdCeIssuerAltName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 18} }
 
-// IdCeSubjectDirectoryAttributes returns the OID value for IdCeSubjectDirectoryAttributes.
+// IdCeSubjectDirectoryAttributes returns the OID value for id-ce-subjectDirectoryAttributes.
 func IdCeSubjectDirectoryAttributes() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 9}
 }
 
-// IdCeBasicConstraints returns the OID value for IdCeBasicConstraints.
+// IdCeBasicConstraints returns the OID value for id-ce-basicConstraints.
 func IdCeBasicConstraints() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 19} }
 
-// IdCeNameConstraints returns the OID value for IdCeNameConstraints.
+// IdCeNameConstraints returns the OID value for id-ce-nameConstraints.
 func IdCeNameConstraints() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 30} }
 
-// IdCePolicyConstraints returns the OID value for IdCePolicyConstraints.
+// IdCePolicyConstraints returns the OID value for id-ce-policyConstraints.
 func IdCePolicyConstraints() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 36} }
 
-// IdCeCRLDistributionPoints returns the OID value for IdCeCRLDistributionPoints.
+// IdCeCRLDistributionPoints returns the OID value for id-ce-cRLDistributionPoints.
 func IdCeCRLDistributionPoints() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 31}
 }
 
-// IdCeExtKeyUsage returns the OID value for IdCeExtKeyUsage.
+// IdCeExtKeyUsage returns the OID value for id-ce-extKeyUsage.
 func IdCeExtKeyUsage() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 37} }
 
-// AnyExtendedKeyUsage returns the OID value for AnyExtendedKeyUsage.
+// AnyExtendedKeyUsage returns the OID value for anyExtendedKeyUsage.
 func AnyExtendedKeyUsage() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 37, 0} }
 
-// IdKpServerAuth returns the OID value for IdKpServerAuth.
+// IdKpServerAuth returns the OID value for id-kp-serverAuth.
 func IdKpServerAuth() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 1}
 }
 
-// IdKpClientAuth returns the OID value for IdKpClientAuth.
+// IdKpClientAuth returns the OID value for id-kp-clientAuth.
 func IdKpClientAuth() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 2}
 }
 
-// IdKpCodeSigning returns the OID value for IdKpCodeSigning.
+// IdKpCodeSigning returns the OID value for id-kp-codeSigning.
 func IdKpCodeSigning() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 3}
 }
 
-// IdKpEmailProtection returns the OID value for IdKpEmailProtection.
+// IdKpEmailProtection returns the OID value for id-kp-emailProtection.
 func IdKpEmailProtection() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 4}
 }
 
-// IdKpTimeStamping returns the OID value for IdKpTimeStamping.
+// IdKpTimeStamping returns the OID value for id-kp-timeStamping.
 func IdKpTimeStamping() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 8}
 }
 
-// IdKpOCSPSigning returns the OID value for IdKpOCSPSigning.
+// IdKpOCSPSigning returns the OID value for id-kp-OCSPSigning.
 func IdKpOCSPSigning() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3, 9}
 }
 
-// IdCeInhibitAnyPolicy returns the OID value for IdCeInhibitAnyPolicy.
+// IdCeInhibitAnyPolicy returns the OID value for id-ce-inhibitAnyPolicy.
 func IdCeInhibitAnyPolicy() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 54} }
 
-// IdCeFreshestCRL returns the OID value for IdCeFreshestCRL.
+// IdCeFreshestCRL returns the OID value for id-ce-freshestCRL.
 func IdCeFreshestCRL() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 46} }
 
-// IdPeAuthorityInfoAccess returns the OID value for IdPeAuthorityInfoAccess.
+// IdPeAuthorityInfoAccess returns the OID value for id-pe-authorityInfoAccess.
 func IdPeAuthorityInfoAccess() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 1}
 }
 
-// IdPeSubjectInfoAccess returns the OID value for IdPeSubjectInfoAccess.
+// IdPeSubjectInfoAccess returns the OID value for id-pe-subjectInfoAccess.
 func IdPeSubjectInfoAccess() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1, 11}
 }
 
-// IdCeCRLNumber returns the OID value for IdCeCRLNumber.
+// IdCeCRLNumber returns the OID value for id-ce-cRLNumber.
 func IdCeCRLNumber() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 20} }
 
-// IdCeIssuingDistributionPoint returns the OID value for IdCeIssuingDistributionPoint.
+// IdCeIssuingDistributionPoint returns the OID value for id-ce-issuingDistributionPoint.
 func IdCeIssuingDistributionPoint() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 28}
 }
 
-// IdCeDeltaCRLIndicator returns the OID value for IdCeDeltaCRLIndicator.
+// IdCeDeltaCRLIndicator returns the OID value for id-ce-deltaCRLIndicator.
 func IdCeDeltaCRLIndicator() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 27} }
 
-// IdCeCRLReasons returns the OID value for IdCeCRLReasons.
+// IdCeCRLReasons returns the OID value for id-ce-cRLReasons.
 func IdCeCRLReasons() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 21} }
 
-// IdCeCertificateIssuer returns the OID value for IdCeCertificateIssuer.
+// IdCeCertificateIssuer returns the OID value for id-ce-certificateIssuer.
 func IdCeCertificateIssuer() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 29} }
 
-// IdCeHoldInstructionCode returns the OID value for IdCeHoldInstructionCode.
+// IdCeHoldInstructionCode returns the OID value for id-ce-holdInstructionCode.
 func IdCeHoldInstructionCode() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 29, 23}
 }
 
-// HoldInstruction returns the OID value for HoldInstruction.
+// HoldInstruction returns the OID value for holdInstruction.
 func HoldInstruction() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 2, 840, 10040, 2} }
 
-// IdHoldinstructionNone returns the OID value for IdHoldinstructionNone.
+// IdHoldinstructionNone returns the OID value for id-holdinstruction-none.
 func IdHoldinstructionNone() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 2, 840, 10040, 2, 1}
 }
 
-// IdHoldinstructionCallissuer returns the OID value for IdHoldinstructionCallissuer.
+// IdHoldinstructionCallissuer returns the OID value for id-holdinstruction-callissuer.
 func IdHoldinstructionCallissuer() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 2, 840, 10040, 2, 2}
 }
 
-// IdHoldinstructionReject returns the OID value for IdHoldinstructionReject.
+// IdHoldinstructionReject returns the OID value for id-holdinstruction-reject.
 func IdHoldinstructionReject() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 2, 840, 10040, 2, 3}
 }
 
-// IdCeInvalidityDate returns the OID value for IdCeInvalidityDate.
+// IdCeInvalidityDate returns the OID value for id-ce-invalidityDate.
 func IdCeInvalidityDate() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 29, 24} }
 
 // AuthorityKeyIdentifier represents the ASN.1 type AuthorityKeyIdentifier (SEQUENCE).
@@ -682,6 +682,7 @@ func (v *AuthorityKeyIdentifier) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthorityKeyIdentifier from BER/DER format.
 func (v *AuthorityKeyIdentifier) UnmarshalBER(data []byte) error {
+	*v = AuthorityKeyIdentifier{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthorityKeyIdentifier SEQUENCE: %w", err)
@@ -818,6 +819,7 @@ func (v *PrivateKeyUsagePeriod) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrivateKeyUsagePeriod from BER/DER format.
 func (v *PrivateKeyUsagePeriod) UnmarshalBER(data []byte) error {
+	*v = PrivateKeyUsagePeriod{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrivateKeyUsagePeriod SEQUENCE: %w", err)
@@ -972,6 +974,7 @@ func (v *PolicyInformation) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PolicyInformation from BER/DER format.
 func (v *PolicyInformation) UnmarshalBER(data []byte) error {
+	*v = PolicyInformation{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PolicyInformation SEQUENCE: %w", err)
@@ -1055,6 +1058,7 @@ func (v *PolicyQualifierInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PolicyQualifierInfo from BER/DER format.
 func (v *PolicyQualifierInfo) UnmarshalBER(data []byte) error {
+	*v = PolicyQualifierInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PolicyQualifierInfo SEQUENCE: %w", err)
@@ -1135,6 +1139,7 @@ func (v *UserNotice) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UserNotice from BER/DER format.
 func (v *UserNotice) UnmarshalBER(data []byte) error {
+	*v = UserNotice{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UserNotice SEQUENCE: %w", err)
@@ -1225,6 +1230,7 @@ func (v *NoticeReference) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NoticeReference from BER/DER format.
 func (v *NoticeReference) UnmarshalBER(data []byte) error {
+	*v = NoticeReference{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NoticeReference SEQUENCE: %w", err)
@@ -1333,6 +1339,7 @@ func (v *DisplayText) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DisplayText from BER/DER format.
 func (v *DisplayText) UnmarshalBER(data []byte) error {
+	*v = DisplayText{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DisplayText CHOICE")
 	}
@@ -1697,6 +1704,7 @@ func (v *GeneralName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GeneralName from BER/DER format.
 func (v *GeneralName) UnmarshalBER(data []byte) error {
+	*v = GeneralName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for GeneralName CHOICE")
 	}
@@ -1852,6 +1860,7 @@ func (v *AnotherName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnotherName from BER/DER format.
 func (v *AnotherName) UnmarshalBER(data []byte) error {
+	*v = AnotherName{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnotherName SEQUENCE: %w", err)
@@ -1941,6 +1950,7 @@ func (v *EDIPartyName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EDIPartyName from BER/DER format.
 func (v *EDIPartyName) UnmarshalBER(data []byte) error {
+	*v = EDIPartyName{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EDIPartyName SEQUENCE: %w", err)
@@ -2093,6 +2103,7 @@ func (v *BasicConstraints) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BasicConstraints from BER/DER format.
 func (v *BasicConstraints) UnmarshalBER(data []byte) error {
+	*v = BasicConstraints{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BasicConstraints SEQUENCE: %w", err)
@@ -2220,6 +2231,7 @@ func (v *NameConstraints) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NameConstraints from BER/DER format.
 func (v *NameConstraints) UnmarshalBER(data []byte) error {
+	*v = NameConstraints{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NameConstraints SEQUENCE: %w", err)
@@ -2412,6 +2424,7 @@ func (v *GeneralSubtree) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes GeneralSubtree from BER/DER format.
 func (v *GeneralSubtree) UnmarshalBER(data []byte) error {
+	*v = GeneralSubtree{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding GeneralSubtree SEQUENCE: %w", err)
@@ -2535,6 +2548,7 @@ func (v *PolicyConstraints) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PolicyConstraints from BER/DER format.
 func (v *PolicyConstraints) UnmarshalBER(data []byte) error {
+	*v = PolicyConstraints{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PolicyConstraints SEQUENCE: %w", err)
@@ -2732,6 +2746,7 @@ func (v *DistributionPoint) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DistributionPoint from BER/DER format.
 func (v *DistributionPoint) UnmarshalBER(data []byte) error {
+	*v = DistributionPoint{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DistributionPoint SEQUENCE: %w", err)
@@ -2774,7 +2789,7 @@ func (v *DistributionPoint) UnmarshalBER(data []byte) error {
 				if decodedTag_reasons.Class != tag.ClassContextSpecific || decodedTag_reasons.Number != 1 {
 					return fmt.Errorf("decoding reasons: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reasons)
 				}
-				bsBytes_reasons, bsUnused_reasons, bsErr := ber.DecodeBitStringValue(rawVal_reasons)
+				bsBytes_reasons, bsUnused_reasons, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_reasons.Constructed, rawVal_reasons)
 				if bsErr != nil {
 					return fmt.Errorf("decoding reasons: %w", bsErr)
 				}
@@ -2893,6 +2908,7 @@ func (v *DistributionPointName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DistributionPointName from BER/DER format.
 func (v *DistributionPointName) UnmarshalBER(data []byte) error {
+	*v = DistributionPointName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DistributionPointName CHOICE")
 	}
@@ -3086,6 +3102,7 @@ func (v *AccessDescription) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AccessDescription from BER/DER format.
 func (v *AccessDescription) UnmarshalBER(data []byte) error {
+	*v = AccessDescription{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AccessDescription SEQUENCE: %w", err)
@@ -3323,6 +3340,7 @@ func (v *IssuingDistributionPoint) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IssuingDistributionPoint from BER/DER format.
 func (v *IssuingDistributionPoint) UnmarshalBER(data []byte) error {
+	*v = IssuingDistributionPoint{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IssuingDistributionPoint SEQUENCE: %w", err)
@@ -3413,7 +3431,7 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte) error {
 				if decodedTag_onlysomereasons.Class != tag.ClassContextSpecific || decodedTag_onlysomereasons.Number != 3 {
 					return fmt.Errorf("decoding onlySomeReasons: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_onlysomereasons)
 				}
-				bsBytes_onlysomereasons, bsUnused_onlysomereasons, bsErr := ber.DecodeBitStringValue(rawVal_onlysomereasons)
+				bsBytes_onlysomereasons, bsUnused_onlysomereasons, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_onlysomereasons.Constructed, rawVal_onlysomereasons)
 				if bsErr != nil {
 					return fmt.Errorf("decoding onlySomeReasons: %w", bsErr)
 				}
@@ -3621,6 +3639,7 @@ func (v *PolicyMappingsElem) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PolicyMappingsElem from BER/DER format.
 func (v *PolicyMappingsElem) UnmarshalBER(data []byte) error {
+	*v = PolicyMappingsElem{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PolicyMappingsElem SEQUENCE: %w", err)

@@ -18,13 +18,13 @@ var (
 
 const (
 
-	// MaxnoofIRATReportingCells is the integer constant for MaxnoofIRATReportingCells.
+	// MaxnoofIRATReportingCells is the integer constant for maxnoofIRATReportingCells.
 	MaxnoofIRATReportingCells int64 = 128
 
-	// MaxnoofcandidateCells is the integer constant for MaxnoofcandidateCells.
+	// MaxnoofcandidateCells is the integer constant for maxnoofcandidateCells.
 	MaxnoofcandidateCells int64 = 16
 
-	// MaxnoofCellineNB is the integer constant for MaxnoofCellineNB.
+	// MaxnoofCellineNB is the integer constant for maxnoofCellineNB.
 	MaxnoofCellineNB int64 = 256
 )
 
@@ -961,6 +961,7 @@ func (v *SONtransferRequestContainer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SONtransferRequestContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SONtransferRequestContainer{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1047,13 +1048,15 @@ func (v *SONtransferResponseContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 		inner := per.NewBitBuffer()
 		switch v.Choice {
 		case SONtransferResponseContainerChoiceMultiCellLoadReporting:
-			if err := per.EncodeConstrainedWholeNumberAligned(inner, int64(len(v.MultiCellLoadReporting)), 1, 128); err != nil {
-				return fmt.Errorf("encoding multiCellLoadReporting length: %w", err)
-			}
-			for _, elem := range v.MultiCellLoadReporting {
-				if err := elem.MarshalAPERTo(inner); err != nil {
-					return fmt.Errorf("encoding multiCellLoadReporting element: %w", err)
+			if err := per.EncodeCollection(inner, int64(len(v.MultiCellLoadReporting)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_multicellloadreporting, fragmentLength_multicellloadreporting int64) error {
+				for _, elem := range v.MultiCellLoadReporting[fragmentOffset_multicellloadreporting : fragmentOffset_multicellloadreporting+fragmentLength_multicellloadreporting] {
+					if err := elem.MarshalAPERTo(inner); err != nil {
+						return fmt.Errorf("encoding multiCellLoadReporting element: %w", err)
+					}
 				}
+				return nil
+			}); err != nil {
+				return fmt.Errorf("encoding multiCellLoadReporting: %w", err)
 			}
 		case SONtransferResponseContainerChoiceEventTriggeredCellLoadReporting:
 			if v.EventTriggeredCellLoadReporting == nil {
@@ -1101,6 +1104,7 @@ func (v *SONtransferResponseContainer) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SONtransferResponseContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SONtransferResponseContainer{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1119,25 +1123,19 @@ func (v *SONtransferResponseContainer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		v.Choice = int(extIdx) + 1 + 1
 		switch v.Choice {
 		case SONtransferResponseContainerChoiceMultiCellLoadReporting:
-			var seqLen_multicellloadreporting int64
-			var errLength_multicellloadreporting error
-			seqLen_multicellloadreporting, errLength_multicellloadreporting = per.DecodeConstrainedWholeNumberAligned(inner, 1, 128)
-			if errLength_multicellloadreporting != nil {
-				return fmt.Errorf("decoding multiCellLoadReporting length: %w", errLength_multicellloadreporting)
-			}
-			if seqLen_multicellloadreporting < 1 {
-				return fmt.Errorf("decoding multiCellLoadReporting length %d below lower bound 1", seqLen_multicellloadreporting)
-			}
-			if seqLen_multicellloadreporting > 128 {
-				return fmt.Errorf("decoding multiCellLoadReporting length %d above upper bound 128", seqLen_multicellloadreporting)
-			}
 			tmp_multicellloadreporting := make(MultiCellLoadReportingResponse, 0)
-			for i := int64(0); i < seqLen_multicellloadreporting; i++ {
-				var elem MultiCellLoadReportingResponseItem
-				if err := elem.UnmarshalAPERFrom(inner); err != nil {
-					return fmt.Errorf("decoding multiCellLoadReporting element %d: %w", i, err)
+			_, errCollection_multicellloadreporting := per.DecodeCollection(inner, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_multicellloadreporting, fragmentLength_multicellloadreporting int64) error {
+				for i := int64(0); i < fragmentLength_multicellloadreporting; i++ {
+					var elem MultiCellLoadReportingResponseItem
+					if err := elem.UnmarshalAPERFrom(inner); err != nil {
+						return fmt.Errorf("decoding multiCellLoadReporting element %d: %w", fragmentOffset_multicellloadreporting+i, err)
+					}
+					tmp_multicellloadreporting = append(tmp_multicellloadreporting, elem)
 				}
-				tmp_multicellloadreporting = append(tmp_multicellloadreporting, elem)
+				return nil
+			})
+			if errCollection_multicellloadreporting != nil {
+				return fmt.Errorf("decoding multiCellLoadReporting: %w", errCollection_multicellloadreporting)
 			}
 			v.MultiCellLoadReporting = tmp_multicellloadreporting
 		case SONtransferResponseContainerChoiceEventTriggeredCellLoadReporting:
@@ -1263,6 +1261,7 @@ func (v *SONtransferCause) UnmarshalAPER(data []byte) error {
 }
 
 func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = SONtransferCause{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1407,6 +1406,7 @@ func (v *CellLoadReportingResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellLoadReportingResponse{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1512,6 +1512,7 @@ func (v *EUTRANcellLoadReportingResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *EUTRANcellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EUTRANcellLoadReportingResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1592,6 +1593,7 @@ func (v *EUTRANResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *EUTRANResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EUTRANResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1689,6 +1691,7 @@ func (v *IRATCellID) UnmarshalAPER(data []byte) error {
 }
 
 func (v *IRATCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = IRATCellID{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1763,13 +1766,15 @@ func MarshalAPERRequestedCellList(list RequestedCellList) ([]byte, error) {
 // MarshalAPERRequestedCellListTo appends a RequestedCellList list to bb.
 func MarshalAPERRequestedCellListTo(list RequestedCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERRequestedCellListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 128); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -1790,25 +1795,19 @@ func UnmarshalAPERRequestedCellListFrom(bb *per.BitBuffer) (RequestedCellList, e
 }
 
 func unmarshalAPERRequestedCellListInto(v *asn1cAPERRequestedCellListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 128 {
-		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
-	}
 	v.Value = make(RequestedCellList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem IRATCellID
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem IRATCellID
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -1827,13 +1826,15 @@ func (v *MultiCellLoadReportingRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.RequestedCellList)), 1, 128); err != nil {
-		return fmt.Errorf("encoding requestedCellList length: %w", err)
-	}
-	for _, elem := range v.RequestedCellList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding requestedCellList element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.RequestedCellList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_requestedcelllist, fragmentLength_requestedcelllist int64) error {
+		for _, elem := range v.RequestedCellList[fragmentOffset_requestedcelllist : fragmentOffset_requestedcelllist+fragmentLength_requestedcelllist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding requestedCellList element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding requestedCellList: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -1865,29 +1866,24 @@ func (v *MultiCellLoadReportingRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *MultiCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = MultiCellLoadReportingRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_requestedcelllist int64
-	var errLength_requestedcelllist error
-	seqLen_requestedcelllist, errLength_requestedcelllist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if errLength_requestedcelllist != nil {
-		return fmt.Errorf("decoding requestedCellList length: %w", errLength_requestedcelllist)
-	}
-	if seqLen_requestedcelllist < 1 {
-		return fmt.Errorf("decoding requestedCellList length %d below lower bound 1", seqLen_requestedcelllist)
-	}
-	if seqLen_requestedcelllist > 128 {
-		return fmt.Errorf("decoding requestedCellList length %d above upper bound 128", seqLen_requestedcelllist)
-	}
 	v.RequestedCellList = make(RequestedCellList, 0)
-	for i := int64(0); i < seqLen_requestedcelllist; i++ {
-		var elem IRATCellID
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding requestedCellList element %d: %w", i, err)
+	_, errCollection_requestedcelllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_requestedcelllist, fragmentLength_requestedcelllist int64) error {
+		for i := int64(0); i < fragmentLength_requestedcelllist; i++ {
+			var elem IRATCellID
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding requestedCellList element %d: %w", fragmentOffset_requestedcelllist+i, err)
+			}
+			v.RequestedCellList = append(v.RequestedCellList, elem)
 		}
-		v.RequestedCellList = append(v.RequestedCellList, elem)
+		return nil
+	})
+	if errCollection_requestedcelllist != nil {
+		return fmt.Errorf("decoding requestedCellList: %w", errCollection_requestedcelllist)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -1957,6 +1953,7 @@ func (v *ReportingCellListItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ReportingCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ReportingCellListItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1999,13 +1996,15 @@ func MarshalAPERReportingCellList(list ReportingCellList) ([]byte, error) {
 // MarshalAPERReportingCellListTo appends a ReportingCellList list to bb.
 func MarshalAPERReportingCellListTo(list ReportingCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERReportingCellListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 128); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2026,25 +2025,19 @@ func UnmarshalAPERReportingCellListFrom(bb *per.BitBuffer) (ReportingCellList, e
 }
 
 func unmarshalAPERReportingCellListInto(v *asn1cAPERReportingCellListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 128 {
-		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
-	}
 	v.Value = make(ReportingCellList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ReportingCellListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ReportingCellListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2065,13 +2058,15 @@ func MarshalAPERMultiCellLoadReportingResponse(list MultiCellLoadReportingRespon
 // MarshalAPERMultiCellLoadReportingResponseTo appends a MultiCellLoadReportingResponse list to bb.
 func MarshalAPERMultiCellLoadReportingResponseTo(list MultiCellLoadReportingResponse, bb *per.BitBuffer) error {
 	v := asn1cAPERMultiCellLoadReportingResponseListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 128); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2092,25 +2087,19 @@ func UnmarshalAPERMultiCellLoadReportingResponseFrom(bb *per.BitBuffer) (MultiCe
 }
 
 func unmarshalAPERMultiCellLoadReportingResponseInto(v *asn1cAPERMultiCellLoadReportingResponseListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 128)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 128 {
-		return fmt.Errorf("decoding value length %d above upper bound 128", seqLen_value)
-	}
 	v.Value = make(MultiCellLoadReportingResponse, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem MultiCellLoadReportingResponseItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem MultiCellLoadReportingResponseItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2182,6 +2171,7 @@ func (v *MultiCellLoadReportingResponseItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *MultiCellLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = MultiCellLoadReportingResponseItem{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2287,6 +2277,7 @@ func (v *EventTriggeredCellLoadReportingRequest) UnmarshalAPER(data []byte) erro
 }
 
 func (v *EventTriggeredCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EventTriggeredCellLoadReportingRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2373,6 +2364,7 @@ func (v *EventTriggeredCellLoadReportingResponse) UnmarshalAPER(data []byte) err
 }
 
 func (v *EventTriggeredCellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EventTriggeredCellLoadReportingResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2440,13 +2432,15 @@ func (v *HOReport) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := v.HoTargetID.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding hoTargetID: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CandidateCellList)), 1, 16); err != nil {
-		return fmt.Errorf("encoding candidateCellList length: %w", err)
-	}
-	for _, elem := range v.CandidateCellList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding candidateCellList element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.CandidateCellList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_candidatecelllist, fragmentLength_candidatecelllist int64) error {
+		for _, elem := range v.CandidateCellList[fragmentOffset_candidatecelllist : fragmentOffset_candidatecelllist+fragmentLength_candidatecelllist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding candidateCellList element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding candidateCellList: %w", err)
 	}
 	if hasExtensions {
 		extHighest := int64(0)
@@ -2478,13 +2472,15 @@ func (v *HOReport) MarshalAPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.CandidatePCIList != nil {
-				if err := per.EncodeConstrainedWholeNumberAligned(extBuf, int64(len(v.CandidatePCIList)), 1, 16); err != nil {
-					return fmt.Errorf("encoding candidatePCIList length: %w", err)
-				}
-				for _, elem := range v.CandidatePCIList {
-					if err := elem.MarshalAPERTo(extBuf); err != nil {
-						return fmt.Errorf("encoding candidatePCIList element: %w", err)
+				if err := per.EncodeCollection(extBuf, int64(len(v.CandidatePCIList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_candidatepcilist, fragmentLength_candidatepcilist int64) error {
+					for _, elem := range v.CandidatePCIList[fragmentOffset_candidatepcilist : fragmentOffset_candidatepcilist+fragmentLength_candidatepcilist] {
+						if err := elem.MarshalAPERTo(extBuf); err != nil {
+							return fmt.Errorf("encoding candidatePCIList element: %w", err)
+						}
 					}
+					return nil
+				}); err != nil {
+					return fmt.Errorf("encoding candidatePCIList: %w", err)
 				}
 			}
 			if err := per.EncodeOpenTypeAligned(bb, extBuf.Bytes()); err != nil {
@@ -2511,6 +2507,7 @@ func (v *HOReport) UnmarshalAPER(data []byte) error {
 }
 
 func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = HOReport{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2531,25 +2528,19 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err := v.HoTargetID.UnmarshalAPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding hoTargetID: %w", err)
 	}
-	var seqLen_candidatecelllist int64
-	var errLength_candidatecelllist error
-	seqLen_candidatecelllist, errLength_candidatecelllist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-	if errLength_candidatecelllist != nil {
-		return fmt.Errorf("decoding candidateCellList length: %w", errLength_candidatecelllist)
-	}
-	if seqLen_candidatecelllist < 1 {
-		return fmt.Errorf("decoding candidateCellList length %d below lower bound 1", seqLen_candidatecelllist)
-	}
-	if seqLen_candidatecelllist > 16 {
-		return fmt.Errorf("decoding candidateCellList length %d above upper bound 16", seqLen_candidatecelllist)
-	}
 	v.CandidateCellList = make(CandidateCellList, 0)
-	for i := int64(0); i < seqLen_candidatecelllist; i++ {
-		var elem IRATCellID
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding candidateCellList element %d: %w", i, err)
+	_, errCollection_candidatecelllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_candidatecelllist, fragmentLength_candidatecelllist int64) error {
+		for i := int64(0); i < fragmentLength_candidatecelllist; i++ {
+			var elem IRATCellID
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding candidateCellList element %d: %w", fragmentOffset_candidatecelllist+i, err)
+			}
+			v.CandidateCellList = append(v.CandidateCellList, elem)
 		}
-		v.CandidateCellList = append(v.CandidateCellList, elem)
+		return nil
+	})
+	if errCollection_candidatecelllist != nil {
+		return fmt.Errorf("decoding candidateCellList: %w", errCollection_candidatecelllist)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -2570,25 +2561,19 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				return err
 			}
 			if ext_opt_candidatepcilist {
-				var seqLen_candidatepcilist int64
-				var errLength_candidatepcilist error
-				seqLen_candidatepcilist, errLength_candidatepcilist = per.DecodeConstrainedWholeNumberAligned(extBB, 1, 16)
-				if errLength_candidatepcilist != nil {
-					return fmt.Errorf("decoding candidatePCIList length: %w", errLength_candidatepcilist)
-				}
-				if seqLen_candidatepcilist < 1 {
-					return fmt.Errorf("decoding candidatePCIList length %d below lower bound 1", seqLen_candidatepcilist)
-				}
-				if seqLen_candidatepcilist > 16 {
-					return fmt.Errorf("decoding candidatePCIList length %d above upper bound 16", seqLen_candidatepcilist)
-				}
 				tmp_candidatepcilist := make(CandidatePCIList, 0)
-				for i := int64(0); i < seqLen_candidatepcilist; i++ {
-					var elem CandidatePCI
-					if err := elem.UnmarshalAPERFrom(extBB); err != nil {
-						return fmt.Errorf("decoding candidatePCIList element %d: %w", i, err)
+				_, errCollection_candidatepcilist := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_candidatepcilist, fragmentLength_candidatepcilist int64) error {
+					for i := int64(0); i < fragmentLength_candidatepcilist; i++ {
+						var elem CandidatePCI
+						if err := elem.UnmarshalAPERFrom(extBB); err != nil {
+							return fmt.Errorf("decoding candidatePCIList element %d: %w", fragmentOffset_candidatepcilist+i, err)
+						}
+						tmp_candidatepcilist = append(tmp_candidatepcilist, elem)
 					}
-					tmp_candidatepcilist = append(tmp_candidatepcilist, elem)
+					return nil
+				})
+				if errCollection_candidatepcilist != nil {
+					return fmt.Errorf("decoding candidatePCIList: %w", errCollection_candidatepcilist)
 				}
 				v.CandidatePCIList = tmp_candidatepcilist
 			}
@@ -2621,13 +2606,15 @@ func MarshalAPERCandidateCellList(list CandidateCellList) ([]byte, error) {
 // MarshalAPERCandidateCellListTo appends a CandidateCellList list to bb.
 func MarshalAPERCandidateCellListTo(list CandidateCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERCandidateCellListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2648,25 +2635,19 @@ func UnmarshalAPERCandidateCellListFrom(bb *per.BitBuffer) (CandidateCellList, e
 }
 
 func unmarshalAPERCandidateCellListInto(v *asn1cAPERCandidateCellListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16 {
-		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
-	}
 	v.Value = make(CandidateCellList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem IRATCellID
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem IRATCellID
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2685,13 +2666,15 @@ func MarshalAPERCandidatePCIList(list CandidatePCIList) ([]byte, error) {
 // MarshalAPERCandidatePCIListTo appends a CandidatePCIList list to bb.
 func MarshalAPERCandidatePCIListTo(list CandidatePCIList, bb *per.BitBuffer) error {
 	v := asn1cAPERCandidatePCIListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 16); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2712,25 +2695,19 @@ func UnmarshalAPERCandidatePCIListFrom(bb *per.BitBuffer) (CandidatePCIList, err
 }
 
 func unmarshalAPERCandidatePCIListInto(v *asn1cAPERCandidatePCIListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 16)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 16 {
-		return fmt.Errorf("decoding value length %d above upper bound 16", seqLen_value)
-	}
 	v.Value = make(CandidatePCIList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem CandidatePCI
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem CandidatePCI
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -2785,6 +2762,7 @@ func (v *CandidatePCI) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CandidatePCI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CandidatePCI{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2838,13 +2816,15 @@ func (v *CellActivationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.MinimumActivationTime != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.CellsToActivateList)), 1, 256); err != nil {
-		return fmt.Errorf("encoding cellsToActivateList length: %w", err)
-	}
-	for _, elem := range v.CellsToActivateList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding cellsToActivateList element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.CellsToActivateList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_cellstoactivatelist, fragmentLength_cellstoactivatelist int64) error {
+		for _, elem := range v.CellsToActivateList[fragmentOffset_cellstoactivatelist : fragmentOffset_cellstoactivatelist+fragmentLength_cellstoactivatelist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding cellsToActivateList element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding cellsToActivateList: %w", err)
 	}
 	if v.MinimumActivationTime != nil {
 		if err := per.EncodeIntegerAligned(bb, int64(*v.MinimumActivationTime), int64Ptr(1), int64Ptr(60), false); err != nil {
@@ -2881,6 +2861,7 @@ func (v *CellActivationRequest) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellActivationRequest{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -2890,25 +2871,19 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	var seqLen_cellstoactivatelist int64
-	var errLength_cellstoactivatelist error
-	seqLen_cellstoactivatelist, errLength_cellstoactivatelist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_cellstoactivatelist != nil {
-		return fmt.Errorf("decoding cellsToActivateList length: %w", errLength_cellstoactivatelist)
-	}
-	if seqLen_cellstoactivatelist < 1 {
-		return fmt.Errorf("decoding cellsToActivateList length %d below lower bound 1", seqLen_cellstoactivatelist)
-	}
-	if seqLen_cellstoactivatelist > 256 {
-		return fmt.Errorf("decoding cellsToActivateList length %d above upper bound 256", seqLen_cellstoactivatelist)
-	}
 	v.CellsToActivateList = make(CellsToActivateList, 0)
-	for i := int64(0); i < seqLen_cellstoactivatelist; i++ {
-		var elem CellsToActivateListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cellsToActivateList element %d: %w", i, err)
+	_, errCollection_cellstoactivatelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_cellstoactivatelist, fragmentLength_cellstoactivatelist int64) error {
+		for i := int64(0); i < fragmentLength_cellstoactivatelist; i++ {
+			var elem CellsToActivateListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding cellsToActivateList element %d: %w", fragmentOffset_cellstoactivatelist+i, err)
+			}
+			v.CellsToActivateList = append(v.CellsToActivateList, elem)
 		}
-		v.CellsToActivateList = append(v.CellsToActivateList, elem)
+		return nil
+	})
+	if errCollection_cellstoactivatelist != nil {
+		return fmt.Errorf("decoding cellsToActivateList: %w", errCollection_cellstoactivatelist)
 	}
 	if opt_minimumactivationtime {
 		val_minimumactivationtime, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(60), false)
@@ -2952,13 +2927,15 @@ func MarshalAPERCellsToActivateList(list CellsToActivateList) ([]byte, error) {
 // MarshalAPERCellsToActivateListTo appends a CellsToActivateList list to bb.
 func MarshalAPERCellsToActivateListTo(list CellsToActivateList, bb *per.BitBuffer) error {
 	v := asn1cAPERCellsToActivateListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -2979,25 +2956,19 @@ func UnmarshalAPERCellsToActivateListFrom(bb *per.BitBuffer) (CellsToActivateLis
 }
 
 func unmarshalAPERCellsToActivateListInto(v *asn1cAPERCellsToActivateListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(CellsToActivateList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem CellsToActivateListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem CellsToActivateListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -3049,6 +3020,7 @@ func (v *CellsToActivateListItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellsToActivateListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellsToActivateListItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3093,13 +3065,15 @@ func (v *CellActivationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.ActivatedCellsList)), 0, 256); err != nil {
-		return fmt.Errorf("encoding activatedCellsList length: %w", err)
-	}
-	for _, elem := range v.ActivatedCellsList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding activatedCellsList element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.ActivatedCellsList)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_activatedcellslist, fragmentLength_activatedcellslist int64) error {
+		for _, elem := range v.ActivatedCellsList[fragmentOffset_activatedcellslist : fragmentOffset_activatedcellslist+fragmentLength_activatedcellslist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding activatedCellsList element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding activatedCellsList: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -3131,29 +3105,24 @@ func (v *CellActivationResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellActivationResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_activatedcellslist int64
-	var errLength_activatedcellslist error
-	seqLen_activatedcellslist, errLength_activatedcellslist = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if errLength_activatedcellslist != nil {
-		return fmt.Errorf("decoding activatedCellsList length: %w", errLength_activatedcellslist)
-	}
-	if seqLen_activatedcellslist < 0 {
-		return fmt.Errorf("decoding activatedCellsList length %d below lower bound 0", seqLen_activatedcellslist)
-	}
-	if seqLen_activatedcellslist > 256 {
-		return fmt.Errorf("decoding activatedCellsList length %d above upper bound 256", seqLen_activatedcellslist)
-	}
 	v.ActivatedCellsList = make(ActivatedCellsList, 0)
-	for i := int64(0); i < seqLen_activatedcellslist; i++ {
-		var elem ActivatedCellsListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding activatedCellsList element %d: %w", i, err)
+	_, errCollection_activatedcellslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_activatedcellslist, fragmentLength_activatedcellslist int64) error {
+		for i := int64(0); i < fragmentLength_activatedcellslist; i++ {
+			var elem ActivatedCellsListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding activatedCellsList element %d: %w", fragmentOffset_activatedcellslist+i, err)
+			}
+			v.ActivatedCellsList = append(v.ActivatedCellsList, elem)
 		}
-		v.ActivatedCellsList = append(v.ActivatedCellsList, elem)
+		return nil
+	})
+	if errCollection_activatedcellslist != nil {
+		return fmt.Errorf("decoding activatedCellsList: %w", errCollection_activatedcellslist)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -3190,13 +3159,15 @@ func MarshalAPERActivatedCellsList(list ActivatedCellsList) ([]byte, error) {
 // MarshalAPERActivatedCellsListTo appends a ActivatedCellsList list to bb.
 func MarshalAPERActivatedCellsListTo(list ActivatedCellsList, bb *per.BitBuffer) error {
 	v := asn1cAPERActivatedCellsListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 0, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -3217,25 +3188,19 @@ func UnmarshalAPERActivatedCellsListFrom(bb *per.BitBuffer) (ActivatedCellsList,
 }
 
 func unmarshalAPERActivatedCellsListInto(v *asn1cAPERActivatedCellsListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 0, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 0 {
-		return fmt.Errorf("decoding value length %d below lower bound 0", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(ActivatedCellsList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem ActivatedCellsListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ActivatedCellsListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -3287,6 +3252,7 @@ func (v *ActivatedCellsListItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ActivatedCellsListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ActivatedCellsListItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3331,13 +3297,15 @@ func (v *CellStateIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.NotificationCellList)), 1, 256); err != nil {
-		return fmt.Errorf("encoding notificationCellList length: %w", err)
-	}
-	for _, elem := range v.NotificationCellList {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding notificationCellList element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.NotificationCellList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_notificationcelllist, fragmentLength_notificationcelllist int64) error {
+		for _, elem := range v.NotificationCellList[fragmentOffset_notificationcelllist : fragmentOffset_notificationcelllist+fragmentLength_notificationcelllist] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding notificationCellList element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding notificationCellList: %w", err)
 	}
 	if hasExtensions {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
@@ -3369,29 +3337,24 @@ func (v *CellStateIndication) UnmarshalAPER(data []byte) error {
 }
 
 func (v *CellStateIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = CellStateIndication{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	var seqLen_notificationcelllist int64
-	var errLength_notificationcelllist error
-	seqLen_notificationcelllist, errLength_notificationcelllist = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_notificationcelllist != nil {
-		return fmt.Errorf("decoding notificationCellList length: %w", errLength_notificationcelllist)
-	}
-	if seqLen_notificationcelllist < 1 {
-		return fmt.Errorf("decoding notificationCellList length %d below lower bound 1", seqLen_notificationcelllist)
-	}
-	if seqLen_notificationcelllist > 256 {
-		return fmt.Errorf("decoding notificationCellList length %d above upper bound 256", seqLen_notificationcelllist)
-	}
 	v.NotificationCellList = make(NotificationCellList, 0)
-	for i := int64(0); i < seqLen_notificationcelllist; i++ {
-		var elem NotificationCellListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding notificationCellList element %d: %w", i, err)
+	_, errCollection_notificationcelllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_notificationcelllist, fragmentLength_notificationcelllist int64) error {
+		for i := int64(0); i < fragmentLength_notificationcelllist; i++ {
+			var elem NotificationCellListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding notificationCellList element %d: %w", fragmentOffset_notificationcelllist+i, err)
+			}
+			v.NotificationCellList = append(v.NotificationCellList, elem)
 		}
-		v.NotificationCellList = append(v.NotificationCellList, elem)
+		return nil
+	})
+	if errCollection_notificationcelllist != nil {
+		return fmt.Errorf("decoding notificationCellList: %w", errCollection_notificationcelllist)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
@@ -3428,13 +3391,15 @@ func MarshalAPERNotificationCellList(list NotificationCellList) ([]byte, error) 
 // MarshalAPERNotificationCellListTo appends a NotificationCellList list to bb.
 func MarshalAPERNotificationCellListTo(list NotificationCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERNotificationCellListListValue{Value: list}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(len(v.Value)), 1, 256); err != nil {
-		return fmt.Errorf("encoding value length: %w", err)
-	}
-	for _, elem := range v.Value {
-		if err := elem.MarshalAPERTo(bb); err != nil {
-			return fmt.Errorf("encoding value element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -3455,25 +3420,19 @@ func UnmarshalAPERNotificationCellListFrom(bb *per.BitBuffer) (NotificationCellL
 }
 
 func unmarshalAPERNotificationCellListInto(v *asn1cAPERNotificationCellListListValue, bb *per.BitBuffer) error {
-	var seqLen_value int64
-	var errLength_value error
-	seqLen_value, errLength_value = per.DecodeConstrainedWholeNumberAligned(bb, 1, 256)
-	if errLength_value != nil {
-		return fmt.Errorf("decoding value length: %w", errLength_value)
-	}
-	if seqLen_value < 1 {
-		return fmt.Errorf("decoding value length %d below lower bound 1", seqLen_value)
-	}
-	if seqLen_value > 256 {
-		return fmt.Errorf("decoding value length %d above upper bound 256", seqLen_value)
-	}
 	v.Value = make(NotificationCellList, 0)
-	for i := int64(0); i < seqLen_value; i++ {
-		var elem NotificationCellListItem
-		if err := elem.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding value element %d: %w", i, err)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem NotificationCellListItem
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
 		}
-		v.Value = append(v.Value, elem)
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
 	return nil
 }
@@ -3528,6 +3487,7 @@ func (v *NotificationCellListItem) UnmarshalAPER(data []byte) error {
 }
 
 func (v *NotificationCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = NotificationCellListItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3601,6 +3561,7 @@ func (v *FailureEventReport) UnmarshalAPER(data []byte) error {
 }
 
 func (v *FailureEventReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = FailureEventReport{}
 	isExtension, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3680,6 +3641,7 @@ func (v *TooEarlyInterRATHOReportReportFromEUTRAN) UnmarshalAPER(data []byte) er
 }
 
 func (v *TooEarlyInterRATHOReportReportFromEUTRAN) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = TooEarlyInterRATHOReportReportFromEUTRAN{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3773,6 +3735,7 @@ func (v *EHRPDSectorLoadReportingResponse) UnmarshalAPER(data []byte) error {
 }
 
 func (v *EHRPDSectorLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EHRPDSectorLoadReportingResponse{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3854,6 +3817,7 @@ func (v *EHRPDCompositeAvailableCapacity) UnmarshalAPER(data []byte) error {
 }
 
 func (v *EHRPDCompositeAvailableCapacity) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EHRPDCompositeAvailableCapacity{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -3939,6 +3903,7 @@ func (v *EHRPDMultiSectorLoadReportingResponseItem) UnmarshalAPER(data []byte) e
 }
 
 func (v *EHRPDMultiSectorLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = EHRPDMultiSectorLoadReportingResponseItem{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err

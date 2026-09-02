@@ -20,16 +20,16 @@ var (
 
 const (
 
-	// MaxNumOfSentParameter is the integer constant for MaxNumOfSentParameter.
+	// MaxNumOfSentParameter is the integer constant for maxNumOfSentParameter.
 	MaxNumOfSentParameter int64 = 6
 )
 
-// AccessTypeId returns the OID value for AccessTypeId.
+// AccessTypeId returns the OID value for accessType-id.
 func AccessTypeId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 12, 2, 1107, 3, 66, 1, 1}
 }
 
-// AccessTypeNotAllowedId returns the OID value for AccessTypeNotAllowedId.
+// AccessTypeNotAllowedId returns the OID value for accessTypeNotAllowed-id.
 func AccessTypeNotAllowedId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 12, 2, 1107, 3, 66, 1, 2}
 }
@@ -4943,6 +4943,7 @@ func (v *Component) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Component from BER/DER format.
 func (v *Component) UnmarshalBER(data []byte) error {
+	*v = Component{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Component CHOICE")
 	}
@@ -5084,6 +5085,7 @@ func (v *DumInvoke) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumInvoke from BER/DER format.
 func (v *DumInvoke) UnmarshalBER(data []byte) error {
+	*v = DumInvoke{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DumInvoke SEQUENCE: %w", err)
@@ -5189,6 +5191,7 @@ func (v *DumReturnResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumReturnResult from BER/DER format.
 func (v *DumReturnResult) UnmarshalBER(data []byte) error {
+	*v = DumReturnResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DumReturnResult SEQUENCE: %w", err)
@@ -5272,6 +5275,7 @@ func (v *DumReturnError) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumReturnError from BER/DER format.
 func (v *DumReturnError) UnmarshalBER(data []byte) error {
+	*v = DumReturnError{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DumReturnError SEQUENCE: %w", err)
@@ -5357,6 +5361,7 @@ func (v *DumReject) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumReject from BER/DER format.
 func (v *DumReject) UnmarshalBER(data []byte) error {
+	*v = DumReject{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DumReject SEQUENCE: %w", err)
@@ -5431,6 +5436,7 @@ func (v *MAPOPERATION) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPOPERATION from BER/DER format.
 func (v *MAPOPERATION) UnmarshalBER(data []byte) error {
+	*v = MAPOPERATION{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MAPOPERATION CHOICE")
 	}
@@ -5507,6 +5513,7 @@ func (v *MAPERROR) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MAPERROR from BER/DER format.
 func (v *MAPERROR) UnmarshalBER(data []byte) error {
+	*v = MAPERROR{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for MAPERROR CHOICE")
 	}
@@ -5605,6 +5612,7 @@ func (v *BssAPDU) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BssAPDU from BER/DER format.
 func (v *BssAPDU) UnmarshalBER(data []byte) error {
+	*v = BssAPDU{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BssAPDU SEQUENCE: %w", err)
@@ -5617,7 +5625,7 @@ func (v *BssAPDU) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field protocolId")
 	}
-	val_protocolid, n, err := ber.DecodeInteger(content[offset:])
+	val_protocolid, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding protocolId: %w", err)
 	}
@@ -5862,6 +5870,7 @@ func (v *ProvideSIWFSNumberArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProvideSIWFSNumberArg from BER/DER format.
 func (v *ProvideSIWFSNumberArg) UnmarshalBER(data []byte) error {
+	*v = ProvideSIWFSNumberArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideSIWFSNumberArg SEQUENCE: %w", err)
@@ -6123,6 +6132,7 @@ func (v *ProvideSIWFSNumberRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ProvideSIWFSNumberRes from BER/DER format.
 func (v *ProvideSIWFSNumberRes) UnmarshalBER(data []byte) error {
+	*v = ProvideSIWFSNumberRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ProvideSIWFSNumberRes SEQUENCE: %w", err)
@@ -6233,6 +6243,7 @@ func (v *DumPurgeMSArgV2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumPurgeMSArgV2 from BER/DER format.
 func (v *DumPurgeMSArgV2) UnmarshalBER(data []byte) error {
+	*v = DumPurgeMSArgV2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DumPurgeMSArgV2 SEQUENCE: %w", err)
@@ -6346,6 +6357,7 @@ func (v *PrepareHOArgOld) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareHOArgOld from BER/DER format.
 func (v *PrepareHOArgOld) UnmarshalBER(data []byte) error {
+	*v = PrepareHOArgOld{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareHOArgOld SEQUENCE: %w", err)
@@ -6474,6 +6486,7 @@ func (v *PrepareHOResOld) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrepareHOResOld from BER/DER format.
 func (v *PrepareHOResOld) UnmarshalBER(data []byte) error {
+	*v = PrepareHOResOld{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrepareHOResOld SEQUENCE: %w", err)
@@ -6644,6 +6657,7 @@ func (v *DumSendIdentificationResV2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumSendIdentificationResV2 from BER/DER format.
 func (v *DumSendIdentificationResV2) UnmarshalBER(data []byte) error {
+	*v = DumSendIdentificationResV2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DumSendIdentificationResV2 SEQUENCE: %w", err)
@@ -6812,6 +6826,7 @@ func (v *AuthenticationTripletV2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticationTripletV2 from BER/DER format.
 func (v *AuthenticationTripletV2) UnmarshalBER(data []byte) error {
+	*v = AuthenticationTripletV2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AuthenticationTripletV2 SEQUENCE: %w", err)
@@ -6972,6 +6987,7 @@ func (v *SIWFSSignallingModifyArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SIWFSSignallingModifyArg from BER/DER format.
 func (v *SIWFSSignallingModifyArg) UnmarshalBER(data []byte) error {
+	*v = SIWFSSignallingModifyArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SIWFSSignallingModifyArg SEQUENCE: %w", err)
@@ -7144,6 +7160,7 @@ func (v *SIWFSSignallingModifyRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SIWFSSignallingModifyRes from BER/DER format.
 func (v *SIWFSSignallingModifyRes) UnmarshalBER(data []byte) error {
+	*v = SIWFSSignallingModifyRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SIWFSSignallingModifyRes SEQUENCE: %w", err)
@@ -7248,6 +7265,7 @@ func (v *SecureTransportArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SecureTransportArg from BER/DER format.
 func (v *SecureTransportArg) UnmarshalBER(data []byte) error {
+	*v = SecureTransportArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SecureTransportArg SEQUENCE: %w", err)
@@ -7326,6 +7344,7 @@ func (v *SecureTransportErrorParam) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SecureTransportErrorParam from BER/DER format.
 func (v *SecureTransportErrorParam) UnmarshalBER(data []byte) error {
+	*v = SecureTransportErrorParam{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SecureTransportErrorParam SEQUENCE: %w", err)
@@ -7404,6 +7423,7 @@ func (v *SecureTransportRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SecureTransportRes from BER/DER format.
 func (v *SecureTransportRes) UnmarshalBER(data []byte) error {
+	*v = SecureTransportRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SecureTransportRes SEQUENCE: %w", err)
@@ -7502,6 +7522,7 @@ func (v *SecurityHeader) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SecurityHeader from BER/DER format.
 func (v *SecurityHeader) UnmarshalBER(data []byte) error {
+	*v = SecurityHeader{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SecurityHeader SEQUENCE: %w", err)
@@ -7642,6 +7663,7 @@ func (v *OriginalComponentIdentifier) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OriginalComponentIdentifier from BER/DER format.
 func (v *OriginalComponentIdentifier) UnmarshalBER(data []byte) error {
+	*v = OriginalComponentIdentifier{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for OriginalComponentIdentifier CHOICE")
 	}
@@ -7731,6 +7753,7 @@ func (v *OperationCode) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OperationCode from BER/DER format.
 func (v *OperationCode) UnmarshalBER(data []byte) error {
+	*v = OperationCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for OperationCode CHOICE")
 	}
@@ -7803,6 +7826,7 @@ func (v *ErrorCode) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ErrorCode from BER/DER format.
 func (v *ErrorCode) UnmarshalBER(data []byte) error {
+	*v = ErrorCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ErrorCode CHOICE")
 	}
@@ -7963,6 +7987,7 @@ func (v *PlmnContainer) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PlmnContainer from BER/DER format.
 func (v *PlmnContainer) UnmarshalBER(data []byte) error {
+	*v = PlmnContainer{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PlmnContainer: %w", err)
@@ -8140,6 +8165,7 @@ func (v *ForwardSMArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ForwardSMArg from BER/DER format.
 func (v *ForwardSMArg) UnmarshalBER(data []byte) error {
+	*v = ForwardSMArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardSMArg SEQUENCE: %w", err)
@@ -8277,6 +8303,7 @@ func (v *SMRPDAold) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMRPDAold from BER/DER format.
 func (v *SMRPDAold) UnmarshalBER(data []byte) error {
+	*v = SMRPDAold{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SMRPDAold CHOICE")
 	}
@@ -8386,6 +8413,7 @@ func (v *SMRPOAold) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMRPOAold from BER/DER format.
 func (v *SMRPOAold) UnmarshalBER(data []byte) error {
+	*v = SMRPOAold{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SMRPOAold CHOICE")
 	}
@@ -8549,6 +8577,7 @@ func (v *SendRoutingInfoArgV2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendRoutingInfoArgV2 from BER/DER format.
 func (v *SendRoutingInfoArgV2) UnmarshalBER(data []byte) error {
+	*v = SendRoutingInfoArgV2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendRoutingInfoArgV2 SEQUENCE: %w", err)
@@ -8719,6 +8748,7 @@ func (v *SendRoutingInfoResV2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendRoutingInfoResV2 from BER/DER format.
 func (v *SendRoutingInfoResV2) UnmarshalBER(data []byte) error {
+	*v = SendRoutingInfoResV2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendRoutingInfoResV2 SEQUENCE: %w", err)
@@ -8845,6 +8875,7 @@ func (v *BeginSubscriberActivityArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BeginSubscriberActivityArg from BER/DER format.
 func (v *BeginSubscriberActivityArg) UnmarshalBER(data []byte) error {
+	*v = BeginSubscriberActivityArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BeginSubscriberActivityArg SEQUENCE: %w", err)
@@ -9042,6 +9073,7 @@ func (v *RoutingInfoForSMArgV1) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RoutingInfoForSMArgV1 from BER/DER format.
 func (v *RoutingInfoForSMArgV1) UnmarshalBER(data []byte) error {
+	*v = RoutingInfoForSMArgV1{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RoutingInfoForSMArgV1 SEQUENCE: %w", err)
@@ -9262,6 +9294,7 @@ func (v *RoutingInfoForSMResV2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RoutingInfoForSMResV2 from BER/DER format.
 func (v *RoutingInfoForSMResV2) UnmarshalBER(data []byte) error {
+	*v = RoutingInfoForSMResV2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RoutingInfoForSMResV2 SEQUENCE: %w", err)
@@ -9393,6 +9426,7 @@ func (v *LocationInfoWithLMSIv2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LocationInfoWithLMSIv2 from BER/DER format.
 func (v *LocationInfoWithLMSIv2) UnmarshalBER(data []byte) error {
+	*v = LocationInfoWithLMSIv2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LocationInfoWithLMSIv2 SEQUENCE: %w", err)
@@ -9489,6 +9523,7 @@ func (v *LocationInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes LocationInfo from BER/DER format.
 func (v *LocationInfo) UnmarshalBER(data []byte) error {
+	*v = LocationInfo{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for LocationInfo CHOICE")
 	}
@@ -9566,6 +9601,7 @@ func (v *SendParametersArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SendParametersArg from BER/DER format.
 func (v *SendParametersArg) UnmarshalBER(data []byte) error {
+	*v = SendParametersArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SendParametersArg SEQUENCE: %w", err)
@@ -9650,7 +9686,7 @@ func UnmarshalBERRequestParameterList(data []byte) (RequestParameterList, error)
 	var result RequestParameterList
 	offset := 0
 	for offset < len(content) {
-		val, n, intErr := ber.DecodeInteger(content[offset:])
+		val, n, intErr := ber.DecodeEnumerated(content[offset:])
 		if intErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", intErr)
 		}
@@ -9760,6 +9796,7 @@ func (v *SentParameter) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SentParameter from BER/DER format.
 func (v *SentParameter) UnmarshalBER(data []byte) error {
+	*v = SentParameter{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for SentParameter CHOICE")
 	}
@@ -9896,6 +9933,7 @@ func (v *AuthenticationSetListOld) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AuthenticationSetListOld from BER/DER format.
 func (v *AuthenticationSetListOld) UnmarshalBER(data []byte) error {
+	*v = AuthenticationSetListOld{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AuthenticationSetListOld CHOICE")
 	}
@@ -10059,6 +10097,7 @@ func (v *ResetArgV2) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ResetArgV2 from BER/DER format.
 func (v *ResetArgV2) UnmarshalBER(data []byte) error {
+	*v = ResetArgV2{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ResetArgV2 SEQUENCE: %w", err)
@@ -10072,7 +10111,7 @@ func (v *ResetArgV2) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 10 {
-				val_networkresource, n, err := ber.DecodeInteger(content[offset:])
+				val_networkresource, n, err := ber.DecodeEnumerated(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding networkResource: %w", err)
 				}
@@ -10171,6 +10210,7 @@ func (v *ReturnResultResultretres) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReturnResultResultretres from BER/DER format.
 func (v *ReturnResultResultretres) UnmarshalBER(data []byte) error {
+	*v = ReturnResultResultretres{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReturnResultResultretres SEQUENCE: %w", err)
@@ -10239,6 +10279,7 @@ func (v *RejectInvokeIDRej) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RejectInvokeIDRej from BER/DER format.
 func (v *RejectInvokeIDRej) UnmarshalBER(data []byte) error {
+	*v = RejectInvokeIDRej{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for RejectInvokeIDRej CHOICE")
 	}
@@ -10342,6 +10383,7 @@ func (v *DumRejectProblem) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumRejectProblem from BER/DER format.
 func (v *DumRejectProblem) UnmarshalBER(data []byte) error {
+	*v = DumRejectProblem{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DumRejectProblem CHOICE")
 	}
@@ -10471,6 +10513,7 @@ func (v *DumSendAuthenticationInfoResOldElem) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DumSendAuthenticationInfoResOldElem from BER/DER format.
 func (v *DumSendAuthenticationInfoResOldElem) UnmarshalBER(data []byte) error {
+	*v = DumSendAuthenticationInfoResOldElem{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DumSendAuthenticationInfoResOldElem SEQUENCE: %w", err)

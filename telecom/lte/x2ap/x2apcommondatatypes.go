@@ -17,13 +17,13 @@ var (
 
 const (
 
-	// MaxPrivateIEs is the integer constant for MaxPrivateIEs.
+	// MaxPrivateIEs is the integer constant for maxPrivateIEs.
 	MaxPrivateIEs int64 = 65535
 
-	// MaxProtocolExtensions is the integer constant for MaxProtocolExtensions.
+	// MaxProtocolExtensions is the integer constant for maxProtocolExtensions.
 	MaxProtocolExtensions int64 = 65535
 
-	// MaxProtocolIEs is the integer constant for MaxProtocolIEs.
+	// MaxProtocolIEs is the integer constant for maxProtocolIEs.
 	MaxProtocolIEs int64 = 65535
 )
 
@@ -166,6 +166,7 @@ func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
 }
 
 func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = PrivateIEID{}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err

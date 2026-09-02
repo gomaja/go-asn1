@@ -476,6 +476,7 @@ func (v *EnhancedCheckIMEIArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes EnhancedCheckIMEIArg from BER/DER format.
 func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte) error {
+	*v = EnhancedCheckIMEIArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding EnhancedCheckIMEIArg SEQUENCE: %w", err)
@@ -959,6 +960,7 @@ func (v *ExtensionType) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionType from BER/DER format.
 func (v *ExtensionType) UnmarshalBER(data []byte) error {
+	*v = ExtensionType{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ExtensionType CHOICE")
 	}
@@ -1260,6 +1262,7 @@ func (v *IsdArgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IsdArgData from BER/DER format.
 func (v *IsdArgData) UnmarshalBER(data []byte) error {
+	*v = IsdArgData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IsdArgData SEQUENCE: %w", err)
@@ -1407,6 +1410,7 @@ func (v *PrivateFeatureData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrivateFeatureData from BER/DER format.
 func (v *PrivateFeatureData) UnmarshalBER(data []byte) error {
+	*v = PrivateFeatureData{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PrivateFeatureData CHOICE")
 	}
@@ -1480,6 +1484,7 @@ func (v *OickInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OickInfo from BER/DER format.
 func (v *OickInfo) UnmarshalBER(data []byte) error {
+	*v = OickInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding OickInfo SEQUENCE: %w", err)
@@ -1536,6 +1541,7 @@ func (v *SubscriptionTypeInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubscriptionTypeInfo from BER/DER format.
 func (v *SubscriptionTypeInfo) UnmarshalBER(data []byte) error {
+	*v = SubscriptionTypeInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SubscriptionTypeInfo SEQUENCE: %w", err)
@@ -1668,6 +1674,7 @@ func (v *IsdResData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IsdResData from BER/DER format.
 func (v *IsdResData) UnmarshalBER(data []byte) error {
+	*v = IsdResData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IsdResData SEQUENCE: %w", err)
@@ -1788,6 +1795,7 @@ func (v *DsdArgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DsdArgData from BER/DER format.
 func (v *DsdArgData) UnmarshalBER(data []byte) error {
+	*v = DsdArgData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DsdArgData SEQUENCE: %w", err)
@@ -1944,6 +1952,7 @@ func (v *SriArgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SriArgData from BER/DER format.
 func (v *SriArgData) UnmarshalBER(data []byte) error {
+	*v = SriArgData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SriArgData SEQUENCE: %w", err)
@@ -2152,6 +2161,7 @@ func (v *SriResData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SriResData from BER/DER format.
 func (v *SriResData) UnmarshalBER(data []byte) error {
+	*v = SriResData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SriResData SEQUENCE: %w", err)
@@ -2362,6 +2372,7 @@ func (v *PrnArgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrnArgData from BER/DER format.
 func (v *PrnArgData) UnmarshalBER(data []byte) error {
+	*v = PrnArgData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrnArgData SEQUENCE: %w", err)
@@ -2548,6 +2559,7 @@ func (v *UlArgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UlArgData from BER/DER format.
 func (v *UlArgData) UnmarshalBER(data []byte) error {
+	*v = UlArgData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UlArgData SEQUENCE: %w", err)
@@ -2642,6 +2654,7 @@ func (v *PrivateFeatureUlArgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrivateFeatureUlArgData from BER/DER format.
 func (v *PrivateFeatureUlArgData) UnmarshalBER(data []byte) error {
+	*v = PrivateFeatureUlArgData{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PrivateFeatureUlArgData CHOICE")
 	}
@@ -2704,6 +2717,7 @@ func (v *ExtraSignalInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtraSignalInfo from BER/DER format.
 func (v *ExtraSignalInfo) UnmarshalBER(data []byte) error {
+	*v = ExtraSignalInfo{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtraSignalInfo: %w", err)
@@ -2795,6 +2809,7 @@ func (v *SaiArgType) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SaiArgType from BER/DER format.
 func (v *SaiArgType) UnmarshalBER(data []byte) error {
+	*v = SaiArgType{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SaiArgType SEQUENCE: %w", err)
@@ -2885,6 +2900,7 @@ func (v *SaiResType) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SaiResType from BER/DER format.
 func (v *SaiResType) UnmarshalBER(data []byte) error {
+	*v = SaiResType{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SaiResType SEQUENCE: %w", err)
@@ -2959,6 +2975,7 @@ func (v *AtiArgType) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AtiArgType from BER/DER format.
 func (v *AtiArgType) UnmarshalBER(data []byte) error {
+	*v = AtiArgType{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AtiArgType SEQUENCE: %w", err)
@@ -3031,6 +3048,7 @@ func (v *AtiResType) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AtiResType from BER/DER format.
 func (v *AtiResType) UnmarshalBER(data []byte) error {
+	*v = AtiResType{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AtiResType SEQUENCE: %w", err)
@@ -3101,6 +3119,7 @@ func (v *RdArgType) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RdArgType from BER/DER format.
 func (v *RdArgType) UnmarshalBER(data []byte) error {
+	*v = RdArgType{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RdArgType SEQUENCE: %w", err)
@@ -3171,6 +3190,7 @@ func (v *RequestedInfoType) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RequestedInfoType from BER/DER format.
 func (v *RequestedInfoType) UnmarshalBER(data []byte) error {
+	*v = RequestedInfoType{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RequestedInfoType SEQUENCE: %w", err)
@@ -3313,6 +3333,7 @@ func (v *AtiArgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AtiArgData from BER/DER format.
 func (v *AtiArgData) UnmarshalBER(data []byte) error {
+	*v = AtiArgData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AtiArgData SEQUENCE: %w", err)

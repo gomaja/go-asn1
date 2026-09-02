@@ -424,6 +424,7 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSSingleAS from BER/DER format.
 func (v *ROSSingleAS) UnmarshalBER(data []byte) error {
+	*v = ROSSingleAS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSSingleAS CHOICE")
 	}
@@ -652,6 +653,7 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSConsumerAS from BER/DER format.
 func (v *ROSConsumerAS) UnmarshalBER(data []byte) error {
+	*v = ROSConsumerAS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSConsumerAS CHOICE")
 	}
@@ -880,6 +882,7 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSSupplierAS from BER/DER format.
 func (v *ROSSupplierAS) UnmarshalBER(data []byte) error {
+	*v = ROSSupplierAS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSSupplierAS CHOICE")
 	}
@@ -995,6 +998,7 @@ func (v *ROSSingleASInvokeLinkedId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSSingleASInvokeLinkedId from BER/DER format.
 func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte) error {
+	*v = ROSSingleASInvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSSingleASInvokeLinkedId CHOICE")
 	}
@@ -1071,6 +1075,7 @@ func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSSingleASReturnResultResult from BER/DER format.
 func (v *ROSSingleASReturnResultResult) UnmarshalBER(data []byte) error {
+	*v = ROSSingleASReturnResultResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ROSSingleASReturnResultResult SEQUENCE: %w", err)
@@ -1149,6 +1154,7 @@ func (v *ROSConsumerASInvokeLinkedId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSConsumerASInvokeLinkedId from BER/DER format.
 func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte) error {
+	*v = ROSConsumerASInvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSConsumerASInvokeLinkedId CHOICE")
 	}
@@ -1225,6 +1231,7 @@ func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSConsumerASReturnResultResult from BER/DER format.
 func (v *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte) error {
+	*v = ROSConsumerASReturnResultResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ROSConsumerASReturnResultResult SEQUENCE: %w", err)
@@ -1303,6 +1310,7 @@ func (v *ROSSupplierASInvokeLinkedId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSSupplierASInvokeLinkedId from BER/DER format.
 func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte) error {
+	*v = ROSSupplierASInvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSSupplierASInvokeLinkedId CHOICE")
 	}
@@ -1379,6 +1387,7 @@ func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ROSSupplierASReturnResultResult from BER/DER format.
 func (v *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte) error {
+	*v = ROSSupplierASReturnResultResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ROSSupplierASReturnResultResult SEQUENCE: %w", err)

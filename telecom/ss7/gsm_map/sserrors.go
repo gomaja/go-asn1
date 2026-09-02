@@ -69,6 +69,7 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PruAssociationRejParam from BER/DER format.
 func (v *PruAssociationRejParam) UnmarshalBER(data []byte) error {
+	*v = PruAssociationRejParam{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PruAssociationRejParam SEQUENCE: %w", err)

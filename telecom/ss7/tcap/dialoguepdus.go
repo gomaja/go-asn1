@@ -18,7 +18,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// DialogueAsId returns the OID value for DialogueAsId.
+// DialogueAsId returns the OID value for dialogue-as-id.
 func DialogueAsId() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{0, 0, 17, 773, 1, 1, 1} }
 
 // DialoguePDU choice constants.
@@ -913,6 +913,7 @@ func (v *DialoguePDU) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DialoguePDU from BER/DER format.
 func (v *DialoguePDU) UnmarshalBER(data []byte) error {
+	*v = DialoguePDU{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DialoguePDU CHOICE")
 	}
@@ -1058,6 +1059,7 @@ func (v *AARQApdu) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AARQApdu from BER/DER format.
 func (v *AARQApdu) UnmarshalBER(data []byte) error {
+	*v = AARQApdu{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AARQApdu: %w", err)
@@ -1081,7 +1083,7 @@ func (v *AARQApdu) UnmarshalBER(data []byte) error {
 				if decodedTag_protocolversion.Class != tag.ClassContextSpecific || decodedTag_protocolversion.Number != 0 {
 					return fmt.Errorf("decoding protocol-version: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_protocolversion)
 				}
-				bsBytes_protocolversion, bsUnused_protocolversion, bsErr := ber.DecodeBitStringValue(rawVal_protocolversion)
+				bsBytes_protocolversion, bsUnused_protocolversion, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_protocolversion.Constructed, rawVal_protocolversion)
 				if bsErr != nil {
 					return fmt.Errorf("decoding protocol-version: %w", bsErr)
 				}
@@ -1253,6 +1255,7 @@ func (v *AAREApdu) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AAREApdu from BER/DER format.
 func (v *AAREApdu) UnmarshalBER(data []byte) error {
+	*v = AAREApdu{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AAREApdu: %w", err)
@@ -1276,7 +1279,7 @@ func (v *AAREApdu) UnmarshalBER(data []byte) error {
 				if decodedTag_protocolversion.Class != tag.ClassContextSpecific || decodedTag_protocolversion.Number != 0 {
 					return fmt.Errorf("decoding protocol-version: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_protocolversion)
 				}
-				bsBytes_protocolversion, bsUnused_protocolversion, bsErr := ber.DecodeBitStringValue(rawVal_protocolversion)
+				bsBytes_protocolversion, bsUnused_protocolversion, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_protocolversion.Constructed, rawVal_protocolversion)
 				if bsErr != nil {
 					return fmt.Errorf("decoding protocol-version: %w", bsErr)
 				}
@@ -1466,6 +1469,7 @@ func (v *RLRQApdu) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RLRQApdu from BER/DER format.
 func (v *RLRQApdu) UnmarshalBER(data []byte) error {
+	*v = RLRQApdu{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RLRQApdu: %w", err)
@@ -1611,6 +1615,7 @@ func (v *RLREApdu) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RLREApdu from BER/DER format.
 func (v *RLREApdu) UnmarshalBER(data []byte) error {
+	*v = RLREApdu{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RLREApdu: %w", err)
@@ -1752,6 +1757,7 @@ func (v *ABRTApdu) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ABRTApdu from BER/DER format.
 func (v *ABRTApdu) UnmarshalBER(data []byte) error {
+	*v = ABRTApdu{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ABRTApdu: %w", err)
@@ -1860,6 +1866,7 @@ func (v *AssociateSourceDiagnostic) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AssociateSourceDiagnostic from BER/DER format.
 func (v *AssociateSourceDiagnostic) UnmarshalBER(data []byte) error {
+	*v = AssociateSourceDiagnostic{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AssociateSourceDiagnostic CHOICE")
 	}

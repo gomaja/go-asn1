@@ -19,43 +19,43 @@ var (
 
 const (
 
-	// MaxNumOfActiveSS is the integer constant for MaxNumOfActiveSS.
+	// MaxNumOfActiveSS is the integer constant for maxNumOfActiveSS.
 	MaxNumOfActiveSS int64 = 30
 
-	// MaxNumOfCA is the integer constant for MaxNumOfCA.
+	// MaxNumOfCA is the integer constant for maxNumOfCA.
 	MaxNumOfCA int64 = 3
 
-	// PicLock is the octet string constant for PicLock.
+	// PicLock is the octet string constant for picLock.
 	PicLock = "\x01"
 
-	// PrefCarrierId is the octet string constant for PrefCarrierId.
+	// PrefCarrierId is the octet string constant for prefCarrierId.
 	PrefCarrierId = "\x02"
 
-	// MKeyValue is the octet string constant for MKeyValue.
+	// MKeyValue is the octet string constant for mKey.
 	MKeyValue = "\x03"
 
-	// SmsKey is the octet string constant for SmsKey.
+	// SmsKey is the octet string constant for smsKey.
 	SmsKey = "\x04"
 
-	// FraudDataValue is the octet string constant for FraudDataValue.
+	// FraudDataValue is the octet string constant for fraud-Data.
 	FraudDataValue = "\x05"
 
-	// CellUpdate is the octet string constant for CellUpdate.
+	// CellUpdate is the octet string constant for cell-update.
 	CellUpdate = "\x06"
 
-	// MaxnumOfMAPservices is the integer constant for MaxnumOfMAPservices.
+	// MaxnumOfMAPservices is the integer constant for maxnumOfMAPservices.
 	MaxnumOfMAPservices int64 = 256
 
-	// MaxNumOfLEAs is the integer constant for MaxNumOfLEAs.
+	// MaxNumOfLEAs is the integer constant for maxNumOfLEAs.
 	MaxNumOfLEAs int64 = 7
 
-	// MaxNumOfServicesWithInfo is the integer constant for MaxNumOfServicesWithInfo.
+	// MaxNumOfServicesWithInfo is the integer constant for maxNumOfServicesWithInfo.
 	MaxNumOfServicesWithInfo int64 = 20
 
-	// MaxNumOfCodec is the integer constant for MaxNumOfCodec.
+	// MaxNumOfCodec is the integer constant for maxNumOfCodec.
 	MaxNumOfCodec int64 = 8
 
-	// MaxNumberOfCOSFeatures is the integer constant for MaxNumberOfCOSFeatures.
+	// MaxNumberOfCOSFeatures is the integer constant for maxNumberOfCOSFeatures.
 	MaxNumberOfCOSFeatures int64 = 13
 )
 
@@ -889,6 +889,7 @@ func (v *IsdArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes IsdArgExt from BER/DER format.
 func (v *IsdArgExt) UnmarshalBER(data []byte) error {
+	*v = IsdArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding IsdArgExt: %w", err)
@@ -1116,6 +1117,7 @@ func (v *DsdArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DsdArgExt from BER/DER format.
 func (v *DsdArgExt) UnmarshalBER(data []byte) error {
+	*v = DsdArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DsdArgExt: %w", err)
@@ -1238,6 +1240,7 @@ func (v *UlResExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UlResExt from BER/DER format.
 func (v *UlResExt) UnmarshalBER(data []byte) error {
+	*v = UlResExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UlResExt: %w", err)
@@ -1342,6 +1345,7 @@ func (v *SSDataEmoInExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSDataEmoInExt from BER/DER format.
 func (v *SSDataEmoInExt) UnmarshalBER(data []byte) error {
+	*v = SSDataEmoInExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSDataEmoInExt: %w", err)
@@ -1498,6 +1502,7 @@ func (v *RegionalChargingData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RegionalChargingData from BER/DER format.
 func (v *RegionalChargingData) UnmarshalBER(data []byte) error {
+	*v = RegionalChargingData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RegionalChargingData SEQUENCE: %w", err)
@@ -1668,6 +1673,7 @@ func (v *SSDataExtension) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SSDataExtension from BER/DER format.
 func (v *SSDataExtension) UnmarshalBER(data []byte) error {
+	*v = SSDataExtension{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SSDataExtension: %w", err)
@@ -1926,6 +1932,7 @@ func (v *SriExtension) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SriExtension from BER/DER format.
 func (v *SriExtension) UnmarshalBER(data []byte) error {
+	*v = SriExtension{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SriExtension: %w", err)
@@ -2100,6 +2107,7 @@ func (v *ExtensionsExtraSignalInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionsExtraSignalInfo from BER/DER format.
 func (v *ExtensionsExtraSignalInfo) UnmarshalBER(data []byte) error {
+	*v = ExtensionsExtraSignalInfo{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionsExtraSignalInfo: %w", err)
@@ -2230,6 +2238,7 @@ func (v *NokiaCUGData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes NokiaCUGData from BER/DER format.
 func (v *NokiaCUGData) UnmarshalBER(data []byte) error {
+	*v = NokiaCUGData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NokiaCUGData SEQUENCE: %w", err)
@@ -2837,6 +2846,7 @@ func (v *SriResExtension) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SriResExtension from BER/DER format.
 func (v *SriResExtension) UnmarshalBER(data []byte) error {
+	*v = SriResExtension{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SriResExtension: %w", err)
@@ -3538,6 +3548,7 @@ func (v *RgData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RgData from BER/DER format.
 func (v *RgData) UnmarshalBER(data []byte) error {
+	*v = RgData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RgData SEQUENCE: %w", err)
@@ -3795,6 +3806,7 @@ func (v *PrefCarrierIdList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrefCarrierIdList from BER/DER format.
 func (v *PrefCarrierIdList) UnmarshalBER(data []byte) error {
+	*v = PrefCarrierIdList{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PrefCarrierIdList SEQUENCE: %w", err)
@@ -3900,6 +3912,7 @@ func (v *ANSIIsdArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ANSIIsdArgExt from BER/DER format.
 func (v *ANSIIsdArgExt) UnmarshalBER(data []byte) error {
+	*v = ANSIIsdArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ANSIIsdArgExt: %w", err)
@@ -4012,6 +4025,7 @@ func (v *ANSISriResExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ANSISriResExt from BER/DER format.
 func (v *ANSISriResExt) UnmarshalBER(data []byte) error {
+	*v = ANSISriResExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ANSISriResExt: %w", err)
@@ -4118,6 +4132,7 @@ func (v *CanLocArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CanLocArgExt from BER/DER format.
 func (v *CanLocArgExt) UnmarshalBER(data []byte) error {
+	*v = CanLocArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CanLocArgExt: %w", err)
@@ -4307,6 +4322,7 @@ func (v *ATMargExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ATMargExt from BER/DER format.
 func (v *ATMargExt) UnmarshalBER(data []byte) error {
+	*v = ATMargExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ATMargExt: %w", err)
@@ -4597,6 +4613,7 @@ func (v *OlcmInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes OlcmInfo from BER/DER format.
 func (v *OlcmInfo) UnmarshalBER(data []byte) error {
+	*v = OlcmInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding OlcmInfo SEQUENCE: %w", err)
@@ -4758,6 +4775,7 @@ func (v *ATMresExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ATMresExt from BER/DER format.
 func (v *ATMresExt) UnmarshalBER(data []byte) error {
+	*v = ATMresExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ATMresExt: %w", err)
@@ -4898,6 +4916,7 @@ func (v *DTMargExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DTMargExt from BER/DER format.
 func (v *DTMargExt) UnmarshalBER(data []byte) error {
+	*v = DTMargExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DTMargExt: %w", err)
@@ -5093,6 +5112,7 @@ func (v *FraudInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes FraudInfo from BER/DER format.
 func (v *FraudInfo) UnmarshalBER(data []byte) error {
+	*v = FraudInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding FraudInfo SEQUENCE: %w", err)
@@ -5289,6 +5309,7 @@ func (v *FraudData) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes FraudData from BER/DER format.
 func (v *FraudData) UnmarshalBER(data []byte) error {
+	*v = FraudData{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding FraudData SEQUENCE: %w", err)
@@ -5491,6 +5512,7 @@ func (v *ServiceWithInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ServiceWithInfo from BER/DER format.
 func (v *ServiceWithInfo) UnmarshalBER(data []byte) error {
+	*v = ServiceWithInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ServiceWithInfo SEQUENCE: %w", err)
@@ -5731,6 +5753,7 @@ func (v *INKey) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes INKey from BER/DER format.
 func (v *INKey) UnmarshalBER(data []byte) error {
+	*v = INKey{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for INKey CHOICE")
 	}
@@ -5902,6 +5925,7 @@ func (v *MKey) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MKey from BER/DER format.
 func (v *MKey) UnmarshalBER(data []byte) error {
+	*v = MKey{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MKey SEQUENCE: %w", err)
@@ -6126,6 +6150,7 @@ func (v *SMSKey) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SMSKey from BER/DER format.
 func (v *SMSKey) UnmarshalBER(data []byte) error {
+	*v = SMSKey{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SMSKey SEQUENCE: %w", err)
@@ -6321,6 +6346,7 @@ func (v *USSDExtension) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes USSDExtension from BER/DER format.
 func (v *USSDExtension) UnmarshalBER(data []byte) error {
+	*v = USSDExtension{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding USSDExtension: %w", err)
@@ -6572,6 +6598,7 @@ func (v *HOExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes HOExt from BER/DER format.
 func (v *HOExt) UnmarshalBER(data []byte) error {
+	*v = HOExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding HOExt: %w", err)
@@ -6834,6 +6861,7 @@ func (v *SelectedCodec) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SelectedCodec from BER/DER format.
 func (v *SelectedCodec) UnmarshalBER(data []byte) error {
+	*v = SelectedCodec{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SelectedCodec SEQUENCE: %w", err)
@@ -6984,6 +7012,7 @@ func (v *AbsentSubscriberExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AbsentSubscriberExt from BER/DER format.
 func (v *AbsentSubscriberExt) UnmarshalBER(data []byte) error {
+	*v = AbsentSubscriberExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AbsentSubscriberExt: %w", err)
@@ -7148,6 +7177,7 @@ func (v *ErrOlcmInfoTableExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ErrOlcmInfoTableExt from BER/DER format.
 func (v *ErrOlcmInfoTableExt) UnmarshalBER(data []byte) error {
+	*v = ErrOlcmInfoTableExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ErrOlcmInfoTableExt: %w", err)
@@ -7297,6 +7327,7 @@ func (v *RoutingCategoryExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RoutingCategoryExt from BER/DER format.
 func (v *RoutingCategoryExt) UnmarshalBER(data []byte) error {
+	*v = RoutingCategoryExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RoutingCategoryExt: %w", err)
@@ -7457,6 +7488,7 @@ func (v *SriForSMArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SriForSMArgExt from BER/DER format.
 func (v *SriForSMArgExt) UnmarshalBER(data []byte) error {
+	*v = SriForSMArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SriForSMArgExt: %w", err)
@@ -7617,6 +7649,7 @@ func (v *ReportSMDelStatArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ReportSMDelStatArgExt from BER/DER format.
 func (v *ReportSMDelStatArgExt) UnmarshalBER(data []byte) error {
+	*v = ReportSMDelStatArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ReportSMDelStatArgExt: %w", err)
@@ -7757,6 +7790,7 @@ func (v *MOForwardSMArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes MOForwardSMArgExt from BER/DER format.
 func (v *MOForwardSMArgExt) UnmarshalBER(data []byte) error {
+	*v = MOForwardSMArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MOForwardSMArgExt: %w", err)
@@ -7895,6 +7929,7 @@ func (v *UdlArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UdlArgExt from BER/DER format.
 func (v *UdlArgExt) UnmarshalBER(data []byte) error {
+	*v = UdlArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UdlArgExt: %w", err)
@@ -8017,6 +8052,7 @@ func (v *RoamNotAllowedExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes RoamNotAllowedExt from BER/DER format.
 func (v *RoamNotAllowedExt) UnmarshalBER(data []byte) error {
+	*v = RoamNotAllowedExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RoamNotAllowedExt: %w", err)
@@ -8119,6 +8155,7 @@ func (v *AnyTimeModArgExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimeModArgExt from BER/DER format.
 func (v *AnyTimeModArgExt) UnmarshalBER(data []byte) error {
+	*v = AnyTimeModArgExt{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimeModArgExt: %w", err)
@@ -8200,6 +8237,7 @@ func (v *CosInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CosInfo from BER/DER format.
 func (v *CosInfo) UnmarshalBER(data []byte) error {
+	*v = CosInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CosInfo SEQUENCE: %w", err)
@@ -8408,6 +8446,7 @@ func (v *COSFeature) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes COSFeature from BER/DER format.
 func (v *COSFeature) UnmarshalBER(data []byte) error {
+	*v = COSFeature{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding COSFeature SEQUENCE: %w", err)
@@ -8465,7 +8504,7 @@ func (v *COSFeature) UnmarshalBER(data []byte) error {
 				if decodedTag_customergroupid.Class != tag.ClassContextSpecific || decodedTag_customergroupid.Number != 5 {
 					return fmt.Errorf("decoding customerGroupID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_customergroupid)
 				}
-				bsBytes_customergroupid, bsUnused_customergroupid, bsErr := ber.DecodeBitStringValue(rawVal_customergroupid)
+				bsBytes_customergroupid, bsUnused_customergroupid, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_customergroupid.Constructed, rawVal_customergroupid)
 				if bsErr != nil {
 					return fmt.Errorf("decoding customerGroupID: %w", bsErr)
 				}
@@ -8487,7 +8526,7 @@ func (v *COSFeature) UnmarshalBER(data []byte) error {
 				if decodedTag_subgroupid.Class != tag.ClassContextSpecific || decodedTag_subgroupid.Number != 6 {
 					return fmt.Errorf("decoding subGroupID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subgroupid)
 				}
-				bsBytes_subgroupid, bsUnused_subgroupid, bsErr := ber.DecodeBitStringValue(rawVal_subgroupid)
+				bsBytes_subgroupid, bsUnused_subgroupid, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_subgroupid.Constructed, rawVal_subgroupid)
 				if bsErr != nil {
 					return fmt.Errorf("decoding subGroupID: %w", bsErr)
 				}
@@ -8509,7 +8548,7 @@ func (v *COSFeature) UnmarshalBER(data []byte) error {
 				if decodedTag_classofserviceid.Class != tag.ClassContextSpecific || decodedTag_classofserviceid.Number != 7 {
 					return fmt.Errorf("decoding classOfServiceID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_classofserviceid)
 				}
-				bsBytes_classofserviceid, bsUnused_classofserviceid, bsErr := ber.DecodeBitStringValue(rawVal_classofserviceid)
+				bsBytes_classofserviceid, bsUnused_classofserviceid, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_classofserviceid.Constructed, rawVal_classofserviceid)
 				if bsErr != nil {
 					return fmt.Errorf("decoding classOfServiceID: %w", bsErr)
 				}
@@ -8567,6 +8606,7 @@ func (v *AccessTypeExt) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AccessTypeExt from BER/DER format.
 func (v *AccessTypeExt) UnmarshalBER(data []byte) error {
+	*v = AccessTypeExt{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AccessTypeExt SEQUENCE: %w", err)
@@ -8579,7 +8619,7 @@ func (v *AccessTypeExt) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field access")
 	}
-	val_access, n, err := ber.DecodeInteger(content[offset:])
+	val_access, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding access: %w", err)
 	}
@@ -8645,7 +8685,7 @@ func UnmarshalBERAccessSubscriptionListExt(data []byte) (AccessSubscriptionListE
 	var result AccessSubscriptionListExt
 	offset := 0
 	for offset < len(content) {
-		val, n, intErr := ber.DecodeInteger(content[offset:])
+		val, n, intErr := ber.DecodeEnumerated(content[offset:])
 		if intErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", intErr)
 		}
@@ -8719,6 +8759,7 @@ func (v *AnyTimePOBarringArg) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimePOBarringArg from BER/DER format.
 func (v *AnyTimePOBarringArg) UnmarshalBER(data []byte) error {
+	*v = AnyTimePOBarringArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimePOBarringArg SEQUENCE: %w", err)
@@ -8770,7 +8811,7 @@ func (v *AnyTimePOBarringArg) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field gprs-Barring")
 	}
-	val_gprsbarring, n, err := ber.DecodeInteger(content[offset:])
+	val_gprsbarring, n, err := ber.DecodeEnumerated(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding gprs-Barring: %w", err)
 	}
@@ -8826,6 +8867,7 @@ func (v *AnyTimePOBarringRes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AnyTimePOBarringRes from BER/DER format.
 func (v *AnyTimePOBarringRes) UnmarshalBER(data []byte) error {
+	*v = AnyTimePOBarringRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AnyTimePOBarringRes SEQUENCE: %w", err)

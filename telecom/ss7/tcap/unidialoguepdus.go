@@ -17,7 +17,7 @@ var (
 	_ = tag.ClassUniversal
 )
 
-// UniDialogueAsId returns the OID value for UniDialogueAsId.
+// UniDialogueAsId returns the OID value for uniDialogue-as-id.
 func UniDialogueAsId() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 0, 17, 773, 1, 2, 1}
 }
@@ -108,6 +108,7 @@ func (v *UniDialoguePDU) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UniDialoguePDU from BER/DER format.
 func (v *UniDialoguePDU) UnmarshalBER(data []byte) error {
+	*v = UniDialoguePDU{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for UniDialoguePDU CHOICE")
 	}
@@ -229,6 +230,7 @@ func (v *AUDTApdu) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AUDTApdu from BER/DER format.
 func (v *AUDTApdu) UnmarshalBER(data []byte) error {
+	*v = AUDTApdu{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AUDTApdu: %w", err)
@@ -252,7 +254,7 @@ func (v *AUDTApdu) UnmarshalBER(data []byte) error {
 				if decodedTag_protocolversion.Class != tag.ClassContextSpecific || decodedTag_protocolversion.Number != 0 {
 					return fmt.Errorf("decoding protocol-version: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_protocolversion)
 				}
-				bsBytes_protocolversion, bsUnused_protocolversion, bsErr := ber.DecodeBitStringValue(rawVal_protocolversion)
+				bsBytes_protocolversion, bsUnused_protocolversion, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_protocolversion.Constructed, rawVal_protocolversion)
 				if bsErr != nil {
 					return fmt.Errorf("decoding protocol-version: %w", bsErr)
 				}

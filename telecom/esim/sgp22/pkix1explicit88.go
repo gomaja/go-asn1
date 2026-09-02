@@ -21,287 +21,287 @@ var (
 
 const (
 
-	// CommonNameValue is the integer constant for CommonNameValue.
+	// CommonNameValue is the integer constant for common-name.
 	CommonNameValue int64 = 1
 
-	// TeletexCommonNameValue is the integer constant for TeletexCommonNameValue.
+	// TeletexCommonNameValue is the integer constant for teletex-common-name.
 	TeletexCommonNameValue int64 = 2
 
-	// TeletexOrganizationNameValue is the integer constant for TeletexOrganizationNameValue.
+	// TeletexOrganizationNameValue is the integer constant for teletex-organization-name.
 	TeletexOrganizationNameValue int64 = 3
 
-	// TeletexPersonalNameValue is the integer constant for TeletexPersonalNameValue.
+	// TeletexPersonalNameValue is the integer constant for teletex-personal-name.
 	TeletexPersonalNameValue int64 = 4
 
-	// TeletexOrganizationalUnitNamesValue is the integer constant for TeletexOrganizationalUnitNamesValue.
+	// TeletexOrganizationalUnitNamesValue is the integer constant for teletex-organizational-unit-names.
 	TeletexOrganizationalUnitNamesValue int64 = 5
 
-	// PdsName is the integer constant for PdsName.
+	// PdsName is the integer constant for pds-name.
 	PdsName int64 = 7
 
-	// PhysicalDeliveryCountryNameValue is the integer constant for PhysicalDeliveryCountryNameValue.
+	// PhysicalDeliveryCountryNameValue is the integer constant for physical-delivery-country-name.
 	PhysicalDeliveryCountryNameValue int64 = 8
 
-	// PostalCodeValue is the integer constant for PostalCodeValue.
+	// PostalCodeValue is the integer constant for postal-code.
 	PostalCodeValue int64 = 9
 
-	// PhysicalDeliveryOfficeNameValue is the integer constant for PhysicalDeliveryOfficeNameValue.
+	// PhysicalDeliveryOfficeNameValue is the integer constant for physical-delivery-office-name.
 	PhysicalDeliveryOfficeNameValue int64 = 10
 
-	// PhysicalDeliveryOfficeNumberValue is the integer constant for PhysicalDeliveryOfficeNumberValue.
+	// PhysicalDeliveryOfficeNumberValue is the integer constant for physical-delivery-office-number.
 	PhysicalDeliveryOfficeNumberValue int64 = 11
 
-	// ExtensionORAddressComponentsValue is the integer constant for ExtensionORAddressComponentsValue.
+	// ExtensionORAddressComponentsValue is the integer constant for extension-OR-address-components.
 	ExtensionORAddressComponentsValue int64 = 12
 
-	// PhysicalDeliveryPersonalNameValue is the integer constant for PhysicalDeliveryPersonalNameValue.
+	// PhysicalDeliveryPersonalNameValue is the integer constant for physical-delivery-personal-name.
 	PhysicalDeliveryPersonalNameValue int64 = 13
 
-	// PhysicalDeliveryOrganizationNameValue is the integer constant for PhysicalDeliveryOrganizationNameValue.
+	// PhysicalDeliveryOrganizationNameValue is the integer constant for physical-delivery-organization-name.
 	PhysicalDeliveryOrganizationNameValue int64 = 14
 
-	// ExtensionPhysicalDeliveryAddressComponentsValue is the integer constant for ExtensionPhysicalDeliveryAddressComponentsValue.
+	// ExtensionPhysicalDeliveryAddressComponentsValue is the integer constant for extension-physical-delivery-address-components.
 	ExtensionPhysicalDeliveryAddressComponentsValue int64 = 15
 
-	// UnformattedPostalAddressValue is the integer constant for UnformattedPostalAddressValue.
+	// UnformattedPostalAddressValue is the integer constant for unformatted-postal-address.
 	UnformattedPostalAddressValue int64 = 16
 
-	// StreetAddressValue is the integer constant for StreetAddressValue.
+	// StreetAddressValue is the integer constant for street-address.
 	StreetAddressValue int64 = 17
 
-	// PostOfficeBoxAddressValue is the integer constant for PostOfficeBoxAddressValue.
+	// PostOfficeBoxAddressValue is the integer constant for post-office-box-address.
 	PostOfficeBoxAddressValue int64 = 18
 
-	// PosteRestanteAddressValue is the integer constant for PosteRestanteAddressValue.
+	// PosteRestanteAddressValue is the integer constant for poste-restante-address.
 	PosteRestanteAddressValue int64 = 19
 
-	// UniquePostalNameValue is the integer constant for UniquePostalNameValue.
+	// UniquePostalNameValue is the integer constant for unique-postal-name.
 	UniquePostalNameValue int64 = 20
 
-	// LocalPostalAttributesValue is the integer constant for LocalPostalAttributesValue.
+	// LocalPostalAttributesValue is the integer constant for local-postal-attributes.
 	LocalPostalAttributesValue int64 = 21
 
-	// ExtendedNetworkAddressValue is the integer constant for ExtendedNetworkAddressValue.
+	// ExtendedNetworkAddressValue is the integer constant for extended-network-address.
 	ExtendedNetworkAddressValue int64 = 22
 
-	// TerminalTypeValue is the integer constant for TerminalTypeValue.
+	// TerminalTypeValue is the integer constant for terminal-type.
 	TerminalTypeValue int64 = 23
 
-	// TeletexDomainDefinedAttributesValue is the integer constant for TeletexDomainDefinedAttributesValue.
+	// TeletexDomainDefinedAttributesValue is the integer constant for teletex-domain-defined-attributes.
 	TeletexDomainDefinedAttributesValue int64 = 6
 
-	// UbName is the integer constant for UbName.
+	// UbName is the integer constant for ub-name.
 	UbName int64 = 32768
 
-	// UbCommonName is the integer constant for UbCommonName.
+	// UbCommonName is the integer constant for ub-common-name.
 	UbCommonName int64 = 64
 
-	// UbLocalityName is the integer constant for UbLocalityName.
+	// UbLocalityName is the integer constant for ub-locality-name.
 	UbLocalityName int64 = 128
 
-	// UbStateName is the integer constant for UbStateName.
+	// UbStateName is the integer constant for ub-state-name.
 	UbStateName int64 = 128
 
-	// UbOrganizationName is the integer constant for UbOrganizationName.
+	// UbOrganizationName is the integer constant for ub-organization-name.
 	UbOrganizationName int64 = 64
 
-	// UbOrganizationalUnitName is the integer constant for UbOrganizationalUnitName.
+	// UbOrganizationalUnitName is the integer constant for ub-organizational-unit-name.
 	UbOrganizationalUnitName int64 = 64
 
-	// UbTitle is the integer constant for UbTitle.
+	// UbTitle is the integer constant for ub-title.
 	UbTitle int64 = 64
 
-	// UbSerialNumber is the integer constant for UbSerialNumber.
+	// UbSerialNumber is the integer constant for ub-serial-number.
 	UbSerialNumber int64 = 64
 
-	// UbMatch is the integer constant for UbMatch.
+	// UbMatch is the integer constant for ub-match.
 	UbMatch int64 = 128
 
-	// UbEmailaddressLength is the integer constant for UbEmailaddressLength.
+	// UbEmailaddressLength is the integer constant for ub-emailaddress-length.
 	UbEmailaddressLength int64 = 255
 
-	// UbCommonNameLength is the integer constant for UbCommonNameLength.
+	// UbCommonNameLength is the integer constant for ub-common-name-length.
 	UbCommonNameLength int64 = 64
 
-	// UbCountryNameAlphaLength is the integer constant for UbCountryNameAlphaLength.
+	// UbCountryNameAlphaLength is the integer constant for ub-country-name-alpha-length.
 	UbCountryNameAlphaLength int64 = 2
 
-	// UbCountryNameNumericLength is the integer constant for UbCountryNameNumericLength.
+	// UbCountryNameNumericLength is the integer constant for ub-country-name-numeric-length.
 	UbCountryNameNumericLength int64 = 3
 
-	// UbDomainDefinedAttributes is the integer constant for UbDomainDefinedAttributes.
+	// UbDomainDefinedAttributes is the integer constant for ub-domain-defined-attributes.
 	UbDomainDefinedAttributes int64 = 4
 
-	// UbDomainDefinedAttributeTypeLength is the integer constant for UbDomainDefinedAttributeTypeLength.
+	// UbDomainDefinedAttributeTypeLength is the integer constant for ub-domain-defined-attribute-type-length.
 	UbDomainDefinedAttributeTypeLength int64 = 8
 
-	// UbDomainDefinedAttributeValueLength is the integer constant for UbDomainDefinedAttributeValueLength.
+	// UbDomainDefinedAttributeValueLength is the integer constant for ub-domain-defined-attribute-value-length.
 	UbDomainDefinedAttributeValueLength int64 = 128
 
-	// UbDomainNameLength is the integer constant for UbDomainNameLength.
+	// UbDomainNameLength is the integer constant for ub-domain-name-length.
 	UbDomainNameLength int64 = 16
 
-	// UbExtensionAttributes is the integer constant for UbExtensionAttributes.
+	// UbExtensionAttributes is the integer constant for ub-extension-attributes.
 	UbExtensionAttributes int64 = 256
 
-	// UbE1634NumberLength is the integer constant for UbE1634NumberLength.
+	// UbE1634NumberLength is the integer constant for ub-e163-4-number-length.
 	UbE1634NumberLength int64 = 15
 
-	// UbE1634SubAddressLength is the integer constant for UbE1634SubAddressLength.
+	// UbE1634SubAddressLength is the integer constant for ub-e163-4-sub-address-length.
 	UbE1634SubAddressLength int64 = 40
 
-	// UbGenerationQualifierLength is the integer constant for UbGenerationQualifierLength.
+	// UbGenerationQualifierLength is the integer constant for ub-generation-qualifier-length.
 	UbGenerationQualifierLength int64 = 3
 
-	// UbGivenNameLength is the integer constant for UbGivenNameLength.
+	// UbGivenNameLength is the integer constant for ub-given-name-length.
 	UbGivenNameLength int64 = 16
 
-	// UbInitialsLength is the integer constant for UbInitialsLength.
+	// UbInitialsLength is the integer constant for ub-initials-length.
 	UbInitialsLength int64 = 5
 
-	// UbIntegerOptions is the integer constant for UbIntegerOptions.
+	// UbIntegerOptions is the integer constant for ub-integer-options.
 	UbIntegerOptions int64 = 256
 
-	// UbNumericUserIdLength is the integer constant for UbNumericUserIdLength.
+	// UbNumericUserIdLength is the integer constant for ub-numeric-user-id-length.
 	UbNumericUserIdLength int64 = 32
 
-	// UbOrganizationNameLength is the integer constant for UbOrganizationNameLength.
+	// UbOrganizationNameLength is the integer constant for ub-organization-name-length.
 	UbOrganizationNameLength int64 = 64
 
-	// UbOrganizationalUnitNameLength is the integer constant for UbOrganizationalUnitNameLength.
+	// UbOrganizationalUnitNameLength is the integer constant for ub-organizational-unit-name-length.
 	UbOrganizationalUnitNameLength int64 = 32
 
-	// UbOrganizationalUnits is the integer constant for UbOrganizationalUnits.
+	// UbOrganizationalUnits is the integer constant for ub-organizational-units.
 	UbOrganizationalUnits int64 = 4
 
-	// UbPdsNameLength is the integer constant for UbPdsNameLength.
+	// UbPdsNameLength is the integer constant for ub-pds-name-length.
 	UbPdsNameLength int64 = 16
 
-	// UbPdsParameterLength is the integer constant for UbPdsParameterLength.
+	// UbPdsParameterLength is the integer constant for ub-pds-parameter-length.
 	UbPdsParameterLength int64 = 30
 
-	// UbPdsPhysicalAddressLines is the integer constant for UbPdsPhysicalAddressLines.
+	// UbPdsPhysicalAddressLines is the integer constant for ub-pds-physical-address-lines.
 	UbPdsPhysicalAddressLines int64 = 6
 
-	// UbPostalCodeLength is the integer constant for UbPostalCodeLength.
+	// UbPostalCodeLength is the integer constant for ub-postal-code-length.
 	UbPostalCodeLength int64 = 16
 
-	// UbPseudonym is the integer constant for UbPseudonym.
+	// UbPseudonym is the integer constant for ub-pseudonym.
 	UbPseudonym int64 = 128
 
-	// UbSurnameLength is the integer constant for UbSurnameLength.
+	// UbSurnameLength is the integer constant for ub-surname-length.
 	UbSurnameLength int64 = 40
 
-	// UbTerminalIdLength is the integer constant for UbTerminalIdLength.
+	// UbTerminalIdLength is the integer constant for ub-terminal-id-length.
 	UbTerminalIdLength int64 = 24
 
-	// UbUnformattedAddressLength is the integer constant for UbUnformattedAddressLength.
+	// UbUnformattedAddressLength is the integer constant for ub-unformatted-address-length.
 	UbUnformattedAddressLength int64 = 180
 
-	// UbX121AddressLength is the integer constant for UbX121AddressLength.
+	// UbX121AddressLength is the integer constant for ub-x121-address-length.
 	UbX121AddressLength int64 = 16
 )
 
-// IdPkix returns the OID value for IdPkix.
+// IdPkix returns the OID value for id-pkix.
 func IdPkix() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7} }
 
-// IdPe returns the OID value for IdPe.
+// IdPe returns the OID value for id-pe.
 func IdPe() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 1} }
 
-// IdQt returns the OID value for IdQt.
+// IdQt returns the OID value for id-qt.
 func IdQt() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2} }
 
-// IdKp returns the OID value for IdKp.
+// IdKp returns the OID value for id-kp.
 func IdKp() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 3} }
 
-// IdAd returns the OID value for IdAd.
+// IdAd returns the OID value for id-ad.
 func IdAd() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48} }
 
-// IdQtCps returns the OID value for IdQtCps.
+// IdQtCps returns the OID value for id-qt-cps.
 func IdQtCps() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 1} }
 
-// IdQtUnotice returns the OID value for IdQtUnotice.
+// IdQtUnotice returns the OID value for id-qt-unotice.
 func IdQtUnotice() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 2, 2}
 }
 
-// IdAdOcsp returns the OID value for IdAdOcsp.
+// IdAdOcsp returns the OID value for id-ad-ocsp.
 func IdAdOcsp() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 1} }
 
-// IdAdCaIssuers returns the OID value for IdAdCaIssuers.
+// IdAdCaIssuers returns the OID value for id-ad-caIssuers.
 func IdAdCaIssuers() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 2}
 }
 
-// IdAdTimeStamping returns the OID value for IdAdTimeStamping.
+// IdAdTimeStamping returns the OID value for id-ad-timeStamping.
 func IdAdTimeStamping() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 3}
 }
 
-// IdAdCaRepository returns the OID value for IdAdCaRepository.
+// IdAdCaRepository returns the OID value for id-ad-caRepository.
 func IdAdCaRepository() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 3, 6, 1, 5, 5, 7, 48, 5}
 }
 
-// IdAt returns the OID value for IdAt.
+// IdAt returns the OID value for id-at.
 func IdAt() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4} }
 
-// IdAtName returns the OID value for IdAtName.
+// IdAtName returns the OID value for id-at-name.
 func IdAtName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 41} }
 
-// IdAtSurname returns the OID value for IdAtSurname.
+// IdAtSurname returns the OID value for id-at-surname.
 func IdAtSurname() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 4} }
 
-// IdAtGivenName returns the OID value for IdAtGivenName.
+// IdAtGivenName returns the OID value for id-at-givenName.
 func IdAtGivenName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 42} }
 
-// IdAtInitials returns the OID value for IdAtInitials.
+// IdAtInitials returns the OID value for id-at-initials.
 func IdAtInitials() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 43} }
 
-// IdAtGenerationQualifier returns the OID value for IdAtGenerationQualifier.
+// IdAtGenerationQualifier returns the OID value for id-at-generationQualifier.
 func IdAtGenerationQualifier() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 44} }
 
-// IdAtCommonName returns the OID value for IdAtCommonName.
+// IdAtCommonName returns the OID value for id-at-commonName.
 func IdAtCommonName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 3} }
 
-// IdAtLocalityName returns the OID value for IdAtLocalityName.
+// IdAtLocalityName returns the OID value for id-at-localityName.
 func IdAtLocalityName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 7} }
 
-// IdAtStateOrProvinceName returns the OID value for IdAtStateOrProvinceName.
+// IdAtStateOrProvinceName returns the OID value for id-at-stateOrProvinceName.
 func IdAtStateOrProvinceName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 8} }
 
-// IdAtOrganizationName returns the OID value for IdAtOrganizationName.
+// IdAtOrganizationName returns the OID value for id-at-organizationName.
 func IdAtOrganizationName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 10} }
 
-// IdAtOrganizationalUnitName returns the OID value for IdAtOrganizationalUnitName.
+// IdAtOrganizationalUnitName returns the OID value for id-at-organizationalUnitName.
 func IdAtOrganizationalUnitName() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{2, 5, 4, 11}
 }
 
-// IdAtTitle returns the OID value for IdAtTitle.
+// IdAtTitle returns the OID value for id-at-title.
 func IdAtTitle() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 12} }
 
-// IdAtDnQualifier returns the OID value for IdAtDnQualifier.
+// IdAtDnQualifier returns the OID value for id-at-dnQualifier.
 func IdAtDnQualifier() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 46} }
 
-// IdAtCountryName returns the OID value for IdAtCountryName.
+// IdAtCountryName returns the OID value for id-at-countryName.
 func IdAtCountryName() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 6} }
 
-// IdAtSerialNumber returns the OID value for IdAtSerialNumber.
+// IdAtSerialNumber returns the OID value for id-at-serialNumber.
 func IdAtSerialNumber() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 5} }
 
-// IdAtPseudonym returns the OID value for IdAtPseudonym.
+// IdAtPseudonym returns the OID value for id-at-pseudonym.
 func IdAtPseudonym() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{2, 5, 4, 65} }
 
-// IdDomainComponent returns the OID value for IdDomainComponent.
+// IdDomainComponent returns the OID value for id-domainComponent.
 func IdDomainComponent() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{0, 9, 2342, 19200300, 100, 1, 25}
 }
 
-// Pkcs9 returns the OID value for Pkcs9.
+// Pkcs9 returns the OID value for pkcs-9.
 func Pkcs9() runtime.ObjectIdentifier { return runtime.ObjectIdentifier{1, 2, 840, 113549, 1, 9} }
 
-// IdEmailAddress returns the OID value for IdEmailAddress.
+// IdEmailAddress returns the OID value for id-emailAddress.
 func IdEmailAddress() runtime.ObjectIdentifier {
 	return runtime.ObjectIdentifier{1, 2, 840, 113549, 1, 9, 1}
 }
@@ -1547,6 +1547,7 @@ func (v *Attribute) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Attribute from BER/DER format.
 func (v *Attribute) UnmarshalBER(data []byte) error {
+	*v = Attribute{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Attribute SEQUENCE: %w", err)
@@ -1626,6 +1627,7 @@ func (v *AttributeTypeAndValue) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AttributeTypeAndValue from BER/DER format.
 func (v *AttributeTypeAndValue) UnmarshalBER(data []byte) error {
+	*v = AttributeTypeAndValue{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AttributeTypeAndValue SEQUENCE: %w", err)
@@ -1727,6 +1729,7 @@ func (v *X520name) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520name from BER/DER format.
 func (v *X520name) UnmarshalBER(data []byte) error {
+	*v = X520name{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520name CHOICE")
 	}
@@ -1852,6 +1855,7 @@ func (v *X520CommonName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520CommonName from BER/DER format.
 func (v *X520CommonName) UnmarshalBER(data []byte) error {
+	*v = X520CommonName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520CommonName CHOICE")
 	}
@@ -1977,6 +1981,7 @@ func (v *X520LocalityName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520LocalityName from BER/DER format.
 func (v *X520LocalityName) UnmarshalBER(data []byte) error {
+	*v = X520LocalityName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520LocalityName CHOICE")
 	}
@@ -2102,6 +2107,7 @@ func (v *X520StateOrProvinceName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520StateOrProvinceName from BER/DER format.
 func (v *X520StateOrProvinceName) UnmarshalBER(data []byte) error {
+	*v = X520StateOrProvinceName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520StateOrProvinceName CHOICE")
 	}
@@ -2227,6 +2233,7 @@ func (v *X520OrganizationName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520OrganizationName from BER/DER format.
 func (v *X520OrganizationName) UnmarshalBER(data []byte) error {
+	*v = X520OrganizationName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520OrganizationName CHOICE")
 	}
@@ -2352,6 +2359,7 @@ func (v *X520OrganizationalUnitName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520OrganizationalUnitName from BER/DER format.
 func (v *X520OrganizationalUnitName) UnmarshalBER(data []byte) error {
+	*v = X520OrganizationalUnitName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520OrganizationalUnitName CHOICE")
 	}
@@ -2477,6 +2485,7 @@ func (v *X520Title) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520Title from BER/DER format.
 func (v *X520Title) UnmarshalBER(data []byte) error {
+	*v = X520Title{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520Title CHOICE")
 	}
@@ -2602,6 +2611,7 @@ func (v *X520Pseudonym) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes X520Pseudonym from BER/DER format.
 func (v *X520Pseudonym) UnmarshalBER(data []byte) error {
+	*v = X520Pseudonym{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for X520Pseudonym CHOICE")
 	}
@@ -2699,6 +2709,7 @@ func (v *Name) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Name from BER/DER format.
 func (v *Name) UnmarshalBER(data []byte) error {
+	*v = Name{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Name CHOICE")
 	}
@@ -2914,6 +2925,7 @@ func (v *DirectoryString) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes DirectoryString from BER/DER format.
 func (v *DirectoryString) UnmarshalBER(data []byte) error {
+	*v = DirectoryString{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DirectoryString CHOICE")
 	}
@@ -3014,6 +3026,7 @@ func (v *Certificate) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Certificate from BER/DER format.
 func (v *Certificate) UnmarshalBER(data []byte) error {
+	*v = Certificate{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Certificate SEQUENCE: %w", err)
@@ -3204,6 +3217,7 @@ func (v *TBSCertificate) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TBSCertificate from BER/DER format.
 func (v *TBSCertificate) UnmarshalBER(data []byte) error {
+	*v = TBSCertificate{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TBSCertificate SEQUENCE: %w", err)
@@ -3325,7 +3339,7 @@ func (v *TBSCertificate) UnmarshalBER(data []byte) error {
 				if decodedTag_issueruniqueid.Class != tag.ClassContextSpecific || decodedTag_issueruniqueid.Number != 1 {
 					return fmt.Errorf("decoding issuerUniqueID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_issueruniqueid)
 				}
-				bsBytes_issueruniqueid, bsUnused_issueruniqueid, bsErr := ber.DecodeBitStringValue(rawVal_issueruniqueid)
+				bsBytes_issueruniqueid, bsUnused_issueruniqueid, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_issueruniqueid.Constructed, rawVal_issueruniqueid)
 				if bsErr != nil {
 					return fmt.Errorf("decoding issuerUniqueID: %w", bsErr)
 				}
@@ -3347,7 +3361,7 @@ func (v *TBSCertificate) UnmarshalBER(data []byte) error {
 				if decodedTag_subjectuniqueid.Class != tag.ClassContextSpecific || decodedTag_subjectuniqueid.Number != 2 {
 					return fmt.Errorf("decoding subjectUniqueID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_subjectuniqueid)
 				}
-				bsBytes_subjectuniqueid, bsUnused_subjectuniqueid, bsErr := ber.DecodeBitStringValue(rawVal_subjectuniqueid)
+				bsBytes_subjectuniqueid, bsUnused_subjectuniqueid, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_subjectuniqueid.Constructed, rawVal_subjectuniqueid)
 				if bsErr != nil {
 					return fmt.Errorf("decoding subjectUniqueID: %w", bsErr)
 				}
@@ -3424,6 +3438,7 @@ func (v *Validity) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Validity from BER/DER format.
 func (v *Validity) UnmarshalBER(data []byte) error {
+	*v = Validity{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Validity SEQUENCE: %w", err)
@@ -3498,6 +3513,7 @@ func (v *Time) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Time from BER/DER format.
 func (v *Time) UnmarshalBER(data []byte) error {
+	*v = Time{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Time CHOICE")
 	}
@@ -3567,6 +3583,7 @@ func (v *SubjectPublicKeyInfo) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes SubjectPublicKeyInfo from BER/DER format.
 func (v *SubjectPublicKeyInfo) UnmarshalBER(data []byte) error {
+	*v = SubjectPublicKeyInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SubjectPublicKeyInfo SEQUENCE: %w", err)
@@ -3705,6 +3722,7 @@ func (v *Extension) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Extension from BER/DER format.
 func (v *Extension) UnmarshalBER(data []byte) error {
+	*v = Extension{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Extension SEQUENCE: %w", err)
@@ -3796,6 +3814,7 @@ func (v *CertificateList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CertificateList from BER/DER format.
 func (v *CertificateList) UnmarshalBER(data []byte) error {
+	*v = CertificateList{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CertificateList SEQUENCE: %w", err)
@@ -3946,6 +3965,7 @@ func (v *TBSCertList) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TBSCertList from BER/DER format.
 func (v *TBSCertList) UnmarshalBER(data []byte) error {
+	*v = TBSCertList{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TBSCertList SEQUENCE: %w", err)
@@ -4122,6 +4142,7 @@ func (v *AlgorithmIdentifier) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AlgorithmIdentifier from BER/DER format.
 func (v *AlgorithmIdentifier) UnmarshalBER(data []byte) error {
+	*v = AlgorithmIdentifier{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AlgorithmIdentifier SEQUENCE: %w", err)
@@ -4212,6 +4233,7 @@ func (v *ORAddress) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ORAddress from BER/DER format.
 func (v *ORAddress) UnmarshalBER(data []byte) error {
+	*v = ORAddress{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ORAddress SEQUENCE: %w", err)
@@ -4508,6 +4530,7 @@ func (v *BuiltInStandardAttributes) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BuiltInStandardAttributes from BER/DER format.
 func (v *BuiltInStandardAttributes) UnmarshalBER(data []byte) error {
+	*v = BuiltInStandardAttributes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BuiltInStandardAttributes SEQUENCE: %w", err)
@@ -4759,6 +4782,7 @@ func (v *CountryName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes CountryName from BER/DER format.
 func (v *CountryName) UnmarshalBER(data []byte) error {
+	*v = CountryName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CountryName CHOICE")
 	}
@@ -4851,6 +4875,7 @@ func (v *AdministrationDomainName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AdministrationDomainName from BER/DER format.
 func (v *AdministrationDomainName) UnmarshalBER(data []byte) error {
+	*v = AdministrationDomainName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AdministrationDomainName CHOICE")
 	}
@@ -4941,6 +4966,7 @@ func (v *PrivateDomainName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PrivateDomainName from BER/DER format.
 func (v *PrivateDomainName) UnmarshalBER(data []byte) error {
+	*v = PrivateDomainName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PrivateDomainName CHOICE")
 	}
@@ -5091,6 +5117,7 @@ func (v *PersonalName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PersonalName from BER/DER format.
 func (v *PersonalName) UnmarshalBER(data []byte) error {
+	*v = PersonalName{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PersonalName SET: %w", err)
@@ -5339,6 +5366,7 @@ func (v *BuiltInDomainDefinedAttribute) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes BuiltInDomainDefinedAttribute from BER/DER format.
 func (v *BuiltInDomainDefinedAttribute) UnmarshalBER(data []byte) error {
+	*v = BuiltInDomainDefinedAttribute{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding BuiltInDomainDefinedAttribute SEQUENCE: %w", err)
@@ -5473,6 +5501,7 @@ func (v *ExtensionAttribute) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtensionAttribute from BER/DER format.
 func (v *ExtensionAttribute) UnmarshalBER(data []byte) error {
+	*v = ExtensionAttribute{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionAttribute SEQUENCE: %w", err)
@@ -5641,6 +5670,7 @@ func (v *TeletexPersonalName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TeletexPersonalName from BER/DER format.
 func (v *TeletexPersonalName) UnmarshalBER(data []byte) error {
+	*v = TeletexPersonalName{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TeletexPersonalName SET: %w", err)
@@ -5835,6 +5865,7 @@ func (v *PhysicalDeliveryCountryName) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PhysicalDeliveryCountryName from BER/DER format.
 func (v *PhysicalDeliveryCountryName) UnmarshalBER(data []byte) error {
+	*v = PhysicalDeliveryCountryName{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PhysicalDeliveryCountryName CHOICE")
 	}
@@ -5912,6 +5943,7 @@ func (v *PostalCode) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PostalCode from BER/DER format.
 func (v *PostalCode) UnmarshalBER(data []byte) error {
+	*v = PostalCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for PostalCode CHOICE")
 	}
@@ -5998,6 +6030,7 @@ func (v *UnformattedPostalAddress) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes UnformattedPostalAddress from BER/DER format.
 func (v *UnformattedPostalAddress) UnmarshalBER(data []byte) error {
+	*v = UnformattedPostalAddress{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UnformattedPostalAddress SET: %w", err)
@@ -6107,6 +6140,7 @@ func (v *PDSParameter) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PDSParameter from BER/DER format.
 func (v *PDSParameter) UnmarshalBER(data []byte) error {
+	*v = PDSParameter{}
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PDSParameter SET: %w", err)
@@ -6230,6 +6264,7 @@ func (v *ExtendedNetworkAddress) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtendedNetworkAddress from BER/DER format.
 func (v *ExtendedNetworkAddress) UnmarshalBER(data []byte) error {
+	*v = ExtendedNetworkAddress{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ExtendedNetworkAddress CHOICE")
 	}
@@ -6332,6 +6367,7 @@ func (v *PresentationAddress) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes PresentationAddress from BER/DER format.
 func (v *PresentationAddress) UnmarshalBER(data []byte) error {
+	*v = PresentationAddress{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PresentationAddress SEQUENCE: %w", err)
@@ -6533,6 +6569,7 @@ func (v *TeletexDomainDefinedAttribute) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TeletexDomainDefinedAttribute from BER/DER format.
 func (v *TeletexDomainDefinedAttribute) UnmarshalBER(data []byte) error {
+	*v = TeletexDomainDefinedAttribute{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TeletexDomainDefinedAttribute SEQUENCE: %w", err)
@@ -6672,6 +6709,7 @@ func (v *TBSCertListRevokedCertificatesElem) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TBSCertListRevokedCertificatesElem from BER/DER format.
 func (v *TBSCertListRevokedCertificatesElem) UnmarshalBER(data []byte) error {
+	*v = TBSCertListRevokedCertificatesElem{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding TBSCertListRevokedCertificatesElem SEQUENCE: %w", err)
@@ -6906,6 +6944,7 @@ func (v *ExtendedNetworkAddressE1634Address) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ExtendedNetworkAddressE1634Address from BER/DER format.
 func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte) error {
+	*v = ExtendedNetworkAddressE1634Address{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ExtendedNetworkAddressE1634Address SEQUENCE: %w", err)

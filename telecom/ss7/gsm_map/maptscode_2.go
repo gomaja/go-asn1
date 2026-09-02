@@ -17,100 +17,100 @@ var (
 
 const (
 
-	// TSAllTeleservices is the octet string constant for TSAllTeleservices.
+	// TSAllTeleservices is the octet string constant for allTeleservices.
 	TSAllTeleservices = "\x00"
 
-	// TSAllSpeechTransmissionServices is the octet string constant for TSAllSpeechTransmissionServices.
+	// TSAllSpeechTransmissionServices is the octet string constant for allSpeechTransmissionServices.
 	TSAllSpeechTransmissionServices = "\x10"
 
-	// TSTelephony is the octet string constant for TSTelephony.
+	// TSTelephony is the octet string constant for telephony.
 	TSTelephony = "\x11"
 
-	// TSEmergencyCalls is the octet string constant for TSEmergencyCalls.
+	// TSEmergencyCalls is the octet string constant for emergencyCalls.
 	TSEmergencyCalls = "\x12"
 
-	// TSAllShortMessageServices is the octet string constant for TSAllShortMessageServices.
+	// TSAllShortMessageServices is the octet string constant for allShortMessageServices.
 	TSAllShortMessageServices = "\x20"
 
-	// TSShortMessageMTPP is the octet string constant for TSShortMessageMTPP.
+	// TSShortMessageMTPP is the octet string constant for shortMessageMT-PP.
 	TSShortMessageMTPP = "\x21"
 
-	// TSShortMessageMOPP is the octet string constant for TSShortMessageMOPP.
+	// TSShortMessageMOPP is the octet string constant for shortMessageMO-PP.
 	TSShortMessageMOPP = "\x22"
 
-	// TSAllFacsimileTransmissionServices is the octet string constant for TSAllFacsimileTransmissionServices.
+	// TSAllFacsimileTransmissionServices is the octet string constant for allFacsimileTransmissionServices.
 	TSAllFacsimileTransmissionServices = "\x60"
 
-	// TSFacsimileGroup3AndAlterSpeech is the octet string constant for TSFacsimileGroup3AndAlterSpeech.
+	// TSFacsimileGroup3AndAlterSpeech is the octet string constant for facsimileGroup3AndAlterSpeech.
 	TSFacsimileGroup3AndAlterSpeech = "\x61"
 
-	// TSAutomaticFacsimileGroup3 is the octet string constant for TSAutomaticFacsimileGroup3.
+	// TSAutomaticFacsimileGroup3 is the octet string constant for automaticFacsimileGroup3.
 	TSAutomaticFacsimileGroup3 = "\x62"
 
-	// TSFacsimileGroup4 is the octet string constant for TSFacsimileGroup4.
+	// TSFacsimileGroup4 is the octet string constant for facsimileGroup4.
 	TSFacsimileGroup4 = "\x63"
 
-	// TSAllDataTeleservices is the octet string constant for TSAllDataTeleservices.
+	// TSAllDataTeleservices is the octet string constant for allDataTeleservices.
 	TSAllDataTeleservices = "\x70"
 
-	// TSAllTeleservicesExeptSMS is the octet string constant for TSAllTeleservicesExeptSMS.
+	// TSAllTeleservicesExeptSMS is the octet string constant for allTeleservices-ExeptSMS.
 	TSAllTeleservicesExeptSMS = "\x80"
 
-	// TSAllVoiceGroupCallServices is the octet string constant for TSAllVoiceGroupCallServices.
+	// TSAllVoiceGroupCallServices is the octet string constant for allVoiceGroupCallServices.
 	TSAllVoiceGroupCallServices = "\x90"
 
-	// TSVoiceGroupCall is the octet string constant for TSVoiceGroupCall.
+	// TSVoiceGroupCall is the octet string constant for voiceGroupCall.
 	TSVoiceGroupCall = "\x91"
 
-	// TSVoiceBroadcastCall is the octet string constant for TSVoiceBroadcastCall.
+	// TSVoiceBroadcastCall is the octet string constant for voiceBroadcastCall.
 	TSVoiceBroadcastCall = "\x92"
 
-	// TSAllPLMNSpecificTS is the octet string constant for TSAllPLMNSpecificTS.
+	// TSAllPLMNSpecificTS is the octet string constant for allPLMN-specificTS.
 	TSAllPLMNSpecificTS = "\xd0"
 
-	// TSPlmnSpecificTS1 is the octet string constant for TSPlmnSpecificTS1.
+	// TSPlmnSpecificTS1 is the octet string constant for plmn-specificTS-1.
 	TSPlmnSpecificTS1 = "\xd1"
 
-	// TSPlmnSpecificTS2 is the octet string constant for TSPlmnSpecificTS2.
+	// TSPlmnSpecificTS2 is the octet string constant for plmn-specificTS-2.
 	TSPlmnSpecificTS2 = "\xd2"
 
-	// TSPlmnSpecificTS3 is the octet string constant for TSPlmnSpecificTS3.
+	// TSPlmnSpecificTS3 is the octet string constant for plmn-specificTS-3.
 	TSPlmnSpecificTS3 = "\xd3"
 
-	// TSPlmnSpecificTS4 is the octet string constant for TSPlmnSpecificTS4.
+	// TSPlmnSpecificTS4 is the octet string constant for plmn-specificTS-4.
 	TSPlmnSpecificTS4 = "\xd4"
 
-	// TSPlmnSpecificTS5 is the octet string constant for TSPlmnSpecificTS5.
+	// TSPlmnSpecificTS5 is the octet string constant for plmn-specificTS-5.
 	TSPlmnSpecificTS5 = "\xd5"
 
-	// TSPlmnSpecificTS6 is the octet string constant for TSPlmnSpecificTS6.
+	// TSPlmnSpecificTS6 is the octet string constant for plmn-specificTS-6.
 	TSPlmnSpecificTS6 = "\xd6"
 
-	// TSPlmnSpecificTS7 is the octet string constant for TSPlmnSpecificTS7.
+	// TSPlmnSpecificTS7 is the octet string constant for plmn-specificTS-7.
 	TSPlmnSpecificTS7 = "\xd7"
 
-	// TSPlmnSpecificTS8 is the octet string constant for TSPlmnSpecificTS8.
+	// TSPlmnSpecificTS8 is the octet string constant for plmn-specificTS-8.
 	TSPlmnSpecificTS8 = "\xd8"
 
-	// TSPlmnSpecificTS9 is the octet string constant for TSPlmnSpecificTS9.
+	// TSPlmnSpecificTS9 is the octet string constant for plmn-specificTS-9.
 	TSPlmnSpecificTS9 = "\xd9"
 
-	// TSPlmnSpecificTSA is the octet string constant for TSPlmnSpecificTSA.
+	// TSPlmnSpecificTSA is the octet string constant for plmn-specificTS-A.
 	TSPlmnSpecificTSA = "\xda"
 
-	// TSPlmnSpecificTSB is the octet string constant for TSPlmnSpecificTSB.
+	// TSPlmnSpecificTSB is the octet string constant for plmn-specificTS-B.
 	TSPlmnSpecificTSB = "\xdb"
 
-	// TSPlmnSpecificTSC is the octet string constant for TSPlmnSpecificTSC.
+	// TSPlmnSpecificTSC is the octet string constant for plmn-specificTS-C.
 	TSPlmnSpecificTSC = "\xdc"
 
-	// TSPlmnSpecificTSD is the octet string constant for TSPlmnSpecificTSD.
+	// TSPlmnSpecificTSD is the octet string constant for plmn-specificTS-D.
 	TSPlmnSpecificTSD = "\xdd"
 
-	// TSPlmnSpecificTSE is the octet string constant for TSPlmnSpecificTSE.
+	// TSPlmnSpecificTSE is the octet string constant for plmn-specificTS-E.
 	TSPlmnSpecificTSE = "\xde"
 
-	// TSPlmnSpecificTSF is the octet string constant for TSPlmnSpecificTSF.
+	// TSPlmnSpecificTSF is the octet string constant for plmn-specificTS-F.
 	TSPlmnSpecificTSF = "\xdf"
 )
 

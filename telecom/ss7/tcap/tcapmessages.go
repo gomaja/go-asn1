@@ -463,6 +463,7 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TCMessage from BER/DER format.
 func (v *TCMessage) UnmarshalBER(data []byte) error {
+	*v = TCMessage{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for TCMessage CHOICE")
 	}
@@ -591,6 +592,7 @@ func (v *Unidirectional) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Unidirectional from BER/DER format.
 func (v *Unidirectional) UnmarshalBER(data []byte) error {
+	*v = Unidirectional{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Unidirectional SEQUENCE: %w", err)
@@ -715,6 +717,7 @@ func (v *Begin) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Begin from BER/DER format.
 func (v *Begin) UnmarshalBER(data []byte) error {
+	*v = Begin{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Begin SEQUENCE: %w", err)
@@ -856,6 +859,7 @@ func (v *End) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes End from BER/DER format.
 func (v *End) UnmarshalBER(data []byte) error {
+	*v = End{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding End SEQUENCE: %w", err)
@@ -1011,6 +1015,7 @@ func (v *Continue) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Continue from BER/DER format.
 func (v *Continue) UnmarshalBER(data []byte) error {
+	*v = Continue{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Continue SEQUENCE: %w", err)
@@ -1153,6 +1158,7 @@ func (v *Abort) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Abort from BER/DER format.
 func (v *Abort) UnmarshalBER(data []byte) error {
+	*v = Abort{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Abort SEQUENCE: %w", err)
@@ -1344,6 +1350,7 @@ func (v *Component) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes Component from BER/DER format.
 func (v *Component) UnmarshalBER(data []byte) error {
+	*v = Component{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Component CHOICE")
 	}
@@ -1437,6 +1444,7 @@ func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes TCInvokeIdSet from BER/DER format.
 func (v *TCInvokeIdSet) UnmarshalBER(data []byte) error {
+	*v = TCInvokeIdSet{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for TCInvokeIdSet CHOICE")
 	}
@@ -1524,6 +1532,7 @@ func (v *AbortReason) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes AbortReason from BER/DER format.
 func (v *AbortReason) UnmarshalBER(data []byte) error {
+	*v = AbortReason{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AbortReason CHOICE")
 	}
@@ -1608,6 +1617,7 @@ func (v *ComponentBasicROSInvokeLinkedId) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ComponentBasicROSInvokeLinkedId from BER/DER format.
 func (v *ComponentBasicROSInvokeLinkedId) UnmarshalBER(data []byte) error {
+	*v = ComponentBasicROSInvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ComponentBasicROSInvokeLinkedId CHOICE")
 	}
@@ -1684,6 +1694,7 @@ func (v *ComponentBasicROSReturnResultResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ComponentBasicROSReturnResultResult from BER/DER format.
 func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte) error {
+	*v = ComponentBasicROSReturnResultResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ComponentBasicROSReturnResultResult SEQUENCE: %w", err)
@@ -1753,6 +1764,7 @@ func (v *ComponentReturnResultNotLastResult) MarshalDER() ([]byte, error) {
 
 // UnmarshalBER decodes ComponentReturnResultNotLastResult from BER/DER format.
 func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte) error {
+	*v = ComponentReturnResultNotLastResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ComponentReturnResultNotLastResult SEQUENCE: %w", err)
