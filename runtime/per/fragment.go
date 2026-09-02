@@ -45,6 +45,13 @@ func EncodeLengthFragments(bb *BitBuffer, total int64, aligned bool, encodeFragm
 // DecodeLengthFragments reads interleaved PER length determinants and invokes
 // decodeFragment once for each associated value fragment.
 func DecodeLengthFragments(bb *BitBuffer, aligned bool, decodeFragment func(offset, length int64) error) (int64, error) {
+	return decodeLengthFragmentsBounded(bb, aligned, math.MaxInt64, decodeFragment)
+}
+
+func decodeLengthFragmentsBounded(bb *BitBuffer, aligned bool, maximum int64, decodeFragment func(offset, length int64) error) (int64, error) {
+	if maximum < 0 {
+		return 0, fmt.Errorf("%w: negative fragmented length limit %d", ErrInvalidValue, maximum)
+	}
 	if decodeFragment == nil {
 		return 0, fmt.Errorf("%w: nil fragment decoder", ErrInvalidValue)
 	}
@@ -63,6 +70,9 @@ func DecodeLengthFragments(bb *BitBuffer, aligned bool, decodeFragment func(offs
 		}
 		if length > math.MaxInt64-offset {
 			return 0, fmt.Errorf("%w: fragmented length exceeds int64", ErrInvalidValue)
+		}
+		if offset > maximum || length > maximum-offset {
+			return 0, fmt.Errorf("%w: fragmented length exceeds upper bound %d", ErrConstraintViolation, maximum)
 		}
 		if err := decodeFragment(offset, length); err != nil {
 			return 0, err
@@ -154,10 +164,11 @@ func DecodeCollection(bb *BitBuffer, size SizeConstraint, aligned bool, decodeFr
 		return length, nil
 	}
 
-	total, err := DecodeLengthFragments(bb, aligned, func(offset, length int64) error {
-		if root && size.HasUpper && (offset > size.Upper || length > size.Upper-offset) {
-			return fmt.Errorf("%w: collection length exceeds upper bound %d", ErrConstraintViolation, size.Upper)
-		}
+	maximum := int64(math.MaxInt64)
+	if root && size.HasUpper {
+		maximum = size.Upper
+	}
+	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(offset, length int64) error {
 		return decodeFragment(offset, length)
 	})
 	if err != nil {
@@ -260,8 +271,12 @@ func encodeLengthDelimitedOctets(bb *BitBuffer, data []byte, aligned bool) error
 }
 
 func decodeLengthDelimitedOctets(bb *BitBuffer, aligned bool) ([]byte, error) {
+	return decodeLengthDelimitedOctetsBounded(bb, aligned, math.MaxInt64)
+}
+
+func decodeLengthDelimitedOctetsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, error) {
 	var result []byte
-	_, err := DecodeLengthFragments(bb, aligned, func(_ int64, length int64) error {
+	_, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
 		if length > int64(bb.BitsRemaining()/8) {
 			return fmt.Errorf("%w: fragment requires %d octets with %d bits remaining", ErrTruncated, length, bb.BitsRemaining())
 		}

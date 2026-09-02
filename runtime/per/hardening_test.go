@@ -254,6 +254,42 @@ func TestKnownMultiplierWideCharacterRoundTrip(t *testing.T) {
 	}
 }
 
+func TestKnownMultiplierWideStringRejectsInvalidUTF8BeforeMutation(t *testing.T) {
+	invalid := string([]byte{0xff})
+	for _, tc := range []struct {
+		name   string
+		encode func(*BitBuffer, string) error
+	}{
+		{
+			name: "uper",
+			encode: func(bb *BitBuffer, value string) error {
+				return EncodeKnownMultiplierString(bb, value, 16, 0, 4, true)
+			},
+		},
+		{
+			name: "aper",
+			encode: func(bb *BitBuffer, value string) error {
+				return EncodeKnownMultiplierStringAligned(bb, value, 16, 0, 4, true)
+			},
+		},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			bb := NewBitBuffer()
+			if err := bb.WriteBits(5, 3); err != nil {
+				t.Fatal(err)
+			}
+			beforeBytes := append([]byte(nil), bb.Bytes()...)
+			beforeBits := bb.BitsWritten()
+			if err := tc.encode(bb, invalid); !errors.Is(err, ErrInvalidValue) {
+				t.Fatalf("encode error = %v, want ErrInvalidValue", err)
+			}
+			if !bytes.Equal(bb.Bytes(), beforeBytes) || bb.BitsWritten() != beforeBits {
+				t.Fatalf("encoder mutated buffer for invalid UTF-8")
+			}
+		})
+	}
+}
+
 func TestLargeRootSizeRejectsOutOfRangeValues(t *testing.T) {
 	const (
 		lower = int64(70000)

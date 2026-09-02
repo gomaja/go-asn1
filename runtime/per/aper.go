@@ -416,7 +416,7 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 			bb.AlignToOctetRead()
 		}
 	} else {
-		data, decodedLength, err := decodeLengthDelimitedBits(bb, true)
+		data, decodedLength, err := decodeLengthDelimitedBitsBounded(bb, true, rootSizeMaximum(ub, constrained))
 		if err == nil {
 			err = validateRootSize(int64(decodedLength), lb, ub, constrained)
 		}
@@ -510,7 +510,7 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 			bb.AlignToOctetRead()
 		}
 	} else {
-		data, err := decodeLengthDelimitedOctets(bb, true)
+		data, err := decodeLengthDelimitedOctetsBounded(bb, true, rootSizeMaximum(ub, constrained))
 		if err == nil {
 			err = validateRootSize(int64(len(data)), lb, ub, constrained)
 		}
@@ -534,6 +534,9 @@ func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, bitsPerChar 
 		return err
 	}
 	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
+		return err
+	}
+	if err := validateKnownMultiplierStringValue(s, bitsPerChar); err != nil {
 		return err
 	}
 	length := knownMultiplierStringLength(s, bitsPerChar)
@@ -619,7 +622,7 @@ func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, u
 			bb.AlignToOctetRead()
 		}
 	} else {
-		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierString(bb, bitsPerChar, true)
+		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, true, rootSizeMaximum(ub, constrained))
 		if err != nil {
 			return "", err
 		}

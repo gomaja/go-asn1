@@ -376,7 +376,7 @@ func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible boo
 	} else {
 		var data []byte
 		var decodedLength int
-		data, decodedLength, err = decodeLengthDelimitedBits(bb, false)
+		data, decodedLength, err = decodeLengthDelimitedBitsBounded(bb, false, rootSizeMaximum(ub, constrained))
 		bitLen = int64(decodedLength)
 		if err == nil {
 			err = validateRootSize(bitLen, lb, ub, constrained)
@@ -465,7 +465,7 @@ func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible b
 		length, err = DecodeConstrainedWholeNumber(bb, lb, ub)
 	} else {
 		var data []byte
-		data, err = decodeLengthDelimitedOctets(bb, false)
+		data, err = decodeLengthDelimitedOctetsBounded(bb, false, rootSizeMaximum(ub, constrained))
 		length = int64(len(data))
 		if err == nil {
 			err = validateRootSize(length, lb, ub, constrained)
@@ -504,6 +504,9 @@ func EncodeKnownMultiplierStringExt(bb *BitBuffer, s string, bitsPerChar int, lb
 		return err
 	}
 	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
+		return err
+	}
+	if err := validateKnownMultiplierStringValue(s, bitsPerChar); err != nil {
 		return err
 	}
 	length := knownMultiplierStringLength(s, bitsPerChar)
@@ -570,7 +573,7 @@ func DecodeKnownMultiplierStringExt(bb *BitBuffer, bitsPerChar int, lb, ub int64
 			return "", err
 		}
 	} else {
-		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierString(bb, bitsPerChar, false)
+		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, false, rootSizeMaximum(ub, constrained))
 		if err != nil {
 			return "", err
 		}
@@ -653,8 +656,12 @@ func encodeLengthDelimitedBits(bb *BitBuffer, data []byte, bitLength int, aligne
 }
 
 func decodeLengthDelimitedBits(bb *BitBuffer, aligned bool) ([]byte, int, error) {
+	return decodeLengthDelimitedBitsBounded(bb, aligned, math.MaxInt64)
+}
+
+func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, int, error) {
 	var result []byte
-	total, err := DecodeLengthFragments(bb, aligned, func(_ int64, length int64) error {
+	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
 		if aligned {
 			bb.AlignToOctetRead()
 		}
@@ -704,8 +711,12 @@ func encodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, value string, bit
 }
 
 func decodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, bitsPerChar int, aligned bool) (string, int64, error) {
+	return decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, aligned, math.MaxInt64)
+}
+
+func decodeLengthDelimitedKnownMultiplierStringBounded(bb *BitBuffer, bitsPerChar int, aligned bool, maximum int64) (string, int64, error) {
 	var result strings.Builder
-	total, err := DecodeLengthFragments(bb, aligned, func(_ int64, length int64) error {
+	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
 		if aligned {
 			bb.AlignToOctetRead()
 		}
@@ -783,6 +794,13 @@ func validateRootSize(length, lb, ub int64, constrained bool) error {
 	return nil
 }
 
+func rootSizeMaximum(ub int64, constrained bool) int64 {
+	if constrained {
+		return ub
+	}
+	return math.MaxInt64
+}
+
 func validateKnownMultiplierWidth(bitsPerChar int) error {
 	if bitsPerChar < 1 || bitsPerChar > 32 {
 		return fmt.Errorf("%w: character width %d bits is outside [1..32]", ErrInvalidValue, bitsPerChar)
@@ -833,6 +851,12 @@ func writeKnownMultiplierString(bb *BitBuffer, value string, bitsPerChar int) er
 }
 
 func validateKnownMultiplierStringValue(value string, bitsPerChar int) error {
+	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
+		return err
+	}
+	if bitsPerChar > 8 && !utf8.ValidString(value) {
+		return fmt.Errorf("%w: wide character string is not valid UTF-8", ErrInvalidValue)
+	}
 	maximum := uint64(1) << bitsPerChar
 	if bitsPerChar <= 8 {
 		for _, character := range []byte(value) {

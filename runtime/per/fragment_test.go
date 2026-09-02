@@ -369,6 +369,74 @@ func TestCollectionLargeRootAndExtensionConstraints(t *testing.T) {
 	}
 }
 
+func TestFragmentedRootUpperBoundRejectsBeforeOversizedPayload(t *testing.T) {
+	const upper = int64(4 * perFragmentUnit)
+	for _, aligned := range []bool{false, true} {
+		for _, tc := range []struct {
+			name                string
+			bitsPerFragmentUnit int
+			decode              func(*BitBuffer) error
+		}{
+			{
+				name:                "octet-string",
+				bitsPerFragmentUnit: 8,
+				decode: func(bb *BitBuffer) error {
+					if aligned {
+						_, err := DecodeOctetStringAligned(bb, 0, upper, true)
+						return err
+					}
+					_, err := DecodeOctetString(bb, 0, upper, true)
+					return err
+				},
+			},
+			{
+				name:                "bit-string",
+				bitsPerFragmentUnit: 1,
+				decode: func(bb *BitBuffer) error {
+					if aligned {
+						_, _, err := DecodeBitStringAligned(bb, 0, upper, true)
+						return err
+					}
+					_, _, err := DecodeBitString(bb, 0, upper, true)
+					return err
+				},
+			},
+			{
+				name:                "character-string",
+				bitsPerFragmentUnit: 7,
+				decode: func(bb *BitBuffer) error {
+					if aligned {
+						_, err := DecodeKnownMultiplierStringAligned(bb, 7, 0, upper, true)
+						return err
+					}
+					_, err := DecodeKnownMultiplierString(bb, 7, 0, upper, true)
+					return err
+				},
+			},
+		} {
+			t.Run(map[bool]string{false: "uper", true: "aper"}[aligned]+"/"+tc.name, func(t *testing.T) {
+				firstPayloadBytes := 4 * perFragmentUnit * tc.bitsPerFragmentUnit / 8
+				secondPayloadBytes := perFragmentUnit * tc.bitsPerFragmentUnit / 8
+				wire := make([]byte, 0, 3+firstPayloadBytes+secondPayloadBytes)
+				wire = append(wire, 0xc4)
+				wire = append(wire, make([]byte, firstPayloadBytes)...)
+				wire = append(wire, 0xc1)
+				beforeOversizedPayload := len(wire) * 8
+				wire = append(wire, make([]byte, secondPayloadBytes)...)
+				wire = append(wire, 0)
+
+				bb := NewBitBufferFromBytes(wire)
+				if err := tc.decode(bb); !errors.Is(err, ErrConstraintViolation) {
+					t.Fatalf("decode error = %v, want ErrConstraintViolation", err)
+				}
+				if bb.BitPos() != beforeOversizedPayload {
+					t.Fatalf("decoder consumed oversized payload: bit position = %d, want %d", bb.BitPos(), beforeOversizedPayload)
+				}
+			})
+		}
+	}
+}
+
 func TestFixed64KValuesUseFragmentation(t *testing.T) {
 	for _, aligned := range []bool{false, true} {
 		for _, tc := range []struct {
