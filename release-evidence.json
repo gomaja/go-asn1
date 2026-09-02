@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
-  "target_base_commit": "68dc118cd3417ff5b9eeb0c28960fe7a0aa96060",
+  "compiler_commit": "00aad25a542f146c7321ede7657fe364a1745da0",
+  "target_base_commit": "45f380871ad5c6d73efdf3e5656e7eca8da36cd0",
   "inputs": {
     "sha256": "ada50cc9e90cc4104a45d1b416b49c154022d1985471d3d131f96d7752be928d",
     "files": [
@@ -32,7 +32,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
+          "commit": "00aad25a542f146c7321ede7657fe364a1745da0",
           "dirty": false
         },
         "frontend": {
@@ -1673,7 +1673,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
+          "commit": "00aad25a542f146c7321ede7657fe364a1745da0",
           "dirty": false
         },
         "frontend": {
@@ -2072,7 +2072,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
+          "commit": "00aad25a542f146c7321ede7657fe364a1745da0",
           "dirty": false
         },
         "frontend": {
@@ -2461,7 +2461,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
+          "commit": "00aad25a542f146c7321ede7657fe364a1745da0",
           "dirty": false
         },
         "frontend": {
@@ -2822,7 +2822,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
+          "commit": "00aad25a542f146c7321ede7657fe364a1745da0",
           "dirty": false
         },
         "frontend": {
@@ -3207,7 +3207,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
+          "commit": "00aad25a542f146c7321ede7657fe364a1745da0",
           "dirty": false
         },
         "frontend": {
@@ -3568,7 +3568,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "005b6f3ef21ab469cd4d23a1595ac20132422a3c",
+          "commit": "00aad25a542f146c7321ede7657fe364a1745da0",
           "dirty": false
         },
         "frontend": {
