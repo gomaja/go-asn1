@@ -114,8 +114,9 @@ func TestFixedWidthStringTagsDecodeConstructedForm(t *testing.T) {
 		wire   string
 		want   string
 	}{
-		{name: "nested BMPString", tagNum: tag.TagBMPString, wire: "3e0a1e0200413e041e0203a9", want: "A\u03a9"},
-		{name: "UniversalString", tagNum: tag.TagUniversalString, wire: "3c0c1c04000000411c040001f600", want: "A\U0001f600"},
+		{name: "nested BMPString", tagNum: tag.TagBMPString, wire: "3e0a040200412404040203a9", want: "A\u03a9"},
+		{name: "split BMPString code unit", tagNum: tag.TagBMPString, wire: "3e06040100040141", want: "A"},
+		{name: "UniversalString", tagNum: tag.TagUniversalString, wire: "3c0c04040000004104040001f600", want: "A\U0001f600"},
 	}
 	for _, test := range tests {
 		test := test

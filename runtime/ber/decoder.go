@@ -1,11 +1,11 @@
 package ber
 
 import (
+	"bytes"
 	"encoding/binary"
 	"fmt"
 	"math"
 	"math/big"
-	"strings"
 	"time"
 	"unicode/utf8"
 
@@ -156,12 +156,22 @@ func ValidateDERTLV(data []byte) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	// X.690 (02/2021) 8.1.2.2 and 8.1.2.4 require the shortest
+	// identifier representation for the decoded tag number.
+	if canonical := t.Encode(); !bytes.Equal(data[:tagLen], canonical) {
+		return 0, fmt.Errorf("%w: identifier is not encoded in its shortest form", ErrInvalidTag)
+	}
 	length, indefinite, lenLen, err := DecodeLength(data[tagLen:])
 	if err != nil {
 		return 0, err
 	}
 	if indefinite {
 		return 0, ErrIndefiniteLength
+	}
+	// X.690 (02/2021) 10.1 requires DER lengths to use the minimum
+	// number of octets.
+	if canonical := EncodeLength(length); !bytes.Equal(data[tagLen:tagLen+lenLen], canonical) {
+		return 0, fmt.Errorf("%w: DER length is not encoded in its shortest form", ErrInvalidLength)
 	}
 
 	headerLen := tagLen + lenLen
@@ -170,18 +180,15 @@ func ValidateDERTLV(data []byte) (int, error) {
 		return 0, ErrTruncated
 	}
 	if t.Constructed {
+		// SET and SET OF have the same universal tag but different DER
+		// ordering rules (X.690 10.3 and 11.6). Only a schema-aware caller
+		// can validate that ordering; this generic pass validates each child.
 		offset := headerLen
-		var previous []byte
 		for offset < end {
 			n, err := ValidateDERTLV(data[offset:end])
 			if err != nil {
 				return 0, err
 			}
-			current := data[offset : offset+n]
-			if t.Class == tag.ClassUniversal && t.Number == tag.TagSet && previous != nil && compareDEROctetStrings(previous, current) > 0 {
-				return 0, fmt.Errorf("%w: DER SET components are not in canonical order", ErrInvalidValue)
-			}
-			previous = current
 			offset += n
 		}
 	}
@@ -581,19 +588,26 @@ func DecodeString(data []byte, expectedTag int) (string, int, error) {
 		return "", 0, fmt.Errorf("%w: expected tag %d, got %s", ErrInvalidTag, expectedTag, t)
 	}
 	if t.Constructed {
-		var decoded strings.Builder
+		// X.690 (02/2021) 8.23.3 defines a restricted character string as
+		// an implicitly tagged OCTET STRING, so constructed values contain
+		// OCTET STRING fragments rather than repetitions of the outer tag.
+		var encoded []byte
 		for offset := 0; offset < len(value); {
-			part, consumed, err := DecodeString(value[offset:], expectedTag)
+			part, consumed, err := DecodeOctetString(value[offset:])
 			if err != nil {
 				return "", 0, fmt.Errorf("decoding constructed string component: %w", err)
 			}
 			if consumed <= 0 {
 				return "", 0, fmt.Errorf("%w: constructed string component consumed no input", ErrInvalidValue)
 			}
-			decoded.WriteString(part)
+			encoded = append(encoded, part...)
 			offset += consumed
 		}
-		return decoded.String(), total, nil
+		decoded, err := DecodeStringValueTag(expectedTag, encoded)
+		if err != nil {
+			return "", 0, err
+		}
+		return decoded, total, nil
 	}
 	decoded, err := DecodeStringValueTag(expectedTag, value)
 	if err != nil {

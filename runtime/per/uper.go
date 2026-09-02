@@ -330,7 +330,7 @@ func EncodeBitStringExt(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, co
 	if err := validateRootSize(int64(bitLen), lb, ub, constrained); err != nil {
 		return err
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size — write exactly lb bits.
 		if int64(bitLen) != lb {
 			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
@@ -365,7 +365,7 @@ func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible boo
 			return decodeLengthDelimitedBits(bb, false)
 		}
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		data, err := bb.ReadBitsToBytes(int(lb))
 		return data, int(lb), err
 	}
@@ -420,7 +420,7 @@ func EncodeOctetStringExt(bb *BitBuffer, data []byte, lb, ub int64, constrained,
 	if err := validateRootSize(length, lb, ub, constrained); err != nil {
 		return err
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size — write exactly lb octets.
 		if int64(len(data)) != lb {
 			return fmt.Errorf("%w: OCTET STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, len(data), lb)
@@ -456,7 +456,7 @@ func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible b
 			return decodeLengthDelimitedOctets(bb, false)
 		}
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		return bb.ReadBytes(int(lb))
 	}
 	var length int64
@@ -522,7 +522,7 @@ func EncodeKnownMultiplierStringExt(bb *BitBuffer, s string, bitsPerChar int, lb
 	if err := validateRootSize(length, lb, ub, constrained); err != nil {
 		return err
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size — write exactly lb characters.
 		if length != lb {
 			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
@@ -565,7 +565,7 @@ func DecodeKnownMultiplierStringExt(bb *BitBuffer, bitsPerChar int, lb, ub int64
 	}
 	var length int64
 	var err error
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		length = lb
 	} else if constrained && ub < 65536 {
 		length, err = DecodeConstrainedWholeNumber(bb, lb, ub)
@@ -641,7 +641,8 @@ func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int
 // --- internal helpers ---
 
 func encodeLengthDelimitedBits(bb *BitBuffer, data []byte, bitLength int, aligned bool) error {
-	if bitLength < 0 || (bitLength+7)/8 > len(data) {
+	required, err := octetsForBitLength(bitLength)
+	if err != nil || required > len(data) {
 		return fmt.Errorf("%w: BIT STRING length %d exceeds %d source octets", ErrInvalidValue, bitLength, len(data))
 	}
 	return EncodeLengthFragments(bb, int64(bitLength), aligned, func(offset, length int64) error {
@@ -799,6 +800,12 @@ func rootSizeMaximum(ub int64, constrained bool) int64 {
 		return ub
 	}
 	return math.MaxInt64
+}
+
+// X.691 (02/2021) 16.10 omits the length only for fixed sizes below
+// 64K; 16.11 requires a length determinant at 64K and above.
+func fixedRootSizeOmitsLength(lb, ub int64, constrained bool) bool {
+	return constrained && lb == ub && ub < 64*1024
 }
 
 func validateKnownMultiplierWidth(bitsPerChar int) error {

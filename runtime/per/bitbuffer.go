@@ -135,8 +135,9 @@ func (bb *BitBuffer) BitPos() int {
 
 // WriteBitsFromBytes writes exactly bitLen bits from the given byte slice (MSB first).
 func (bb *BitBuffer) WriteBitsFromBytes(data []byte, bitLen int) error {
-	if bitLen < 0 || (bitLen+7)/8 > len(data) {
-		return fmt.Errorf("per: WriteBitsFromBytes: bitLen %d out of range for %d bytes", bitLen, len(data))
+	required, err := octetsForBitLength(bitLen)
+	if err != nil || required > len(data) {
+		return fmt.Errorf("%w: WriteBitsFromBytes bitLen %d out of range for %d bytes", ErrInvalidValue, bitLen, len(data))
 	}
 	for i := 0; i < bitLen; i++ {
 		byteIdx := i / 8
@@ -178,7 +179,10 @@ func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
 	if bitLen > bb.BitsRemaining() {
 		return nil, fmt.Errorf("%w: requested %d bits with %d bits remaining", ErrTruncated, bitLen, bb.BitsRemaining())
 	}
-	numBytes := (bitLen + 7) / 8
+	numBytes, err := octetsForBitLength(bitLen)
+	if err != nil {
+		return nil, err
+	}
 	result := make([]byte, numBytes)
 	for i := 0; i < bitLen; i++ {
 		bit, err := bb.ReadBit()
@@ -192,4 +196,15 @@ func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
 		}
 	}
 	return result, nil
+}
+
+func octetsForBitLength(bitLen int) (int, error) {
+	if bitLen < 0 {
+		return 0, fmt.Errorf("%w: negative bit length %d", ErrInvalidValue, bitLen)
+	}
+	octets := bitLen / 8
+	if bitLen%8 != 0 {
+		octets++
+	}
+	return octets, nil
 }

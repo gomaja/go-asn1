@@ -120,10 +120,64 @@ func TestValidateDERElement(t *testing.T) {
 		t.Fatalf("ValidateDERElement trailing error = %v, want %v", err, ErrExtraData)
 	}
 
-	unsortedSet := EncodeSet(append(EncodeOctetString([]byte("z")), EncodeOctetString([]byte("a"))...))
-	if err := ValidateDERElement(unsortedSet); !errors.Is(err, ErrInvalidValue) {
-		t.Fatalf("ValidateDERElement unsorted SET error = %v, want %v", err, ErrInvalidValue)
+	// A universal SET tag does not reveal whether the schema is SET or SET OF,
+	// whose DER ordering rules differ. Generic validation therefore checks each
+	// child but leaves ordering to the schema-aware encoders.
+	unsortedSetOf := EncodeSet(append(EncodeOctetString([]byte("z")), EncodeOctetString([]byte("a"))...))
+	if err := ValidateDERElement(unsortedSetOf); err != nil {
+		t.Fatalf("ValidateDERElement structurally valid SET OF: %v", err)
 	}
+}
+
+func TestDERRejectsNonMinimalIdentifierAndLength(t *testing.T) {
+	tests := []struct {
+		name string
+		wire []byte
+	}{
+		{name: "identifier", wire: []byte{0x1f, 0x02, 0x01, 0x00}},
+		{name: "short length in long form", wire: []byte{0x02, 0x81, 0x01, 0x00}},
+		{name: "long length with leading zero", wire: append([]byte{0x04, 0x82, 0x00, 0x80}, make([]byte, 128)...)},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if err := ValidateDERElement(test.wire); err == nil {
+				t.Fatal("ValidateDERElement accepted non-minimal DER")
+			}
+			if _, err := EncodeDERSet(test.wire); err == nil {
+				t.Fatal("EncodeDERSet accepted a non-minimal child")
+			}
+		})
+	}
+}
+
+func TestDERSetUsesTagOrderAcrossLongTagWidths(t *testing.T) {
+	lower := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16383}, []byte{0})
+	higher := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16384}, []byte{0})
+	encoded, err := EncodeDERSet(append(append([]byte(nil), higher...), lower...))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := EncodeSet(append(append([]byte(nil), lower...), higher...))
+	if !bytes.Equal(encoded, want) {
+		t.Fatalf("DER SET = %x, want %x", encoded, want)
+	}
+	if err := ValidateDERElement(encoded); err != nil {
+		t.Fatalf("ValidateDERElement rejected a valid DER SET: %v", err)
+	}
+}
+
+func FuzzValidateDERElementNoPanic(f *testing.F) {
+	for _, seed := range [][]byte{
+		{0x02, 0x01, 0x00},
+		{0x02, 0x81, 0x01, 0x00},
+		{0x1f, 0x02, 0x01, 0x00},
+		EncodeSet(EncodeOctetString([]byte("value"))),
+	} {
+		f.Add(seed)
+	}
+	f.Fuzz(func(t *testing.T, data []byte) {
+		_ = ValidateDERElement(data)
+	})
 }
 
 func TestEncodeDERSetOrdering(t *testing.T) {

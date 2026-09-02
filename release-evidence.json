@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
-  "target_base_commit": "ddcb387b36677ddb373f2b1e42598895b6ddb773",
+  "compiler_commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
+  "target_base_commit": "76708e7c6db775038f51168bc91e26ae3dc673e7",
   "inputs": {
     "sha256": "ada50cc9e90cc4104a45d1b416b49c154022d1985471d3d131f96d7752be928d",
     "files": [
@@ -32,7 +32,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
+          "commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
           "dirty": false
         },
         "frontend": {
@@ -1673,7 +1673,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
+          "commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
           "dirty": false
         },
         "frontend": {
@@ -2072,7 +2072,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
+          "commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
           "dirty": false
         },
         "frontend": {
@@ -2461,7 +2461,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
+          "commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
           "dirty": false
         },
         "frontend": {
@@ -2584,8 +2584,8 @@
           },
           {
             "path": "sgp22/pkix1implicit88.go",
-            "sha256": "13b80e72d9ad13d1f1fe4453d10d6ed780e7bebd31d92cc1811c93d7cf63a4cb",
-            "size_bytes": 144596
+            "sha256": "c8a37b23ad64303091cf6deab7403afdb8c92460e09b295cfcecb77b572a136d",
+            "size_bytes": 145378
           },
           {
             "path": "sgp22/rspdefinitions.go",
@@ -2822,7 +2822,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
+          "commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
           "dirty": false
         },
         "frontend": {
@@ -2963,8 +2963,8 @@
           },
           {
             "path": "sgp32/pkix1implicit88.go",
-            "sha256": "50c29e32ca763cddb5877c3bf4c6fc769ea1d1a557c7292f15f77bcdab06b544",
-            "size_bytes": 144596
+            "sha256": "fda237f918b276b7e240fc9ebee6f8d95aa50bf2d59cf151552590ce6ed0936d",
+            "size_bytes": 145378
           },
           {
             "path": "sgp32/rspdefinitions.go",
@@ -3207,7 +3207,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
+          "commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
           "dirty": false
         },
         "frontend": {
@@ -3568,7 +3568,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "22f554e2ab3c279a06c365f2807bfe310bf605fa",
+          "commit": "22321a9f2ebae3b3bc90d636f5d334d4c371d09e",
           "dirty": false
         },
         "frontend": {
@@ -3924,14 +3924,14 @@
     }
   ],
   "outputs": {
-    "sha256": "051a55e579bb97d163ecb3586de362df986fc4d4a16989806434ed090a355e2c",
+    "sha256": "52b6400b54dc9e72a61a9165fb8f9dcf4e745ec10572be54bfe407e8bef1e7d5",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
         "mode": "0644",
-        "sha256": "bc50c142c50e0b1d248549beffe8ab7c1a630ba7f9dbf1f50e4470b7ae148d96",
-        "content_sha256": "c6b47f314bb3976fc2396af4baa40bea27a370f9e9243bade27230e38370cd15",
-        "size_bytes": 26217
+        "sha256": "34d92c051d31f6c71aebbc99a45d95d7283a59dda525a0c38c468ae3ed152983",
+        "content_sha256": "784c3b47bceca076558f899d8ca4c3348d84c392d62d5078a00762260cc3069c",
+        "size_bytes": 28033
       },
       {
         "path": "runtime/ber/bigint_value_test.go",
@@ -3950,9 +3950,9 @@
       {
         "path": "runtime/ber/decoder.go",
         "mode": "0644",
-        "sha256": "b2b3f775aa345ccedccb20a2c5dadb73450530da6b578d16ea94266d1ed4fd24",
-        "content_sha256": "46107bdeb3ae97039415b21e6f16848d05a8770b76a740b1a1688b04425b453f",
-        "size_bytes": 29111
+        "sha256": "593661dd5087d6c8ade980b1aa5515ef8dcd4d183b8c5c0436073afd100b5b46",
+        "content_sha256": "df76b4d08965f450ab73c3d84bd2d02c6aa0e41d9e1d57f021ee6f693005cd5b",
+        "size_bytes": 29862
       },
       {
         "path": "runtime/ber/encoder.go",
@@ -3978,9 +3978,9 @@
       {
         "path": "runtime/ber/string_fixed_width_test.go",
         "mode": "0644",
-        "sha256": "dbccb17cc282547ab96706c9044af0163555082dbb16becf2347768b4876a526",
-        "content_sha256": "40a2c1dd58a2cc36f673b2b263d68f5c4fa266921cbbb9d90a6f02f5a6ba00fa",
-        "size_bytes": 5547
+        "sha256": "834a1dd2194ebd0e9a214708a9b76daeb32cdbbc2b1859aeef88e8ddac9d5c2b",
+        "content_sha256": "f0c841caeb2782f3be66a125f43dd504061cd4e36d27c9fb42ab0d48dd837c1c",
+        "size_bytes": 5649
       },
       {
         "path": "runtime/constraint/constraint.go",
@@ -4006,16 +4006,16 @@
       {
         "path": "runtime/per/aper.go",
         "mode": "0644",
-        "sha256": "9e79b8006f9f48ce32df4bffa54e8da22b078406a21339cdb5bf240589cf109e",
-        "content_sha256": "ee16d9cc528cad6ee0640b260f0fc4594ff94b3490c425c5c84eb3a8a62c7575",
-        "size_bytes": 21165
+        "sha256": "1ceba79f7dec24491124da49a6b41a3a10e6bbbbd36b3fcd63b4661b96191744",
+        "content_sha256": "bd0fe67338bae75e0839f530ed743d78a6ef5f1abfd6def8f55d12490317b30e",
+        "size_bytes": 21201
       },
       {
         "path": "runtime/per/bitbuffer.go",
         "mode": "0644",
-        "sha256": "bc4ce9bf434bca211943f59eea23dc8f578ef2e5fbdea3ef9407853d4f074cf5",
-        "content_sha256": "cf869a9c504eabbc434323972e70b24145a69884e61a3ac5f1c364e9a8e49858",
-        "size_bytes": 4817
+        "sha256": "a75f5e9ea0795d8c70948a074a664981fef014624f8bc7ee6f663dce90fe2769",
+        "content_sha256": "fc46b5ea7770ab5781ddb7305af6d1c69b3e0bc56abe70160f232fcacc428e9e",
+        "size_bytes": 5154
       },
       {
         "path": "runtime/per/errors.go",
@@ -4034,9 +4034,9 @@
       {
         "path": "runtime/per/fragment_test.go",
         "mode": "0644",
-        "sha256": "574ad0e1237f4de47f102ea692c4967b742afe7969088593b7a6d6fdc7177a6b",
-        "content_sha256": "d700f902143517ebde1fb3be0c45a55be232fe5c3b401344be14356afd8c60cb",
-        "size_bytes": 16928
+        "sha256": "2ba3a09a107110f64c1bbd0530741f39a5e56060444f7d442b0336d13b8ff4c0",
+        "content_sha256": "d7f04edb46288c0b9828e522641ddf48fa2f3c850c0715a416f6163aa0f9c19d",
+        "size_bytes": 17738
       },
       {
         "path": "runtime/per/hardening_test.go",
@@ -4097,9 +4097,9 @@
       {
         "path": "runtime/per/uper.go",
         "mode": "0644",
-        "sha256": "333db6ba771538aaca04fc38f9381c5b136d8486ca3dd3ef6ecd7463942b64b3",
-        "content_sha256": "7d7b3777384f86a9cec3717298b2681e7a88889d48914793a624c4eea2d0378f",
-        "size_bytes": 28469
+        "sha256": "dbeca736c74067585dcfd056d8e2ebe7998b9d5dfdcffa5b65e8d62926fc65a6",
+        "content_sha256": "6be6d6d76fedd0cafca637c59fcd890a42d38c5e5e2a73c28fff930e4b1a9091",
+        "size_bytes": 28794
       },
       {
         "path": "runtime/per/uper_test.go",
@@ -4146,9 +4146,9 @@
       {
         "path": "telecom/esim/sgp22/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "d57ff7e0a28bd7c282611bfac5ee484ba8b78c93ea00a58318b86e27d21870c3",
-        "content_sha256": "ab4f3c21ac6fe6f91cc3548ec4279801b5542d2187356469f7f97b7783b60d88",
-        "size_bytes": 144596
+        "sha256": "2c16609c6a531662f8bf0ef7f25c9e15256766dda65baf4144cff14fd7a266f0",
+        "content_sha256": "1c5170c4d2fceeb63d98595e41728ad82b001c9a0d26f3a28dda71921f0ba690",
+        "size_bytes": 145378
       },
       {
         "path": "telecom/esim/sgp22/rspdefinitions.go",
@@ -4181,9 +4181,9 @@
       {
         "path": "telecom/esim/sgp32/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "39ca110979ba966165636527a974384643b7bbc397d32ca156484aabfb644a8c",
-        "content_sha256": "e47b1f41270bc14b0274c23a0e4911b5b24f12b9dcf3bfb98171f4d36b2eb1eb",
-        "size_bytes": 144596
+        "sha256": "a166781a4bbeb7f5fe2ffe03c910b9428c44ce5b146c4124783f6d436f675445",
+        "content_sha256": "6a7ed1ebac3f250238529a56d4b591d5355a12b5d08281f70a97e13e8e678f58",
+        "size_bytes": 145378
       },
       {
         "path": "telecom/esim/sgp32/rspdefinitions.go",

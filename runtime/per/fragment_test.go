@@ -3,11 +3,36 @@ package per
 import (
 	"bytes"
 	"errors"
+	"math"
 	"reflect"
 	"strconv"
 	"strings"
 	"testing"
 )
+
+func TestBitLengthValidationDoesNotOverflow(t *testing.T) {
+	bb := NewBitBuffer()
+	if err := bb.WriteBit(1); err != nil {
+		t.Fatal(err)
+	}
+	before := append([]byte(nil), bb.Bytes()...)
+	beforeBits := bb.BitsWritten()
+	if err := encodeLengthDelimitedBits(bb, nil, math.MaxInt, false); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("encode error = %v, want ErrInvalidValue", err)
+	}
+	if !bytes.Equal(bb.Bytes(), before) || bb.BitsWritten() != beforeBits {
+		t.Fatal("encoder mutated the buffer for an impossible source length")
+	}
+
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			t.Fatalf("WriteBitsFromBytes panicked: %v", recovered)
+		}
+	}()
+	if err := bb.WriteBitsFromBytes(nil, math.MaxInt); err == nil {
+		t.Fatal("WriteBitsFromBytes accepted an impossible source length")
+	}
+}
 
 func TestFragmentedOctetAndOpenTypeRoundTrip(t *testing.T) {
 	for _, aligned := range []bool{false, true} {

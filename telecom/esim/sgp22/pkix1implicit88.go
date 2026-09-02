@@ -190,8 +190,12 @@ type KeyUsage = runtime.BitString
 
 // PrivateKeyUsagePeriod represents the ASN.1 type PrivateKeyUsagePeriod (SEQUENCE).
 type PrivateKeyUsagePeriod struct {
-	NotBefore *time.Time `asn1:"tag:0,context,implicit,optional" json:"NotBefore,omitempty"`
-	NotAfter  *time.Time `asn1:"tag:1,context,implicit,optional" json:"NotAfter,omitempty"`
+	NotBefore          *time.Time `asn1:"tag:0,context,implicit,optional" json:"NotBefore,omitempty"`
+	berRawNotBefore_   []byte     `asn1:"-" json:"-"`
+	berValueNotBefore_ time.Time  `asn1:"-" json:"-"`
+	NotAfter           *time.Time `asn1:"tag:1,context,implicit,optional" json:"NotAfter,omitempty"`
+	berRawNotAfter_    []byte     `asn1:"-" json:"-"`
+	berValueNotAfter_  time.Time  `asn1:"-" json:"-"`
 }
 
 // CertificatePolicies represents the ASN.1 type CertificatePolicies (SEQUENCE_OF).
@@ -775,6 +779,9 @@ func (v *PrivateKeyUsagePeriod) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding notBefore: %w", tagErr_enc_notbefore)
 		}
 		enc_notbefore = retagged_enc_notbefore
+		if len(v.berRawNotBefore_) != 0 && v.berValueNotBefore_.Equal(*v.NotBefore) {
+			enc_notbefore = append([]byte(nil), v.berRawNotBefore_...)
+		}
 		children = append(children, enc_notbefore...)
 	}
 	if v.NotAfter != nil {
@@ -784,6 +791,9 @@ func (v *PrivateKeyUsagePeriod) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding notAfter: %w", tagErr_enc_notafter)
 		}
 		enc_notafter = retagged_enc_notafter
+		if len(v.berRawNotAfter_) != 0 && v.berValueNotAfter_.Equal(*v.NotAfter) {
+			enc_notafter = append([]byte(nil), v.berRawNotAfter_...)
+		}
 		children = append(children, enc_notafter...)
 	}
 	return ber.EncodeSequence(children), nil
@@ -845,6 +855,8 @@ func (v *PrivateKeyUsagePeriod) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding notBefore: %w", timeErr)
 				}
 				v.NotBefore = &decVal_notbefore
+				v.berRawNotBefore_ = append(v.berRawNotBefore_[:0], content[offset:offset+n_notbefore]...)
+				v.berValueNotBefore_ = decVal_notbefore
 				offset += n_notbefore
 			}
 		}
@@ -866,6 +878,8 @@ func (v *PrivateKeyUsagePeriod) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding notAfter: %w", timeErr)
 				}
 				v.NotAfter = &decVal_notafter
+				v.berRawNotAfter_ = append(v.berRawNotAfter_[:0], content[offset:offset+n_notafter]...)
+				v.berValueNotAfter_ = decVal_notafter
 				offset += n_notafter
 			}
 		}

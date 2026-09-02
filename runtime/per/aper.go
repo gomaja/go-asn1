@@ -357,7 +357,7 @@ func EncodeBitStringAlignedExt(bb *BitBuffer, data []byte, bitLen int, lb, ub in
 	if err := validateRootSize(int64(bitLen), lb, ub, constrained); err != nil {
 		return err
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size.
 		if int64(bitLen) != lb {
 			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
@@ -398,7 +398,7 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 			return decodeLengthDelimitedBits(bb, true)
 		}
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		if lb > 16 {
 			bb.AlignToOctetRead()
 		}
@@ -452,7 +452,7 @@ func EncodeOctetStringAlignedExt(bb *BitBuffer, data []byte, lb, ub int64, const
 	if err := validateRootSize(length, lb, ub, constrained); err != nil {
 		return err
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size.
 		if int64(len(data)) != lb {
 			return fmt.Errorf("%w: OCTET STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, len(data), lb)
@@ -493,7 +493,7 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 			return decodeLengthDelimitedOctets(bb, true)
 		}
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		if lb > 2 {
 			bb.AlignToOctetRead()
 		}
@@ -552,7 +552,7 @@ func EncodeKnownMultiplierStringAlignedExt(bb *BitBuffer, s string, bitsPerChar 
 	if err := validateRootSize(length, lb, ub, constrained); err != nil {
 		return err
 	}
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		if length != lb {
 			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
 		}
@@ -604,7 +604,7 @@ func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, u
 	}
 	var length int64
 	var err error
-	if constrained && lb == ub && ub < 64*1024 {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		payloadBits, payloadErr := knownMultiplierPayloadBits(lb, bitsPerChar)
 		if payloadErr != nil {
 			return "", payloadErr
