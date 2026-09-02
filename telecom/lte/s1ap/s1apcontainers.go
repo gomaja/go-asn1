@@ -15,59 +15,123 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// PrivateIEContainer represents the ASN.1 type PrivateIE-Container (SEQUENCE_OF).
-type PrivateIEContainer = []PrivateIEField
+// ProtocolIEContainer represents the ASN.1 type ProtocolIE-Container (SEQUENCE_OF).
+type ProtocolIEContainer = []ProtocolIEField
 
-// PrivateIEField represents the ASN.1 type PrivateIE-Field (SEQUENCE).
-type PrivateIEField struct {
-	Id          ProtocolIEID     `asn1:""`
-	Criticality Criticality      `asn1:""`
-	Value       runtime.RawValue `asn1:""`
+// ProtocolIESingleContainer represents the ASN.1 type ProtocolIE-SingleContainer (SEQUENCE).
+type ProtocolIESingleContainer struct {
+	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
+	Criticality Criticality      `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
+
+// ProtocolIEField represents the ASN.1 type ProtocolIE-Field (SEQUENCE).
+type ProtocolIEField struct {
+	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
+	Criticality Criticality      `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+}
+
+// ProtocolIEContainerPair represents the ASN.1 type ProtocolIE-ContainerPair (SEQUENCE_OF).
+type ProtocolIEContainerPair = []ProtocolIEFieldPair
+
+// ProtocolIEFieldPair represents the ASN.1 type ProtocolIE-FieldPair (SEQUENCE).
+type ProtocolIEFieldPair struct {
+	Id                ProtocolIEID     `asn1:"tag:0,context,implicit"`
+	FirstCriticality  Criticality      `asn1:"tag:1,context,implicit"`
+	FirstValue        runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	SecondCriticality Criticality      `asn1:"tag:3,context,implicit"`
+	SecondValue       runtime.RawValue `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
+}
+
+// ProtocolIEContainerList represents the ASN.1 type ProtocolIE-ContainerList (SEQUENCE_OF).
+type ProtocolIEContainerList = []ProtocolIESingleContainer
+
+// ProtocolIEContainerPairList represents the ASN.1 type ProtocolIE-ContainerPairList (SEQUENCE_OF).
+type ProtocolIEContainerPairList = []ProtocolIEContainerPair
 
 // ProtocolExtensionContainer represents the ASN.1 type ProtocolExtensionContainer (SEQUENCE_OF).
 type ProtocolExtensionContainer = []ProtocolExtensionField
 
 // ProtocolExtensionField represents the ASN.1 type ProtocolExtensionField (SEQUENCE).
 type ProtocolExtensionField struct {
-	Id             ProtocolIEID     `asn1:""`
-	Criticality    Criticality      `asn1:""`
-	ExtensionValue runtime.RawValue `asn1:""`
+	Id             ProtocolExtensionID `asn1:"tag:0,context,implicit"`
+	Criticality    Criticality         `asn1:"tag:1,context,implicit"`
+	ExtensionValue runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
-// ProtocolIEContainer represents the ASN.1 type ProtocolIE-Container (SEQUENCE_OF).
-type ProtocolIEContainer = []ProtocolIEField
+// PrivateIEContainer represents the ASN.1 type PrivateIE-Container (SEQUENCE_OF).
+type PrivateIEContainer = []PrivateIEField
 
-// ProtocolIEContainerList represents the ASN.1 type ProtocolIE-ContainerList (SEQUENCE_OF).
-type ProtocolIEContainerList = []ProtocolIEContainer
-
-// ProtocolIEContainerPair represents the ASN.1 type ProtocolIE-ContainerPair (SEQUENCE_OF).
-type ProtocolIEContainerPair = []ProtocolIEFieldPair
-
-// ProtocolIEContainerPairList represents the ASN.1 type ProtocolIE-ContainerPairList (SEQUENCE_OF).
-type ProtocolIEContainerPairList = []ProtocolIEContainerPair
-
-// ProtocolIEField represents the ASN.1 type ProtocolIE-Field (SEQUENCE).
-type ProtocolIEField struct {
-	Id          ProtocolIEID     `asn1:""`
-	Criticality Criticality      `asn1:""`
-	Value       runtime.RawValue `asn1:""`
+// PrivateIEField represents the ASN.1 type PrivateIE-Field (SEQUENCE).
+type PrivateIEField struct {
+	Id          PrivateIEID      `asn1:"tag:0,context,explicit"`
+	Criticality Criticality      `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
 }
 
-// ProtocolIEFieldPair represents the ASN.1 type ProtocolIE-FieldPair (SEQUENCE).
-type ProtocolIEFieldPair struct {
-	Id                ProtocolIEID     `asn1:""`
-	FirstCriticality  Criticality      `asn1:""`
-	FirstValue        runtime.RawValue `asn1:""`
-	SecondCriticality Criticality      `asn1:""`
-	SecondValue       runtime.RawValue `asn1:""`
+type asn1cAPERProtocolIEContainerListValue struct{ Value ProtocolIEContainer }
+
+// MarshalAPERProtocolIEContainer encodes a ProtocolIEContainer list to APER.
+func MarshalAPERProtocolIEContainer(list ProtocolIEContainer) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := MarshalAPERProtocolIEContainerTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
 }
 
-// ProtocolIESingleContainer represents the ASN.1 type ProtocolIE-SingleContainer (SEQUENCE).
-type ProtocolIESingleContainer = ProtocolIEField
+// MarshalAPERProtocolIEContainerTo appends a ProtocolIEContainer list to bb.
+func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *per.BitBuffer) error {
+	v := asn1cAPERProtocolIEContainerListValue{Value: list}
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
 
-// MarshalAPER encodes PrivateIEField to APER format.
-func (v *PrivateIEField) MarshalAPER() ([]byte, error) {
+// UnmarshalAPERProtocolIEContainer decodes a ProtocolIEContainer list from APER.
+func UnmarshalAPERProtocolIEContainer(data []byte) (ProtocolIEContainer, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return UnmarshalAPERProtocolIEContainerFrom(bb)
+}
+
+// UnmarshalAPERProtocolIEContainerFrom decodes a ProtocolIEContainer list from bb.
+func UnmarshalAPERProtocolIEContainerFrom(bb *per.BitBuffer) (ProtocolIEContainer, error) {
+	var v asn1cAPERProtocolIEContainerListValue
+	if err := unmarshalAPERProtocolIEContainerInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListValue, bb *per.BitBuffer) error {
+	v.Value = make(ProtocolIEContainer, 0)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
+	}
+	return nil
+}
+
+// MarshalAPER encodes ProtocolIESingleContainer to APER format.
+func (v *ProtocolIESingleContainer) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
@@ -75,7 +139,7 @@ func (v *PrivateIEField) MarshalAPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
@@ -88,13 +152,14 @@ func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 	return nil
 }
 
-// UnmarshalAPER decodes PrivateIEField from APER format.
-func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
+// UnmarshalAPER decodes ProtocolIESingleContainer from APER format.
+func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalAPERFrom(bb)
 }
 
-func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolIESingleContainer{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
@@ -110,53 +175,6 @@ func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding value: %w", err)
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
-	return nil
-}
-
-// MarshalAPER encodes ProtocolExtensionField to APER format.
-func (v *ProtocolExtensionField) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalAPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
-		return fmt.Errorf("encoding id: %w", err)
-	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return fmt.Errorf("encoding criticality: %w", err)
-	}
-	if err := per.EncodeOpenTypeAligned(bb, v.ExtensionValue.Bytes); err != nil {
-		return fmt.Errorf("encoding extensionValue: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalAPER decodes ProtocolExtensionField from APER format.
-func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
-}
-
-func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
-	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
-	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
-	}
-	v.Id = ProtocolIEID(val_id)
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
-	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
-	}
-	v.Criticality = Criticality(val_criticality)
-	openData_extensionvalue, err := per.DecodeOpenTypeAligned(bb)
-	if err != nil {
-		return fmt.Errorf("decoding extensionValue: %w", err)
-	}
-	v.ExtensionValue = runtime.RawValue{Bytes: openData_extensionvalue}
 	return nil
 }
 
@@ -189,6 +207,7 @@ func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolIEField{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
@@ -204,6 +223,66 @@ func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding value: %w", err)
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
+	return nil
+}
+
+type asn1cAPERProtocolIEContainerPairListValue struct{ Value ProtocolIEContainerPair }
+
+// MarshalAPERProtocolIEContainerPair encodes a ProtocolIEContainerPair list to APER.
+func MarshalAPERProtocolIEContainerPair(list ProtocolIEContainerPair) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := MarshalAPERProtocolIEContainerPairTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+// MarshalAPERProtocolIEContainerPairTo appends a ProtocolIEContainerPair list to bb.
+func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *per.BitBuffer) error {
+	v := asn1cAPERProtocolIEContainerPairListValue{Value: list}
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERProtocolIEContainerPair decodes a ProtocolIEContainerPair list from APER.
+func UnmarshalAPERProtocolIEContainerPair(data []byte) (ProtocolIEContainerPair, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return UnmarshalAPERProtocolIEContainerPairFrom(bb)
+}
+
+// UnmarshalAPERProtocolIEContainerPairFrom decodes a ProtocolIEContainerPair list from bb.
+func UnmarshalAPERProtocolIEContainerPairFrom(bb *per.BitBuffer) (ProtocolIEContainerPair, error) {
+	var v asn1cAPERProtocolIEContainerPairListValue
+	if err := unmarshalAPERProtocolIEContainerPairInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPairListValue, bb *per.BitBuffer) error {
+	v.Value = make(ProtocolIEContainerPair, 0)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIEFieldPair
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
+	}
 	return nil
 }
 
@@ -242,6 +321,7 @@ func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
 }
 
 func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolIEFieldPair{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return fmt.Errorf("decoding id: %w", err)
@@ -267,5 +347,339 @@ func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding secondValue: %w", err)
 	}
 	v.SecondValue = runtime.RawValue{Bytes: openData_secondvalue}
+	return nil
+}
+
+type asn1cAPERProtocolIEContainerListListValue struct{ Value ProtocolIEContainerList }
+
+// MarshalAPERProtocolIEContainerList encodes a ProtocolIEContainerList list to APER.
+func MarshalAPERProtocolIEContainerList(list ProtocolIEContainerList) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := MarshalAPERProtocolIEContainerListTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+// MarshalAPERProtocolIEContainerListTo appends a ProtocolIEContainerList list to bb.
+func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *per.BitBuffer) error {
+	v := asn1cAPERProtocolIEContainerListListValue{Value: list}
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERProtocolIEContainerList decodes a ProtocolIEContainerList list from APER.
+func UnmarshalAPERProtocolIEContainerList(data []byte) (ProtocolIEContainerList, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return UnmarshalAPERProtocolIEContainerListFrom(bb)
+}
+
+// UnmarshalAPERProtocolIEContainerListFrom decodes a ProtocolIEContainerList list from bb.
+func UnmarshalAPERProtocolIEContainerListFrom(bb *per.BitBuffer) (ProtocolIEContainerList, error) {
+	var v asn1cAPERProtocolIEContainerListListValue
+	if err := unmarshalAPERProtocolIEContainerListInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerListListValue, bb *per.BitBuffer) error {
+	v.Value = make(ProtocolIEContainerList, 0)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolIESingleContainer
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
+	}
+	return nil
+}
+
+type asn1cAPERProtocolIEContainerPairListListValue struct{ Value ProtocolIEContainerPairList }
+
+// MarshalAPERProtocolIEContainerPairList encodes a ProtocolIEContainerPairList list to APER.
+func MarshalAPERProtocolIEContainerPairList(list ProtocolIEContainerPairList) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := MarshalAPERProtocolIEContainerPairListTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+// MarshalAPERProtocolIEContainerPairListTo appends a ProtocolIEContainerPairList list to bb.
+func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, bb *per.BitBuffer) error {
+	v := asn1cAPERProtocolIEContainerPairListListValue{Value: list}
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, outerElem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := MarshalAPERProtocolIEContainerPairTo(outerElem, bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERProtocolIEContainerPairList decodes a ProtocolIEContainerPairList list from APER.
+func UnmarshalAPERProtocolIEContainerPairList(data []byte) (ProtocolIEContainerPairList, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return UnmarshalAPERProtocolIEContainerPairListFrom(bb)
+}
+
+// UnmarshalAPERProtocolIEContainerPairListFrom decodes a ProtocolIEContainerPairList list from bb.
+func UnmarshalAPERProtocolIEContainerPairListFrom(bb *per.BitBuffer) (ProtocolIEContainerPairList, error) {
+	var v asn1cAPERProtocolIEContainerPairListListValue
+	if err := unmarshalAPERProtocolIEContainerPairListInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContainerPairListListValue, bb *per.BitBuffer) error {
+	v.Value = make(ProtocolIEContainerPairList, 0)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
+			elem, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
+			if err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i_value, err)
+			}
+			v.Value = append(v.Value, elem)
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
+	}
+	return nil
+}
+
+type asn1cAPERProtocolExtensionContainerListValue struct{ Value ProtocolExtensionContainer }
+
+// MarshalAPERProtocolExtensionContainer encodes a ProtocolExtensionContainer list to APER.
+func MarshalAPERProtocolExtensionContainer(list ProtocolExtensionContainer) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := MarshalAPERProtocolExtensionContainerTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+// MarshalAPERProtocolExtensionContainerTo appends a ProtocolExtensionContainer list to bb.
+func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb *per.BitBuffer) error {
+	v := asn1cAPERProtocolExtensionContainerListValue{Value: list}
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERProtocolExtensionContainer decodes a ProtocolExtensionContainer list from APER.
+func UnmarshalAPERProtocolExtensionContainer(data []byte) (ProtocolExtensionContainer, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return UnmarshalAPERProtocolExtensionContainerFrom(bb)
+}
+
+// UnmarshalAPERProtocolExtensionContainerFrom decodes a ProtocolExtensionContainer list from bb.
+func UnmarshalAPERProtocolExtensionContainerFrom(bb *per.BitBuffer) (ProtocolExtensionContainer, error) {
+	var v asn1cAPERProtocolExtensionContainerListValue
+	if err := unmarshalAPERProtocolExtensionContainerInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionContainerListValue, bb *per.BitBuffer) error {
+	v.Value = make(ProtocolExtensionContainer, 0)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ProtocolExtensionField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
+	}
+	return nil
+}
+
+// MarshalAPER encodes ProtocolExtensionField to APER format.
+func (v *ProtocolExtensionField) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.ExtensionValue.Bytes); err != nil {
+		return fmt.Errorf("encoding extensionValue: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes ProtocolExtensionField from APER format.
+func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = ProtocolExtensionField{}
+	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	if err != nil {
+		return fmt.Errorf("decoding id: %w", err)
+	}
+	v.Id = ProtocolExtensionID(val_id)
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = Criticality(val_criticality)
+	openData_extensionvalue, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding extensionValue: %w", err)
+	}
+	v.ExtensionValue = runtime.RawValue{Bytes: openData_extensionvalue}
+	return nil
+}
+
+type asn1cAPERPrivateIEContainerListValue struct{ Value PrivateIEContainer }
+
+// MarshalAPERPrivateIEContainer encodes a PrivateIEContainer list to APER.
+func MarshalAPERPrivateIEContainer(list PrivateIEContainer) ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := MarshalAPERPrivateIEContainerTo(list, bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+// MarshalAPERPrivateIEContainerTo appends a PrivateIEContainer list to bb.
+func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *per.BitBuffer) error {
+	v := asn1cAPERPrivateIEContainerListValue{Value: list}
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalAPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERPrivateIEContainer decodes a PrivateIEContainer list from APER.
+func UnmarshalAPERPrivateIEContainer(data []byte) (PrivateIEContainer, error) {
+	bb := per.NewBitBufferFromBytes(data)
+	return UnmarshalAPERPrivateIEContainerFrom(bb)
+}
+
+// UnmarshalAPERPrivateIEContainerFrom decodes a PrivateIEContainer list from bb.
+func UnmarshalAPERPrivateIEContainerFrom(bb *per.BitBuffer) (PrivateIEContainer, error) {
+	var v asn1cAPERPrivateIEContainerListValue
+	if err := unmarshalAPERPrivateIEContainerInto(&v, bb); err != nil {
+		return nil, err
+	}
+	return v.Value, nil
+}
+
+func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue, bb *per.BitBuffer) error {
+	v.Value = make(PrivateIEContainer, 0)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem PrivateIEField
+			if err := elem.UnmarshalAPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
+	}
+	return nil
+}
+
+// MarshalAPER encodes PrivateIEField to APER format.
+func (v *PrivateIEField) MarshalAPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
+	if err := v.Id.MarshalAPERTo(bb); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes PrivateIEField from APER format.
+func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalAPERFrom(bb)
+}
+
+func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = PrivateIEField{}
+	if err := v.Id.UnmarshalAPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding id: %w", err)
+	}
+	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return fmt.Errorf("decoding criticality: %w", err)
+	}
+	v.Criticality = Criticality(val_criticality)
+	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	if err != nil {
+		return fmt.Errorf("decoding value: %w", err)
+	}
+	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
 }

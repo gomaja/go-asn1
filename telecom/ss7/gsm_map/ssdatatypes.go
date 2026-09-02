@@ -545,7 +545,7 @@ type GPSAssistanceData = []byte
 // GANSSAssistanceData represents the ASN.1 type GANSSAssistanceData (OCTET_STRING).
 type GANSSAssistanceData = []byte
 
-// DataTypesTerminationCause represents the ASN.1 ENUMERATED type DataTypesTerminationCause.
+// DataTypesTerminationCause represents the ASN.1 ENUMERATED type TerminationCause.
 type DataTypesTerminationCause int64
 
 const (
@@ -949,10 +949,10 @@ type AreaEventReporting struct {
 	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
 }
 
-// DataTypesAreaList represents the ASN.1 type DataTypesAreaList (SEQUENCE_OF).
+// DataTypesAreaList represents the ASN.1 type AreaList (SEQUENCE_OF).
 type DataTypesAreaList = []DataTypesArea
 
-// DataTypesArea represents the ASN.1 type DataTypesArea (SEQUENCE).
+// DataTypesArea represents the ASN.1 type Area (SEQUENCE).
 type DataTypesArea struct {
 	AreaType              DataTypesAreaType           `asn1:"tag:0,context,implicit"`
 	AreaIdentification    DataTypesAreaIdentification `asn1:"tag:1,context,implicit"`
@@ -962,7 +962,7 @@ type DataTypesArea struct {
 	ExtData_              [][]byte                    `asn1:"-" json:"-"`
 }
 
-// DataTypesAreaType represents the ASN.1 ENUMERATED type DataTypesAreaType.
+// DataTypesAreaType represents the ASN.1 ENUMERATED type AreaType.
 type DataTypesAreaType int64
 
 const (
@@ -987,13 +987,13 @@ func (v DataTypesAreaType) String() string {
 	}
 }
 
-// DataTypesAreaIdentification represents the ASN.1 type DataTypesAreaIdentification (OCTET_STRING).
+// DataTypesAreaIdentification represents the ASN.1 type AreaIdentification (OCTET_STRING).
 type DataTypesAreaIdentification = []byte
 
 // AreaIdentificationExt represents the ASN.1 type AreaIdentificationExt (OCTET_STRING).
 type AreaIdentificationExt = []byte
 
-// DataTypesOccurrenceInfo represents the ASN.1 ENUMERATED type DataTypesOccurrenceInfo.
+// DataTypesOccurrenceInfo represents the ASN.1 ENUMERATED type OccurrenceInfo.
 type DataTypesOccurrenceInfo int64
 
 const (
@@ -1021,7 +1021,7 @@ type SamplingInterval = int64
 // Duration represents the ASN.1 type Duration (INTEGER).
 type Duration = int64
 
-// DataTypesLocationInfo represents the ASN.1 type DataTypesLocationInfo (BIT_STRING).
+// DataTypesLocationInfo represents the ASN.1 type LocationInfo (BIT_STRING).
 type DataTypesLocationInfo = runtime.BitString
 
 // MotionEventReporting represents the ASN.1 type MotionEventReporting (SEQUENCE).
@@ -1178,7 +1178,7 @@ type LCSCumulativeReportTimerCriteria = int64
 // LCSCumulativeReportCounterCriteria represents the ASN.1 type LCS-CumulativeReportCounterCriteria (INTEGER).
 type LCSCumulativeReportCounterCriteria = int64
 
-// DataTypesFQDN represents the ASN.1 type DataTypesFQDN (OCTET_STRING).
+// DataTypesFQDN represents the ASN.1 type FQDN (OCTET_STRING).
 type DataTypesFQDN = []byte
 
 // LCSEventReportRes represents the ASN.1 type LCS-EventReportRes (SEQUENCE).
@@ -1449,42 +1449,74 @@ func (v *NotifySSArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SsCode != nil {
 		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
-		enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_sscode)
+		retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_sscode)
+		if tagErr_enc_sscode != nil {
+			return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+		}
+		enc_sscode = retagged_enc_sscode
 		children = append(children, enc_sscode...)
 	}
 	if v.SsStatus != nil {
 		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
-		enc_ssstatus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ssstatus)
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
 		children = append(children, enc_ssstatus...)
 	}
 	if v.SsNotification != nil {
 		enc_ssnotification := ber.EncodeOctetString([]byte(*v.SsNotification))
-		enc_ssnotification = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_ssnotification)
+		retagged_enc_ssnotification, tagErr_enc_ssnotification := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_ssnotification)
+		if tagErr_enc_ssnotification != nil {
+			return nil, fmt.Errorf("encoding ss-Notification: %w", tagErr_enc_ssnotification)
+		}
+		enc_ssnotification = retagged_enc_ssnotification
 		children = append(children, enc_ssnotification...)
 	}
 	if v.CallIsWaitingIndicator != nil {
 		enc_calliswaitingindicator := ber.EncodeNull()
-		enc_calliswaitingindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, false, enc_calliswaitingindicator)
+		retagged_enc_calliswaitingindicator, tagErr_enc_calliswaitingindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_calliswaitingindicator)
+		if tagErr_enc_calliswaitingindicator != nil {
+			return nil, fmt.Errorf("encoding callIsWaiting-Indicator: %w", tagErr_enc_calliswaitingindicator)
+		}
+		enc_calliswaitingindicator = retagged_enc_calliswaitingindicator
 		children = append(children, enc_calliswaitingindicator...)
 	}
 	if v.CallOnHoldIndicator != nil {
 		enc_callonholdindicator := ber.EncodeEnumerated(int64(*v.CallOnHoldIndicator))
-		enc_callonholdindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, false, enc_callonholdindicator)
+		retagged_enc_callonholdindicator, tagErr_enc_callonholdindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_callonholdindicator)
+		if tagErr_enc_callonholdindicator != nil {
+			return nil, fmt.Errorf("encoding callOnHold-Indicator: %w", tagErr_enc_callonholdindicator)
+		}
+		enc_callonholdindicator = retagged_enc_callonholdindicator
 		children = append(children, enc_callonholdindicator...)
 	}
 	if v.MptyIndicator != nil {
 		enc_mptyindicator := ber.EncodeNull()
-		enc_mptyindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, false, enc_mptyindicator)
+		retagged_enc_mptyindicator, tagErr_enc_mptyindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_mptyindicator)
+		if tagErr_enc_mptyindicator != nil {
+			return nil, fmt.Errorf("encoding mpty-Indicator: %w", tagErr_enc_mptyindicator)
+		}
+		enc_mptyindicator = retagged_enc_mptyindicator
 		children = append(children, enc_mptyindicator...)
 	}
 	if v.CugIndex != nil {
 		enc_cugindex := ber.EncodeInteger(int64(*v.CugIndex))
-		enc_cugindex = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, false, enc_cugindex)
+		retagged_enc_cugindex, tagErr_enc_cugindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_cugindex)
+		if tagErr_enc_cugindex != nil {
+			return nil, fmt.Errorf("encoding cug-Index: %w", tagErr_enc_cugindex)
+		}
+		enc_cugindex = retagged_enc_cugindex
 		children = append(children, enc_cugindex...)
 	}
 	if v.ClirSuppressionRejected != nil {
 		enc_clirsuppressionrejected := ber.EncodeNull()
-		enc_clirsuppressionrejected = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, false, enc_clirsuppressionrejected)
+		retagged_enc_clirsuppressionrejected, tagErr_enc_clirsuppressionrejected := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_clirsuppressionrejected)
+		if tagErr_enc_clirsuppressionrejected != nil {
+			return nil, fmt.Errorf("encoding clirSuppressionRejected: %w", tagErr_enc_clirsuppressionrejected)
+		}
+		enc_clirsuppressionrejected = retagged_enc_clirsuppressionrejected
 		children = append(children, enc_clirsuppressionrejected...)
 	}
 	if v.EctIndicator != nil {
@@ -1492,7 +1524,11 @@ func (v *NotifySSArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding ect-Indicator: %w", err)
 		}
-		enc_ectindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, true, enc_ectindicator)
+		retagged_enc_ectindicator, tagErr_enc_ectindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_ectindicator)
+		if tagErr_enc_ectindicator != nil {
+			return nil, fmt.Errorf("encoding ect-Indicator: %w", tagErr_enc_ectindicator)
+		}
+		enc_ectindicator = retagged_enc_ectindicator
 		children = append(children, enc_ectindicator...)
 	}
 	if v.NameIndicator != nil {
@@ -1500,7 +1536,11 @@ func (v *NotifySSArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding nameIndicator: %w", err)
 		}
-		enc_nameindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, true, enc_nameindicator)
+		retagged_enc_nameindicator, tagErr_enc_nameindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_nameindicator)
+		if tagErr_enc_nameindicator != nil {
+			return nil, fmt.Errorf("encoding nameIndicator: %w", tagErr_enc_nameindicator)
+		}
+		enc_nameindicator = retagged_enc_nameindicator
 		children = append(children, enc_nameindicator...)
 	}
 	if v.CcbsFeature != nil {
@@ -1508,17 +1548,29 @@ func (v *NotifySSArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
 		}
-		enc_ccbsfeature = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, true, enc_ccbsfeature)
+		retagged_enc_ccbsfeature, tagErr_enc_ccbsfeature := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_ccbsfeature)
+		if tagErr_enc_ccbsfeature != nil {
+			return nil, fmt.Errorf("encoding ccbs-Feature: %w", tagErr_enc_ccbsfeature)
+		}
+		enc_ccbsfeature = retagged_enc_ccbsfeature
 		children = append(children, enc_ccbsfeature...)
 	}
 	if v.AlertingPattern != nil {
 		enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
-		enc_alertingpattern = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, false, enc_alertingpattern)
+		retagged_enc_alertingpattern, tagErr_enc_alertingpattern := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, enc_alertingpattern)
+		if tagErr_enc_alertingpattern != nil {
+			return nil, fmt.Errorf("encoding alertingPattern: %w", tagErr_enc_alertingpattern)
+		}
+		enc_alertingpattern = retagged_enc_alertingpattern
 		children = append(children, enc_alertingpattern...)
 	}
 	if v.MulticallIndicator != nil {
 		enc_multicallindicator := ber.EncodeEnumerated(int64(*v.MulticallIndicator))
-		enc_multicallindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, false, enc_multicallindicator)
+		retagged_enc_multicallindicator, tagErr_enc_multicallindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, enc_multicallindicator)
+		if tagErr_enc_multicallindicator != nil {
+			return nil, fmt.Errorf("encoding multicall-Indicator: %w", tagErr_enc_multicallindicator)
+		}
+		enc_multicallindicator = retagged_enc_multicallindicator
 		children = append(children, enc_multicallindicator...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1536,17 +1588,149 @@ func (v *NotifySSArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NotifySSArg to DER format.
 func (v *NotifySSArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.SsCode != nil {
+		enc_sscode := ber.EncodeOctetString([]byte(*v.SsCode))
+		retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_sscode)
+		if tagErr_enc_sscode != nil {
+			return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+		}
+		enc_sscode = retagged_enc_sscode
+		children = append(children, enc_sscode...)
+	}
+	if v.SsStatus != nil {
+		enc_ssstatus := ber.EncodeOctetString([]byte(*v.SsStatus))
+		retagged_enc_ssstatus, tagErr_enc_ssstatus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ssstatus)
+		if tagErr_enc_ssstatus != nil {
+			return nil, fmt.Errorf("encoding ss-Status: %w", tagErr_enc_ssstatus)
+		}
+		enc_ssstatus = retagged_enc_ssstatus
+		children = append(children, enc_ssstatus...)
+	}
+	if v.SsNotification != nil {
+		enc_ssnotification := ber.EncodeOctetString([]byte(*v.SsNotification))
+		retagged_enc_ssnotification, tagErr_enc_ssnotification := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_ssnotification)
+		if tagErr_enc_ssnotification != nil {
+			return nil, fmt.Errorf("encoding ss-Notification: %w", tagErr_enc_ssnotification)
+		}
+		enc_ssnotification = retagged_enc_ssnotification
+		children = append(children, enc_ssnotification...)
+	}
+	if v.CallIsWaitingIndicator != nil {
+		enc_calliswaitingindicator := ber.EncodeNull()
+		retagged_enc_calliswaitingindicator, tagErr_enc_calliswaitingindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_calliswaitingindicator)
+		if tagErr_enc_calliswaitingindicator != nil {
+			return nil, fmt.Errorf("encoding callIsWaiting-Indicator: %w", tagErr_enc_calliswaitingindicator)
+		}
+		enc_calliswaitingindicator = retagged_enc_calliswaitingindicator
+		children = append(children, enc_calliswaitingindicator...)
+	}
+	if v.CallOnHoldIndicator != nil {
+		enc_callonholdindicator := ber.EncodeEnumerated(int64(*v.CallOnHoldIndicator))
+		retagged_enc_callonholdindicator, tagErr_enc_callonholdindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_callonholdindicator)
+		if tagErr_enc_callonholdindicator != nil {
+			return nil, fmt.Errorf("encoding callOnHold-Indicator: %w", tagErr_enc_callonholdindicator)
+		}
+		enc_callonholdindicator = retagged_enc_callonholdindicator
+		children = append(children, enc_callonholdindicator...)
+	}
+	if v.MptyIndicator != nil {
+		enc_mptyindicator := ber.EncodeNull()
+		retagged_enc_mptyindicator, tagErr_enc_mptyindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_mptyindicator)
+		if tagErr_enc_mptyindicator != nil {
+			return nil, fmt.Errorf("encoding mpty-Indicator: %w", tagErr_enc_mptyindicator)
+		}
+		enc_mptyindicator = retagged_enc_mptyindicator
+		children = append(children, enc_mptyindicator...)
+	}
+	if v.CugIndex != nil {
+		enc_cugindex := ber.EncodeInteger(int64(*v.CugIndex))
+		retagged_enc_cugindex, tagErr_enc_cugindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_cugindex)
+		if tagErr_enc_cugindex != nil {
+			return nil, fmt.Errorf("encoding cug-Index: %w", tagErr_enc_cugindex)
+		}
+		enc_cugindex = retagged_enc_cugindex
+		children = append(children, enc_cugindex...)
+	}
+	if v.ClirSuppressionRejected != nil {
+		enc_clirsuppressionrejected := ber.EncodeNull()
+		retagged_enc_clirsuppressionrejected, tagErr_enc_clirsuppressionrejected := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_clirsuppressionrejected)
+		if tagErr_enc_clirsuppressionrejected != nil {
+			return nil, fmt.Errorf("encoding clirSuppressionRejected: %w", tagErr_enc_clirsuppressionrejected)
+		}
+		enc_clirsuppressionrejected = retagged_enc_clirsuppressionrejected
+		children = append(children, enc_clirsuppressionrejected...)
+	}
+	if v.EctIndicator != nil {
+		enc_ectindicator, err := v.EctIndicator.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ect-Indicator: %w", err)
+		}
+		retagged_enc_ectindicator, tagErr_enc_ectindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_ectindicator)
+		if tagErr_enc_ectindicator != nil {
+			return nil, fmt.Errorf("encoding ect-Indicator: %w", tagErr_enc_ectindicator)
+		}
+		enc_ectindicator = retagged_enc_ectindicator
+		children = append(children, enc_ectindicator...)
+	}
+	if v.NameIndicator != nil {
+		enc_nameindicator, err := v.NameIndicator.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding nameIndicator: %w", err)
+		}
+		retagged_enc_nameindicator, tagErr_enc_nameindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_nameindicator)
+		if tagErr_enc_nameindicator != nil {
+			return nil, fmt.Errorf("encoding nameIndicator: %w", tagErr_enc_nameindicator)
+		}
+		enc_nameindicator = retagged_enc_nameindicator
+		children = append(children, enc_nameindicator...)
+	}
+	if v.CcbsFeature != nil {
+		enc_ccbsfeature, err := v.CcbsFeature.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding ccbs-Feature: %w", err)
+		}
+		retagged_enc_ccbsfeature, tagErr_enc_ccbsfeature := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_ccbsfeature)
+		if tagErr_enc_ccbsfeature != nil {
+			return nil, fmt.Errorf("encoding ccbs-Feature: %w", tagErr_enc_ccbsfeature)
+		}
+		enc_ccbsfeature = retagged_enc_ccbsfeature
+		children = append(children, enc_ccbsfeature...)
+	}
+	if v.AlertingPattern != nil {
+		enc_alertingpattern := ber.EncodeOctetString([]byte(*v.AlertingPattern))
+		retagged_enc_alertingpattern, tagErr_enc_alertingpattern := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, enc_alertingpattern)
+		if tagErr_enc_alertingpattern != nil {
+			return nil, fmt.Errorf("encoding alertingPattern: %w", tagErr_enc_alertingpattern)
+		}
+		enc_alertingpattern = retagged_enc_alertingpattern
+		children = append(children, enc_alertingpattern...)
+	}
+	if v.MulticallIndicator != nil {
+		enc_multicallindicator := ber.EncodeEnumerated(int64(*v.MulticallIndicator))
+		retagged_enc_multicallindicator, tagErr_enc_multicallindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, enc_multicallindicator)
+		if tagErr_enc_multicallindicator != nil {
+			return nil, fmt.Errorf("encoding multicall-Indicator: %w", tagErr_enc_multicallindicator)
+		}
+		enc_multicallindicator = retagged_enc_multicallindicator
+		children = append(children, enc_multicallindicator...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NotifySSArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NotifySSArg from BER/DER format.
 func (v *NotifySSArg) UnmarshalBER(data []byte) error {
+	*v = NotifySSArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NotifySSArg SEQUENCE: %w", err)
@@ -1560,9 +1744,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+				decodedTag_sscode, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ss-Code: %w", err)
+				}
+				if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 1 {
+					return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 				}
 				tmp_sscode := SSCode(rawVal_sscode)
 				v.SsCode = &tmp_sscode
@@ -1575,9 +1762,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ssstatus, n_ssstatus, rawVal_ssstatus, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ss-Status: %w", err)
+				}
+				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
+					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
 				tmp_ssstatus := SSStatus(rawVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
@@ -1590,9 +1780,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_ssnotification, rawVal_ssnotification, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ssnotification, n_ssnotification, rawVal_ssnotification, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ss-Notification: %w", err)
+				}
+				if decodedTag_ssnotification.Class != tag.ClassContextSpecific || decodedTag_ssnotification.Number != 5 {
+					return fmt.Errorf("decoding ss-Notification: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssnotification)
 				}
 				tmp_ssnotification := SSNotification(rawVal_ssnotification)
 				v.SsNotification = &tmp_ssnotification
@@ -1605,11 +1798,16 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_calliswaitingindicator, rawVal_calliswaitingindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_calliswaitingindicator, n_calliswaitingindicator, rawVal_calliswaitingindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding callIsWaiting-Indicator: %w", err)
 				}
-				_ = rawVal_calliswaitingindicator
+				if decodedTag_calliswaitingindicator.Class != tag.ClassContextSpecific || decodedTag_calliswaitingindicator.Number != 14 || decodedTag_calliswaitingindicator.Constructed != false {
+					return fmt.Errorf("decoding callIsWaiting-Indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_calliswaitingindicator)
+				}
+				if len(rawVal_calliswaitingindicator) != 0 {
+					return fmt.Errorf("decoding callIsWaiting-Indicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_calliswaitingindicator))
+				}
 				v.CallIsWaitingIndicator = &struct{}{}
 				offset += n_calliswaitingindicator
 			}
@@ -1620,11 +1818,14 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_callonholdindicator, rawVal_callonholdindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_callonholdindicator, n_callonholdindicator, rawVal_callonholdindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding callOnHold-Indicator: %w", err)
 				}
-				decVal_callonholdindicator, intErr := ber.DecodeIntegerValue(rawVal_callonholdindicator)
+				if decodedTag_callonholdindicator.Class != tag.ClassContextSpecific || decodedTag_callonholdindicator.Number != 15 || decodedTag_callonholdindicator.Constructed != false {
+					return fmt.Errorf("decoding callOnHold-Indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callonholdindicator)
+				}
+				decVal_callonholdindicator, intErr := ber.DecodeEnumeratedValue(rawVal_callonholdindicator)
 				if intErr != nil {
 					return fmt.Errorf("decoding callOnHold-Indicator: %w", intErr)
 				}
@@ -1639,11 +1840,16 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_mptyindicator, rawVal_mptyindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_mptyindicator, n_mptyindicator, rawVal_mptyindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mpty-Indicator: %w", err)
 				}
-				_ = rawVal_mptyindicator
+				if decodedTag_mptyindicator.Class != tag.ClassContextSpecific || decodedTag_mptyindicator.Number != 16 || decodedTag_mptyindicator.Constructed != false {
+					return fmt.Errorf("decoding mpty-Indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mptyindicator)
+				}
+				if len(rawVal_mptyindicator) != 0 {
+					return fmt.Errorf("decoding mpty-Indicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_mptyindicator))
+				}
 				v.MptyIndicator = &struct{}{}
 				offset += n_mptyindicator
 			}
@@ -1654,9 +1860,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_cugindex, rawVal_cugindex, err := ber.DecodeTLV(content[offset:])
+				decodedTag_cugindex, n_cugindex, rawVal_cugindex, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cug-Index: %w", err)
+				}
+				if decodedTag_cugindex.Class != tag.ClassContextSpecific || decodedTag_cugindex.Number != 17 || decodedTag_cugindex.Constructed != false {
+					return fmt.Errorf("decoding cug-Index: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cugindex)
 				}
 				decVal_cugindex, intErr := ber.DecodeIntegerValue(rawVal_cugindex)
 				if intErr != nil {
@@ -1673,11 +1882,16 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_clirsuppressionrejected, rawVal_clirsuppressionrejected, err := ber.DecodeTLV(content[offset:])
+				decodedTag_clirsuppressionrejected, n_clirsuppressionrejected, rawVal_clirsuppressionrejected, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding clirSuppressionRejected: %w", err)
 				}
-				_ = rawVal_clirsuppressionrejected
+				if decodedTag_clirsuppressionrejected.Class != tag.ClassContextSpecific || decodedTag_clirsuppressionrejected.Number != 18 || decodedTag_clirsuppressionrejected.Constructed != false {
+					return fmt.Errorf("decoding clirSuppressionRejected: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_clirsuppressionrejected)
+				}
+				if len(rawVal_clirsuppressionrejected) != 0 {
+					return fmt.Errorf("decoding clirSuppressionRejected: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_clirsuppressionrejected))
+				}
 				v.ClirSuppressionRejected = &struct{}{}
 				offset += n_clirsuppressionrejected
 			}
@@ -1688,9 +1902,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_ectindicator, rawVal_ectindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ectindicator, n_ectindicator, rawVal_ectindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ect-Indicator: %w", err)
+				}
+				if decodedTag_ectindicator.Class != tag.ClassContextSpecific || decodedTag_ectindicator.Number != 19 || decodedTag_ectindicator.Constructed != true {
+					return fmt.Errorf("decoding ect-Indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ectindicator)
 				}
 				reconstructed_ectindicator := ber.EncodeSequence(rawVal_ectindicator)
 				var dec_ectindicator ECTIndicator
@@ -1707,9 +1924,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
-				_, n_nameindicator, rawVal_nameindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_nameindicator, n_nameindicator, rawVal_nameindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding nameIndicator: %w", err)
+				}
+				if decodedTag_nameindicator.Class != tag.ClassContextSpecific || decodedTag_nameindicator.Number != 20 || decodedTag_nameindicator.Constructed != true {
+					return fmt.Errorf("decoding nameIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_nameindicator)
 				}
 				reconstructed_nameindicator := ber.EncodeSequence(rawVal_nameindicator)
 				var dec_nameindicator NameIndicator
@@ -1726,9 +1946,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_ccbsfeature, rawVal_ccbsfeature, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ccbsfeature, n_ccbsfeature, rawVal_ccbsfeature, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ccbs-Feature: %w", err)
+				}
+				if decodedTag_ccbsfeature.Class != tag.ClassContextSpecific || decodedTag_ccbsfeature.Number != 21 || decodedTag_ccbsfeature.Constructed != true {
+					return fmt.Errorf("decoding ccbs-Feature: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsfeature)
 				}
 				reconstructed_ccbsfeature := ber.EncodeSequence(rawVal_ccbsfeature)
 				var dec_ccbsfeature CCBSFeature
@@ -1745,9 +1968,12 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_alertingpattern, rawVal_alertingpattern, err := ber.DecodeTLV(content[offset:])
+				decodedTag_alertingpattern, n_alertingpattern, rawVal_alertingpattern, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding alertingPattern: %w", err)
+				}
+				if decodedTag_alertingpattern.Class != tag.ClassContextSpecific || decodedTag_alertingpattern.Number != 22 {
+					return fmt.Errorf("decoding alertingPattern: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_alertingpattern)
 				}
 				tmp_alertingpattern := AlertingPattern(rawVal_alertingpattern)
 				v.AlertingPattern = &tmp_alertingpattern
@@ -1760,11 +1986,14 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_multicallindicator, rawVal_multicallindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_multicallindicator, n_multicallindicator, rawVal_multicallindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding multicall-Indicator: %w", err)
 				}
-				decVal_multicallindicator, intErr := ber.DecodeIntegerValue(rawVal_multicallindicator)
+				if decodedTag_multicallindicator.Class != tag.ClassContextSpecific || decodedTag_multicallindicator.Number != 23 || decodedTag_multicallindicator.Constructed != false {
+					return fmt.Errorf("decoding multicall-Indicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_multicallindicator)
+				}
+				decVal_multicallindicator, intErr := ber.DecodeEnumeratedValue(rawVal_multicallindicator)
 				if intErr != nil {
 					return fmt.Errorf("decoding multicall-Indicator: %w", intErr)
 				}
@@ -1794,13 +2023,21 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 func (v *ForwardChargeAdviceArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
-	enc_sscode = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_sscode)
+	retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_sscode)
+	if tagErr_enc_sscode != nil {
+		return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+	}
+	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	enc_charginginformation, err := v.ChargingInformation.MarshalBER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding chargingInformation: %w", err)
 	}
-	enc_charginginformation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_charginginformation)
+	retagged_enc_charginginformation, tagErr_enc_charginginformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_charginginformation)
+	if tagErr_enc_charginginformation != nil {
+		return nil, fmt.Errorf("encoding chargingInformation: %w", tagErr_enc_charginginformation)
+	}
+	enc_charginginformation = retagged_enc_charginginformation
 	children = append(children, enc_charginginformation...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -1817,17 +2054,40 @@ func (v *ForwardChargeAdviceArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardChargeAdviceArg to DER format.
 func (v *ForwardChargeAdviceArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_sscode := ber.EncodeOctetString([]byte(v.SsCode))
+	retagged_enc_sscode, tagErr_enc_sscode := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_sscode)
+	if tagErr_enc_sscode != nil {
+		return nil, fmt.Errorf("encoding ss-Code: %w", tagErr_enc_sscode)
+	}
+	enc_sscode = retagged_enc_sscode
+	children = append(children, enc_sscode...)
+	enc_charginginformation, err := v.ChargingInformation.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding chargingInformation: %w", err)
+	}
+	retagged_enc_charginginformation, tagErr_enc_charginginformation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_charginginformation)
+	if tagErr_enc_charginginformation != nil {
+		return nil, fmt.Errorf("encoding chargingInformation: %w", tagErr_enc_charginginformation)
+	}
+	enc_charginginformation = retagged_enc_charginginformation
+	children = append(children, enc_charginginformation...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ForwardChargeAdviceArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ForwardChargeAdviceArg from BER/DER format.
 func (v *ForwardChargeAdviceArg) UnmarshalBER(data []byte) error {
+	*v = ForwardChargeAdviceArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardChargeAdviceArg SEQUENCE: %w", err)
@@ -1845,9 +2105,12 @@ func (v *ForwardChargeAdviceArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ss-Code, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
+	decodedTag_sscode, n_sscode, rawVal_sscode, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ss-Code: %w", err)
+	}
+	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
+		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
 	v.SsCode = SSCode(rawVal_sscode)
 	offset += n_sscode
@@ -1860,9 +2123,12 @@ func (v *ForwardChargeAdviceArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for chargingInformation, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_charginginformation, rawVal_charginginformation, err := ber.DecodeTLV(content[offset:])
+	decodedTag_charginginformation, n_charginginformation, rawVal_charginginformation, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding chargingInformation: %w", err)
+	}
+	if decodedTag_charginginformation.Class != tag.ClassContextSpecific || decodedTag_charginginformation.Number != 1 || decodedTag_charginginformation.Constructed != true {
+		return fmt.Errorf("decoding chargingInformation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_charginginformation)
 	}
 	reconstructed_charginginformation := ber.EncodeSequence(rawVal_charginginformation)
 	if unmErr := v.ChargingInformation.UnmarshalBER(reconstructed_charginginformation); unmErr != nil {
@@ -1890,37 +2156,65 @@ func (v *ChargingInformation) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.E1 != nil {
 		enc_e1 := ber.EncodeInteger(int64(*v.E1))
-		enc_e1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_e1)
+		retagged_enc_e1, tagErr_enc_e1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_e1)
+		if tagErr_enc_e1 != nil {
+			return nil, fmt.Errorf("encoding e1: %w", tagErr_enc_e1)
+		}
+		enc_e1 = retagged_enc_e1
 		children = append(children, enc_e1...)
 	}
 	if v.E2 != nil {
 		enc_e2 := ber.EncodeInteger(int64(*v.E2))
-		enc_e2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_e2)
+		retagged_enc_e2, tagErr_enc_e2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_e2)
+		if tagErr_enc_e2 != nil {
+			return nil, fmt.Errorf("encoding e2: %w", tagErr_enc_e2)
+		}
+		enc_e2 = retagged_enc_e2
 		children = append(children, enc_e2...)
 	}
 	if v.E3 != nil {
 		enc_e3 := ber.EncodeInteger(int64(*v.E3))
-		enc_e3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_e3)
+		retagged_enc_e3, tagErr_enc_e3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_e3)
+		if tagErr_enc_e3 != nil {
+			return nil, fmt.Errorf("encoding e3: %w", tagErr_enc_e3)
+		}
+		enc_e3 = retagged_enc_e3
 		children = append(children, enc_e3...)
 	}
 	if v.E4 != nil {
 		enc_e4 := ber.EncodeInteger(int64(*v.E4))
-		enc_e4 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_e4)
+		retagged_enc_e4, tagErr_enc_e4 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_e4)
+		if tagErr_enc_e4 != nil {
+			return nil, fmt.Errorf("encoding e4: %w", tagErr_enc_e4)
+		}
+		enc_e4 = retagged_enc_e4
 		children = append(children, enc_e4...)
 	}
 	if v.E5 != nil {
 		enc_e5 := ber.EncodeInteger(int64(*v.E5))
-		enc_e5 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_e5)
+		retagged_enc_e5, tagErr_enc_e5 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_e5)
+		if tagErr_enc_e5 != nil {
+			return nil, fmt.Errorf("encoding e5: %w", tagErr_enc_e5)
+		}
+		enc_e5 = retagged_enc_e5
 		children = append(children, enc_e5...)
 	}
 	if v.E6 != nil {
 		enc_e6 := ber.EncodeInteger(int64(*v.E6))
-		enc_e6 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_e6)
+		retagged_enc_e6, tagErr_enc_e6 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_e6)
+		if tagErr_enc_e6 != nil {
+			return nil, fmt.Errorf("encoding e6: %w", tagErr_enc_e6)
+		}
+		enc_e6 = retagged_enc_e6
 		children = append(children, enc_e6...)
 	}
 	if v.E7 != nil {
 		enc_e7 := ber.EncodeInteger(int64(*v.E7))
-		enc_e7 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_e7)
+		retagged_enc_e7, tagErr_enc_e7 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_e7)
+		if tagErr_enc_e7 != nil {
+			return nil, fmt.Errorf("encoding e7: %w", tagErr_enc_e7)
+		}
+		enc_e7 = retagged_enc_e7
 		children = append(children, enc_e7...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1938,17 +2232,86 @@ func (v *ChargingInformation) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ChargingInformation to DER format.
 func (v *ChargingInformation) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.E1 != nil {
+		enc_e1 := ber.EncodeInteger(int64(*v.E1))
+		retagged_enc_e1, tagErr_enc_e1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_e1)
+		if tagErr_enc_e1 != nil {
+			return nil, fmt.Errorf("encoding e1: %w", tagErr_enc_e1)
+		}
+		enc_e1 = retagged_enc_e1
+		children = append(children, enc_e1...)
+	}
+	if v.E2 != nil {
+		enc_e2 := ber.EncodeInteger(int64(*v.E2))
+		retagged_enc_e2, tagErr_enc_e2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_e2)
+		if tagErr_enc_e2 != nil {
+			return nil, fmt.Errorf("encoding e2: %w", tagErr_enc_e2)
+		}
+		enc_e2 = retagged_enc_e2
+		children = append(children, enc_e2...)
+	}
+	if v.E3 != nil {
+		enc_e3 := ber.EncodeInteger(int64(*v.E3))
+		retagged_enc_e3, tagErr_enc_e3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_e3)
+		if tagErr_enc_e3 != nil {
+			return nil, fmt.Errorf("encoding e3: %w", tagErr_enc_e3)
+		}
+		enc_e3 = retagged_enc_e3
+		children = append(children, enc_e3...)
+	}
+	if v.E4 != nil {
+		enc_e4 := ber.EncodeInteger(int64(*v.E4))
+		retagged_enc_e4, tagErr_enc_e4 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_e4)
+		if tagErr_enc_e4 != nil {
+			return nil, fmt.Errorf("encoding e4: %w", tagErr_enc_e4)
+		}
+		enc_e4 = retagged_enc_e4
+		children = append(children, enc_e4...)
+	}
+	if v.E5 != nil {
+		enc_e5 := ber.EncodeInteger(int64(*v.E5))
+		retagged_enc_e5, tagErr_enc_e5 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_e5)
+		if tagErr_enc_e5 != nil {
+			return nil, fmt.Errorf("encoding e5: %w", tagErr_enc_e5)
+		}
+		enc_e5 = retagged_enc_e5
+		children = append(children, enc_e5...)
+	}
+	if v.E6 != nil {
+		enc_e6 := ber.EncodeInteger(int64(*v.E6))
+		retagged_enc_e6, tagErr_enc_e6 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_e6)
+		if tagErr_enc_e6 != nil {
+			return nil, fmt.Errorf("encoding e6: %w", tagErr_enc_e6)
+		}
+		enc_e6 = retagged_enc_e6
+		children = append(children, enc_e6...)
+	}
+	if v.E7 != nil {
+		enc_e7 := ber.EncodeInteger(int64(*v.E7))
+		retagged_enc_e7, tagErr_enc_e7 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_e7)
+		if tagErr_enc_e7 != nil {
+			return nil, fmt.Errorf("encoding e7: %w", tagErr_enc_e7)
+		}
+		enc_e7 = retagged_enc_e7
+		children = append(children, enc_e7...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ChargingInformation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ChargingInformation from BER/DER format.
 func (v *ChargingInformation) UnmarshalBER(data []byte) error {
+	*v = ChargingInformation{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ChargingInformation SEQUENCE: %w", err)
@@ -1962,9 +2325,12 @@ func (v *ChargingInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_e1, rawVal_e1, err := ber.DecodeTLV(content[offset:])
+				decodedTag_e1, n_e1, rawVal_e1, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding e1: %w", err)
+				}
+				if decodedTag_e1.Class != tag.ClassContextSpecific || decodedTag_e1.Number != 1 || decodedTag_e1.Constructed != false {
+					return fmt.Errorf("decoding e1: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_e1)
 				}
 				decVal_e1, intErr := ber.DecodeIntegerValue(rawVal_e1)
 				if intErr != nil {
@@ -1981,9 +2347,12 @@ func (v *ChargingInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_e2, rawVal_e2, err := ber.DecodeTLV(content[offset:])
+				decodedTag_e2, n_e2, rawVal_e2, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding e2: %w", err)
+				}
+				if decodedTag_e2.Class != tag.ClassContextSpecific || decodedTag_e2.Number != 2 || decodedTag_e2.Constructed != false {
+					return fmt.Errorf("decoding e2: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_e2)
 				}
 				decVal_e2, intErr := ber.DecodeIntegerValue(rawVal_e2)
 				if intErr != nil {
@@ -2000,9 +2369,12 @@ func (v *ChargingInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_e3, rawVal_e3, err := ber.DecodeTLV(content[offset:])
+				decodedTag_e3, n_e3, rawVal_e3, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding e3: %w", err)
+				}
+				if decodedTag_e3.Class != tag.ClassContextSpecific || decodedTag_e3.Number != 3 || decodedTag_e3.Constructed != false {
+					return fmt.Errorf("decoding e3: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_e3)
 				}
 				decVal_e3, intErr := ber.DecodeIntegerValue(rawVal_e3)
 				if intErr != nil {
@@ -2019,9 +2391,12 @@ func (v *ChargingInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_e4, rawVal_e4, err := ber.DecodeTLV(content[offset:])
+				decodedTag_e4, n_e4, rawVal_e4, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding e4: %w", err)
+				}
+				if decodedTag_e4.Class != tag.ClassContextSpecific || decodedTag_e4.Number != 4 || decodedTag_e4.Constructed != false {
+					return fmt.Errorf("decoding e4: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_e4)
 				}
 				decVal_e4, intErr := ber.DecodeIntegerValue(rawVal_e4)
 				if intErr != nil {
@@ -2038,9 +2413,12 @@ func (v *ChargingInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_e5, rawVal_e5, err := ber.DecodeTLV(content[offset:])
+				decodedTag_e5, n_e5, rawVal_e5, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding e5: %w", err)
+				}
+				if decodedTag_e5.Class != tag.ClassContextSpecific || decodedTag_e5.Number != 5 || decodedTag_e5.Constructed != false {
+					return fmt.Errorf("decoding e5: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_e5)
 				}
 				decVal_e5, intErr := ber.DecodeIntegerValue(rawVal_e5)
 				if intErr != nil {
@@ -2057,9 +2435,12 @@ func (v *ChargingInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_e6, rawVal_e6, err := ber.DecodeTLV(content[offset:])
+				decodedTag_e6, n_e6, rawVal_e6, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding e6: %w", err)
+				}
+				if decodedTag_e6.Class != tag.ClassContextSpecific || decodedTag_e6.Number != 6 || decodedTag_e6.Constructed != false {
+					return fmt.Errorf("decoding e6: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_e6)
 				}
 				decVal_e6, intErr := ber.DecodeIntegerValue(rawVal_e6)
 				if intErr != nil {
@@ -2076,9 +2457,12 @@ func (v *ChargingInformation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_e7, rawVal_e7, err := ber.DecodeTLV(content[offset:])
+				decodedTag_e7, n_e7, rawVal_e7, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding e7: %w", err)
+				}
+				if decodedTag_e7.Class != tag.ClassContextSpecific || decodedTag_e7.Number != 7 || decodedTag_e7.Constructed != false {
+					return fmt.Errorf("decoding e7: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_e7)
 				}
 				decVal_e7, intErr := ber.DecodeIntegerValue(rawVal_e7)
 				if intErr != nil {
@@ -2111,17 +2495,29 @@ func (v *ForwardCUGInfoArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.CugIndex != nil {
 		enc_cugindex := ber.EncodeInteger(int64(*v.CugIndex))
-		enc_cugindex = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_cugindex)
+		retagged_enc_cugindex, tagErr_enc_cugindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_cugindex)
+		if tagErr_enc_cugindex != nil {
+			return nil, fmt.Errorf("encoding cug-Index: %w", tagErr_enc_cugindex)
+		}
+		enc_cugindex = retagged_enc_cugindex
 		children = append(children, enc_cugindex...)
 	}
 	if v.SuppressPrefCUG != nil {
 		enc_suppressprefcug := ber.EncodeNull()
-		enc_suppressprefcug = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_suppressprefcug)
+		retagged_enc_suppressprefcug, tagErr_enc_suppressprefcug := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_suppressprefcug)
+		if tagErr_enc_suppressprefcug != nil {
+			return nil, fmt.Errorf("encoding suppressPrefCUG: %w", tagErr_enc_suppressprefcug)
+		}
+		enc_suppressprefcug = retagged_enc_suppressprefcug
 		children = append(children, enc_suppressprefcug...)
 	}
 	if v.SuppressOA != nil {
 		enc_suppressoa := ber.EncodeNull()
-		enc_suppressoa = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_suppressoa)
+		retagged_enc_suppressoa, tagErr_enc_suppressoa := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_suppressoa)
+		if tagErr_enc_suppressoa != nil {
+			return nil, fmt.Errorf("encoding suppressOA: %w", tagErr_enc_suppressoa)
+		}
+		enc_suppressoa = retagged_enc_suppressoa
 		children = append(children, enc_suppressoa...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -2139,17 +2535,50 @@ func (v *ForwardCUGInfoArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ForwardCUGInfoArg to DER format.
 func (v *ForwardCUGInfoArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.CugIndex != nil {
+		enc_cugindex := ber.EncodeInteger(int64(*v.CugIndex))
+		retagged_enc_cugindex, tagErr_enc_cugindex := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_cugindex)
+		if tagErr_enc_cugindex != nil {
+			return nil, fmt.Errorf("encoding cug-Index: %w", tagErr_enc_cugindex)
+		}
+		enc_cugindex = retagged_enc_cugindex
+		children = append(children, enc_cugindex...)
+	}
+	if v.SuppressPrefCUG != nil {
+		enc_suppressprefcug := ber.EncodeNull()
+		retagged_enc_suppressprefcug, tagErr_enc_suppressprefcug := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_suppressprefcug)
+		if tagErr_enc_suppressprefcug != nil {
+			return nil, fmt.Errorf("encoding suppressPrefCUG: %w", tagErr_enc_suppressprefcug)
+		}
+		enc_suppressprefcug = retagged_enc_suppressprefcug
+		children = append(children, enc_suppressprefcug...)
+	}
+	if v.SuppressOA != nil {
+		enc_suppressoa := ber.EncodeNull()
+		retagged_enc_suppressoa, tagErr_enc_suppressoa := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_suppressoa)
+		if tagErr_enc_suppressoa != nil {
+			return nil, fmt.Errorf("encoding suppressOA: %w", tagErr_enc_suppressoa)
+		}
+		enc_suppressoa = retagged_enc_suppressoa
+		children = append(children, enc_suppressoa...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ForwardCUGInfoArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ForwardCUGInfoArg from BER/DER format.
 func (v *ForwardCUGInfoArg) UnmarshalBER(data []byte) error {
+	*v = ForwardCUGInfoArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ForwardCUGInfoArg SEQUENCE: %w", err)
@@ -2163,9 +2592,12 @@ func (v *ForwardCUGInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_cugindex, rawVal_cugindex, err := ber.DecodeTLV(content[offset:])
+				decodedTag_cugindex, n_cugindex, rawVal_cugindex, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cug-Index: %w", err)
+				}
+				if decodedTag_cugindex.Class != tag.ClassContextSpecific || decodedTag_cugindex.Number != 0 || decodedTag_cugindex.Constructed != false {
+					return fmt.Errorf("decoding cug-Index: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cugindex)
 				}
 				decVal_cugindex, intErr := ber.DecodeIntegerValue(rawVal_cugindex)
 				if intErr != nil {
@@ -2182,11 +2614,16 @@ func (v *ForwardCUGInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_suppressprefcug, rawVal_suppressprefcug, err := ber.DecodeTLV(content[offset:])
+				decodedTag_suppressprefcug, n_suppressprefcug, rawVal_suppressprefcug, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding suppressPrefCUG: %w", err)
 				}
-				_ = rawVal_suppressprefcug
+				if decodedTag_suppressprefcug.Class != tag.ClassContextSpecific || decodedTag_suppressprefcug.Number != 1 || decodedTag_suppressprefcug.Constructed != false {
+					return fmt.Errorf("decoding suppressPrefCUG: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressprefcug)
+				}
+				if len(rawVal_suppressprefcug) != 0 {
+					return fmt.Errorf("decoding suppressPrefCUG: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_suppressprefcug))
+				}
 				v.SuppressPrefCUG = &struct{}{}
 				offset += n_suppressprefcug
 			}
@@ -2197,11 +2634,16 @@ func (v *ForwardCUGInfoArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_suppressoa, rawVal_suppressoa, err := ber.DecodeTLV(content[offset:])
+				decodedTag_suppressoa, n_suppressoa, rawVal_suppressoa, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding suppressOA: %w", err)
 				}
-				_ = rawVal_suppressoa
+				if decodedTag_suppressoa.Class != tag.ClassContextSpecific || decodedTag_suppressoa.Number != 2 || decodedTag_suppressoa.Constructed != false {
+					return fmt.Errorf("decoding suppressOA: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_suppressoa)
+				}
+				if len(rawVal_suppressoa) != 0 {
+					return fmt.Errorf("decoding suppressOA: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_suppressoa))
+				}
 				v.SuppressOA = &struct{}{}
 				offset += n_suppressoa
 			}
@@ -2227,7 +2669,11 @@ func (v *ForwardCUGInfoArg) UnmarshalBER(data []byte) error {
 func (v *ECTIndicator) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_ectcallstate := ber.EncodeEnumerated(int64(v.EctCallState))
-	enc_ectcallstate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ectcallstate)
+	retagged_enc_ectcallstate, tagErr_enc_ectcallstate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ectcallstate)
+	if tagErr_enc_ectcallstate != nil {
+		return nil, fmt.Errorf("encoding ect-CallState: %w", tagErr_enc_ectcallstate)
+	}
+	enc_ectcallstate = retagged_enc_ectcallstate
 	children = append(children, enc_ectcallstate...)
 	if v.Rdn != nil {
 		enc_rdn, err := v.Rdn.MarshalBER()
@@ -2252,17 +2698,38 @@ func (v *ECTIndicator) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ECTIndicator to DER format.
 func (v *ECTIndicator) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_ectcallstate := ber.EncodeEnumerated(int64(v.EctCallState))
+	retagged_enc_ectcallstate, tagErr_enc_ectcallstate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ectcallstate)
+	if tagErr_enc_ectcallstate != nil {
+		return nil, fmt.Errorf("encoding ect-CallState: %w", tagErr_enc_ectcallstate)
+	}
+	enc_ectcallstate = retagged_enc_ectcallstate
+	children = append(children, enc_ectcallstate...)
+	if v.Rdn != nil {
+		enc_rdn, err := v.Rdn.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding rdn: %w", err)
+		}
+		enc_rdn = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 1, enc_rdn)
+		children = append(children, enc_rdn...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ECTIndicator as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ECTIndicator from BER/DER format.
 func (v *ECTIndicator) UnmarshalBER(data []byte) error {
+	*v = ECTIndicator{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ECTIndicator SEQUENCE: %w", err)
@@ -2280,11 +2747,14 @@ func (v *ECTIndicator) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for ect-CallState, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_ectcallstate, rawVal_ectcallstate, err := ber.DecodeTLV(content[offset:])
+	decodedTag_ectcallstate, n_ectcallstate, rawVal_ectcallstate, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding ect-CallState: %w", err)
 	}
-	decVal_ectcallstate, intErr := ber.DecodeIntegerValue(rawVal_ectcallstate)
+	if decodedTag_ectcallstate.Class != tag.ClassContextSpecific || decodedTag_ectcallstate.Number != 0 || decodedTag_ectcallstate.Constructed != false {
+		return fmt.Errorf("decoding ect-CallState: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ectcallstate)
+	}
+	decVal_ectcallstate, intErr := ber.DecodeEnumeratedValue(rawVal_ectcallstate)
 	if intErr != nil {
 		return fmt.Errorf("decoding ect-CallState: %w", intErr)
 	}
@@ -2295,9 +2765,12 @@ func (v *ECTIndicator) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_rdn, innerData_rdn, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rdn, n_rdn, innerData_rdn, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rdn: %w", err)
+				}
+				if decodedTag_rdn.Class != tag.ClassContextSpecific || decodedTag_rdn.Number != 1 || decodedTag_rdn.Constructed != true {
+					return fmt.Errorf("decoding rdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rdn)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_rdn RDN
@@ -2351,17 +2824,31 @@ func (v *NameIndicator) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NameIndicator to DER format.
 func (v *NameIndicator) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.CallingName != nil {
+		enc_callingname, err := v.CallingName.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding callingName: %w", err)
+		}
+		enc_callingname = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_callingname)
+		children = append(children, enc_callingname...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NameIndicator as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NameIndicator from BER/DER format.
 func (v *NameIndicator) UnmarshalBER(data []byte) error {
+	*v = NameIndicator{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NameIndicator SEQUENCE: %w", err)
@@ -2375,9 +2862,12 @@ func (v *NameIndicator) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_callingname, innerData_callingname, err := ber.DecodeTLV(content[offset:])
+				decodedTag_callingname, n_callingname, innerData_callingname, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding callingName: %w", err)
+				}
+				if decodedTag_callingname.Class != tag.ClassContextSpecific || decodedTag_callingname.Number != 0 || decodedTag_callingname.Constructed != true {
+					return fmt.Errorf("decoding callingName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_callingname)
 				}
 				// Decode inner value from explicit tag wrapper
 				var dec_callingname Name
@@ -2416,15 +2906,27 @@ func (v *Name) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding namePresentationAllowed: %w", err)
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding namePresentationAllowed: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case NameChoicePresentationRestricted:
 		enc_1 := ber.EncodeNull()
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding presentationRestricted: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case NameChoiceNameUnavailable:
 		enc_2 := ber.EncodeNull()
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding nameUnavailable: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case NameChoiceNamePresentationRestricted:
 		if v.NamePresentationRestricted == nil {
@@ -2434,7 +2936,11 @@ func (v *Name) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding namePresentationRestricted: %w", err)
 		}
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding namePresentationRestricted: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Name", v.Choice)
@@ -2452,7 +2958,14 @@ func (v *Name) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding namePresentationAllowed: %w", err)
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding namePresentationAllowed: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding namePresentationAllowed as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case NameChoiceNamePresentationRestricted:
 		if v.NamePresentationRestricted == nil {
@@ -2462,14 +2975,29 @@ func (v *Name) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding namePresentationRestricted: %w", err)
 		}
-		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_3)
+		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_3)
+		if tagErr_enc_der_3 != nil {
+			return nil, fmt.Errorf("encoding namePresentationRestricted: %w", tagErr_enc_der_3)
+		}
+		enc_der_3 = retagged_enc_der_3
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding namePresentationRestricted as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Name as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Name from BER/DER format.
 func (v *Name) UnmarshalBER(data []byte) error {
+	*v = Name{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Name CHOICE")
 	}
@@ -2487,7 +3015,7 @@ func (v *Name) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "Name", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = NameChoiceNamePresentationAllowed
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -2499,23 +3027,27 @@ func (v *Name) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding namePresentationAllowed: %w", unmErr)
 		}
 		v.NamePresentationAllowed = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = NameChoicePresentationRestricted
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding presentationRestricted: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding presentationRestricted: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.PresentationRestricted = &struct{}{}
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = NameChoiceNameUnavailable
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding nameUnavailable: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding nameUnavailable: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.NameUnavailable = &struct{}{}
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = NameChoiceNamePresentationRestricted
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -2537,16 +3069,28 @@ func (v *Name) UnmarshalBER(data []byte) error {
 func (v *NameSet) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
-	enc_datacodingscheme = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_datacodingscheme)
+	retagged_enc_datacodingscheme, tagErr_enc_datacodingscheme := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_datacodingscheme)
+	if tagErr_enc_datacodingscheme != nil {
+		return nil, fmt.Errorf("encoding dataCodingScheme: %w", tagErr_enc_datacodingscheme)
+	}
+	enc_datacodingscheme = retagged_enc_datacodingscheme
 	children = append(children, enc_datacodingscheme...)
 	if v.LengthInCharacters == nil {
 		return nil, fmt.Errorf("encoding lengthInCharacters: required INTEGER is nil")
 	}
 	enc_lengthincharacters := ber.EncodeBigInt(v.LengthInCharacters)
-	enc_lengthincharacters = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_lengthincharacters)
+	retagged_enc_lengthincharacters, tagErr_enc_lengthincharacters := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_lengthincharacters)
+	if tagErr_enc_lengthincharacters != nil {
+		return nil, fmt.Errorf("encoding lengthInCharacters: %w", tagErr_enc_lengthincharacters)
+	}
+	enc_lengthincharacters = retagged_enc_lengthincharacters
 	children = append(children, enc_lengthincharacters...)
 	enc_namestring := ber.EncodeOctetString([]byte(v.NameString))
-	enc_namestring = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_namestring)
+	retagged_enc_namestring, tagErr_enc_namestring := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_namestring)
+	if tagErr_enc_namestring != nil {
+		return nil, fmt.Errorf("encoding nameString: %w", tagErr_enc_namestring)
+	}
+	enc_namestring = retagged_enc_namestring
 	children = append(children, enc_namestring...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -2563,17 +3107,47 @@ func (v *NameSet) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes NameSet to DER format.
 func (v *NameSet) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_datacodingscheme := ber.EncodeOctetString([]byte(v.DataCodingScheme))
+	retagged_enc_datacodingscheme, tagErr_enc_datacodingscheme := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_datacodingscheme)
+	if tagErr_enc_datacodingscheme != nil {
+		return nil, fmt.Errorf("encoding dataCodingScheme: %w", tagErr_enc_datacodingscheme)
+	}
+	enc_datacodingscheme = retagged_enc_datacodingscheme
+	children = append(children, enc_datacodingscheme...)
+	if v.LengthInCharacters == nil {
+		return nil, fmt.Errorf("encoding lengthInCharacters: required INTEGER is nil")
+	}
+	enc_lengthincharacters := ber.EncodeBigInt(v.LengthInCharacters)
+	retagged_enc_lengthincharacters, tagErr_enc_lengthincharacters := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_lengthincharacters)
+	if tagErr_enc_lengthincharacters != nil {
+		return nil, fmt.Errorf("encoding lengthInCharacters: %w", tagErr_enc_lengthincharacters)
+	}
+	enc_lengthincharacters = retagged_enc_lengthincharacters
+	children = append(children, enc_lengthincharacters...)
+	enc_namestring := ber.EncodeOctetString([]byte(v.NameString))
+	retagged_enc_namestring, tagErr_enc_namestring := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_namestring)
+	if tagErr_enc_namestring != nil {
+		return nil, fmt.Errorf("encoding nameString: %w", tagErr_enc_namestring)
+	}
+	enc_namestring = retagged_enc_namestring
+	children = append(children, enc_namestring...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NameSet as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes NameSet from BER/DER format.
 func (v *NameSet) UnmarshalBER(data []byte) error {
+	*v = NameSet{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding NameSet SEQUENCE: %w", err)
@@ -2591,9 +3165,12 @@ func (v *NameSet) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for dataCodingScheme, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_datacodingscheme, rawVal_datacodingscheme, err := ber.DecodeTLV(content[offset:])
+	decodedTag_datacodingscheme, n_datacodingscheme, rawVal_datacodingscheme, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding dataCodingScheme: %w", err)
+	}
+	if decodedTag_datacodingscheme.Class != tag.ClassContextSpecific || decodedTag_datacodingscheme.Number != 0 {
+		return fmt.Errorf("decoding dataCodingScheme: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_datacodingscheme)
 	}
 	v.DataCodingScheme = USSDDataCodingScheme(rawVal_datacodingscheme)
 	offset += n_datacodingscheme
@@ -2606,9 +3183,12 @@ func (v *NameSet) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for lengthInCharacters, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_lengthincharacters, rawVal_lengthincharacters, err := ber.DecodeTLV(content[offset:])
+	decodedTag_lengthincharacters, n_lengthincharacters, rawVal_lengthincharacters, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding lengthInCharacters: %w", err)
+	}
+	if decodedTag_lengthincharacters.Class != tag.ClassContextSpecific || decodedTag_lengthincharacters.Number != 1 || decodedTag_lengthincharacters.Constructed != false {
+		return fmt.Errorf("decoding lengthInCharacters: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lengthincharacters)
 	}
 	decVal_lengthincharacters, intErr := ber.DecodeBigIntValue(rawVal_lengthincharacters)
 	if intErr != nil {
@@ -2625,9 +3205,12 @@ func (v *NameSet) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for nameString, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_namestring, rawVal_namestring, err := ber.DecodeTLV(content[offset:])
+	decodedTag_namestring, n_namestring, rawVal_namestring, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding nameString: %w", err)
+	}
+	if decodedTag_namestring.Class != tag.ClassContextSpecific || decodedTag_namestring.Number != 2 {
+		return fmt.Errorf("decoding nameString: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_namestring)
 	}
 	v.NameString = USSDString(rawVal_namestring)
 	offset += n_namestring
@@ -2658,15 +3241,27 @@ func (v *RDN) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding presentationAllowedAddress: %w", err)
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding presentationAllowedAddress: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case RDNChoicePresentationRestricted:
 		enc_1 := ber.EncodeNull()
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding presentationRestricted: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case RDNChoiceNumberNotAvailableDueToInterworking:
 		enc_2 := ber.EncodeNull()
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding numberNotAvailableDueToInterworking: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case RDNChoicePresentationRestrictedAddress:
 		if v.PresentationRestrictedAddress == nil {
@@ -2676,7 +3271,11 @@ func (v *RDN) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding presentationRestrictedAddress: %w", err)
 		}
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding presentationRestrictedAddress: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for RDN", v.Choice)
@@ -2694,7 +3293,14 @@ func (v *RDN) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding presentationAllowedAddress: %w", err)
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding presentationAllowedAddress: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding presentationAllowedAddress as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case RDNChoicePresentationRestrictedAddress:
 		if v.PresentationRestrictedAddress == nil {
@@ -2704,14 +3310,29 @@ func (v *RDN) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding presentationRestrictedAddress: %w", err)
 		}
-		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_der_3)
+		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_der_3)
+		if tagErr_enc_der_3 != nil {
+			return nil, fmt.Errorf("encoding presentationRestrictedAddress: %w", tagErr_enc_der_3)
+		}
+		enc_der_3 = retagged_enc_der_3
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding presentationRestrictedAddress as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RDN as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RDN from BER/DER format.
 func (v *RDN) UnmarshalBER(data []byte) error {
+	*v = RDN{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for RDN CHOICE")
 	}
@@ -2729,7 +3350,7 @@ func (v *RDN) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "RDN", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == true {
 		v.Choice = RDNChoicePresentationAllowedAddress
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -2741,23 +3362,27 @@ func (v *RDN) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding presentationAllowedAddress: %w", unmErr)
 		}
 		v.PresentationAllowedAddress = &dec
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = RDNChoicePresentationRestricted
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding presentationRestricted: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding presentationRestricted: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.PresentationRestricted = &struct{}{}
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = RDNChoiceNumberNotAvailableDueToInterworking
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding numberNotAvailableDueToInterworking: %w", tlvErr)
 		}
-		_ = rawVal // NULL has no content
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding numberNotAvailableDueToInterworking: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
 		v.NumberNotAvailableDueToInterworking = &struct{}{}
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == true {
 		v.Choice = RDNChoicePresentationRestrictedAddress
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -2779,11 +3404,19 @@ func (v *RDN) UnmarshalBER(data []byte) error {
 func (v *RemotePartyNumber) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_partynumber := ber.EncodeOctetString([]byte(v.PartyNumber))
-	enc_partynumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_partynumber)
+	retagged_enc_partynumber, tagErr_enc_partynumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_partynumber)
+	if tagErr_enc_partynumber != nil {
+		return nil, fmt.Errorf("encoding partyNumber: %w", tagErr_enc_partynumber)
+	}
+	enc_partynumber = retagged_enc_partynumber
 	children = append(children, enc_partynumber...)
 	if v.PartyNumberSubaddress != nil {
 		enc_partynumbersubaddress := ber.EncodeOctetString([]byte(*v.PartyNumberSubaddress))
-		enc_partynumbersubaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_partynumbersubaddress)
+		retagged_enc_partynumbersubaddress, tagErr_enc_partynumbersubaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_partynumbersubaddress)
+		if tagErr_enc_partynumbersubaddress != nil {
+			return nil, fmt.Errorf("encoding partyNumberSubaddress: %w", tagErr_enc_partynumbersubaddress)
+		}
+		enc_partynumbersubaddress = retagged_enc_partynumbersubaddress
 		children = append(children, enc_partynumbersubaddress...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -2801,17 +3434,39 @@ func (v *RemotePartyNumber) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RemotePartyNumber to DER format.
 func (v *RemotePartyNumber) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_partynumber := ber.EncodeOctetString([]byte(v.PartyNumber))
+	retagged_enc_partynumber, tagErr_enc_partynumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_partynumber)
+	if tagErr_enc_partynumber != nil {
+		return nil, fmt.Errorf("encoding partyNumber: %w", tagErr_enc_partynumber)
+	}
+	enc_partynumber = retagged_enc_partynumber
+	children = append(children, enc_partynumber...)
+	if v.PartyNumberSubaddress != nil {
+		enc_partynumbersubaddress := ber.EncodeOctetString([]byte(*v.PartyNumberSubaddress))
+		retagged_enc_partynumbersubaddress, tagErr_enc_partynumbersubaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_partynumbersubaddress)
+		if tagErr_enc_partynumbersubaddress != nil {
+			return nil, fmt.Errorf("encoding partyNumberSubaddress: %w", tagErr_enc_partynumbersubaddress)
+		}
+		enc_partynumbersubaddress = retagged_enc_partynumbersubaddress
+		children = append(children, enc_partynumbersubaddress...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RemotePartyNumber as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RemotePartyNumber from BER/DER format.
 func (v *RemotePartyNumber) UnmarshalBER(data []byte) error {
+	*v = RemotePartyNumber{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RemotePartyNumber SEQUENCE: %w", err)
@@ -2829,9 +3484,12 @@ func (v *RemotePartyNumber) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for partyNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_partynumber, rawVal_partynumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_partynumber, n_partynumber, rawVal_partynumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding partyNumber: %w", err)
+	}
+	if decodedTag_partynumber.Class != tag.ClassContextSpecific || decodedTag_partynumber.Number != 0 {
+		return fmt.Errorf("decoding partyNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_partynumber)
 	}
 	v.PartyNumber = ISDNAddressString(rawVal_partynumber)
 	offset += n_partynumber
@@ -2840,9 +3498,12 @@ func (v *RemotePartyNumber) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_partynumbersubaddress, rawVal_partynumbersubaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_partynumbersubaddress, n_partynumbersubaddress, rawVal_partynumbersubaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding partyNumberSubaddress: %w", err)
+				}
+				if decodedTag_partynumbersubaddress.Class != tag.ClassContextSpecific || decodedTag_partynumbersubaddress.Number != 1 {
+					return fmt.Errorf("decoding partyNumberSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_partynumbersubaddress)
 				}
 				tmp_partynumbersubaddress := ISDNSubaddressString(rawVal_partynumbersubaddress)
 				v.PartyNumberSubaddress = &tmp_partynumbersubaddress
@@ -2884,17 +3545,23 @@ func (v *AccessRegisterCCEntryArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AccessRegisterCCEntryArg to DER format.
 func (v *AccessRegisterCCEntryArg) MarshalDER() ([]byte, error) {
+	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AccessRegisterCCEntryArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AccessRegisterCCEntryArg from BER/DER format.
 func (v *AccessRegisterCCEntryArg) UnmarshalBER(data []byte) error {
+	*v = AccessRegisterCCEntryArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AccessRegisterCCEntryArg SEQUENCE: %w", err)
@@ -2923,11 +3590,19 @@ func (v *AccessRegisterCCEntryArg) UnmarshalBER(data []byte) error {
 func (v *CallDeflectionArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_deflectedtonumber := ber.EncodeOctetString([]byte(v.DeflectedToNumber))
-	enc_deflectedtonumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_deflectedtonumber)
+	retagged_enc_deflectedtonumber, tagErr_enc_deflectedtonumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_deflectedtonumber)
+	if tagErr_enc_deflectedtonumber != nil {
+		return nil, fmt.Errorf("encoding deflectedToNumber: %w", tagErr_enc_deflectedtonumber)
+	}
+	enc_deflectedtonumber = retagged_enc_deflectedtonumber
 	children = append(children, enc_deflectedtonumber...)
 	if v.DeflectedToSubaddress != nil {
 		enc_deflectedtosubaddress := ber.EncodeOctetString([]byte(*v.DeflectedToSubaddress))
-		enc_deflectedtosubaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_deflectedtosubaddress)
+		retagged_enc_deflectedtosubaddress, tagErr_enc_deflectedtosubaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_deflectedtosubaddress)
+		if tagErr_enc_deflectedtosubaddress != nil {
+			return nil, fmt.Errorf("encoding deflectedToSubaddress: %w", tagErr_enc_deflectedtosubaddress)
+		}
+		enc_deflectedtosubaddress = retagged_enc_deflectedtosubaddress
 		children = append(children, enc_deflectedtosubaddress...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -2945,17 +3620,39 @@ func (v *CallDeflectionArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes CallDeflectionArg to DER format.
 func (v *CallDeflectionArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_deflectedtonumber := ber.EncodeOctetString([]byte(v.DeflectedToNumber))
+	retagged_enc_deflectedtonumber, tagErr_enc_deflectedtonumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_deflectedtonumber)
+	if tagErr_enc_deflectedtonumber != nil {
+		return nil, fmt.Errorf("encoding deflectedToNumber: %w", tagErr_enc_deflectedtonumber)
+	}
+	enc_deflectedtonumber = retagged_enc_deflectedtonumber
+	children = append(children, enc_deflectedtonumber...)
+	if v.DeflectedToSubaddress != nil {
+		enc_deflectedtosubaddress := ber.EncodeOctetString([]byte(*v.DeflectedToSubaddress))
+		retagged_enc_deflectedtosubaddress, tagErr_enc_deflectedtosubaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_deflectedtosubaddress)
+		if tagErr_enc_deflectedtosubaddress != nil {
+			return nil, fmt.Errorf("encoding deflectedToSubaddress: %w", tagErr_enc_deflectedtosubaddress)
+		}
+		enc_deflectedtosubaddress = retagged_enc_deflectedtosubaddress
+		children = append(children, enc_deflectedtosubaddress...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding CallDeflectionArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes CallDeflectionArg from BER/DER format.
 func (v *CallDeflectionArg) UnmarshalBER(data []byte) error {
+	*v = CallDeflectionArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding CallDeflectionArg SEQUENCE: %w", err)
@@ -2973,9 +3670,12 @@ func (v *CallDeflectionArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for deflectedToNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_deflectedtonumber, rawVal_deflectedtonumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_deflectedtonumber, n_deflectedtonumber, rawVal_deflectedtonumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding deflectedToNumber: %w", err)
+	}
+	if decodedTag_deflectedtonumber.Class != tag.ClassContextSpecific || decodedTag_deflectedtonumber.Number != 0 {
+		return fmt.Errorf("decoding deflectedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deflectedtonumber)
 	}
 	v.DeflectedToNumber = AddressString(rawVal_deflectedtonumber)
 	offset += n_deflectedtonumber
@@ -2984,9 +3684,12 @@ func (v *CallDeflectionArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_deflectedtosubaddress, rawVal_deflectedtosubaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_deflectedtosubaddress, n_deflectedtosubaddress, rawVal_deflectedtosubaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deflectedToSubaddress: %w", err)
+				}
+				if decodedTag_deflectedtosubaddress.Class != tag.ClassContextSpecific || decodedTag_deflectedtosubaddress.Number != 1 {
+					return fmt.Errorf("decoding deflectedToSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deflectedtosubaddress)
 				}
 				tmp_deflectedtosubaddress := ISDNSubaddressString(rawVal_deflectedtosubaddress)
 				v.DeflectedToSubaddress = &tmp_deflectedtosubaddress
@@ -3014,7 +3717,11 @@ func (v *CallDeflectionArg) UnmarshalBER(data []byte) error {
 func (v *UserUserServiceArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_uusservice := ber.EncodeEnumerated(int64(v.UUSService))
-	enc_uusservice = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_uusservice)
+	retagged_enc_uusservice, tagErr_enc_uusservice := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_uusservice)
+	if tagErr_enc_uusservice != nil {
+		return nil, fmt.Errorf("encoding uUS-Service: %w", tagErr_enc_uusservice)
+	}
+	enc_uusservice = retagged_enc_uusservice
 	children = append(children, enc_uusservice...)
 	var enc_uusrequired []byte
 	if v.UUSRequiredRaw_ != 0 {
@@ -3022,7 +3729,11 @@ func (v *UserUserServiceArg) MarshalBER() ([]byte, error) {
 	} else {
 		enc_uusrequired = ber.EncodeBoolean(v.UUSRequired)
 	}
-	enc_uusrequired = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_uusrequired)
+	retagged_enc_uusrequired, tagErr_enc_uusrequired := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uusrequired)
+	if tagErr_enc_uusrequired != nil {
+		return nil, fmt.Errorf("encoding uUS-Required: %w", tagErr_enc_uusrequired)
+	}
+	enc_uusrequired = retagged_enc_uusrequired
 	children = append(children, enc_uusrequired...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -3039,17 +3750,37 @@ func (v *UserUserServiceArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes UserUserServiceArg to DER format.
 func (v *UserUserServiceArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_uusservice := ber.EncodeEnumerated(int64(v.UUSService))
+	retagged_enc_uusservice, tagErr_enc_uusservice := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_uusservice)
+	if tagErr_enc_uusservice != nil {
+		return nil, fmt.Errorf("encoding uUS-Service: %w", tagErr_enc_uusservice)
+	}
+	enc_uusservice = retagged_enc_uusservice
+	children = append(children, enc_uusservice...)
+	enc_uusrequired := ber.EncodeBoolean(v.UUSRequired)
+	retagged_enc_uusrequired, tagErr_enc_uusrequired := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uusrequired)
+	if tagErr_enc_uusrequired != nil {
+		return nil, fmt.Errorf("encoding uUS-Required: %w", tagErr_enc_uusrequired)
+	}
+	enc_uusrequired = retagged_enc_uusrequired
+	children = append(children, enc_uusrequired...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding UserUserServiceArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes UserUserServiceArg from BER/DER format.
 func (v *UserUserServiceArg) UnmarshalBER(data []byte) error {
+	*v = UserUserServiceArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding UserUserServiceArg SEQUENCE: %w", err)
@@ -3067,11 +3798,14 @@ func (v *UserUserServiceArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for uUS-Service, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_uusservice, rawVal_uusservice, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uusservice, n_uusservice, rawVal_uusservice, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uUS-Service: %w", err)
 	}
-	decVal_uusservice, intErr := ber.DecodeIntegerValue(rawVal_uusservice)
+	if decodedTag_uusservice.Class != tag.ClassContextSpecific || decodedTag_uusservice.Number != 0 || decodedTag_uusservice.Constructed != false {
+		return fmt.Errorf("decoding uUS-Service: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uusservice)
+	}
+	decVal_uusservice, intErr := ber.DecodeEnumeratedValue(rawVal_uusservice)
 	if intErr != nil {
 		return fmt.Errorf("decoding uUS-Service: %w", intErr)
 	}
@@ -3086,9 +3820,12 @@ func (v *UserUserServiceArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for uUS-Required, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_uusrequired, rawVal_uusrequired, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uusrequired, n_uusrequired, rawVal_uusrequired, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uUS-Required: %w", err)
+	}
+	if decodedTag_uusrequired.Class != tag.ClassContextSpecific || decodedTag_uusrequired.Number != 1 || decodedTag_uusrequired.Constructed != false {
+		return fmt.Errorf("decoding uUS-Required: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uusrequired)
 	}
 	decVal_uusrequired, boolErr := ber.DecodeBooleanValue(rawVal_uusrequired)
 	if boolErr != nil {
@@ -3119,20 +3856,32 @@ func (v *UserUserServiceArg) UnmarshalBER(data []byte) error {
 func (v *LocationNotificationArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_notificationtype := ber.EncodeEnumerated(int64(v.NotificationType))
-	enc_notificationtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_notificationtype)
+	retagged_enc_notificationtype, tagErr_enc_notificationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_notificationtype)
+	if tagErr_enc_notificationtype != nil {
+		return nil, fmt.Errorf("encoding notificationType: %w", tagErr_enc_notificationtype)
+	}
+	enc_notificationtype = retagged_enc_notificationtype
 	children = append(children, enc_notificationtype...)
 	enc_locationtype, err := v.LocationType.MarshalBER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding locationType: %w", err)
 	}
-	enc_locationtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_locationtype)
+	retagged_enc_locationtype, tagErr_enc_locationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_locationtype)
+	if tagErr_enc_locationtype != nil {
+		return nil, fmt.Errorf("encoding locationType: %w", tagErr_enc_locationtype)
+	}
+	enc_locationtype = retagged_enc_locationtype
 	children = append(children, enc_locationtype...)
 	if v.LcsClientExternalID != nil {
 		enc_lcsclientexternalid, err := v.LcsClientExternalID.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
 		}
-		enc_lcsclientexternalid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_lcsclientexternalid)
+		retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsclientexternalid)
+		if tagErr_enc_lcsclientexternalid != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+		}
+		enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
 		children = append(children, enc_lcsclientexternalid...)
 	}
 	if v.LcsClientName != nil {
@@ -3140,7 +3889,11 @@ func (v *LocationNotificationArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcsClientName: %w", err)
 		}
-		enc_lcsclientname = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_lcsclientname)
+		retagged_enc_lcsclientname, tagErr_enc_lcsclientname := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_lcsclientname)
+		if tagErr_enc_lcsclientname != nil {
+			return nil, fmt.Errorf("encoding lcsClientName: %w", tagErr_enc_lcsclientname)
+		}
+		enc_lcsclientname = retagged_enc_lcsclientname
 		children = append(children, enc_lcsclientname...)
 	}
 	if v.LcsRequestorID != nil {
@@ -3148,7 +3901,11 @@ func (v *LocationNotificationArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcsRequestorID: %w", err)
 		}
-		enc_lcsrequestorid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_lcsrequestorid)
+		retagged_enc_lcsrequestorid, tagErr_enc_lcsrequestorid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_lcsrequestorid)
+		if tagErr_enc_lcsrequestorid != nil {
+			return nil, fmt.Errorf("encoding lcsRequestorID: %w", tagErr_enc_lcsrequestorid)
+		}
+		enc_lcsrequestorid = retagged_enc_lcsrequestorid
 		children = append(children, enc_lcsrequestorid...)
 	}
 	if v.LcsCodeword != nil {
@@ -3156,22 +3913,38 @@ func (v *LocationNotificationArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcsCodeword: %w", err)
 		}
-		enc_lcscodeword = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_lcscodeword)
+		retagged_enc_lcscodeword, tagErr_enc_lcscodeword := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcscodeword)
+		if tagErr_enc_lcscodeword != nil {
+			return nil, fmt.Errorf("encoding lcsCodeword: %w", tagErr_enc_lcscodeword)
+		}
+		enc_lcscodeword = retagged_enc_lcscodeword
 		children = append(children, enc_lcscodeword...)
 	}
 	if v.LcsServiceTypeID != nil {
 		enc_lcsservicetypeid := ber.EncodeInteger(int64(*v.LcsServiceTypeID))
-		enc_lcsservicetypeid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_lcsservicetypeid)
+		retagged_enc_lcsservicetypeid, tagErr_enc_lcsservicetypeid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_lcsservicetypeid)
+		if tagErr_enc_lcsservicetypeid != nil {
+			return nil, fmt.Errorf("encoding lcsServiceTypeID: %w", tagErr_enc_lcsservicetypeid)
+		}
+		enc_lcsservicetypeid = retagged_enc_lcsservicetypeid
 		children = append(children, enc_lcsservicetypeid...)
 	}
 	if v.DeferredLocationExt != nil {
 		enc_deferredlocationext := ber.EncodeBitString(v.DeferredLocationExt.Bytes, (8-(v.DeferredLocationExt.BitLength%8))%8)
-		enc_deferredlocationext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_deferredlocationext)
+		retagged_enc_deferredlocationext, tagErr_enc_deferredlocationext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_deferredlocationext)
+		if tagErr_enc_deferredlocationext != nil {
+			return nil, fmt.Errorf("encoding deferredLocationExt: %w", tagErr_enc_deferredlocationext)
+		}
+		enc_deferredlocationext = retagged_enc_deferredlocationext
 		children = append(children, enc_deferredlocationext...)
 	}
 	if v.RangingSlExt != nil {
 		enc_rangingslext := ber.EncodeBitString(v.RangingSlExt.Bytes, (8-(v.RangingSlExt.BitLength%8))%8)
-		enc_rangingslext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_rangingslext)
+		retagged_enc_rangingslext, tagErr_enc_rangingslext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_rangingslext)
+		if tagErr_enc_rangingslext != nil {
+			return nil, fmt.Errorf("encoding rangingSlExt: %w", tagErr_enc_rangingslext)
+		}
+		enc_rangingslext = retagged_enc_rangingslext
 		children = append(children, enc_rangingslext...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -3189,17 +3962,115 @@ func (v *LocationNotificationArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LocationNotificationArg to DER format.
 func (v *LocationNotificationArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_notificationtype := ber.EncodeEnumerated(int64(v.NotificationType))
+	retagged_enc_notificationtype, tagErr_enc_notificationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_notificationtype)
+	if tagErr_enc_notificationtype != nil {
+		return nil, fmt.Errorf("encoding notificationType: %w", tagErr_enc_notificationtype)
+	}
+	enc_notificationtype = retagged_enc_notificationtype
+	children = append(children, enc_notificationtype...)
+	enc_locationtype, err := v.LocationType.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding locationType: %w", err)
+	}
+	retagged_enc_locationtype, tagErr_enc_locationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_locationtype)
+	if tagErr_enc_locationtype != nil {
+		return nil, fmt.Errorf("encoding locationType: %w", tagErr_enc_locationtype)
+	}
+	enc_locationtype = retagged_enc_locationtype
+	children = append(children, enc_locationtype...)
+	if v.LcsClientExternalID != nil {
+		enc_lcsclientexternalid, err := v.LcsClientExternalID.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
+		}
+		retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsclientexternalid)
+		if tagErr_enc_lcsclientexternalid != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+		}
+		enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
+		children = append(children, enc_lcsclientexternalid...)
+	}
+	if v.LcsClientName != nil {
+		enc_lcsclientname, err := v.LcsClientName.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcsClientName: %w", err)
+		}
+		retagged_enc_lcsclientname, tagErr_enc_lcsclientname := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_lcsclientname)
+		if tagErr_enc_lcsclientname != nil {
+			return nil, fmt.Errorf("encoding lcsClientName: %w", tagErr_enc_lcsclientname)
+		}
+		enc_lcsclientname = retagged_enc_lcsclientname
+		children = append(children, enc_lcsclientname...)
+	}
+	if v.LcsRequestorID != nil {
+		enc_lcsrequestorid, err := v.LcsRequestorID.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcsRequestorID: %w", err)
+		}
+		retagged_enc_lcsrequestorid, tagErr_enc_lcsrequestorid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_lcsrequestorid)
+		if tagErr_enc_lcsrequestorid != nil {
+			return nil, fmt.Errorf("encoding lcsRequestorID: %w", tagErr_enc_lcsrequestorid)
+		}
+		enc_lcsrequestorid = retagged_enc_lcsrequestorid
+		children = append(children, enc_lcsrequestorid...)
+	}
+	if v.LcsCodeword != nil {
+		enc_lcscodeword, err := v.LcsCodeword.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcsCodeword: %w", err)
+		}
+		retagged_enc_lcscodeword, tagErr_enc_lcscodeword := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcscodeword)
+		if tagErr_enc_lcscodeword != nil {
+			return nil, fmt.Errorf("encoding lcsCodeword: %w", tagErr_enc_lcscodeword)
+		}
+		enc_lcscodeword = retagged_enc_lcscodeword
+		children = append(children, enc_lcscodeword...)
+	}
+	if v.LcsServiceTypeID != nil {
+		enc_lcsservicetypeid := ber.EncodeInteger(int64(*v.LcsServiceTypeID))
+		retagged_enc_lcsservicetypeid, tagErr_enc_lcsservicetypeid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_lcsservicetypeid)
+		if tagErr_enc_lcsservicetypeid != nil {
+			return nil, fmt.Errorf("encoding lcsServiceTypeID: %w", tagErr_enc_lcsservicetypeid)
+		}
+		enc_lcsservicetypeid = retagged_enc_lcsservicetypeid
+		children = append(children, enc_lcsservicetypeid...)
+	}
+	if v.DeferredLocationExt != nil {
+		enc_deferredlocationext := ber.EncodeBitString(v.DeferredLocationExt.Bytes, (8-(v.DeferredLocationExt.BitLength%8))%8)
+		retagged_enc_deferredlocationext, tagErr_enc_deferredlocationext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_deferredlocationext)
+		if tagErr_enc_deferredlocationext != nil {
+			return nil, fmt.Errorf("encoding deferredLocationExt: %w", tagErr_enc_deferredlocationext)
+		}
+		enc_deferredlocationext = retagged_enc_deferredlocationext
+		children = append(children, enc_deferredlocationext...)
+	}
+	if v.RangingSlExt != nil {
+		enc_rangingslext := ber.EncodeBitString(v.RangingSlExt.Bytes, (8-(v.RangingSlExt.BitLength%8))%8)
+		retagged_enc_rangingslext, tagErr_enc_rangingslext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_rangingslext)
+		if tagErr_enc_rangingslext != nil {
+			return nil, fmt.Errorf("encoding rangingSlExt: %w", tagErr_enc_rangingslext)
+		}
+		enc_rangingslext = retagged_enc_rangingslext
+		children = append(children, enc_rangingslext...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LocationNotificationArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LocationNotificationArg from BER/DER format.
 func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
+	*v = LocationNotificationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LocationNotificationArg SEQUENCE: %w", err)
@@ -3217,11 +4088,14 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for notificationType, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_notificationtype, rawVal_notificationtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_notificationtype, n_notificationtype, rawVal_notificationtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding notificationType: %w", err)
 	}
-	decVal_notificationtype, intErr := ber.DecodeIntegerValue(rawVal_notificationtype)
+	if decodedTag_notificationtype.Class != tag.ClassContextSpecific || decodedTag_notificationtype.Number != 0 || decodedTag_notificationtype.Constructed != false {
+		return fmt.Errorf("decoding notificationType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_notificationtype)
+	}
+	decVal_notificationtype, intErr := ber.DecodeEnumeratedValue(rawVal_notificationtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding notificationType: %w", intErr)
 	}
@@ -3236,9 +4110,12 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for locationType, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_locationtype, rawVal_locationtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_locationtype, n_locationtype, rawVal_locationtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding locationType: %w", err)
+	}
+	if decodedTag_locationtype.Class != tag.ClassContextSpecific || decodedTag_locationtype.Number != 1 || decodedTag_locationtype.Constructed != true {
+		return fmt.Errorf("decoding locationType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationtype)
 	}
 	reconstructed_locationtype := ber.EncodeSequence(rawVal_locationtype)
 	if unmErr := v.LocationType.UnmarshalBER(reconstructed_locationtype); unmErr != nil {
@@ -3250,9 +4127,12 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsclientexternalid, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsClientExternalID: %w", err)
+				}
+				if decodedTag_lcsclientexternalid.Class != tag.ClassContextSpecific || decodedTag_lcsclientexternalid.Number != 2 || decodedTag_lcsclientexternalid.Constructed != true {
+					return fmt.Errorf("decoding lcsClientExternalID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientexternalid)
 				}
 				reconstructed_lcsclientexternalid := ber.EncodeSequence(rawVal_lcsclientexternalid)
 				var dec_lcsclientexternalid LCSClientExternalID
@@ -3269,9 +4149,12 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_lcsclientname, rawVal_lcsclientname, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsclientname, n_lcsclientname, rawVal_lcsclientname, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsClientName: %w", err)
+				}
+				if decodedTag_lcsclientname.Class != tag.ClassContextSpecific || decodedTag_lcsclientname.Number != 3 || decodedTag_lcsclientname.Constructed != true {
+					return fmt.Errorf("decoding lcsClientName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientname)
 				}
 				reconstructed_lcsclientname := ber.EncodeSequence(rawVal_lcsclientname)
 				var dec_lcsclientname LCSClientName
@@ -3288,9 +4171,12 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_lcsrequestorid, rawVal_lcsrequestorid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsrequestorid, n_lcsrequestorid, rawVal_lcsrequestorid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsRequestorID: %w", err)
+				}
+				if decodedTag_lcsrequestorid.Class != tag.ClassContextSpecific || decodedTag_lcsrequestorid.Number != 4 || decodedTag_lcsrequestorid.Constructed != true {
+					return fmt.Errorf("decoding lcsRequestorID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsrequestorid)
 				}
 				reconstructed_lcsrequestorid := ber.EncodeSequence(rawVal_lcsrequestorid)
 				var dec_lcsrequestorid LCSRequestorID
@@ -3307,9 +4193,12 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_lcscodeword, rawVal_lcscodeword, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcscodeword, n_lcscodeword, rawVal_lcscodeword, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsCodeword: %w", err)
+				}
+				if decodedTag_lcscodeword.Class != tag.ClassContextSpecific || decodedTag_lcscodeword.Number != 5 || decodedTag_lcscodeword.Constructed != true {
+					return fmt.Errorf("decoding lcsCodeword: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcscodeword)
 				}
 				reconstructed_lcscodeword := ber.EncodeSequence(rawVal_lcscodeword)
 				var dec_lcscodeword LCSCodeword
@@ -3326,9 +4215,12 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_lcsservicetypeid, rawVal_lcsservicetypeid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsservicetypeid, n_lcsservicetypeid, rawVal_lcsservicetypeid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsServiceTypeID: %w", err)
+				}
+				if decodedTag_lcsservicetypeid.Class != tag.ClassContextSpecific || decodedTag_lcsservicetypeid.Number != 6 || decodedTag_lcsservicetypeid.Constructed != false {
+					return fmt.Errorf("decoding lcsServiceTypeID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsservicetypeid)
 				}
 				decVal_lcsservicetypeid, intErr := ber.DecodeIntegerValue(rawVal_lcsservicetypeid)
 				if intErr != nil {
@@ -3345,11 +4237,14 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_deferredlocationext, rawVal_deferredlocationext, err := ber.DecodeTLV(content[offset:])
+				decodedTag_deferredlocationext, n_deferredlocationext, rawVal_deferredlocationext, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deferredLocationExt: %w", err)
 				}
-				bsBytes_deferredlocationext, bsUnused_deferredlocationext, bsErr := ber.DecodeBitStringValue(rawVal_deferredlocationext)
+				if decodedTag_deferredlocationext.Class != tag.ClassContextSpecific || decodedTag_deferredlocationext.Number != 7 {
+					return fmt.Errorf("decoding deferredLocationExt: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deferredlocationext)
+				}
+				bsBytes_deferredlocationext, bsUnused_deferredlocationext, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_deferredlocationext.Constructed, rawVal_deferredlocationext)
 				if bsErr != nil {
 					return fmt.Errorf("decoding deferredLocationExt: %w", bsErr)
 				}
@@ -3364,11 +4259,14 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_rangingslext, rawVal_rangingslext, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rangingslext, n_rangingslext, rawVal_rangingslext, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rangingSlExt: %w", err)
 				}
-				bsBytes_rangingslext, bsUnused_rangingslext, bsErr := ber.DecodeBitStringValue(rawVal_rangingslext)
+				if decodedTag_rangingslext.Class != tag.ClassContextSpecific || decodedTag_rangingslext.Number != 8 {
+					return fmt.Errorf("decoding rangingSlExt: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangingslext)
+				}
+				bsBytes_rangingslext, bsUnused_rangingslext, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_rangingslext.Constructed, rawVal_rangingslext)
 				if bsErr != nil {
 					return fmt.Errorf("decoding rangingSlExt: %w", bsErr)
 				}
@@ -3399,12 +4297,20 @@ func (v *LocationNotificationRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.VerificationResponse != nil {
 		enc_verificationresponse := ber.EncodeEnumerated(int64(*v.VerificationResponse))
-		enc_verificationresponse = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_verificationresponse)
+		retagged_enc_verificationresponse, tagErr_enc_verificationresponse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_verificationresponse)
+		if tagErr_enc_verificationresponse != nil {
+			return nil, fmt.Errorf("encoding verificationResponse: %w", tagErr_enc_verificationresponse)
+		}
+		enc_verificationresponse = retagged_enc_verificationresponse
 		children = append(children, enc_verificationresponse...)
 	}
 	if v.LocationPrivacyIndication != nil {
 		enc_locationprivacyindication := ber.EncodeEnumerated(int64(*v.LocationPrivacyIndication))
-		enc_locationprivacyindication = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_locationprivacyindication)
+		retagged_enc_locationprivacyindication, tagErr_enc_locationprivacyindication := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_locationprivacyindication)
+		if tagErr_enc_locationprivacyindication != nil {
+			return nil, fmt.Errorf("encoding locationPrivacyIndication: %w", tagErr_enc_locationprivacyindication)
+		}
+		enc_locationprivacyindication = retagged_enc_locationprivacyindication
 		children = append(children, enc_locationprivacyindication...)
 	}
 	if v.ValidTimePeriod != nil {
@@ -3412,7 +4318,11 @@ func (v *LocationNotificationRes) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding validTimePeriod: %w", err)
 		}
-		enc_validtimeperiod = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_validtimeperiod)
+		retagged_enc_validtimeperiod, tagErr_enc_validtimeperiod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_validtimeperiod)
+		if tagErr_enc_validtimeperiod != nil {
+			return nil, fmt.Errorf("encoding validTimePeriod: %w", tagErr_enc_validtimeperiod)
+		}
+		enc_validtimeperiod = retagged_enc_validtimeperiod
 		children = append(children, enc_validtimeperiod...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -3430,17 +4340,53 @@ func (v *LocationNotificationRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LocationNotificationRes to DER format.
 func (v *LocationNotificationRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.VerificationResponse != nil {
+		enc_verificationresponse := ber.EncodeEnumerated(int64(*v.VerificationResponse))
+		retagged_enc_verificationresponse, tagErr_enc_verificationresponse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_verificationresponse)
+		if tagErr_enc_verificationresponse != nil {
+			return nil, fmt.Errorf("encoding verificationResponse: %w", tagErr_enc_verificationresponse)
+		}
+		enc_verificationresponse = retagged_enc_verificationresponse
+		children = append(children, enc_verificationresponse...)
+	}
+	if v.LocationPrivacyIndication != nil {
+		enc_locationprivacyindication := ber.EncodeEnumerated(int64(*v.LocationPrivacyIndication))
+		retagged_enc_locationprivacyindication, tagErr_enc_locationprivacyindication := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_locationprivacyindication)
+		if tagErr_enc_locationprivacyindication != nil {
+			return nil, fmt.Errorf("encoding locationPrivacyIndication: %w", tagErr_enc_locationprivacyindication)
+		}
+		enc_locationprivacyindication = retagged_enc_locationprivacyindication
+		children = append(children, enc_locationprivacyindication...)
+	}
+	if v.ValidTimePeriod != nil {
+		enc_validtimeperiod, err := v.ValidTimePeriod.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding validTimePeriod: %w", err)
+		}
+		retagged_enc_validtimeperiod, tagErr_enc_validtimeperiod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_validtimeperiod)
+		if tagErr_enc_validtimeperiod != nil {
+			return nil, fmt.Errorf("encoding validTimePeriod: %w", tagErr_enc_validtimeperiod)
+		}
+		enc_validtimeperiod = retagged_enc_validtimeperiod
+		children = append(children, enc_validtimeperiod...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LocationNotificationRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LocationNotificationRes from BER/DER format.
 func (v *LocationNotificationRes) UnmarshalBER(data []byte) error {
+	*v = LocationNotificationRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LocationNotificationRes SEQUENCE: %w", err)
@@ -3454,11 +4400,14 @@ func (v *LocationNotificationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_verificationresponse, rawVal_verificationresponse, err := ber.DecodeTLV(content[offset:])
+				decodedTag_verificationresponse, n_verificationresponse, rawVal_verificationresponse, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding verificationResponse: %w", err)
 				}
-				decVal_verificationresponse, intErr := ber.DecodeIntegerValue(rawVal_verificationresponse)
+				if decodedTag_verificationresponse.Class != tag.ClassContextSpecific || decodedTag_verificationresponse.Number != 0 || decodedTag_verificationresponse.Constructed != false {
+					return fmt.Errorf("decoding verificationResponse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_verificationresponse)
+				}
+				decVal_verificationresponse, intErr := ber.DecodeEnumeratedValue(rawVal_verificationresponse)
 				if intErr != nil {
 					return fmt.Errorf("decoding verificationResponse: %w", intErr)
 				}
@@ -3473,11 +4422,14 @@ func (v *LocationNotificationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_locationprivacyindication, rawVal_locationprivacyindication, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationprivacyindication, n_locationprivacyindication, rawVal_locationprivacyindication, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationPrivacyIndication: %w", err)
 				}
-				decVal_locationprivacyindication, intErr := ber.DecodeIntegerValue(rawVal_locationprivacyindication)
+				if decodedTag_locationprivacyindication.Class != tag.ClassContextSpecific || decodedTag_locationprivacyindication.Number != 1 || decodedTag_locationprivacyindication.Constructed != false {
+					return fmt.Errorf("decoding locationPrivacyIndication: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationprivacyindication)
+				}
+				decVal_locationprivacyindication, intErr := ber.DecodeEnumeratedValue(rawVal_locationprivacyindication)
 				if intErr != nil {
 					return fmt.Errorf("decoding locationPrivacyIndication: %w", intErr)
 				}
@@ -3492,9 +4444,12 @@ func (v *LocationNotificationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_validtimeperiod, rawVal_validtimeperiod, err := ber.DecodeTLV(content[offset:])
+				decodedTag_validtimeperiod, n_validtimeperiod, rawVal_validtimeperiod, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding validTimePeriod: %w", err)
+				}
+				if decodedTag_validtimeperiod.Class != tag.ClassContextSpecific || decodedTag_validtimeperiod.Number != 2 || decodedTag_validtimeperiod.Constructed != true {
+					return fmt.Errorf("decoding validTimePeriod: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_validtimeperiod)
 				}
 				reconstructed_validtimeperiod := ber.EncodeSequence(rawVal_validtimeperiod)
 				var dec_validtimeperiod LCSValidTimePeriod
@@ -3526,11 +4481,19 @@ func (v *LocationNotificationRes) UnmarshalBER(data []byte) error {
 func (v *LCSMOLRArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_molrtype := ber.EncodeEnumerated(int64(v.MolrType))
-	enc_molrtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_molrtype)
+	retagged_enc_molrtype, tagErr_enc_molrtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_molrtype)
+	if tagErr_enc_molrtype != nil {
+		return nil, fmt.Errorf("encoding molr-Type: %w", tagErr_enc_molrtype)
+	}
+	enc_molrtype = retagged_enc_molrtype
 	children = append(children, enc_molrtype...)
 	if v.LocationMethod != nil {
 		enc_locationmethod := ber.EncodeEnumerated(int64(*v.LocationMethod))
-		enc_locationmethod = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_locationmethod)
+		retagged_enc_locationmethod, tagErr_enc_locationmethod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_locationmethod)
+		if tagErr_enc_locationmethod != nil {
+			return nil, fmt.Errorf("encoding locationMethod: %w", tagErr_enc_locationmethod)
+		}
+		enc_locationmethod = retagged_enc_locationmethod
 		children = append(children, enc_locationmethod...)
 	}
 	if v.LcsQoS != nil {
@@ -3538,7 +4501,11 @@ func (v *LCSMOLRArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
 		}
-		enc_lcsqos = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_lcsqos)
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
 		children = append(children, enc_lcsqos...)
 	}
 	if v.LcsClientExternalID != nil {
@@ -3546,32 +4513,56 @@ func (v *LCSMOLRArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
 		}
-		enc_lcsclientexternalid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_lcsclientexternalid)
+		retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_lcsclientexternalid)
+		if tagErr_enc_lcsclientexternalid != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+		}
+		enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
 		children = append(children, enc_lcsclientexternalid...)
 	}
 	if v.MlcNumber != nil {
 		enc_mlcnumber := ber.EncodeOctetString([]byte(*v.MlcNumber))
-		enc_mlcnumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_mlcnumber)
+		retagged_enc_mlcnumber, tagErr_enc_mlcnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_mlcnumber)
+		if tagErr_enc_mlcnumber != nil {
+			return nil, fmt.Errorf("encoding mlc-Number: %w", tagErr_enc_mlcnumber)
+		}
+		enc_mlcnumber = retagged_enc_mlcnumber
 		children = append(children, enc_mlcnumber...)
 	}
 	if v.GpsAssistanceData != nil {
 		enc_gpsassistancedata := ber.EncodeOctetString([]byte(*v.GpsAssistanceData))
-		enc_gpsassistancedata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_gpsassistancedata)
+		retagged_enc_gpsassistancedata, tagErr_enc_gpsassistancedata := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_gpsassistancedata)
+		if tagErr_enc_gpsassistancedata != nil {
+			return nil, fmt.Errorf("encoding gpsAssistanceData: %w", tagErr_enc_gpsassistancedata)
+		}
+		enc_gpsassistancedata = retagged_enc_gpsassistancedata
 		children = append(children, enc_gpsassistancedata...)
 	}
 	if v.SupportedGADShapes != nil {
 		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
-		enc_supportedgadshapes = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_supportedgadshapes)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
 		children = append(children, enc_supportedgadshapes...)
 	}
 	if v.LcsServiceTypeID != nil {
 		enc_lcsservicetypeid := ber.EncodeInteger(int64(*v.LcsServiceTypeID))
-		enc_lcsservicetypeid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_lcsservicetypeid)
+		retagged_enc_lcsservicetypeid, tagErr_enc_lcsservicetypeid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_lcsservicetypeid)
+		if tagErr_enc_lcsservicetypeid != nil {
+			return nil, fmt.Errorf("encoding lcsServiceTypeID: %w", tagErr_enc_lcsservicetypeid)
+		}
+		enc_lcsservicetypeid = retagged_enc_lcsservicetypeid
 		children = append(children, enc_lcsservicetypeid...)
 	}
 	if v.AgeOfLocationInfo != nil {
 		enc_ageoflocationinfo := ber.EncodeInteger(int64(*v.AgeOfLocationInfo))
-		enc_ageoflocationinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_ageoflocationinfo)
+		retagged_enc_ageoflocationinfo, tagErr_enc_ageoflocationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_ageoflocationinfo)
+		if tagErr_enc_ageoflocationinfo != nil {
+			return nil, fmt.Errorf("encoding ageOfLocationInfo: %w", tagErr_enc_ageoflocationinfo)
+		}
+		enc_ageoflocationinfo = retagged_enc_ageoflocationinfo
 		children = append(children, enc_ageoflocationinfo...)
 	}
 	if v.LocationType != nil {
@@ -3579,32 +4570,56 @@ func (v *LCSMOLRArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding locationType: %w", err)
 		}
-		enc_locationtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, true, enc_locationtype)
+		retagged_enc_locationtype, tagErr_enc_locationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_locationtype)
+		if tagErr_enc_locationtype != nil {
+			return nil, fmt.Errorf("encoding locationType: %w", tagErr_enc_locationtype)
+		}
+		enc_locationtype = retagged_enc_locationtype
 		children = append(children, enc_locationtype...)
 	}
 	if v.PseudonymIndicator != nil {
 		enc_pseudonymindicator := ber.EncodeNull()
-		enc_pseudonymindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, false, enc_pseudonymindicator)
+		retagged_enc_pseudonymindicator, tagErr_enc_pseudonymindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_pseudonymindicator)
+		if tagErr_enc_pseudonymindicator != nil {
+			return nil, fmt.Errorf("encoding pseudonymIndicator: %w", tagErr_enc_pseudonymindicator)
+		}
+		enc_pseudonymindicator = retagged_enc_pseudonymindicator
 		children = append(children, enc_pseudonymindicator...)
 	}
 	if v.HGmlcAddress != nil {
 		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
-		enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, false, enc_hgmlcaddress)
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
 		children = append(children, enc_hgmlcaddress...)
 	}
 	if v.LocationEstimate != nil {
 		enc_locationestimate := ber.EncodeOctetString([]byte(*v.LocationEstimate))
-		enc_locationestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, false, enc_locationestimate)
+		retagged_enc_locationestimate, tagErr_enc_locationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_locationestimate)
+		if tagErr_enc_locationestimate != nil {
+			return nil, fmt.Errorf("encoding locationEstimate: %w", tagErr_enc_locationestimate)
+		}
+		enc_locationestimate = retagged_enc_locationestimate
 		children = append(children, enc_locationestimate...)
 	}
 	if v.VelocityEstimate != nil {
 		enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
-		enc_velocityestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, false, enc_velocityestimate)
+		retagged_enc_velocityestimate, tagErr_enc_velocityestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_velocityestimate)
+		if tagErr_enc_velocityestimate != nil {
+			return nil, fmt.Errorf("encoding velocityEstimate: %w", tagErr_enc_velocityestimate)
+		}
+		enc_velocityestimate = retagged_enc_velocityestimate
 		children = append(children, enc_velocityestimate...)
 	}
 	if v.ReferenceNumber != nil {
 		enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
-		enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, false, enc_referencenumber)
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
 		children = append(children, enc_referencenumber...)
 	}
 	if v.PeriodicLDRInfo != nil {
@@ -3612,32 +4627,56 @@ func (v *LCSMOLRArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding periodicLDRInfo: %w", err)
 		}
-		enc_periodicldrinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, true, enc_periodicldrinfo)
+		retagged_enc_periodicldrinfo, tagErr_enc_periodicldrinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_periodicldrinfo)
+		if tagErr_enc_periodicldrinfo != nil {
+			return nil, fmt.Errorf("encoding periodicLDRInfo: %w", tagErr_enc_periodicldrinfo)
+		}
+		enc_periodicldrinfo = retagged_enc_periodicldrinfo
 		children = append(children, enc_periodicldrinfo...)
 	}
 	if v.LocationUpdateRequest != nil {
 		enc_locationupdaterequest := ber.EncodeNull()
-		enc_locationupdaterequest = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, false, enc_locationupdaterequest)
+		retagged_enc_locationupdaterequest, tagErr_enc_locationupdaterequest := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_locationupdaterequest)
+		if tagErr_enc_locationupdaterequest != nil {
+			return nil, fmt.Errorf("encoding locationUpdateRequest: %w", tagErr_enc_locationupdaterequest)
+		}
+		enc_locationupdaterequest = retagged_enc_locationupdaterequest
 		children = append(children, enc_locationupdaterequest...)
 	}
 	if v.SequenceNumber != nil {
 		enc_sequencenumber := ber.EncodeInteger(int64(*v.SequenceNumber))
-		enc_sequencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, false, enc_sequencenumber)
+		retagged_enc_sequencenumber, tagErr_enc_sequencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_sequencenumber)
+		if tagErr_enc_sequencenumber != nil {
+			return nil, fmt.Errorf("encoding sequenceNumber: %w", tagErr_enc_sequencenumber)
+		}
+		enc_sequencenumber = retagged_enc_sequencenumber
 		children = append(children, enc_sequencenumber...)
 	}
 	if v.TerminationCause != nil {
 		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
-		enc_terminationcause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, false, enc_terminationcause)
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
 		children = append(children, enc_terminationcause...)
 	}
 	if v.MoLrShortCircuit != nil {
 		enc_molrshortcircuit := ber.EncodeNull()
-		enc_molrshortcircuit = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, false, enc_molrshortcircuit)
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
 		children = append(children, enc_molrshortcircuit...)
 	}
 	if v.GanssAssistanceData != nil {
 		enc_ganssassistancedata := ber.EncodeOctetString([]byte(*v.GanssAssistanceData))
-		enc_ganssassistancedata = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, false, enc_ganssassistancedata)
+		retagged_enc_ganssassistancedata, tagErr_enc_ganssassistancedata := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_ganssassistancedata)
+		if tagErr_enc_ganssassistancedata != nil {
+			return nil, fmt.Errorf("encoding ganssAssistanceData: %w", tagErr_enc_ganssassistancedata)
+		}
+		enc_ganssassistancedata = retagged_enc_ganssassistancedata
 		children = append(children, enc_ganssassistancedata...)
 	}
 	if v.MultiplePositioningProtocolPDUs != nil {
@@ -3653,18 +4692,30 @@ func (v *LCSMOLRArg) MarshalBER() ([]byte, error) {
 			}
 			enc_multiplepositioningprotocolpdus = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 21}, seqContent_)
 		} else {
-			enc_multiplepositioningprotocolpdus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, true, enc_multiplepositioningprotocolpdus)
+			retagged_enc_multiplepositioningprotocolpdus, tagErr_enc_multiplepositioningprotocolpdus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_multiplepositioningprotocolpdus)
+			if tagErr_enc_multiplepositioningprotocolpdus != nil {
+				return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", tagErr_enc_multiplepositioningprotocolpdus)
+			}
+			enc_multiplepositioningprotocolpdus = retagged_enc_multiplepositioningprotocolpdus
 		}
 		children = append(children, enc_multiplepositioningprotocolpdus...)
 	}
 	if v.LocationInfo != nil {
 		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
-		enc_locationinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, false, enc_locationinfo)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
 		children = append(children, enc_locationinfo...)
 	}
 	if v.ScheduledLocTime != nil {
 		enc_scheduledloctime := ber.EncodeOctetString([]byte(*v.ScheduledLocTime))
-		enc_scheduledloctime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, false, enc_scheduledloctime)
+		retagged_enc_scheduledloctime, tagErr_enc_scheduledloctime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, enc_scheduledloctime)
+		if tagErr_enc_scheduledloctime != nil {
+			return nil, fmt.Errorf("encoding scheduledLocTime: %w", tagErr_enc_scheduledloctime)
+		}
+		enc_scheduledloctime = retagged_enc_scheduledloctime
 		children = append(children, enc_scheduledloctime...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -3682,20 +4733,252 @@ func (v *LCSMOLRArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSMOLRArg to DER format.
 func (v *LCSMOLRArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_molrtype := ber.EncodeEnumerated(int64(v.MolrType))
+	retagged_enc_molrtype, tagErr_enc_molrtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_molrtype)
+	if tagErr_enc_molrtype != nil {
+		return nil, fmt.Errorf("encoding molr-Type: %w", tagErr_enc_molrtype)
+	}
+	enc_molrtype = retagged_enc_molrtype
+	children = append(children, enc_molrtype...)
+	if v.LocationMethod != nil {
+		enc_locationmethod := ber.EncodeEnumerated(int64(*v.LocationMethod))
+		retagged_enc_locationmethod, tagErr_enc_locationmethod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_locationmethod)
+		if tagErr_enc_locationmethod != nil {
+			return nil, fmt.Errorf("encoding locationMethod: %w", tagErr_enc_locationmethod)
+		}
+		enc_locationmethod = retagged_enc_locationmethod
+		children = append(children, enc_locationmethod...)
+	}
+	if v.LcsQoS != nil {
+		enc_lcsqos, err := v.LcsQoS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
+		}
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
+		children = append(children, enc_lcsqos...)
+	}
+	if v.LcsClientExternalID != nil {
+		enc_lcsclientexternalid, err := v.LcsClientExternalID.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
+		}
+		retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_lcsclientexternalid)
+		if tagErr_enc_lcsclientexternalid != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+		}
+		enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
+		children = append(children, enc_lcsclientexternalid...)
+	}
+	if v.MlcNumber != nil {
+		enc_mlcnumber := ber.EncodeOctetString([]byte(*v.MlcNumber))
+		retagged_enc_mlcnumber, tagErr_enc_mlcnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_mlcnumber)
+		if tagErr_enc_mlcnumber != nil {
+			return nil, fmt.Errorf("encoding mlc-Number: %w", tagErr_enc_mlcnumber)
+		}
+		enc_mlcnumber = retagged_enc_mlcnumber
+		children = append(children, enc_mlcnumber...)
+	}
+	if v.GpsAssistanceData != nil {
+		enc_gpsassistancedata := ber.EncodeOctetString([]byte(*v.GpsAssistanceData))
+		retagged_enc_gpsassistancedata, tagErr_enc_gpsassistancedata := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_gpsassistancedata)
+		if tagErr_enc_gpsassistancedata != nil {
+			return nil, fmt.Errorf("encoding gpsAssistanceData: %w", tagErr_enc_gpsassistancedata)
+		}
+		enc_gpsassistancedata = retagged_enc_gpsassistancedata
+		children = append(children, enc_gpsassistancedata...)
+	}
+	if v.SupportedGADShapes != nil {
+		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
+		children = append(children, enc_supportedgadshapes...)
+	}
+	if v.LcsServiceTypeID != nil {
+		enc_lcsservicetypeid := ber.EncodeInteger(int64(*v.LcsServiceTypeID))
+		retagged_enc_lcsservicetypeid, tagErr_enc_lcsservicetypeid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_lcsservicetypeid)
+		if tagErr_enc_lcsservicetypeid != nil {
+			return nil, fmt.Errorf("encoding lcsServiceTypeID: %w", tagErr_enc_lcsservicetypeid)
+		}
+		enc_lcsservicetypeid = retagged_enc_lcsservicetypeid
+		children = append(children, enc_lcsservicetypeid...)
+	}
+	if v.AgeOfLocationInfo != nil {
+		enc_ageoflocationinfo := ber.EncodeInteger(int64(*v.AgeOfLocationInfo))
+		retagged_enc_ageoflocationinfo, tagErr_enc_ageoflocationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_ageoflocationinfo)
+		if tagErr_enc_ageoflocationinfo != nil {
+			return nil, fmt.Errorf("encoding ageOfLocationInfo: %w", tagErr_enc_ageoflocationinfo)
+		}
+		enc_ageoflocationinfo = retagged_enc_ageoflocationinfo
+		children = append(children, enc_ageoflocationinfo...)
+	}
+	if v.LocationType != nil {
+		enc_locationtype, err := v.LocationType.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding locationType: %w", err)
+		}
+		retagged_enc_locationtype, tagErr_enc_locationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_locationtype)
+		if tagErr_enc_locationtype != nil {
+			return nil, fmt.Errorf("encoding locationType: %w", tagErr_enc_locationtype)
+		}
+		enc_locationtype = retagged_enc_locationtype
+		children = append(children, enc_locationtype...)
+	}
+	if v.PseudonymIndicator != nil {
+		enc_pseudonymindicator := ber.EncodeNull()
+		retagged_enc_pseudonymindicator, tagErr_enc_pseudonymindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_pseudonymindicator)
+		if tagErr_enc_pseudonymindicator != nil {
+			return nil, fmt.Errorf("encoding pseudonymIndicator: %w", tagErr_enc_pseudonymindicator)
+		}
+		enc_pseudonymindicator = retagged_enc_pseudonymindicator
+		children = append(children, enc_pseudonymindicator...)
+	}
+	if v.HGmlcAddress != nil {
+		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
+	if v.LocationEstimate != nil {
+		enc_locationestimate := ber.EncodeOctetString([]byte(*v.LocationEstimate))
+		retagged_enc_locationestimate, tagErr_enc_locationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_locationestimate)
+		if tagErr_enc_locationestimate != nil {
+			return nil, fmt.Errorf("encoding locationEstimate: %w", tagErr_enc_locationestimate)
+		}
+		enc_locationestimate = retagged_enc_locationestimate
+		children = append(children, enc_locationestimate...)
+	}
+	if v.VelocityEstimate != nil {
+		enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
+		retagged_enc_velocityestimate, tagErr_enc_velocityestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_velocityestimate)
+		if tagErr_enc_velocityestimate != nil {
+			return nil, fmt.Errorf("encoding velocityEstimate: %w", tagErr_enc_velocityestimate)
+		}
+		enc_velocityestimate = retagged_enc_velocityestimate
+		children = append(children, enc_velocityestimate...)
+	}
+	if v.ReferenceNumber != nil {
+		enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.PeriodicLDRInfo != nil {
+		enc_periodicldrinfo, err := v.PeriodicLDRInfo.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding periodicLDRInfo: %w", err)
+		}
+		retagged_enc_periodicldrinfo, tagErr_enc_periodicldrinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_periodicldrinfo)
+		if tagErr_enc_periodicldrinfo != nil {
+			return nil, fmt.Errorf("encoding periodicLDRInfo: %w", tagErr_enc_periodicldrinfo)
+		}
+		enc_periodicldrinfo = retagged_enc_periodicldrinfo
+		children = append(children, enc_periodicldrinfo...)
+	}
+	if v.LocationUpdateRequest != nil {
+		enc_locationupdaterequest := ber.EncodeNull()
+		retagged_enc_locationupdaterequest, tagErr_enc_locationupdaterequest := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_locationupdaterequest)
+		if tagErr_enc_locationupdaterequest != nil {
+			return nil, fmt.Errorf("encoding locationUpdateRequest: %w", tagErr_enc_locationupdaterequest)
+		}
+		enc_locationupdaterequest = retagged_enc_locationupdaterequest
+		children = append(children, enc_locationupdaterequest...)
+	}
+	if v.SequenceNumber != nil {
+		enc_sequencenumber := ber.EncodeInteger(int64(*v.SequenceNumber))
+		retagged_enc_sequencenumber, tagErr_enc_sequencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_sequencenumber)
+		if tagErr_enc_sequencenumber != nil {
+			return nil, fmt.Errorf("encoding sequenceNumber: %w", tagErr_enc_sequencenumber)
+		}
+		enc_sequencenumber = retagged_enc_sequencenumber
+		children = append(children, enc_sequencenumber...)
+	}
+	if v.TerminationCause != nil {
+		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
+		children = append(children, enc_terminationcause...)
+	}
+	if v.MoLrShortCircuit != nil {
+		enc_molrshortcircuit := ber.EncodeNull()
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
+		children = append(children, enc_molrshortcircuit...)
+	}
+	if v.GanssAssistanceData != nil {
+		enc_ganssassistancedata := ber.EncodeOctetString([]byte(*v.GanssAssistanceData))
+		retagged_enc_ganssassistancedata, tagErr_enc_ganssassistancedata := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_ganssassistancedata)
+		if tagErr_enc_ganssassistancedata != nil {
+			return nil, fmt.Errorf("encoding ganssAssistanceData: %w", tagErr_enc_ganssassistancedata)
+		}
+		enc_ganssassistancedata = retagged_enc_ganssassistancedata
+		children = append(children, enc_ganssassistancedata...)
+	}
+	if v.MultiplePositioningProtocolPDUs != nil {
+		enc_multiplepositioningprotocolpdus, err := MarshalDERMultiplePositioningProtocolPDUs(v.MultiplePositioningProtocolPDUs)
+		if err != nil {
+			return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", err)
+		}
+		retagged_enc_multiplepositioningprotocolpdus, tagErr_enc_multiplepositioningprotocolpdus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_multiplepositioningprotocolpdus)
+		if tagErr_enc_multiplepositioningprotocolpdus != nil {
+			return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", tagErr_enc_multiplepositioningprotocolpdus)
+		}
+		enc_multiplepositioningprotocolpdus = retagged_enc_multiplepositioningprotocolpdus
+		children = append(children, enc_multiplepositioningprotocolpdus...)
+	}
+	if v.LocationInfo != nil {
+		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 22, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
+		children = append(children, enc_locationinfo...)
+	}
+	if v.ScheduledLocTime != nil {
+		enc_scheduledloctime := ber.EncodeOctetString([]byte(*v.ScheduledLocTime))
+		retagged_enc_scheduledloctime, tagErr_enc_scheduledloctime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 23, enc_scheduledloctime)
+		if tagErr_enc_scheduledloctime != nil {
+			return nil, fmt.Errorf("encoding scheduledLocTime: %w", tagErr_enc_scheduledloctime)
+		}
+		enc_scheduledloctime = retagged_enc_scheduledloctime
+		children = append(children, enc_scheduledloctime...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.MultiplePositioningProtocolPDUsIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSMOLRArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSMOLRArg from BER/DER format.
 func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
+	*v = LCSMOLRArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSMOLRArg SEQUENCE: %w", err)
@@ -3713,11 +4996,14 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for molr-Type, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_molrtype, rawVal_molrtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_molrtype, n_molrtype, rawVal_molrtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding molr-Type: %w", err)
 	}
-	decVal_molrtype, intErr := ber.DecodeIntegerValue(rawVal_molrtype)
+	if decodedTag_molrtype.Class != tag.ClassContextSpecific || decodedTag_molrtype.Number != 0 || decodedTag_molrtype.Constructed != false {
+		return fmt.Errorf("decoding molr-Type: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_molrtype)
+	}
+	decVal_molrtype, intErr := ber.DecodeEnumeratedValue(rawVal_molrtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding molr-Type: %w", intErr)
 	}
@@ -3728,11 +5014,14 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_locationmethod, rawVal_locationmethod, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationmethod, n_locationmethod, rawVal_locationmethod, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationMethod: %w", err)
 				}
-				decVal_locationmethod, intErr := ber.DecodeIntegerValue(rawVal_locationmethod)
+				if decodedTag_locationmethod.Class != tag.ClassContextSpecific || decodedTag_locationmethod.Number != 1 || decodedTag_locationmethod.Constructed != false {
+					return fmt.Errorf("decoding locationMethod: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationmethod)
+				}
+				decVal_locationmethod, intErr := ber.DecodeEnumeratedValue(rawVal_locationmethod)
 				if intErr != nil {
 					return fmt.Errorf("decoding locationMethod: %w", intErr)
 				}
@@ -3747,9 +5036,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_lcsqos, rawVal_lcsqos, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsqos, n_lcsqos, rawVal_lcsqos, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcs-QoS: %w", err)
+				}
+				if decodedTag_lcsqos.Class != tag.ClassContextSpecific || decodedTag_lcsqos.Number != 2 || decodedTag_lcsqos.Constructed != true {
+					return fmt.Errorf("decoding lcs-QoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsqos)
 				}
 				reconstructed_lcsqos := ber.EncodeSequence(rawVal_lcsqos)
 				var dec_lcsqos LCSQoS
@@ -3766,9 +5058,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsclientexternalid, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsClientExternalID: %w", err)
+				}
+				if decodedTag_lcsclientexternalid.Class != tag.ClassContextSpecific || decodedTag_lcsclientexternalid.Number != 3 || decodedTag_lcsclientexternalid.Constructed != true {
+					return fmt.Errorf("decoding lcsClientExternalID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientexternalid)
 				}
 				reconstructed_lcsclientexternalid := ber.EncodeSequence(rawVal_lcsclientexternalid)
 				var dec_lcsclientexternalid LCSClientExternalID
@@ -3785,9 +5080,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_mlcnumber, rawVal_mlcnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_mlcnumber, n_mlcnumber, rawVal_mlcnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mlc-Number: %w", err)
+				}
+				if decodedTag_mlcnumber.Class != tag.ClassContextSpecific || decodedTag_mlcnumber.Number != 4 {
+					return fmt.Errorf("decoding mlc-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mlcnumber)
 				}
 				tmp_mlcnumber := ISDNAddressString(rawVal_mlcnumber)
 				v.MlcNumber = &tmp_mlcnumber
@@ -3800,9 +5098,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_gpsassistancedata, rawVal_gpsassistancedata, err := ber.DecodeTLV(content[offset:])
+				decodedTag_gpsassistancedata, n_gpsassistancedata, rawVal_gpsassistancedata, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding gpsAssistanceData: %w", err)
+				}
+				if decodedTag_gpsassistancedata.Class != tag.ClassContextSpecific || decodedTag_gpsassistancedata.Number != 5 {
+					return fmt.Errorf("decoding gpsAssistanceData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gpsassistancedata)
 				}
 				tmp_gpsassistancedata := GPSAssistanceData(rawVal_gpsassistancedata)
 				v.GpsAssistanceData = &tmp_gpsassistancedata
@@ -3815,11 +5116,14 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
+				decodedTag_supportedgadshapes, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", err)
 				}
-				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeBitStringValue(rawVal_supportedgadshapes)
+				if decodedTag_supportedgadshapes.Class != tag.ClassContextSpecific || decodedTag_supportedgadshapes.Number != 6 {
+					return fmt.Errorf("decoding supportedGADShapes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedgadshapes)
+				}
+				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedgadshapes.Constructed, rawVal_supportedgadshapes)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", bsErr)
 				}
@@ -3834,9 +5138,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_lcsservicetypeid, rawVal_lcsservicetypeid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsservicetypeid, n_lcsservicetypeid, rawVal_lcsservicetypeid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsServiceTypeID: %w", err)
+				}
+				if decodedTag_lcsservicetypeid.Class != tag.ClassContextSpecific || decodedTag_lcsservicetypeid.Number != 7 || decodedTag_lcsservicetypeid.Constructed != false {
+					return fmt.Errorf("decoding lcsServiceTypeID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsservicetypeid)
 				}
 				decVal_lcsservicetypeid, intErr := ber.DecodeIntegerValue(rawVal_lcsservicetypeid)
 				if intErr != nil {
@@ -3853,9 +5160,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_ageoflocationinfo, rawVal_ageoflocationinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ageoflocationinfo, n_ageoflocationinfo, rawVal_ageoflocationinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ageOfLocationInfo: %w", err)
+				}
+				if decodedTag_ageoflocationinfo.Class != tag.ClassContextSpecific || decodedTag_ageoflocationinfo.Number != 8 || decodedTag_ageoflocationinfo.Constructed != false {
+					return fmt.Errorf("decoding ageOfLocationInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ageoflocationinfo)
 				}
 				decVal_ageoflocationinfo, intErr := ber.DecodeIntegerValue(rawVal_ageoflocationinfo)
 				if intErr != nil {
@@ -3872,9 +5182,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_locationtype, rawVal_locationtype, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationtype, n_locationtype, rawVal_locationtype, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationType: %w", err)
+				}
+				if decodedTag_locationtype.Class != tag.ClassContextSpecific || decodedTag_locationtype.Number != 9 || decodedTag_locationtype.Constructed != true {
+					return fmt.Errorf("decoding locationType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationtype)
 				}
 				reconstructed_locationtype := ber.EncodeSequence(rawVal_locationtype)
 				var dec_locationtype LocationType
@@ -3891,11 +5204,16 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_pseudonymindicator, rawVal_pseudonymindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_pseudonymindicator, n_pseudonymindicator, rawVal_pseudonymindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pseudonymIndicator: %w", err)
 				}
-				_ = rawVal_pseudonymindicator
+				if decodedTag_pseudonymindicator.Class != tag.ClassContextSpecific || decodedTag_pseudonymindicator.Number != 10 || decodedTag_pseudonymindicator.Constructed != false {
+					return fmt.Errorf("decoding pseudonymIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pseudonymindicator)
+				}
+				if len(rawVal_pseudonymindicator) != 0 {
+					return fmt.Errorf("decoding pseudonymIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_pseudonymindicator))
+				}
 				v.PseudonymIndicator = &struct{}{}
 				offset += n_pseudonymindicator
 			}
@@ -3906,9 +5224,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 11 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
 				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
@@ -3921,9 +5242,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_locationestimate, rawVal_locationestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationestimate, n_locationestimate, rawVal_locationestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationEstimate: %w", err)
+				}
+				if decodedTag_locationestimate.Class != tag.ClassContextSpecific || decodedTag_locationestimate.Number != 12 {
+					return fmt.Errorf("decoding locationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationestimate)
 				}
 				tmp_locationestimate := ExtGeographicalInformation(rawVal_locationestimate)
 				v.LocationEstimate = &tmp_locationestimate
@@ -3936,9 +5260,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_velocityestimate, rawVal_velocityestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_velocityestimate, n_velocityestimate, rawVal_velocityestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding velocityEstimate: %w", err)
+				}
+				if decodedTag_velocityestimate.Class != tag.ClassContextSpecific || decodedTag_velocityestimate.Number != 13 {
+					return fmt.Errorf("decoding velocityEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_velocityestimate)
 				}
 				tmp_velocityestimate := VelocityEstimate(rawVal_velocityestimate)
 				v.VelocityEstimate = &tmp_velocityestimate
@@ -3951,9 +5278,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding referenceNumber: %w", err)
+				}
+				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 14 {
+					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 				}
 				tmp_referencenumber := LCSReferenceNumber(rawVal_referencenumber)
 				v.ReferenceNumber = &tmp_referencenumber
@@ -3966,9 +5296,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_periodicldrinfo, rawVal_periodicldrinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_periodicldrinfo, n_periodicldrinfo, rawVal_periodicldrinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding periodicLDRInfo: %w", err)
+				}
+				if decodedTag_periodicldrinfo.Class != tag.ClassContextSpecific || decodedTag_periodicldrinfo.Number != 15 || decodedTag_periodicldrinfo.Constructed != true {
+					return fmt.Errorf("decoding periodicLDRInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_periodicldrinfo)
 				}
 				reconstructed_periodicldrinfo := ber.EncodeSequence(rawVal_periodicldrinfo)
 				var dec_periodicldrinfo PeriodicLDRInfo
@@ -3985,11 +5318,16 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_locationupdaterequest, rawVal_locationupdaterequest, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationupdaterequest, n_locationupdaterequest, rawVal_locationupdaterequest, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationUpdateRequest: %w", err)
 				}
-				_ = rawVal_locationupdaterequest
+				if decodedTag_locationupdaterequest.Class != tag.ClassContextSpecific || decodedTag_locationupdaterequest.Number != 16 || decodedTag_locationupdaterequest.Constructed != false {
+					return fmt.Errorf("decoding locationUpdateRequest: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationupdaterequest)
+				}
+				if len(rawVal_locationupdaterequest) != 0 {
+					return fmt.Errorf("decoding locationUpdateRequest: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_locationupdaterequest))
+				}
 				v.LocationUpdateRequest = &struct{}{}
 				offset += n_locationupdaterequest
 			}
@@ -4000,9 +5338,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_sequencenumber, rawVal_sequencenumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_sequencenumber, n_sequencenumber, rawVal_sequencenumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sequenceNumber: %w", err)
+				}
+				if decodedTag_sequencenumber.Class != tag.ClassContextSpecific || decodedTag_sequencenumber.Number != 17 || decodedTag_sequencenumber.Constructed != false {
+					return fmt.Errorf("decoding sequenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sequencenumber)
 				}
 				decVal_sequencenumber, intErr := ber.DecodeIntegerValue(rawVal_sequencenumber)
 				if intErr != nil {
@@ -4019,11 +5360,14 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
+				decodedTag_terminationcause, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding terminationCause: %w", err)
 				}
-				decVal_terminationcause, intErr := ber.DecodeIntegerValue(rawVal_terminationcause)
+				if decodedTag_terminationcause.Class != tag.ClassContextSpecific || decodedTag_terminationcause.Number != 18 || decodedTag_terminationcause.Constructed != false {
+					return fmt.Errorf("decoding terminationCause: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_terminationcause)
+				}
+				decVal_terminationcause, intErr := ber.DecodeEnumeratedValue(rawVal_terminationcause)
 				if intErr != nil {
 					return fmt.Errorf("decoding terminationCause: %w", intErr)
 				}
@@ -4038,11 +5382,16 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
+				decodedTag_molrshortcircuit, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuit: %w", err)
 				}
-				_ = rawVal_molrshortcircuit
+				if decodedTag_molrshortcircuit.Class != tag.ClassContextSpecific || decodedTag_molrshortcircuit.Number != 19 || decodedTag_molrshortcircuit.Constructed != false {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_molrshortcircuit)
+				}
+				if len(rawVal_molrshortcircuit) != 0 {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_molrshortcircuit))
+				}
 				v.MoLrShortCircuit = &struct{}{}
 				offset += n_molrshortcircuit
 			}
@@ -4053,9 +5402,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
-				_, n_ganssassistancedata, rawVal_ganssassistancedata, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ganssassistancedata, n_ganssassistancedata, rawVal_ganssassistancedata, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ganssAssistanceData: %w", err)
+				}
+				if decodedTag_ganssassistancedata.Class != tag.ClassContextSpecific || decodedTag_ganssassistancedata.Number != 20 {
+					return fmt.Errorf("decoding ganssAssistanceData: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ganssassistancedata)
 				}
 				tmp_ganssassistancedata := GANSSAssistanceData(rawVal_ganssassistancedata)
 				v.GanssAssistanceData = &tmp_ganssassistancedata
@@ -4069,9 +5421,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
-				_, n_multiplepositioningprotocolpdus, rawVal_multiplepositioningprotocolpdus, err := ber.DecodeTLV(content[offset:])
+				decodedTag_multiplepositioningprotocolpdus, n_multiplepositioningprotocolpdus, rawVal_multiplepositioningprotocolpdus, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding multiplePositioningProtocolPDUs: %w", err)
+				}
+				if decodedTag_multiplepositioningprotocolpdus.Class != tag.ClassContextSpecific || decodedTag_multiplepositioningprotocolpdus.Number != 21 || decodedTag_multiplepositioningprotocolpdus.Constructed != true {
+					return fmt.Errorf("decoding multiplePositioningProtocolPDUs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_multiplepositioningprotocolpdus)
 				}
 				reconstructed_multiplepositioningprotocolpdus := ber.EncodeSequence(rawVal_multiplepositioningprotocolpdus)
 				dec_multiplepositioningprotocolpdus, unmErr := UnmarshalBERMultiplePositioningProtocolPDUs(reconstructed_multiplepositioningprotocolpdus)
@@ -4094,11 +5449,14 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 22 {
-				_, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationinfo, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationInfo: %w", err)
 				}
-				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeBitStringValue(rawVal_locationinfo)
+				if decodedTag_locationinfo.Class != tag.ClassContextSpecific || decodedTag_locationinfo.Number != 22 {
+					return fmt.Errorf("decoding locationInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationinfo)
+				}
+				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_locationinfo.Constructed, rawVal_locationinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding locationInfo: %w", bsErr)
 				}
@@ -4113,9 +5471,12 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 23 {
-				_, n_scheduledloctime, rawVal_scheduledloctime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_scheduledloctime, n_scheduledloctime, rawVal_scheduledloctime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding scheduledLocTime: %w", err)
+				}
+				if decodedTag_scheduledloctime.Class != tag.ClassContextSpecific || decodedTag_scheduledloctime.Number != 23 {
+					return fmt.Errorf("decoding scheduledLocTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_scheduledloctime)
 				}
 				tmp_scheduledloctime := DateTime(rawVal_scheduledloctime)
 				v.ScheduledLocTime = &tmp_scheduledloctime
@@ -4148,6 +5509,19 @@ func MarshalBERMultiplePositioningProtocolPDUs(list MultiplePositioningProtocolP
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERMultiplePositioningProtocolPDUs encodes a MultiplePositioningProtocolPDUs list to DER.
+func MarshalDERMultiplePositioningProtocolPDUs(list MultiplePositioningProtocolPDUs) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MultiplePositioningProtocolPDUs as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERMultiplePositioningProtocolPDUs decodes a MultiplePositioningProtocolPDUs list from BER.
 func UnmarshalBERMultiplePositioningProtocolPDUs(data []byte) (MultiplePositioningProtocolPDUs, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -4175,37 +5549,65 @@ func (v *LCSMOLRRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.LocationEstimate != nil {
 		enc_locationestimate := ber.EncodeOctetString([]byte(*v.LocationEstimate))
-		enc_locationestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_locationestimate)
+		retagged_enc_locationestimate, tagErr_enc_locationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_locationestimate)
+		if tagErr_enc_locationestimate != nil {
+			return nil, fmt.Errorf("encoding locationEstimate: %w", tagErr_enc_locationestimate)
+		}
+		enc_locationestimate = retagged_enc_locationestimate
 		children = append(children, enc_locationestimate...)
 	}
 	if v.DecipheringKeys != nil {
 		enc_decipheringkeys := ber.EncodeOctetString([]byte(*v.DecipheringKeys))
-		enc_decipheringkeys = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_decipheringkeys)
+		retagged_enc_decipheringkeys, tagErr_enc_decipheringkeys := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_decipheringkeys)
+		if tagErr_enc_decipheringkeys != nil {
+			return nil, fmt.Errorf("encoding decipheringKeys: %w", tagErr_enc_decipheringkeys)
+		}
+		enc_decipheringkeys = retagged_enc_decipheringkeys
 		children = append(children, enc_decipheringkeys...)
 	}
 	if v.AddLocationEstimate != nil {
 		enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
-		enc_addlocationestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_addlocationestimate)
+		retagged_enc_addlocationestimate, tagErr_enc_addlocationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_addlocationestimate)
+		if tagErr_enc_addlocationestimate != nil {
+			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", tagErr_enc_addlocationestimate)
+		}
+		enc_addlocationestimate = retagged_enc_addlocationestimate
 		children = append(children, enc_addlocationestimate...)
 	}
 	if v.VelocityEstimate != nil {
 		enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
-		enc_velocityestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_velocityestimate)
+		retagged_enc_velocityestimate, tagErr_enc_velocityestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_velocityestimate)
+		if tagErr_enc_velocityestimate != nil {
+			return nil, fmt.Errorf("encoding velocityEstimate: %w", tagErr_enc_velocityestimate)
+		}
+		enc_velocityestimate = retagged_enc_velocityestimate
 		children = append(children, enc_velocityestimate...)
 	}
 	if v.ReferenceNumber != nil {
 		enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
-		enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_referencenumber)
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
 		children = append(children, enc_referencenumber...)
 	}
 	if v.HGmlcAddress != nil {
 		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
-		enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_hgmlcaddress)
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
 		children = append(children, enc_hgmlcaddress...)
 	}
 	if v.MoLrShortCircuit != nil {
 		enc_molrshortcircuit := ber.EncodeNull()
-		enc_molrshortcircuit = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_molrshortcircuit)
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
 		children = append(children, enc_molrshortcircuit...)
 	}
 	if v.ReportingPLMNList != nil {
@@ -4213,12 +5615,20 @@ func (v *LCSMOLRRes) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reportingPLMNList: %w", err)
 		}
-		enc_reportingplmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, true, enc_reportingplmnlist)
+		retagged_enc_reportingplmnlist, tagErr_enc_reportingplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_reportingplmnlist)
+		if tagErr_enc_reportingplmnlist != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", tagErr_enc_reportingplmnlist)
+		}
+		enc_reportingplmnlist = retagged_enc_reportingplmnlist
 		children = append(children, enc_reportingplmnlist...)
 	}
 	if v.TimestampOfLocationEstimate != nil {
 		enc_timestampoflocationestimate := ber.EncodeOctetString([]byte(*v.TimestampOfLocationEstimate))
-		enc_timestampoflocationestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_timestampoflocationestimate)
+		retagged_enc_timestampoflocationestimate, tagErr_enc_timestampoflocationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_timestampoflocationestimate)
+		if tagErr_enc_timestampoflocationestimate != nil {
+			return nil, fmt.Errorf("encoding timestampOfLocationEstimate: %w", tagErr_enc_timestampoflocationestimate)
+		}
+		enc_timestampoflocationestimate = retagged_enc_timestampoflocationestimate
 		children = append(children, enc_timestampoflocationestimate...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -4236,17 +5646,107 @@ func (v *LCSMOLRRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSMOLRRes to DER format.
 func (v *LCSMOLRRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.LocationEstimate != nil {
+		enc_locationestimate := ber.EncodeOctetString([]byte(*v.LocationEstimate))
+		retagged_enc_locationestimate, tagErr_enc_locationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_locationestimate)
+		if tagErr_enc_locationestimate != nil {
+			return nil, fmt.Errorf("encoding locationEstimate: %w", tagErr_enc_locationestimate)
+		}
+		enc_locationestimate = retagged_enc_locationestimate
+		children = append(children, enc_locationestimate...)
+	}
+	if v.DecipheringKeys != nil {
+		enc_decipheringkeys := ber.EncodeOctetString([]byte(*v.DecipheringKeys))
+		retagged_enc_decipheringkeys, tagErr_enc_decipheringkeys := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_decipheringkeys)
+		if tagErr_enc_decipheringkeys != nil {
+			return nil, fmt.Errorf("encoding decipheringKeys: %w", tagErr_enc_decipheringkeys)
+		}
+		enc_decipheringkeys = retagged_enc_decipheringkeys
+		children = append(children, enc_decipheringkeys...)
+	}
+	if v.AddLocationEstimate != nil {
+		enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
+		retagged_enc_addlocationestimate, tagErr_enc_addlocationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_addlocationestimate)
+		if tagErr_enc_addlocationestimate != nil {
+			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", tagErr_enc_addlocationestimate)
+		}
+		enc_addlocationestimate = retagged_enc_addlocationestimate
+		children = append(children, enc_addlocationestimate...)
+	}
+	if v.VelocityEstimate != nil {
+		enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
+		retagged_enc_velocityestimate, tagErr_enc_velocityestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_velocityestimate)
+		if tagErr_enc_velocityestimate != nil {
+			return nil, fmt.Errorf("encoding velocityEstimate: %w", tagErr_enc_velocityestimate)
+		}
+		enc_velocityestimate = retagged_enc_velocityestimate
+		children = append(children, enc_velocityestimate...)
+	}
+	if v.ReferenceNumber != nil {
+		enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.HGmlcAddress != nil {
+		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
+	if v.MoLrShortCircuit != nil {
+		enc_molrshortcircuit := ber.EncodeNull()
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
+		children = append(children, enc_molrshortcircuit...)
+	}
+	if v.ReportingPLMNList != nil {
+		enc_reportingplmnlist, err := v.ReportingPLMNList.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", err)
+		}
+		retagged_enc_reportingplmnlist, tagErr_enc_reportingplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_reportingplmnlist)
+		if tagErr_enc_reportingplmnlist != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", tagErr_enc_reportingplmnlist)
+		}
+		enc_reportingplmnlist = retagged_enc_reportingplmnlist
+		children = append(children, enc_reportingplmnlist...)
+	}
+	if v.TimestampOfLocationEstimate != nil {
+		enc_timestampoflocationestimate := ber.EncodeOctetString([]byte(*v.TimestampOfLocationEstimate))
+		retagged_enc_timestampoflocationestimate, tagErr_enc_timestampoflocationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_timestampoflocationestimate)
+		if tagErr_enc_timestampoflocationestimate != nil {
+			return nil, fmt.Errorf("encoding timestampOfLocationEstimate: %w", tagErr_enc_timestampoflocationestimate)
+		}
+		enc_timestampoflocationestimate = retagged_enc_timestampoflocationestimate
+		children = append(children, enc_timestampoflocationestimate...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSMOLRRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSMOLRRes from BER/DER format.
 func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
+	*v = LCSMOLRRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSMOLRRes SEQUENCE: %w", err)
@@ -4260,9 +5760,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_locationestimate, rawVal_locationestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationestimate, n_locationestimate, rawVal_locationestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationEstimate: %w", err)
+				}
+				if decodedTag_locationestimate.Class != tag.ClassContextSpecific || decodedTag_locationestimate.Number != 0 {
+					return fmt.Errorf("decoding locationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationestimate)
 				}
 				tmp_locationestimate := ExtGeographicalInformation(rawVal_locationestimate)
 				v.LocationEstimate = &tmp_locationestimate
@@ -4275,9 +5778,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_decipheringkeys, rawVal_decipheringkeys, err := ber.DecodeTLV(content[offset:])
+				decodedTag_decipheringkeys, n_decipheringkeys, rawVal_decipheringkeys, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding decipheringKeys: %w", err)
+				}
+				if decodedTag_decipheringkeys.Class != tag.ClassContextSpecific || decodedTag_decipheringkeys.Number != 1 {
+					return fmt.Errorf("decoding decipheringKeys: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_decipheringkeys)
 				}
 				tmp_decipheringkeys := DecipheringKeys(rawVal_decipheringkeys)
 				v.DecipheringKeys = &tmp_decipheringkeys
@@ -4290,9 +5796,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_addlocationestimate, rawVal_addlocationestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_addlocationestimate, n_addlocationestimate, rawVal_addlocationestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding add-LocationEstimate: %w", err)
+				}
+				if decodedTag_addlocationestimate.Class != tag.ClassContextSpecific || decodedTag_addlocationestimate.Number != 2 {
+					return fmt.Errorf("decoding add-LocationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_addlocationestimate)
 				}
 				tmp_addlocationestimate := AddGeographicalInformation(rawVal_addlocationestimate)
 				v.AddLocationEstimate = &tmp_addlocationestimate
@@ -4305,9 +5814,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_velocityestimate, rawVal_velocityestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_velocityestimate, n_velocityestimate, rawVal_velocityestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding velocityEstimate: %w", err)
+				}
+				if decodedTag_velocityestimate.Class != tag.ClassContextSpecific || decodedTag_velocityestimate.Number != 3 {
+					return fmt.Errorf("decoding velocityEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_velocityestimate)
 				}
 				tmp_velocityestimate := VelocityEstimate(rawVal_velocityestimate)
 				v.VelocityEstimate = &tmp_velocityestimate
@@ -4320,9 +5832,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding referenceNumber: %w", err)
+				}
+				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 4 {
+					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 				}
 				tmp_referencenumber := LCSReferenceNumber(rawVal_referencenumber)
 				v.ReferenceNumber = &tmp_referencenumber
@@ -4335,9 +5850,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 5 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
 				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
@@ -4350,11 +5868,16 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
+				decodedTag_molrshortcircuit, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuit: %w", err)
 				}
-				_ = rawVal_molrshortcircuit
+				if decodedTag_molrshortcircuit.Class != tag.ClassContextSpecific || decodedTag_molrshortcircuit.Number != 6 || decodedTag_molrshortcircuit.Constructed != false {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_molrshortcircuit)
+				}
+				if len(rawVal_molrshortcircuit) != 0 {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_molrshortcircuit))
+				}
 				v.MoLrShortCircuit = &struct{}{}
 				offset += n_molrshortcircuit
 			}
@@ -4365,9 +5888,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_reportingplmnlist, rawVal_reportingplmnlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_reportingplmnlist, n_reportingplmnlist, rawVal_reportingplmnlist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reportingPLMNList: %w", err)
+				}
+				if decodedTag_reportingplmnlist.Class != tag.ClassContextSpecific || decodedTag_reportingplmnlist.Number != 7 || decodedTag_reportingplmnlist.Constructed != true {
+					return fmt.Errorf("decoding reportingPLMNList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingplmnlist)
 				}
 				reconstructed_reportingplmnlist := ber.EncodeSequence(rawVal_reportingplmnlist)
 				var dec_reportingplmnlist ReportingPLMNList
@@ -4384,9 +5910,12 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_timestampoflocationestimate, rawVal_timestampoflocationestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_timestampoflocationestimate, n_timestampoflocationestimate, rawVal_timestampoflocationestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding timestampOfLocationEstimate: %w", err)
+				}
+				if decodedTag_timestampoflocationestimate.Class != tag.ClassContextSpecific || decodedTag_timestampoflocationestimate.Number != 8 {
+					return fmt.Errorf("decoding timestampOfLocationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_timestampoflocationestimate)
 				}
 				tmp_timestampoflocationestimate := DateTime(rawVal_timestampoflocationestimate)
 				v.TimestampOfLocationEstimate = &tmp_timestampoflocationestimate
@@ -4414,19 +5943,35 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 func (v *LCSAreaEventRequestArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
-	enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumber)
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
 	children = append(children, enc_referencenumber...)
 	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
-	enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_hgmlcaddress)
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
 	children = append(children, enc_hgmlcaddress...)
 	enc_deferredlocationeventtype := ber.EncodeBitString(v.DeferredLocationEventType.Bytes, (8-(v.DeferredLocationEventType.BitLength%8))%8)
-	enc_deferredlocationeventtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_deferredlocationeventtype)
+	retagged_enc_deferredlocationeventtype, tagErr_enc_deferredlocationeventtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_deferredlocationeventtype)
+	if tagErr_enc_deferredlocationeventtype != nil {
+		return nil, fmt.Errorf("encoding deferredLocationEventType: %w", tagErr_enc_deferredlocationeventtype)
+	}
+	enc_deferredlocationeventtype = retagged_enc_deferredlocationeventtype
 	children = append(children, enc_deferredlocationeventtype...)
 	enc_areaeventinfo, err := v.AreaEventInfo.MarshalBER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding areaEventInfo: %w", err)
 	}
-	enc_areaeventinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_areaeventinfo)
+	retagged_enc_areaeventinfo, tagErr_enc_areaeventinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_areaeventinfo)
+	if tagErr_enc_areaeventinfo != nil {
+		return nil, fmt.Errorf("encoding areaEventInfo: %w", tagErr_enc_areaeventinfo)
+	}
+	enc_areaeventinfo = retagged_enc_areaeventinfo
 	children = append(children, enc_areaeventinfo...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -4443,17 +5988,54 @@ func (v *LCSAreaEventRequestArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSAreaEventRequestArg to DER format.
 func (v *LCSAreaEventRequestArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
+	children = append(children, enc_referencenumber...)
+	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
+	children = append(children, enc_hgmlcaddress...)
+	enc_deferredlocationeventtype := ber.EncodeBitString(v.DeferredLocationEventType.Bytes, (8-(v.DeferredLocationEventType.BitLength%8))%8)
+	retagged_enc_deferredlocationeventtype, tagErr_enc_deferredlocationeventtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_deferredlocationeventtype)
+	if tagErr_enc_deferredlocationeventtype != nil {
+		return nil, fmt.Errorf("encoding deferredLocationEventType: %w", tagErr_enc_deferredlocationeventtype)
+	}
+	enc_deferredlocationeventtype = retagged_enc_deferredlocationeventtype
+	children = append(children, enc_deferredlocationeventtype...)
+	enc_areaeventinfo, err := v.AreaEventInfo.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding areaEventInfo: %w", err)
+	}
+	retagged_enc_areaeventinfo, tagErr_enc_areaeventinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_areaeventinfo)
+	if tagErr_enc_areaeventinfo != nil {
+		return nil, fmt.Errorf("encoding areaEventInfo: %w", tagErr_enc_areaeventinfo)
+	}
+	enc_areaeventinfo = retagged_enc_areaeventinfo
+	children = append(children, enc_areaeventinfo...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSAreaEventRequestArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSAreaEventRequestArg from BER/DER format.
 func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
+	*v = LCSAreaEventRequestArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSAreaEventRequestArg SEQUENCE: %w", err)
@@ -4471,9 +6053,12 @@ func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumber: %w", err)
+	}
+	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
+		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
 	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
@@ -4486,9 +6071,12 @@ func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for h-gmlc-address, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-address: %w", err)
+	}
+	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
+		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
 	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
@@ -4501,11 +6089,14 @@ func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for deferredLocationEventType, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_deferredlocationeventtype, rawVal_deferredlocationeventtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_deferredlocationeventtype, n_deferredlocationeventtype, rawVal_deferredlocationeventtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding deferredLocationEventType: %w", err)
 	}
-	bsBytes_deferredlocationeventtype, bsUnused_deferredlocationeventtype, bsErr := ber.DecodeBitStringValue(rawVal_deferredlocationeventtype)
+	if decodedTag_deferredlocationeventtype.Class != tag.ClassContextSpecific || decodedTag_deferredlocationeventtype.Number != 3 {
+		return fmt.Errorf("decoding deferredLocationEventType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deferredlocationeventtype)
+	}
+	bsBytes_deferredlocationeventtype, bsUnused_deferredlocationeventtype, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_deferredlocationeventtype.Constructed, rawVal_deferredlocationeventtype)
 	if bsErr != nil {
 		return fmt.Errorf("decoding deferredLocationEventType: %w", bsErr)
 	}
@@ -4520,9 +6111,12 @@ func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for areaEventInfo, got %s", "CONTEXT", 4, reqTag_)
 		}
 	}
-	_, n_areaeventinfo, rawVal_areaeventinfo, err := ber.DecodeTLV(content[offset:])
+	decodedTag_areaeventinfo, n_areaeventinfo, rawVal_areaeventinfo, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding areaEventInfo: %w", err)
+	}
+	if decodedTag_areaeventinfo.Class != tag.ClassContextSpecific || decodedTag_areaeventinfo.Number != 4 || decodedTag_areaeventinfo.Constructed != true {
+		return fmt.Errorf("decoding areaEventInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_areaeventinfo)
 	}
 	reconstructed_areaeventinfo := ber.EncodeSequence(rawVal_areaeventinfo)
 	if unmErr := v.AreaEventInfo.UnmarshalBER(reconstructed_areaeventinfo); unmErr != nil {
@@ -4549,14 +6143,22 @@ func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
 func (v *LCSSLMOLRArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_slmolrtype := ber.EncodeEnumerated(int64(v.SlmolrType))
-	enc_slmolrtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_slmolrtype)
+	retagged_enc_slmolrtype, tagErr_enc_slmolrtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_slmolrtype)
+	if tagErr_enc_slmolrtype != nil {
+		return nil, fmt.Errorf("encoding slmolr-Type: %w", tagErr_enc_slmolrtype)
+	}
+	enc_slmolrtype = retagged_enc_slmolrtype
 	children = append(children, enc_slmolrtype...)
 	if v.LcsQoS != nil {
 		enc_lcsqos, err := v.LcsQoS.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
 		}
-		enc_lcsqos = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_lcsqos)
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
 		children = append(children, enc_lcsqos...)
 	}
 	if v.LcsClientExternalID != nil {
@@ -4564,32 +6166,56 @@ func (v *LCSSLMOLRArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
 		}
-		enc_lcsclientexternalid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_lcsclientexternalid)
+		retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsclientexternalid)
+		if tagErr_enc_lcsclientexternalid != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+		}
+		enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
 		children = append(children, enc_lcsclientexternalid...)
 	}
 	if v.MlcNumber != nil {
 		enc_mlcnumber := ber.EncodeOctetString([]byte(*v.MlcNumber))
-		enc_mlcnumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_mlcnumber)
+		retagged_enc_mlcnumber, tagErr_enc_mlcnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_mlcnumber)
+		if tagErr_enc_mlcnumber != nil {
+			return nil, fmt.Errorf("encoding mlc-Number: %w", tagErr_enc_mlcnumber)
+		}
+		enc_mlcnumber = retagged_enc_mlcnumber
 		children = append(children, enc_mlcnumber...)
 	}
 	if v.SupportedGADShapes != nil {
 		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
-		enc_supportedgadshapes = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_supportedgadshapes)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
 		children = append(children, enc_supportedgadshapes...)
 	}
 	if v.LcsServiceTypeID != nil {
 		enc_lcsservicetypeid := ber.EncodeInteger(int64(*v.LcsServiceTypeID))
-		enc_lcsservicetypeid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_lcsservicetypeid)
+		retagged_enc_lcsservicetypeid, tagErr_enc_lcsservicetypeid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcsservicetypeid)
+		if tagErr_enc_lcsservicetypeid != nil {
+			return nil, fmt.Errorf("encoding lcsServiceTypeID: %w", tagErr_enc_lcsservicetypeid)
+		}
+		enc_lcsservicetypeid = retagged_enc_lcsservicetypeid
 		children = append(children, enc_lcsservicetypeid...)
 	}
 	if v.PseudonymIndicator != nil {
 		enc_pseudonymindicator := ber.EncodeNull()
-		enc_pseudonymindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_pseudonymindicator)
+		retagged_enc_pseudonymindicator, tagErr_enc_pseudonymindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_pseudonymindicator)
+		if tagErr_enc_pseudonymindicator != nil {
+			return nil, fmt.Errorf("encoding pseudonymIndicator: %w", tagErr_enc_pseudonymindicator)
+		}
+		enc_pseudonymindicator = retagged_enc_pseudonymindicator
 		children = append(children, enc_pseudonymindicator...)
 	}
 	if v.HGmlcAddress != nil {
 		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
-		enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_hgmlcaddress)
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
 		children = append(children, enc_hgmlcaddress...)
 	}
 	if v.CalculationAssistIndicator != nil {
@@ -4599,7 +6225,11 @@ func (v *LCSSLMOLRArg) MarshalBER() ([]byte, error) {
 		} else {
 			enc_calculationassistindicator = ber.EncodeBoolean(*v.CalculationAssistIndicator)
 		}
-		enc_calculationassistindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, false, enc_calculationassistindicator)
+		retagged_enc_calculationassistindicator, tagErr_enc_calculationassistindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_calculationassistindicator)
+		if tagErr_enc_calculationassistindicator != nil {
+			return nil, fmt.Errorf("encoding calculationAssistIndicator: %w", tagErr_enc_calculationassistindicator)
+		}
+		enc_calculationassistindicator = retagged_enc_calculationassistindicator
 		children = append(children, enc_calculationassistindicator...)
 	}
 	if v.PreferredRangingResult != nil {
@@ -4607,7 +6237,11 @@ func (v *LCSSLMOLRArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding preferredRangingResult: %w", err)
 		}
-		enc_preferredrangingresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, true, enc_preferredrangingresult)
+		retagged_enc_preferredrangingresult, tagErr_enc_preferredrangingresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_preferredrangingresult)
+		if tagErr_enc_preferredrangingresult != nil {
+			return nil, fmt.Errorf("encoding preferredRangingResult: %w", tagErr_enc_preferredrangingresult)
+		}
+		enc_preferredrangingresult = retagged_enc_preferredrangingresult
 		children = append(children, enc_preferredrangingresult...)
 	}
 	if v.RelatedUEInfo != nil {
@@ -4623,7 +6257,11 @@ func (v *LCSSLMOLRArg) MarshalBER() ([]byte, error) {
 			}
 			enc_relatedueinfo = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 11}, seqContent_)
 		} else {
-			enc_relatedueinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, true, enc_relatedueinfo)
+			retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_relatedueinfo)
+			if tagErr_enc_relatedueinfo != nil {
+				return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+			}
+			enc_relatedueinfo = retagged_enc_relatedueinfo
 		}
 		children = append(children, enc_relatedueinfo...)
 	}
@@ -4642,20 +6280,132 @@ func (v *LCSSLMOLRArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSSLMOLRArg to DER format.
 func (v *LCSSLMOLRArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_slmolrtype := ber.EncodeEnumerated(int64(v.SlmolrType))
+	retagged_enc_slmolrtype, tagErr_enc_slmolrtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_slmolrtype)
+	if tagErr_enc_slmolrtype != nil {
+		return nil, fmt.Errorf("encoding slmolr-Type: %w", tagErr_enc_slmolrtype)
+	}
+	enc_slmolrtype = retagged_enc_slmolrtype
+	children = append(children, enc_slmolrtype...)
+	if v.LcsQoS != nil {
+		enc_lcsqos, err := v.LcsQoS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
+		}
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
+		children = append(children, enc_lcsqos...)
+	}
+	if v.LcsClientExternalID != nil {
+		enc_lcsclientexternalid, err := v.LcsClientExternalID.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
+		}
+		retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsclientexternalid)
+		if tagErr_enc_lcsclientexternalid != nil {
+			return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+		}
+		enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
+		children = append(children, enc_lcsclientexternalid...)
+	}
+	if v.MlcNumber != nil {
+		enc_mlcnumber := ber.EncodeOctetString([]byte(*v.MlcNumber))
+		retagged_enc_mlcnumber, tagErr_enc_mlcnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_mlcnumber)
+		if tagErr_enc_mlcnumber != nil {
+			return nil, fmt.Errorf("encoding mlc-Number: %w", tagErr_enc_mlcnumber)
+		}
+		enc_mlcnumber = retagged_enc_mlcnumber
+		children = append(children, enc_mlcnumber...)
+	}
+	if v.SupportedGADShapes != nil {
+		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
+		children = append(children, enc_supportedgadshapes...)
+	}
+	if v.LcsServiceTypeID != nil {
+		enc_lcsservicetypeid := ber.EncodeInteger(int64(*v.LcsServiceTypeID))
+		retagged_enc_lcsservicetypeid, tagErr_enc_lcsservicetypeid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcsservicetypeid)
+		if tagErr_enc_lcsservicetypeid != nil {
+			return nil, fmt.Errorf("encoding lcsServiceTypeID: %w", tagErr_enc_lcsservicetypeid)
+		}
+		enc_lcsservicetypeid = retagged_enc_lcsservicetypeid
+		children = append(children, enc_lcsservicetypeid...)
+	}
+	if v.PseudonymIndicator != nil {
+		enc_pseudonymindicator := ber.EncodeNull()
+		retagged_enc_pseudonymindicator, tagErr_enc_pseudonymindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_pseudonymindicator)
+		if tagErr_enc_pseudonymindicator != nil {
+			return nil, fmt.Errorf("encoding pseudonymIndicator: %w", tagErr_enc_pseudonymindicator)
+		}
+		enc_pseudonymindicator = retagged_enc_pseudonymindicator
+		children = append(children, enc_pseudonymindicator...)
+	}
+	if v.HGmlcAddress != nil {
+		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
+	if v.CalculationAssistIndicator != nil {
+		enc_calculationassistindicator := ber.EncodeBoolean(*v.CalculationAssistIndicator)
+		retagged_enc_calculationassistindicator, tagErr_enc_calculationassistindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_calculationassistindicator)
+		if tagErr_enc_calculationassistindicator != nil {
+			return nil, fmt.Errorf("encoding calculationAssistIndicator: %w", tagErr_enc_calculationassistindicator)
+		}
+		enc_calculationassistindicator = retagged_enc_calculationassistindicator
+		children = append(children, enc_calculationassistindicator...)
+	}
+	if v.PreferredRangingResult != nil {
+		enc_preferredrangingresult, err := v.PreferredRangingResult.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding preferredRangingResult: %w", err)
+		}
+		retagged_enc_preferredrangingresult, tagErr_enc_preferredrangingresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_preferredrangingresult)
+		if tagErr_enc_preferredrangingresult != nil {
+			return nil, fmt.Errorf("encoding preferredRangingResult: %w", tagErr_enc_preferredrangingresult)
+		}
+		enc_preferredrangingresult = retagged_enc_preferredrangingresult
+		children = append(children, enc_preferredrangingresult...)
+	}
+	if v.RelatedUEInfo != nil {
+		enc_relatedueinfo, err := MarshalDERRelatedUEInfo(v.RelatedUEInfo)
+		if err != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", err)
+		}
+		retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_relatedueinfo)
+		if tagErr_enc_relatedueinfo != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+		}
+		enc_relatedueinfo = retagged_enc_relatedueinfo
+		children = append(children, enc_relatedueinfo...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.RelatedUEInfoIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSSLMOLRArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSSLMOLRArg from BER/DER format.
 func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
+	*v = LCSSLMOLRArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSSLMOLRArg SEQUENCE: %w", err)
@@ -4673,11 +6423,14 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for slmolr-Type, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_slmolrtype, rawVal_slmolrtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_slmolrtype, n_slmolrtype, rawVal_slmolrtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding slmolr-Type: %w", err)
 	}
-	decVal_slmolrtype, intErr := ber.DecodeIntegerValue(rawVal_slmolrtype)
+	if decodedTag_slmolrtype.Class != tag.ClassContextSpecific || decodedTag_slmolrtype.Number != 0 || decodedTag_slmolrtype.Constructed != false {
+		return fmt.Errorf("decoding slmolr-Type: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_slmolrtype)
+	}
+	decVal_slmolrtype, intErr := ber.DecodeEnumeratedValue(rawVal_slmolrtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding slmolr-Type: %w", intErr)
 	}
@@ -4688,9 +6441,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_lcsqos, rawVal_lcsqos, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsqos, n_lcsqos, rawVal_lcsqos, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcs-QoS: %w", err)
+				}
+				if decodedTag_lcsqos.Class != tag.ClassContextSpecific || decodedTag_lcsqos.Number != 1 || decodedTag_lcsqos.Constructed != true {
+					return fmt.Errorf("decoding lcs-QoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsqos)
 				}
 				reconstructed_lcsqos := ber.EncodeSequence(rawVal_lcsqos)
 				var dec_lcsqos LCSQoS
@@ -4707,9 +6463,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsclientexternalid, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsClientExternalID: %w", err)
+				}
+				if decodedTag_lcsclientexternalid.Class != tag.ClassContextSpecific || decodedTag_lcsclientexternalid.Number != 2 || decodedTag_lcsclientexternalid.Constructed != true {
+					return fmt.Errorf("decoding lcsClientExternalID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientexternalid)
 				}
 				reconstructed_lcsclientexternalid := ber.EncodeSequence(rawVal_lcsclientexternalid)
 				var dec_lcsclientexternalid LCSClientExternalID
@@ -4726,9 +6485,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_mlcnumber, rawVal_mlcnumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_mlcnumber, n_mlcnumber, rawVal_mlcnumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mlc-Number: %w", err)
+				}
+				if decodedTag_mlcnumber.Class != tag.ClassContextSpecific || decodedTag_mlcnumber.Number != 3 {
+					return fmt.Errorf("decoding mlc-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mlcnumber)
 				}
 				tmp_mlcnumber := ISDNAddressString(rawVal_mlcnumber)
 				v.MlcNumber = &tmp_mlcnumber
@@ -4741,11 +6503,14 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
+				decodedTag_supportedgadshapes, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", err)
 				}
-				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeBitStringValue(rawVal_supportedgadshapes)
+				if decodedTag_supportedgadshapes.Class != tag.ClassContextSpecific || decodedTag_supportedgadshapes.Number != 4 {
+					return fmt.Errorf("decoding supportedGADShapes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedgadshapes)
+				}
+				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedgadshapes.Constructed, rawVal_supportedgadshapes)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", bsErr)
 				}
@@ -4760,9 +6525,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_lcsservicetypeid, rawVal_lcsservicetypeid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsservicetypeid, n_lcsservicetypeid, rawVal_lcsservicetypeid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcsServiceTypeID: %w", err)
+				}
+				if decodedTag_lcsservicetypeid.Class != tag.ClassContextSpecific || decodedTag_lcsservicetypeid.Number != 5 || decodedTag_lcsservicetypeid.Constructed != false {
+					return fmt.Errorf("decoding lcsServiceTypeID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsservicetypeid)
 				}
 				decVal_lcsservicetypeid, intErr := ber.DecodeIntegerValue(rawVal_lcsservicetypeid)
 				if intErr != nil {
@@ -4779,11 +6547,16 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_pseudonymindicator, rawVal_pseudonymindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_pseudonymindicator, n_pseudonymindicator, rawVal_pseudonymindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding pseudonymIndicator: %w", err)
 				}
-				_ = rawVal_pseudonymindicator
+				if decodedTag_pseudonymindicator.Class != tag.ClassContextSpecific || decodedTag_pseudonymindicator.Number != 7 || decodedTag_pseudonymindicator.Constructed != false {
+					return fmt.Errorf("decoding pseudonymIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pseudonymindicator)
+				}
+				if len(rawVal_pseudonymindicator) != 0 {
+					return fmt.Errorf("decoding pseudonymIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_pseudonymindicator))
+				}
 				v.PseudonymIndicator = &struct{}{}
 				offset += n_pseudonymindicator
 			}
@@ -4794,9 +6567,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 8 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
 				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
@@ -4809,9 +6585,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_calculationassistindicator, rawVal_calculationassistindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_calculationassistindicator, n_calculationassistindicator, rawVal_calculationassistindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding calculationAssistIndicator: %w", err)
+				}
+				if decodedTag_calculationassistindicator.Class != tag.ClassContextSpecific || decodedTag_calculationassistindicator.Number != 9 || decodedTag_calculationassistindicator.Constructed != false {
+					return fmt.Errorf("decoding calculationAssistIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_calculationassistindicator)
 				}
 				decVal_calculationassistindicator, boolErr := ber.DecodeBooleanValue(rawVal_calculationassistindicator)
 				if boolErr != nil {
@@ -4830,9 +6609,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_preferredrangingresult, rawVal_preferredrangingresult, err := ber.DecodeTLV(content[offset:])
+				decodedTag_preferredrangingresult, n_preferredrangingresult, rawVal_preferredrangingresult, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding preferredRangingResult: %w", err)
+				}
+				if decodedTag_preferredrangingresult.Class != tag.ClassContextSpecific || decodedTag_preferredrangingresult.Number != 10 || decodedTag_preferredrangingresult.Constructed != true {
+					return fmt.Errorf("decoding preferredRangingResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_preferredrangingresult)
 				}
 				reconstructed_preferredrangingresult := ber.EncodeSequence(rawVal_preferredrangingresult)
 				var dec_preferredrangingresult PreferredRangingResult
@@ -4850,9 +6632,12 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relatedueinfo, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relatedUEInfo: %w", err)
+				}
+				if decodedTag_relatedueinfo.Class != tag.ClassContextSpecific || decodedTag_relatedueinfo.Number != 11 || decodedTag_relatedueinfo.Constructed != true {
+					return fmt.Errorf("decoding relatedUEInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relatedueinfo)
 				}
 				reconstructed_relatedueinfo := ber.EncodeSequence(rawVal_relatedueinfo)
 				dec_relatedueinfo, unmErr := UnmarshalBERRelatedUEInfo(reconstructed_relatedueinfo)
@@ -4896,7 +6681,11 @@ func (v *PreferredRangingResult) MarshalBER() ([]byte, error) {
 		} else {
 			enc_absolutelocationindicator = ber.EncodeBoolean(*v.AbsoluteLocationIndicator)
 		}
-		enc_absolutelocationindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_absolutelocationindicator)
+		retagged_enc_absolutelocationindicator, tagErr_enc_absolutelocationindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_absolutelocationindicator)
+		if tagErr_enc_absolutelocationindicator != nil {
+			return nil, fmt.Errorf("encoding absoluteLocationIndicator: %w", tagErr_enc_absolutelocationindicator)
+		}
+		enc_absolutelocationindicator = retagged_enc_absolutelocationindicator
 		children = append(children, enc_absolutelocationindicator...)
 	}
 	if v.AbsoluteVelocityIndicator != nil {
@@ -4906,7 +6695,11 @@ func (v *PreferredRangingResult) MarshalBER() ([]byte, error) {
 		} else {
 			enc_absolutevelocityindicator = ber.EncodeBoolean(*v.AbsoluteVelocityIndicator)
 		}
-		enc_absolutevelocityindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_absolutevelocityindicator)
+		retagged_enc_absolutevelocityindicator, tagErr_enc_absolutevelocityindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_absolutevelocityindicator)
+		if tagErr_enc_absolutevelocityindicator != nil {
+			return nil, fmt.Errorf("encoding absoluteVelocityIndicator: %w", tagErr_enc_absolutevelocityindicator)
+		}
+		enc_absolutevelocityindicator = retagged_enc_absolutevelocityindicator
 		children = append(children, enc_absolutevelocityindicator...)
 	}
 	if v.RelativeLocationIndicator != nil {
@@ -4916,7 +6709,11 @@ func (v *PreferredRangingResult) MarshalBER() ([]byte, error) {
 		} else {
 			enc_relativelocationindicator = ber.EncodeBoolean(*v.RelativeLocationIndicator)
 		}
-		enc_relativelocationindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_relativelocationindicator)
+		retagged_enc_relativelocationindicator, tagErr_enc_relativelocationindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_relativelocationindicator)
+		if tagErr_enc_relativelocationindicator != nil {
+			return nil, fmt.Errorf("encoding relativeLocationIndicator: %w", tagErr_enc_relativelocationindicator)
+		}
+		enc_relativelocationindicator = retagged_enc_relativelocationindicator
 		children = append(children, enc_relativelocationindicator...)
 	}
 	if v.RangeDirection != nil {
@@ -4926,7 +6723,11 @@ func (v *PreferredRangingResult) MarshalBER() ([]byte, error) {
 		} else {
 			enc_rangedirection = ber.EncodeBoolean(*v.RangeDirection)
 		}
-		enc_rangedirection = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_rangedirection)
+		retagged_enc_rangedirection, tagErr_enc_rangedirection := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_rangedirection)
+		if tagErr_enc_rangedirection != nil {
+			return nil, fmt.Errorf("encoding rangeDirection: %w", tagErr_enc_rangedirection)
+		}
+		enc_rangedirection = retagged_enc_rangedirection
 		children = append(children, enc_rangedirection...)
 	}
 	if v.RelativeVelocityIndicator != nil {
@@ -4936,7 +6737,11 @@ func (v *PreferredRangingResult) MarshalBER() ([]byte, error) {
 		} else {
 			enc_relativevelocityindicator = ber.EncodeBoolean(*v.RelativeVelocityIndicator)
 		}
-		enc_relativevelocityindicator = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_relativevelocityindicator)
+		retagged_enc_relativevelocityindicator, tagErr_enc_relativevelocityindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_relativevelocityindicator)
+		if tagErr_enc_relativevelocityindicator != nil {
+			return nil, fmt.Errorf("encoding relativeVelocityIndicator: %w", tagErr_enc_relativevelocityindicator)
+		}
+		enc_relativevelocityindicator = retagged_enc_relativevelocityindicator
 		children = append(children, enc_relativevelocityindicator...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -4954,17 +6759,68 @@ func (v *PreferredRangingResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PreferredRangingResult to DER format.
 func (v *PreferredRangingResult) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.AbsoluteLocationIndicator != nil {
+		enc_absolutelocationindicator := ber.EncodeBoolean(*v.AbsoluteLocationIndicator)
+		retagged_enc_absolutelocationindicator, tagErr_enc_absolutelocationindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_absolutelocationindicator)
+		if tagErr_enc_absolutelocationindicator != nil {
+			return nil, fmt.Errorf("encoding absoluteLocationIndicator: %w", tagErr_enc_absolutelocationindicator)
+		}
+		enc_absolutelocationindicator = retagged_enc_absolutelocationindicator
+		children = append(children, enc_absolutelocationindicator...)
+	}
+	if v.AbsoluteVelocityIndicator != nil {
+		enc_absolutevelocityindicator := ber.EncodeBoolean(*v.AbsoluteVelocityIndicator)
+		retagged_enc_absolutevelocityindicator, tagErr_enc_absolutevelocityindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_absolutevelocityindicator)
+		if tagErr_enc_absolutevelocityindicator != nil {
+			return nil, fmt.Errorf("encoding absoluteVelocityIndicator: %w", tagErr_enc_absolutevelocityindicator)
+		}
+		enc_absolutevelocityindicator = retagged_enc_absolutevelocityindicator
+		children = append(children, enc_absolutevelocityindicator...)
+	}
+	if v.RelativeLocationIndicator != nil {
+		enc_relativelocationindicator := ber.EncodeBoolean(*v.RelativeLocationIndicator)
+		retagged_enc_relativelocationindicator, tagErr_enc_relativelocationindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_relativelocationindicator)
+		if tagErr_enc_relativelocationindicator != nil {
+			return nil, fmt.Errorf("encoding relativeLocationIndicator: %w", tagErr_enc_relativelocationindicator)
+		}
+		enc_relativelocationindicator = retagged_enc_relativelocationindicator
+		children = append(children, enc_relativelocationindicator...)
+	}
+	if v.RangeDirection != nil {
+		enc_rangedirection := ber.EncodeBoolean(*v.RangeDirection)
+		retagged_enc_rangedirection, tagErr_enc_rangedirection := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_rangedirection)
+		if tagErr_enc_rangedirection != nil {
+			return nil, fmt.Errorf("encoding rangeDirection: %w", tagErr_enc_rangedirection)
+		}
+		enc_rangedirection = retagged_enc_rangedirection
+		children = append(children, enc_rangedirection...)
+	}
+	if v.RelativeVelocityIndicator != nil {
+		enc_relativevelocityindicator := ber.EncodeBoolean(*v.RelativeVelocityIndicator)
+		retagged_enc_relativevelocityindicator, tagErr_enc_relativevelocityindicator := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_relativevelocityindicator)
+		if tagErr_enc_relativevelocityindicator != nil {
+			return nil, fmt.Errorf("encoding relativeVelocityIndicator: %w", tagErr_enc_relativevelocityindicator)
+		}
+		enc_relativevelocityindicator = retagged_enc_relativevelocityindicator
+		children = append(children, enc_relativevelocityindicator...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PreferredRangingResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PreferredRangingResult from BER/DER format.
 func (v *PreferredRangingResult) UnmarshalBER(data []byte) error {
+	*v = PreferredRangingResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PreferredRangingResult SEQUENCE: %w", err)
@@ -4978,9 +6834,12 @@ func (v *PreferredRangingResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_absolutelocationindicator, rawVal_absolutelocationindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_absolutelocationindicator, n_absolutelocationindicator, rawVal_absolutelocationindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding absoluteLocationIndicator: %w", err)
+				}
+				if decodedTag_absolutelocationindicator.Class != tag.ClassContextSpecific || decodedTag_absolutelocationindicator.Number != 0 || decodedTag_absolutelocationindicator.Constructed != false {
+					return fmt.Errorf("decoding absoluteLocationIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absolutelocationindicator)
 				}
 				decVal_absolutelocationindicator, boolErr := ber.DecodeBooleanValue(rawVal_absolutelocationindicator)
 				if boolErr != nil {
@@ -4999,9 +6858,12 @@ func (v *PreferredRangingResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_absolutevelocityindicator, rawVal_absolutevelocityindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_absolutevelocityindicator, n_absolutevelocityindicator, rawVal_absolutevelocityindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding absoluteVelocityIndicator: %w", err)
+				}
+				if decodedTag_absolutevelocityindicator.Class != tag.ClassContextSpecific || decodedTag_absolutevelocityindicator.Number != 1 || decodedTag_absolutevelocityindicator.Constructed != false {
+					return fmt.Errorf("decoding absoluteVelocityIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absolutevelocityindicator)
 				}
 				decVal_absolutevelocityindicator, boolErr := ber.DecodeBooleanValue(rawVal_absolutevelocityindicator)
 				if boolErr != nil {
@@ -5020,9 +6882,12 @@ func (v *PreferredRangingResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_relativelocationindicator, rawVal_relativelocationindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relativelocationindicator, n_relativelocationindicator, rawVal_relativelocationindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relativeLocationIndicator: %w", err)
+				}
+				if decodedTag_relativelocationindicator.Class != tag.ClassContextSpecific || decodedTag_relativelocationindicator.Number != 2 || decodedTag_relativelocationindicator.Constructed != false {
+					return fmt.Errorf("decoding relativeLocationIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relativelocationindicator)
 				}
 				decVal_relativelocationindicator, boolErr := ber.DecodeBooleanValue(rawVal_relativelocationindicator)
 				if boolErr != nil {
@@ -5041,9 +6906,12 @@ func (v *PreferredRangingResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_rangedirection, rawVal_rangedirection, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rangedirection, n_rangedirection, rawVal_rangedirection, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rangeDirection: %w", err)
+				}
+				if decodedTag_rangedirection.Class != tag.ClassContextSpecific || decodedTag_rangedirection.Number != 3 || decodedTag_rangedirection.Constructed != false {
+					return fmt.Errorf("decoding rangeDirection: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangedirection)
 				}
 				decVal_rangedirection, boolErr := ber.DecodeBooleanValue(rawVal_rangedirection)
 				if boolErr != nil {
@@ -5062,9 +6930,12 @@ func (v *PreferredRangingResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_relativevelocityindicator, rawVal_relativevelocityindicator, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relativevelocityindicator, n_relativevelocityindicator, rawVal_relativevelocityindicator, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relativeVelocityIndicator: %w", err)
+				}
+				if decodedTag_relativevelocityindicator.Class != tag.ClassContextSpecific || decodedTag_relativevelocityindicator.Number != 4 || decodedTag_relativevelocityindicator.Constructed != false {
+					return fmt.Errorf("decoding relativeVelocityIndicator: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relativevelocityindicator)
 				}
 				decVal_relativevelocityindicator, boolErr := ber.DecodeBooleanValue(rawVal_relativevelocityindicator)
 				if boolErr != nil {
@@ -5107,6 +6978,23 @@ func MarshalBERRelatedUEInfo(list RelatedUEInfo) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERRelatedUEInfo encodes a RelatedUEInfo list to DER.
+func MarshalDERRelatedUEInfo(list RelatedUEInfo) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RelatedUEInfo as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERRelatedUEInfo decodes a RelatedUEInfo list from BER.
 func UnmarshalBERRelatedUEInfo(data []byte) (RelatedUEInfo, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -5137,11 +7025,19 @@ func UnmarshalBERRelatedUEInfo(data []byte) (RelatedUEInfo, error) {
 func (v *RangingUEInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_applicationlayerid := ber.EncodeOctetString(v.ApplicationLayerID)
-	enc_applicationlayerid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_applicationlayerid)
+	retagged_enc_applicationlayerid, tagErr_enc_applicationlayerid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_applicationlayerid)
+	if tagErr_enc_applicationlayerid != nil {
+		return nil, fmt.Errorf("encoding applicationLayerID: %w", tagErr_enc_applicationlayerid)
+	}
+	enc_applicationlayerid = retagged_enc_applicationlayerid
 	children = append(children, enc_applicationlayerid...)
 	if v.RangingRole != nil {
 		enc_rangingrole := ber.EncodeEnumerated(int64(*v.RangingRole))
-		enc_rangingrole = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_rangingrole)
+		retagged_enc_rangingrole, tagErr_enc_rangingrole := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_rangingrole)
+		if tagErr_enc_rangingrole != nil {
+			return nil, fmt.Errorf("encoding rangingRole: %w", tagErr_enc_rangingrole)
+		}
+		enc_rangingrole = retagged_enc_rangingrole
 		children = append(children, enc_rangingrole...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5159,17 +7055,39 @@ func (v *RangingUEInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RangingUEInfo to DER format.
 func (v *RangingUEInfo) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_applicationlayerid := ber.EncodeOctetString(v.ApplicationLayerID)
+	retagged_enc_applicationlayerid, tagErr_enc_applicationlayerid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_applicationlayerid)
+	if tagErr_enc_applicationlayerid != nil {
+		return nil, fmt.Errorf("encoding applicationLayerID: %w", tagErr_enc_applicationlayerid)
+	}
+	enc_applicationlayerid = retagged_enc_applicationlayerid
+	children = append(children, enc_applicationlayerid...)
+	if v.RangingRole != nil {
+		enc_rangingrole := ber.EncodeEnumerated(int64(*v.RangingRole))
+		retagged_enc_rangingrole, tagErr_enc_rangingrole := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_rangingrole)
+		if tagErr_enc_rangingrole != nil {
+			return nil, fmt.Errorf("encoding rangingRole: %w", tagErr_enc_rangingrole)
+		}
+		enc_rangingrole = retagged_enc_rangingrole
+		children = append(children, enc_rangingrole...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RangingUEInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RangingUEInfo from BER/DER format.
 func (v *RangingUEInfo) UnmarshalBER(data []byte) error {
+	*v = RangingUEInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RangingUEInfo SEQUENCE: %w", err)
@@ -5187,9 +7105,12 @@ func (v *RangingUEInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for applicationLayerID, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_applicationlayerid, rawVal_applicationlayerid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_applicationlayerid, n_applicationlayerid, rawVal_applicationlayerid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding applicationLayerID: %w", err)
+	}
+	if decodedTag_applicationlayerid.Class != tag.ClassContextSpecific || decodedTag_applicationlayerid.Number != 0 {
+		return fmt.Errorf("decoding applicationLayerID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_applicationlayerid)
 	}
 	v.ApplicationLayerID = rawVal_applicationlayerid
 	offset += n_applicationlayerid
@@ -5198,11 +7119,14 @@ func (v *RangingUEInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_rangingrole, rawVal_rangingrole, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rangingrole, n_rangingrole, rawVal_rangingrole, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rangingRole: %w", err)
 				}
-				decVal_rangingrole, intErr := ber.DecodeIntegerValue(rawVal_rangingrole)
+				if decodedTag_rangingrole.Class != tag.ClassContextSpecific || decodedTag_rangingrole.Number != 1 || decodedTag_rangingrole.Constructed != false {
+					return fmt.Errorf("decoding rangingRole: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangingrole)
+				}
+				decVal_rangingrole, intErr := ber.DecodeEnumeratedValue(rawVal_rangingrole)
 				if intErr != nil {
 					return fmt.Errorf("decoding rangingRole: %w", intErr)
 				}
@@ -5233,12 +7157,20 @@ func (v *LCSSLMOLRRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.AbsoluteLocation != nil {
 		enc_absolutelocation := ber.EncodeOctetString([]byte(*v.AbsoluteLocation))
-		enc_absolutelocation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_absolutelocation)
+		retagged_enc_absolutelocation, tagErr_enc_absolutelocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_absolutelocation)
+		if tagErr_enc_absolutelocation != nil {
+			return nil, fmt.Errorf("encoding absoluteLocation: %w", tagErr_enc_absolutelocation)
+		}
+		enc_absolutelocation = retagged_enc_absolutelocation
 		children = append(children, enc_absolutelocation...)
 	}
 	if v.AbsoluteVelocity != nil {
 		enc_absolutevelocity := ber.EncodeOctetString([]byte(*v.AbsoluteVelocity))
-		enc_absolutevelocity = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_absolutevelocity)
+		retagged_enc_absolutevelocity, tagErr_enc_absolutevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_absolutevelocity)
+		if tagErr_enc_absolutevelocity != nil {
+			return nil, fmt.Errorf("encoding absoluteVelocity: %w", tagErr_enc_absolutevelocity)
+		}
+		enc_absolutevelocity = retagged_enc_absolutevelocity
 		children = append(children, enc_absolutevelocity...)
 	}
 	if v.RelativeResult != nil {
@@ -5254,18 +7186,30 @@ func (v *LCSSLMOLRRes) MarshalBER() ([]byte, error) {
 			}
 			enc_relativeresult = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
-			enc_relativeresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_relativeresult)
+			retagged_enc_relativeresult, tagErr_enc_relativeresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_relativeresult)
+			if tagErr_enc_relativeresult != nil {
+				return nil, fmt.Errorf("encoding relativeResult: %w", tagErr_enc_relativeresult)
+			}
+			enc_relativeresult = retagged_enc_relativeresult
 		}
 		children = append(children, enc_relativeresult...)
 	}
 	if v.UeOnlyRSLPosAllowed != nil {
 		enc_ueonlyrslposallowed := ber.EncodeInteger(int64(*v.UeOnlyRSLPosAllowed))
-		enc_ueonlyrslposallowed = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_ueonlyrslposallowed)
+		retagged_enc_ueonlyrslposallowed, tagErr_enc_ueonlyrslposallowed := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ueonlyrslposallowed)
+		if tagErr_enc_ueonlyrslposallowed != nil {
+			return nil, fmt.Errorf("encoding ueOnlyRSLPosAllowed: %w", tagErr_enc_ueonlyrslposallowed)
+		}
+		enc_ueonlyrslposallowed = retagged_enc_ueonlyrslposallowed
 		children = append(children, enc_ueonlyrslposallowed...)
 	}
 	if v.Timestamp != nil {
 		enc_timestamp := ber.EncodeOctetString([]byte(*v.Timestamp))
-		enc_timestamp = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_timestamp)
+		retagged_enc_timestamp, tagErr_enc_timestamp := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_timestamp)
+		if tagErr_enc_timestamp != nil {
+			return nil, fmt.Errorf("encoding timestamp: %w", tagErr_enc_timestamp)
+		}
+		enc_timestamp = retagged_enc_timestamp
 		children = append(children, enc_timestamp...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5283,20 +7227,71 @@ func (v *LCSSLMOLRRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSSLMOLRRes to DER format.
 func (v *LCSSLMOLRRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.AbsoluteLocation != nil {
+		enc_absolutelocation := ber.EncodeOctetString([]byte(*v.AbsoluteLocation))
+		retagged_enc_absolutelocation, tagErr_enc_absolutelocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_absolutelocation)
+		if tagErr_enc_absolutelocation != nil {
+			return nil, fmt.Errorf("encoding absoluteLocation: %w", tagErr_enc_absolutelocation)
+		}
+		enc_absolutelocation = retagged_enc_absolutelocation
+		children = append(children, enc_absolutelocation...)
+	}
+	if v.AbsoluteVelocity != nil {
+		enc_absolutevelocity := ber.EncodeOctetString([]byte(*v.AbsoluteVelocity))
+		retagged_enc_absolutevelocity, tagErr_enc_absolutevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_absolutevelocity)
+		if tagErr_enc_absolutevelocity != nil {
+			return nil, fmt.Errorf("encoding absoluteVelocity: %w", tagErr_enc_absolutevelocity)
+		}
+		enc_absolutevelocity = retagged_enc_absolutevelocity
+		children = append(children, enc_absolutevelocity...)
+	}
+	if v.RelativeResult != nil {
+		enc_relativeresult, err := MarshalDERRelativeResult(v.RelativeResult)
+		if err != nil {
+			return nil, fmt.Errorf("encoding relativeResult: %w", err)
+		}
+		retagged_enc_relativeresult, tagErr_enc_relativeresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_relativeresult)
+		if tagErr_enc_relativeresult != nil {
+			return nil, fmt.Errorf("encoding relativeResult: %w", tagErr_enc_relativeresult)
+		}
+		enc_relativeresult = retagged_enc_relativeresult
+		children = append(children, enc_relativeresult...)
+	}
+	if v.UeOnlyRSLPosAllowed != nil {
+		enc_ueonlyrslposallowed := ber.EncodeInteger(int64(*v.UeOnlyRSLPosAllowed))
+		retagged_enc_ueonlyrslposallowed, tagErr_enc_ueonlyrslposallowed := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_ueonlyrslposallowed)
+		if tagErr_enc_ueonlyrslposallowed != nil {
+			return nil, fmt.Errorf("encoding ueOnlyRSLPosAllowed: %w", tagErr_enc_ueonlyrslposallowed)
+		}
+		enc_ueonlyrslposallowed = retagged_enc_ueonlyrslposallowed
+		children = append(children, enc_ueonlyrslposallowed...)
+	}
+	if v.Timestamp != nil {
+		enc_timestamp := ber.EncodeOctetString([]byte(*v.Timestamp))
+		retagged_enc_timestamp, tagErr_enc_timestamp := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_timestamp)
+		if tagErr_enc_timestamp != nil {
+			return nil, fmt.Errorf("encoding timestamp: %w", tagErr_enc_timestamp)
+		}
+		enc_timestamp = retagged_enc_timestamp
+		children = append(children, enc_timestamp...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.RelativeResultIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSSLMOLRRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSSLMOLRRes from BER/DER format.
 func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
+	*v = LCSSLMOLRRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSSLMOLRRes SEQUENCE: %w", err)
@@ -5310,9 +7305,12 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_absolutelocation, rawVal_absolutelocation, err := ber.DecodeTLV(content[offset:])
+				decodedTag_absolutelocation, n_absolutelocation, rawVal_absolutelocation, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding absoluteLocation: %w", err)
+				}
+				if decodedTag_absolutelocation.Class != tag.ClassContextSpecific || decodedTag_absolutelocation.Number != 0 {
+					return fmt.Errorf("decoding absoluteLocation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absolutelocation)
 				}
 				tmp_absolutelocation := ExtGeographicalInformation(rawVal_absolutelocation)
 				v.AbsoluteLocation = &tmp_absolutelocation
@@ -5325,9 +7323,12 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_absolutevelocity, rawVal_absolutevelocity, err := ber.DecodeTLV(content[offset:])
+				decodedTag_absolutevelocity, n_absolutevelocity, rawVal_absolutevelocity, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding absoluteVelocity: %w", err)
+				}
+				if decodedTag_absolutevelocity.Class != tag.ClassContextSpecific || decodedTag_absolutevelocity.Number != 1 {
+					return fmt.Errorf("decoding absoluteVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absolutevelocity)
 				}
 				tmp_absolutevelocity := VelocityEstimate(rawVal_absolutevelocity)
 				v.AbsoluteVelocity = &tmp_absolutevelocity
@@ -5341,9 +7342,12 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_relativeresult, rawVal_relativeresult, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relativeresult, n_relativeresult, rawVal_relativeresult, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relativeResult: %w", err)
+				}
+				if decodedTag_relativeresult.Class != tag.ClassContextSpecific || decodedTag_relativeresult.Number != 2 || decodedTag_relativeresult.Constructed != true {
+					return fmt.Errorf("decoding relativeResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relativeresult)
 				}
 				reconstructed_relativeresult := ber.EncodeSequence(rawVal_relativeresult)
 				dec_relativeresult, unmErr := UnmarshalBERRelativeResult(reconstructed_relativeresult)
@@ -5366,9 +7370,12 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_ueonlyrslposallowed, rawVal_ueonlyrslposallowed, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ueonlyrslposallowed, n_ueonlyrslposallowed, rawVal_ueonlyrslposallowed, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ueOnlyRSLPosAllowed: %w", err)
+				}
+				if decodedTag_ueonlyrslposallowed.Class != tag.ClassContextSpecific || decodedTag_ueonlyrslposallowed.Number != 4 || decodedTag_ueonlyrslposallowed.Constructed != false {
+					return fmt.Errorf("decoding ueOnlyRSLPosAllowed: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ueonlyrslposallowed)
 				}
 				decVal_ueonlyrslposallowed, intErr := ber.DecodeIntegerValue(rawVal_ueonlyrslposallowed)
 				if intErr != nil {
@@ -5385,9 +7392,12 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_timestamp, rawVal_timestamp, err := ber.DecodeTLV(content[offset:])
+				decodedTag_timestamp, n_timestamp, rawVal_timestamp, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding timestamp: %w", err)
+				}
+				if decodedTag_timestamp.Class != tag.ClassContextSpecific || decodedTag_timestamp.Number != 5 {
+					return fmt.Errorf("decoding timestamp: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_timestamp)
 				}
 				tmp_timestamp := DateTime(rawVal_timestamp)
 				v.Timestamp = &tmp_timestamp
@@ -5422,6 +7432,23 @@ func MarshalBERRelativeResult(list RelativeResult) ([]byte, error) {
 		children = append(children, enc...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERRelativeResult encodes a RelativeResult list to DER.
+func MarshalDERRelativeResult(list RelativeResult) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RelativeResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERRelativeResult decodes a RelativeResult list from BER.
@@ -5466,7 +7493,11 @@ func (v *SingleRelativeResult) MarshalBER() ([]byte, error) {
 			}
 			enc_relatedueinfo = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
-			enc_relatedueinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_relatedueinfo)
+			retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_relatedueinfo)
+			if tagErr_enc_relatedueinfo != nil {
+				return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+			}
+			enc_relatedueinfo = retagged_enc_relatedueinfo
 		}
 		children = append(children, enc_relatedueinfo...)
 	}
@@ -5475,7 +7506,11 @@ func (v *SingleRelativeResult) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding relativeLocation: %w", err)
 		}
-		enc_relativelocation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_relativelocation)
+		retagged_enc_relativelocation, tagErr_enc_relativelocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_relativelocation)
+		if tagErr_enc_relativelocation != nil {
+			return nil, fmt.Errorf("encoding relativeLocation: %w", tagErr_enc_relativelocation)
+		}
+		enc_relativelocation = retagged_enc_relativelocation
 		children = append(children, enc_relativelocation...)
 	}
 	if v.RangeDirection != nil {
@@ -5483,12 +7518,20 @@ func (v *SingleRelativeResult) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding rangeDirection: %w", err)
 		}
-		enc_rangedirection = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_rangedirection)
+		retagged_enc_rangedirection, tagErr_enc_rangedirection := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_rangedirection)
+		if tagErr_enc_rangedirection != nil {
+			return nil, fmt.Errorf("encoding rangeDirection: %w", tagErr_enc_rangedirection)
+		}
+		enc_rangedirection = retagged_enc_rangedirection
 		children = append(children, enc_rangedirection...)
 	}
 	if v.RelativeVelocity != nil {
 		enc_relativevelocity := ber.EncodeOctetString([]byte(*v.RelativeVelocity))
-		enc_relativevelocity = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_relativevelocity)
+		retagged_enc_relativevelocity, tagErr_enc_relativevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_relativevelocity)
+		if tagErr_enc_relativevelocity != nil {
+			return nil, fmt.Errorf("encoding relativeVelocity: %w", tagErr_enc_relativevelocity)
+		}
+		enc_relativevelocity = retagged_enc_relativevelocity
 		children = append(children, enc_relativevelocity...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5506,20 +7549,68 @@ func (v *SingleRelativeResult) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes SingleRelativeResult to DER format.
 func (v *SingleRelativeResult) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.RelatedUEInfo != nil {
+		enc_relatedueinfo, err := MarshalDERRelatedUEInfo(v.RelatedUEInfo)
+		if err != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", err)
+		}
+		retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_relatedueinfo)
+		if tagErr_enc_relatedueinfo != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+		}
+		enc_relatedueinfo = retagged_enc_relatedueinfo
+		children = append(children, enc_relatedueinfo...)
+	}
+	if v.RelativeLocation != nil {
+		enc_relativelocation, err := v.RelativeLocation.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding relativeLocation: %w", err)
+		}
+		retagged_enc_relativelocation, tagErr_enc_relativelocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_relativelocation)
+		if tagErr_enc_relativelocation != nil {
+			return nil, fmt.Errorf("encoding relativeLocation: %w", tagErr_enc_relativelocation)
+		}
+		enc_relativelocation = retagged_enc_relativelocation
+		children = append(children, enc_relativelocation...)
+	}
+	if v.RangeDirection != nil {
+		enc_rangedirection, err := v.RangeDirection.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding rangeDirection: %w", err)
+		}
+		retagged_enc_rangedirection, tagErr_enc_rangedirection := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_rangedirection)
+		if tagErr_enc_rangedirection != nil {
+			return nil, fmt.Errorf("encoding rangeDirection: %w", tagErr_enc_rangedirection)
+		}
+		enc_rangedirection = retagged_enc_rangedirection
+		children = append(children, enc_rangedirection...)
+	}
+	if v.RelativeVelocity != nil {
+		enc_relativevelocity := ber.EncodeOctetString([]byte(*v.RelativeVelocity))
+		retagged_enc_relativevelocity, tagErr_enc_relativevelocity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_relativevelocity)
+		if tagErr_enc_relativevelocity != nil {
+			return nil, fmt.Errorf("encoding relativeVelocity: %w", tagErr_enc_relativevelocity)
+		}
+		enc_relativevelocity = retagged_enc_relativevelocity
+		children = append(children, enc_relativevelocity...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.RelatedUEInfoIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding SingleRelativeResult as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes SingleRelativeResult from BER/DER format.
 func (v *SingleRelativeResult) UnmarshalBER(data []byte) error {
+	*v = SingleRelativeResult{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding SingleRelativeResult SEQUENCE: %w", err)
@@ -5534,9 +7625,12 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relatedueinfo, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relatedUEInfo: %w", err)
+				}
+				if decodedTag_relatedueinfo.Class != tag.ClassContextSpecific || decodedTag_relatedueinfo.Number != 0 || decodedTag_relatedueinfo.Constructed != true {
+					return fmt.Errorf("decoding relatedUEInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relatedueinfo)
 				}
 				reconstructed_relatedueinfo := ber.EncodeSequence(rawVal_relatedueinfo)
 				dec_relatedueinfo, unmErr := UnmarshalBERRelatedUEInfo(reconstructed_relatedueinfo)
@@ -5559,9 +7653,12 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_relativelocation, rawVal_relativelocation, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relativelocation, n_relativelocation, rawVal_relativelocation, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relativeLocation: %w", err)
+				}
+				if decodedTag_relativelocation.Class != tag.ClassContextSpecific || decodedTag_relativelocation.Number != 1 || decodedTag_relativelocation.Constructed != true {
+					return fmt.Errorf("decoding relativeLocation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relativelocation)
 				}
 				reconstructed_relativelocation := ber.EncodeSequence(rawVal_relativelocation)
 				var dec_relativelocation RelativeLocationCoordinates
@@ -5578,9 +7675,12 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_rangedirection, rawVal_rangedirection, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rangedirection, n_rangedirection, rawVal_rangedirection, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rangeDirection: %w", err)
+				}
+				if decodedTag_rangedirection.Class != tag.ClassContextSpecific || decodedTag_rangedirection.Number != 2 || decodedTag_rangedirection.Constructed != true {
+					return fmt.Errorf("decoding rangeDirection: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangedirection)
 				}
 				reconstructed_rangedirection := ber.EncodeSequence(rawVal_rangedirection)
 				var dec_rangedirection RangeDirection
@@ -5597,9 +7697,12 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_relativevelocity, rawVal_relativevelocity, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relativevelocity, n_relativevelocity, rawVal_relativevelocity, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relativeVelocity: %w", err)
+				}
+				if decodedTag_relativevelocity.Class != tag.ClassContextSpecific || decodedTag_relativevelocity.Number != 3 {
+					return fmt.Errorf("decoding relativeVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relativevelocity)
 				}
 				tmp_relativevelocity := VelocityEstimate(rawVal_relativevelocity)
 				v.RelativeVelocity = &tmp_relativevelocity
@@ -5631,7 +7734,11 @@ func (v *RelativeLocationCoordinates) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding relative2D-LocationWithUncertaintyEllipse: %w", err)
 		}
-		enc_relative2dlocationwithuncertaintyellipse = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_relative2dlocationwithuncertaintyellipse)
+		retagged_enc_relative2dlocationwithuncertaintyellipse, tagErr_enc_relative2dlocationwithuncertaintyellipse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_relative2dlocationwithuncertaintyellipse)
+		if tagErr_enc_relative2dlocationwithuncertaintyellipse != nil {
+			return nil, fmt.Errorf("encoding relative2D-LocationWithUncertaintyEllipse: %w", tagErr_enc_relative2dlocationwithuncertaintyellipse)
+		}
+		enc_relative2dlocationwithuncertaintyellipse = retagged_enc_relative2dlocationwithuncertaintyellipse
 		children = append(children, enc_relative2dlocationwithuncertaintyellipse...)
 	}
 	if v.Relative3DLocationWithUncertaintyEllipsoid != nil {
@@ -5639,7 +7746,11 @@ func (v *RelativeLocationCoordinates) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding relative3D-LocationWithUncertaintyEllipsoid: %w", err)
 		}
-		enc_relative3dlocationwithuncertaintyellipsoid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_relative3dlocationwithuncertaintyellipsoid)
+		retagged_enc_relative3dlocationwithuncertaintyellipsoid, tagErr_enc_relative3dlocationwithuncertaintyellipsoid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_relative3dlocationwithuncertaintyellipsoid)
+		if tagErr_enc_relative3dlocationwithuncertaintyellipsoid != nil {
+			return nil, fmt.Errorf("encoding relative3D-LocationWithUncertaintyEllipsoid: %w", tagErr_enc_relative3dlocationwithuncertaintyellipsoid)
+		}
+		enc_relative3dlocationwithuncertaintyellipsoid = retagged_enc_relative3dlocationwithuncertaintyellipsoid
 		children = append(children, enc_relative3dlocationwithuncertaintyellipsoid...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5657,17 +7768,47 @@ func (v *RelativeLocationCoordinates) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RelativeLocationCoordinates to DER format.
 func (v *RelativeLocationCoordinates) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.Relative2DLocationWithUncertaintyEllipse != nil {
+		enc_relative2dlocationwithuncertaintyellipse, err := v.Relative2DLocationWithUncertaintyEllipse.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding relative2D-LocationWithUncertaintyEllipse: %w", err)
+		}
+		retagged_enc_relative2dlocationwithuncertaintyellipse, tagErr_enc_relative2dlocationwithuncertaintyellipse := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_relative2dlocationwithuncertaintyellipse)
+		if tagErr_enc_relative2dlocationwithuncertaintyellipse != nil {
+			return nil, fmt.Errorf("encoding relative2D-LocationWithUncertaintyEllipse: %w", tagErr_enc_relative2dlocationwithuncertaintyellipse)
+		}
+		enc_relative2dlocationwithuncertaintyellipse = retagged_enc_relative2dlocationwithuncertaintyellipse
+		children = append(children, enc_relative2dlocationwithuncertaintyellipse...)
+	}
+	if v.Relative3DLocationWithUncertaintyEllipsoid != nil {
+		enc_relative3dlocationwithuncertaintyellipsoid, err := v.Relative3DLocationWithUncertaintyEllipsoid.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding relative3D-LocationWithUncertaintyEllipsoid: %w", err)
+		}
+		retagged_enc_relative3dlocationwithuncertaintyellipsoid, tagErr_enc_relative3dlocationwithuncertaintyellipsoid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_relative3dlocationwithuncertaintyellipsoid)
+		if tagErr_enc_relative3dlocationwithuncertaintyellipsoid != nil {
+			return nil, fmt.Errorf("encoding relative3D-LocationWithUncertaintyEllipsoid: %w", tagErr_enc_relative3dlocationwithuncertaintyellipsoid)
+		}
+		enc_relative3dlocationwithuncertaintyellipsoid = retagged_enc_relative3dlocationwithuncertaintyellipsoid
+		children = append(children, enc_relative3dlocationwithuncertaintyellipsoid...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RelativeLocationCoordinates as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RelativeLocationCoordinates from BER/DER format.
 func (v *RelativeLocationCoordinates) UnmarshalBER(data []byte) error {
+	*v = RelativeLocationCoordinates{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RelativeLocationCoordinates SEQUENCE: %w", err)
@@ -5681,9 +7822,12 @@ func (v *RelativeLocationCoordinates) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_relative2dlocationwithuncertaintyellipse, rawVal_relative2dlocationwithuncertaintyellipse, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relative2dlocationwithuncertaintyellipse, n_relative2dlocationwithuncertaintyellipse, rawVal_relative2dlocationwithuncertaintyellipse, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relative2D-LocationWithUncertaintyEllipse: %w", err)
+				}
+				if decodedTag_relative2dlocationwithuncertaintyellipse.Class != tag.ClassContextSpecific || decodedTag_relative2dlocationwithuncertaintyellipse.Number != 0 || decodedTag_relative2dlocationwithuncertaintyellipse.Constructed != true {
+					return fmt.Errorf("decoding relative2D-LocationWithUncertaintyEllipse: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relative2dlocationwithuncertaintyellipse)
 				}
 				reconstructed_relative2dlocationwithuncertaintyellipse := ber.EncodeSequence(rawVal_relative2dlocationwithuncertaintyellipse)
 				var dec_relative2dlocationwithuncertaintyellipse Relative2DLocationWithUncertaintyEllipse
@@ -5700,9 +7844,12 @@ func (v *RelativeLocationCoordinates) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_relative3dlocationwithuncertaintyellipsoid, rawVal_relative3dlocationwithuncertaintyellipsoid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relative3dlocationwithuncertaintyellipsoid, n_relative3dlocationwithuncertaintyellipsoid, rawVal_relative3dlocationwithuncertaintyellipsoid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relative3D-LocationWithUncertaintyEllipsoid: %w", err)
+				}
+				if decodedTag_relative3dlocationwithuncertaintyellipsoid.Class != tag.ClassContextSpecific || decodedTag_relative3dlocationwithuncertaintyellipsoid.Number != 1 || decodedTag_relative3dlocationwithuncertaintyellipsoid.Constructed != true {
+					return fmt.Errorf("decoding relative3D-LocationWithUncertaintyEllipsoid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relative3dlocationwithuncertaintyellipsoid)
 				}
 				reconstructed_relative3dlocationwithuncertaintyellipsoid := ber.EncodeSequence(rawVal_relative3dlocationwithuncertaintyellipsoid)
 				var dec_relative3dlocationwithuncertaintyellipsoid Relative3DLocationWithUncertaintyEllipsoid
@@ -5734,23 +7881,47 @@ func (v *RelativeLocationCoordinates) UnmarshalBER(data []byte) error {
 func (v *Relative2DLocationWithUncertaintyEllipse) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_xcoordinates := ber.EncodeInteger(int64(v.XCoordinates))
-	enc_xcoordinates = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_xcoordinates)
+	retagged_enc_xcoordinates, tagErr_enc_xcoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_xcoordinates)
+	if tagErr_enc_xcoordinates != nil {
+		return nil, fmt.Errorf("encoding xCoordinates: %w", tagErr_enc_xcoordinates)
+	}
+	enc_xcoordinates = retagged_enc_xcoordinates
 	children = append(children, enc_xcoordinates...)
 	enc_ycoordinates := ber.EncodeInteger(int64(v.YCoordinates))
-	enc_ycoordinates = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ycoordinates)
+	retagged_enc_ycoordinates, tagErr_enc_ycoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ycoordinates)
+	if tagErr_enc_ycoordinates != nil {
+		return nil, fmt.Errorf("encoding yCoordinates: %w", tagErr_enc_ycoordinates)
+	}
+	enc_ycoordinates = retagged_enc_ycoordinates
 	children = append(children, enc_ycoordinates...)
 	enc_uncertaintysemimajor := ber.EncodeInteger(int64(v.UncertaintySemiMajor))
-	enc_uncertaintysemimajor = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_uncertaintysemimajor)
+	retagged_enc_uncertaintysemimajor, tagErr_enc_uncertaintysemimajor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_uncertaintysemimajor)
+	if tagErr_enc_uncertaintysemimajor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMajor: %w", tagErr_enc_uncertaintysemimajor)
+	}
+	enc_uncertaintysemimajor = retagged_enc_uncertaintysemimajor
 	children = append(children, enc_uncertaintysemimajor...)
 	enc_uncertaintysemiminor := ber.EncodeInteger(int64(v.UncertaintySemiMinor))
-	enc_uncertaintysemiminor = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_uncertaintysemiminor)
+	retagged_enc_uncertaintysemiminor, tagErr_enc_uncertaintysemiminor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_uncertaintysemiminor)
+	if tagErr_enc_uncertaintysemiminor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMinor: %w", tagErr_enc_uncertaintysemiminor)
+	}
+	enc_uncertaintysemiminor = retagged_enc_uncertaintysemiminor
 	children = append(children, enc_uncertaintysemiminor...)
 	enc_orientationmajoraxis := ber.EncodeInteger(int64(v.OrientationMajorAxis))
-	enc_orientationmajoraxis = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_orientationmajoraxis)
+	retagged_enc_orientationmajoraxis, tagErr_enc_orientationmajoraxis := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_orientationmajoraxis)
+	if tagErr_enc_orientationmajoraxis != nil {
+		return nil, fmt.Errorf("encoding orientationMajorAxis: %w", tagErr_enc_orientationmajoraxis)
+	}
+	enc_orientationmajoraxis = retagged_enc_orientationmajoraxis
 	children = append(children, enc_orientationmajoraxis...)
 	if v.Confidence != nil {
 		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
-		enc_confidence = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_confidence)
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
 		children = append(children, enc_confidence...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5768,17 +7939,67 @@ func (v *Relative2DLocationWithUncertaintyEllipse) MarshalBER() ([]byte, error) 
 
 // MarshalDER encodes Relative2DLocationWithUncertaintyEllipse to DER format.
 func (v *Relative2DLocationWithUncertaintyEllipse) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_xcoordinates := ber.EncodeInteger(int64(v.XCoordinates))
+	retagged_enc_xcoordinates, tagErr_enc_xcoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_xcoordinates)
+	if tagErr_enc_xcoordinates != nil {
+		return nil, fmt.Errorf("encoding xCoordinates: %w", tagErr_enc_xcoordinates)
+	}
+	enc_xcoordinates = retagged_enc_xcoordinates
+	children = append(children, enc_xcoordinates...)
+	enc_ycoordinates := ber.EncodeInteger(int64(v.YCoordinates))
+	retagged_enc_ycoordinates, tagErr_enc_ycoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ycoordinates)
+	if tagErr_enc_ycoordinates != nil {
+		return nil, fmt.Errorf("encoding yCoordinates: %w", tagErr_enc_ycoordinates)
+	}
+	enc_ycoordinates = retagged_enc_ycoordinates
+	children = append(children, enc_ycoordinates...)
+	enc_uncertaintysemimajor := ber.EncodeInteger(int64(v.UncertaintySemiMajor))
+	retagged_enc_uncertaintysemimajor, tagErr_enc_uncertaintysemimajor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_uncertaintysemimajor)
+	if tagErr_enc_uncertaintysemimajor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMajor: %w", tagErr_enc_uncertaintysemimajor)
+	}
+	enc_uncertaintysemimajor = retagged_enc_uncertaintysemimajor
+	children = append(children, enc_uncertaintysemimajor...)
+	enc_uncertaintysemiminor := ber.EncodeInteger(int64(v.UncertaintySemiMinor))
+	retagged_enc_uncertaintysemiminor, tagErr_enc_uncertaintysemiminor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_uncertaintysemiminor)
+	if tagErr_enc_uncertaintysemiminor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMinor: %w", tagErr_enc_uncertaintysemiminor)
+	}
+	enc_uncertaintysemiminor = retagged_enc_uncertaintysemiminor
+	children = append(children, enc_uncertaintysemiminor...)
+	enc_orientationmajoraxis := ber.EncodeInteger(int64(v.OrientationMajorAxis))
+	retagged_enc_orientationmajoraxis, tagErr_enc_orientationmajoraxis := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_orientationmajoraxis)
+	if tagErr_enc_orientationmajoraxis != nil {
+		return nil, fmt.Errorf("encoding orientationMajorAxis: %w", tagErr_enc_orientationmajoraxis)
+	}
+	enc_orientationmajoraxis = retagged_enc_orientationmajoraxis
+	children = append(children, enc_orientationmajoraxis...)
+	if v.Confidence != nil {
+		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
+		children = append(children, enc_confidence...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Relative2DLocationWithUncertaintyEllipse as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Relative2DLocationWithUncertaintyEllipse from BER/DER format.
 func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) error {
+	*v = Relative2DLocationWithUncertaintyEllipse{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Relative2DLocationWithUncertaintyEllipse SEQUENCE: %w", err)
@@ -5796,9 +8017,12 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) err
 			return fmt.Errorf("expected tag [%s %d] for xCoordinates, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_xcoordinates, rawVal_xcoordinates, err := ber.DecodeTLV(content[offset:])
+	decodedTag_xcoordinates, n_xcoordinates, rawVal_xcoordinates, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding xCoordinates: %w", err)
+	}
+	if decodedTag_xcoordinates.Class != tag.ClassContextSpecific || decodedTag_xcoordinates.Number != 0 || decodedTag_xcoordinates.Constructed != false {
+		return fmt.Errorf("decoding xCoordinates: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_xcoordinates)
 	}
 	decVal_xcoordinates, intErr := ber.DecodeIntegerValue(rawVal_xcoordinates)
 	if intErr != nil {
@@ -5815,9 +8039,12 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) err
 			return fmt.Errorf("expected tag [%s %d] for yCoordinates, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_ycoordinates, rawVal_ycoordinates, err := ber.DecodeTLV(content[offset:])
+	decodedTag_ycoordinates, n_ycoordinates, rawVal_ycoordinates, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding yCoordinates: %w", err)
+	}
+	if decodedTag_ycoordinates.Class != tag.ClassContextSpecific || decodedTag_ycoordinates.Number != 1 || decodedTag_ycoordinates.Constructed != false {
+		return fmt.Errorf("decoding yCoordinates: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ycoordinates)
 	}
 	decVal_ycoordinates, intErr := ber.DecodeIntegerValue(rawVal_ycoordinates)
 	if intErr != nil {
@@ -5834,9 +8061,12 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) err
 			return fmt.Errorf("expected tag [%s %d] for uncertaintySemiMajor, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_uncertaintysemimajor, rawVal_uncertaintysemimajor, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertaintysemimajor, n_uncertaintysemimajor, rawVal_uncertaintysemimajor, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertaintySemiMajor: %w", err)
+	}
+	if decodedTag_uncertaintysemimajor.Class != tag.ClassContextSpecific || decodedTag_uncertaintysemimajor.Number != 2 || decodedTag_uncertaintysemimajor.Constructed != false {
+		return fmt.Errorf("decoding uncertaintySemiMajor: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertaintysemimajor)
 	}
 	decVal_uncertaintysemimajor, intErr := ber.DecodeIntegerValue(rawVal_uncertaintysemimajor)
 	if intErr != nil {
@@ -5853,9 +8083,12 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) err
 			return fmt.Errorf("expected tag [%s %d] for uncertaintySemiMinor, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_uncertaintysemiminor, rawVal_uncertaintysemiminor, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertaintysemiminor, n_uncertaintysemiminor, rawVal_uncertaintysemiminor, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertaintySemiMinor: %w", err)
+	}
+	if decodedTag_uncertaintysemiminor.Class != tag.ClassContextSpecific || decodedTag_uncertaintysemiminor.Number != 3 || decodedTag_uncertaintysemiminor.Constructed != false {
+		return fmt.Errorf("decoding uncertaintySemiMinor: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertaintysemiminor)
 	}
 	decVal_uncertaintysemiminor, intErr := ber.DecodeIntegerValue(rawVal_uncertaintysemiminor)
 	if intErr != nil {
@@ -5872,9 +8105,12 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) err
 			return fmt.Errorf("expected tag [%s %d] for orientationMajorAxis, got %s", "CONTEXT", 4, reqTag_)
 		}
 	}
-	_, n_orientationmajoraxis, rawVal_orientationmajoraxis, err := ber.DecodeTLV(content[offset:])
+	decodedTag_orientationmajoraxis, n_orientationmajoraxis, rawVal_orientationmajoraxis, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding orientationMajorAxis: %w", err)
+	}
+	if decodedTag_orientationmajoraxis.Class != tag.ClassContextSpecific || decodedTag_orientationmajoraxis.Number != 4 || decodedTag_orientationmajoraxis.Constructed != false {
+		return fmt.Errorf("decoding orientationMajorAxis: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_orientationmajoraxis)
 	}
 	decVal_orientationmajoraxis, intErr := ber.DecodeIntegerValue(rawVal_orientationmajoraxis)
 	if intErr != nil {
@@ -5887,9 +8123,12 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) err
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
+				decodedTag_confidence, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding confidence: %w", err)
+				}
+				if decodedTag_confidence.Class != tag.ClassContextSpecific || decodedTag_confidence.Number != 5 || decodedTag_confidence.Constructed != false {
+					return fmt.Errorf("decoding confidence: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_confidence)
 				}
 				decVal_confidence, intErr := ber.DecodeIntegerValue(rawVal_confidence)
 				if intErr != nil {
@@ -5921,29 +8160,61 @@ func (v *Relative2DLocationWithUncertaintyEllipse) UnmarshalBER(data []byte) err
 func (v *Relative3DLocationWithUncertaintyEllipsoid) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_xcoordinates := ber.EncodeInteger(int64(v.XCoordinates))
-	enc_xcoordinates = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_xcoordinates)
+	retagged_enc_xcoordinates, tagErr_enc_xcoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_xcoordinates)
+	if tagErr_enc_xcoordinates != nil {
+		return nil, fmt.Errorf("encoding xCoordinates: %w", tagErr_enc_xcoordinates)
+	}
+	enc_xcoordinates = retagged_enc_xcoordinates
 	children = append(children, enc_xcoordinates...)
 	enc_ycoordinates := ber.EncodeInteger(int64(v.YCoordinates))
-	enc_ycoordinates = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_ycoordinates)
+	retagged_enc_ycoordinates, tagErr_enc_ycoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ycoordinates)
+	if tagErr_enc_ycoordinates != nil {
+		return nil, fmt.Errorf("encoding yCoordinates: %w", tagErr_enc_ycoordinates)
+	}
+	enc_ycoordinates = retagged_enc_ycoordinates
 	children = append(children, enc_ycoordinates...)
 	enc_zcoordinates := ber.EncodeInteger(int64(v.ZCoordinates))
-	enc_zcoordinates = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_zcoordinates)
+	retagged_enc_zcoordinates, tagErr_enc_zcoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_zcoordinates)
+	if tagErr_enc_zcoordinates != nil {
+		return nil, fmt.Errorf("encoding zCoordinates: %w", tagErr_enc_zcoordinates)
+	}
+	enc_zcoordinates = retagged_enc_zcoordinates
 	children = append(children, enc_zcoordinates...)
 	enc_uncertaintysemimajor := ber.EncodeInteger(int64(v.UncertaintySemiMajor))
-	enc_uncertaintysemimajor = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_uncertaintysemimajor)
+	retagged_enc_uncertaintysemimajor, tagErr_enc_uncertaintysemimajor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_uncertaintysemimajor)
+	if tagErr_enc_uncertaintysemimajor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMajor: %w", tagErr_enc_uncertaintysemimajor)
+	}
+	enc_uncertaintysemimajor = retagged_enc_uncertaintysemimajor
 	children = append(children, enc_uncertaintysemimajor...)
 	enc_uncertaintysemiminor := ber.EncodeInteger(int64(v.UncertaintySemiMinor))
-	enc_uncertaintysemiminor = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_uncertaintysemiminor)
+	retagged_enc_uncertaintysemiminor, tagErr_enc_uncertaintysemiminor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_uncertaintysemiminor)
+	if tagErr_enc_uncertaintysemiminor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMinor: %w", tagErr_enc_uncertaintysemiminor)
+	}
+	enc_uncertaintysemiminor = retagged_enc_uncertaintysemiminor
 	children = append(children, enc_uncertaintysemiminor...)
 	enc_orientationmajoraxis := ber.EncodeInteger(int64(v.OrientationMajorAxis))
-	enc_orientationmajoraxis = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_orientationmajoraxis)
+	retagged_enc_orientationmajoraxis, tagErr_enc_orientationmajoraxis := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_orientationmajoraxis)
+	if tagErr_enc_orientationmajoraxis != nil {
+		return nil, fmt.Errorf("encoding orientationMajorAxis: %w", tagErr_enc_orientationmajoraxis)
+	}
+	enc_orientationmajoraxis = retagged_enc_orientationmajoraxis
 	children = append(children, enc_orientationmajoraxis...)
 	enc_uncertaintyaltitude := ber.EncodeInteger(int64(v.UncertaintyAltitude))
-	enc_uncertaintyaltitude = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_uncertaintyaltitude)
+	retagged_enc_uncertaintyaltitude, tagErr_enc_uncertaintyaltitude := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_uncertaintyaltitude)
+	if tagErr_enc_uncertaintyaltitude != nil {
+		return nil, fmt.Errorf("encoding uncertaintyAltitude: %w", tagErr_enc_uncertaintyaltitude)
+	}
+	enc_uncertaintyaltitude = retagged_enc_uncertaintyaltitude
 	children = append(children, enc_uncertaintyaltitude...)
 	if v.Confidence != nil {
 		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
-		enc_confidence = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_confidence)
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
 		children = append(children, enc_confidence...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5961,17 +8232,81 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) MarshalBER() ([]byte, error
 
 // MarshalDER encodes Relative3DLocationWithUncertaintyEllipsoid to DER format.
 func (v *Relative3DLocationWithUncertaintyEllipsoid) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_xcoordinates := ber.EncodeInteger(int64(v.XCoordinates))
+	retagged_enc_xcoordinates, tagErr_enc_xcoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_xcoordinates)
+	if tagErr_enc_xcoordinates != nil {
+		return nil, fmt.Errorf("encoding xCoordinates: %w", tagErr_enc_xcoordinates)
+	}
+	enc_xcoordinates = retagged_enc_xcoordinates
+	children = append(children, enc_xcoordinates...)
+	enc_ycoordinates := ber.EncodeInteger(int64(v.YCoordinates))
+	retagged_enc_ycoordinates, tagErr_enc_ycoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_ycoordinates)
+	if tagErr_enc_ycoordinates != nil {
+		return nil, fmt.Errorf("encoding yCoordinates: %w", tagErr_enc_ycoordinates)
+	}
+	enc_ycoordinates = retagged_enc_ycoordinates
+	children = append(children, enc_ycoordinates...)
+	enc_zcoordinates := ber.EncodeInteger(int64(v.ZCoordinates))
+	retagged_enc_zcoordinates, tagErr_enc_zcoordinates := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_zcoordinates)
+	if tagErr_enc_zcoordinates != nil {
+		return nil, fmt.Errorf("encoding zCoordinates: %w", tagErr_enc_zcoordinates)
+	}
+	enc_zcoordinates = retagged_enc_zcoordinates
+	children = append(children, enc_zcoordinates...)
+	enc_uncertaintysemimajor := ber.EncodeInteger(int64(v.UncertaintySemiMajor))
+	retagged_enc_uncertaintysemimajor, tagErr_enc_uncertaintysemimajor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_uncertaintysemimajor)
+	if tagErr_enc_uncertaintysemimajor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMajor: %w", tagErr_enc_uncertaintysemimajor)
+	}
+	enc_uncertaintysemimajor = retagged_enc_uncertaintysemimajor
+	children = append(children, enc_uncertaintysemimajor...)
+	enc_uncertaintysemiminor := ber.EncodeInteger(int64(v.UncertaintySemiMinor))
+	retagged_enc_uncertaintysemiminor, tagErr_enc_uncertaintysemiminor := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_uncertaintysemiminor)
+	if tagErr_enc_uncertaintysemiminor != nil {
+		return nil, fmt.Errorf("encoding uncertaintySemiMinor: %w", tagErr_enc_uncertaintysemiminor)
+	}
+	enc_uncertaintysemiminor = retagged_enc_uncertaintysemiminor
+	children = append(children, enc_uncertaintysemiminor...)
+	enc_orientationmajoraxis := ber.EncodeInteger(int64(v.OrientationMajorAxis))
+	retagged_enc_orientationmajoraxis, tagErr_enc_orientationmajoraxis := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_orientationmajoraxis)
+	if tagErr_enc_orientationmajoraxis != nil {
+		return nil, fmt.Errorf("encoding orientationMajorAxis: %w", tagErr_enc_orientationmajoraxis)
+	}
+	enc_orientationmajoraxis = retagged_enc_orientationmajoraxis
+	children = append(children, enc_orientationmajoraxis...)
+	enc_uncertaintyaltitude := ber.EncodeInteger(int64(v.UncertaintyAltitude))
+	retagged_enc_uncertaintyaltitude, tagErr_enc_uncertaintyaltitude := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_uncertaintyaltitude)
+	if tagErr_enc_uncertaintyaltitude != nil {
+		return nil, fmt.Errorf("encoding uncertaintyAltitude: %w", tagErr_enc_uncertaintyaltitude)
+	}
+	enc_uncertaintyaltitude = retagged_enc_uncertaintyaltitude
+	children = append(children, enc_uncertaintyaltitude...)
+	if v.Confidence != nil {
+		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
+		children = append(children, enc_confidence...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Relative3DLocationWithUncertaintyEllipsoid as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Relative3DLocationWithUncertaintyEllipsoid from BER/DER format.
 func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) error {
+	*v = Relative3DLocationWithUncertaintyEllipsoid{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Relative3DLocationWithUncertaintyEllipsoid SEQUENCE: %w", err)
@@ -5989,9 +8324,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 			return fmt.Errorf("expected tag [%s %d] for xCoordinates, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_xcoordinates, rawVal_xcoordinates, err := ber.DecodeTLV(content[offset:])
+	decodedTag_xcoordinates, n_xcoordinates, rawVal_xcoordinates, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding xCoordinates: %w", err)
+	}
+	if decodedTag_xcoordinates.Class != tag.ClassContextSpecific || decodedTag_xcoordinates.Number != 0 || decodedTag_xcoordinates.Constructed != false {
+		return fmt.Errorf("decoding xCoordinates: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_xcoordinates)
 	}
 	decVal_xcoordinates, intErr := ber.DecodeIntegerValue(rawVal_xcoordinates)
 	if intErr != nil {
@@ -6008,9 +8346,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 			return fmt.Errorf("expected tag [%s %d] for yCoordinates, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_ycoordinates, rawVal_ycoordinates, err := ber.DecodeTLV(content[offset:])
+	decodedTag_ycoordinates, n_ycoordinates, rawVal_ycoordinates, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding yCoordinates: %w", err)
+	}
+	if decodedTag_ycoordinates.Class != tag.ClassContextSpecific || decodedTag_ycoordinates.Number != 1 || decodedTag_ycoordinates.Constructed != false {
+		return fmt.Errorf("decoding yCoordinates: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ycoordinates)
 	}
 	decVal_ycoordinates, intErr := ber.DecodeIntegerValue(rawVal_ycoordinates)
 	if intErr != nil {
@@ -6027,9 +8368,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 			return fmt.Errorf("expected tag [%s %d] for zCoordinates, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_zcoordinates, rawVal_zcoordinates, err := ber.DecodeTLV(content[offset:])
+	decodedTag_zcoordinates, n_zcoordinates, rawVal_zcoordinates, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding zCoordinates: %w", err)
+	}
+	if decodedTag_zcoordinates.Class != tag.ClassContextSpecific || decodedTag_zcoordinates.Number != 2 || decodedTag_zcoordinates.Constructed != false {
+		return fmt.Errorf("decoding zCoordinates: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_zcoordinates)
 	}
 	decVal_zcoordinates, intErr := ber.DecodeIntegerValue(rawVal_zcoordinates)
 	if intErr != nil {
@@ -6046,9 +8390,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 			return fmt.Errorf("expected tag [%s %d] for uncertaintySemiMajor, got %s", "CONTEXT", 3, reqTag_)
 		}
 	}
-	_, n_uncertaintysemimajor, rawVal_uncertaintysemimajor, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertaintysemimajor, n_uncertaintysemimajor, rawVal_uncertaintysemimajor, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertaintySemiMajor: %w", err)
+	}
+	if decodedTag_uncertaintysemimajor.Class != tag.ClassContextSpecific || decodedTag_uncertaintysemimajor.Number != 3 || decodedTag_uncertaintysemimajor.Constructed != false {
+		return fmt.Errorf("decoding uncertaintySemiMajor: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertaintysemimajor)
 	}
 	decVal_uncertaintysemimajor, intErr := ber.DecodeIntegerValue(rawVal_uncertaintysemimajor)
 	if intErr != nil {
@@ -6065,9 +8412,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 			return fmt.Errorf("expected tag [%s %d] for uncertaintySemiMinor, got %s", "CONTEXT", 4, reqTag_)
 		}
 	}
-	_, n_uncertaintysemiminor, rawVal_uncertaintysemiminor, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertaintysemiminor, n_uncertaintysemiminor, rawVal_uncertaintysemiminor, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertaintySemiMinor: %w", err)
+	}
+	if decodedTag_uncertaintysemiminor.Class != tag.ClassContextSpecific || decodedTag_uncertaintysemiminor.Number != 4 || decodedTag_uncertaintysemiminor.Constructed != false {
+		return fmt.Errorf("decoding uncertaintySemiMinor: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertaintysemiminor)
 	}
 	decVal_uncertaintysemiminor, intErr := ber.DecodeIntegerValue(rawVal_uncertaintysemiminor)
 	if intErr != nil {
@@ -6084,9 +8434,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 			return fmt.Errorf("expected tag [%s %d] for orientationMajorAxis, got %s", "CONTEXT", 5, reqTag_)
 		}
 	}
-	_, n_orientationmajoraxis, rawVal_orientationmajoraxis, err := ber.DecodeTLV(content[offset:])
+	decodedTag_orientationmajoraxis, n_orientationmajoraxis, rawVal_orientationmajoraxis, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding orientationMajorAxis: %w", err)
+	}
+	if decodedTag_orientationmajoraxis.Class != tag.ClassContextSpecific || decodedTag_orientationmajoraxis.Number != 5 || decodedTag_orientationmajoraxis.Constructed != false {
+		return fmt.Errorf("decoding orientationMajorAxis: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_orientationmajoraxis)
 	}
 	decVal_orientationmajoraxis, intErr := ber.DecodeIntegerValue(rawVal_orientationmajoraxis)
 	if intErr != nil {
@@ -6103,9 +8456,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 			return fmt.Errorf("expected tag [%s %d] for uncertaintyAltitude, got %s", "CONTEXT", 6, reqTag_)
 		}
 	}
-	_, n_uncertaintyaltitude, rawVal_uncertaintyaltitude, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertaintyaltitude, n_uncertaintyaltitude, rawVal_uncertaintyaltitude, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertaintyAltitude: %w", err)
+	}
+	if decodedTag_uncertaintyaltitude.Class != tag.ClassContextSpecific || decodedTag_uncertaintyaltitude.Number != 6 || decodedTag_uncertaintyaltitude.Constructed != false {
+		return fmt.Errorf("decoding uncertaintyAltitude: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertaintyaltitude)
 	}
 	decVal_uncertaintyaltitude, intErr := ber.DecodeIntegerValue(rawVal_uncertaintyaltitude)
 	if intErr != nil {
@@ -6118,9 +8474,12 @@ func (v *Relative3DLocationWithUncertaintyEllipsoid) UnmarshalBER(data []byte) e
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
+				decodedTag_confidence, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding confidence: %w", err)
+				}
+				if decodedTag_confidence.Class != tag.ClassContextSpecific || decodedTag_confidence.Number != 7 || decodedTag_confidence.Constructed != false {
+					return fmt.Errorf("decoding confidence: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_confidence)
 				}
 				decVal_confidence, intErr := ber.DecodeIntegerValue(rawVal_confidence)
 				if intErr != nil {
@@ -6156,7 +8515,11 @@ func (v *RangeDirection) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding range: %w", err)
 		}
-		enc_range = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_range)
+		retagged_enc_range, tagErr_enc_range := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_range)
+		if tagErr_enc_range != nil {
+			return nil, fmt.Errorf("encoding range: %w", tagErr_enc_range)
+		}
+		enc_range = retagged_enc_range
 		children = append(children, enc_range...)
 	}
 	if v.Azimuth != nil {
@@ -6164,7 +8527,11 @@ func (v *RangeDirection) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding azimuth: %w", err)
 		}
-		enc_azimuth = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_azimuth)
+		retagged_enc_azimuth, tagErr_enc_azimuth := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_azimuth)
+		if tagErr_enc_azimuth != nil {
+			return nil, fmt.Errorf("encoding azimuth: %w", tagErr_enc_azimuth)
+		}
+		enc_azimuth = retagged_enc_azimuth
 		children = append(children, enc_azimuth...)
 	}
 	if v.Elevation != nil {
@@ -6172,7 +8539,11 @@ func (v *RangeDirection) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding elevation: %w", err)
 		}
-		enc_elevation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_elevation)
+		retagged_enc_elevation, tagErr_enc_elevation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_elevation)
+		if tagErr_enc_elevation != nil {
+			return nil, fmt.Errorf("encoding elevation: %w", tagErr_enc_elevation)
+		}
+		enc_elevation = retagged_enc_elevation
 		children = append(children, enc_elevation...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -6190,17 +8561,59 @@ func (v *RangeDirection) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RangeDirection to DER format.
 func (v *RangeDirection) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.Range != nil {
+		enc_range, err := v.Range.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding range: %w", err)
+		}
+		retagged_enc_range, tagErr_enc_range := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_range)
+		if tagErr_enc_range != nil {
+			return nil, fmt.Errorf("encoding range: %w", tagErr_enc_range)
+		}
+		enc_range = retagged_enc_range
+		children = append(children, enc_range...)
+	}
+	if v.Azimuth != nil {
+		enc_azimuth, err := v.Azimuth.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding azimuth: %w", err)
+		}
+		retagged_enc_azimuth, tagErr_enc_azimuth := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_azimuth)
+		if tagErr_enc_azimuth != nil {
+			return nil, fmt.Errorf("encoding azimuth: %w", tagErr_enc_azimuth)
+		}
+		enc_azimuth = retagged_enc_azimuth
+		children = append(children, enc_azimuth...)
+	}
+	if v.Elevation != nil {
+		enc_elevation, err := v.Elevation.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding elevation: %w", err)
+		}
+		retagged_enc_elevation, tagErr_enc_elevation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_elevation)
+		if tagErr_enc_elevation != nil {
+			return nil, fmt.Errorf("encoding elevation: %w", tagErr_enc_elevation)
+		}
+		enc_elevation = retagged_enc_elevation
+		children = append(children, enc_elevation...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RangeDirection as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RangeDirection from BER/DER format.
 func (v *RangeDirection) UnmarshalBER(data []byte) error {
+	*v = RangeDirection{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RangeDirection SEQUENCE: %w", err)
@@ -6214,9 +8627,12 @@ func (v *RangeDirection) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_range, rawVal_range, err := ber.DecodeTLV(content[offset:])
+				decodedTag_range, n_range, rawVal_range, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding range: %w", err)
+				}
+				if decodedTag_range.Class != tag.ClassContextSpecific || decodedTag_range.Number != 0 || decodedTag_range.Constructed != true {
+					return fmt.Errorf("decoding range: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_range)
 				}
 				reconstructed_range := ber.EncodeSequence(rawVal_range)
 				var dec_range Range
@@ -6233,9 +8649,12 @@ func (v *RangeDirection) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_azimuth, rawVal_azimuth, err := ber.DecodeTLV(content[offset:])
+				decodedTag_azimuth, n_azimuth, rawVal_azimuth, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding azimuth: %w", err)
+				}
+				if decodedTag_azimuth.Class != tag.ClassContextSpecific || decodedTag_azimuth.Number != 1 || decodedTag_azimuth.Constructed != true {
+					return fmt.Errorf("decoding azimuth: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_azimuth)
 				}
 				reconstructed_azimuth := ber.EncodeSequence(rawVal_azimuth)
 				var dec_azimuth Azimuth
@@ -6252,9 +8671,12 @@ func (v *RangeDirection) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_elevation, rawVal_elevation, err := ber.DecodeTLV(content[offset:])
+				decodedTag_elevation, n_elevation, rawVal_elevation, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding elevation: %w", err)
+				}
+				if decodedTag_elevation.Class != tag.ClassContextSpecific || decodedTag_elevation.Number != 2 || decodedTag_elevation.Constructed != true {
+					return fmt.Errorf("decoding elevation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_elevation)
 				}
 				reconstructed_elevation := ber.EncodeSequence(rawVal_elevation)
 				var dec_elevation Elevation
@@ -6286,14 +8708,26 @@ func (v *RangeDirection) UnmarshalBER(data []byte) error {
 func (v *Range) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_rangeresult := ber.EncodeInteger(int64(v.RangeResult))
-	enc_rangeresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_rangeresult)
+	retagged_enc_rangeresult, tagErr_enc_rangeresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rangeresult)
+	if tagErr_enc_rangeresult != nil {
+		return nil, fmt.Errorf("encoding rangeResult: %w", tagErr_enc_rangeresult)
+	}
+	enc_rangeresult = retagged_enc_rangeresult
 	children = append(children, enc_rangeresult...)
 	enc_uncertainty := ber.EncodeInteger(int64(v.Uncertainty))
-	enc_uncertainty = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_uncertainty)
+	retagged_enc_uncertainty, tagErr_enc_uncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uncertainty)
+	if tagErr_enc_uncertainty != nil {
+		return nil, fmt.Errorf("encoding uncertainty: %w", tagErr_enc_uncertainty)
+	}
+	enc_uncertainty = retagged_enc_uncertainty
 	children = append(children, enc_uncertainty...)
 	if v.Confidence != nil {
 		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
-		enc_confidence = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_confidence)
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
 		children = append(children, enc_confidence...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -6311,17 +8745,46 @@ func (v *Range) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Range to DER format.
 func (v *Range) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_rangeresult := ber.EncodeInteger(int64(v.RangeResult))
+	retagged_enc_rangeresult, tagErr_enc_rangeresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rangeresult)
+	if tagErr_enc_rangeresult != nil {
+		return nil, fmt.Errorf("encoding rangeResult: %w", tagErr_enc_rangeresult)
+	}
+	enc_rangeresult = retagged_enc_rangeresult
+	children = append(children, enc_rangeresult...)
+	enc_uncertainty := ber.EncodeInteger(int64(v.Uncertainty))
+	retagged_enc_uncertainty, tagErr_enc_uncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uncertainty)
+	if tagErr_enc_uncertainty != nil {
+		return nil, fmt.Errorf("encoding uncertainty: %w", tagErr_enc_uncertainty)
+	}
+	enc_uncertainty = retagged_enc_uncertainty
+	children = append(children, enc_uncertainty...)
+	if v.Confidence != nil {
+		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
+		children = append(children, enc_confidence...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Range as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Range from BER/DER format.
 func (v *Range) UnmarshalBER(data []byte) error {
+	*v = Range{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Range SEQUENCE: %w", err)
@@ -6339,9 +8802,12 @@ func (v *Range) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for rangeResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_rangeresult, rawVal_rangeresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_rangeresult, n_rangeresult, rawVal_rangeresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding rangeResult: %w", err)
+	}
+	if decodedTag_rangeresult.Class != tag.ClassContextSpecific || decodedTag_rangeresult.Number != 0 || decodedTag_rangeresult.Constructed != false {
+		return fmt.Errorf("decoding rangeResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangeresult)
 	}
 	decVal_rangeresult, intErr := ber.DecodeIntegerValue(rawVal_rangeresult)
 	if intErr != nil {
@@ -6358,9 +8824,12 @@ func (v *Range) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for uncertainty, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_uncertainty, rawVal_uncertainty, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertainty, n_uncertainty, rawVal_uncertainty, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertainty: %w", err)
+	}
+	if decodedTag_uncertainty.Class != tag.ClassContextSpecific || decodedTag_uncertainty.Number != 1 || decodedTag_uncertainty.Constructed != false {
+		return fmt.Errorf("decoding uncertainty: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertainty)
 	}
 	decVal_uncertainty, intErr := ber.DecodeIntegerValue(rawVal_uncertainty)
 	if intErr != nil {
@@ -6373,9 +8842,12 @@ func (v *Range) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
+				decodedTag_confidence, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding confidence: %w", err)
+				}
+				if decodedTag_confidence.Class != tag.ClassContextSpecific || decodedTag_confidence.Number != 2 || decodedTag_confidence.Constructed != false {
+					return fmt.Errorf("decoding confidence: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_confidence)
 				}
 				decVal_confidence, intErr := ber.DecodeIntegerValue(rawVal_confidence)
 				if intErr != nil {
@@ -6407,14 +8879,26 @@ func (v *Range) UnmarshalBER(data []byte) error {
 func (v *Azimuth) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_azimuthresult := ber.EncodeInteger(int64(v.AzimuthResult))
-	enc_azimuthresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_azimuthresult)
+	retagged_enc_azimuthresult, tagErr_enc_azimuthresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_azimuthresult)
+	if tagErr_enc_azimuthresult != nil {
+		return nil, fmt.Errorf("encoding azimuthResult: %w", tagErr_enc_azimuthresult)
+	}
+	enc_azimuthresult = retagged_enc_azimuthresult
 	children = append(children, enc_azimuthresult...)
 	enc_uncertainty := ber.EncodeInteger(int64(v.Uncertainty))
-	enc_uncertainty = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_uncertainty)
+	retagged_enc_uncertainty, tagErr_enc_uncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uncertainty)
+	if tagErr_enc_uncertainty != nil {
+		return nil, fmt.Errorf("encoding uncertainty: %w", tagErr_enc_uncertainty)
+	}
+	enc_uncertainty = retagged_enc_uncertainty
 	children = append(children, enc_uncertainty...)
 	if v.Confidence != nil {
 		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
-		enc_confidence = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_confidence)
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
 		children = append(children, enc_confidence...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -6432,17 +8916,46 @@ func (v *Azimuth) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Azimuth to DER format.
 func (v *Azimuth) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_azimuthresult := ber.EncodeInteger(int64(v.AzimuthResult))
+	retagged_enc_azimuthresult, tagErr_enc_azimuthresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_azimuthresult)
+	if tagErr_enc_azimuthresult != nil {
+		return nil, fmt.Errorf("encoding azimuthResult: %w", tagErr_enc_azimuthresult)
+	}
+	enc_azimuthresult = retagged_enc_azimuthresult
+	children = append(children, enc_azimuthresult...)
+	enc_uncertainty := ber.EncodeInteger(int64(v.Uncertainty))
+	retagged_enc_uncertainty, tagErr_enc_uncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uncertainty)
+	if tagErr_enc_uncertainty != nil {
+		return nil, fmt.Errorf("encoding uncertainty: %w", tagErr_enc_uncertainty)
+	}
+	enc_uncertainty = retagged_enc_uncertainty
+	children = append(children, enc_uncertainty...)
+	if v.Confidence != nil {
+		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
+		children = append(children, enc_confidence...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Azimuth as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Azimuth from BER/DER format.
 func (v *Azimuth) UnmarshalBER(data []byte) error {
+	*v = Azimuth{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Azimuth SEQUENCE: %w", err)
@@ -6460,9 +8973,12 @@ func (v *Azimuth) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for azimuthResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_azimuthresult, rawVal_azimuthresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_azimuthresult, n_azimuthresult, rawVal_azimuthresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding azimuthResult: %w", err)
+	}
+	if decodedTag_azimuthresult.Class != tag.ClassContextSpecific || decodedTag_azimuthresult.Number != 0 || decodedTag_azimuthresult.Constructed != false {
+		return fmt.Errorf("decoding azimuthResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_azimuthresult)
 	}
 	decVal_azimuthresult, intErr := ber.DecodeIntegerValue(rawVal_azimuthresult)
 	if intErr != nil {
@@ -6479,9 +8995,12 @@ func (v *Azimuth) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for uncertainty, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_uncertainty, rawVal_uncertainty, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertainty, n_uncertainty, rawVal_uncertainty, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertainty: %w", err)
+	}
+	if decodedTag_uncertainty.Class != tag.ClassContextSpecific || decodedTag_uncertainty.Number != 1 || decodedTag_uncertainty.Constructed != false {
+		return fmt.Errorf("decoding uncertainty: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertainty)
 	}
 	decVal_uncertainty, intErr := ber.DecodeIntegerValue(rawVal_uncertainty)
 	if intErr != nil {
@@ -6494,9 +9013,12 @@ func (v *Azimuth) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
+				decodedTag_confidence, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding confidence: %w", err)
+				}
+				if decodedTag_confidence.Class != tag.ClassContextSpecific || decodedTag_confidence.Number != 2 || decodedTag_confidence.Constructed != false {
+					return fmt.Errorf("decoding confidence: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_confidence)
 				}
 				decVal_confidence, intErr := ber.DecodeIntegerValue(rawVal_confidence)
 				if intErr != nil {
@@ -6528,14 +9050,26 @@ func (v *Azimuth) UnmarshalBER(data []byte) error {
 func (v *Elevation) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_elevationresult := ber.EncodeInteger(int64(v.ElevationResult))
-	enc_elevationresult = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_elevationresult)
+	retagged_enc_elevationresult, tagErr_enc_elevationresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_elevationresult)
+	if tagErr_enc_elevationresult != nil {
+		return nil, fmt.Errorf("encoding elevationResult: %w", tagErr_enc_elevationresult)
+	}
+	enc_elevationresult = retagged_enc_elevationresult
 	children = append(children, enc_elevationresult...)
 	enc_uncertainty := ber.EncodeInteger(int64(v.Uncertainty))
-	enc_uncertainty = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_uncertainty)
+	retagged_enc_uncertainty, tagErr_enc_uncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uncertainty)
+	if tagErr_enc_uncertainty != nil {
+		return nil, fmt.Errorf("encoding uncertainty: %w", tagErr_enc_uncertainty)
+	}
+	enc_uncertainty = retagged_enc_uncertainty
 	children = append(children, enc_uncertainty...)
 	if v.Confidence != nil {
 		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
-		enc_confidence = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_confidence)
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
 		children = append(children, enc_confidence...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -6553,17 +9087,46 @@ func (v *Elevation) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Elevation to DER format.
 func (v *Elevation) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_elevationresult := ber.EncodeInteger(int64(v.ElevationResult))
+	retagged_enc_elevationresult, tagErr_enc_elevationresult := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_elevationresult)
+	if tagErr_enc_elevationresult != nil {
+		return nil, fmt.Errorf("encoding elevationResult: %w", tagErr_enc_elevationresult)
+	}
+	enc_elevationresult = retagged_enc_elevationresult
+	children = append(children, enc_elevationresult...)
+	enc_uncertainty := ber.EncodeInteger(int64(v.Uncertainty))
+	retagged_enc_uncertainty, tagErr_enc_uncertainty := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_uncertainty)
+	if tagErr_enc_uncertainty != nil {
+		return nil, fmt.Errorf("encoding uncertainty: %w", tagErr_enc_uncertainty)
+	}
+	enc_uncertainty = retagged_enc_uncertainty
+	children = append(children, enc_uncertainty...)
+	if v.Confidence != nil {
+		enc_confidence := ber.EncodeInteger(int64(*v.Confidence))
+		retagged_enc_confidence, tagErr_enc_confidence := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_confidence)
+		if tagErr_enc_confidence != nil {
+			return nil, fmt.Errorf("encoding confidence: %w", tagErr_enc_confidence)
+		}
+		enc_confidence = retagged_enc_confidence
+		children = append(children, enc_confidence...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Elevation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Elevation from BER/DER format.
 func (v *Elevation) UnmarshalBER(data []byte) error {
+	*v = Elevation{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Elevation SEQUENCE: %w", err)
@@ -6581,9 +9144,12 @@ func (v *Elevation) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for elevationResult, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_elevationresult, rawVal_elevationresult, err := ber.DecodeTLV(content[offset:])
+	decodedTag_elevationresult, n_elevationresult, rawVal_elevationresult, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding elevationResult: %w", err)
+	}
+	if decodedTag_elevationresult.Class != tag.ClassContextSpecific || decodedTag_elevationresult.Number != 0 || decodedTag_elevationresult.Constructed != false {
+		return fmt.Errorf("decoding elevationResult: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_elevationresult)
 	}
 	decVal_elevationresult, intErr := ber.DecodeIntegerValue(rawVal_elevationresult)
 	if intErr != nil {
@@ -6600,9 +9166,12 @@ func (v *Elevation) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for uncertainty, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_uncertainty, rawVal_uncertainty, err := ber.DecodeTLV(content[offset:])
+	decodedTag_uncertainty, n_uncertainty, rawVal_uncertainty, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding uncertainty: %w", err)
+	}
+	if decodedTag_uncertainty.Class != tag.ClassContextSpecific || decodedTag_uncertainty.Number != 1 || decodedTag_uncertainty.Constructed != false {
+		return fmt.Errorf("decoding uncertainty: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uncertainty)
 	}
 	decVal_uncertainty, intErr := ber.DecodeIntegerValue(rawVal_uncertainty)
 	if intErr != nil {
@@ -6615,9 +9184,12 @@ func (v *Elevation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
+				decodedTag_confidence, n_confidence, rawVal_confidence, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding confidence: %w", err)
+				}
+				if decodedTag_confidence.Class != tag.ClassContextSpecific || decodedTag_confidence.Number != 2 || decodedTag_confidence.Constructed != false {
+					return fmt.Errorf("decoding confidence: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_confidence)
 				}
 				decVal_confidence, intErr := ber.DecodeIntegerValue(rawVal_confidence)
 				if intErr != nil {
@@ -6649,10 +9221,18 @@ func (v *Elevation) UnmarshalBER(data []byte) error {
 func (v *LCSAreaEventReportArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
-	enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumber)
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
 	children = append(children, enc_referencenumber...)
 	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
-	enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_hgmlcaddress)
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
 	children = append(children, enc_hgmlcaddress...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -6669,17 +9249,37 @@ func (v *LCSAreaEventReportArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSAreaEventReportArg to DER format.
 func (v *LCSAreaEventReportArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
+	children = append(children, enc_referencenumber...)
+	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
+	children = append(children, enc_hgmlcaddress...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSAreaEventReportArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSAreaEventReportArg from BER/DER format.
 func (v *LCSAreaEventReportArg) UnmarshalBER(data []byte) error {
+	*v = LCSAreaEventReportArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSAreaEventReportArg SEQUENCE: %w", err)
@@ -6697,9 +9297,12 @@ func (v *LCSAreaEventReportArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumber: %w", err)
+	}
+	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
+		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
 	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
@@ -6712,9 +9315,12 @@ func (v *LCSAreaEventReportArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for h-gmlc-address, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-address: %w", err)
+	}
+	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
+		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
 	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
@@ -6738,10 +9344,18 @@ func (v *LCSAreaEventReportArg) UnmarshalBER(data []byte) error {
 func (v *LCSAreaEventCancellationArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
-	enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumber)
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
 	children = append(children, enc_referencenumber...)
 	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
-	enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_hgmlcaddress)
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
 	children = append(children, enc_hgmlcaddress...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -6758,17 +9372,37 @@ func (v *LCSAreaEventCancellationArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSAreaEventCancellationArg to DER format.
 func (v *LCSAreaEventCancellationArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
+	children = append(children, enc_referencenumber...)
+	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
+	children = append(children, enc_hgmlcaddress...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSAreaEventCancellationArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSAreaEventCancellationArg from BER/DER format.
 func (v *LCSAreaEventCancellationArg) UnmarshalBER(data []byte) error {
+	*v = LCSAreaEventCancellationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSAreaEventCancellationArg SEQUENCE: %w", err)
@@ -6786,9 +9420,12 @@ func (v *LCSAreaEventCancellationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumber: %w", err)
+	}
+	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
+		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
 	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
@@ -6801,9 +9438,12 @@ func (v *LCSAreaEventCancellationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for h-gmlc-address, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-address: %w", err)
+	}
+	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
+		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
 	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
@@ -6827,36 +9467,60 @@ func (v *LCSAreaEventCancellationArg) UnmarshalBER(data []byte) error {
 func (v *LCSPeriodicLocationRequestArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
-	enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumber)
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
 	children = append(children, enc_referencenumber...)
 	enc_periodicldrinfo, err := v.PeriodicLDRInfo.MarshalBER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", err)
 	}
-	enc_periodicldrinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_periodicldrinfo)
+	retagged_enc_periodicldrinfo, tagErr_enc_periodicldrinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_periodicldrinfo)
+	if tagErr_enc_periodicldrinfo != nil {
+		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", tagErr_enc_periodicldrinfo)
+	}
+	enc_periodicldrinfo = retagged_enc_periodicldrinfo
 	children = append(children, enc_periodicldrinfo...)
 	enc_lcsclientexternalid, err := v.LcsClientExternalID.MarshalBER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
 	}
-	enc_lcsclientexternalid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_lcsclientexternalid)
+	retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsclientexternalid)
+	if tagErr_enc_lcsclientexternalid != nil {
+		return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+	}
+	enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
 	children = append(children, enc_lcsclientexternalid...)
 	if v.QoS != nil {
 		enc_qos, err := v.QoS.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding qoS: %w", err)
 		}
-		enc_qos = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_qos)
+		retagged_enc_qos, tagErr_enc_qos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_qos)
+		if tagErr_enc_qos != nil {
+			return nil, fmt.Errorf("encoding qoS: %w", tagErr_enc_qos)
+		}
+		enc_qos = retagged_enc_qos
 		children = append(children, enc_qos...)
 	}
 	if v.HGmlcAddress != nil {
 		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
-		enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_hgmlcaddress)
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
 		children = append(children, enc_hgmlcaddress...)
 	}
 	if v.MoLrShortCircuit != nil {
 		enc_molrshortcircuit := ber.EncodeNull()
-		enc_molrshortcircuit = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_molrshortcircuit)
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
 		children = append(children, enc_molrshortcircuit...)
 	}
 	if v.ReportingPLMNList != nil {
@@ -6864,7 +9528,11 @@ func (v *LCSPeriodicLocationRequestArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reportingPLMNList: %w", err)
 		}
-		enc_reportingplmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_reportingplmnlist)
+		retagged_enc_reportingplmnlist, tagErr_enc_reportingplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_reportingplmnlist)
+		if tagErr_enc_reportingplmnlist != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", tagErr_enc_reportingplmnlist)
+		}
+		enc_reportingplmnlist = retagged_enc_reportingplmnlist
 		children = append(children, enc_reportingplmnlist...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -6882,17 +9550,92 @@ func (v *LCSPeriodicLocationRequestArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPeriodicLocationRequestArg to DER format.
 func (v *LCSPeriodicLocationRequestArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
+	children = append(children, enc_referencenumber...)
+	enc_periodicldrinfo, err := v.PeriodicLDRInfo.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", err)
+	}
+	retagged_enc_periodicldrinfo, tagErr_enc_periodicldrinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_periodicldrinfo)
+	if tagErr_enc_periodicldrinfo != nil {
+		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", tagErr_enc_periodicldrinfo)
+	}
+	enc_periodicldrinfo = retagged_enc_periodicldrinfo
+	children = append(children, enc_periodicldrinfo...)
+	enc_lcsclientexternalid, err := v.LcsClientExternalID.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding lcsClientExternalID: %w", err)
+	}
+	retagged_enc_lcsclientexternalid, tagErr_enc_lcsclientexternalid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_lcsclientexternalid)
+	if tagErr_enc_lcsclientexternalid != nil {
+		return nil, fmt.Errorf("encoding lcsClientExternalID: %w", tagErr_enc_lcsclientexternalid)
+	}
+	enc_lcsclientexternalid = retagged_enc_lcsclientexternalid
+	children = append(children, enc_lcsclientexternalid...)
+	if v.QoS != nil {
+		enc_qos, err := v.QoS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding qoS: %w", err)
+		}
+		retagged_enc_qos, tagErr_enc_qos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_qos)
+		if tagErr_enc_qos != nil {
+			return nil, fmt.Errorf("encoding qoS: %w", tagErr_enc_qos)
+		}
+		enc_qos = retagged_enc_qos
+		children = append(children, enc_qos...)
+	}
+	if v.HGmlcAddress != nil {
+		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
+	if v.MoLrShortCircuit != nil {
+		enc_molrshortcircuit := ber.EncodeNull()
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
+		children = append(children, enc_molrshortcircuit...)
+	}
+	if v.ReportingPLMNList != nil {
+		enc_reportingplmnlist, err := v.ReportingPLMNList.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", err)
+		}
+		retagged_enc_reportingplmnlist, tagErr_enc_reportingplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_reportingplmnlist)
+		if tagErr_enc_reportingplmnlist != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", tagErr_enc_reportingplmnlist)
+		}
+		enc_reportingplmnlist = retagged_enc_reportingplmnlist
+		children = append(children, enc_reportingplmnlist...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPeriodicLocationRequestArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPeriodicLocationRequestArg from BER/DER format.
 func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
+	*v = LCSPeriodicLocationRequestArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPeriodicLocationRequestArg SEQUENCE: %w", err)
@@ -6910,9 +9653,12 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumber: %w", err)
+	}
+	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
+		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
 	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
@@ -6925,9 +9671,12 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for periodicLDRInfo, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_periodicldrinfo, rawVal_periodicldrinfo, err := ber.DecodeTLV(content[offset:])
+	decodedTag_periodicldrinfo, n_periodicldrinfo, rawVal_periodicldrinfo, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding periodicLDRInfo: %w", err)
+	}
+	if decodedTag_periodicldrinfo.Class != tag.ClassContextSpecific || decodedTag_periodicldrinfo.Number != 1 || decodedTag_periodicldrinfo.Constructed != true {
+		return fmt.Errorf("decoding periodicLDRInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_periodicldrinfo)
 	}
 	reconstructed_periodicldrinfo := ber.EncodeSequence(rawVal_periodicldrinfo)
 	if unmErr := v.PeriodicLDRInfo.UnmarshalBER(reconstructed_periodicldrinfo); unmErr != nil {
@@ -6943,9 +9692,12 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for lcsClientExternalID, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_lcsclientexternalid, n_lcsclientexternalid, rawVal_lcsclientexternalid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding lcsClientExternalID: %w", err)
+	}
+	if decodedTag_lcsclientexternalid.Class != tag.ClassContextSpecific || decodedTag_lcsclientexternalid.Number != 2 || decodedTag_lcsclientexternalid.Constructed != true {
+		return fmt.Errorf("decoding lcsClientExternalID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientexternalid)
 	}
 	reconstructed_lcsclientexternalid := ber.EncodeSequence(rawVal_lcsclientexternalid)
 	if unmErr := v.LcsClientExternalID.UnmarshalBER(reconstructed_lcsclientexternalid); unmErr != nil {
@@ -6957,9 +9709,12 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_qos, rawVal_qos, err := ber.DecodeTLV(content[offset:])
+				decodedTag_qos, n_qos, rawVal_qos, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding qoS: %w", err)
+				}
+				if decodedTag_qos.Class != tag.ClassContextSpecific || decodedTag_qos.Number != 3 || decodedTag_qos.Constructed != true {
+					return fmt.Errorf("decoding qoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qos)
 				}
 				reconstructed_qos := ber.EncodeSequence(rawVal_qos)
 				var dec_qos LCSQoS
@@ -6976,9 +9731,12 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 4 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
 				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
@@ -6991,11 +9749,16 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
+				decodedTag_molrshortcircuit, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuit: %w", err)
 				}
-				_ = rawVal_molrshortcircuit
+				if decodedTag_molrshortcircuit.Class != tag.ClassContextSpecific || decodedTag_molrshortcircuit.Number != 5 || decodedTag_molrshortcircuit.Constructed != false {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_molrshortcircuit)
+				}
+				if len(rawVal_molrshortcircuit) != 0 {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_molrshortcircuit))
+				}
 				v.MoLrShortCircuit = &struct{}{}
 				offset += n_molrshortcircuit
 			}
@@ -7006,9 +9769,12 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_reportingplmnlist, rawVal_reportingplmnlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_reportingplmnlist, n_reportingplmnlist, rawVal_reportingplmnlist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reportingPLMNList: %w", err)
+				}
+				if decodedTag_reportingplmnlist.Class != tag.ClassContextSpecific || decodedTag_reportingplmnlist.Number != 6 || decodedTag_reportingplmnlist.Constructed != true {
+					return fmt.Errorf("decoding reportingPLMNList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingplmnlist)
 				}
 				reconstructed_reportingplmnlist := ber.EncodeSequence(rawVal_reportingplmnlist)
 				var dec_reportingplmnlist ReportingPLMNList
@@ -7041,7 +9807,11 @@ func (v *LCSPeriodicLocationRequestRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.MoLrShortCircuit != nil {
 		enc_molrshortcircuit := ber.EncodeNull()
-		enc_molrshortcircuit = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_molrshortcircuit)
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
 		children = append(children, enc_molrshortcircuit...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -7059,17 +9829,32 @@ func (v *LCSPeriodicLocationRequestRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPeriodicLocationRequestRes to DER format.
 func (v *LCSPeriodicLocationRequestRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.MoLrShortCircuit != nil {
+		enc_molrshortcircuit := ber.EncodeNull()
+		retagged_enc_molrshortcircuit, tagErr_enc_molrshortcircuit := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_molrshortcircuit)
+		if tagErr_enc_molrshortcircuit != nil {
+			return nil, fmt.Errorf("encoding mo-lrShortCircuit: %w", tagErr_enc_molrshortcircuit)
+		}
+		enc_molrshortcircuit = retagged_enc_molrshortcircuit
+		children = append(children, enc_molrshortcircuit...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPeriodicLocationRequestRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPeriodicLocationRequestRes from BER/DER format.
 func (v *LCSPeriodicLocationRequestRes) UnmarshalBER(data []byte) error {
+	*v = LCSPeriodicLocationRequestRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPeriodicLocationRequestRes SEQUENCE: %w", err)
@@ -7083,11 +9868,16 @@ func (v *LCSPeriodicLocationRequestRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
+				decodedTag_molrshortcircuit, n_molrshortcircuit, rawVal_molrshortcircuit, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mo-lrShortCircuit: %w", err)
 				}
-				_ = rawVal_molrshortcircuit
+				if decodedTag_molrshortcircuit.Class != tag.ClassContextSpecific || decodedTag_molrshortcircuit.Number != 0 || decodedTag_molrshortcircuit.Constructed != false {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_molrshortcircuit)
+				}
+				if len(rawVal_molrshortcircuit) != 0 {
+					return fmt.Errorf("decoding mo-lrShortCircuit: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_molrshortcircuit))
+				}
 				v.MoLrShortCircuit = &struct{}{}
 				offset += n_molrshortcircuit
 			}
@@ -7114,22 +9904,38 @@ func (v *LCSLocationUpdateArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.ReferenceNumber != nil {
 		enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
-		enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumber)
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
 		children = append(children, enc_referencenumber...)
 	}
 	if v.AddLocationEstimate != nil {
 		enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
-		enc_addlocationestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_addlocationestimate)
+		retagged_enc_addlocationestimate, tagErr_enc_addlocationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_addlocationestimate)
+		if tagErr_enc_addlocationestimate != nil {
+			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", tagErr_enc_addlocationestimate)
+		}
+		enc_addlocationestimate = retagged_enc_addlocationestimate
 		children = append(children, enc_addlocationestimate...)
 	}
 	if v.VelocityEstimate != nil {
 		enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
-		enc_velocityestimate = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_velocityestimate)
+		retagged_enc_velocityestimate, tagErr_enc_velocityestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_velocityestimate)
+		if tagErr_enc_velocityestimate != nil {
+			return nil, fmt.Errorf("encoding velocityEstimate: %w", tagErr_enc_velocityestimate)
+		}
+		enc_velocityestimate = retagged_enc_velocityestimate
 		children = append(children, enc_velocityestimate...)
 	}
 	if v.SequenceNumber != nil {
 		enc_sequencenumber := ber.EncodeInteger(int64(*v.SequenceNumber))
-		enc_sequencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_sequencenumber)
+		retagged_enc_sequencenumber, tagErr_enc_sequencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_sequencenumber)
+		if tagErr_enc_sequencenumber != nil {
+			return nil, fmt.Errorf("encoding sequenceNumber: %w", tagErr_enc_sequencenumber)
+		}
+		enc_sequencenumber = retagged_enc_sequencenumber
 		children = append(children, enc_sequencenumber...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -7147,17 +9953,59 @@ func (v *LCSLocationUpdateArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSLocationUpdateArg to DER format.
 func (v *LCSLocationUpdateArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.ReferenceNumber != nil {
+		enc_referencenumber := ber.EncodeOctetString([]byte(*v.ReferenceNumber))
+		retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+		if tagErr_enc_referencenumber != nil {
+			return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+		}
+		enc_referencenumber = retagged_enc_referencenumber
+		children = append(children, enc_referencenumber...)
+	}
+	if v.AddLocationEstimate != nil {
+		enc_addlocationestimate := ber.EncodeOctetString([]byte(*v.AddLocationEstimate))
+		retagged_enc_addlocationestimate, tagErr_enc_addlocationestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_addlocationestimate)
+		if tagErr_enc_addlocationestimate != nil {
+			return nil, fmt.Errorf("encoding add-LocationEstimate: %w", tagErr_enc_addlocationestimate)
+		}
+		enc_addlocationestimate = retagged_enc_addlocationestimate
+		children = append(children, enc_addlocationestimate...)
+	}
+	if v.VelocityEstimate != nil {
+		enc_velocityestimate := ber.EncodeOctetString([]byte(*v.VelocityEstimate))
+		retagged_enc_velocityestimate, tagErr_enc_velocityestimate := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_velocityestimate)
+		if tagErr_enc_velocityestimate != nil {
+			return nil, fmt.Errorf("encoding velocityEstimate: %w", tagErr_enc_velocityestimate)
+		}
+		enc_velocityestimate = retagged_enc_velocityestimate
+		children = append(children, enc_velocityestimate...)
+	}
+	if v.SequenceNumber != nil {
+		enc_sequencenumber := ber.EncodeInteger(int64(*v.SequenceNumber))
+		retagged_enc_sequencenumber, tagErr_enc_sequencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_sequencenumber)
+		if tagErr_enc_sequencenumber != nil {
+			return nil, fmt.Errorf("encoding sequenceNumber: %w", tagErr_enc_sequencenumber)
+		}
+		enc_sequencenumber = retagged_enc_sequencenumber
+		children = append(children, enc_sequencenumber...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSLocationUpdateArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSLocationUpdateArg from BER/DER format.
 func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
+	*v = LCSLocationUpdateArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSLocationUpdateArg SEQUENCE: %w", err)
@@ -7171,9 +10019,12 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding referenceNumber: %w", err)
+				}
+				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
+					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 				}
 				tmp_referencenumber := LCSReferenceNumber(rawVal_referencenumber)
 				v.ReferenceNumber = &tmp_referencenumber
@@ -7186,9 +10037,12 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_addlocationestimate, rawVal_addlocationestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_addlocationestimate, n_addlocationestimate, rawVal_addlocationestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding add-LocationEstimate: %w", err)
+				}
+				if decodedTag_addlocationestimate.Class != tag.ClassContextSpecific || decodedTag_addlocationestimate.Number != 1 {
+					return fmt.Errorf("decoding add-LocationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_addlocationestimate)
 				}
 				tmp_addlocationestimate := AddGeographicalInformation(rawVal_addlocationestimate)
 				v.AddLocationEstimate = &tmp_addlocationestimate
@@ -7201,9 +10055,12 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_velocityestimate, rawVal_velocityestimate, err := ber.DecodeTLV(content[offset:])
+				decodedTag_velocityestimate, n_velocityestimate, rawVal_velocityestimate, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding velocityEstimate: %w", err)
+				}
+				if decodedTag_velocityestimate.Class != tag.ClassContextSpecific || decodedTag_velocityestimate.Number != 2 {
+					return fmt.Errorf("decoding velocityEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_velocityestimate)
 				}
 				tmp_velocityestimate := VelocityEstimate(rawVal_velocityestimate)
 				v.VelocityEstimate = &tmp_velocityestimate
@@ -7216,9 +10073,12 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_sequencenumber, rawVal_sequencenumber, err := ber.DecodeTLV(content[offset:])
+				decodedTag_sequencenumber, n_sequencenumber, rawVal_sequencenumber, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding sequenceNumber: %w", err)
+				}
+				if decodedTag_sequencenumber.Class != tag.ClassContextSpecific || decodedTag_sequencenumber.Number != 3 || decodedTag_sequencenumber.Constructed != false {
+					return fmt.Errorf("decoding sequenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sequencenumber)
 				}
 				decVal_sequencenumber, intErr := ber.DecodeIntegerValue(rawVal_sequencenumber)
 				if intErr != nil {
@@ -7251,7 +10111,11 @@ func (v *LCSLocationUpdateRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TerminationCause != nil {
 		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
-		enc_terminationcause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_terminationcause)
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
 		children = append(children, enc_terminationcause...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -7269,17 +10133,32 @@ func (v *LCSLocationUpdateRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSLocationUpdateRes to DER format.
 func (v *LCSLocationUpdateRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.TerminationCause != nil {
+		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
+		children = append(children, enc_terminationcause...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSLocationUpdateRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSLocationUpdateRes from BER/DER format.
 func (v *LCSLocationUpdateRes) UnmarshalBER(data []byte) error {
+	*v = LCSLocationUpdateRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSLocationUpdateRes SEQUENCE: %w", err)
@@ -7293,11 +10172,14 @@ func (v *LCSLocationUpdateRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
+				decodedTag_terminationcause, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding terminationCause: %w", err)
 				}
-				decVal_terminationcause, intErr := ber.DecodeIntegerValue(rawVal_terminationcause)
+				if decodedTag_terminationcause.Class != tag.ClassContextSpecific || decodedTag_terminationcause.Number != 0 || decodedTag_terminationcause.Constructed != false {
+					return fmt.Errorf("decoding terminationCause: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_terminationcause)
+				}
+				decVal_terminationcause, intErr := ber.DecodeEnumeratedValue(rawVal_terminationcause)
 				if intErr != nil {
 					return fmt.Errorf("decoding terminationCause: %w", intErr)
 				}
@@ -7327,11 +10209,19 @@ func (v *LCSLocationUpdateRes) UnmarshalBER(data []byte) error {
 func (v *LCSPeriodicLocationCancellationArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
-	enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumber)
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
 	children = append(children, enc_referencenumber...)
 	if v.HGmlcAddress != nil {
 		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
-		enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_hgmlcaddress)
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
 		children = append(children, enc_hgmlcaddress...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -7349,17 +10239,39 @@ func (v *LCSPeriodicLocationCancellationArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPeriodicLocationCancellationArg to DER format.
 func (v *LCSPeriodicLocationCancellationArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
+	children = append(children, enc_referencenumber...)
+	if v.HGmlcAddress != nil {
+		enc_hgmlcaddress := ber.EncodeOctetString([]byte(*v.HGmlcAddress))
+		retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+		if tagErr_enc_hgmlcaddress != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+		}
+		enc_hgmlcaddress = retagged_enc_hgmlcaddress
+		children = append(children, enc_hgmlcaddress...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPeriodicLocationCancellationArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPeriodicLocationCancellationArg from BER/DER format.
 func (v *LCSPeriodicLocationCancellationArg) UnmarshalBER(data []byte) error {
+	*v = LCSPeriodicLocationCancellationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPeriodicLocationCancellationArg SEQUENCE: %w", err)
@@ -7377,9 +10289,12 @@ func (v *LCSPeriodicLocationCancellationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumber: %w", err)
+	}
+	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
+		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
 	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
@@ -7388,9 +10303,12 @@ func (v *LCSPeriodicLocationCancellationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+				decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding h-gmlc-address: %w", err)
+				}
+				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
+					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
 				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
@@ -7418,17 +10336,29 @@ func (v *LCSPeriodicLocationCancellationArg) UnmarshalBER(data []byte) error {
 func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
-	enc_referencenumber = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumber)
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
 	children = append(children, enc_referencenumber...)
 	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
-	enc_hgmlcaddress = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_hgmlcaddress)
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
 	children = append(children, enc_hgmlcaddress...)
 	if v.QoS != nil {
 		enc_qos, err := v.QoS.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding qoS: %w", err)
 		}
-		enc_qos = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_qos)
+		retagged_enc_qos, tagErr_enc_qos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_qos)
+		if tagErr_enc_qos != nil {
+			return nil, fmt.Errorf("encoding qoS: %w", tagErr_enc_qos)
+		}
+		enc_qos = retagged_enc_qos
 		children = append(children, enc_qos...)
 	}
 	if v.ReportingPLMNList != nil {
@@ -7436,7 +10366,11 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding reportingPLMNList: %w", err)
 		}
-		enc_reportingplmnlist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_reportingplmnlist)
+		retagged_enc_reportingplmnlist, tagErr_enc_reportingplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_reportingplmnlist)
+		if tagErr_enc_reportingplmnlist != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", tagErr_enc_reportingplmnlist)
+		}
+		enc_reportingplmnlist = retagged_enc_reportingplmnlist
 		children = append(children, enc_reportingplmnlist...)
 	}
 	if v.PeriodicLocation != nil {
@@ -7444,7 +10378,11 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding periodicLocation: %w", err)
 		}
-		enc_periodiclocation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, true, enc_periodiclocation)
+		retagged_enc_periodiclocation, tagErr_enc_periodiclocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_periodiclocation)
+		if tagErr_enc_periodiclocation != nil {
+			return nil, fmt.Errorf("encoding periodicLocation: %w", tagErr_enc_periodiclocation)
+		}
+		enc_periodiclocation = retagged_enc_periodiclocation
 		children = append(children, enc_periodiclocation...)
 	}
 	if v.AreaEventReporting != nil {
@@ -7452,7 +10390,11 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding areaEventReporting: %w", err)
 		}
-		enc_areaeventreporting = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_areaeventreporting)
+		retagged_enc_areaeventreporting, tagErr_enc_areaeventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_areaeventreporting)
+		if tagErr_enc_areaeventreporting != nil {
+			return nil, fmt.Errorf("encoding areaEventReporting: %w", tagErr_enc_areaeventreporting)
+		}
+		enc_areaeventreporting = retagged_enc_areaeventreporting
 		children = append(children, enc_areaeventreporting...)
 	}
 	if v.MotionEventReporting != nil {
@@ -7460,32 +10402,59 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding motionEventReporting: %w", err)
 		}
-		enc_motioneventreporting = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_motioneventreporting)
+		retagged_enc_motioneventreporting, tagErr_enc_motioneventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_motioneventreporting)
+		if tagErr_enc_motioneventreporting != nil {
+			return nil, fmt.Errorf("encoding motionEventReporting: %w", tagErr_enc_motioneventreporting)
+		}
+		enc_motioneventreporting = retagged_enc_motioneventreporting
 		children = append(children, enc_motioneventreporting...)
 	}
 	if v.ReferenceNumberExt != nil {
 		enc_referencenumberext := ber.EncodeOctetString([]byte(*v.ReferenceNumberExt))
-		enc_referencenumberext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_referencenumberext)
+		retagged_enc_referencenumberext, tagErr_enc_referencenumberext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_referencenumberext)
+		if tagErr_enc_referencenumberext != nil {
+			return nil, fmt.Errorf("encoding referenceNumberExt: %w", tagErr_enc_referencenumberext)
+		}
+		enc_referencenumberext = retagged_enc_referencenumberext
 		children = append(children, enc_referencenumberext...)
 	}
 	if v.HGmlcCallBackUri != nil {
-		enc_hgmlccallbackuri := ber.EncodeStringTag(12, *v.HGmlcCallBackUri)
-		enc_hgmlccallbackuri = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_hgmlccallbackuri)
+		enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, *v.HGmlcCallBackUri)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+		}
+		retagged_enc_hgmlccallbackuri, tagErr_enc_hgmlccallbackuri := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_hgmlccallbackuri)
+		if tagErr_enc_hgmlccallbackuri != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", tagErr_enc_hgmlccallbackuri)
+		}
+		enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
 		children = append(children, enc_hgmlccallbackuri...)
 	}
 	if v.SupportedGADShapes != nil {
 		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
-		enc_supportedgadshapes = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, false, enc_supportedgadshapes)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
 		children = append(children, enc_supportedgadshapes...)
 	}
 	if v.DeferredRoutingIdentifier != nil {
 		enc_deferredroutingidentifier := ber.EncodeOctetString(v.DeferredRoutingIdentifier)
-		enc_deferredroutingidentifier = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, false, enc_deferredroutingidentifier)
+		retagged_enc_deferredroutingidentifier, tagErr_enc_deferredroutingidentifier := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_deferredroutingidentifier)
+		if tagErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", tagErr_enc_deferredroutingidentifier)
+		}
+		enc_deferredroutingidentifier = retagged_enc_deferredroutingidentifier
 		children = append(children, enc_deferredroutingidentifier...)
 	}
 	if v.ReportingAccessTypes != nil {
 		enc_reportingaccesstypes := ber.EncodeBitString(v.ReportingAccessTypes.Bytes, (8-(v.ReportingAccessTypes.BitLength%8))%8)
-		enc_reportingaccesstypes = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, false, enc_reportingaccesstypes)
+		retagged_enc_reportingaccesstypes, tagErr_enc_reportingaccesstypes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_reportingaccesstypes)
+		if tagErr_enc_reportingaccesstypes != nil {
+			return nil, fmt.Errorf("encoding reportingAccessTypes: %w", tagErr_enc_reportingaccesstypes)
+		}
+		enc_reportingaccesstypes = retagged_enc_reportingaccesstypes
 		children = append(children, enc_reportingaccesstypes...)
 	}
 	if v.MultiplePositioningProtocolPDUs != nil {
@@ -7501,7 +10470,11 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 			}
 			enc_multiplepositioningprotocolpdus = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 12}, seqContent_)
 		} else {
-			enc_multiplepositioningprotocolpdus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, true, enc_multiplepositioningprotocolpdus)
+			retagged_enc_multiplepositioningprotocolpdus, tagErr_enc_multiplepositioningprotocolpdus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_multiplepositioningprotocolpdus)
+			if tagErr_enc_multiplepositioningprotocolpdus != nil {
+				return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", tagErr_enc_multiplepositioningprotocolpdus)
+			}
+			enc_multiplepositioningprotocolpdus = retagged_enc_multiplepositioningprotocolpdus
 		}
 		children = append(children, enc_multiplepositioningprotocolpdus...)
 	}
@@ -7510,12 +10483,20 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding controlPlane-CIoT-5GS-Optimisation: %w", err)
 		}
-		enc_controlplaneciot5gsoptimisation = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, true, enc_controlplaneciot5gsoptimisation)
+		retagged_enc_controlplaneciot5gsoptimisation, tagErr_enc_controlplaneciot5gsoptimisation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_controlplaneciot5gsoptimisation)
+		if tagErr_enc_controlplaneciot5gsoptimisation != nil {
+			return nil, fmt.Errorf("encoding controlPlane-CIoT-5GS-Optimisation: %w", tagErr_enc_controlplaneciot5gsoptimisation)
+		}
+		enc_controlplaneciot5gsoptimisation = retagged_enc_controlplaneciot5gsoptimisation
 		children = append(children, enc_controlplaneciot5gsoptimisation...)
 	}
 	if v.ScheduledLocTime != nil {
 		enc_scheduledloctime := ber.EncodeOctetString([]byte(*v.ScheduledLocTime))
-		enc_scheduledloctime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, false, enc_scheduledloctime)
+		retagged_enc_scheduledloctime, tagErr_enc_scheduledloctime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_scheduledloctime)
+		if tagErr_enc_scheduledloctime != nil {
+			return nil, fmt.Errorf("encoding scheduledLocTime: %w", tagErr_enc_scheduledloctime)
+		}
+		enc_scheduledloctime = retagged_enc_scheduledloctime
 		children = append(children, enc_scheduledloctime...)
 	}
 	if v.EventReportAllowedArea != nil {
@@ -7531,13 +10512,21 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 			}
 			enc_eventreportallowedarea = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 15}, seqContent_)
 		} else {
-			enc_eventreportallowedarea = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, true, enc_eventreportallowedarea)
+			retagged_enc_eventreportallowedarea, tagErr_enc_eventreportallowedarea := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_eventreportallowedarea)
+			if tagErr_enc_eventreportallowedarea != nil {
+				return nil, fmt.Errorf("encoding eventReportAllowedArea: %w", tagErr_enc_eventreportallowedarea)
+			}
+			enc_eventreportallowedarea = retagged_enc_eventreportallowedarea
 		}
 		children = append(children, enc_eventreportallowedarea...)
 	}
 	if v.ReportingInd != nil {
 		enc_reportingind := ber.EncodeEnumerated(int64(*v.ReportingInd))
-		enc_reportingind = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, false, enc_reportingind)
+		retagged_enc_reportingind, tagErr_enc_reportingind := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_reportingind)
+		if tagErr_enc_reportingind != nil {
+			return nil, fmt.Errorf("encoding reportingInd: %w", tagErr_enc_reportingind)
+		}
+		enc_reportingind = retagged_enc_reportingind
 		children = append(children, enc_reportingind...)
 	}
 	if v.MappedQoS != nil {
@@ -7545,7 +10534,11 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding mappedQoS: %w", err)
 		}
-		enc_mappedqos = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, true, enc_mappedqos)
+		retagged_enc_mappedqos, tagErr_enc_mappedqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_mappedqos)
+		if tagErr_enc_mappedqos != nil {
+			return nil, fmt.Errorf("encoding mappedQoS: %w", tagErr_enc_mappedqos)
+		}
+		enc_mappedqos = retagged_enc_mappedqos
 		children = append(children, enc_mappedqos...)
 	}
 	if v.UserPlaneReportAFAddr != nil {
@@ -7553,7 +10546,11 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding userPlaneReportAFAddr: %w", err)
 		}
-		enc_userplanereportafaddr = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, true, enc_userplanereportafaddr)
+		retagged_enc_userplanereportafaddr, tagErr_enc_userplanereportafaddr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_userplanereportafaddr)
+		if tagErr_enc_userplanereportafaddr != nil {
+			return nil, fmt.Errorf("encoding userPlaneReportAFAddr: %w", tagErr_enc_userplanereportafaddr)
+		}
+		enc_userplanereportafaddr = retagged_enc_userplanereportafaddr
 		children = append(children, enc_userplanereportafaddr...)
 	}
 	if v.CumulativeReportCriteria != nil {
@@ -7561,7 +10558,11 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding cumulativeReportCriteria: %w", err)
 		}
-		enc_cumulativereportcriteria = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, true, enc_cumulativereportcriteria)
+		retagged_enc_cumulativereportcriteria, tagErr_enc_cumulativereportcriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_cumulativereportcriteria)
+		if tagErr_enc_cumulativereportcriteria != nil {
+			return nil, fmt.Errorf("encoding cumulativeReportCriteria: %w", tagErr_enc_cumulativereportcriteria)
+		}
+		enc_cumulativereportcriteria = retagged_enc_cumulativereportcriteria
 		children = append(children, enc_cumulativereportcriteria...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -7579,21 +10580,235 @@ func (v *LCSPeriodicTriggeredInvokeArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPeriodicTriggeredInvokeArg to DER format.
 func (v *LCSPeriodicTriggeredInvokeArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_referencenumber := ber.EncodeOctetString([]byte(v.ReferenceNumber))
+	retagged_enc_referencenumber, tagErr_enc_referencenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumber)
+	if tagErr_enc_referencenumber != nil {
+		return nil, fmt.Errorf("encoding referenceNumber: %w", tagErr_enc_referencenumber)
+	}
+	enc_referencenumber = retagged_enc_referencenumber
+	children = append(children, enc_referencenumber...)
+	enc_hgmlcaddress := ber.EncodeOctetString([]byte(v.HGmlcAddress))
+	retagged_enc_hgmlcaddress, tagErr_enc_hgmlcaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_hgmlcaddress)
+	if tagErr_enc_hgmlcaddress != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-address: %w", tagErr_enc_hgmlcaddress)
+	}
+	enc_hgmlcaddress = retagged_enc_hgmlcaddress
+	children = append(children, enc_hgmlcaddress...)
+	if v.QoS != nil {
+		enc_qos, err := v.QoS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding qoS: %w", err)
+		}
+		retagged_enc_qos, tagErr_enc_qos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_qos)
+		if tagErr_enc_qos != nil {
+			return nil, fmt.Errorf("encoding qoS: %w", tagErr_enc_qos)
+		}
+		enc_qos = retagged_enc_qos
+		children = append(children, enc_qos...)
+	}
+	if v.ReportingPLMNList != nil {
+		enc_reportingplmnlist, err := v.ReportingPLMNList.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", err)
+		}
+		retagged_enc_reportingplmnlist, tagErr_enc_reportingplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_reportingplmnlist)
+		if tagErr_enc_reportingplmnlist != nil {
+			return nil, fmt.Errorf("encoding reportingPLMNList: %w", tagErr_enc_reportingplmnlist)
+		}
+		enc_reportingplmnlist = retagged_enc_reportingplmnlist
+		children = append(children, enc_reportingplmnlist...)
+	}
+	if v.PeriodicLocation != nil {
+		enc_periodiclocation, err := v.PeriodicLocation.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding periodicLocation: %w", err)
+		}
+		retagged_enc_periodiclocation, tagErr_enc_periodiclocation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_periodiclocation)
+		if tagErr_enc_periodiclocation != nil {
+			return nil, fmt.Errorf("encoding periodicLocation: %w", tagErr_enc_periodiclocation)
+		}
+		enc_periodiclocation = retagged_enc_periodiclocation
+		children = append(children, enc_periodiclocation...)
+	}
+	if v.AreaEventReporting != nil {
+		enc_areaeventreporting, err := v.AreaEventReporting.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding areaEventReporting: %w", err)
+		}
+		retagged_enc_areaeventreporting, tagErr_enc_areaeventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_areaeventreporting)
+		if tagErr_enc_areaeventreporting != nil {
+			return nil, fmt.Errorf("encoding areaEventReporting: %w", tagErr_enc_areaeventreporting)
+		}
+		enc_areaeventreporting = retagged_enc_areaeventreporting
+		children = append(children, enc_areaeventreporting...)
+	}
+	if v.MotionEventReporting != nil {
+		enc_motioneventreporting, err := v.MotionEventReporting.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding motionEventReporting: %w", err)
+		}
+		retagged_enc_motioneventreporting, tagErr_enc_motioneventreporting := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_motioneventreporting)
+		if tagErr_enc_motioneventreporting != nil {
+			return nil, fmt.Errorf("encoding motionEventReporting: %w", tagErr_enc_motioneventreporting)
+		}
+		enc_motioneventreporting = retagged_enc_motioneventreporting
+		children = append(children, enc_motioneventreporting...)
+	}
+	if v.ReferenceNumberExt != nil {
+		enc_referencenumberext := ber.EncodeOctetString([]byte(*v.ReferenceNumberExt))
+		retagged_enc_referencenumberext, tagErr_enc_referencenumberext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_referencenumberext)
+		if tagErr_enc_referencenumberext != nil {
+			return nil, fmt.Errorf("encoding referenceNumberExt: %w", tagErr_enc_referencenumberext)
+		}
+		enc_referencenumberext = retagged_enc_referencenumberext
+		children = append(children, enc_referencenumberext...)
+	}
+	if v.HGmlcCallBackUri != nil {
+		enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, *v.HGmlcCallBackUri)
+		if stringErr != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+		}
+		retagged_enc_hgmlccallbackuri, tagErr_enc_hgmlccallbackuri := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_hgmlccallbackuri)
+		if tagErr_enc_hgmlccallbackuri != nil {
+			return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", tagErr_enc_hgmlccallbackuri)
+		}
+		enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
+		children = append(children, enc_hgmlccallbackuri...)
+	}
+	if v.SupportedGADShapes != nil {
+		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
+		children = append(children, enc_supportedgadshapes...)
+	}
+	if v.DeferredRoutingIdentifier != nil {
+		enc_deferredroutingidentifier := ber.EncodeOctetString(v.DeferredRoutingIdentifier)
+		retagged_enc_deferredroutingidentifier, tagErr_enc_deferredroutingidentifier := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_deferredroutingidentifier)
+		if tagErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", tagErr_enc_deferredroutingidentifier)
+		}
+		enc_deferredroutingidentifier = retagged_enc_deferredroutingidentifier
+		children = append(children, enc_deferredroutingidentifier...)
+	}
+	if v.ReportingAccessTypes != nil {
+		enc_reportingaccesstypes := ber.EncodeBitString(v.ReportingAccessTypes.Bytes, (8-(v.ReportingAccessTypes.BitLength%8))%8)
+		retagged_enc_reportingaccesstypes, tagErr_enc_reportingaccesstypes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_reportingaccesstypes)
+		if tagErr_enc_reportingaccesstypes != nil {
+			return nil, fmt.Errorf("encoding reportingAccessTypes: %w", tagErr_enc_reportingaccesstypes)
+		}
+		enc_reportingaccesstypes = retagged_enc_reportingaccesstypes
+		children = append(children, enc_reportingaccesstypes...)
+	}
+	if v.MultiplePositioningProtocolPDUs != nil {
+		enc_multiplepositioningprotocolpdus, err := MarshalDERMultiplePositioningProtocolPDUs(v.MultiplePositioningProtocolPDUs)
+		if err != nil {
+			return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", err)
+		}
+		retagged_enc_multiplepositioningprotocolpdus, tagErr_enc_multiplepositioningprotocolpdus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_multiplepositioningprotocolpdus)
+		if tagErr_enc_multiplepositioningprotocolpdus != nil {
+			return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", tagErr_enc_multiplepositioningprotocolpdus)
+		}
+		enc_multiplepositioningprotocolpdus = retagged_enc_multiplepositioningprotocolpdus
+		children = append(children, enc_multiplepositioningprotocolpdus...)
+	}
+	if v.ControlPlaneCIoT5GSOptimisation != nil {
+		enc_controlplaneciot5gsoptimisation, err := v.ControlPlaneCIoT5GSOptimisation.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding controlPlane-CIoT-5GS-Optimisation: %w", err)
+		}
+		retagged_enc_controlplaneciot5gsoptimisation, tagErr_enc_controlplaneciot5gsoptimisation := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_controlplaneciot5gsoptimisation)
+		if tagErr_enc_controlplaneciot5gsoptimisation != nil {
+			return nil, fmt.Errorf("encoding controlPlane-CIoT-5GS-Optimisation: %w", tagErr_enc_controlplaneciot5gsoptimisation)
+		}
+		enc_controlplaneciot5gsoptimisation = retagged_enc_controlplaneciot5gsoptimisation
+		children = append(children, enc_controlplaneciot5gsoptimisation...)
+	}
+	if v.ScheduledLocTime != nil {
+		enc_scheduledloctime := ber.EncodeOctetString([]byte(*v.ScheduledLocTime))
+		retagged_enc_scheduledloctime, tagErr_enc_scheduledloctime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_scheduledloctime)
+		if tagErr_enc_scheduledloctime != nil {
+			return nil, fmt.Errorf("encoding scheduledLocTime: %w", tagErr_enc_scheduledloctime)
+		}
+		enc_scheduledloctime = retagged_enc_scheduledloctime
+		children = append(children, enc_scheduledloctime...)
+	}
+	if v.EventReportAllowedArea != nil {
+		enc_eventreportallowedarea, err := MarshalDERDataTypesAreaList(v.EventReportAllowedArea)
+		if err != nil {
+			return nil, fmt.Errorf("encoding eventReportAllowedArea: %w", err)
+		}
+		retagged_enc_eventreportallowedarea, tagErr_enc_eventreportallowedarea := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_eventreportallowedarea)
+		if tagErr_enc_eventreportallowedarea != nil {
+			return nil, fmt.Errorf("encoding eventReportAllowedArea: %w", tagErr_enc_eventreportallowedarea)
+		}
+		enc_eventreportallowedarea = retagged_enc_eventreportallowedarea
+		children = append(children, enc_eventreportallowedarea...)
+	}
+	if v.ReportingInd != nil {
+		enc_reportingind := ber.EncodeEnumerated(int64(*v.ReportingInd))
+		retagged_enc_reportingind, tagErr_enc_reportingind := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_reportingind)
+		if tagErr_enc_reportingind != nil {
+			return nil, fmt.Errorf("encoding reportingInd: %w", tagErr_enc_reportingind)
+		}
+		enc_reportingind = retagged_enc_reportingind
+		children = append(children, enc_reportingind...)
+	}
+	if v.MappedQoS != nil {
+		enc_mappedqos, err := v.MappedQoS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding mappedQoS: %w", err)
+		}
+		retagged_enc_mappedqos, tagErr_enc_mappedqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_mappedqos)
+		if tagErr_enc_mappedqos != nil {
+			return nil, fmt.Errorf("encoding mappedQoS: %w", tagErr_enc_mappedqos)
+		}
+		enc_mappedqos = retagged_enc_mappedqos
+		children = append(children, enc_mappedqos...)
+	}
+	if v.UserPlaneReportAFAddr != nil {
+		enc_userplanereportafaddr, err := v.UserPlaneReportAFAddr.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding userPlaneReportAFAddr: %w", err)
+		}
+		retagged_enc_userplanereportafaddr, tagErr_enc_userplanereportafaddr := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_userplanereportafaddr)
+		if tagErr_enc_userplanereportafaddr != nil {
+			return nil, fmt.Errorf("encoding userPlaneReportAFAddr: %w", tagErr_enc_userplanereportafaddr)
+		}
+		enc_userplanereportafaddr = retagged_enc_userplanereportafaddr
+		children = append(children, enc_userplanereportafaddr...)
+	}
+	if v.CumulativeReportCriteria != nil {
+		enc_cumulativereportcriteria, err := v.CumulativeReportCriteria.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding cumulativeReportCriteria: %w", err)
+		}
+		retagged_enc_cumulativereportcriteria, tagErr_enc_cumulativereportcriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_cumulativereportcriteria)
+		if tagErr_enc_cumulativereportcriteria != nil {
+			return nil, fmt.Errorf("encoding cumulativeReportCriteria: %w", tagErr_enc_cumulativereportcriteria)
+		}
+		enc_cumulativereportcriteria = retagged_enc_cumulativereportcriteria
+		children = append(children, enc_cumulativereportcriteria...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.MultiplePositioningProtocolPDUsIndef_ = false
-	derValue.EventReportAllowedAreaIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPeriodicTriggeredInvokeArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPeriodicTriggeredInvokeArg from BER/DER format.
 func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
+	*v = LCSPeriodicTriggeredInvokeArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPeriodicTriggeredInvokeArg SEQUENCE: %w", err)
@@ -7611,9 +10826,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumber, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumber, n_referencenumber, rawVal_referencenumber, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumber: %w", err)
+	}
+	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
+		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
 	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
@@ -7626,9 +10844,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for h-gmlc-address, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
+	decodedTag_hgmlcaddress, n_hgmlcaddress, rawVal_hgmlcaddress, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-address: %w", err)
+	}
+	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
+		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
 	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
@@ -7637,9 +10858,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_qos, rawVal_qos, err := ber.DecodeTLV(content[offset:])
+				decodedTag_qos, n_qos, rawVal_qos, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding qoS: %w", err)
+				}
+				if decodedTag_qos.Class != tag.ClassContextSpecific || decodedTag_qos.Number != 2 || decodedTag_qos.Constructed != true {
+					return fmt.Errorf("decoding qoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qos)
 				}
 				reconstructed_qos := ber.EncodeSequence(rawVal_qos)
 				var dec_qos LCSQoS
@@ -7656,9 +10880,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_reportingplmnlist, rawVal_reportingplmnlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_reportingplmnlist, n_reportingplmnlist, rawVal_reportingplmnlist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reportingPLMNList: %w", err)
+				}
+				if decodedTag_reportingplmnlist.Class != tag.ClassContextSpecific || decodedTag_reportingplmnlist.Number != 3 || decodedTag_reportingplmnlist.Constructed != true {
+					return fmt.Errorf("decoding reportingPLMNList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingplmnlist)
 				}
 				reconstructed_reportingplmnlist := ber.EncodeSequence(rawVal_reportingplmnlist)
 				var dec_reportingplmnlist ReportingPLMNList
@@ -7675,9 +10902,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_periodiclocation, rawVal_periodiclocation, err := ber.DecodeTLV(content[offset:])
+				decodedTag_periodiclocation, n_periodiclocation, rawVal_periodiclocation, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding periodicLocation: %w", err)
+				}
+				if decodedTag_periodiclocation.Class != tag.ClassContextSpecific || decodedTag_periodiclocation.Number != 4 || decodedTag_periodiclocation.Constructed != true {
+					return fmt.Errorf("decoding periodicLocation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_periodiclocation)
 				}
 				reconstructed_periodiclocation := ber.EncodeSequence(rawVal_periodiclocation)
 				var dec_periodiclocation PeriodicLocation
@@ -7694,9 +10924,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_areaeventreporting, rawVal_areaeventreporting, err := ber.DecodeTLV(content[offset:])
+				decodedTag_areaeventreporting, n_areaeventreporting, rawVal_areaeventreporting, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding areaEventReporting: %w", err)
+				}
+				if decodedTag_areaeventreporting.Class != tag.ClassContextSpecific || decodedTag_areaeventreporting.Number != 5 || decodedTag_areaeventreporting.Constructed != true {
+					return fmt.Errorf("decoding areaEventReporting: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_areaeventreporting)
 				}
 				reconstructed_areaeventreporting := ber.EncodeSequence(rawVal_areaeventreporting)
 				var dec_areaeventreporting AreaEventReporting
@@ -7713,9 +10946,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_motioneventreporting, rawVal_motioneventreporting, err := ber.DecodeTLV(content[offset:])
+				decodedTag_motioneventreporting, n_motioneventreporting, rawVal_motioneventreporting, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding motionEventReporting: %w", err)
+				}
+				if decodedTag_motioneventreporting.Class != tag.ClassContextSpecific || decodedTag_motioneventreporting.Number != 6 || decodedTag_motioneventreporting.Constructed != true {
+					return fmt.Errorf("decoding motionEventReporting: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_motioneventreporting)
 				}
 				reconstructed_motioneventreporting := ber.EncodeSequence(rawVal_motioneventreporting)
 				var dec_motioneventreporting MotionEventReporting
@@ -7732,9 +10968,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_referencenumberext, rawVal_referencenumberext, err := ber.DecodeTLV(content[offset:])
+				decodedTag_referencenumberext, n_referencenumberext, rawVal_referencenumberext, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding referenceNumberExt: %w", err)
+				}
+				if decodedTag_referencenumberext.Class != tag.ClassContextSpecific || decodedTag_referencenumberext.Number != 7 {
+					return fmt.Errorf("decoding referenceNumberExt: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumberext)
 				}
 				tmp_referencenumberext := LCSReferenceNumberExt(rawVal_referencenumberext)
 				v.ReferenceNumberExt = &tmp_referencenumberext
@@ -7747,11 +10986,17 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_hgmlccallbackuri, rawVal_hgmlccallbackuri, err := ber.DecodeTLV(content[offset:])
+				decodedTag_hgmlccallbackuri, n_hgmlccallbackuri, rawVal_hgmlccallbackuri, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding h-gmlc-callBackUri: %w", err)
 				}
-				decVal_hgmlccallbackuri := ber.DecodeStringValue(rawVal_hgmlccallbackuri)
+				if decodedTag_hgmlccallbackuri.Class != tag.ClassContextSpecific || decodedTag_hgmlccallbackuri.Number != 8 {
+					return fmt.Errorf("decoding h-gmlc-callBackUri: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlccallbackuri)
+				}
+				decVal_hgmlccallbackuri, stringErr := ber.DecodeImplicitStringValue(12, decodedTag_hgmlccallbackuri.Constructed, rawVal_hgmlccallbackuri)
+				if stringErr != nil {
+					return fmt.Errorf("decoding h-gmlc-callBackUri: %w", stringErr)
+				}
 				v.HGmlcCallBackUri = &decVal_hgmlccallbackuri
 				offset += n_hgmlccallbackuri
 			}
@@ -7762,11 +11007,14 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
-				_, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
+				decodedTag_supportedgadshapes, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", err)
 				}
-				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeBitStringValue(rawVal_supportedgadshapes)
+				if decodedTag_supportedgadshapes.Class != tag.ClassContextSpecific || decodedTag_supportedgadshapes.Number != 9 {
+					return fmt.Errorf("decoding supportedGADShapes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedgadshapes)
+				}
+				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedgadshapes.Constructed, rawVal_supportedgadshapes)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", bsErr)
 				}
@@ -7781,9 +11029,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
-				_, n_deferredroutingidentifier, rawVal_deferredroutingidentifier, err := ber.DecodeTLV(content[offset:])
+				decodedTag_deferredroutingidentifier, n_deferredroutingidentifier, rawVal_deferredroutingidentifier, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deferredRoutingIdentifier: %w", err)
+				}
+				if decodedTag_deferredroutingidentifier.Class != tag.ClassContextSpecific || decodedTag_deferredroutingidentifier.Number != 10 {
+					return fmt.Errorf("decoding deferredRoutingIdentifier: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deferredroutingidentifier)
 				}
 				tmp_deferredroutingidentifier := rawVal_deferredroutingidentifier
 				v.DeferredRoutingIdentifier = tmp_deferredroutingidentifier
@@ -7796,11 +11047,14 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
-				_, n_reportingaccesstypes, rawVal_reportingaccesstypes, err := ber.DecodeTLV(content[offset:])
+				decodedTag_reportingaccesstypes, n_reportingaccesstypes, rawVal_reportingaccesstypes, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reportingAccessTypes: %w", err)
 				}
-				bsBytes_reportingaccesstypes, bsUnused_reportingaccesstypes, bsErr := ber.DecodeBitStringValue(rawVal_reportingaccesstypes)
+				if decodedTag_reportingaccesstypes.Class != tag.ClassContextSpecific || decodedTag_reportingaccesstypes.Number != 11 {
+					return fmt.Errorf("decoding reportingAccessTypes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingaccesstypes)
+				}
+				bsBytes_reportingaccesstypes, bsUnused_reportingaccesstypes, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_reportingaccesstypes.Constructed, rawVal_reportingaccesstypes)
 				if bsErr != nil {
 					return fmt.Errorf("decoding reportingAccessTypes: %w", bsErr)
 				}
@@ -7816,9 +11070,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
-				_, n_multiplepositioningprotocolpdus, rawVal_multiplepositioningprotocolpdus, err := ber.DecodeTLV(content[offset:])
+				decodedTag_multiplepositioningprotocolpdus, n_multiplepositioningprotocolpdus, rawVal_multiplepositioningprotocolpdus, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding multiplePositioningProtocolPDUs: %w", err)
+				}
+				if decodedTag_multiplepositioningprotocolpdus.Class != tag.ClassContextSpecific || decodedTag_multiplepositioningprotocolpdus.Number != 12 || decodedTag_multiplepositioningprotocolpdus.Constructed != true {
+					return fmt.Errorf("decoding multiplePositioningProtocolPDUs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_multiplepositioningprotocolpdus)
 				}
 				reconstructed_multiplepositioningprotocolpdus := ber.EncodeSequence(rawVal_multiplepositioningprotocolpdus)
 				dec_multiplepositioningprotocolpdus, unmErr := UnmarshalBERMultiplePositioningProtocolPDUs(reconstructed_multiplepositioningprotocolpdus)
@@ -7841,9 +11098,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
-				_, n_controlplaneciot5gsoptimisation, rawVal_controlplaneciot5gsoptimisation, err := ber.DecodeTLV(content[offset:])
+				decodedTag_controlplaneciot5gsoptimisation, n_controlplaneciot5gsoptimisation, rawVal_controlplaneciot5gsoptimisation, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding controlPlane-CIoT-5GS-Optimisation: %w", err)
+				}
+				if decodedTag_controlplaneciot5gsoptimisation.Class != tag.ClassContextSpecific || decodedTag_controlplaneciot5gsoptimisation.Number != 13 || decodedTag_controlplaneciot5gsoptimisation.Constructed != true {
+					return fmt.Errorf("decoding controlPlane-CIoT-5GS-Optimisation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_controlplaneciot5gsoptimisation)
 				}
 				reconstructed_controlplaneciot5gsoptimisation := ber.EncodeSequence(rawVal_controlplaneciot5gsoptimisation)
 				var dec_controlplaneciot5gsoptimisation ControlPlaneCIoT5GSOptimisation
@@ -7860,9 +11120,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
-				_, n_scheduledloctime, rawVal_scheduledloctime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_scheduledloctime, n_scheduledloctime, rawVal_scheduledloctime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding scheduledLocTime: %w", err)
+				}
+				if decodedTag_scheduledloctime.Class != tag.ClassContextSpecific || decodedTag_scheduledloctime.Number != 14 {
+					return fmt.Errorf("decoding scheduledLocTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_scheduledloctime)
 				}
 				tmp_scheduledloctime := DateTime(rawVal_scheduledloctime)
 				v.ScheduledLocTime = &tmp_scheduledloctime
@@ -7876,9 +11139,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
-				_, n_eventreportallowedarea, rawVal_eventreportallowedarea, err := ber.DecodeTLV(content[offset:])
+				decodedTag_eventreportallowedarea, n_eventreportallowedarea, rawVal_eventreportallowedarea, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding eventReportAllowedArea: %w", err)
+				}
+				if decodedTag_eventreportallowedarea.Class != tag.ClassContextSpecific || decodedTag_eventreportallowedarea.Number != 15 || decodedTag_eventreportallowedarea.Constructed != true {
+					return fmt.Errorf("decoding eventReportAllowedArea: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventreportallowedarea)
 				}
 				reconstructed_eventreportallowedarea := ber.EncodeSequence(rawVal_eventreportallowedarea)
 				dec_eventreportallowedarea, unmErr := UnmarshalBERDataTypesAreaList(reconstructed_eventreportallowedarea)
@@ -7901,11 +11167,14 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
-				_, n_reportingind, rawVal_reportingind, err := ber.DecodeTLV(content[offset:])
+				decodedTag_reportingind, n_reportingind, rawVal_reportingind, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding reportingInd: %w", err)
 				}
-				decVal_reportingind, intErr := ber.DecodeIntegerValue(rawVal_reportingind)
+				if decodedTag_reportingind.Class != tag.ClassContextSpecific || decodedTag_reportingind.Number != 16 || decodedTag_reportingind.Constructed != false {
+					return fmt.Errorf("decoding reportingInd: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingind)
+				}
+				decVal_reportingind, intErr := ber.DecodeEnumeratedValue(rawVal_reportingind)
 				if intErr != nil {
 					return fmt.Errorf("decoding reportingInd: %w", intErr)
 				}
@@ -7920,9 +11189,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
-				_, n_mappedqos, rawVal_mappedqos, err := ber.DecodeTLV(content[offset:])
+				decodedTag_mappedqos, n_mappedqos, rawVal_mappedqos, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding mappedQoS: %w", err)
+				}
+				if decodedTag_mappedqos.Class != tag.ClassContextSpecific || decodedTag_mappedqos.Number != 17 || decodedTag_mappedqos.Constructed != true {
+					return fmt.Errorf("decoding mappedQoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mappedqos)
 				}
 				reconstructed_mappedqos := ber.EncodeSequence(rawVal_mappedqos)
 				var dec_mappedqos LCSQoS
@@ -7939,9 +11211,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
-				_, n_userplanereportafaddr, rawVal_userplanereportafaddr, err := ber.DecodeTLV(content[offset:])
+				decodedTag_userplanereportafaddr, n_userplanereportafaddr, rawVal_userplanereportafaddr, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding userPlaneReportAFAddr: %w", err)
+				}
+				if decodedTag_userplanereportafaddr.Class != tag.ClassContextSpecific || decodedTag_userplanereportafaddr.Number != 18 || decodedTag_userplanereportafaddr.Constructed != true {
+					return fmt.Errorf("decoding userPlaneReportAFAddr: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_userplanereportafaddr)
 				}
 				reconstructed_userplanereportafaddr := ber.EncodeSequence(rawVal_userplanereportafaddr)
 				var dec_userplanereportafaddr LCSUserPlaneReportAFAddr
@@ -7958,9 +11233,12 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
-				_, n_cumulativereportcriteria, rawVal_cumulativereportcriteria, err := ber.DecodeTLV(content[offset:])
+				decodedTag_cumulativereportcriteria, n_cumulativereportcriteria, rawVal_cumulativereportcriteria, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding cumulativeReportCriteria: %w", err)
+				}
+				if decodedTag_cumulativereportcriteria.Class != tag.ClassContextSpecific || decodedTag_cumulativereportcriteria.Number != 19 || decodedTag_cumulativereportcriteria.Constructed != true {
+					return fmt.Errorf("decoding cumulativeReportCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cumulativereportcriteria)
 				}
 				reconstructed_cumulativereportcriteria := ber.EncodeSequence(rawVal_cumulativereportcriteria)
 				var dec_cumulativereportcriteria LCSCumulativeReportCriteria
@@ -7995,7 +11273,11 @@ func (v *PeriodicLocation) MarshalBER() ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", err)
 	}
-	enc_periodicldrinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_periodicldrinfo)
+	retagged_enc_periodicldrinfo, tagErr_enc_periodicldrinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_periodicldrinfo)
+	if tagErr_enc_periodicldrinfo != nil {
+		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", tagErr_enc_periodicldrinfo)
+	}
+	enc_periodicldrinfo = retagged_enc_periodicldrinfo
 	children = append(children, enc_periodicldrinfo...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -8012,17 +11294,33 @@ func (v *PeriodicLocation) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes PeriodicLocation to DER format.
 func (v *PeriodicLocation) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_periodicldrinfo, err := v.PeriodicLDRInfo.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", err)
+	}
+	retagged_enc_periodicldrinfo, tagErr_enc_periodicldrinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_periodicldrinfo)
+	if tagErr_enc_periodicldrinfo != nil {
+		return nil, fmt.Errorf("encoding periodicLDRInfo: %w", tagErr_enc_periodicldrinfo)
+	}
+	enc_periodicldrinfo = retagged_enc_periodicldrinfo
+	children = append(children, enc_periodicldrinfo...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding PeriodicLocation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes PeriodicLocation from BER/DER format.
 func (v *PeriodicLocation) UnmarshalBER(data []byte) error {
+	*v = PeriodicLocation{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding PeriodicLocation SEQUENCE: %w", err)
@@ -8040,9 +11338,12 @@ func (v *PeriodicLocation) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for periodicLDRInfo, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_periodicldrinfo, rawVal_periodicldrinfo, err := ber.DecodeTLV(content[offset:])
+	decodedTag_periodicldrinfo, n_periodicldrinfo, rawVal_periodicldrinfo, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding periodicLDRInfo: %w", err)
+	}
+	if decodedTag_periodicldrinfo.Class != tag.ClassContextSpecific || decodedTag_periodicldrinfo.Number != 0 || decodedTag_periodicldrinfo.Constructed != true {
+		return fmt.Errorf("decoding periodicLDRInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_periodicldrinfo)
 	}
 	reconstructed_periodicldrinfo := ber.EncodeSequence(rawVal_periodicldrinfo)
 	if unmErr := v.PeriodicLDRInfo.UnmarshalBER(reconstructed_periodicldrinfo); unmErr != nil {
@@ -8069,7 +11370,11 @@ func (v *PeriodicLocation) UnmarshalBER(data []byte) error {
 func (v *AreaEventReporting) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_deferredlocationeventtype := ber.EncodeBitString(v.DeferredLocationEventType.Bytes, (8-(v.DeferredLocationEventType.BitLength%8))%8)
-	enc_deferredlocationeventtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_deferredlocationeventtype)
+	retagged_enc_deferredlocationeventtype, tagErr_enc_deferredlocationeventtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_deferredlocationeventtype)
+	if tagErr_enc_deferredlocationeventtype != nil {
+		return nil, fmt.Errorf("encoding deferredLocationEventType: %w", tagErr_enc_deferredlocationeventtype)
+	}
+	enc_deferredlocationeventtype = retagged_enc_deferredlocationeventtype
 	children = append(children, enc_deferredlocationeventtype...)
 	enc_arealist, err := MarshalBERDataTypesAreaList(v.AreaList)
 	if err != nil {
@@ -8083,37 +11388,65 @@ func (v *AreaEventReporting) MarshalBER() ([]byte, error) {
 		}
 		enc_arealist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 	} else {
-		enc_arealist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_arealist)
+		retagged_enc_arealist, tagErr_enc_arealist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_arealist)
+		if tagErr_enc_arealist != nil {
+			return nil, fmt.Errorf("encoding areaList: %w", tagErr_enc_arealist)
+		}
+		enc_arealist = retagged_enc_arealist
 	}
 	children = append(children, enc_arealist...)
 	if v.OccurrenceInfo != nil {
 		enc_occurrenceinfo := ber.EncodeEnumerated(int64(*v.OccurrenceInfo))
-		enc_occurrenceinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_occurrenceinfo)
+		retagged_enc_occurrenceinfo, tagErr_enc_occurrenceinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_occurrenceinfo)
+		if tagErr_enc_occurrenceinfo != nil {
+			return nil, fmt.Errorf("encoding occurrenceInfo: %w", tagErr_enc_occurrenceinfo)
+		}
+		enc_occurrenceinfo = retagged_enc_occurrenceinfo
 		children = append(children, enc_occurrenceinfo...)
 	}
 	if v.IntervalTime != nil {
 		enc_intervaltime := ber.EncodeInteger(int64(*v.IntervalTime))
-		enc_intervaltime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_intervaltime)
+		retagged_enc_intervaltime, tagErr_enc_intervaltime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_intervaltime)
+		if tagErr_enc_intervaltime != nil {
+			return nil, fmt.Errorf("encoding intervalTime: %w", tagErr_enc_intervaltime)
+		}
+		enc_intervaltime = retagged_enc_intervaltime
 		children = append(children, enc_intervaltime...)
 	}
 	if v.MaximumInterval != nil {
 		enc_maximuminterval := ber.EncodeInteger(int64(*v.MaximumInterval))
-		enc_maximuminterval = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_maximuminterval)
+		retagged_enc_maximuminterval, tagErr_enc_maximuminterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_maximuminterval)
+		if tagErr_enc_maximuminterval != nil {
+			return nil, fmt.Errorf("encoding maximumInterval: %w", tagErr_enc_maximuminterval)
+		}
+		enc_maximuminterval = retagged_enc_maximuminterval
 		children = append(children, enc_maximuminterval...)
 	}
 	if v.SamplingInterval != nil {
 		enc_samplinginterval := ber.EncodeInteger(int64(*v.SamplingInterval))
-		enc_samplinginterval = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_samplinginterval)
+		retagged_enc_samplinginterval, tagErr_enc_samplinginterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_samplinginterval)
+		if tagErr_enc_samplinginterval != nil {
+			return nil, fmt.Errorf("encoding samplingInterval: %w", tagErr_enc_samplinginterval)
+		}
+		enc_samplinginterval = retagged_enc_samplinginterval
 		children = append(children, enc_samplinginterval...)
 	}
 	if v.Duration != nil {
 		enc_duration := ber.EncodeInteger(int64(*v.Duration))
-		enc_duration = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_duration)
+		retagged_enc_duration, tagErr_enc_duration := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_duration)
+		if tagErr_enc_duration != nil {
+			return nil, fmt.Errorf("encoding duration: %w", tagErr_enc_duration)
+		}
+		enc_duration = retagged_enc_duration
 		children = append(children, enc_duration...)
 	}
 	if v.LocationInfo != nil {
 		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
-		enc_locationinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_locationinfo)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
 		children = append(children, enc_locationinfo...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -8131,20 +11464,94 @@ func (v *AreaEventReporting) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AreaEventReporting to DER format.
 func (v *AreaEventReporting) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_deferredlocationeventtype := ber.EncodeBitString(v.DeferredLocationEventType.Bytes, (8-(v.DeferredLocationEventType.BitLength%8))%8)
+	retagged_enc_deferredlocationeventtype, tagErr_enc_deferredlocationeventtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_deferredlocationeventtype)
+	if tagErr_enc_deferredlocationeventtype != nil {
+		return nil, fmt.Errorf("encoding deferredLocationEventType: %w", tagErr_enc_deferredlocationeventtype)
+	}
+	enc_deferredlocationeventtype = retagged_enc_deferredlocationeventtype
+	children = append(children, enc_deferredlocationeventtype...)
+	enc_arealist, err := MarshalDERDataTypesAreaList(v.AreaList)
+	if err != nil {
+		return nil, fmt.Errorf("encoding areaList: %w", err)
+	}
+	retagged_enc_arealist, tagErr_enc_arealist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_arealist)
+	if tagErr_enc_arealist != nil {
+		return nil, fmt.Errorf("encoding areaList: %w", tagErr_enc_arealist)
+	}
+	enc_arealist = retagged_enc_arealist
+	children = append(children, enc_arealist...)
+	if v.OccurrenceInfo != nil {
+		enc_occurrenceinfo := ber.EncodeEnumerated(int64(*v.OccurrenceInfo))
+		retagged_enc_occurrenceinfo, tagErr_enc_occurrenceinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_occurrenceinfo)
+		if tagErr_enc_occurrenceinfo != nil {
+			return nil, fmt.Errorf("encoding occurrenceInfo: %w", tagErr_enc_occurrenceinfo)
+		}
+		enc_occurrenceinfo = retagged_enc_occurrenceinfo
+		children = append(children, enc_occurrenceinfo...)
+	}
+	if v.IntervalTime != nil {
+		enc_intervaltime := ber.EncodeInteger(int64(*v.IntervalTime))
+		retagged_enc_intervaltime, tagErr_enc_intervaltime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_intervaltime)
+		if tagErr_enc_intervaltime != nil {
+			return nil, fmt.Errorf("encoding intervalTime: %w", tagErr_enc_intervaltime)
+		}
+		enc_intervaltime = retagged_enc_intervaltime
+		children = append(children, enc_intervaltime...)
+	}
+	if v.MaximumInterval != nil {
+		enc_maximuminterval := ber.EncodeInteger(int64(*v.MaximumInterval))
+		retagged_enc_maximuminterval, tagErr_enc_maximuminterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_maximuminterval)
+		if tagErr_enc_maximuminterval != nil {
+			return nil, fmt.Errorf("encoding maximumInterval: %w", tagErr_enc_maximuminterval)
+		}
+		enc_maximuminterval = retagged_enc_maximuminterval
+		children = append(children, enc_maximuminterval...)
+	}
+	if v.SamplingInterval != nil {
+		enc_samplinginterval := ber.EncodeInteger(int64(*v.SamplingInterval))
+		retagged_enc_samplinginterval, tagErr_enc_samplinginterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_samplinginterval)
+		if tagErr_enc_samplinginterval != nil {
+			return nil, fmt.Errorf("encoding samplingInterval: %w", tagErr_enc_samplinginterval)
+		}
+		enc_samplinginterval = retagged_enc_samplinginterval
+		children = append(children, enc_samplinginterval...)
+	}
+	if v.Duration != nil {
+		enc_duration := ber.EncodeInteger(int64(*v.Duration))
+		retagged_enc_duration, tagErr_enc_duration := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_duration)
+		if tagErr_enc_duration != nil {
+			return nil, fmt.Errorf("encoding duration: %w", tagErr_enc_duration)
+		}
+		enc_duration = retagged_enc_duration
+		children = append(children, enc_duration...)
+	}
+	if v.LocationInfo != nil {
+		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
+		children = append(children, enc_locationinfo...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.AreaListIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AreaEventReporting as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AreaEventReporting from BER/DER format.
 func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
+	*v = AreaEventReporting{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding AreaEventReporting SEQUENCE: %w", err)
@@ -8162,11 +11569,14 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for deferredLocationEventType, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_deferredlocationeventtype, rawVal_deferredlocationeventtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_deferredlocationeventtype, n_deferredlocationeventtype, rawVal_deferredlocationeventtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding deferredLocationEventType: %w", err)
 	}
-	bsBytes_deferredlocationeventtype, bsUnused_deferredlocationeventtype, bsErr := ber.DecodeBitStringValue(rawVal_deferredlocationeventtype)
+	if decodedTag_deferredlocationeventtype.Class != tag.ClassContextSpecific || decodedTag_deferredlocationeventtype.Number != 0 {
+		return fmt.Errorf("decoding deferredLocationEventType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deferredlocationeventtype)
+	}
+	bsBytes_deferredlocationeventtype, bsUnused_deferredlocationeventtype, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_deferredlocationeventtype.Constructed, rawVal_deferredlocationeventtype)
 	if bsErr != nil {
 		return fmt.Errorf("decoding deferredLocationEventType: %w", bsErr)
 	}
@@ -8182,9 +11592,12 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.AreaListIndef_ = false
-	_, n_arealist, rawVal_arealist, err := ber.DecodeTLV(content[offset:])
+	decodedTag_arealist, n_arealist, rawVal_arealist, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding areaList: %w", err)
+	}
+	if decodedTag_arealist.Class != tag.ClassContextSpecific || decodedTag_arealist.Number != 1 || decodedTag_arealist.Constructed != true {
+		return fmt.Errorf("decoding areaList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_arealist)
 	}
 	reconstructed_arealist := ber.EncodeSequence(rawVal_arealist)
 	dec_arealist, unmErr := UnmarshalBERDataTypesAreaList(reconstructed_arealist)
@@ -8204,11 +11617,14 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_occurrenceinfo, rawVal_occurrenceinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_occurrenceinfo, n_occurrenceinfo, rawVal_occurrenceinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding occurrenceInfo: %w", err)
 				}
-				decVal_occurrenceinfo, intErr := ber.DecodeIntegerValue(rawVal_occurrenceinfo)
+				if decodedTag_occurrenceinfo.Class != tag.ClassContextSpecific || decodedTag_occurrenceinfo.Number != 2 || decodedTag_occurrenceinfo.Constructed != false {
+					return fmt.Errorf("decoding occurrenceInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_occurrenceinfo)
+				}
+				decVal_occurrenceinfo, intErr := ber.DecodeEnumeratedValue(rawVal_occurrenceinfo)
 				if intErr != nil {
 					return fmt.Errorf("decoding occurrenceInfo: %w", intErr)
 				}
@@ -8223,9 +11639,12 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_intervaltime, rawVal_intervaltime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_intervaltime, n_intervaltime, rawVal_intervaltime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding intervalTime: %w", err)
+				}
+				if decodedTag_intervaltime.Class != tag.ClassContextSpecific || decodedTag_intervaltime.Number != 3 || decodedTag_intervaltime.Constructed != false {
+					return fmt.Errorf("decoding intervalTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_intervaltime)
 				}
 				decVal_intervaltime, intErr := ber.DecodeIntegerValue(rawVal_intervaltime)
 				if intErr != nil {
@@ -8242,9 +11661,12 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_maximuminterval, rawVal_maximuminterval, err := ber.DecodeTLV(content[offset:])
+				decodedTag_maximuminterval, n_maximuminterval, rawVal_maximuminterval, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding maximumInterval: %w", err)
+				}
+				if decodedTag_maximuminterval.Class != tag.ClassContextSpecific || decodedTag_maximuminterval.Number != 4 || decodedTag_maximuminterval.Constructed != false {
+					return fmt.Errorf("decoding maximumInterval: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_maximuminterval)
 				}
 				decVal_maximuminterval, intErr := ber.DecodeIntegerValue(rawVal_maximuminterval)
 				if intErr != nil {
@@ -8261,9 +11683,12 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_samplinginterval, rawVal_samplinginterval, err := ber.DecodeTLV(content[offset:])
+				decodedTag_samplinginterval, n_samplinginterval, rawVal_samplinginterval, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding samplingInterval: %w", err)
+				}
+				if decodedTag_samplinginterval.Class != tag.ClassContextSpecific || decodedTag_samplinginterval.Number != 5 || decodedTag_samplinginterval.Constructed != false {
+					return fmt.Errorf("decoding samplingInterval: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_samplinginterval)
 				}
 				decVal_samplinginterval, intErr := ber.DecodeIntegerValue(rawVal_samplinginterval)
 				if intErr != nil {
@@ -8280,9 +11705,12 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_duration, rawVal_duration, err := ber.DecodeTLV(content[offset:])
+				decodedTag_duration, n_duration, rawVal_duration, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding duration: %w", err)
+				}
+				if decodedTag_duration.Class != tag.ClassContextSpecific || decodedTag_duration.Number != 6 || decodedTag_duration.Constructed != false {
+					return fmt.Errorf("decoding duration: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_duration)
 				}
 				decVal_duration, intErr := ber.DecodeIntegerValue(rawVal_duration)
 				if intErr != nil {
@@ -8299,11 +11727,14 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationinfo, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationInfo: %w", err)
 				}
-				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeBitStringValue(rawVal_locationinfo)
+				if decodedTag_locationinfo.Class != tag.ClassContextSpecific || decodedTag_locationinfo.Number != 7 {
+					return fmt.Errorf("decoding locationInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationinfo)
+				}
+				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_locationinfo.Constructed, rawVal_locationinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding locationInfo: %w", bsErr)
 				}
@@ -8342,6 +11773,23 @@ func MarshalBERDataTypesAreaList(list DataTypesAreaList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERDataTypesAreaList encodes a DataTypesAreaList list to DER.
+func MarshalDERDataTypesAreaList(list DataTypesAreaList) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DataTypesAreaList as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERDataTypesAreaList decodes a DataTypesAreaList list from BER.
 func UnmarshalBERDataTypesAreaList(data []byte) (DataTypesAreaList, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -8372,14 +11820,26 @@ func UnmarshalBERDataTypesAreaList(data []byte) (DataTypesAreaList, error) {
 func (v *DataTypesArea) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_areatype := ber.EncodeEnumerated(int64(v.AreaType))
-	enc_areatype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_areatype)
+	retagged_enc_areatype, tagErr_enc_areatype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_areatype)
+	if tagErr_enc_areatype != nil {
+		return nil, fmt.Errorf("encoding areaType: %w", tagErr_enc_areatype)
+	}
+	enc_areatype = retagged_enc_areatype
 	children = append(children, enc_areatype...)
 	enc_areaidentification := ber.EncodeOctetString([]byte(v.AreaIdentification))
-	enc_areaidentification = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_areaidentification)
+	retagged_enc_areaidentification, tagErr_enc_areaidentification := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_areaidentification)
+	if tagErr_enc_areaidentification != nil {
+		return nil, fmt.Errorf("encoding areaIdentification: %w", tagErr_enc_areaidentification)
+	}
+	enc_areaidentification = retagged_enc_areaidentification
 	children = append(children, enc_areaidentification...)
 	if v.AreaIdentificationExt != nil {
 		enc_areaidentificationext := ber.EncodeOctetString([]byte(*v.AreaIdentificationExt))
-		enc_areaidentificationext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_areaidentificationext)
+		retagged_enc_areaidentificationext, tagErr_enc_areaidentificationext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_areaidentificationext)
+		if tagErr_enc_areaidentificationext != nil {
+			return nil, fmt.Errorf("encoding areaIdentificationExt: %w", tagErr_enc_areaidentificationext)
+		}
+		enc_areaidentificationext = retagged_enc_areaidentificationext
 		children = append(children, enc_areaidentificationext...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -8397,17 +11857,46 @@ func (v *DataTypesArea) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes DataTypesArea to DER format.
 func (v *DataTypesArea) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_areatype := ber.EncodeEnumerated(int64(v.AreaType))
+	retagged_enc_areatype, tagErr_enc_areatype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_areatype)
+	if tagErr_enc_areatype != nil {
+		return nil, fmt.Errorf("encoding areaType: %w", tagErr_enc_areatype)
+	}
+	enc_areatype = retagged_enc_areatype
+	children = append(children, enc_areatype...)
+	enc_areaidentification := ber.EncodeOctetString([]byte(v.AreaIdentification))
+	retagged_enc_areaidentification, tagErr_enc_areaidentification := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_areaidentification)
+	if tagErr_enc_areaidentification != nil {
+		return nil, fmt.Errorf("encoding areaIdentification: %w", tagErr_enc_areaidentification)
+	}
+	enc_areaidentification = retagged_enc_areaidentification
+	children = append(children, enc_areaidentification...)
+	if v.AreaIdentificationExt != nil {
+		enc_areaidentificationext := ber.EncodeOctetString([]byte(*v.AreaIdentificationExt))
+		retagged_enc_areaidentificationext, tagErr_enc_areaidentificationext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_areaidentificationext)
+		if tagErr_enc_areaidentificationext != nil {
+			return nil, fmt.Errorf("encoding areaIdentificationExt: %w", tagErr_enc_areaidentificationext)
+		}
+		enc_areaidentificationext = retagged_enc_areaidentificationext
+		children = append(children, enc_areaidentificationext...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding DataTypesArea as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes DataTypesArea from BER/DER format.
 func (v *DataTypesArea) UnmarshalBER(data []byte) error {
+	*v = DataTypesArea{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding DataTypesArea SEQUENCE: %w", err)
@@ -8425,11 +11914,14 @@ func (v *DataTypesArea) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for areaType, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_areatype, rawVal_areatype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_areatype, n_areatype, rawVal_areatype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding areaType: %w", err)
 	}
-	decVal_areatype, intErr := ber.DecodeIntegerValue(rawVal_areatype)
+	if decodedTag_areatype.Class != tag.ClassContextSpecific || decodedTag_areatype.Number != 0 || decodedTag_areatype.Constructed != false {
+		return fmt.Errorf("decoding areaType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_areatype)
+	}
+	decVal_areatype, intErr := ber.DecodeEnumeratedValue(rawVal_areatype)
 	if intErr != nil {
 		return fmt.Errorf("decoding areaType: %w", intErr)
 	}
@@ -8444,9 +11936,12 @@ func (v *DataTypesArea) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for areaIdentification, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_areaidentification, rawVal_areaidentification, err := ber.DecodeTLV(content[offset:])
+	decodedTag_areaidentification, n_areaidentification, rawVal_areaidentification, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding areaIdentification: %w", err)
+	}
+	if decodedTag_areaidentification.Class != tag.ClassContextSpecific || decodedTag_areaidentification.Number != 1 {
+		return fmt.Errorf("decoding areaIdentification: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_areaidentification)
 	}
 	v.AreaIdentification = DataTypesAreaIdentification(rawVal_areaidentification)
 	offset += n_areaidentification
@@ -8455,9 +11950,12 @@ func (v *DataTypesArea) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_areaidentificationext, rawVal_areaidentificationext, err := ber.DecodeTLV(content[offset:])
+				decodedTag_areaidentificationext, n_areaidentificationext, rawVal_areaidentificationext, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding areaIdentificationExt: %w", err)
+				}
+				if decodedTag_areaidentificationext.Class != tag.ClassContextSpecific || decodedTag_areaidentificationext.Number != 2 {
+					return fmt.Errorf("decoding areaIdentificationExt: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_areaidentificationext)
 				}
 				tmp_areaidentificationext := AreaIdentificationExt(rawVal_areaidentificationext)
 				v.AreaIdentificationExt = &tmp_areaidentificationext
@@ -8485,36 +11983,64 @@ func (v *DataTypesArea) UnmarshalBER(data []byte) error {
 func (v *MotionEventReporting) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_lineardistance := ber.EncodeInteger(int64(v.LinearDistance))
-	enc_lineardistance = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_lineardistance)
+	retagged_enc_lineardistance, tagErr_enc_lineardistance := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_lineardistance)
+	if tagErr_enc_lineardistance != nil {
+		return nil, fmt.Errorf("encoding linearDistance: %w", tagErr_enc_lineardistance)
+	}
+	enc_lineardistance = retagged_enc_lineardistance
 	children = append(children, enc_lineardistance...)
 	if v.OccurrenceInfo != nil {
 		enc_occurrenceinfo := ber.EncodeEnumerated(int64(*v.OccurrenceInfo))
-		enc_occurrenceinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_occurrenceinfo)
+		retagged_enc_occurrenceinfo, tagErr_enc_occurrenceinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_occurrenceinfo)
+		if tagErr_enc_occurrenceinfo != nil {
+			return nil, fmt.Errorf("encoding occurrenceInfo: %w", tagErr_enc_occurrenceinfo)
+		}
+		enc_occurrenceinfo = retagged_enc_occurrenceinfo
 		children = append(children, enc_occurrenceinfo...)
 	}
 	if v.IntervalTime != nil {
 		enc_intervaltime := ber.EncodeInteger(int64(*v.IntervalTime))
-		enc_intervaltime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_intervaltime)
+		retagged_enc_intervaltime, tagErr_enc_intervaltime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_intervaltime)
+		if tagErr_enc_intervaltime != nil {
+			return nil, fmt.Errorf("encoding intervalTime: %w", tagErr_enc_intervaltime)
+		}
+		enc_intervaltime = retagged_enc_intervaltime
 		children = append(children, enc_intervaltime...)
 	}
 	if v.MaximumInterval != nil {
 		enc_maximuminterval := ber.EncodeInteger(int64(*v.MaximumInterval))
-		enc_maximuminterval = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_maximuminterval)
+		retagged_enc_maximuminterval, tagErr_enc_maximuminterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_maximuminterval)
+		if tagErr_enc_maximuminterval != nil {
+			return nil, fmt.Errorf("encoding maximumInterval: %w", tagErr_enc_maximuminterval)
+		}
+		enc_maximuminterval = retagged_enc_maximuminterval
 		children = append(children, enc_maximuminterval...)
 	}
 	if v.SamplingInterval != nil {
 		enc_samplinginterval := ber.EncodeInteger(int64(*v.SamplingInterval))
-		enc_samplinginterval = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_samplinginterval)
+		retagged_enc_samplinginterval, tagErr_enc_samplinginterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_samplinginterval)
+		if tagErr_enc_samplinginterval != nil {
+			return nil, fmt.Errorf("encoding samplingInterval: %w", tagErr_enc_samplinginterval)
+		}
+		enc_samplinginterval = retagged_enc_samplinginterval
 		children = append(children, enc_samplinginterval...)
 	}
 	if v.Duration != nil {
 		enc_duration := ber.EncodeInteger(int64(*v.Duration))
-		enc_duration = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, false, enc_duration)
+		retagged_enc_duration, tagErr_enc_duration := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_duration)
+		if tagErr_enc_duration != nil {
+			return nil, fmt.Errorf("encoding duration: %w", tagErr_enc_duration)
+		}
+		enc_duration = retagged_enc_duration
 		children = append(children, enc_duration...)
 	}
 	if v.LocationInfo != nil {
 		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
-		enc_locationinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, false, enc_locationinfo)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
 		children = append(children, enc_locationinfo...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -8532,17 +12058,84 @@ func (v *MotionEventReporting) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes MotionEventReporting to DER format.
 func (v *MotionEventReporting) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_lineardistance := ber.EncodeInteger(int64(v.LinearDistance))
+	retagged_enc_lineardistance, tagErr_enc_lineardistance := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_lineardistance)
+	if tagErr_enc_lineardistance != nil {
+		return nil, fmt.Errorf("encoding linearDistance: %w", tagErr_enc_lineardistance)
+	}
+	enc_lineardistance = retagged_enc_lineardistance
+	children = append(children, enc_lineardistance...)
+	if v.OccurrenceInfo != nil {
+		enc_occurrenceinfo := ber.EncodeEnumerated(int64(*v.OccurrenceInfo))
+		retagged_enc_occurrenceinfo, tagErr_enc_occurrenceinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_occurrenceinfo)
+		if tagErr_enc_occurrenceinfo != nil {
+			return nil, fmt.Errorf("encoding occurrenceInfo: %w", tagErr_enc_occurrenceinfo)
+		}
+		enc_occurrenceinfo = retagged_enc_occurrenceinfo
+		children = append(children, enc_occurrenceinfo...)
+	}
+	if v.IntervalTime != nil {
+		enc_intervaltime := ber.EncodeInteger(int64(*v.IntervalTime))
+		retagged_enc_intervaltime, tagErr_enc_intervaltime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_intervaltime)
+		if tagErr_enc_intervaltime != nil {
+			return nil, fmt.Errorf("encoding intervalTime: %w", tagErr_enc_intervaltime)
+		}
+		enc_intervaltime = retagged_enc_intervaltime
+		children = append(children, enc_intervaltime...)
+	}
+	if v.MaximumInterval != nil {
+		enc_maximuminterval := ber.EncodeInteger(int64(*v.MaximumInterval))
+		retagged_enc_maximuminterval, tagErr_enc_maximuminterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_maximuminterval)
+		if tagErr_enc_maximuminterval != nil {
+			return nil, fmt.Errorf("encoding maximumInterval: %w", tagErr_enc_maximuminterval)
+		}
+		enc_maximuminterval = retagged_enc_maximuminterval
+		children = append(children, enc_maximuminterval...)
+	}
+	if v.SamplingInterval != nil {
+		enc_samplinginterval := ber.EncodeInteger(int64(*v.SamplingInterval))
+		retagged_enc_samplinginterval, tagErr_enc_samplinginterval := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_samplinginterval)
+		if tagErr_enc_samplinginterval != nil {
+			return nil, fmt.Errorf("encoding samplingInterval: %w", tagErr_enc_samplinginterval)
+		}
+		enc_samplinginterval = retagged_enc_samplinginterval
+		children = append(children, enc_samplinginterval...)
+	}
+	if v.Duration != nil {
+		enc_duration := ber.EncodeInteger(int64(*v.Duration))
+		retagged_enc_duration, tagErr_enc_duration := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_duration)
+		if tagErr_enc_duration != nil {
+			return nil, fmt.Errorf("encoding duration: %w", tagErr_enc_duration)
+		}
+		enc_duration = retagged_enc_duration
+		children = append(children, enc_duration...)
+	}
+	if v.LocationInfo != nil {
+		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
+		children = append(children, enc_locationinfo...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding MotionEventReporting as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes MotionEventReporting from BER/DER format.
 func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
+	*v = MotionEventReporting{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding MotionEventReporting SEQUENCE: %w", err)
@@ -8560,9 +12153,12 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for linearDistance, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_lineardistance, rawVal_lineardistance, err := ber.DecodeTLV(content[offset:])
+	decodedTag_lineardistance, n_lineardistance, rawVal_lineardistance, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding linearDistance: %w", err)
+	}
+	if decodedTag_lineardistance.Class != tag.ClassContextSpecific || decodedTag_lineardistance.Number != 0 || decodedTag_lineardistance.Constructed != false {
+		return fmt.Errorf("decoding linearDistance: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lineardistance)
 	}
 	decVal_lineardistance, intErr := ber.DecodeIntegerValue(rawVal_lineardistance)
 	if intErr != nil {
@@ -8575,11 +12171,14 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_occurrenceinfo, rawVal_occurrenceinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_occurrenceinfo, n_occurrenceinfo, rawVal_occurrenceinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding occurrenceInfo: %w", err)
 				}
-				decVal_occurrenceinfo, intErr := ber.DecodeIntegerValue(rawVal_occurrenceinfo)
+				if decodedTag_occurrenceinfo.Class != tag.ClassContextSpecific || decodedTag_occurrenceinfo.Number != 1 || decodedTag_occurrenceinfo.Constructed != false {
+					return fmt.Errorf("decoding occurrenceInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_occurrenceinfo)
+				}
+				decVal_occurrenceinfo, intErr := ber.DecodeEnumeratedValue(rawVal_occurrenceinfo)
 				if intErr != nil {
 					return fmt.Errorf("decoding occurrenceInfo: %w", intErr)
 				}
@@ -8594,9 +12193,12 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_intervaltime, rawVal_intervaltime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_intervaltime, n_intervaltime, rawVal_intervaltime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding intervalTime: %w", err)
+				}
+				if decodedTag_intervaltime.Class != tag.ClassContextSpecific || decodedTag_intervaltime.Number != 2 || decodedTag_intervaltime.Constructed != false {
+					return fmt.Errorf("decoding intervalTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_intervaltime)
 				}
 				decVal_intervaltime, intErr := ber.DecodeIntegerValue(rawVal_intervaltime)
 				if intErr != nil {
@@ -8613,9 +12215,12 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_maximuminterval, rawVal_maximuminterval, err := ber.DecodeTLV(content[offset:])
+				decodedTag_maximuminterval, n_maximuminterval, rawVal_maximuminterval, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding maximumInterval: %w", err)
+				}
+				if decodedTag_maximuminterval.Class != tag.ClassContextSpecific || decodedTag_maximuminterval.Number != 3 || decodedTag_maximuminterval.Constructed != false {
+					return fmt.Errorf("decoding maximumInterval: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_maximuminterval)
 				}
 				decVal_maximuminterval, intErr := ber.DecodeIntegerValue(rawVal_maximuminterval)
 				if intErr != nil {
@@ -8632,9 +12237,12 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_samplinginterval, rawVal_samplinginterval, err := ber.DecodeTLV(content[offset:])
+				decodedTag_samplinginterval, n_samplinginterval, rawVal_samplinginterval, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding samplingInterval: %w", err)
+				}
+				if decodedTag_samplinginterval.Class != tag.ClassContextSpecific || decodedTag_samplinginterval.Number != 4 || decodedTag_samplinginterval.Constructed != false {
+					return fmt.Errorf("decoding samplingInterval: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_samplinginterval)
 				}
 				decVal_samplinginterval, intErr := ber.DecodeIntegerValue(rawVal_samplinginterval)
 				if intErr != nil {
@@ -8651,9 +12259,12 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_duration, rawVal_duration, err := ber.DecodeTLV(content[offset:])
+				decodedTag_duration, n_duration, rawVal_duration, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding duration: %w", err)
+				}
+				if decodedTag_duration.Class != tag.ClassContextSpecific || decodedTag_duration.Number != 5 || decodedTag_duration.Constructed != false {
+					return fmt.Errorf("decoding duration: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_duration)
 				}
 				decVal_duration, intErr := ber.DecodeIntegerValue(rawVal_duration)
 				if intErr != nil {
@@ -8670,11 +12281,14 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationinfo, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationInfo: %w", err)
 				}
-				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeBitStringValue(rawVal_locationinfo)
+				if decodedTag_locationinfo.Class != tag.ClassContextSpecific || decodedTag_locationinfo.Number != 6 {
+					return fmt.Errorf("decoding locationInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationinfo)
+				}
+				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_locationinfo.Constructed, rawVal_locationinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding locationInfo: %w", bsErr)
 				}
@@ -8718,17 +12332,23 @@ func (v *LCSPeriodicTriggeredInvokeRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPeriodicTriggeredInvokeRes to DER format.
 func (v *LCSPeriodicTriggeredInvokeRes) MarshalDER() ([]byte, error) {
+	var children []byte
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPeriodicTriggeredInvokeRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPeriodicTriggeredInvokeRes from BER/DER format.
 func (v *LCSPeriodicTriggeredInvokeRes) UnmarshalBER(data []byte) error {
+	*v = LCSPeriodicTriggeredInvokeRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPeriodicTriggeredInvokeRes SEQUENCE: %w", err)
@@ -8757,22 +12377,45 @@ func (v *LCSPeriodicTriggeredInvokeRes) UnmarshalBER(data []byte) error {
 func (v *LCSEventReportArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_eventtype := ber.EncodeEnumerated(int64(v.EventType))
-	enc_eventtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_eventtype)
+	retagged_enc_eventtype, tagErr_enc_eventtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_eventtype)
+	if tagErr_enc_eventtype != nil {
+		return nil, fmt.Errorf("encoding eventType: %w", tagErr_enc_eventtype)
+	}
+	enc_eventtype = retagged_enc_eventtype
 	children = append(children, enc_eventtype...)
 	enc_referencenumberext := ber.EncodeOctetString([]byte(v.ReferenceNumberExt))
-	enc_referencenumberext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_referencenumberext)
+	retagged_enc_referencenumberext, tagErr_enc_referencenumberext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_referencenumberext)
+	if tagErr_enc_referencenumberext != nil {
+		return nil, fmt.Errorf("encoding referenceNumberExt: %w", tagErr_enc_referencenumberext)
+	}
+	enc_referencenumberext = retagged_enc_referencenumberext
 	children = append(children, enc_referencenumberext...)
-	enc_hgmlccallbackuri := ber.EncodeStringTag(12, v.HGmlcCallBackUri)
-	enc_hgmlccallbackuri = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_hgmlccallbackuri)
+	enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, v.HGmlcCallBackUri)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+	}
+	retagged_enc_hgmlccallbackuri, tagErr_enc_hgmlccallbackuri := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_hgmlccallbackuri)
+	if tagErr_enc_hgmlccallbackuri != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", tagErr_enc_hgmlccallbackuri)
+	}
+	enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
 	children = append(children, enc_hgmlccallbackuri...)
 	if v.LocationInfo != nil {
 		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
-		enc_locationinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_locationinfo)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
 		children = append(children, enc_locationinfo...)
 	}
 	if v.SupportedGADShapes != nil {
 		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
-		enc_supportedgadshapes = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_supportedgadshapes)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
 		children = append(children, enc_supportedgadshapes...)
 	}
 	if v.LcsQoS != nil {
@@ -8780,7 +12423,11 @@ func (v *LCSEventReportArg) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
 		}
-		enc_lcsqos = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, true, enc_lcsqos)
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
 		children = append(children, enc_lcsqos...)
 	}
 	if v.MultiplePositioningProtocolPDUs != nil {
@@ -8796,18 +12443,30 @@ func (v *LCSEventReportArg) MarshalBER() ([]byte, error) {
 			}
 			enc_multiplepositioningprotocolpdus = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 6}, seqContent_)
 		} else {
-			enc_multiplepositioningprotocolpdus = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, true, enc_multiplepositioningprotocolpdus)
+			retagged_enc_multiplepositioningprotocolpdus, tagErr_enc_multiplepositioningprotocolpdus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_multiplepositioningprotocolpdus)
+			if tagErr_enc_multiplepositioningprotocolpdus != nil {
+				return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", tagErr_enc_multiplepositioningprotocolpdus)
+			}
+			enc_multiplepositioningprotocolpdus = retagged_enc_multiplepositioningprotocolpdus
 		}
 		children = append(children, enc_multiplepositioningprotocolpdus...)
 	}
 	if v.TerminationCause != nil {
 		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
-		enc_terminationcause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, false, enc_terminationcause)
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
 		children = append(children, enc_terminationcause...)
 	}
 	if v.UserPlaneEventReportStat != nil {
 		enc_userplaneeventreportstat := ber.EncodeInteger(int64(*v.UserPlaneEventReportStat))
-		enc_userplaneeventreportstat = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, false, enc_userplaneeventreportstat)
+		retagged_enc_userplaneeventreportstat, tagErr_enc_userplaneeventreportstat := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_userplaneeventreportstat)
+		if tagErr_enc_userplaneeventreportstat != nil {
+			return nil, fmt.Errorf("encoding userPlaneEventReportStat: %w", tagErr_enc_userplaneeventreportstat)
+		}
+		enc_userplaneeventreportstat = retagged_enc_userplaneeventreportstat
 		children = append(children, enc_userplaneeventreportstat...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -8825,20 +12484,107 @@ func (v *LCSEventReportArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSEventReportArg to DER format.
 func (v *LCSEventReportArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_eventtype := ber.EncodeEnumerated(int64(v.EventType))
+	retagged_enc_eventtype, tagErr_enc_eventtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_eventtype)
+	if tagErr_enc_eventtype != nil {
+		return nil, fmt.Errorf("encoding eventType: %w", tagErr_enc_eventtype)
+	}
+	enc_eventtype = retagged_enc_eventtype
+	children = append(children, enc_eventtype...)
+	enc_referencenumberext := ber.EncodeOctetString([]byte(v.ReferenceNumberExt))
+	retagged_enc_referencenumberext, tagErr_enc_referencenumberext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_referencenumberext)
+	if tagErr_enc_referencenumberext != nil {
+		return nil, fmt.Errorf("encoding referenceNumberExt: %w", tagErr_enc_referencenumberext)
+	}
+	enc_referencenumberext = retagged_enc_referencenumberext
+	children = append(children, enc_referencenumberext...)
+	enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, v.HGmlcCallBackUri)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+	}
+	retagged_enc_hgmlccallbackuri, tagErr_enc_hgmlccallbackuri := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_hgmlccallbackuri)
+	if tagErr_enc_hgmlccallbackuri != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", tagErr_enc_hgmlccallbackuri)
+	}
+	enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
+	children = append(children, enc_hgmlccallbackuri...)
+	if v.LocationInfo != nil {
+		enc_locationinfo := ber.EncodeBitString(v.LocationInfo.Bytes, (8-(v.LocationInfo.BitLength%8))%8)
+		retagged_enc_locationinfo, tagErr_enc_locationinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_locationinfo)
+		if tagErr_enc_locationinfo != nil {
+			return nil, fmt.Errorf("encoding locationInfo: %w", tagErr_enc_locationinfo)
+		}
+		enc_locationinfo = retagged_enc_locationinfo
+		children = append(children, enc_locationinfo...)
+	}
+	if v.SupportedGADShapes != nil {
+		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
+		children = append(children, enc_supportedgadshapes...)
+	}
+	if v.LcsQoS != nil {
+		enc_lcsqos, err := v.LcsQoS.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", err)
+		}
+		retagged_enc_lcsqos, tagErr_enc_lcsqos := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_lcsqos)
+		if tagErr_enc_lcsqos != nil {
+			return nil, fmt.Errorf("encoding lcs-QoS: %w", tagErr_enc_lcsqos)
+		}
+		enc_lcsqos = retagged_enc_lcsqos
+		children = append(children, enc_lcsqos...)
+	}
+	if v.MultiplePositioningProtocolPDUs != nil {
+		enc_multiplepositioningprotocolpdus, err := MarshalDERMultiplePositioningProtocolPDUs(v.MultiplePositioningProtocolPDUs)
+		if err != nil {
+			return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", err)
+		}
+		retagged_enc_multiplepositioningprotocolpdus, tagErr_enc_multiplepositioningprotocolpdus := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_multiplepositioningprotocolpdus)
+		if tagErr_enc_multiplepositioningprotocolpdus != nil {
+			return nil, fmt.Errorf("encoding multiplePositioningProtocolPDUs: %w", tagErr_enc_multiplepositioningprotocolpdus)
+		}
+		enc_multiplepositioningprotocolpdus = retagged_enc_multiplepositioningprotocolpdus
+		children = append(children, enc_multiplepositioningprotocolpdus...)
+	}
+	if v.TerminationCause != nil {
+		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
+		children = append(children, enc_terminationcause...)
+	}
+	if v.UserPlaneEventReportStat != nil {
+		enc_userplaneeventreportstat := ber.EncodeInteger(int64(*v.UserPlaneEventReportStat))
+		retagged_enc_userplaneeventreportstat, tagErr_enc_userplaneeventreportstat := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_userplaneeventreportstat)
+		if tagErr_enc_userplaneeventreportstat != nil {
+			return nil, fmt.Errorf("encoding userPlaneEventReportStat: %w", tagErr_enc_userplaneeventreportstat)
+		}
+		enc_userplaneeventreportstat = retagged_enc_userplaneeventreportstat
+		children = append(children, enc_userplaneeventreportstat...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.MultiplePositioningProtocolPDUsIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSEventReportArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSEventReportArg from BER/DER format.
 func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
+	*v = LCSEventReportArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSEventReportArg SEQUENCE: %w", err)
@@ -8856,11 +12602,14 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for eventType, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_eventtype, rawVal_eventtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_eventtype, n_eventtype, rawVal_eventtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding eventType: %w", err)
 	}
-	decVal_eventtype, intErr := ber.DecodeIntegerValue(rawVal_eventtype)
+	if decodedTag_eventtype.Class != tag.ClassContextSpecific || decodedTag_eventtype.Number != 0 || decodedTag_eventtype.Constructed != false {
+		return fmt.Errorf("decoding eventType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventtype)
+	}
+	decVal_eventtype, intErr := ber.DecodeEnumeratedValue(rawVal_eventtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding eventType: %w", intErr)
 	}
@@ -8875,9 +12624,12 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumberExt, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_referencenumberext, rawVal_referencenumberext, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumberext, n_referencenumberext, rawVal_referencenumberext, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumberExt: %w", err)
+	}
+	if decodedTag_referencenumberext.Class != tag.ClassContextSpecific || decodedTag_referencenumberext.Number != 1 {
+		return fmt.Errorf("decoding referenceNumberExt: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumberext)
 	}
 	v.ReferenceNumberExt = LCSReferenceNumberExt(rawVal_referencenumberext)
 	offset += n_referencenumberext
@@ -8890,11 +12642,17 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for h-gmlc-callBackUri, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_hgmlccallbackuri, rawVal_hgmlccallbackuri, err := ber.DecodeTLV(content[offset:])
+	decodedTag_hgmlccallbackuri, n_hgmlccallbackuri, rawVal_hgmlccallbackuri, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", err)
 	}
-	decVal_hgmlccallbackuri := ber.DecodeStringValue(rawVal_hgmlccallbackuri)
+	if decodedTag_hgmlccallbackuri.Class != tag.ClassContextSpecific || decodedTag_hgmlccallbackuri.Number != 2 {
+		return fmt.Errorf("decoding h-gmlc-callBackUri: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlccallbackuri)
+	}
+	decVal_hgmlccallbackuri, stringErr := ber.DecodeImplicitStringValue(12, decodedTag_hgmlccallbackuri.Constructed, rawVal_hgmlccallbackuri)
+	if stringErr != nil {
+		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", stringErr)
+	}
 	v.HGmlcCallBackUri = decVal_hgmlccallbackuri
 	offset += n_hgmlccallbackuri
 	// Decode locationInfo
@@ -8902,11 +12660,14 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationinfo, n_locationinfo, rawVal_locationinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationInfo: %w", err)
 				}
-				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeBitStringValue(rawVal_locationinfo)
+				if decodedTag_locationinfo.Class != tag.ClassContextSpecific || decodedTag_locationinfo.Number != 3 {
+					return fmt.Errorf("decoding locationInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationinfo)
+				}
+				bsBytes_locationinfo, bsUnused_locationinfo, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_locationinfo.Constructed, rawVal_locationinfo)
 				if bsErr != nil {
 					return fmt.Errorf("decoding locationInfo: %w", bsErr)
 				}
@@ -8921,11 +12682,14 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
+				decodedTag_supportedgadshapes, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", err)
 				}
-				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeBitStringValue(rawVal_supportedgadshapes)
+				if decodedTag_supportedgadshapes.Class != tag.ClassContextSpecific || decodedTag_supportedgadshapes.Number != 4 {
+					return fmt.Errorf("decoding supportedGADShapes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedgadshapes)
+				}
+				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedgadshapes.Constructed, rawVal_supportedgadshapes)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", bsErr)
 				}
@@ -8940,9 +12704,12 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 {
-				_, n_lcsqos, rawVal_lcsqos, err := ber.DecodeTLV(content[offset:])
+				decodedTag_lcsqos, n_lcsqos, rawVal_lcsqos, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding lcs-QoS: %w", err)
+				}
+				if decodedTag_lcsqos.Class != tag.ClassContextSpecific || decodedTag_lcsqos.Number != 5 || decodedTag_lcsqos.Constructed != true {
+					return fmt.Errorf("decoding lcs-QoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsqos)
 				}
 				reconstructed_lcsqos := ber.EncodeSequence(rawVal_lcsqos)
 				var dec_lcsqos LCSQoS
@@ -8960,9 +12727,12 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
-				_, n_multiplepositioningprotocolpdus, rawVal_multiplepositioningprotocolpdus, err := ber.DecodeTLV(content[offset:])
+				decodedTag_multiplepositioningprotocolpdus, n_multiplepositioningprotocolpdus, rawVal_multiplepositioningprotocolpdus, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding multiplePositioningProtocolPDUs: %w", err)
+				}
+				if decodedTag_multiplepositioningprotocolpdus.Class != tag.ClassContextSpecific || decodedTag_multiplepositioningprotocolpdus.Number != 6 || decodedTag_multiplepositioningprotocolpdus.Constructed != true {
+					return fmt.Errorf("decoding multiplePositioningProtocolPDUs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_multiplepositioningprotocolpdus)
 				}
 				reconstructed_multiplepositioningprotocolpdus := ber.EncodeSequence(rawVal_multiplepositioningprotocolpdus)
 				dec_multiplepositioningprotocolpdus, unmErr := UnmarshalBERMultiplePositioningProtocolPDUs(reconstructed_multiplepositioningprotocolpdus)
@@ -8985,11 +12755,14 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
-				_, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
+				decodedTag_terminationcause, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding terminationCause: %w", err)
 				}
-				decVal_terminationcause, intErr := ber.DecodeIntegerValue(rawVal_terminationcause)
+				if decodedTag_terminationcause.Class != tag.ClassContextSpecific || decodedTag_terminationcause.Number != 7 || decodedTag_terminationcause.Constructed != false {
+					return fmt.Errorf("decoding terminationCause: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_terminationcause)
+				}
+				decVal_terminationcause, intErr := ber.DecodeEnumeratedValue(rawVal_terminationcause)
 				if intErr != nil {
 					return fmt.Errorf("decoding terminationCause: %w", intErr)
 				}
@@ -9004,9 +12777,12 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
-				_, n_userplaneeventreportstat, rawVal_userplaneeventreportstat, err := ber.DecodeTLV(content[offset:])
+				decodedTag_userplaneeventreportstat, n_userplaneeventreportstat, rawVal_userplaneeventreportstat, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding userPlaneEventReportStat: %w", err)
+				}
+				if decodedTag_userplaneeventreportstat.Class != tag.ClassContextSpecific || decodedTag_userplaneeventreportstat.Number != 8 || decodedTag_userplaneeventreportstat.Constructed != false {
+					return fmt.Errorf("decoding userPlaneEventReportStat: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_userplaneeventreportstat)
 				}
 				decVal_userplaneeventreportstat, intErr := ber.DecodeIntegerValue(rawVal_userplaneeventreportstat)
 				if intErr != nil {
@@ -9039,12 +12815,20 @@ func (v *ControlPlaneCIoT5GSOptimisation) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.MaximumDuration != nil {
 		enc_maximumduration := ber.EncodeInteger(int64(*v.MaximumDuration))
-		enc_maximumduration = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_maximumduration)
+		retagged_enc_maximumduration, tagErr_enc_maximumduration := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_maximumduration)
+		if tagErr_enc_maximumduration != nil {
+			return nil, fmt.Errorf("encoding maximumDuration: %w", tagErr_enc_maximumduration)
+		}
+		enc_maximumduration = retagged_enc_maximumduration
 		children = append(children, enc_maximumduration...)
 	}
 	if v.MaximumConsecutiveEventReports != nil {
 		enc_maximumconsecutiveeventreports := ber.EncodeInteger(int64(*v.MaximumConsecutiveEventReports))
-		enc_maximumconsecutiveeventreports = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_maximumconsecutiveeventreports)
+		retagged_enc_maximumconsecutiveeventreports, tagErr_enc_maximumconsecutiveeventreports := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_maximumconsecutiveeventreports)
+		if tagErr_enc_maximumconsecutiveeventreports != nil {
+			return nil, fmt.Errorf("encoding maximumConsecutiveEventReports: %w", tagErr_enc_maximumconsecutiveeventreports)
+		}
+		enc_maximumconsecutiveeventreports = retagged_enc_maximumconsecutiveeventreports
 		children = append(children, enc_maximumconsecutiveeventreports...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -9062,17 +12846,41 @@ func (v *ControlPlaneCIoT5GSOptimisation) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes ControlPlaneCIoT5GSOptimisation to DER format.
 func (v *ControlPlaneCIoT5GSOptimisation) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.MaximumDuration != nil {
+		enc_maximumduration := ber.EncodeInteger(int64(*v.MaximumDuration))
+		retagged_enc_maximumduration, tagErr_enc_maximumduration := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_maximumduration)
+		if tagErr_enc_maximumduration != nil {
+			return nil, fmt.Errorf("encoding maximumDuration: %w", tagErr_enc_maximumduration)
+		}
+		enc_maximumduration = retagged_enc_maximumduration
+		children = append(children, enc_maximumduration...)
+	}
+	if v.MaximumConsecutiveEventReports != nil {
+		enc_maximumconsecutiveeventreports := ber.EncodeInteger(int64(*v.MaximumConsecutiveEventReports))
+		retagged_enc_maximumconsecutiveeventreports, tagErr_enc_maximumconsecutiveeventreports := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_maximumconsecutiveeventreports)
+		if tagErr_enc_maximumconsecutiveeventreports != nil {
+			return nil, fmt.Errorf("encoding maximumConsecutiveEventReports: %w", tagErr_enc_maximumconsecutiveeventreports)
+		}
+		enc_maximumconsecutiveeventreports = retagged_enc_maximumconsecutiveeventreports
+		children = append(children, enc_maximumconsecutiveeventreports...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ControlPlaneCIoT5GSOptimisation as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes ControlPlaneCIoT5GSOptimisation from BER/DER format.
 func (v *ControlPlaneCIoT5GSOptimisation) UnmarshalBER(data []byte) error {
+	*v = ControlPlaneCIoT5GSOptimisation{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding ControlPlaneCIoT5GSOptimisation SEQUENCE: %w", err)
@@ -9086,9 +12894,12 @@ func (v *ControlPlaneCIoT5GSOptimisation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_maximumduration, rawVal_maximumduration, err := ber.DecodeTLV(content[offset:])
+				decodedTag_maximumduration, n_maximumduration, rawVal_maximumduration, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding maximumDuration: %w", err)
+				}
+				if decodedTag_maximumduration.Class != tag.ClassContextSpecific || decodedTag_maximumduration.Number != 0 || decodedTag_maximumduration.Constructed != false {
+					return fmt.Errorf("decoding maximumDuration: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_maximumduration)
 				}
 				decVal_maximumduration, intErr := ber.DecodeIntegerValue(rawVal_maximumduration)
 				if intErr != nil {
@@ -9105,9 +12916,12 @@ func (v *ControlPlaneCIoT5GSOptimisation) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_maximumconsecutiveeventreports, rawVal_maximumconsecutiveeventreports, err := ber.DecodeTLV(content[offset:])
+				decodedTag_maximumconsecutiveeventreports, n_maximumconsecutiveeventreports, rawVal_maximumconsecutiveeventreports, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding maximumConsecutiveEventReports: %w", err)
+				}
+				if decodedTag_maximumconsecutiveeventreports.Class != tag.ClassContextSpecific || decodedTag_maximumconsecutiveeventreports.Number != 1 || decodedTag_maximumconsecutiveeventreports.Constructed != false {
+					return fmt.Errorf("decoding maximumConsecutiveEventReports: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_maximumconsecutiveeventreports)
 				}
 				decVal_maximumconsecutiveeventreports, intErr := ber.DecodeIntegerValue(rawVal_maximumconsecutiveeventreports)
 				if intErr != nil {
@@ -9151,7 +12965,11 @@ func (v *LCSUserPlaneReportAFAddr) MarshalBER() ([]byte, error) {
 			}
 			enc_afipv4addrs = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
-			enc_afipv4addrs = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_afipv4addrs)
+			retagged_enc_afipv4addrs, tagErr_enc_afipv4addrs := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_afipv4addrs)
+			if tagErr_enc_afipv4addrs != nil {
+				return nil, fmt.Errorf("encoding af-Ipv4-Addrs: %w", tagErr_enc_afipv4addrs)
+			}
+			enc_afipv4addrs = retagged_enc_afipv4addrs
 		}
 		children = append(children, enc_afipv4addrs...)
 	}
@@ -9168,13 +12986,21 @@ func (v *LCSUserPlaneReportAFAddr) MarshalBER() ([]byte, error) {
 			}
 			enc_afipv6addrs = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
-			enc_afipv6addrs = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_afipv6addrs)
+			retagged_enc_afipv6addrs, tagErr_enc_afipv6addrs := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_afipv6addrs)
+			if tagErr_enc_afipv6addrs != nil {
+				return nil, fmt.Errorf("encoding af-Ipv6-Addrs: %w", tagErr_enc_afipv6addrs)
+			}
+			enc_afipv6addrs = retagged_enc_afipv6addrs
 		}
 		children = append(children, enc_afipv6addrs...)
 	}
 	if v.AfFqdn != nil {
 		enc_affqdn := ber.EncodeOctetString([]byte(*v.AfFqdn))
-		enc_affqdn = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_affqdn)
+		retagged_enc_affqdn, tagErr_enc_affqdn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_affqdn)
+		if tagErr_enc_affqdn != nil {
+			return nil, fmt.Errorf("encoding af-Fqdn: %w", tagErr_enc_affqdn)
+		}
+		enc_affqdn = retagged_enc_affqdn
 		children = append(children, enc_affqdn...)
 	}
 	return ber.EncodeSequence(children), nil
@@ -9182,16 +13008,50 @@ func (v *LCSUserPlaneReportAFAddr) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSUserPlaneReportAFAddr to DER format.
 func (v *LCSUserPlaneReportAFAddr) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.AfIpv4AddrsIndef_ = false
-	derValue.AfIpv6AddrsIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	var children []byte
+	if v.AfIpv4Addrs != nil {
+		enc_afipv4addrs, err := MarshalDERIpv4Addrs(v.AfIpv4Addrs)
+		if err != nil {
+			return nil, fmt.Errorf("encoding af-Ipv4-Addrs: %w", err)
+		}
+		retagged_enc_afipv4addrs, tagErr_enc_afipv4addrs := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_afipv4addrs)
+		if tagErr_enc_afipv4addrs != nil {
+			return nil, fmt.Errorf("encoding af-Ipv4-Addrs: %w", tagErr_enc_afipv4addrs)
+		}
+		enc_afipv4addrs = retagged_enc_afipv4addrs
+		children = append(children, enc_afipv4addrs...)
+	}
+	if v.AfIpv6Addrs != nil {
+		enc_afipv6addrs, err := MarshalDERIpv6Addrs(v.AfIpv6Addrs)
+		if err != nil {
+			return nil, fmt.Errorf("encoding af-Ipv6-Addrs: %w", err)
+		}
+		retagged_enc_afipv6addrs, tagErr_enc_afipv6addrs := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_afipv6addrs)
+		if tagErr_enc_afipv6addrs != nil {
+			return nil, fmt.Errorf("encoding af-Ipv6-Addrs: %w", tagErr_enc_afipv6addrs)
+		}
+		enc_afipv6addrs = retagged_enc_afipv6addrs
+		children = append(children, enc_afipv6addrs...)
+	}
+	if v.AfFqdn != nil {
+		enc_affqdn := ber.EncodeOctetString([]byte(*v.AfFqdn))
+		retagged_enc_affqdn, tagErr_enc_affqdn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_affqdn)
+		if tagErr_enc_affqdn != nil {
+			return nil, fmt.Errorf("encoding af-Fqdn: %w", tagErr_enc_affqdn)
+		}
+		enc_affqdn = retagged_enc_affqdn
+		children = append(children, enc_affqdn...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSUserPlaneReportAFAddr as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSUserPlaneReportAFAddr from BER/DER format.
 func (v *LCSUserPlaneReportAFAddr) UnmarshalBER(data []byte) error {
+	*v = LCSUserPlaneReportAFAddr{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSUserPlaneReportAFAddr SEQUENCE: %w", err)
@@ -9206,9 +13066,12 @@ func (v *LCSUserPlaneReportAFAddr) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_afipv4addrs, rawVal_afipv4addrs, err := ber.DecodeTLV(content[offset:])
+				decodedTag_afipv4addrs, n_afipv4addrs, rawVal_afipv4addrs, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding af-Ipv4-Addrs: %w", err)
+				}
+				if decodedTag_afipv4addrs.Class != tag.ClassContextSpecific || decodedTag_afipv4addrs.Number != 0 || decodedTag_afipv4addrs.Constructed != true {
+					return fmt.Errorf("decoding af-Ipv4-Addrs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_afipv4addrs)
 				}
 				reconstructed_afipv4addrs := ber.EncodeSequence(rawVal_afipv4addrs)
 				dec_afipv4addrs, unmErr := UnmarshalBERIpv4Addrs(reconstructed_afipv4addrs)
@@ -9232,9 +13095,12 @@ func (v *LCSUserPlaneReportAFAddr) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_afipv6addrs, rawVal_afipv6addrs, err := ber.DecodeTLV(content[offset:])
+				decodedTag_afipv6addrs, n_afipv6addrs, rawVal_afipv6addrs, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding af-Ipv6-Addrs: %w", err)
+				}
+				if decodedTag_afipv6addrs.Class != tag.ClassContextSpecific || decodedTag_afipv6addrs.Number != 1 || decodedTag_afipv6addrs.Constructed != true {
+					return fmt.Errorf("decoding af-Ipv6-Addrs: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_afipv6addrs)
 				}
 				reconstructed_afipv6addrs := ber.EncodeSequence(rawVal_afipv6addrs)
 				dec_afipv6addrs, unmErr := UnmarshalBERIpv6Addrs(reconstructed_afipv6addrs)
@@ -9257,9 +13123,12 @@ func (v *LCSUserPlaneReportAFAddr) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_affqdn, rawVal_affqdn, err := ber.DecodeTLV(content[offset:])
+				decodedTag_affqdn, n_affqdn, rawVal_affqdn, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding af-Fqdn: %w", err)
+				}
+				if decodedTag_affqdn.Class != tag.ClassContextSpecific || decodedTag_affqdn.Number != 2 {
+					return fmt.Errorf("decoding af-Fqdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_affqdn)
 				}
 				tmp_affqdn := DataTypesFQDN(rawVal_affqdn)
 				v.AfFqdn = &tmp_affqdn
@@ -9280,6 +13149,19 @@ func MarshalBERIpv4Addrs(list Ipv4Addrs) ([]byte, error) {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
 	}
 	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDERIpv4Addrs encodes a Ipv4Addrs list to DER.
+func MarshalDERIpv4Addrs(list Ipv4Addrs) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Ipv4Addrs as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERIpv4Addrs decodes a Ipv4Addrs list from BER.
@@ -9313,6 +13195,19 @@ func MarshalBERIpv6Addrs(list Ipv6Addrs) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERIpv6Addrs encodes a Ipv6Addrs list to DER.
+func MarshalDERIpv6Addrs(list Ipv6Addrs) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Ipv6Addrs as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERIpv6Addrs decodes a Ipv6Addrs list from BER.
 func UnmarshalBERIpv6Addrs(data []byte) (Ipv6Addrs, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -9340,12 +13235,20 @@ func (v *LCSCumulativeReportCriteria) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.TimerCriteria != nil {
 		enc_timercriteria := ber.EncodeInteger(int64(*v.TimerCriteria))
-		enc_timercriteria = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_timercriteria)
+		retagged_enc_timercriteria, tagErr_enc_timercriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_timercriteria)
+		if tagErr_enc_timercriteria != nil {
+			return nil, fmt.Errorf("encoding timerCriteria: %w", tagErr_enc_timercriteria)
+		}
+		enc_timercriteria = retagged_enc_timercriteria
 		children = append(children, enc_timercriteria...)
 	}
 	if v.CounterCriteria != nil {
 		enc_countercriteria := ber.EncodeInteger(int64(*v.CounterCriteria))
-		enc_countercriteria = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_countercriteria)
+		retagged_enc_countercriteria, tagErr_enc_countercriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_countercriteria)
+		if tagErr_enc_countercriteria != nil {
+			return nil, fmt.Errorf("encoding counterCriteria: %w", tagErr_enc_countercriteria)
+		}
+		enc_countercriteria = retagged_enc_countercriteria
 		children = append(children, enc_countercriteria...)
 	}
 	return ber.EncodeSequence(children), nil
@@ -9353,12 +13256,35 @@ func (v *LCSCumulativeReportCriteria) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSCumulativeReportCriteria to DER format.
 func (v *LCSCumulativeReportCriteria) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	var children []byte
+	if v.TimerCriteria != nil {
+		enc_timercriteria := ber.EncodeInteger(int64(*v.TimerCriteria))
+		retagged_enc_timercriteria, tagErr_enc_timercriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_timercriteria)
+		if tagErr_enc_timercriteria != nil {
+			return nil, fmt.Errorf("encoding timerCriteria: %w", tagErr_enc_timercriteria)
+		}
+		enc_timercriteria = retagged_enc_timercriteria
+		children = append(children, enc_timercriteria...)
+	}
+	if v.CounterCriteria != nil {
+		enc_countercriteria := ber.EncodeInteger(int64(*v.CounterCriteria))
+		retagged_enc_countercriteria, tagErr_enc_countercriteria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_countercriteria)
+		if tagErr_enc_countercriteria != nil {
+			return nil, fmt.Errorf("encoding counterCriteria: %w", tagErr_enc_countercriteria)
+		}
+		enc_countercriteria = retagged_enc_countercriteria
+		children = append(children, enc_countercriteria...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSCumulativeReportCriteria as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSCumulativeReportCriteria from BER/DER format.
 func (v *LCSCumulativeReportCriteria) UnmarshalBER(data []byte) error {
+	*v = LCSCumulativeReportCriteria{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSCumulativeReportCriteria SEQUENCE: %w", err)
@@ -9372,9 +13298,12 @@ func (v *LCSCumulativeReportCriteria) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_timercriteria, rawVal_timercriteria, err := ber.DecodeTLV(content[offset:])
+				decodedTag_timercriteria, n_timercriteria, rawVal_timercriteria, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding timerCriteria: %w", err)
+				}
+				if decodedTag_timercriteria.Class != tag.ClassContextSpecific || decodedTag_timercriteria.Number != 0 || decodedTag_timercriteria.Constructed != false {
+					return fmt.Errorf("decoding timerCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_timercriteria)
 				}
 				decVal_timercriteria, intErr := ber.DecodeIntegerValue(rawVal_timercriteria)
 				if intErr != nil {
@@ -9391,9 +13320,12 @@ func (v *LCSCumulativeReportCriteria) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_countercriteria, rawVal_countercriteria, err := ber.DecodeTLV(content[offset:])
+				decodedTag_countercriteria, n_countercriteria, rawVal_countercriteria, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding counterCriteria: %w", err)
+				}
+				if decodedTag_countercriteria.Class != tag.ClassContextSpecific || decodedTag_countercriteria.Number != 1 || decodedTag_countercriteria.Constructed != false {
+					return fmt.Errorf("decoding counterCriteria: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_countercriteria)
 				}
 				decVal_countercriteria, intErr := ber.DecodeIntegerValue(rawVal_countercriteria)
 				if intErr != nil {
@@ -9416,12 +13348,20 @@ func (v *LCSEventReportRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.DeferredRoutingIdentifier != nil {
 		enc_deferredroutingidentifier := ber.EncodeOctetString(v.DeferredRoutingIdentifier)
-		enc_deferredroutingidentifier = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_deferredroutingidentifier)
+		retagged_enc_deferredroutingidentifier, tagErr_enc_deferredroutingidentifier := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_deferredroutingidentifier)
+		if tagErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", tagErr_enc_deferredroutingidentifier)
+		}
+		enc_deferredroutingidentifier = retagged_enc_deferredroutingidentifier
 		children = append(children, enc_deferredroutingidentifier...)
 	}
 	if v.TerminationCause != nil {
 		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
-		enc_terminationcause = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_terminationcause)
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
 		children = append(children, enc_terminationcause...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -9439,17 +13379,41 @@ func (v *LCSEventReportRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSEventReportRes to DER format.
 func (v *LCSEventReportRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.DeferredRoutingIdentifier != nil {
+		enc_deferredroutingidentifier := ber.EncodeOctetString(v.DeferredRoutingIdentifier)
+		retagged_enc_deferredroutingidentifier, tagErr_enc_deferredroutingidentifier := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_deferredroutingidentifier)
+		if tagErr_enc_deferredroutingidentifier != nil {
+			return nil, fmt.Errorf("encoding deferredRoutingIdentifier: %w", tagErr_enc_deferredroutingidentifier)
+		}
+		enc_deferredroutingidentifier = retagged_enc_deferredroutingidentifier
+		children = append(children, enc_deferredroutingidentifier...)
+	}
+	if v.TerminationCause != nil {
+		enc_terminationcause := ber.EncodeEnumerated(int64(*v.TerminationCause))
+		retagged_enc_terminationcause, tagErr_enc_terminationcause := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_terminationcause)
+		if tagErr_enc_terminationcause != nil {
+			return nil, fmt.Errorf("encoding terminationCause: %w", tagErr_enc_terminationcause)
+		}
+		enc_terminationcause = retagged_enc_terminationcause
+		children = append(children, enc_terminationcause...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSEventReportRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSEventReportRes from BER/DER format.
 func (v *LCSEventReportRes) UnmarshalBER(data []byte) error {
+	*v = LCSEventReportRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSEventReportRes SEQUENCE: %w", err)
@@ -9463,9 +13427,12 @@ func (v *LCSEventReportRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_deferredroutingidentifier, rawVal_deferredroutingidentifier, err := ber.DecodeTLV(content[offset:])
+				decodedTag_deferredroutingidentifier, n_deferredroutingidentifier, rawVal_deferredroutingidentifier, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding deferredRoutingIdentifier: %w", err)
+				}
+				if decodedTag_deferredroutingidentifier.Class != tag.ClassContextSpecific || decodedTag_deferredroutingidentifier.Number != 0 {
+					return fmt.Errorf("decoding deferredRoutingIdentifier: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deferredroutingidentifier)
 				}
 				tmp_deferredroutingidentifier := rawVal_deferredroutingidentifier
 				v.DeferredRoutingIdentifier = tmp_deferredroutingidentifier
@@ -9478,11 +13445,14 @@ func (v *LCSEventReportRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
+				decodedTag_terminationcause, n_terminationcause, rawVal_terminationcause, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding terminationCause: %w", err)
 				}
-				decVal_terminationcause, intErr := ber.DecodeIntegerValue(rawVal_terminationcause)
+				if decodedTag_terminationcause.Class != tag.ClassContextSpecific || decodedTag_terminationcause.Number != 1 || decodedTag_terminationcause.Constructed != false {
+					return fmt.Errorf("decoding terminationCause: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_terminationcause)
+				}
+				decVal_terminationcause, intErr := ber.DecodeEnumeratedValue(rawVal_terminationcause)
 				if intErr != nil {
 					return fmt.Errorf("decoding terminationCause: %w", intErr)
 				}
@@ -9512,10 +13482,21 @@ func (v *LCSEventReportRes) UnmarshalBER(data []byte) error {
 func (v *LCSCancelDeferredLocationArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_referencenumberext := ber.EncodeOctetString([]byte(v.ReferenceNumberExt))
-	enc_referencenumberext = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_referencenumberext)
+	retagged_enc_referencenumberext, tagErr_enc_referencenumberext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumberext)
+	if tagErr_enc_referencenumberext != nil {
+		return nil, fmt.Errorf("encoding referenceNumberExt: %w", tagErr_enc_referencenumberext)
+	}
+	enc_referencenumberext = retagged_enc_referencenumberext
 	children = append(children, enc_referencenumberext...)
-	enc_hgmlccallbackuri := ber.EncodeStringTag(12, v.HGmlcCallBackUri)
-	enc_hgmlccallbackuri = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_hgmlccallbackuri)
+	enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, v.HGmlcCallBackUri)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+	}
+	retagged_enc_hgmlccallbackuri, tagErr_enc_hgmlccallbackuri := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_hgmlccallbackuri)
+	if tagErr_enc_hgmlccallbackuri != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", tagErr_enc_hgmlccallbackuri)
+	}
+	enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
 	children = append(children, enc_hgmlccallbackuri...)
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -9532,17 +13513,40 @@ func (v *LCSCancelDeferredLocationArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSCancelDeferredLocationArg to DER format.
 func (v *LCSCancelDeferredLocationArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_referencenumberext := ber.EncodeOctetString([]byte(v.ReferenceNumberExt))
+	retagged_enc_referencenumberext, tagErr_enc_referencenumberext := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_referencenumberext)
+	if tagErr_enc_referencenumberext != nil {
+		return nil, fmt.Errorf("encoding referenceNumberExt: %w", tagErr_enc_referencenumberext)
+	}
+	enc_referencenumberext = retagged_enc_referencenumberext
+	children = append(children, enc_referencenumberext...)
+	enc_hgmlccallbackuri, stringErr := ber.EncodeStringTagChecked(12, v.HGmlcCallBackUri)
+	if stringErr != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", stringErr)
+	}
+	retagged_enc_hgmlccallbackuri, tagErr_enc_hgmlccallbackuri := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_hgmlccallbackuri)
+	if tagErr_enc_hgmlccallbackuri != nil {
+		return nil, fmt.Errorf("encoding h-gmlc-callBackUri: %w", tagErr_enc_hgmlccallbackuri)
+	}
+	enc_hgmlccallbackuri = retagged_enc_hgmlccallbackuri
+	children = append(children, enc_hgmlccallbackuri...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSCancelDeferredLocationArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSCancelDeferredLocationArg from BER/DER format.
 func (v *LCSCancelDeferredLocationArg) UnmarshalBER(data []byte) error {
+	*v = LCSCancelDeferredLocationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSCancelDeferredLocationArg SEQUENCE: %w", err)
@@ -9560,9 +13564,12 @@ func (v *LCSCancelDeferredLocationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for referenceNumberExt, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_referencenumberext, rawVal_referencenumberext, err := ber.DecodeTLV(content[offset:])
+	decodedTag_referencenumberext, n_referencenumberext, rawVal_referencenumberext, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding referenceNumberExt: %w", err)
+	}
+	if decodedTag_referencenumberext.Class != tag.ClassContextSpecific || decodedTag_referencenumberext.Number != 0 {
+		return fmt.Errorf("decoding referenceNumberExt: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumberext)
 	}
 	v.ReferenceNumberExt = LCSReferenceNumberExt(rawVal_referencenumberext)
 	offset += n_referencenumberext
@@ -9575,11 +13582,17 @@ func (v *LCSCancelDeferredLocationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for h-gmlc-callBackUri, got %s", "CONTEXT", 2, reqTag_)
 		}
 	}
-	_, n_hgmlccallbackuri, rawVal_hgmlccallbackuri, err := ber.DecodeTLV(content[offset:])
+	decodedTag_hgmlccallbackuri, n_hgmlccallbackuri, rawVal_hgmlccallbackuri, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", err)
 	}
-	decVal_hgmlccallbackuri := ber.DecodeStringValue(rawVal_hgmlccallbackuri)
+	if decodedTag_hgmlccallbackuri.Class != tag.ClassContextSpecific || decodedTag_hgmlccallbackuri.Number != 2 {
+		return fmt.Errorf("decoding h-gmlc-callBackUri: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlccallbackuri)
+	}
+	decVal_hgmlccallbackuri, stringErr := ber.DecodeImplicitStringValue(12, decodedTag_hgmlccallbackuri.Constructed, rawVal_hgmlccallbackuri)
+	if stringErr != nil {
+		return fmt.Errorf("decoding h-gmlc-callBackUri: %w", stringErr)
+	}
 	v.HGmlcCallBackUri = decVal_hgmlccallbackuri
 	offset += n_hgmlccallbackuri
 	v.ExtCount_ = 0
@@ -9602,24 +13615,40 @@ func (v *LCSCancelDeferredLocationArg) UnmarshalBER(data []byte) error {
 func (v *LCSLocationPrivacySettingArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_locationprivacyindication := ber.EncodeEnumerated(int64(v.LocationPrivacyIndication))
-	enc_locationprivacyindication = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_locationprivacyindication)
+	retagged_enc_locationprivacyindication, tagErr_enc_locationprivacyindication := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_locationprivacyindication)
+	if tagErr_enc_locationprivacyindication != nil {
+		return nil, fmt.Errorf("encoding locationPrivacyIndication: %w", tagErr_enc_locationprivacyindication)
+	}
+	enc_locationprivacyindication = retagged_enc_locationprivacyindication
 	children = append(children, enc_locationprivacyindication...)
 	if v.ValidTimePeriod != nil {
 		enc_validtimeperiod, err := v.ValidTimePeriod.MarshalBER()
 		if err != nil {
 			return nil, fmt.Errorf("encoding validTimePeriod: %w", err)
 		}
-		enc_validtimeperiod = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_validtimeperiod)
+		retagged_enc_validtimeperiod, tagErr_enc_validtimeperiod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_validtimeperiod)
+		if tagErr_enc_validtimeperiod != nil {
+			return nil, fmt.Errorf("encoding validTimePeriod: %w", tagErr_enc_validtimeperiod)
+		}
+		enc_validtimeperiod = retagged_enc_validtimeperiod
 		children = append(children, enc_validtimeperiod...)
 	}
 	if v.EventReportExpectedArea != nil {
 		enc_eventreportexpectedarea := ber.EncodeOctetString([]byte(*v.EventReportExpectedArea))
-		enc_eventreportexpectedarea = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_eventreportexpectedarea)
+		retagged_enc_eventreportexpectedarea, tagErr_enc_eventreportexpectedarea := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_eventreportexpectedarea)
+		if tagErr_enc_eventreportexpectedarea != nil {
+			return nil, fmt.Errorf("encoding eventReportExpectedArea: %w", tagErr_enc_eventreportexpectedarea)
+		}
+		enc_eventreportexpectedarea = retagged_enc_eventreportexpectedarea
 		children = append(children, enc_eventreportexpectedarea...)
 	}
 	if v.AreaUsageInd != nil {
 		enc_areausageind := ber.EncodeEnumerated(int64(*v.AreaUsageInd))
-		enc_areausageind = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_areausageind)
+		retagged_enc_areausageind, tagErr_enc_areausageind := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_areausageind)
+		if tagErr_enc_areausageind != nil {
+			return nil, fmt.Errorf("encoding areaUsageInd: %w", tagErr_enc_areausageind)
+		}
+		enc_areausageind = retagged_enc_areausageind
 		children = append(children, enc_areausageind...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -9637,17 +13666,60 @@ func (v *LCSLocationPrivacySettingArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSLocationPrivacySettingArg to DER format.
 func (v *LCSLocationPrivacySettingArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_locationprivacyindication := ber.EncodeEnumerated(int64(v.LocationPrivacyIndication))
+	retagged_enc_locationprivacyindication, tagErr_enc_locationprivacyindication := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_locationprivacyindication)
+	if tagErr_enc_locationprivacyindication != nil {
+		return nil, fmt.Errorf("encoding locationPrivacyIndication: %w", tagErr_enc_locationprivacyindication)
+	}
+	enc_locationprivacyindication = retagged_enc_locationprivacyindication
+	children = append(children, enc_locationprivacyindication...)
+	if v.ValidTimePeriod != nil {
+		enc_validtimeperiod, err := v.ValidTimePeriod.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding validTimePeriod: %w", err)
+		}
+		retagged_enc_validtimeperiod, tagErr_enc_validtimeperiod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_validtimeperiod)
+		if tagErr_enc_validtimeperiod != nil {
+			return nil, fmt.Errorf("encoding validTimePeriod: %w", tagErr_enc_validtimeperiod)
+		}
+		enc_validtimeperiod = retagged_enc_validtimeperiod
+		children = append(children, enc_validtimeperiod...)
+	}
+	if v.EventReportExpectedArea != nil {
+		enc_eventreportexpectedarea := ber.EncodeOctetString([]byte(*v.EventReportExpectedArea))
+		retagged_enc_eventreportexpectedarea, tagErr_enc_eventreportexpectedarea := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_eventreportexpectedarea)
+		if tagErr_enc_eventreportexpectedarea != nil {
+			return nil, fmt.Errorf("encoding eventReportExpectedArea: %w", tagErr_enc_eventreportexpectedarea)
+		}
+		enc_eventreportexpectedarea = retagged_enc_eventreportexpectedarea
+		children = append(children, enc_eventreportexpectedarea...)
+	}
+	if v.AreaUsageInd != nil {
+		enc_areausageind := ber.EncodeEnumerated(int64(*v.AreaUsageInd))
+		retagged_enc_areausageind, tagErr_enc_areausageind := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_areausageind)
+		if tagErr_enc_areausageind != nil {
+			return nil, fmt.Errorf("encoding areaUsageInd: %w", tagErr_enc_areausageind)
+		}
+		enc_areausageind = retagged_enc_areausageind
+		children = append(children, enc_areausageind...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSLocationPrivacySettingArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSLocationPrivacySettingArg from BER/DER format.
 func (v *LCSLocationPrivacySettingArg) UnmarshalBER(data []byte) error {
+	*v = LCSLocationPrivacySettingArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSLocationPrivacySettingArg SEQUENCE: %w", err)
@@ -9665,11 +13737,14 @@ func (v *LCSLocationPrivacySettingArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for locationPrivacyIndication, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_locationprivacyindication, rawVal_locationprivacyindication, err := ber.DecodeTLV(content[offset:])
+	decodedTag_locationprivacyindication, n_locationprivacyindication, rawVal_locationprivacyindication, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding locationPrivacyIndication: %w", err)
 	}
-	decVal_locationprivacyindication, intErr := ber.DecodeIntegerValue(rawVal_locationprivacyindication)
+	if decodedTag_locationprivacyindication.Class != tag.ClassContextSpecific || decodedTag_locationprivacyindication.Number != 0 || decodedTag_locationprivacyindication.Constructed != false {
+		return fmt.Errorf("decoding locationPrivacyIndication: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationprivacyindication)
+	}
+	decVal_locationprivacyindication, intErr := ber.DecodeEnumeratedValue(rawVal_locationprivacyindication)
 	if intErr != nil {
 		return fmt.Errorf("decoding locationPrivacyIndication: %w", intErr)
 	}
@@ -9680,9 +13755,12 @@ func (v *LCSLocationPrivacySettingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_validtimeperiod, rawVal_validtimeperiod, err := ber.DecodeTLV(content[offset:])
+				decodedTag_validtimeperiod, n_validtimeperiod, rawVal_validtimeperiod, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding validTimePeriod: %w", err)
+				}
+				if decodedTag_validtimeperiod.Class != tag.ClassContextSpecific || decodedTag_validtimeperiod.Number != 1 || decodedTag_validtimeperiod.Constructed != true {
+					return fmt.Errorf("decoding validTimePeriod: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_validtimeperiod)
 				}
 				reconstructed_validtimeperiod := ber.EncodeSequence(rawVal_validtimeperiod)
 				var dec_validtimeperiod LCSValidTimePeriod
@@ -9699,9 +13777,12 @@ func (v *LCSLocationPrivacySettingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_eventreportexpectedarea, rawVal_eventreportexpectedarea, err := ber.DecodeTLV(content[offset:])
+				decodedTag_eventreportexpectedarea, n_eventreportexpectedarea, rawVal_eventreportexpectedarea, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding eventReportExpectedArea: %w", err)
+				}
+				if decodedTag_eventreportexpectedarea.Class != tag.ClassContextSpecific || decodedTag_eventreportexpectedarea.Number != 2 {
+					return fmt.Errorf("decoding eventReportExpectedArea: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventreportexpectedarea)
 				}
 				tmp_eventreportexpectedarea := ExtGeographicalInformation(rawVal_eventreportexpectedarea)
 				v.EventReportExpectedArea = &tmp_eventreportexpectedarea
@@ -9714,11 +13795,14 @@ func (v *LCSLocationPrivacySettingArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_areausageind, rawVal_areausageind, err := ber.DecodeTLV(content[offset:])
+				decodedTag_areausageind, n_areausageind, rawVal_areausageind, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding areaUsageInd: %w", err)
 				}
-				decVal_areausageind, intErr := ber.DecodeIntegerValue(rawVal_areausageind)
+				if decodedTag_areausageind.Class != tag.ClassContextSpecific || decodedTag_areausageind.Number != 3 || decodedTag_areausageind.Constructed != false {
+					return fmt.Errorf("decoding areaUsageInd: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_areausageind)
+				}
+				decVal_areausageind, intErr := ber.DecodeEnumeratedValue(rawVal_areausageind)
 				if intErr != nil {
 					return fmt.Errorf("decoding areaUsageInd: %w", intErr)
 				}
@@ -9749,12 +13833,20 @@ func (v *LCSValidTimePeriod) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.StartTime != nil {
 		enc_starttime := ber.EncodeOctetString([]byte(*v.StartTime))
-		enc_starttime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_starttime)
+		retagged_enc_starttime, tagErr_enc_starttime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_starttime)
+		if tagErr_enc_starttime != nil {
+			return nil, fmt.Errorf("encoding startTime: %w", tagErr_enc_starttime)
+		}
+		enc_starttime = retagged_enc_starttime
 		children = append(children, enc_starttime...)
 	}
 	if v.EndTime != nil {
 		enc_endtime := ber.EncodeOctetString([]byte(*v.EndTime))
-		enc_endtime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_endtime)
+		retagged_enc_endtime, tagErr_enc_endtime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_endtime)
+		if tagErr_enc_endtime != nil {
+			return nil, fmt.Errorf("encoding endTime: %w", tagErr_enc_endtime)
+		}
+		enc_endtime = retagged_enc_endtime
 		children = append(children, enc_endtime...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -9772,17 +13864,41 @@ func (v *LCSValidTimePeriod) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSValidTimePeriod to DER format.
 func (v *LCSValidTimePeriod) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.StartTime != nil {
+		enc_starttime := ber.EncodeOctetString([]byte(*v.StartTime))
+		retagged_enc_starttime, tagErr_enc_starttime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_starttime)
+		if tagErr_enc_starttime != nil {
+			return nil, fmt.Errorf("encoding startTime: %w", tagErr_enc_starttime)
+		}
+		enc_starttime = retagged_enc_starttime
+		children = append(children, enc_starttime...)
+	}
+	if v.EndTime != nil {
+		enc_endtime := ber.EncodeOctetString([]byte(*v.EndTime))
+		retagged_enc_endtime, tagErr_enc_endtime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_endtime)
+		if tagErr_enc_endtime != nil {
+			return nil, fmt.Errorf("encoding endTime: %w", tagErr_enc_endtime)
+		}
+		enc_endtime = retagged_enc_endtime
+		children = append(children, enc_endtime...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSValidTimePeriod as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSValidTimePeriod from BER/DER format.
 func (v *LCSValidTimePeriod) UnmarshalBER(data []byte) error {
+	*v = LCSValidTimePeriod{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSValidTimePeriod SEQUENCE: %w", err)
@@ -9796,9 +13912,12 @@ func (v *LCSValidTimePeriod) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_starttime, rawVal_starttime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_starttime, n_starttime, rawVal_starttime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding startTime: %w", err)
+				}
+				if decodedTag_starttime.Class != tag.ClassContextSpecific || decodedTag_starttime.Number != 0 {
+					return fmt.Errorf("decoding startTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_starttime)
 				}
 				tmp_starttime := DateTime(rawVal_starttime)
 				v.StartTime = &tmp_starttime
@@ -9811,9 +13930,12 @@ func (v *LCSValidTimePeriod) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_endtime, rawVal_endtime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_endtime, n_endtime, rawVal_endtime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding endTime: %w", err)
+				}
+				if decodedTag_endtime.Class != tag.ClassContextSpecific || decodedTag_endtime.Number != 1 {
+					return fmt.Errorf("decoding endTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_endtime)
 				}
 				tmp_endtime := DateTime(rawVal_endtime)
 				v.EndTime = &tmp_endtime
@@ -9841,19 +13963,35 @@ func (v *LCSValidTimePeriod) UnmarshalBER(data []byte) error {
 func (v *LCSPruAssociationArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_associationtype := ber.EncodeEnumerated(int64(v.AssociationType))
-	enc_associationtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_associationtype)
+	retagged_enc_associationtype, tagErr_enc_associationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_associationtype)
+	if tagErr_enc_associationtype != nil {
+		return nil, fmt.Errorf("encoding associationType: %w", tagErr_enc_associationtype)
+	}
+	enc_associationtype = retagged_enc_associationtype
 	children = append(children, enc_associationtype...)
 	enc_positioningcapabilities := ber.EncodeOctetString(v.PositioningCapabilities)
-	enc_positioningcapabilities = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_positioningcapabilities)
+	retagged_enc_positioningcapabilities, tagErr_enc_positioningcapabilities := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_positioningcapabilities)
+	if tagErr_enc_positioningcapabilities != nil {
+		return nil, fmt.Errorf("encoding positioningCapabilities: %w", tagErr_enc_positioningcapabilities)
+	}
+	enc_positioningcapabilities = retagged_enc_positioningcapabilities
 	children = append(children, enc_positioningcapabilities...)
 	if v.LocationOfPru != nil {
 		enc_locationofpru := ber.EncodeOctetString([]byte(*v.LocationOfPru))
-		enc_locationofpru = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_locationofpru)
+		retagged_enc_locationofpru, tagErr_enc_locationofpru := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_locationofpru)
+		if tagErr_enc_locationofpru != nil {
+			return nil, fmt.Errorf("encoding locationOfPru: %w", tagErr_enc_locationofpru)
+		}
+		enc_locationofpru = retagged_enc_locationofpru
 		children = append(children, enc_locationofpru...)
 	}
 	if v.StateOfPru != nil {
 		enc_stateofpru := ber.EncodeEnumerated(int64(*v.StateOfPru))
-		enc_stateofpru = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_stateofpru)
+		retagged_enc_stateofpru, tagErr_enc_stateofpru := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_stateofpru)
+		if tagErr_enc_stateofpru != nil {
+			return nil, fmt.Errorf("encoding stateOfPru: %w", tagErr_enc_stateofpru)
+		}
+		enc_stateofpru = retagged_enc_stateofpru
 		children = append(children, enc_stateofpru...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -9871,17 +14009,55 @@ func (v *LCSPruAssociationArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPruAssociationArg to DER format.
 func (v *LCSPruAssociationArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_associationtype := ber.EncodeEnumerated(int64(v.AssociationType))
+	retagged_enc_associationtype, tagErr_enc_associationtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_associationtype)
+	if tagErr_enc_associationtype != nil {
+		return nil, fmt.Errorf("encoding associationType: %w", tagErr_enc_associationtype)
+	}
+	enc_associationtype = retagged_enc_associationtype
+	children = append(children, enc_associationtype...)
+	enc_positioningcapabilities := ber.EncodeOctetString(v.PositioningCapabilities)
+	retagged_enc_positioningcapabilities, tagErr_enc_positioningcapabilities := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_positioningcapabilities)
+	if tagErr_enc_positioningcapabilities != nil {
+		return nil, fmt.Errorf("encoding positioningCapabilities: %w", tagErr_enc_positioningcapabilities)
+	}
+	enc_positioningcapabilities = retagged_enc_positioningcapabilities
+	children = append(children, enc_positioningcapabilities...)
+	if v.LocationOfPru != nil {
+		enc_locationofpru := ber.EncodeOctetString([]byte(*v.LocationOfPru))
+		retagged_enc_locationofpru, tagErr_enc_locationofpru := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_locationofpru)
+		if tagErr_enc_locationofpru != nil {
+			return nil, fmt.Errorf("encoding locationOfPru: %w", tagErr_enc_locationofpru)
+		}
+		enc_locationofpru = retagged_enc_locationofpru
+		children = append(children, enc_locationofpru...)
+	}
+	if v.StateOfPru != nil {
+		enc_stateofpru := ber.EncodeEnumerated(int64(*v.StateOfPru))
+		retagged_enc_stateofpru, tagErr_enc_stateofpru := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_stateofpru)
+		if tagErr_enc_stateofpru != nil {
+			return nil, fmt.Errorf("encoding stateOfPru: %w", tagErr_enc_stateofpru)
+		}
+		enc_stateofpru = retagged_enc_stateofpru
+		children = append(children, enc_stateofpru...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPruAssociationArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPruAssociationArg from BER/DER format.
 func (v *LCSPruAssociationArg) UnmarshalBER(data []byte) error {
+	*v = LCSPruAssociationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPruAssociationArg SEQUENCE: %w", err)
@@ -9899,11 +14075,14 @@ func (v *LCSPruAssociationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for associationType, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_associationtype, rawVal_associationtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_associationtype, n_associationtype, rawVal_associationtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding associationType: %w", err)
 	}
-	decVal_associationtype, intErr := ber.DecodeIntegerValue(rawVal_associationtype)
+	if decodedTag_associationtype.Class != tag.ClassContextSpecific || decodedTag_associationtype.Number != 0 || decodedTag_associationtype.Constructed != false {
+		return fmt.Errorf("decoding associationType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_associationtype)
+	}
+	decVal_associationtype, intErr := ber.DecodeEnumeratedValue(rawVal_associationtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding associationType: %w", intErr)
 	}
@@ -9918,9 +14097,12 @@ func (v *LCSPruAssociationArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for positioningCapabilities, got %s", "CONTEXT", 1, reqTag_)
 		}
 	}
-	_, n_positioningcapabilities, rawVal_positioningcapabilities, err := ber.DecodeTLV(content[offset:])
+	decodedTag_positioningcapabilities, n_positioningcapabilities, rawVal_positioningcapabilities, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding positioningCapabilities: %w", err)
+	}
+	if decodedTag_positioningcapabilities.Class != tag.ClassContextSpecific || decodedTag_positioningcapabilities.Number != 1 {
+		return fmt.Errorf("decoding positioningCapabilities: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_positioningcapabilities)
 	}
 	v.PositioningCapabilities = rawVal_positioningcapabilities
 	offset += n_positioningcapabilities
@@ -9929,9 +14111,12 @@ func (v *LCSPruAssociationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_locationofpru, rawVal_locationofpru, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locationofpru, n_locationofpru, rawVal_locationofpru, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locationOfPru: %w", err)
+				}
+				if decodedTag_locationofpru.Class != tag.ClassContextSpecific || decodedTag_locationofpru.Number != 2 {
+					return fmt.Errorf("decoding locationOfPru: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationofpru)
 				}
 				tmp_locationofpru := ExtGeographicalInformation(rawVal_locationofpru)
 				v.LocationOfPru = &tmp_locationofpru
@@ -9944,11 +14129,14 @@ func (v *LCSPruAssociationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_stateofpru, rawVal_stateofpru, err := ber.DecodeTLV(content[offset:])
+				decodedTag_stateofpru, n_stateofpru, rawVal_stateofpru, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding stateOfPru: %w", err)
 				}
-				decVal_stateofpru, intErr := ber.DecodeIntegerValue(rawVal_stateofpru)
+				if decodedTag_stateofpru.Class != tag.ClassContextSpecific || decodedTag_stateofpru.Number != 3 || decodedTag_stateofpru.Constructed != false {
+					return fmt.Errorf("decoding stateOfPru: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_stateofpru)
+				}
+				decVal_stateofpru, intErr := ber.DecodeEnumeratedValue(rawVal_stateofpru)
 				if intErr != nil {
 					return fmt.Errorf("decoding stateOfPru: %w", intErr)
 				}
@@ -9979,12 +14167,20 @@ func (v *LCSPruAssociationRes) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.PeriodicUpdateTimer != nil {
 		enc_periodicupdatetimer := ber.EncodeInteger(int64(*v.PeriodicUpdateTimer))
-		enc_periodicupdatetimer = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_periodicupdatetimer)
+		retagged_enc_periodicupdatetimer, tagErr_enc_periodicupdatetimer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_periodicupdatetimer)
+		if tagErr_enc_periodicupdatetimer != nil {
+			return nil, fmt.Errorf("encoding periodicUpdateTimer: %w", tagErr_enc_periodicupdatetimer)
+		}
+		enc_periodicupdatetimer = retagged_enc_periodicupdatetimer
 		children = append(children, enc_periodicupdatetimer...)
 	}
 	if v.UpdateTrigger != nil {
 		enc_updatetrigger := ber.EncodeBitString(v.UpdateTrigger.Bytes, (8-(v.UpdateTrigger.BitLength%8))%8)
-		enc_updatetrigger = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_updatetrigger)
+		retagged_enc_updatetrigger, tagErr_enc_updatetrigger := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_updatetrigger)
+		if tagErr_enc_updatetrigger != nil {
+			return nil, fmt.Errorf("encoding updateTrigger: %w", tagErr_enc_updatetrigger)
+		}
+		enc_updatetrigger = retagged_enc_updatetrigger
 		children = append(children, enc_updatetrigger...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -10002,17 +14198,41 @@ func (v *LCSPruAssociationRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPruAssociationRes to DER format.
 func (v *LCSPruAssociationRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.PeriodicUpdateTimer != nil {
+		enc_periodicupdatetimer := ber.EncodeInteger(int64(*v.PeriodicUpdateTimer))
+		retagged_enc_periodicupdatetimer, tagErr_enc_periodicupdatetimer := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_periodicupdatetimer)
+		if tagErr_enc_periodicupdatetimer != nil {
+			return nil, fmt.Errorf("encoding periodicUpdateTimer: %w", tagErr_enc_periodicupdatetimer)
+		}
+		enc_periodicupdatetimer = retagged_enc_periodicupdatetimer
+		children = append(children, enc_periodicupdatetimer...)
+	}
+	if v.UpdateTrigger != nil {
+		enc_updatetrigger := ber.EncodeBitString(v.UpdateTrigger.Bytes, (8-(v.UpdateTrigger.BitLength%8))%8)
+		retagged_enc_updatetrigger, tagErr_enc_updatetrigger := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_updatetrigger)
+		if tagErr_enc_updatetrigger != nil {
+			return nil, fmt.Errorf("encoding updateTrigger: %w", tagErr_enc_updatetrigger)
+		}
+		enc_updatetrigger = retagged_enc_updatetrigger
+		children = append(children, enc_updatetrigger...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPruAssociationRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPruAssociationRes from BER/DER format.
 func (v *LCSPruAssociationRes) UnmarshalBER(data []byte) error {
+	*v = LCSPruAssociationRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPruAssociationRes SEQUENCE: %w", err)
@@ -10026,9 +14246,12 @@ func (v *LCSPruAssociationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_periodicupdatetimer, rawVal_periodicupdatetimer, err := ber.DecodeTLV(content[offset:])
+				decodedTag_periodicupdatetimer, n_periodicupdatetimer, rawVal_periodicupdatetimer, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding periodicUpdateTimer: %w", err)
+				}
+				if decodedTag_periodicupdatetimer.Class != tag.ClassContextSpecific || decodedTag_periodicupdatetimer.Number != 0 || decodedTag_periodicupdatetimer.Constructed != false {
+					return fmt.Errorf("decoding periodicUpdateTimer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_periodicupdatetimer)
 				}
 				decVal_periodicupdatetimer, intErr := ber.DecodeIntegerValue(rawVal_periodicupdatetimer)
 				if intErr != nil {
@@ -10045,11 +14268,14 @@ func (v *LCSPruAssociationRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_updatetrigger, rawVal_updatetrigger, err := ber.DecodeTLV(content[offset:])
+				decodedTag_updatetrigger, n_updatetrigger, rawVal_updatetrigger, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding updateTrigger: %w", err)
 				}
-				bsBytes_updatetrigger, bsUnused_updatetrigger, bsErr := ber.DecodeBitStringValue(rawVal_updatetrigger)
+				if decodedTag_updatetrigger.Class != tag.ClassContextSpecific || decodedTag_updatetrigger.Number != 1 {
+					return fmt.Errorf("decoding updateTrigger: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_updatetrigger)
+				}
+				bsBytes_updatetrigger, bsUnused_updatetrigger, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_updatetrigger.Constructed, rawVal_updatetrigger)
 				if bsErr != nil {
 					return fmt.Errorf("decoding updateTrigger: %w", bsErr)
 				}
@@ -10085,12 +14311,20 @@ func (v *LCSPruDisassociationArg) MarshalBER() ([]byte, error) {
 		} else {
 			enc_ackindication = ber.EncodeBoolean(*v.AckIndication)
 		}
-		enc_ackindication = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_ackindication)
+		retagged_enc_ackindication, tagErr_enc_ackindication := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ackindication)
+		if tagErr_enc_ackindication != nil {
+			return nil, fmt.Errorf("encoding ackIndication: %w", tagErr_enc_ackindication)
+		}
+		enc_ackindication = retagged_enc_ackindication
 		children = append(children, enc_ackindication...)
 	}
 	if v.NewLmfRoutingId != nil {
 		enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
-		enc_newlmfroutingid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_newlmfroutingid)
+		retagged_enc_newlmfroutingid, tagErr_enc_newlmfroutingid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_newlmfroutingid)
+		if tagErr_enc_newlmfroutingid != nil {
+			return nil, fmt.Errorf("encoding newLmfRoutingId: %w", tagErr_enc_newlmfroutingid)
+		}
+		enc_newlmfroutingid = retagged_enc_newlmfroutingid
 		children = append(children, enc_newlmfroutingid...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -10108,17 +14342,41 @@ func (v *LCSPruDisassociationArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSPruDisassociationArg to DER format.
 func (v *LCSPruDisassociationArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.AckIndication != nil {
+		enc_ackindication := ber.EncodeBoolean(*v.AckIndication)
+		retagged_enc_ackindication, tagErr_enc_ackindication := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_ackindication)
+		if tagErr_enc_ackindication != nil {
+			return nil, fmt.Errorf("encoding ackIndication: %w", tagErr_enc_ackindication)
+		}
+		enc_ackindication = retagged_enc_ackindication
+		children = append(children, enc_ackindication...)
+	}
+	if v.NewLmfRoutingId != nil {
+		enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
+		retagged_enc_newlmfroutingid, tagErr_enc_newlmfroutingid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_newlmfroutingid)
+		if tagErr_enc_newlmfroutingid != nil {
+			return nil, fmt.Errorf("encoding newLmfRoutingId: %w", tagErr_enc_newlmfroutingid)
+		}
+		enc_newlmfroutingid = retagged_enc_newlmfroutingid
+		children = append(children, enc_newlmfroutingid...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSPruDisassociationArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSPruDisassociationArg from BER/DER format.
 func (v *LCSPruDisassociationArg) UnmarshalBER(data []byte) error {
+	*v = LCSPruDisassociationArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSPruDisassociationArg SEQUENCE: %w", err)
@@ -10132,9 +14390,12 @@ func (v *LCSPruDisassociationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_ackindication, rawVal_ackindication, err := ber.DecodeTLV(content[offset:])
+				decodedTag_ackindication, n_ackindication, rawVal_ackindication, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ackIndication: %w", err)
+				}
+				if decodedTag_ackindication.Class != tag.ClassContextSpecific || decodedTag_ackindication.Number != 0 || decodedTag_ackindication.Constructed != false {
+					return fmt.Errorf("decoding ackIndication: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ackindication)
 				}
 				decVal_ackindication, boolErr := ber.DecodeBooleanValue(rawVal_ackindication)
 				if boolErr != nil {
@@ -10153,9 +14414,12 @@ func (v *LCSPruDisassociationArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_newlmfroutingid, rawVal_newlmfroutingid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newlmfroutingid, n_newlmfroutingid, rawVal_newlmfroutingid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding newLmfRoutingId: %w", err)
+				}
+				if decodedTag_newlmfroutingid.Class != tag.ClassContextSpecific || decodedTag_newlmfroutingid.Number != 1 {
+					return fmt.Errorf("decoding newLmfRoutingId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid)
 				}
 				tmp_newlmfroutingid := rawVal_newlmfroutingid
 				v.NewLmfRoutingId = tmp_newlmfroutingid
@@ -10183,11 +14447,19 @@ func (v *LCSPruDisassociationArg) UnmarshalBER(data []byte) error {
 func (v *LCSSLMTLRArg) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_slmtlrtype := ber.EncodeEnumerated(int64(v.SlmtlrType))
-	enc_slmtlrtype = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_slmtlrtype)
+	retagged_enc_slmtlrtype, tagErr_enc_slmtlrtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_slmtlrtype)
+	if tagErr_enc_slmtlrtype != nil {
+		return nil, fmt.Errorf("encoding slmtlr-Type: %w", tagErr_enc_slmtlrtype)
+	}
+	enc_slmtlrtype = retagged_enc_slmtlrtype
 	children = append(children, enc_slmtlrtype...)
 	if v.SupportedGADShapes != nil {
 		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
-		enc_supportedgadshapes = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_supportedgadshapes)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
 		children = append(children, enc_supportedgadshapes...)
 	}
 	if v.RelatedUEInfo != nil {
@@ -10203,18 +14475,30 @@ func (v *LCSSLMTLRArg) MarshalBER() ([]byte, error) {
 			}
 			enc_relatedueinfo = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, seqContent_)
 		} else {
-			enc_relatedueinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, true, enc_relatedueinfo)
+			retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_relatedueinfo)
+			if tagErr_enc_relatedueinfo != nil {
+				return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+			}
+			enc_relatedueinfo = retagged_enc_relatedueinfo
 		}
 		children = append(children, enc_relatedueinfo...)
 	}
 	if v.LocatedUEselect != nil {
 		enc_locatedueselect := ber.EncodeEnumerated(int64(*v.LocatedUEselect))
-		enc_locatedueselect = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, false, enc_locatedueselect)
+		retagged_enc_locatedueselect, tagErr_enc_locatedueselect := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_locatedueselect)
+		if tagErr_enc_locatedueselect != nil {
+			return nil, fmt.Errorf("encoding locatedUEselect: %w", tagErr_enc_locatedueselect)
+		}
+		enc_locatedueselect = retagged_enc_locatedueselect
 		children = append(children, enc_locatedueselect...)
 	}
 	if v.CoordinateID != nil {
 		enc_coordinateid := ber.EncodeInteger(int64(*v.CoordinateID))
-		enc_coordinateid = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, false, enc_coordinateid)
+		retagged_enc_coordinateid, tagErr_enc_coordinateid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_coordinateid)
+		if tagErr_enc_coordinateid != nil {
+			return nil, fmt.Errorf("encoding coordinateID: %w", tagErr_enc_coordinateid)
+		}
+		enc_coordinateid = retagged_enc_coordinateid
 		children = append(children, enc_coordinateid...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -10232,20 +14516,69 @@ func (v *LCSSLMTLRArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSSLMTLRArg to DER format.
 func (v *LCSSLMTLRArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_slmtlrtype := ber.EncodeEnumerated(int64(v.SlmtlrType))
+	retagged_enc_slmtlrtype, tagErr_enc_slmtlrtype := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_slmtlrtype)
+	if tagErr_enc_slmtlrtype != nil {
+		return nil, fmt.Errorf("encoding slmtlr-Type: %w", tagErr_enc_slmtlrtype)
+	}
+	enc_slmtlrtype = retagged_enc_slmtlrtype
+	children = append(children, enc_slmtlrtype...)
+	if v.SupportedGADShapes != nil {
+		enc_supportedgadshapes := ber.EncodeBitString(v.SupportedGADShapes.Bytes, (8-(v.SupportedGADShapes.BitLength%8))%8)
+		retagged_enc_supportedgadshapes, tagErr_enc_supportedgadshapes := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_supportedgadshapes)
+		if tagErr_enc_supportedgadshapes != nil {
+			return nil, fmt.Errorf("encoding supportedGADShapes: %w", tagErr_enc_supportedgadshapes)
+		}
+		enc_supportedgadshapes = retagged_enc_supportedgadshapes
+		children = append(children, enc_supportedgadshapes...)
+	}
+	if v.RelatedUEInfo != nil {
+		enc_relatedueinfo, err := MarshalDERRelatedUEInfo(v.RelatedUEInfo)
+		if err != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", err)
+		}
+		retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_relatedueinfo)
+		if tagErr_enc_relatedueinfo != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+		}
+		enc_relatedueinfo = retagged_enc_relatedueinfo
+		children = append(children, enc_relatedueinfo...)
+	}
+	if v.LocatedUEselect != nil {
+		enc_locatedueselect := ber.EncodeEnumerated(int64(*v.LocatedUEselect))
+		retagged_enc_locatedueselect, tagErr_enc_locatedueselect := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_locatedueselect)
+		if tagErr_enc_locatedueselect != nil {
+			return nil, fmt.Errorf("encoding locatedUEselect: %w", tagErr_enc_locatedueselect)
+		}
+		enc_locatedueselect = retagged_enc_locatedueselect
+		children = append(children, enc_locatedueselect...)
+	}
+	if v.CoordinateID != nil {
+		enc_coordinateid := ber.EncodeInteger(int64(*v.CoordinateID))
+		retagged_enc_coordinateid, tagErr_enc_coordinateid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_coordinateid)
+		if tagErr_enc_coordinateid != nil {
+			return nil, fmt.Errorf("encoding coordinateID: %w", tagErr_enc_coordinateid)
+		}
+		enc_coordinateid = retagged_enc_coordinateid
+		children = append(children, enc_coordinateid...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.RelatedUEInfoIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSSLMTLRArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSSLMTLRArg from BER/DER format.
 func (v *LCSSLMTLRArg) UnmarshalBER(data []byte) error {
+	*v = LCSSLMTLRArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSSLMTLRArg SEQUENCE: %w", err)
@@ -10263,11 +14596,14 @@ func (v *LCSSLMTLRArg) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for slmtlr-Type, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_slmtlrtype, rawVal_slmtlrtype, err := ber.DecodeTLV(content[offset:])
+	decodedTag_slmtlrtype, n_slmtlrtype, rawVal_slmtlrtype, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding slmtlr-Type: %w", err)
 	}
-	decVal_slmtlrtype, intErr := ber.DecodeIntegerValue(rawVal_slmtlrtype)
+	if decodedTag_slmtlrtype.Class != tag.ClassContextSpecific || decodedTag_slmtlrtype.Number != 0 || decodedTag_slmtlrtype.Constructed != false {
+		return fmt.Errorf("decoding slmtlr-Type: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_slmtlrtype)
+	}
+	decVal_slmtlrtype, intErr := ber.DecodeEnumeratedValue(rawVal_slmtlrtype)
 	if intErr != nil {
 		return fmt.Errorf("decoding slmtlr-Type: %w", intErr)
 	}
@@ -10278,11 +14614,14 @@ func (v *LCSSLMTLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
+				decodedTag_supportedgadshapes, n_supportedgadshapes, rawVal_supportedgadshapes, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", err)
 				}
-				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeBitStringValue(rawVal_supportedgadshapes)
+				if decodedTag_supportedgadshapes.Class != tag.ClassContextSpecific || decodedTag_supportedgadshapes.Number != 1 {
+					return fmt.Errorf("decoding supportedGADShapes: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_supportedgadshapes)
+				}
+				bsBytes_supportedgadshapes, bsUnused_supportedgadshapes, bsErr := ber.DecodeImplicitBitStringValue(decodedTag_supportedgadshapes.Constructed, rawVal_supportedgadshapes)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", bsErr)
 				}
@@ -10298,9 +14637,12 @@ func (v *LCSSLMTLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relatedueinfo, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relatedUEInfo: %w", err)
+				}
+				if decodedTag_relatedueinfo.Class != tag.ClassContextSpecific || decodedTag_relatedueinfo.Number != 2 || decodedTag_relatedueinfo.Constructed != true {
+					return fmt.Errorf("decoding relatedUEInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relatedueinfo)
 				}
 				reconstructed_relatedueinfo := ber.EncodeSequence(rawVal_relatedueinfo)
 				dec_relatedueinfo, unmErr := UnmarshalBERRelatedUEInfo(reconstructed_relatedueinfo)
@@ -10323,11 +14665,14 @@ func (v *LCSSLMTLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_locatedueselect, rawVal_locatedueselect, err := ber.DecodeTLV(content[offset:])
+				decodedTag_locatedueselect, n_locatedueselect, rawVal_locatedueselect, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding locatedUEselect: %w", err)
 				}
-				decVal_locatedueselect, intErr := ber.DecodeIntegerValue(rawVal_locatedueselect)
+				if decodedTag_locatedueselect.Class != tag.ClassContextSpecific || decodedTag_locatedueselect.Number != 3 || decodedTag_locatedueselect.Constructed != false {
+					return fmt.Errorf("decoding locatedUEselect: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locatedueselect)
+				}
+				decVal_locatedueselect, intErr := ber.DecodeEnumeratedValue(rawVal_locatedueselect)
 				if intErr != nil {
 					return fmt.Errorf("decoding locatedUEselect: %w", intErr)
 				}
@@ -10342,9 +14687,12 @@ func (v *LCSSLMTLRArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
-				_, n_coordinateid, rawVal_coordinateid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_coordinateid, n_coordinateid, rawVal_coordinateid, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding coordinateID: %w", err)
+				}
+				if decodedTag_coordinateid.Class != tag.ClassContextSpecific || decodedTag_coordinateid.Number != 4 || decodedTag_coordinateid.Constructed != false {
+					return fmt.Errorf("decoding coordinateID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_coordinateid)
 				}
 				decVal_coordinateid, intErr := ber.DecodeIntegerValue(rawVal_coordinateid)
 				if intErr != nil {
@@ -10387,7 +14735,11 @@ func (v *LCSSLMTLRRes) MarshalBER() ([]byte, error) {
 		}
 		enc_relatedueinfo = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 	} else {
-		enc_relatedueinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_relatedueinfo)
+		retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_relatedueinfo)
+		if tagErr_enc_relatedueinfo != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+		}
+		enc_relatedueinfo = retagged_enc_relatedueinfo
 	}
 	children = append(children, enc_relatedueinfo...)
 	if v.RangingSLPPList != nil {
@@ -10403,7 +14755,11 @@ func (v *LCSSLMTLRRes) MarshalBER() ([]byte, error) {
 			}
 			enc_rangingslpplist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
 		} else {
-			enc_rangingslpplist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, true, enc_rangingslpplist)
+			retagged_enc_rangingslpplist, tagErr_enc_rangingslpplist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_rangingslpplist)
+			if tagErr_enc_rangingslpplist != nil {
+				return nil, fmt.Errorf("encoding rangingSLPPList: %w", tagErr_enc_rangingslpplist)
+			}
+			enc_rangingslpplist = retagged_enc_rangingslpplist
 		}
 		children = append(children, enc_rangingslpplist...)
 	}
@@ -10422,21 +14778,45 @@ func (v *LCSSLMTLRRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSSLMTLRRes to DER format.
 func (v *LCSSLMTLRRes) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_relatedueinfo, err := MarshalDERRelatedUEInfo(v.RelatedUEInfo)
+	if err != nil {
+		return nil, fmt.Errorf("encoding relatedUEInfo: %w", err)
+	}
+	retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_relatedueinfo)
+	if tagErr_enc_relatedueinfo != nil {
+		return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+	}
+	enc_relatedueinfo = retagged_enc_relatedueinfo
+	children = append(children, enc_relatedueinfo...)
+	if v.RangingSLPPList != nil {
+		enc_rangingslpplist, err := MarshalDERRangingSLPPList(v.RangingSLPPList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding rangingSLPPList: %w", err)
+		}
+		retagged_enc_rangingslpplist, tagErr_enc_rangingslpplist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_rangingslpplist)
+		if tagErr_enc_rangingslpplist != nil {
+			return nil, fmt.Errorf("encoding rangingSLPPList: %w", tagErr_enc_rangingslpplist)
+		}
+		enc_rangingslpplist = retagged_enc_rangingslpplist
+		children = append(children, enc_rangingslpplist...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.RelatedUEInfoIndef_ = false
-	derValue.RangingSLPPListIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSSLMTLRRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSSLMTLRRes from BER/DER format.
 func (v *LCSSLMTLRRes) UnmarshalBER(data []byte) error {
+	*v = LCSSLMTLRRes{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSSLMTLRRes SEQUENCE: %w", err)
@@ -10455,9 +14835,12 @@ func (v *LCSSLMTLRRes) UnmarshalBER(data []byte) error {
 		}
 	}
 	v.RelatedUEInfoIndef_ = false
-	_, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
+	decodedTag_relatedueinfo, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding relatedUEInfo: %w", err)
+	}
+	if decodedTag_relatedueinfo.Class != tag.ClassContextSpecific || decodedTag_relatedueinfo.Number != 0 || decodedTag_relatedueinfo.Constructed != true {
+		return fmt.Errorf("decoding relatedUEInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relatedueinfo)
 	}
 	reconstructed_relatedueinfo := ber.EncodeSequence(rawVal_relatedueinfo)
 	dec_relatedueinfo, unmErr := UnmarshalBERRelatedUEInfo(reconstructed_relatedueinfo)
@@ -10478,9 +14861,12 @@ func (v *LCSSLMTLRRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_rangingslpplist, rawVal_rangingslpplist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rangingslpplist, n_rangingslpplist, rawVal_rangingslpplist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rangingSLPPList: %w", err)
+				}
+				if decodedTag_rangingslpplist.Class != tag.ClassContextSpecific || decodedTag_rangingslpplist.Number != 1 || decodedTag_rangingslpplist.Constructed != true {
+					return fmt.Errorf("decoding rangingSLPPList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangingslpplist)
 				}
 				reconstructed_rangingslpplist := ber.EncodeSequence(rawVal_rangingslpplist)
 				dec_rangingslpplist, unmErr := UnmarshalBERRangingSLPPList(reconstructed_rangingslpplist)
@@ -10527,6 +14913,23 @@ func MarshalBERRangingSLPPList(list RangingSLPPList) ([]byte, error) {
 	return ber.EncodeSequence(children), nil
 }
 
+// MarshalDERRangingSLPPList encodes a RangingSLPPList list to DER.
+func MarshalDERRangingSLPPList(list RangingSLPPList) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RangingSLPPList as DER: %w", err)
+	}
+	return encoded, nil
+}
+
 // UnmarshalBERRangingSLPPList decodes a RangingSLPPList list from BER.
 func UnmarshalBERRangingSLPPList(data []byte) (RangingSLPPList, error) {
 	content, total, err := ber.DecodeSequenceContent(data)
@@ -10557,11 +14960,19 @@ func UnmarshalBERRangingSLPPList(data []byte) (RangingSLPPList, error) {
 func (v *RangingSLPPInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_slppmsg := ber.EncodeOctetString([]byte(v.SLPPMsg))
-	enc_slppmsg = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, false, enc_slppmsg)
+	retagged_enc_slppmsg, tagErr_enc_slppmsg := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_slppmsg)
+	if tagErr_enc_slppmsg != nil {
+		return nil, fmt.Errorf("encoding sLPPMsg: %w", tagErr_enc_slppmsg)
+	}
+	enc_slppmsg = retagged_enc_slppmsg
 	children = append(children, enc_slppmsg...)
 	if v.RelatedUE != nil {
 		enc_relatedue := ber.EncodeOctetString(v.RelatedUE)
-		enc_relatedue = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_relatedue)
+		retagged_enc_relatedue, tagErr_enc_relatedue := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_relatedue)
+		if tagErr_enc_relatedue != nil {
+			return nil, fmt.Errorf("encoding relatedUE: %w", tagErr_enc_relatedue)
+		}
+		enc_relatedue = retagged_enc_relatedue
 		children = append(children, enc_relatedue...)
 	}
 	return ber.EncodeSequence(children), nil
@@ -10569,12 +14980,33 @@ func (v *RangingSLPPInfo) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes RangingSLPPInfo to DER format.
 func (v *RangingSLPPInfo) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	var children []byte
+	enc_slppmsg := ber.EncodeOctetString([]byte(v.SLPPMsg))
+	retagged_enc_slppmsg, tagErr_enc_slppmsg := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_slppmsg)
+	if tagErr_enc_slppmsg != nil {
+		return nil, fmt.Errorf("encoding sLPPMsg: %w", tagErr_enc_slppmsg)
+	}
+	enc_slppmsg = retagged_enc_slppmsg
+	children = append(children, enc_slppmsg...)
+	if v.RelatedUE != nil {
+		enc_relatedue := ber.EncodeOctetString(v.RelatedUE)
+		retagged_enc_relatedue, tagErr_enc_relatedue := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_relatedue)
+		if tagErr_enc_relatedue != nil {
+			return nil, fmt.Errorf("encoding relatedUE: %w", tagErr_enc_relatedue)
+		}
+		enc_relatedue = retagged_enc_relatedue
+		children = append(children, enc_relatedue...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding RangingSLPPInfo as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes RangingSLPPInfo from BER/DER format.
 func (v *RangingSLPPInfo) UnmarshalBER(data []byte) error {
+	*v = RangingSLPPInfo{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding RangingSLPPInfo SEQUENCE: %w", err)
@@ -10592,9 +15024,12 @@ func (v *RangingSLPPInfo) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for sLPPMsg, got %s", "CONTEXT", 0, reqTag_)
 		}
 	}
-	_, n_slppmsg, rawVal_slppmsg, err := ber.DecodeTLV(content[offset:])
+	decodedTag_slppmsg, n_slppmsg, rawVal_slppmsg, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding sLPPMsg: %w", err)
+	}
+	if decodedTag_slppmsg.Class != tag.ClassContextSpecific || decodedTag_slppmsg.Number != 0 {
+		return fmt.Errorf("decoding sLPPMsg: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_slppmsg)
 	}
 	v.SLPPMsg = SlPosProtocolPDU(rawVal_slppmsg)
 	offset += n_slppmsg
@@ -10603,9 +15038,12 @@ func (v *RangingSLPPInfo) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_relatedue, rawVal_relatedue, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relatedue, n_relatedue, rawVal_relatedue, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relatedUE: %w", err)
+				}
+				if decodedTag_relatedue.Class != tag.ClassContextSpecific || decodedTag_relatedue.Number != 1 {
+					return fmt.Errorf("decoding relatedUE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relatedue)
 				}
 				tmp_relatedue := rawVal_relatedue
 				v.RelatedUE = tmp_relatedue
@@ -10635,18 +15073,30 @@ func (v *LCSDLRSPPTransportArg) MarshalBER() ([]byte, error) {
 			}
 			enc_rangingslpplist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
-			enc_rangingslpplist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_rangingslpplist)
+			retagged_enc_rangingslpplist, tagErr_enc_rangingslpplist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rangingslpplist)
+			if tagErr_enc_rangingslpplist != nil {
+				return nil, fmt.Errorf("encoding rangingSLPPList: %w", tagErr_enc_rangingslpplist)
+			}
+			enc_rangingslpplist = retagged_enc_rangingslpplist
 		}
 		children = append(children, enc_rangingslpplist...)
 	}
 	if v.ScheduledLocTime != nil {
 		enc_scheduledloctime := ber.EncodeOctetString([]byte(*v.ScheduledLocTime))
-		enc_scheduledloctime = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, false, enc_scheduledloctime)
+		retagged_enc_scheduledloctime, tagErr_enc_scheduledloctime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_scheduledloctime)
+		if tagErr_enc_scheduledloctime != nil {
+			return nil, fmt.Errorf("encoding scheduledLocTime: %w", tagErr_enc_scheduledloctime)
+		}
+		enc_scheduledloctime = retagged_enc_scheduledloctime
 		children = append(children, enc_scheduledloctime...)
 	}
 	if v.UeBased != nil {
 		enc_uebased := ber.EncodeEnumerated(int64(*v.UeBased))
-		enc_uebased = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, false, enc_uebased)
+		retagged_enc_uebased, tagErr_enc_uebased := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_uebased)
+		if tagErr_enc_uebased != nil {
+			return nil, fmt.Errorf("encoding ueBased: %w", tagErr_enc_uebased)
+		}
+		enc_uebased = retagged_enc_uebased
 		children = append(children, enc_uebased...)
 	}
 	if v.RelatedUEInfo != nil {
@@ -10662,7 +15112,11 @@ func (v *LCSDLRSPPTransportArg) MarshalBER() ([]byte, error) {
 			}
 			enc_relatedueinfo = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
 		} else {
-			enc_relatedueinfo = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, true, enc_relatedueinfo)
+			retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_relatedueinfo)
+			if tagErr_enc_relatedueinfo != nil {
+				return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+			}
+			enc_relatedueinfo = retagged_enc_relatedueinfo
 		}
 		children = append(children, enc_relatedueinfo...)
 	}
@@ -10681,21 +15135,65 @@ func (v *LCSDLRSPPTransportArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSDLRSPPTransportArg to DER format.
 func (v *LCSDLRSPPTransportArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.RangingSLPPList != nil {
+		enc_rangingslpplist, err := MarshalDERRangingSLPPList(v.RangingSLPPList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding rangingSLPPList: %w", err)
+		}
+		retagged_enc_rangingslpplist, tagErr_enc_rangingslpplist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rangingslpplist)
+		if tagErr_enc_rangingslpplist != nil {
+			return nil, fmt.Errorf("encoding rangingSLPPList: %w", tagErr_enc_rangingslpplist)
+		}
+		enc_rangingslpplist = retagged_enc_rangingslpplist
+		children = append(children, enc_rangingslpplist...)
+	}
+	if v.ScheduledLocTime != nil {
+		enc_scheduledloctime := ber.EncodeOctetString([]byte(*v.ScheduledLocTime))
+		retagged_enc_scheduledloctime, tagErr_enc_scheduledloctime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_scheduledloctime)
+		if tagErr_enc_scheduledloctime != nil {
+			return nil, fmt.Errorf("encoding scheduledLocTime: %w", tagErr_enc_scheduledloctime)
+		}
+		enc_scheduledloctime = retagged_enc_scheduledloctime
+		children = append(children, enc_scheduledloctime...)
+	}
+	if v.UeBased != nil {
+		enc_uebased := ber.EncodeEnumerated(int64(*v.UeBased))
+		retagged_enc_uebased, tagErr_enc_uebased := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_uebased)
+		if tagErr_enc_uebased != nil {
+			return nil, fmt.Errorf("encoding ueBased: %w", tagErr_enc_uebased)
+		}
+		enc_uebased = retagged_enc_uebased
+		children = append(children, enc_uebased...)
+	}
+	if v.RelatedUEInfo != nil {
+		enc_relatedueinfo, err := MarshalDERRelatedUEInfo(v.RelatedUEInfo)
+		if err != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", err)
+		}
+		retagged_enc_relatedueinfo, tagErr_enc_relatedueinfo := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_relatedueinfo)
+		if tagErr_enc_relatedueinfo != nil {
+			return nil, fmt.Errorf("encoding relatedUEInfo: %w", tagErr_enc_relatedueinfo)
+		}
+		enc_relatedueinfo = retagged_enc_relatedueinfo
+		children = append(children, enc_relatedueinfo...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.RangingSLPPListIndef_ = false
-	derValue.RelatedUEInfoIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSDLRSPPTransportArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSDLRSPPTransportArg from BER/DER format.
 func (v *LCSDLRSPPTransportArg) UnmarshalBER(data []byte) error {
+	*v = LCSDLRSPPTransportArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSDLRSPPTransportArg SEQUENCE: %w", err)
@@ -10710,9 +15208,12 @@ func (v *LCSDLRSPPTransportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_rangingslpplist, rawVal_rangingslpplist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rangingslpplist, n_rangingslpplist, rawVal_rangingslpplist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rangingSLPPList: %w", err)
+				}
+				if decodedTag_rangingslpplist.Class != tag.ClassContextSpecific || decodedTag_rangingslpplist.Number != 0 || decodedTag_rangingslpplist.Constructed != true {
+					return fmt.Errorf("decoding rangingSLPPList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangingslpplist)
 				}
 				reconstructed_rangingslpplist := ber.EncodeSequence(rawVal_rangingslpplist)
 				dec_rangingslpplist, unmErr := UnmarshalBERRangingSLPPList(reconstructed_rangingslpplist)
@@ -10735,9 +15236,12 @@ func (v *LCSDLRSPPTransportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				_, n_scheduledloctime, rawVal_scheduledloctime, err := ber.DecodeTLV(content[offset:])
+				decodedTag_scheduledloctime, n_scheduledloctime, rawVal_scheduledloctime, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding scheduledLocTime: %w", err)
+				}
+				if decodedTag_scheduledloctime.Class != tag.ClassContextSpecific || decodedTag_scheduledloctime.Number != 1 {
+					return fmt.Errorf("decoding scheduledLocTime: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_scheduledloctime)
 				}
 				tmp_scheduledloctime := DateTime(rawVal_scheduledloctime)
 				v.ScheduledLocTime = &tmp_scheduledloctime
@@ -10750,11 +15254,14 @@ func (v *LCSDLRSPPTransportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
-				_, n_uebased, rawVal_uebased, err := ber.DecodeTLV(content[offset:])
+				decodedTag_uebased, n_uebased, rawVal_uebased, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding ueBased: %w", err)
 				}
-				decVal_uebased, intErr := ber.DecodeIntegerValue(rawVal_uebased)
+				if decodedTag_uebased.Class != tag.ClassContextSpecific || decodedTag_uebased.Number != 2 || decodedTag_uebased.Constructed != false {
+					return fmt.Errorf("decoding ueBased: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_uebased)
+				}
+				decVal_uebased, intErr := ber.DecodeEnumeratedValue(rawVal_uebased)
 				if intErr != nil {
 					return fmt.Errorf("decoding ueBased: %w", intErr)
 				}
@@ -10770,9 +15277,12 @@ func (v *LCSDLRSPPTransportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 {
-				_, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
+				decodedTag_relatedueinfo, n_relatedueinfo, rawVal_relatedueinfo, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding relatedUEInfo: %w", err)
+				}
+				if decodedTag_relatedueinfo.Class != tag.ClassContextSpecific || decodedTag_relatedueinfo.Number != 3 || decodedTag_relatedueinfo.Constructed != true {
+					return fmt.Errorf("decoding relatedUEInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relatedueinfo)
 				}
 				reconstructed_relatedueinfo := ber.EncodeSequence(rawVal_relatedueinfo)
 				dec_relatedueinfo, unmErr := UnmarshalBERRelatedUEInfo(reconstructed_relatedueinfo)
@@ -10813,12 +15323,17 @@ func (v *LCSDLRSPPTransportRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSDLRSPPTransportRes to DER format.
 func (v *LCSDLRSPPTransportRes) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	var children []byte
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSDLRSPPTransportRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSDLRSPPTransportRes from BER/DER format.
 func (v *LCSDLRSPPTransportRes) UnmarshalBER(data []byte) error {
+	*v = LCSDLRSPPTransportRes{}
 	_, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSDLRSPPTransportRes SEQUENCE: %w", err)
@@ -10845,7 +15360,11 @@ func (v *LCSULRSPPTransportArg) MarshalBER() ([]byte, error) {
 			}
 			enc_rangingslpplist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, seqContent_)
 		} else {
-			enc_rangingslpplist = ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, true, enc_rangingslpplist)
+			retagged_enc_rangingslpplist, tagErr_enc_rangingslpplist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rangingslpplist)
+			if tagErr_enc_rangingslpplist != nil {
+				return nil, fmt.Errorf("encoding rangingSLPPList: %w", tagErr_enc_rangingslpplist)
+			}
+			enc_rangingslpplist = retagged_enc_rangingslpplist
 		}
 		children = append(children, enc_rangingslpplist...)
 	}
@@ -10864,20 +15383,35 @@ func (v *LCSULRSPPTransportArg) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSULRSPPTransportArg to DER format.
 func (v *LCSULRSPPTransportArg) MarshalDER() ([]byte, error) {
+	var children []byte
+	if v.RangingSLPPList != nil {
+		enc_rangingslpplist, err := MarshalDERRangingSLPPList(v.RangingSLPPList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding rangingSLPPList: %w", err)
+		}
+		retagged_enc_rangingslpplist, tagErr_enc_rangingslpplist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_rangingslpplist)
+		if tagErr_enc_rangingslpplist != nil {
+			return nil, fmt.Errorf("encoding rangingSLPPList: %w", tagErr_enc_rangingslpplist)
+		}
+		enc_rangingslpplist = retagged_enc_rangingslpplist
+		children = append(children, enc_rangingslpplist...)
+	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
+		children = append(children, ext...)
 	}
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.RangingSLPPListIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSULRSPPTransportArg as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSULRSPPTransportArg from BER/DER format.
 func (v *LCSULRSPPTransportArg) UnmarshalBER(data []byte) error {
+	*v = LCSULRSPPTransportArg{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSULRSPPTransportArg SEQUENCE: %w", err)
@@ -10892,9 +15426,12 @@ func (v *LCSULRSPPTransportArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				_, n_rangingslpplist, rawVal_rangingslpplist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_rangingslpplist, n_rangingslpplist, rawVal_rangingslpplist, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding rangingSLPPList: %w", err)
+				}
+				if decodedTag_rangingslpplist.Class != tag.ClassContextSpecific || decodedTag_rangingslpplist.Number != 0 || decodedTag_rangingslpplist.Constructed != true {
+					return fmt.Errorf("decoding rangingSLPPList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rangingslpplist)
 				}
 				reconstructed_rangingslpplist := ber.EncodeSequence(rawVal_rangingslpplist)
 				dec_rangingslpplist, unmErr := UnmarshalBERRangingSLPPList(reconstructed_rangingslpplist)
@@ -10935,12 +15472,17 @@ func (v *LCSULRSPPTransportRes) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes LCSULRSPPTransportRes to DER format.
 func (v *LCSULRSPPTransportRes) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	var children []byte
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding LCSULRSPPTransportRes as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes LCSULRSPPTransportRes from BER/DER format.
 func (v *LCSULRSPPTransportRes) UnmarshalBER(data []byte) error {
+	*v = LCSULRSPPTransportRes{}
 	_, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding LCSULRSPPTransportRes SEQUENCE: %w", err)

@@ -41,19 +41,10 @@ type VarRLFReportNBR16 struct {
 }
 
 // VarShortMACInputNBR13 represents the ASN.1 type VarShortMAC-Input-NB-r13 (SEQUENCE).
-type VarShortMACInputNBR13 struct {
-	CellIdentity CellIdentity `asn1:"tag:0,context,implicit"`
-	PhysCellId   PhysCellId   `asn1:"tag:1,context,implicit"`
-	CRNTI        CRNTI        `asn1:"tag:2,context,implicit"`
-}
+type VarShortMACInputNBR13 = VarShortMACInput
 
 // VarShortResumeMACInputNBR13 represents the ASN.1 type VarShortResumeMAC-Input-NB-r13 (SEQUENCE).
-type VarShortResumeMACInputNBR13 struct {
-	CellIdentityR13        CellIdentity      `asn1:"tag:0,context,implicit"`
-	PhysCellIdR13          PhysCellId        `asn1:"tag:1,context,implicit"`
-	CRNTIR13               CRNTI             `asn1:"tag:2,context,implicit"`
-	ResumeDiscriminatorR13 runtime.BitString `asn1:"tag:3,context,implicit"`
-}
+type VarShortResumeMACInputNBR13 = VarShortResumeMACInputR13
 
 // VarANRMeasReportNBR16MeasResultListR16 represents the ASN.1 type VarANR-MeasReport-NB-r16-measResultList-r16 (SEQUENCE_OF).
 type VarANRMeasReportNBR16MeasResultListR16 = []ANRMeasResultNBR16
@@ -71,13 +62,15 @@ func (v *VarANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeInteger(bb, int64(v.AnrQualityThresholdR16), int64Ptr(0), int64Ptr(113), false); err != nil {
 		return fmt.Errorf("encoding anr-QualityThreshold-r16: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AnrCarrierListR16)), 1, 2); err != nil {
-		return fmt.Errorf("encoding anr-CarrierList-r16 length: %w", err)
-	}
-	for _, elem := range v.AnrCarrierListR16 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding anr-CarrierList-r16 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.AnrCarrierListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_anrcarrierlistr16, fragmentLength_anrcarrierlistr16 int64) error {
+		for _, elem := range v.AnrCarrierListR16[fragmentOffset_anrcarrierlistr16 : fragmentOffset_anrcarrierlistr16+fragmentLength_anrcarrierlistr16] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding anr-CarrierList-r16 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding anr-CarrierList-r16: %w", err)
 	}
 	return nil
 }
@@ -89,20 +82,25 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarANRMeasConfigNBR16{}
 	val_anrqualitythresholdr16, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(113), false)
 	if err != nil {
 		return fmt.Errorf("decoding anr-QualityThreshold-r16: %w", err)
 	}
 	v.AnrQualityThresholdR16 = NRSRPRangeNBR14(val_anrqualitythresholdr16)
-	seqLen_anrcarrierlistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding anr-CarrierList-r16 length: %w", err)
-	}
-	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, seqLen_anrcarrierlistr16)
-	for i := int64(0); i < seqLen_anrcarrierlistr16; i++ {
-		if err := v.AnrCarrierListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding anr-CarrierList-r16 element: %w", err)
+	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, 0)
+	_, errCollection_anrcarrierlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_anrcarrierlistr16, fragmentLength_anrcarrierlistr16 int64) error {
+		for i := int64(0); i < fragmentLength_anrcarrierlistr16; i++ {
+			var elem ANRCarrierNBR16
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding anr-CarrierList-r16 element %d: %w", fragmentOffset_anrcarrierlistr16+i, err)
+			}
+			v.AnrCarrierListR16 = append(v.AnrCarrierListR16, elem)
 		}
+		return nil
+	})
+	if errCollection_anrcarrierlistr16 != nil {
+		return fmt.Errorf("decoding anr-CarrierList-r16: %w", errCollection_anrcarrierlistr16)
 	}
 	return nil
 }
@@ -117,13 +115,15 @@ func (v *VarANRMeasReportNBR16) MarshalUPER() ([]byte, error) {
 }
 
 func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PlmnIdentityListR16)), 1, 16); err != nil {
-		return fmt.Errorf("encoding plmn-IdentityList-r16 length: %w", err)
-	}
-	for _, elem := range v.PlmnIdentityListR16 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding plmn-IdentityList-r16 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.PlmnIdentityListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		for _, elem := range v.PlmnIdentityListR16[fragmentOffset_plmnidentitylistr16 : fragmentOffset_plmnidentitylistr16+fragmentLength_plmnidentitylistr16] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding plmn-IdentityList-r16 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding plmn-IdentityList-r16: %w", err)
 	}
 	if err := v.ServCellIdentityR16.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding servCellIdentity-r16: %w", err)
@@ -134,13 +134,15 @@ func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeInteger(bb, int64(v.RelativeTimeStampR16), int64Ptr(0), int64Ptr(95), false); err != nil {
 		return fmt.Errorf("encoding relativeTimeStamp-r16: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.MeasResultListR16)), 1, 2); err != nil {
-		return fmt.Errorf("encoding measResultList-r16 length: %w", err)
-	}
-	for _, elem := range v.MeasResultListR16 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding measResultList-r16 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.MeasResultListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_measresultlistr16, fragmentLength_measresultlistr16 int64) error {
+		for _, elem := range v.MeasResultListR16[fragmentOffset_measresultlistr16 : fragmentOffset_measresultlistr16+fragmentLength_measresultlistr16] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding measResultList-r16 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding measResultList-r16: %w", err)
 	}
 	return nil
 }
@@ -152,15 +154,20 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	seqLen_plmnidentitylistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r16 length: %w", err)
-	}
-	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, seqLen_plmnidentitylistr16)
-	for i := int64(0); i < seqLen_plmnidentitylistr16; i++ {
-		if err := v.PlmnIdentityListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r16 element: %w", err)
+	*v = VarANRMeasReportNBR16{}
+	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
+	_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		for i := int64(0); i < fragmentLength_plmnidentitylistr16; i++ {
+			var elem PLMNIdentity
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding plmn-IdentityList-r16 element %d: %w", fragmentOffset_plmnidentitylistr16+i, err)
+			}
+			v.PlmnIdentityListR16 = append(v.PlmnIdentityListR16, elem)
 		}
+		return nil
+	})
+	if errCollection_plmnidentitylistr16 != nil {
+		return fmt.Errorf("decoding plmn-IdentityList-r16: %w", errCollection_plmnidentitylistr16)
 	}
 	if err := v.ServCellIdentityR16.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding servCellIdentity-r16: %w", err)
@@ -173,15 +180,19 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return fmt.Errorf("decoding relativeTimeStamp-r16: %w", err)
 	}
 	v.RelativeTimeStampR16 = val_relativetimestampr16
-	seqLen_measresultlistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 2)
-	if err != nil {
-		return fmt.Errorf("decoding measResultList-r16 length: %w", err)
-	}
-	v.MeasResultListR16 = make(VarANRMeasReportNBR16MeasResultListR16, seqLen_measresultlistr16)
-	for i := int64(0); i < seqLen_measresultlistr16; i++ {
-		if err := v.MeasResultListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding measResultList-r16 element: %w", err)
+	v.MeasResultListR16 = make(VarANRMeasReportNBR16MeasResultListR16, 0)
+	_, errCollection_measresultlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_measresultlistr16, fragmentLength_measresultlistr16 int64) error {
+		for i := int64(0); i < fragmentLength_measresultlistr16; i++ {
+			var elem ANRMeasResultNBR16
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding measResultList-r16 element %d: %w", fragmentOffset_measresultlistr16+i, err)
+			}
+			v.MeasResultListR16 = append(v.MeasResultListR16, elem)
 		}
+		return nil
+	})
+	if errCollection_measresultlistr16 != nil {
+		return fmt.Errorf("decoding measResultList-r16: %w", errCollection_measresultlistr16)
 	}
 	return nil
 }
@@ -199,13 +210,15 @@ func (v *VarRLFReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := v.RlfReportR16.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding rlf-Report-r16: %w", err)
 	}
-	if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.PlmnIdentityListR16)), 1, 16); err != nil {
-		return fmt.Errorf("encoding plmn-IdentityList-r16 length: %w", err)
-	}
-	for _, elem := range v.PlmnIdentityListR16 {
-		if err := elem.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding plmn-IdentityList-r16 element: %w", err)
+	if err := per.EncodeCollection(bb, int64(len(v.PlmnIdentityListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		for _, elem := range v.PlmnIdentityListR16[fragmentOffset_plmnidentitylistr16 : fragmentOffset_plmnidentitylistr16+fragmentLength_plmnidentitylistr16] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding plmn-IdentityList-r16 element: %w", err)
+			}
 		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding plmn-IdentityList-r16: %w", err)
 	}
 	return nil
 }
@@ -217,120 +230,85 @@ func (v *VarRLFReportNBR16) UnmarshalUPER(data []byte) error {
 }
 
 func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = VarRLFReportNBR16{}
 	if err := v.RlfReportR16.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding rlf-Report-r16: %w", err)
 	}
-	seqLen_plmnidentitylistr16, err := per.DecodeConstrainedWholeNumber(bb, 1, 16)
-	if err != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r16 length: %w", err)
-	}
-	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, seqLen_plmnidentitylistr16)
-	for i := int64(0); i < seqLen_plmnidentitylistr16; i++ {
-		if err := v.PlmnIdentityListR16[i].UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding plmn-IdentityList-r16 element: %w", err)
+	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
+	_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		for i := int64(0); i < fragmentLength_plmnidentitylistr16; i++ {
+			var elem PLMNIdentity
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding plmn-IdentityList-r16 element %d: %w", fragmentOffset_plmnidentitylistr16+i, err)
+			}
+			v.PlmnIdentityListR16 = append(v.PlmnIdentityListR16, elem)
 		}
+		return nil
+	})
+	if errCollection_plmnidentitylistr16 != nil {
+		return fmt.Errorf("decoding plmn-IdentityList-r16: %w", errCollection_plmnidentitylistr16)
 	}
 	return nil
 }
 
-// MarshalUPER encodes VarShortMACInputNBR13 to UPER format.
-func (v *VarShortMACInputNBR13) MarshalUPER() ([]byte, error) {
+type asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue struct {
+	Value VarANRMeasReportNBR16MeasResultListR16
+}
+
+// MarshalUPERVarANRMeasReportNBR16MeasResultListR16 encodes a VarANRMeasReportNBR16MeasResultListR16 list to UPER.
+func MarshalUPERVarANRMeasReportNBR16MeasResultListR16(list VarANRMeasReportNBR16MeasResultListR16) ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
+	if err := MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list, bb); err != nil {
 		return nil, err
 	}
 	return bb.Bytes(), nil
 }
 
-func (v *VarShortMACInputNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentity.Bytes, v.CellIdentity.BitLength, 28, 28, true); err != nil {
-		return fmt.Errorf("encoding cellIdentity: %w", err)
-	}
-	if err := per.EncodeInteger(bb, int64(v.PhysCellId), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding physCellId: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.CRNTI.Bytes, v.CRNTI.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding c-RNTI: %w", err)
+// MarshalUPERVarANRMeasReportNBR16MeasResultListR16To appends a VarANRMeasReportNBR16MeasResultListR16 list to bb.
+func MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list VarANRMeasReportNBR16MeasResultListR16, bb *per.BitBuffer) error {
+	v := asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue{Value: list}
+	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := elem.MarshalUPERTo(bb); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
 
-// UnmarshalUPER decodes VarShortMACInputNBR13 from UPER format.
-func (v *VarShortMACInputNBR13) UnmarshalUPER(data []byte) error {
+// UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16 decodes a VarANRMeasReportNBR16MeasResultListR16 list from UPER.
+func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMeasReportNBR16MeasResultListR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	return UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
 }
 
-func (v *VarShortMACInputNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentity, bsBitLen_cellidentity, err := per.DecodeBitString(bb, 28, 28, true)
-	if err != nil {
-		return fmt.Errorf("decoding cellIdentity: %w", err)
-	}
-	v.CellIdentity = runtime.BitString{Bytes: bsBytes_cellidentity, BitLength: bsBitLen_cellidentity}
-	val_physcellid, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
-	if err != nil {
-		return fmt.Errorf("decoding physCellId: %w", err)
-	}
-	v.PhysCellId = PhysCellId(val_physcellid)
-	bsBytes_crnti, bsBitLen_crnti, err := per.DecodeBitString(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding c-RNTI: %w", err)
-	}
-	v.CRNTI = runtime.BitString{Bytes: bsBytes_crnti, BitLength: bsBitLen_crnti}
-	return nil
-}
-
-// MarshalUPER encodes VarShortResumeMACInputNBR13 to UPER format.
-func (v *VarShortResumeMACInputNBR13) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
+// UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From decodes a VarANRMeasReportNBR16MeasResultListR16 list from bb.
+func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb *per.BitBuffer) (VarANRMeasReportNBR16MeasResultListR16, error) {
+	var v asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue
+	if err := unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(&v, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return v.Value, nil
 }
 
-func (v *VarShortResumeMACInputNBR13) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeBitString(bb, v.CellIdentityR13.Bytes, v.CellIdentityR13.BitLength, 28, 28, true); err != nil {
-		return fmt.Errorf("encoding cellIdentity-r13: %w", err)
+func unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue, bb *per.BitBuffer) error {
+	v.Value = make(VarANRMeasReportNBR16MeasResultListR16, 0)
+	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		for i := int64(0); i < fragmentLength_value; i++ {
+			var elem ANRMeasResultNBR16
+			if err := elem.UnmarshalUPERFrom(bb); err != nil {
+				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+			}
+			v.Value = append(v.Value, elem)
+		}
+		return nil
+	})
+	if errCollection_value != nil {
+		return fmt.Errorf("decoding value: %w", errCollection_value)
 	}
-	if err := per.EncodeInteger(bb, int64(v.PhysCellIdR13), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding physCellId-r13: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.CRNTIR13.Bytes, v.CRNTIR13.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding c-RNTI-r13: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.ResumeDiscriminatorR13.Bytes, v.ResumeDiscriminatorR13.BitLength, 1, 1, true); err != nil {
-		return fmt.Errorf("encoding resumeDiscriminator-r13: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes VarShortResumeMACInputNBR13 from UPER format.
-func (v *VarShortResumeMACInputNBR13) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *VarShortResumeMACInputNBR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	bsBytes_cellidentityr13, bsBitLen_cellidentityr13, err := per.DecodeBitString(bb, 28, 28, true)
-	if err != nil {
-		return fmt.Errorf("decoding cellIdentity-r13: %w", err)
-	}
-	v.CellIdentityR13 = runtime.BitString{Bytes: bsBytes_cellidentityr13, BitLength: bsBitLen_cellidentityr13}
-	val_physcellidr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
-	if err != nil {
-		return fmt.Errorf("decoding physCellId-r13: %w", err)
-	}
-	v.PhysCellIdR13 = PhysCellId(val_physcellidr13)
-	bsBytes_crntir13, bsBitLen_crntir13, err := per.DecodeBitString(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding c-RNTI-r13: %w", err)
-	}
-	v.CRNTIR13 = runtime.BitString{Bytes: bsBytes_crntir13, BitLength: bsBitLen_crntir13}
-	bsBytes_resumediscriminatorr13, bsBitLen_resumediscriminatorr13, err := per.DecodeBitString(bb, 1, 1, true)
-	if err != nil {
-		return fmt.Errorf("decoding resumeDiscriminator-r13: %w", err)
-	}
-	v.ResumeDiscriminatorR13 = runtime.BitString{Bytes: bsBytes_resumediscriminatorr13, BitLength: bsBitLen_resumediscriminatorr13}
 	return nil
 }

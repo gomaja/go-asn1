@@ -1,10 +1,13 @@
 package ber
 
 import (
+	"encoding/binary"
+	"fmt"
 	"math"
 	"math/big"
+	"sort"
 	"time"
-	"unicode/utf16"
+	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
@@ -91,14 +94,6 @@ func EncodeBigInt(v *big.Int) []byte {
 	if v == nil {
 		return EncodeInteger(0)
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, encodeBigIntBytes(v))
-}
-
-func encodeBigIntBytes(v *big.Int) []byte {
-	if v == nil {
-		return encodeIntBytes(0)
-	}
-
 	b := v.Bytes() // absolute value, big-endian
 	if v.Sign() >= 0 {
 		// Add leading zero if high bit is set.
@@ -132,7 +127,7 @@ func encodeBigIntBytes(v *big.Int) []byte {
 		}
 		b = tc
 	}
-	return b
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, b)
 }
 
 // EncodeBitString encodes a bit string per X.690 section 8.6.
@@ -157,22 +152,35 @@ func EncodeNull() []byte {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagNull}, nil)
 }
 
-// EncodeObjectIdentifier encodes an OID per X.690 section 8.19.
+// EncodeObjectIdentifier encodes an OID per X.690 section 8.19. Invalid
+// values return nil; generated code uses EncodeObjectIdentifierChecked so it
+// can report the validation error.
 func EncodeObjectIdentifier(oid []uint64) []byte {
-	if len(oid) < 2 {
-		return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, nil)
+	encoded, err := EncodeObjectIdentifierChecked(oid)
+	if err != nil {
+		return nil
 	}
+	return encoded
+}
 
-	// First two components combined: val = oid[0]*40 + oid[1].
-	first := oid[0]*40 + oid[1]
-	var value []byte
-	value = append(value, encodeBase128(first)...)
-
-	for _, arc := range oid[2:] {
-		value = append(value, encodeBase128(arc)...)
+// EncodeObjectIdentifierChecked encodes a validated OID per X.690
+// (02/2021) section 8.19.4.
+func EncodeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
+	value, err := EncodeOIDValueChecked(oid)
+	if err != nil {
+		return nil, err
 	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, value), nil
+}
 
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, value)
+// EncodeRelativeObjectIdentifierChecked encodes a validated RELATIVE-OID per
+// X.690 (02/2021) section 8.20.
+func EncodeRelativeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
+	value, err := EncodeRelativeOIDValueChecked(oid)
+	if err != nil {
+		return nil, err
+	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagRelativeOID}, value), nil
 }
 
 func encodeBase128(v uint64) []byte {
@@ -295,40 +303,61 @@ func EncodePrintableString(v string) []byte {
 }
 
 // EncodeStringTag encodes a character string value under an arbitrary
-// UNIVERSAL tag number. BMPString and UniversalString have fixed-width
-// contents octets, while legacy 8-bit string kinds are kept as supplied bytes
-// because this runtime does not validate or transcode their character sets.
+// UNIVERSAL tag number. Invalid values return nil; generated code uses
+// EncodeStringTagChecked so it can report the validation error.
 func EncodeStringTag(tagNum int, v string) []byte {
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, encodeStringTagValue(tagNum, v))
+	encoded, err := EncodeStringTagChecked(tagNum, v)
+	if err != nil {
+		return nil
+	}
+	return encoded
 }
 
-func encodeStringTagValue(tagNum int, v string) []byte {
+// EncodeStringTagChecked applies the fixed-width forms required by X.690
+// (02/2021) sections 8.23.7 and 8.23.8 before wrapping the value.
+func EncodeStringTagChecked(tagNum int, v string) ([]byte, error) {
+	value, err := EncodeStringValueTagChecked(tagNum, v)
+	if err != nil {
+		return nil, err
+	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value), nil
+}
+
+// EncodeStringValueTagChecked returns the contents octets for a restricted
+// character string with the supplied UNIVERSAL tag number.
+func EncodeStringValueTagChecked(tagNum int, v string) ([]byte, error) {
+	return encodeStringValueTag(tagNum, v)
+}
+
+func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	switch tagNum {
 	case tag.TagBMPString:
-		return encodeBMPStringValue(v)
+		if !utf8.ValidString(v) {
+			return nil, fmt.Errorf("BMPString contains invalid UTF-8")
+		}
+		value := make([]byte, 0, len(v)*2)
+		for _, r := range v {
+			if r > 0xffff || !utf8.ValidRune(r) {
+				return nil, fmt.Errorf("BMPString character U+%04X is outside the Basic Multilingual Plane", r)
+			}
+			value = binary.BigEndian.AppendUint16(value, uint16(r))
+		}
+		return value, nil
 	case tag.TagUniversalString:
-		return encodeUniversalStringValue(v)
+		if !utf8.ValidString(v) {
+			return nil, fmt.Errorf("UniversalString contains invalid UTF-8")
+		}
+		value := make([]byte, 0, len(v)*4)
+		for _, r := range v {
+			if !utf8.ValidRune(r) {
+				return nil, fmt.Errorf("UniversalString character U+%04X is not a Unicode scalar value", r)
+			}
+			value = binary.BigEndian.AppendUint32(value, uint32(r))
+		}
+		return value, nil
 	default:
-		return []byte(v)
+		return []byte(v), nil
 	}
-}
-
-func encodeBMPStringValue(v string) []byte {
-	units := utf16.Encode([]rune(v))
-	out := make([]byte, 0, len(units)*2)
-	for _, u := range units {
-		out = append(out, byte(u>>8), byte(u))
-	}
-	return out
-}
-
-func encodeUniversalStringValue(v string) []byte {
-	out := make([]byte, 0, len(v)*4)
-	for _, r := range v {
-		cp := uint32(r)
-		out = append(out, byte(cp>>24), byte(cp>>16), byte(cp>>8), byte(cp))
-	}
-	return out
 }
 
 // EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
@@ -375,6 +404,69 @@ func EncodeSet(children []byte) []byte {
 	)
 }
 
+// EncodeDERSet orders complete DER component encodings by tag and wraps them
+// in a SET. ITU-T X.690 (02/2021) Section 10.3.
+func EncodeDERSet(children []byte) ([]byte, error) {
+	elements, err := splitDERElements(children)
+	if err != nil {
+		return nil, err
+	}
+	sort.SliceStable(elements, func(left, right int) bool {
+		if elements[left].tag.Class != elements[right].tag.Class {
+			return elements[left].tag.Class < elements[right].tag.Class
+		}
+		return elements[left].tag.Number < elements[right].tag.Number
+	})
+	return EncodeSet(joinDERElements(elements)), nil
+}
+
+// EncodeDERSetOf orders complete DER element encodings as padded octet
+// strings and wraps them in a SET. ITU-T X.690 (02/2021) Section 11.6.
+func EncodeDERSetOf(children []byte) ([]byte, error) {
+	elements, err := splitDERElements(children)
+	if err != nil {
+		return nil, err
+	}
+	sort.SliceStable(elements, func(left, right int) bool {
+		return compareDEROctetStrings(elements[left].encoded, elements[right].encoded) < 0
+	})
+	return EncodeSet(joinDERElements(elements)), nil
+}
+
+type derElement struct {
+	tag     tag.Tag
+	encoded []byte
+}
+
+func splitDERElements(children []byte) ([]derElement, error) {
+	var elements []derElement
+	for offset := 0; offset < len(children); {
+		decodedTag, total, _, err := DecodeTLV(children[offset:])
+		if err != nil {
+			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
+		}
+		encoded := children[offset : offset+total]
+		if err := ValidateDERElement(encoded); err != nil {
+			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
+		}
+		elements = append(elements, derElement{tag: decodedTag, encoded: encoded})
+		offset += total
+	}
+	return elements, nil
+}
+
+func joinDERElements(elements []derElement) []byte {
+	length := 0
+	for _, element := range elements {
+		length += len(element.encoded)
+	}
+	joined := make([]byte, 0, length)
+	for _, element := range elements {
+		joined = append(joined, element.encoded...)
+	}
+	return joined
+}
+
 // EncodeExplicitTag wraps encoded content in an explicit context-specific tag.
 func EncodeExplicitTag(tagNum int, content []byte) []byte {
 	return EncodeTLV(
@@ -391,36 +483,34 @@ func EncodeExplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 	)
 }
 
-// EncodeImplicitTag re-tags encoded content with an implicit context-specific tag.
-// It replaces the outermost tag but keeps the original constructed flag.
-func EncodeImplicitTag(tagNum int, constructed bool, content []byte) []byte {
-	// Parse existing TLV to get the value.
-	if len(content) == 0 {
-		return nil
-	}
-	_, _, valueBytes, err := DecodeTLV(content)
-	if err != nil {
-		return nil
-	}
-	return EncodeTLV(
-		tag.Tag{Class: tag.ClassContextSpecific, Number: tagNum, Constructed: constructed},
-		valueBytes,
-	)
+// EncodeImplicitTag replaces the outer tag with a context-specific tag while
+// preserving the encoded value's primitive or constructed form and length.
+func EncodeImplicitTag(tagNum int, content []byte) ([]byte, error) {
+	return EncodeImplicitTagWithClass(tag.ClassContextSpecific, tagNum, content)
 }
 
-// EncodeImplicitTagWithClass re-tags encoded content with an implicit tag of the given class.
-func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, constructed bool, content []byte) []byte {
-	if len(content) == 0 {
-		return nil
+// EncodeImplicitTagWithClass replaces the outer tag while preserving the
+// encoded value's primitive or constructed form and original length encoding.
+func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) ([]byte, error) {
+	if tagClass > tag.ClassPrivate || tagNum < 0 {
+		return nil, fmt.Errorf("%w: invalid implicit tag class %d number %d", ErrInvalidTag, tagClass, tagNum)
 	}
-	_, _, valueBytes, err := DecodeTLV(content)
+	decodedTag, tagLength, err := DecodeTag(content)
 	if err != nil {
-		return nil
+		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}
-	return EncodeTLV(
-		tag.Tag{Class: tagClass, Number: tagNum, Constructed: constructed},
-		valueBytes,
-	)
+	_, total, _, err := DecodeTLV(content)
+	if err != nil {
+		return nil, fmt.Errorf("retag implicit value: %w", err)
+	}
+	if total != len(content) {
+		return nil, fmt.Errorf("%w: implicit value has %d trailing octets", ErrInvalidValue, len(content)-total)
+	}
+	replacement := tag.Tag{Class: tagClass, Number: tagNum, Constructed: decodedTag.Constructed}.Encode()
+	encoded := make([]byte, 0, len(replacement)+len(content)-tagLength)
+	encoded = append(encoded, replacement...)
+	encoded = append(encoded, content[tagLength:]...)
+	return encoded, nil
 }
 
 // EncodeConstructed encodes a constructed TLV with a custom tag.
@@ -460,10 +550,30 @@ func EncodeBitStringValue(bytes []byte, unusedBits int) []byte {
 	return result
 }
 
-// EncodeOIDValue returns the raw value bytes for an OID.
+// EncodeOIDValue returns the raw value bytes for an OID. Invalid values return
+// nil; generated code and PER use EncodeOIDValueChecked to retain the error.
 func EncodeOIDValue(oid []uint64) []byte {
-	if len(oid) < 2 {
+	encoded, err := EncodeOIDValueChecked(oid)
+	if err != nil {
 		return nil
+	}
+	return encoded
+}
+
+// EncodeOIDValueChecked returns the X.690 section 8.19 contents octets after
+// validating the first two arcs and their packed uint64 representation.
+func EncodeOIDValueChecked(oid []uint64) ([]byte, error) {
+	if len(oid) < 2 {
+		return nil, fmt.Errorf("object identifier needs at least 2 arcs, got %d", len(oid))
+	}
+	if oid[0] > 2 {
+		return nil, fmt.Errorf("object identifier first arc %d exceeds 2", oid[0])
+	}
+	if oid[0] < 2 && oid[1] > 39 {
+		return nil, fmt.Errorf("object identifier second arc %d exceeds 39 under first arc %d", oid[1], oid[0])
+	}
+	if oid[0] == 2 && oid[1] > math.MaxUint64-80 {
+		return nil, fmt.Errorf("object identifier first subidentifier overflows uint64")
 	}
 	var buf []byte
 	first := oid[0]*40 + oid[1]
@@ -471,7 +581,20 @@ func EncodeOIDValue(oid []uint64) []byte {
 	for _, arc := range oid[2:] {
 		buf = append(buf, encodeBase128(arc)...)
 	}
-	return buf
+	return buf, nil
+}
+
+// EncodeRelativeOIDValueChecked returns the X.690 section 8.20 contents
+// octets. X.680 (02/2021) section 33.3 requires at least one arc.
+func EncodeRelativeOIDValueChecked(oid []uint64) ([]byte, error) {
+	if len(oid) == 0 {
+		return nil, fmt.Errorf("relative object identifier needs at least 1 arc")
+	}
+	var value []byte
+	for _, arc := range oid {
+		value = append(value, encodeBase128(arc)...)
+	}
+	return value, nil
 }
 
 // EncodeStringValue returns the raw value bytes for a string.
@@ -479,10 +602,20 @@ func EncodeStringValue(s string) []byte {
 	return []byte(s)
 }
 
-// EncodeBigIntValue returns only the X.690 Section 8.3 contents octets for an
+// EncodeBigIntValue returns only the X.690 §8.3 contents octets for an
 // arbitrary-width INTEGER, without the tag and length. Components inside a
 // SEQUENCE are assembled from value-level encoders, so this is the
 // arbitrary-precision counterpart to EncodeIntegerValue.
 func EncodeBigIntValue(v *big.Int) []byte {
-	return encodeBigIntBytes(v)
+	full := EncodeBigInt(v)
+	// EncodeBigInt emits tag + length + contents; the contents start after
+	// the 1-octet universal INTEGER tag and its length field.
+	_, _, value, err := DecodeTLV(full)
+	if err != nil {
+		// EncodeBigInt always produces a well-formed TLV, so this is
+		// unreachable; return the whole thing rather than silently dropping
+		// the value if that ever stops being true.
+		return full
+	}
+	return value
 }

@@ -15,35 +15,9 @@ var (
 	_ = per.NewBitBuffer
 )
 
-// ASConfigNB represents the ASN.1 type AS-Config-NB (SEQUENCE).
-type ASConfigNB struct {
-	SourceRadioResourceConfigR13     RadioResourceConfigDedicatedNBR13 `asn1:"tag:0,context,implicit"`
-	SourceSecurityAlgorithmConfigR13 SecurityAlgorithmConfig           `asn1:"tag:1,context,implicit"`
-	SourceUEIdentityR13              CRNTI                             `asn1:"tag:2,context,implicit"`
-	SourceDlCarrierFreqR13           CarrierFreqNBR13                  `asn1:"tag:3,context,implicit"`
-	SourceDLCarrierFreqV1550         *CarrierFreqNBV1550               `asn1:"tag:4,context,implicit,optional" json:"SourceDLCarrierFreqV1550,omitempty"`
-	ExtCount_                        int64                             `asn1:"-" json:"-"`
-	ExtPresent_                      []bool                            `asn1:"-" json:"-"`
-	ExtData_                         [][]byte                          `asn1:"-" json:"-"`
-}
-
-// ASContextNB represents the ASN.1 type AS-Context-NB (SEQUENCE).
-type ASContextNB struct {
-	ReestablishmentInfoR13 *ReestablishmentInfoNB `asn1:"tag:0,context,implicit,optional" json:"ReestablishmentInfoR13,omitempty"`
-	ExtCount_              int64                  `asn1:"-" json:"-"`
-	ExtPresent_            []bool                 `asn1:"-" json:"-"`
-	ExtData_               [][]byte               `asn1:"-" json:"-"`
-}
-
 // HandoverPreparationInformationNB represents the ASN.1 type HandoverPreparationInformation-NB (SEQUENCE).
 type HandoverPreparationInformationNB struct {
 	CriticalExtensions HandoverPreparationInformationNBCriticalExtensions `asn1:"tag:0,context,explicit"`
-}
-
-// HandoverPreparationInformationNBExtR14IEs represents the ASN.1 type HandoverPreparationInformation-NB-Ext-r14-IEs (SEQUENCE).
-type HandoverPreparationInformationNBExtR14IEs struct {
-	UeRadioAccessCapabilityInfoExtR14 []byte                                                         `asn1:"tag:0,context,implicit,optional" json:"UeRadioAccessCapabilityInfoExtR14,omitempty"`
-	NonCriticalExtension              *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // HandoverPreparationInformationNBIEs represents the ASN.1 type HandoverPreparationInformation-NB-IEs (SEQUENCE).
@@ -61,23 +35,10 @@ type HandoverPreparationInformationNBV1380IEs struct {
 	NonCriticalExtension     *HandoverPreparationInformationNBExtR14IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
-// RRMConfigNB represents the ASN.1 type RRM-Config-NB (SEQUENCE).
-type RRMConfigNB struct {
-	UeInactiveTime *int64   `asn1:"tag:0,context,implicit,optional" json:"UeInactiveTime,omitempty"`
-	ExtCount_      int64    `asn1:"-" json:"-"`
-	ExtPresent_    []bool   `asn1:"-" json:"-"`
-	ExtData_       [][]byte `asn1:"-" json:"-"`
-}
-
-// ReestablishmentInfoNB represents the ASN.1 type ReestablishmentInfo-NB (SEQUENCE).
-type ReestablishmentInfoNB struct {
-	SourcePhysCellIdR13                PhysCellId                `asn1:"tag:0,context,implicit"`
-	TargetCellShortMACIR13             ShortMACI                 `asn1:"tag:1,context,implicit"`
-	AdditionalReestabInfoListR13       AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoListR13,omitempty"`
-	AdditionalReestabInfoListR13Indef_ bool                      `asn1:"-" json:"-"`
-	ExtCount_                          int64                     `asn1:"-" json:"-"`
-	ExtPresent_                        []bool                    `asn1:"-" json:"-"`
-	ExtData_                           [][]byte                  `asn1:"-" json:"-"`
+// HandoverPreparationInformationNBExtR14IEs represents the ASN.1 type HandoverPreparationInformation-NB-Ext-r14-IEs (SEQUENCE).
+type HandoverPreparationInformationNBExtR14IEs struct {
+	UeRadioAccessCapabilityInfoExtR14 *UECapabilityNBExtR14IEs                                       `asn1:"tag:0,context,implicit,optional" json:"UeRadioAccessCapabilityInfoExtR14,omitempty"`
+	NonCriticalExtension              *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // UEPagingCoverageInformationNB represents the ASN.1 type UEPagingCoverageInformation-NB (SEQUENCE).
@@ -104,20 +65,20 @@ type UERadioAccessCapabilityInformationNB struct {
 
 // UERadioAccessCapabilityInformationNBIEs represents the ASN.1 type UERadioAccessCapabilityInformation-NB-IEs (SEQUENCE).
 type UERadioAccessCapabilityInformationNBIEs struct {
-	UeRadioAccessCapabilityInfoR13 []byte                                        `asn1:"tag:0,context,implicit"`
+	UeRadioAccessCapabilityInfoR13 UECapabilityNBR13                             `asn1:"tag:0,context,implicit"`
 	NonCriticalExtension           *UERadioAccessCapabilityInformationNBV1380IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
-}
-
-// UERadioAccessCapabilityInformationNBR14IEs represents the ASN.1 type UERadioAccessCapabilityInformation-NB-r14-IEs (SEQUENCE).
-type UERadioAccessCapabilityInformationNBR14IEs struct {
-	UeRadioAccessCapabilityInfoR14 []byte                                                          `asn1:"tag:0,context,implicit,optional" json:"UeRadioAccessCapabilityInfoR14,omitempty"`
-	NonCriticalExtension           *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // UERadioAccessCapabilityInformationNBV1380IEs represents the ASN.1 type UERadioAccessCapabilityInformation-NB-v1380-IEs (SEQUENCE).
 type UERadioAccessCapabilityInformationNBV1380IEs struct {
 	LateNonCriticalExtension []byte                                      `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *UERadioAccessCapabilityInformationNBR14IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+}
+
+// UERadioAccessCapabilityInformationNBR14IEs represents the ASN.1 type UERadioAccessCapabilityInformation-NB-r14-IEs (SEQUENCE).
+type UERadioAccessCapabilityInformationNBR14IEs struct {
+	UeRadioAccessCapabilityInfoR14 *UECapabilityInformationNB                                      `asn1:"tag:0,context,implicit,optional" json:"UeRadioAccessCapabilityInfoR14,omitempty"`
+	NonCriticalExtension           *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
 }
 
 // UERadioPagingInformationNB represents the ASN.1 type UERadioPagingInformation-NB (SEQUENCE).
@@ -127,8 +88,47 @@ type UERadioPagingInformationNB struct {
 
 // UERadioPagingInformationNBIEs represents the ASN.1 type UERadioPagingInformation-NB-IEs (SEQUENCE).
 type UERadioPagingInformationNBIEs struct {
-	UeRadioPagingInfoR13 []byte                                             `asn1:"tag:0,context,implicit"`
+	UeRadioPagingInfoR13 UERadioPagingInfoNBR13                             `asn1:"tag:0,context,implicit"`
 	NonCriticalExtension *UERadioPagingInformationNBIEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+}
+
+// ASConfigNB represents the ASN.1 type AS-Config-NB (SEQUENCE).
+type ASConfigNB struct {
+	SourceRadioResourceConfigR13     RadioResourceConfigDedicatedNBR13 `asn1:"tag:0,context,implicit"`
+	SourceSecurityAlgorithmConfigR13 SecurityAlgorithmConfig           `asn1:"tag:1,context,implicit"`
+	SourceUEIdentityR13              CRNTI                             `asn1:"tag:2,context,implicit"`
+	SourceDlCarrierFreqR13           CarrierFreqNBR13                  `asn1:"tag:3,context,implicit"`
+	SourceDLCarrierFreqV1550         *CarrierFreqNBV1550               `asn1:"tag:4,context,implicit,optional" json:"SourceDLCarrierFreqV1550,omitempty"`
+	ExtCount_                        int64                             `asn1:"-" json:"-"`
+	ExtPresent_                      []bool                            `asn1:"-" json:"-"`
+	ExtData_                         [][]byte                          `asn1:"-" json:"-"`
+}
+
+// ASContextNB represents the ASN.1 type AS-Context-NB (SEQUENCE).
+type ASContextNB struct {
+	ReestablishmentInfoR13 *ReestablishmentInfoNB `asn1:"tag:0,context,implicit,optional" json:"ReestablishmentInfoR13,omitempty"`
+	ExtCount_              int64                  `asn1:"-" json:"-"`
+	ExtPresent_            []bool                 `asn1:"-" json:"-"`
+	ExtData_               [][]byte               `asn1:"-" json:"-"`
+}
+
+// ReestablishmentInfoNB represents the ASN.1 type ReestablishmentInfo-NB (SEQUENCE).
+type ReestablishmentInfoNB struct {
+	SourcePhysCellIdR13                PhysCellId                `asn1:"tag:0,context,implicit"`
+	TargetCellShortMACIR13             ShortMACI                 `asn1:"tag:1,context,implicit"`
+	AdditionalReestabInfoListR13       AdditionalReestabInfoList `asn1:"tag:2,context,implicit,optional" json:"AdditionalReestabInfoListR13,omitempty"`
+	AdditionalReestabInfoListR13Indef_ bool                      `asn1:"-" json:"-"`
+	ExtCount_                          int64                     `asn1:"-" json:"-"`
+	ExtPresent_                        []bool                    `asn1:"-" json:"-"`
+	ExtData_                           [][]byte                  `asn1:"-" json:"-"`
+}
+
+// RRMConfigNB represents the ASN.1 type RRM-Config-NB (SEQUENCE).
+type RRMConfigNB struct {
+	UeInactiveTime *int64   `asn1:"tag:0,context,implicit,optional" json:"UeInactiveTime,omitempty"`
+	ExtCount_      int64    `asn1:"-" json:"-"`
+	ExtPresent_    []bool   `asn1:"-" json:"-"`
+	ExtData_       [][]byte `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationNBCriticalExtensions choice constants.
@@ -144,7 +144,7 @@ type HandoverPreparationInformationNBCriticalExtensions struct {
 	CriticalExtensionsFuture *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
 
-// NewHandoverPreparationInformationNBCriticalExtensionsC1 creates a HandoverPreparationInformation-NB-criticalExtensions with the c1 alternative.
+// NewHandoverPreparationInformationNBCriticalExtensionsC1 creates a HandoverPreparationInformationNBCriticalExtensions with the c1 alternative.
 func NewHandoverPreparationInformationNBCriticalExtensionsC1(v HandoverPreparationInformationNBCriticalExtensionsC1) HandoverPreparationInformationNBCriticalExtensions {
 	return HandoverPreparationInformationNBCriticalExtensions{
 		Choice: HandoverPreparationInformationNBCriticalExtensionsChoiceC1,
@@ -152,7 +152,7 @@ func NewHandoverPreparationInformationNBCriticalExtensionsC1(v HandoverPreparati
 	}
 }
 
-// NewHandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture creates a HandoverPreparationInformation-NB-criticalExtensions with the criticalExtensionsFuture alternative.
+// NewHandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture creates a HandoverPreparationInformationNBCriticalExtensions with the criticalExtensionsFuture alternative.
 func NewHandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture(v HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture) HandoverPreparationInformationNBCriticalExtensions {
 	return HandoverPreparationInformationNBCriticalExtensions{
 		Choice:                   HandoverPreparationInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture,
@@ -177,7 +177,7 @@ type HandoverPreparationInformationNBCriticalExtensionsC1 struct {
 	Spare1                            *struct{}                            `json:"Spare1,omitempty"`
 }
 
-// NewHandoverPreparationInformationNBCriticalExtensionsC1HandoverPreparationInformationR13 creates a HandoverPreparationInformation-NB-criticalExtensions-c1 with the handoverPreparationInformation-r13 alternative.
+// NewHandoverPreparationInformationNBCriticalExtensionsC1HandoverPreparationInformationR13 creates a HandoverPreparationInformationNBCriticalExtensionsC1 with the handoverPreparationInformation-r13 alternative.
 func NewHandoverPreparationInformationNBCriticalExtensionsC1HandoverPreparationInformationR13(v HandoverPreparationInformationNBIEs) HandoverPreparationInformationNBCriticalExtensionsC1 {
 	return HandoverPreparationInformationNBCriticalExtensionsC1{
 		Choice:                            HandoverPreparationInformationNBCriticalExtensionsC1ChoiceHandoverPreparationInformationR13,
@@ -185,7 +185,7 @@ func NewHandoverPreparationInformationNBCriticalExtensionsC1HandoverPreparationI
 	}
 }
 
-// NewHandoverPreparationInformationNBCriticalExtensionsC1Spare3 creates a HandoverPreparationInformation-NB-criticalExtensions-c1 with the spare3 alternative.
+// NewHandoverPreparationInformationNBCriticalExtensionsC1Spare3 creates a HandoverPreparationInformationNBCriticalExtensionsC1 with the spare3 alternative.
 func NewHandoverPreparationInformationNBCriticalExtensionsC1Spare3(v struct{}) HandoverPreparationInformationNBCriticalExtensionsC1 {
 	return HandoverPreparationInformationNBCriticalExtensionsC1{
 		Choice: HandoverPreparationInformationNBCriticalExtensionsC1ChoiceSpare3,
@@ -193,7 +193,7 @@ func NewHandoverPreparationInformationNBCriticalExtensionsC1Spare3(v struct{}) H
 	}
 }
 
-// NewHandoverPreparationInformationNBCriticalExtensionsC1Spare2 creates a HandoverPreparationInformation-NB-criticalExtensions-c1 with the spare2 alternative.
+// NewHandoverPreparationInformationNBCriticalExtensionsC1Spare2 creates a HandoverPreparationInformationNBCriticalExtensionsC1 with the spare2 alternative.
 func NewHandoverPreparationInformationNBCriticalExtensionsC1Spare2(v struct{}) HandoverPreparationInformationNBCriticalExtensionsC1 {
 	return HandoverPreparationInformationNBCriticalExtensionsC1{
 		Choice: HandoverPreparationInformationNBCriticalExtensionsC1ChoiceSpare2,
@@ -201,7 +201,7 @@ func NewHandoverPreparationInformationNBCriticalExtensionsC1Spare2(v struct{}) H
 	}
 }
 
-// NewHandoverPreparationInformationNBCriticalExtensionsC1Spare1 creates a HandoverPreparationInformation-NB-criticalExtensions-c1 with the spare1 alternative.
+// NewHandoverPreparationInformationNBCriticalExtensionsC1Spare1 creates a HandoverPreparationInformationNBCriticalExtensionsC1 with the spare1 alternative.
 func NewHandoverPreparationInformationNBCriticalExtensionsC1Spare1(v struct{}) HandoverPreparationInformationNBCriticalExtensionsC1 {
 	return HandoverPreparationInformationNBCriticalExtensionsC1{
 		Choice: HandoverPreparationInformationNBCriticalExtensionsC1ChoiceSpare1,
@@ -230,7 +230,7 @@ type UEPagingCoverageInformationNBCriticalExtensions struct {
 	CriticalExtensionsFuture *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
 
-// NewUEPagingCoverageInformationNBCriticalExtensionsC1 creates a UEPagingCoverageInformation-NB-criticalExtensions with the c1 alternative.
+// NewUEPagingCoverageInformationNBCriticalExtensionsC1 creates a UEPagingCoverageInformationNBCriticalExtensions with the c1 alternative.
 func NewUEPagingCoverageInformationNBCriticalExtensionsC1(v UEPagingCoverageInformationNBCriticalExtensionsC1) UEPagingCoverageInformationNBCriticalExtensions {
 	return UEPagingCoverageInformationNBCriticalExtensions{
 		Choice: UEPagingCoverageInformationNBCriticalExtensionsChoiceC1,
@@ -238,7 +238,7 @@ func NewUEPagingCoverageInformationNBCriticalExtensionsC1(v UEPagingCoverageInfo
 	}
 }
 
-// NewUEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture creates a UEPagingCoverageInformation-NB-criticalExtensions with the criticalExtensionsFuture alternative.
+// NewUEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture creates a UEPagingCoverageInformationNBCriticalExtensions with the criticalExtensionsFuture alternative.
 func NewUEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture(v UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture) UEPagingCoverageInformationNBCriticalExtensions {
 	return UEPagingCoverageInformationNBCriticalExtensions{
 		Choice:                   UEPagingCoverageInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture,
@@ -263,7 +263,7 @@ type UEPagingCoverageInformationNBCriticalExtensionsC1 struct {
 	Spare1                         *struct{}                         `json:"Spare1,omitempty"`
 }
 
-// NewUEPagingCoverageInformationNBCriticalExtensionsC1UePagingCoverageInformationR13 creates a UEPagingCoverageInformation-NB-criticalExtensions-c1 with the uePagingCoverageInformation-r13 alternative.
+// NewUEPagingCoverageInformationNBCriticalExtensionsC1UePagingCoverageInformationR13 creates a UEPagingCoverageInformationNBCriticalExtensionsC1 with the uePagingCoverageInformation-r13 alternative.
 func NewUEPagingCoverageInformationNBCriticalExtensionsC1UePagingCoverageInformationR13(v UEPagingCoverageInformationNBIEs) UEPagingCoverageInformationNBCriticalExtensionsC1 {
 	return UEPagingCoverageInformationNBCriticalExtensionsC1{
 		Choice:                         UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceUePagingCoverageInformationR13,
@@ -271,7 +271,7 @@ func NewUEPagingCoverageInformationNBCriticalExtensionsC1UePagingCoverageInforma
 	}
 }
 
-// NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare3 creates a UEPagingCoverageInformation-NB-criticalExtensions-c1 with the spare3 alternative.
+// NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare3 creates a UEPagingCoverageInformationNBCriticalExtensionsC1 with the spare3 alternative.
 func NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare3(v struct{}) UEPagingCoverageInformationNBCriticalExtensionsC1 {
 	return UEPagingCoverageInformationNBCriticalExtensionsC1{
 		Choice: UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceSpare3,
@@ -279,7 +279,7 @@ func NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare3(v struct{}) UEPa
 	}
 }
 
-// NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare2 creates a UEPagingCoverageInformation-NB-criticalExtensions-c1 with the spare2 alternative.
+// NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare2 creates a UEPagingCoverageInformationNBCriticalExtensionsC1 with the spare2 alternative.
 func NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare2(v struct{}) UEPagingCoverageInformationNBCriticalExtensionsC1 {
 	return UEPagingCoverageInformationNBCriticalExtensionsC1{
 		Choice: UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceSpare2,
@@ -287,7 +287,7 @@ func NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare2(v struct{}) UEPa
 	}
 }
 
-// NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare1 creates a UEPagingCoverageInformation-NB-criticalExtensions-c1 with the spare1 alternative.
+// NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare1 creates a UEPagingCoverageInformationNBCriticalExtensionsC1 with the spare1 alternative.
 func NewUEPagingCoverageInformationNBCriticalExtensionsC1Spare1(v struct{}) UEPagingCoverageInformationNBCriticalExtensionsC1 {
 	return UEPagingCoverageInformationNBCriticalExtensionsC1{
 		Choice: UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceSpare1,
@@ -316,7 +316,7 @@ type UERadioAccessCapabilityInformationNBCriticalExtensions struct {
 	CriticalExtensionsFuture *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
 
-// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1 creates a UERadioAccessCapabilityInformation-NB-criticalExtensions with the c1 alternative.
+// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1 creates a UERadioAccessCapabilityInformationNBCriticalExtensions with the c1 alternative.
 func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1(v UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UERadioAccessCapabilityInformationNBCriticalExtensions {
 	return UERadioAccessCapabilityInformationNBCriticalExtensions{
 		Choice: UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceC1,
@@ -324,7 +324,7 @@ func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1(v UERadioAccess
 	}
 }
 
-// NewUERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture creates a UERadioAccessCapabilityInformation-NB-criticalExtensions with the criticalExtensionsFuture alternative.
+// NewUERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture creates a UERadioAccessCapabilityInformationNBCriticalExtensions with the criticalExtensionsFuture alternative.
 func NewUERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture(v UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture) UERadioAccessCapabilityInformationNBCriticalExtensions {
 	return UERadioAccessCapabilityInformationNBCriticalExtensions{
 		Choice:                   UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture,
@@ -349,7 +349,7 @@ type UERadioAccessCapabilityInformationNBCriticalExtensionsC1 struct {
 	Spare1                                *struct{}                                `json:"Spare1,omitempty"`
 }
 
-// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1UeRadioAccessCapabilityInformationR13 creates a UERadioAccessCapabilityInformation-NB-criticalExtensions-c1 with the ueRadioAccessCapabilityInformation-r13 alternative.
+// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1UeRadioAccessCapabilityInformationR13 creates a UERadioAccessCapabilityInformationNBCriticalExtensionsC1 with the ueRadioAccessCapabilityInformation-r13 alternative.
 func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1UeRadioAccessCapabilityInformationR13(v UERadioAccessCapabilityInformationNBIEs) UERadioAccessCapabilityInformationNBCriticalExtensionsC1 {
 	return UERadioAccessCapabilityInformationNBCriticalExtensionsC1{
 		Choice:                                UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceUeRadioAccessCapabilityInformationR13,
@@ -357,7 +357,7 @@ func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1UeRadioAccessCap
 	}
 }
 
-// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare3 creates a UERadioAccessCapabilityInformation-NB-criticalExtensions-c1 with the spare3 alternative.
+// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare3 creates a UERadioAccessCapabilityInformationNBCriticalExtensionsC1 with the spare3 alternative.
 func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare3(v struct{}) UERadioAccessCapabilityInformationNBCriticalExtensionsC1 {
 	return UERadioAccessCapabilityInformationNBCriticalExtensionsC1{
 		Choice: UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceSpare3,
@@ -365,7 +365,7 @@ func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare3(v struct{
 	}
 }
 
-// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare2 creates a UERadioAccessCapabilityInformation-NB-criticalExtensions-c1 with the spare2 alternative.
+// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare2 creates a UERadioAccessCapabilityInformationNBCriticalExtensionsC1 with the spare2 alternative.
 func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare2(v struct{}) UERadioAccessCapabilityInformationNBCriticalExtensionsC1 {
 	return UERadioAccessCapabilityInformationNBCriticalExtensionsC1{
 		Choice: UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceSpare2,
@@ -373,7 +373,7 @@ func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare2(v struct{
 	}
 }
 
-// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare1 creates a UERadioAccessCapabilityInformation-NB-criticalExtensions-c1 with the spare1 alternative.
+// NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare1 creates a UERadioAccessCapabilityInformationNBCriticalExtensionsC1 with the spare1 alternative.
 func NewUERadioAccessCapabilityInformationNBCriticalExtensionsC1Spare1(v struct{}) UERadioAccessCapabilityInformationNBCriticalExtensionsC1 {
 	return UERadioAccessCapabilityInformationNBCriticalExtensionsC1{
 		Choice: UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceSpare1,
@@ -402,7 +402,7 @@ type UERadioPagingInformationNBCriticalExtensions struct {
 	CriticalExtensionsFuture *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
 
-// NewUERadioPagingInformationNBCriticalExtensionsC1 creates a UERadioPagingInformation-NB-criticalExtensions with the c1 alternative.
+// NewUERadioPagingInformationNBCriticalExtensionsC1 creates a UERadioPagingInformationNBCriticalExtensions with the c1 alternative.
 func NewUERadioPagingInformationNBCriticalExtensionsC1(v UERadioPagingInformationNBCriticalExtensionsC1) UERadioPagingInformationNBCriticalExtensions {
 	return UERadioPagingInformationNBCriticalExtensions{
 		Choice: UERadioPagingInformationNBCriticalExtensionsChoiceC1,
@@ -410,7 +410,7 @@ func NewUERadioPagingInformationNBCriticalExtensionsC1(v UERadioPagingInformatio
 	}
 }
 
-// NewUERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture creates a UERadioPagingInformation-NB-criticalExtensions with the criticalExtensionsFuture alternative.
+// NewUERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture creates a UERadioPagingInformationNBCriticalExtensions with the criticalExtensionsFuture alternative.
 func NewUERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture(v UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) UERadioPagingInformationNBCriticalExtensions {
 	return UERadioPagingInformationNBCriticalExtensions{
 		Choice:                   UERadioPagingInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture,
@@ -435,7 +435,7 @@ type UERadioPagingInformationNBCriticalExtensionsC1 struct {
 	Spare1                      *struct{}                      `json:"Spare1,omitempty"`
 }
 
-// NewUERadioPagingInformationNBCriticalExtensionsC1UeRadioPagingInformationR13 creates a UERadioPagingInformation-NB-criticalExtensions-c1 with the ueRadioPagingInformation-r13 alternative.
+// NewUERadioPagingInformationNBCriticalExtensionsC1UeRadioPagingInformationR13 creates a UERadioPagingInformationNBCriticalExtensionsC1 with the ueRadioPagingInformation-r13 alternative.
 func NewUERadioPagingInformationNBCriticalExtensionsC1UeRadioPagingInformationR13(v UERadioPagingInformationNBIEs) UERadioPagingInformationNBCriticalExtensionsC1 {
 	return UERadioPagingInformationNBCriticalExtensionsC1{
 		Choice:                      UERadioPagingInformationNBCriticalExtensionsC1ChoiceUeRadioPagingInformationR13,
@@ -443,7 +443,7 @@ func NewUERadioPagingInformationNBCriticalExtensionsC1UeRadioPagingInformationR1
 	}
 }
 
-// NewUERadioPagingInformationNBCriticalExtensionsC1Spare3 creates a UERadioPagingInformation-NB-criticalExtensions-c1 with the spare3 alternative.
+// NewUERadioPagingInformationNBCriticalExtensionsC1Spare3 creates a UERadioPagingInformationNBCriticalExtensionsC1 with the spare3 alternative.
 func NewUERadioPagingInformationNBCriticalExtensionsC1Spare3(v struct{}) UERadioPagingInformationNBCriticalExtensionsC1 {
 	return UERadioPagingInformationNBCriticalExtensionsC1{
 		Choice: UERadioPagingInformationNBCriticalExtensionsC1ChoiceSpare3,
@@ -451,7 +451,7 @@ func NewUERadioPagingInformationNBCriticalExtensionsC1Spare3(v struct{}) UERadio
 	}
 }
 
-// NewUERadioPagingInformationNBCriticalExtensionsC1Spare2 creates a UERadioPagingInformation-NB-criticalExtensions-c1 with the spare2 alternative.
+// NewUERadioPagingInformationNBCriticalExtensionsC1Spare2 creates a UERadioPagingInformationNBCriticalExtensionsC1 with the spare2 alternative.
 func NewUERadioPagingInformationNBCriticalExtensionsC1Spare2(v struct{}) UERadioPagingInformationNBCriticalExtensionsC1 {
 	return UERadioPagingInformationNBCriticalExtensionsC1{
 		Choice: UERadioPagingInformationNBCriticalExtensionsC1ChoiceSpare2,
@@ -459,7 +459,7 @@ func NewUERadioPagingInformationNBCriticalExtensionsC1Spare2(v struct{}) UERadio
 	}
 }
 
-// NewUERadioPagingInformationNBCriticalExtensionsC1Spare1 creates a UERadioPagingInformation-NB-criticalExtensions-c1 with the spare1 alternative.
+// NewUERadioPagingInformationNBCriticalExtensionsC1Spare1 creates a UERadioPagingInformationNBCriticalExtensionsC1 with the spare1 alternative.
 func NewUERadioPagingInformationNBCriticalExtensionsC1Spare1(v struct{}) UERadioPagingInformationNBCriticalExtensionsC1 {
 	return UERadioPagingInformationNBCriticalExtensionsC1{
 		Choice: UERadioPagingInformationNBCriticalExtensionsC1ChoiceSpare1,
@@ -473,6 +473,745 @@ type UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture struct
 
 // UERadioPagingInformationNBIEsNonCriticalExtension represents the ASN.1 type UERadioPagingInformation-NB-IEs-nonCriticalExtension (SEQUENCE).
 type UERadioPagingInformationNBIEsNonCriticalExtension struct {
+}
+
+// MarshalUPER encodes HandoverPreparationInformationNB to UPER format.
+func (v *HandoverPreparationInformationNB) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationNB from UPER format.
+func (v *HandoverPreparationInformationNB) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNB{}
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationNBIEs to UPER format.
+func (v *HandoverPreparationInformationNBIEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.RrmConfigR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.AsContextR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := v.UeRadioAccessCapabilityInfoR13.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo-r13: %w", err)
+	}
+	if err := v.AsConfigR13.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding as-Config-r13: %w", err)
+	}
+	if v.RrmConfigR13 != nil {
+		if err := v.RrmConfigR13.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding rrm-Config-r13: %w", err)
+		}
+	}
+	if v.AsContextR13 != nil {
+		if err := v.AsContextR13.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding as-Context-r13: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationNBIEs from UPER format.
+func (v *HandoverPreparationInformationNBIEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBIEs{}
+	// Read preamble bitmap for optional root fields
+	opt_rrmconfigr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ascontextr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if err := v.UeRadioAccessCapabilityInfoR13.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r13: %w", err)
+	}
+	if err := v.AsConfigR13.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding as-Config-r13: %w", err)
+	}
+	if opt_rrmconfigr13 {
+		var dec_rrmconfigr13 RRMConfigNB
+		if err := dec_rrmconfigr13.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding rrm-Config-r13: %w", err)
+		}
+		v.RrmConfigR13 = &dec_rrmconfigr13
+	}
+	if opt_ascontextr13 {
+		var dec_ascontextr13 ASContextNB
+		if err := dec_ascontextr13.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding as-Context-r13: %w", err)
+		}
+		v.AsContextR13 = &dec_ascontextr13
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationNBV1380IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationNBV1380IEs to UPER format.
+func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.LateNonCriticalExtension != nil {
+		if err := per.EncodeOctetStringExt(bb, v.LateNonCriticalExtension, 0, 0, false, false); err != nil {
+			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationNBV1380IEs from UPER format.
+func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBV1380IEs{}
+	// Read preamble bitmap for optional root fields
+	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_latenoncriticalextension {
+		val_latenoncriticalextension, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
+		if err != nil {
+			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+		}
+		tmp_latenoncriticalextension := val_latenoncriticalextension
+		v.LateNonCriticalExtension = tmp_latenoncriticalextension
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes HandoverPreparationInformationNBExtR14IEs to UPER format.
+func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.UeRadioAccessCapabilityInfoExtR14 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.UeRadioAccessCapabilityInfoExtR14 != nil {
+		containedBB_ueradioaccesscapabilityinfoextr14 := per.NewBitBuffer()
+		if err := (*v.UeRadioAccessCapabilityInfoExtR14).MarshalUPERTo(containedBB_ueradioaccesscapabilityinfoextr14); err != nil {
+			return fmt.Errorf("encoding contained ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+		}
+		if err := per.EncodeOctetStringExt(bb, containedBB_ueradioaccesscapabilityinfoextr14.Bytes(), 0, 0, false, false); err != nil {
+			return fmt.Errorf("encoding ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes HandoverPreparationInformationNBExtR14IEs from UPER format.
+func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBExtR14IEs{}
+	// Read preamble bitmap for optional root fields
+	opt_ueradioaccesscapabilityinfoextr14, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ueradioaccesscapabilityinfoextr14 {
+		containedBytes_ueradioaccesscapabilityinfoextr14, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
+		if err != nil {
+			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+		}
+		var contained_ueradioaccesscapabilityinfoextr14 UECapabilityNBExtR14IEs
+		if err := contained_ueradioaccesscapabilityinfoextr14.UnmarshalUPER(containedBytes_ueradioaccesscapabilityinfoextr14); err != nil {
+			return fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+		}
+		v.UeRadioAccessCapabilityInfoExtR14 = &contained_ueradioaccesscapabilityinfoextr14
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UEPagingCoverageInformationNB to UPER format.
+func (v *UEPagingCoverageInformationNB) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEPagingCoverageInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UEPagingCoverageInformationNB from UPER format.
+func (v *UEPagingCoverageInformationNB) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UEPagingCoverageInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNB{}
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes UEPagingCoverageInformationNBIEs to UPER format.
+func (v *UEPagingCoverageInformationNBIEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEPagingCoverageInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NpdcchNumRepetitionPagingR13 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.NpdcchNumRepetitionPagingR13 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.NpdcchNumRepetitionPagingR13), int64Ptr(1), int64Ptr(2048), false); err != nil {
+			return fmt.Errorf("encoding npdcch-NumRepetitionPaging-r13: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UEPagingCoverageInformationNBIEs from UPER format.
+func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBIEs{}
+	// Read preamble bitmap for optional root fields
+	opt_npdcchnumrepetitionpagingr13, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_npdcchnumrepetitionpagingr13 {
+		val_npdcchnumrepetitionpagingr13, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(2048), false)
+		if err != nil {
+			return fmt.Errorf("decoding npdcch-NumRepetitionPaging-r13: %w", err)
+		}
+		v.NpdcchNumRepetitionPagingR13 = &val_npdcchnumrepetitionpagingr13
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UEPagingCoverageInformationNBV1700IEs to UPER format.
+func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.CbpIndexR17 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.CbpIndexR17 != nil {
+		if err := per.EncodeInteger(bb, int64(*v.CbpIndexR17), int64Ptr(1), int64Ptr(2), false); err != nil {
+			return fmt.Errorf("encoding cbp-Index-r17: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UEPagingCoverageInformationNBV1700IEs from UPER format.
+func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBV1700IEs{}
+	// Read preamble bitmap for optional root fields
+	opt_cbpindexr17, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_cbpindexr17 {
+		val_cbpindexr17, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(2), false)
+		if err != nil {
+			return fmt.Errorf("decoding cbp-Index-r17: %w", err)
+		}
+		v.CbpIndexR17 = &val_cbpindexr17
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioAccessCapabilityInformationNB to UPER format.
+func (v *UERadioAccessCapabilityInformationNB) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioAccessCapabilityInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioAccessCapabilityInformationNB from UPER format.
+func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNB{}
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioAccessCapabilityInformationNBIEs to UPER format.
+func (v *UERadioAccessCapabilityInformationNBIEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioAccessCapabilityInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	containedBB_ueradioaccesscapabilityinfor13 := per.NewBitBuffer()
+	if err := (v.UeRadioAccessCapabilityInfoR13).MarshalUPERTo(containedBB_ueradioaccesscapabilityinfor13); err != nil {
+		return fmt.Errorf("encoding contained ue-RadioAccessCapabilityInfo-r13: %w", err)
+	}
+	if err := per.EncodeOctetStringExt(bb, containedBB_ueradioaccesscapabilityinfor13.Bytes(), 0, 0, false, false); err != nil {
+		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo-r13: %w", err)
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioAccessCapabilityInformationNBIEs from UPER format.
+func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBIEs{}
+	// Read preamble bitmap for optional root fields
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	containedBytes_ueradioaccesscapabilityinfor13, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
+	if err != nil {
+		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r13: %w", err)
+	}
+	var contained_ueradioaccesscapabilityinfor13 UECapabilityNBR13
+	if err := contained_ueradioaccesscapabilityinfor13.UnmarshalUPER(containedBytes_ueradioaccesscapabilityinfor13); err != nil {
+		return fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r13: %w", err)
+	}
+	v.UeRadioAccessCapabilityInfoR13 = contained_ueradioaccesscapabilityinfor13
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioAccessCapabilityInformationNBV1380IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioAccessCapabilityInformationNBV1380IEs to UPER format.
+func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.LateNonCriticalExtension != nil {
+		if err := per.EncodeOctetStringExt(bb, v.LateNonCriticalExtension, 0, 0, false, false); err != nil {
+			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioAccessCapabilityInformationNBV1380IEs from UPER format.
+func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBV1380IEs{}
+	// Read preamble bitmap for optional root fields
+	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_latenoncriticalextension {
+		val_latenoncriticalextension, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
+		if err != nil {
+			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+		}
+		tmp_latenoncriticalextension := val_latenoncriticalextension
+		v.LateNonCriticalExtension = tmp_latenoncriticalextension
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEs
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioAccessCapabilityInformationNBR14IEs to UPER format.
+func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.UeRadioAccessCapabilityInfoR14 != nil); err != nil {
+		return err
+	}
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	if v.UeRadioAccessCapabilityInfoR14 != nil {
+		containedBB_ueradioaccesscapabilityinfor14 := per.NewBitBuffer()
+		if err := (*v.UeRadioAccessCapabilityInfoR14).MarshalUPERTo(containedBB_ueradioaccesscapabilityinfor14); err != nil {
+			return fmt.Errorf("encoding contained ue-RadioAccessCapabilityInfo-r14: %w", err)
+		}
+		if err := per.EncodeOctetStringExt(bb, containedBB_ueradioaccesscapabilityinfor14.Bytes(), 0, 0, false, false); err != nil {
+			return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo-r14: %w", err)
+		}
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioAccessCapabilityInformationNBR14IEs from UPER format.
+func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBR14IEs{}
+	// Read preamble bitmap for optional root fields
+	opt_ueradioaccesscapabilityinfor14, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if opt_ueradioaccesscapabilityinfor14 {
+		containedBytes_ueradioaccesscapabilityinfor14, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
+		if err != nil {
+			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r14: %w", err)
+		}
+		var contained_ueradioaccesscapabilityinfor14 UECapabilityInformationNB
+		if err := contained_ueradioaccesscapabilityinfor14.UnmarshalUPER(containedBytes_ueradioaccesscapabilityinfor14); err != nil {
+			return fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo-r14: %w", err)
+		}
+		v.UeRadioAccessCapabilityInfoR14 = &contained_ueradioaccesscapabilityinfor14
+	}
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioPagingInformationNB to UPER format.
+func (v *UERadioPagingInformationNB) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioPagingInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
+	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
+		return fmt.Errorf("encoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioPagingInformationNB from UPER format.
+func (v *UERadioPagingInformationNB) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioPagingInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNB{}
+	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
+		return fmt.Errorf("decoding criticalExtensions: %w", err)
+	}
+	return nil
+}
+
+// MarshalUPER encodes UERadioPagingInformationNBIEs to UPER format.
+func (v *UERadioPagingInformationNBIEs) MarshalUPER() ([]byte, error) {
+	bb := per.NewBitBuffer()
+	if err := v.MarshalUPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.Bytes(), nil
+}
+
+func (v *UERadioPagingInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	// Preamble bitmap for optional root fields
+	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
+		return err
+	}
+	containedBB_ueradiopaginginfor13 := per.NewBitBuffer()
+	if err := (v.UeRadioPagingInfoR13).MarshalUPERTo(containedBB_ueradiopaginginfor13); err != nil {
+		return fmt.Errorf("encoding contained ue-RadioPagingInfo-r13: %w", err)
+	}
+	if err := per.EncodeOctetStringExt(bb, containedBB_ueradiopaginginfor13.Bytes(), 0, 0, false, false); err != nil {
+		return fmt.Errorf("encoding ue-RadioPagingInfo-r13: %w", err)
+	}
+	if v.NonCriticalExtension != nil {
+		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
+			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+		}
+	}
+	return nil
+}
+
+// UnmarshalUPER decodes UERadioPagingInformationNBIEs from UPER format.
+func (v *UERadioPagingInformationNBIEs) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	return v.UnmarshalUPERFrom(bb)
+}
+
+func (v *UERadioPagingInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBIEs{}
+	// Read preamble bitmap for optional root fields
+	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	containedBytes_ueradiopaginginfor13, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
+	if err != nil {
+		return fmt.Errorf("decoding ue-RadioPagingInfo-r13: %w", err)
+	}
+	var contained_ueradiopaginginfor13 UERadioPagingInfoNBR13
+	if err := contained_ueradiopaginginfor13.UnmarshalUPER(containedBytes_ueradiopaginginfor13); err != nil {
+		return fmt.Errorf("decoding contained ue-RadioPagingInfo-r13: %w", err)
+	}
+	v.UeRadioPagingInfoR13 = contained_ueradiopaginginfor13
+	if opt_noncriticalextension {
+		var dec_noncriticalextension UERadioPagingInformationNBIEsNonCriticalExtension
+		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
+			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		}
+		v.NonCriticalExtension = &dec_noncriticalextension
+	}
+	return nil
 }
 
 // MarshalUPER encodes ASConfigNB to UPER format.
@@ -495,7 +1234,7 @@ func (v *ASConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := v.SourceSecurityAlgorithmConfigR13.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding sourceSecurityAlgorithmConfig-r13: %w", err)
 	}
-	if err := per.EncodeBitString(bb, v.SourceUEIdentityR13.Bytes, v.SourceUEIdentityR13.BitLength, 16, 16, true); err != nil {
+	if err := per.EncodeBitStringExt(bb, v.SourceUEIdentityR13.Bytes, v.SourceUEIdentityR13.BitLength, 16, 16, true, false); err != nil {
 		return fmt.Errorf("encoding sourceUE-Identity-r13: %w", err)
 	}
 	if err := v.SourceDlCarrierFreqR13.MarshalUPERTo(bb); err != nil {
@@ -559,6 +1298,7 @@ func (v *ASConfigNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = ASConfigNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -569,7 +1309,7 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.SourceSecurityAlgorithmConfigR13.UnmarshalUPERFrom(bb); err != nil {
 		return fmt.Errorf("decoding sourceSecurityAlgorithmConfig-r13: %w", err)
 	}
-	bsBytes_sourceueidentityr13, bsBitLen_sourceueidentityr13, err := per.DecodeBitString(bb, 16, 16, true)
+	bsBytes_sourceueidentityr13, bsBitLen_sourceueidentityr13, err := per.DecodeBitStringExt(bb, 16, 16, true, false)
 	if err != nil {
 		return fmt.Errorf("decoding sourceUE-Identity-r13: %w", err)
 	}
@@ -670,6 +1410,7 @@ func (v *ASContextNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *ASContextNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = ASContextNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -707,8 +1448,8 @@ func (v *ASContextNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes HandoverPreparationInformationNB to UPER format.
-func (v *HandoverPreparationInformationNB) MarshalUPER() ([]byte, error) {
+// MarshalUPER encodes ReestablishmentInfoNB to UPER format.
+func (v *ReestablishmentInfoNB) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
@@ -716,244 +1457,117 @@ func (v *HandoverPreparationInformationNB) MarshalUPER() ([]byte, error) {
 	return bb.Bytes(), nil
 }
 
-func (v *HandoverPreparationInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
+func (v *ReestablishmentInfoNB) MarshalUPERTo(bb *per.BitBuffer) error {
+	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
+	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
 	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationNB from UPER format.
-func (v *HandoverPreparationInformationNB) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationNBExtR14IEs to UPER format.
-func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.UeRadioAccessCapabilityInfoExtR14 != nil); err != nil {
+	if err := per.EncodeBoolean(bb, v.AdditionalReestabInfoListR13 != nil); err != nil {
 		return err
 	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
+	if err := per.EncodeInteger(bb, int64(v.SourcePhysCellIdR13), int64Ptr(0), int64Ptr(503), false); err != nil {
+		return fmt.Errorf("encoding sourcePhysCellId-r13: %w", err)
 	}
-	if v.UeRadioAccessCapabilityInfoExtR14 != nil {
-		if err := per.EncodeOctetString(bb, v.UeRadioAccessCapabilityInfoExtR14, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+	if err := per.EncodeBitStringExt(bb, v.TargetCellShortMACIR13.Bytes, v.TargetCellShortMACIR13.BitLength, 16, 16, true, false); err != nil {
+		return fmt.Errorf("encoding targetCellShortMAC-I-r13: %w", err)
+	}
+	if v.AdditionalReestabInfoListR13 != nil {
+		if err := per.EncodeCollection(bb, int64(len(v.AdditionalReestabInfoListR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolistr13, fragmentLength_additionalreestabinfolistr13 int64) error {
+			for _, elem := range v.AdditionalReestabInfoListR13[fragmentOffset_additionalreestabinfolistr13 : fragmentOffset_additionalreestabinfolistr13+fragmentLength_additionalreestabinfolistr13] {
+				if err := elem.MarshalUPERTo(bb); err != nil {
+					return fmt.Errorf("encoding additionalReestabInfoList-r13 element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding additionalReestabInfoList-r13: %w", err)
 		}
 	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
+	if hasExtensions {
+		if err := per.EncodeNormallySmallNonNegative(bb, v.ExtCount_); err != nil {
+			return err
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			if err := per.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		for i := int64(0); i <= v.ExtCount_; i++ {
+			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
+				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
+					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
+						return err
+					}
+				}
+			}
 		}
 	}
 	return nil
 }
 
-// UnmarshalUPER decodes HandoverPreparationInformationNBExtR14IEs from UPER format.
-func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPER(data []byte) error {
+// UnmarshalUPER decodes ReestablishmentInfoNB from UPER format.
+func (v *ReestablishmentInfoNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	return v.UnmarshalUPERFrom(bb)
 }
 
-func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = ReestablishmentInfoNB{}
+	hasExtensions, err := per.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
 	// Read preamble bitmap for optional root fields
-	opt_ueradioaccesscapabilityinfoextr14, err := per.DecodeBoolean(bb)
+	opt_additionalreestabinfolistr13, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
+	val_sourcephyscellidr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
 	if err != nil {
-		return err
+		return fmt.Errorf("decoding sourcePhysCellId-r13: %w", err)
 	}
-	if opt_ueradioaccesscapabilityinfoextr14 {
-		val_ueradioaccesscapabilityinfoextr14, err := per.DecodeOctetString(bb, 0, 0, false)
+	v.SourcePhysCellIdR13 = PhysCellId(val_sourcephyscellidr13)
+	bsBytes_targetcellshortmacir13, bsBitLen_targetcellshortmacir13, err := per.DecodeBitStringExt(bb, 16, 16, true, false)
+	if err != nil {
+		return fmt.Errorf("decoding targetCellShortMAC-I-r13: %w", err)
+	}
+	v.TargetCellShortMACIR13 = runtime.BitString{Bytes: bsBytes_targetcellshortmacir13, BitLength: bsBitLen_targetcellshortmacir13}
+	if opt_additionalreestabinfolistr13 {
+		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, 0)
+		_, errCollection_additionalreestabinfolistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolistr13, fragmentLength_additionalreestabinfolistr13 int64) error {
+			for i := int64(0); i < fragmentLength_additionalreestabinfolistr13; i++ {
+				var elem AdditionalReestabInfo
+				if err := elem.UnmarshalUPERFrom(bb); err != nil {
+					return fmt.Errorf("decoding additionalReestabInfoList-r13 element %d: %w", fragmentOffset_additionalreestabinfolistr13+i, err)
+				}
+				tmp_additionalreestabinfolistr13 = append(tmp_additionalreestabinfolistr13, elem)
+			}
+			return nil
+		})
+		if errCollection_additionalreestabinfolistr13 != nil {
+			return fmt.Errorf("decoding additionalReestabInfoList-r13: %w", errCollection_additionalreestabinfolistr13)
+		}
+		v.AdditionalReestabInfoListR13 = tmp_additionalreestabinfolistr13
+	}
+	if hasExtensions {
+		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+			return err
 		}
-		tmp_ueradioaccesscapabilityinfoextr14 := val_ueradioaccesscapabilityinfoextr14
-		v.UeRadioAccessCapabilityInfoExtR14 = tmp_ueradioaccesscapabilityinfoextr14
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+		v.ExtCount_ = extCount
+		v.ExtData_ = make([][]byte, extCount+1)
+		v.ExtPresent_ = extPresent
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] {
+				data, err := per.DecodeOpenType(bb)
+				if err != nil {
+					return err
+				}
+				v.ExtData_[i] = data
+			}
 		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationNBIEs to UPER format.
-func (v *HandoverPreparationInformationNBIEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.RrmConfigR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.AsContextR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := v.UeRadioAccessCapabilityInfoR13.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo-r13: %w", err)
-	}
-	if err := v.AsConfigR13.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding as-Config-r13: %w", err)
-	}
-	if v.RrmConfigR13 != nil {
-		if err := v.RrmConfigR13.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding rrm-Config-r13: %w", err)
-		}
-	}
-	if v.AsContextR13 != nil {
-		if err := v.AsContextR13.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding as-Context-r13: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationNBIEs from UPER format.
-func (v *HandoverPreparationInformationNBIEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_rrmconfigr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_ascontextr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if err := v.UeRadioAccessCapabilityInfoR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r13: %w", err)
-	}
-	if err := v.AsConfigR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding as-Config-r13: %w", err)
-	}
-	if opt_rrmconfigr13 {
-		var dec_rrmconfigr13 RRMConfigNB
-		if err := dec_rrmconfigr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rrm-Config-r13: %w", err)
-		}
-		v.RrmConfigR13 = &dec_rrmconfigr13
-	}
-	if opt_ascontextr13 {
-		var dec_ascontextr13 ASContextNB
-		if err := dec_ascontextr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context-r13: %w", err)
-		}
-		v.AsContextR13 = &dec_ascontextr13
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationNBV1380IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes HandoverPreparationInformationNBV1380IEs to UPER format.
-func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.LateNonCriticalExtension != nil {
-		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes HandoverPreparationInformationNBV1380IEs from UPER format.
-func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_latenoncriticalextension {
-		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
-		}
-		tmp_latenoncriticalextension := val_latenoncriticalextension
-		v.LateNonCriticalExtension = tmp_latenoncriticalextension
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
 	}
 	return nil
 }
@@ -1011,6 +1625,7 @@ func (v *RRMConfigNB) UnmarshalUPER(data []byte) error {
 }
 
 func (v *RRMConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = RRMConfigNB{}
 	hasExtensions, err := per.DecodeBoolean(bb)
 	if err != nil {
 		return err
@@ -1048,568 +1663,6 @@ func (v *RRMConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	return nil
 }
 
-// MarshalUPER encodes ReestablishmentInfoNB to UPER format.
-func (v *ReestablishmentInfoNB) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *ReestablishmentInfoNB) MarshalUPERTo(bb *per.BitBuffer) error {
-	hasExtensions := v.ExtCount_ > 0 || len(v.ExtData_) > 0
-	if err := per.EncodeBoolean(bb, hasExtensions); err != nil {
-		return err
-	}
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.AdditionalReestabInfoListR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeInteger(bb, int64(v.SourcePhysCellIdR13), int64Ptr(0), int64Ptr(503), false); err != nil {
-		return fmt.Errorf("encoding sourcePhysCellId-r13: %w", err)
-	}
-	if err := per.EncodeBitString(bb, v.TargetCellShortMACIR13.Bytes, v.TargetCellShortMACIR13.BitLength, 16, 16, true); err != nil {
-		return fmt.Errorf("encoding targetCellShortMAC-I-r13: %w", err)
-	}
-	if v.AdditionalReestabInfoListR13 != nil {
-		if err := per.EncodeConstrainedWholeNumber(bb, int64(len(v.AdditionalReestabInfoListR13)), 1, 32); err != nil {
-			return fmt.Errorf("encoding additionalReestabInfoList-r13 length: %w", err)
-		}
-		for _, elem := range v.AdditionalReestabInfoListR13 {
-			if err := elem.MarshalUPERTo(bb); err != nil {
-				return fmt.Errorf("encoding additionalReestabInfoList-r13 element: %w", err)
-			}
-		}
-	}
-	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegative(bb, v.ExtCount_); err != nil {
-			return err
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
-			if err := per.EncodeBoolean(bb, p); err != nil {
-				return err
-			}
-		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
-				}
-			}
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes ReestablishmentInfoNB from UPER format.
-func (v *ReestablishmentInfoNB) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	hasExtensions, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	// Read preamble bitmap for optional root fields
-	opt_additionalreestabinfolistr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_sourcephyscellidr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
-	if err != nil {
-		return fmt.Errorf("decoding sourcePhysCellId-r13: %w", err)
-	}
-	v.SourcePhysCellIdR13 = PhysCellId(val_sourcephyscellidr13)
-	bsBytes_targetcellshortmacir13, bsBitLen_targetcellshortmacir13, err := per.DecodeBitString(bb, 16, 16, true)
-	if err != nil {
-		return fmt.Errorf("decoding targetCellShortMAC-I-r13: %w", err)
-	}
-	v.TargetCellShortMACIR13 = runtime.BitString{Bytes: bsBytes_targetcellshortmacir13, BitLength: bsBitLen_targetcellshortmacir13}
-	if opt_additionalreestabinfolistr13 {
-		seqLen_additionalreestabinfolistr13, err := per.DecodeConstrainedWholeNumber(bb, 1, 32)
-		if err != nil {
-			return fmt.Errorf("decoding additionalReestabInfoList-r13 length: %w", err)
-		}
-		tmp_additionalreestabinfolistr13 := make(AdditionalReestabInfoList, seqLen_additionalreestabinfolistr13)
-		for i := int64(0); i < seqLen_additionalreestabinfolistr13; i++ {
-			if err := tmp_additionalreestabinfolistr13[i].UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding additionalReestabInfoList-r13 element: %w", err)
-			}
-		}
-		v.AdditionalReestabInfoListR13 = tmp_additionalreestabinfolistr13
-	}
-	if hasExtensions {
-		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
-		if err != nil {
-			return err
-		}
-		v.ExtCount_ = extCount
-		v.ExtData_ = make([][]byte, extCount+1)
-		v.ExtPresent_ = extPresent
-		for i := int64(0); i <= extCount; i++ {
-			if extPresent[i] {
-				data, err := per.DecodeOpenType(bb)
-				if err != nil {
-					return err
-				}
-				v.ExtData_[i] = data
-			}
-		}
-	}
-	return nil
-}
-
-// MarshalUPER encodes UEPagingCoverageInformationNB to UPER format.
-func (v *UEPagingCoverageInformationNB) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEPagingCoverageInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UEPagingCoverageInformationNB from UPER format.
-func (v *UEPagingCoverageInformationNB) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UEPagingCoverageInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes UEPagingCoverageInformationNBIEs to UPER format.
-func (v *UEPagingCoverageInformationNBIEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEPagingCoverageInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NpdcchNumRepetitionPagingR13 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.NpdcchNumRepetitionPagingR13 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.NpdcchNumRepetitionPagingR13), int64Ptr(1), int64Ptr(2048), false); err != nil {
-			return fmt.Errorf("encoding npdcch-NumRepetitionPaging-r13: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UEPagingCoverageInformationNBIEs from UPER format.
-func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_npdcchnumrepetitionpagingr13, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_npdcchnumrepetitionpagingr13 {
-		val_npdcchnumrepetitionpagingr13, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(2048), false)
-		if err != nil {
-			return fmt.Errorf("decoding npdcch-NumRepetitionPaging-r13: %w", err)
-		}
-		v.NpdcchNumRepetitionPagingR13 = &val_npdcchnumrepetitionpagingr13
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UEPagingCoverageInformationNBV1700IEs to UPER format.
-func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.CbpIndexR17 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.CbpIndexR17 != nil {
-		if err := per.EncodeInteger(bb, int64(*v.CbpIndexR17), int64Ptr(1), int64Ptr(2), false); err != nil {
-			return fmt.Errorf("encoding cbp-Index-r17: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UEPagingCoverageInformationNBV1700IEs from UPER format.
-func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_cbpindexr17, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_cbpindexr17 {
-		val_cbpindexr17, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(2), false)
-		if err != nil {
-			return fmt.Errorf("decoding cbp-Index-r17: %w", err)
-		}
-		v.CbpIndexR17 = &val_cbpindexr17
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioAccessCapabilityInformationNB to UPER format.
-func (v *UERadioAccessCapabilityInformationNB) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioAccessCapabilityInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioAccessCapabilityInformationNB from UPER format.
-func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioAccessCapabilityInformationNBIEs to UPER format.
-func (v *UERadioAccessCapabilityInformationNBIEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioAccessCapabilityInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetString(bb, v.UeRadioAccessCapabilityInfoR13, 0, 0, false); err != nil {
-		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo-r13: %w", err)
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioAccessCapabilityInformationNBIEs from UPER format.
-func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_ueradioaccesscapabilityinfor13, err := per.DecodeOctetString(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r13: %w", err)
-	}
-	v.UeRadioAccessCapabilityInfoR13 = val_ueradioaccesscapabilityinfor13
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioAccessCapabilityInformationNBV1380IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioAccessCapabilityInformationNBR14IEs to UPER format.
-func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.UeRadioAccessCapabilityInfoR14 != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.UeRadioAccessCapabilityInfoR14 != nil {
-		if err := per.EncodeOctetString(bb, v.UeRadioAccessCapabilityInfoR14, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo-r14: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioAccessCapabilityInformationNBR14IEs from UPER format.
-func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_ueradioaccesscapabilityinfor14, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_ueradioaccesscapabilityinfor14 {
-		val_ueradioaccesscapabilityinfor14, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r14: %w", err)
-		}
-		tmp_ueradioaccesscapabilityinfor14 := val_ueradioaccesscapabilityinfor14
-		v.UeRadioAccessCapabilityInfoR14 = tmp_ueradioaccesscapabilityinfor14
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioAccessCapabilityInformationNBV1380IEs to UPER format.
-func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.LateNonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if v.LateNonCriticalExtension != nil {
-		if err := per.EncodeOctetString(bb, v.LateNonCriticalExtension, 0, 0, false); err != nil {
-			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
-		}
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioAccessCapabilityInformationNBV1380IEs from UPER format.
-func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_latenoncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	if opt_latenoncriticalextension {
-		val_latenoncriticalextension, err := per.DecodeOctetString(bb, 0, 0, false)
-		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
-		}
-		tmp_latenoncriticalextension := val_latenoncriticalextension
-		v.LateNonCriticalExtension = tmp_latenoncriticalextension
-	}
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEs
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioPagingInformationNB to UPER format.
-func (v *UERadioPagingInformationNB) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioPagingInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.MarshalUPERTo(bb); err != nil {
-		return fmt.Errorf("encoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioPagingInformationNB from UPER format.
-func (v *UERadioPagingInformationNB) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioPagingInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
-	}
-	return nil
-}
-
-// MarshalUPER encodes UERadioPagingInformationNBIEs to UPER format.
-func (v *UERadioPagingInformationNBIEs) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
-	if err := v.MarshalUPERTo(bb); err != nil {
-		return nil, err
-	}
-	return bb.Bytes(), nil
-}
-
-func (v *UERadioPagingInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
-	// Preamble bitmap for optional root fields
-	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
-		return err
-	}
-	if err := per.EncodeOctetString(bb, v.UeRadioPagingInfoR13, 0, 0, false); err != nil {
-		return fmt.Errorf("encoding ue-RadioPagingInfo-r13: %w", err)
-	}
-	if v.NonCriticalExtension != nil {
-		if err := v.NonCriticalExtension.MarshalUPERTo(bb); err != nil {
-			return fmt.Errorf("encoding nonCriticalExtension: %w", err)
-		}
-	}
-	return nil
-}
-
-// UnmarshalUPER decodes UERadioPagingInformationNBIEs from UPER format.
-func (v *UERadioPagingInformationNBIEs) UnmarshalUPER(data []byte) error {
-	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
-}
-
-func (v *UERadioPagingInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
-	// Read preamble bitmap for optional root fields
-	opt_noncriticalextension, err := per.DecodeBoolean(bb)
-	if err != nil {
-		return err
-	}
-	val_ueradiopaginginfor13, err := per.DecodeOctetString(bb, 0, 0, false)
-	if err != nil {
-		return fmt.Errorf("decoding ue-RadioPagingInfo-r13: %w", err)
-	}
-	v.UeRadioPagingInfoR13 = val_ueradiopaginginfor13
-	if opt_noncriticalextension {
-		var dec_noncriticalextension UERadioPagingInformationNBIEsNonCriticalExtension
-		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
-		}
-		v.NonCriticalExtension = &dec_noncriticalextension
-	}
-	return nil
-}
-
 // MarshalUPER encodes HandoverPreparationInformationNBCriticalExtensions to UPER format.
 func (v *HandoverPreparationInformationNBCriticalExtensions) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
@@ -1625,10 +1678,16 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) MarshalUPERTo(bb *p
 	}
 	switch v.Choice {
 	case HandoverPreparationInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case HandoverPreparationInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -1645,6 +1704,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPER(data 
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -1682,6 +1742,9 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) MarshalUPERTo(bb 
 	}
 	switch v.Choice {
 	case HandoverPreparationInformationNBCriticalExtensionsC1ChoiceHandoverPreparationInformationR13:
+		if v.HandoverPreparationInformationR13 == nil {
+			return fmt.Errorf("choice alternative handoverPreparationInformation-r13 is nil")
+		}
 		if err := v.HandoverPreparationInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding handoverPreparationInformation-r13: %w", err)
 		}
@@ -1701,6 +1764,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPER(dat
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -1740,6 +1804,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFut
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -1763,6 +1828,7 @@ func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) Unmarsha
 }
 
 func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = HandoverPreparationInformationNBExtR14IEsNonCriticalExtension{}
 	return nil
 }
 
@@ -1781,10 +1847,16 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) MarshalUPERTo(bb *per.
 	}
 	switch v.Choice {
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -1801,6 +1873,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPER(data []b
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -1838,6 +1911,9 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *pe
 	}
 	switch v.Choice {
 	case UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceUePagingCoverageInformationR13:
+		if v.UePagingCoverageInformationR13 == nil {
+			return fmt.Errorf("choice alternative uePagingCoverageInformation-r13 is nil")
+		}
 		if err := v.UePagingCoverageInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding uePagingCoverageInformation-r13: %w", err)
 		}
@@ -1857,6 +1933,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPER(data [
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -1896,6 +1973,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -1919,6 +1997,7 @@ func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) UnmarshalUPE
 }
 
 func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UEPagingCoverageInformationNBV1700IEsNonCriticalExtension{}
 	return nil
 }
 
@@ -1937,10 +2016,16 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) MarshalUPERTo(b
 	}
 	switch v.Choice {
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -1957,6 +2042,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPER(d
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -1994,6 +2080,9 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) MarshalUPERTo
 	}
 	switch v.Choice {
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceUeRadioAccessCapabilityInformationR13:
+		if v.UeRadioAccessCapabilityInformationR13 == nil {
+			return fmt.Errorf("choice alternative ueRadioAccessCapabilityInformation-r13 is nil")
+		}
 		if err := v.UeRadioAccessCapabilityInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding ueRadioAccessCapabilityInformation-r13: %w", err)
 		}
@@ -2013,6 +2102,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPER
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -2052,6 +2142,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtension
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -2075,6 +2166,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) Unmarsh
 }
 
 func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension{}
 	return nil
 }
 
@@ -2093,10 +2185,16 @@ func (v *UERadioPagingInformationNBCriticalExtensions) MarshalUPERTo(bb *per.Bit
 	}
 	switch v.Choice {
 	case UERadioPagingInformationNBCriticalExtensionsChoiceC1:
+		if v.C1 == nil {
+			return fmt.Errorf("choice alternative c1 is nil")
+		}
 		if err := v.C1.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding c1: %w", err)
 		}
 	case UERadioPagingInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
+		if v.CriticalExtensionsFuture == nil {
+			return fmt.Errorf("choice alternative criticalExtensionsFuture is nil")
+		}
 		if err := v.CriticalExtensionsFuture.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding criticalExtensionsFuture: %w", err)
 		}
@@ -2113,6 +2211,7 @@ func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPER(data []byte
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBCriticalExtensions{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
@@ -2150,6 +2249,9 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.B
 	}
 	switch v.Choice {
 	case UERadioPagingInformationNBCriticalExtensionsC1ChoiceUeRadioPagingInformationR13:
+		if v.UeRadioPagingInformationR13 == nil {
+			return fmt.Errorf("choice alternative ueRadioPagingInformation-r13 is nil")
+		}
 		if err := v.UeRadioPagingInformationR13.MarshalUPERTo(bb); err != nil {
 			return fmt.Errorf("encoding ueRadioPagingInformation-r13: %w", err)
 		}
@@ -2169,6 +2271,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPER(data []by
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBCriticalExtensionsC1{}
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 3)
 	if err != nil {
 		return err
@@ -2208,6 +2311,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) U
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture{}
 	return nil
 }
 
@@ -2231,5 +2335,6 @@ func (v *UERadioPagingInformationNBIEsNonCriticalExtension) UnmarshalUPER(data [
 }
 
 func (v *UERadioPagingInformationNBIEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+	*v = UERadioPagingInformationNBIEsNonCriticalExtension{}
 	return nil
 }

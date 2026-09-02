@@ -1,6 +1,6 @@
-// Code generated from ASN.1 module "SS-Protocol". DO NOT EDIT.
+// Code generated from ASN.1 module "PEDefinitions". DO NOT EDIT.
 
-package gsm_map
+package sgp32
 
 import (
 	"github.com/gomaja/go-asn1/runtime"
@@ -14,3 +14,6 @@ var (
 	_ = ber.EncodeTLV
 	_ = tag.ClassUniversal
 )
+
+// UICCCapability represents the ASN.1 type UICCCapability (BIT_STRING).
+type UICCCapability = runtime.BitString

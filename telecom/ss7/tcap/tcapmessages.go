@@ -4,6 +4,7 @@ package tcap
 
 import (
 	"fmt"
+	"math/big"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
@@ -78,7 +79,7 @@ func NewTCMessageAbort(v Abort) TCMessage {
 
 // Unidirectional represents the ASN.1 type Unidirectional (SEQUENCE).
 type Unidirectional struct {
-	DialoguePortion  *DialoguePortion `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion `asn1:"tag:12,application,implicit"`
 	ComponentsIndef_ bool             `asn1:"-" json:"-"`
 }
@@ -86,7 +87,7 @@ type Unidirectional struct {
 // Begin represents the ASN.1 type Begin (SEQUENCE).
 type Begin struct {
 	Otid             OrigTransactionID `asn1:""`
-	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
 }
@@ -94,7 +95,7 @@ type Begin struct {
 // End represents the ASN.1 type End (SEQUENCE).
 type End struct {
 	Dtid             DestTransactionID `asn1:""`
-	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
 }
@@ -103,7 +104,7 @@ type End struct {
 type Continue struct {
 	Otid             OrigTransactionID `asn1:""`
 	Dtid             DestTransactionID `asn1:""`
-	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
+	DialoguePortion  *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty" asn1c:"raw-preserve"`
 	Components       ComponentPortion  `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
 	ComponentsIndef_ bool              `asn1:"-" json:"-"`
 }
@@ -114,6 +115,7 @@ type Abort struct {
 	Reason *AbortReason      `asn1:",optional" json:"Reason,omitempty"`
 }
 
+// asn1c:raw-preserve
 // DialoguePortion represents the ASN.1 type DialoguePortion (EXTERNAL).
 type DialoguePortion = runtime.RawValue
 
@@ -163,8 +165,8 @@ const (
 // Component represents the ASN.1 CHOICE type Component.
 type Component struct {
 	Choice              int
-	BasicROS            *ROS `json:"BasicROS,omitempty"`
-	ReturnResultNotLast *ROS `json:"ReturnResultNotLast,omitempty"`
+	BasicROS            *ROS          `json:"BasicROS,omitempty"`
+	ReturnResultNotLast *ReturnResult `json:"ReturnResultNotLast,omitempty"`
 }
 
 // NewComponentBasicROS creates a Component with the basicROS alternative.
@@ -176,15 +178,41 @@ func NewComponentBasicROS(v ROS) Component {
 }
 
 // NewComponentReturnResultNotLast creates a Component with the returnResultNotLast alternative.
-func NewComponentReturnResultNotLast(v ROS) Component {
+func NewComponentReturnResultNotLast(v ReturnResult) Component {
 	return Component{
 		Choice:              ComponentChoiceReturnResultNotLast,
 		ReturnResultNotLast: &v,
 	}
 }
 
-// TCInvokeIdSet represents the ASN.1 type TCInvokeIdSet (CHOICE).
-type TCInvokeIdSet = InvokeId
+// TCInvokeIdSet choice constants.
+const (
+	TCInvokeIdSetChoicePresent = 1
+	TCInvokeIdSetChoiceAbsent  = 2
+)
+
+// TCInvokeIdSet represents the ASN.1 CHOICE type TCInvokeIdSet.
+type TCInvokeIdSet struct {
+	Choice  int
+	Present *int64    `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewTCInvokeIdSetPresent creates a TCInvokeIdSet with the present alternative.
+func NewTCInvokeIdSetPresent(v int64) TCInvokeIdSet {
+	return TCInvokeIdSet{
+		Choice:  TCInvokeIdSetChoicePresent,
+		Present: &v,
+	}
+}
+
+// NewTCInvokeIdSetAbsent creates a TCInvokeIdSet with the absent alternative.
+func NewTCInvokeIdSetAbsent(v struct{}) TCInvokeIdSet {
+	return TCInvokeIdSet{
+		Choice: TCInvokeIdSetChoiceAbsent,
+		Absent: &v,
+	}
+}
 
 // AbortReason choice constants.
 const (
@@ -196,10 +224,10 @@ const (
 type AbortReason struct {
 	Choice      int
 	PAbortCause *PAbortCause     `json:"PAbortCause,omitempty"`
-	UAbortCause *DialoguePortion `json:"UAbortCause,omitempty"`
+	UAbortCause *DialoguePortion `json:"UAbortCause,omitempty" asn1c:"raw-preserve"`
 }
 
-// NewAbortReasonPAbortCause creates a Abort-reason with the p-abortCause alternative.
+// NewAbortReasonPAbortCause creates a AbortReason with the p-abortCause alternative.
 func NewAbortReasonPAbortCause(v PAbortCause) AbortReason {
 	return AbortReason{
 		Choice:      AbortReasonChoicePAbortCause,
@@ -207,12 +235,53 @@ func NewAbortReasonPAbortCause(v PAbortCause) AbortReason {
 	}
 }
 
-// NewAbortReasonUAbortCause creates a Abort-reason with the u-abortCause alternative.
+// NewAbortReasonUAbortCause creates a AbortReason with the u-abortCause alternative.
 func NewAbortReasonUAbortCause(v DialoguePortion) AbortReason {
 	return AbortReason{
 		Choice:      AbortReasonChoiceUAbortCause,
 		UAbortCause: &v,
 	}
+}
+
+// ComponentBasicROSInvokeLinkedId choice constants.
+const (
+	ComponentBasicROSInvokeLinkedIdChoicePresent = 1
+	ComponentBasicROSInvokeLinkedIdChoiceAbsent  = 2
+)
+
+// ComponentBasicROSInvokeLinkedId represents the ASN.1 CHOICE type Component-basicROS-invoke-linkedId.
+type ComponentBasicROSInvokeLinkedId struct {
+	Choice  int
+	Present *big.Int  `json:"Present,omitempty"`
+	Absent  *struct{} `json:"Absent,omitempty"`
+}
+
+// NewComponentBasicROSInvokeLinkedIdPresent creates a ComponentBasicROSInvokeLinkedId with the present alternative.
+func NewComponentBasicROSInvokeLinkedIdPresent(v *big.Int) ComponentBasicROSInvokeLinkedId {
+	return ComponentBasicROSInvokeLinkedId{
+		Choice:  ComponentBasicROSInvokeLinkedIdChoicePresent,
+		Present: v,
+	}
+}
+
+// NewComponentBasicROSInvokeLinkedIdAbsent creates a ComponentBasicROSInvokeLinkedId with the absent alternative.
+func NewComponentBasicROSInvokeLinkedIdAbsent(v struct{}) ComponentBasicROSInvokeLinkedId {
+	return ComponentBasicROSInvokeLinkedId{
+		Choice: ComponentBasicROSInvokeLinkedIdChoiceAbsent,
+		Absent: &v,
+	}
+}
+
+// ComponentBasicROSReturnResultResult represents the ASN.1 type Component-basicROS-returnResult-result (SEQUENCE).
+type ComponentBasicROSReturnResultResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
+}
+
+// ComponentReturnResultNotLastResult represents the ASN.1 type Component-returnResultNotLast-result (SEQUENCE).
+type ComponentReturnResultNotLastResult struct {
+	Opcode Code             `asn1:""`
+	Result runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
 }
 
 // MarshalBER encodes TCMessage to BER format.
@@ -226,7 +295,11 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding unidirectional: %w", err)
 		}
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, true, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding unidirectional: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case TCMessageChoiceBegin:
 		if v.Begin == nil {
@@ -236,7 +309,11 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding begin: %w", err)
 		}
-		enc_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 2, true, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 2, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding begin: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	case TCMessageChoiceEnd:
 		if v.End == nil {
@@ -246,7 +323,11 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding end: %w", err)
 		}
-		enc_2 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, true, enc_2)
+		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, enc_2)
+		if tagErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding end: %w", tagErr_enc_2)
+		}
+		enc_2 = retagged_enc_2
 		return enc_2, nil
 	case TCMessageChoiceContinue:
 		if v.Continue == nil {
@@ -256,7 +337,11 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding continue: %w", err)
 		}
-		enc_3 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 5, true, enc_3)
+		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 5, enc_3)
+		if tagErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding continue: %w", tagErr_enc_3)
+		}
+		enc_3 = retagged_enc_3
 		return enc_3, nil
 	case TCMessageChoiceAbort:
 		if v.Abort == nil {
@@ -266,7 +351,11 @@ func (v *TCMessage) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding abort: %w", err)
 		}
-		enc_4 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 7, true, enc_4)
+		retagged_enc_4, tagErr_enc_4 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 7, enc_4)
+		if tagErr_enc_4 != nil {
+			return nil, fmt.Errorf("encoding abort: %w", tagErr_enc_4)
+		}
+		enc_4 = retagged_enc_4
 		return enc_4, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for TCMessage", v.Choice)
@@ -284,7 +373,14 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding unidirectional: %w", err)
 		}
-		enc_der_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, true, enc_der_0)
+		retagged_enc_der_0, tagErr_enc_der_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 1, enc_der_0)
+		if tagErr_enc_der_0 != nil {
+			return nil, fmt.Errorf("encoding unidirectional: %w", tagErr_enc_der_0)
+		}
+		enc_der_0 = retagged_enc_der_0
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding unidirectional as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case TCMessageChoiceBegin:
 		if v.Begin == nil {
@@ -294,7 +390,14 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding begin: %w", err)
 		}
-		enc_der_1 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 2, true, enc_der_1)
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 2, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding begin: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding begin as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	case TCMessageChoiceEnd:
 		if v.End == nil {
@@ -304,7 +407,14 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding end: %w", err)
 		}
-		enc_der_2 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, true, enc_der_2)
+		retagged_enc_der_2, tagErr_enc_der_2 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 4, enc_der_2)
+		if tagErr_enc_der_2 != nil {
+			return nil, fmt.Errorf("encoding end: %w", tagErr_enc_der_2)
+		}
+		enc_der_2 = retagged_enc_der_2
+		if derErr := ber.ValidateDERElement(enc_der_2); derErr != nil {
+			return nil, fmt.Errorf("encoding end as DER: %w", derErr)
+		}
 		return enc_der_2, nil
 	case TCMessageChoiceContinue:
 		if v.Continue == nil {
@@ -314,7 +424,14 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding continue: %w", err)
 		}
-		enc_der_3 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 5, true, enc_der_3)
+		retagged_enc_der_3, tagErr_enc_der_3 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 5, enc_der_3)
+		if tagErr_enc_der_3 != nil {
+			return nil, fmt.Errorf("encoding continue: %w", tagErr_enc_der_3)
+		}
+		enc_der_3 = retagged_enc_der_3
+		if derErr := ber.ValidateDERElement(enc_der_3); derErr != nil {
+			return nil, fmt.Errorf("encoding continue as DER: %w", derErr)
+		}
 		return enc_der_3, nil
 	case TCMessageChoiceAbort:
 		if v.Abort == nil {
@@ -324,14 +441,29 @@ func (v *TCMessage) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding abort: %w", err)
 		}
-		enc_der_4 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 7, true, enc_der_4)
+		retagged_enc_der_4, tagErr_enc_der_4 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 7, enc_der_4)
+		if tagErr_enc_der_4 != nil {
+			return nil, fmt.Errorf("encoding abort: %w", tagErr_enc_der_4)
+		}
+		enc_der_4 = retagged_enc_der_4
+		if derErr := ber.ValidateDERElement(enc_der_4); derErr != nil {
+			return nil, fmt.Errorf("encoding abort as DER: %w", derErr)
+		}
 		return enc_der_4, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding TCMessage as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes TCMessage from BER/DER format.
 func (v *TCMessage) UnmarshalBER(data []byte) error {
+	*v = TCMessage{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for TCMessage CHOICE")
 	}
@@ -349,7 +481,7 @@ func (v *TCMessage) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "TCMessage", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassApplication && peekTag.Number == 1 {
+	if peekTag.Class == tag.ClassApplication && peekTag.Number == 1 && peekTag.Constructed == true {
 		v.Choice = TCMessageChoiceUnidirectional
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -361,7 +493,7 @@ func (v *TCMessage) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding unidirectional: %w", unmErr)
 		}
 		v.Unidirectional = &dec
-	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 2 {
+	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 2 && peekTag.Constructed == true {
 		v.Choice = TCMessageChoiceBegin
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -373,7 +505,7 @@ func (v *TCMessage) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding begin: %w", unmErr)
 		}
 		v.Begin = &dec
-	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 4 {
+	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 4 && peekTag.Constructed == true {
 		v.Choice = TCMessageChoiceEnd
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -385,7 +517,7 @@ func (v *TCMessage) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding end: %w", unmErr)
 		}
 		v.End = &dec
-	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 5 {
+	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 5 && peekTag.Constructed == true {
 		v.Choice = TCMessageChoiceContinue
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -397,7 +529,7 @@ func (v *TCMessage) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("decoding continue: %w", unmErr)
 		}
 		v.Continue = &dec
-	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 7 {
+	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 7 && peekTag.Constructed == true {
 		v.Choice = TCMessageChoiceAbort
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -440,15 +572,27 @@ func (v *Unidirectional) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Unidirectional to DER format.
 func (v *Unidirectional) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.ComponentsIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	var children []byte
+	if v.DialoguePortion != nil {
+		enc_dialogueportion := v.DialoguePortion.Bytes
+		enc_dialogueportion = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, enc_dialogueportion)
+		children = append(children, enc_dialogueportion...)
+	}
+	enc_components, err := MarshalDERComponentPortion(v.Components)
+	if err != nil {
+		return nil, fmt.Errorf("encoding components: %w", err)
+	}
+	children = append(children, enc_components...)
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Unidirectional as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Unidirectional from BER/DER format.
 func (v *Unidirectional) UnmarshalBER(data []byte) error {
+	*v = Unidirectional{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Unidirectional SEQUENCE: %w", err)
@@ -462,9 +606,12 @@ func (v *Unidirectional) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				decodedTag_dialogueportion, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
+				}
+				if decodedTag_dialogueportion.Class != tag.ClassApplication || decodedTag_dialogueportion.Number != 11 || decodedTag_dialogueportion.Constructed != true {
+					return fmt.Errorf("decoding dialoguePortion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dialogueportion)
 				}
 				// Decode inner value from explicit tag wrapper
 				tmp_dialogueportion := runtime.RawValue{Bytes: innerData_dialogueportion}
@@ -511,7 +658,11 @@ func (v *Unidirectional) UnmarshalBER(data []byte) error {
 func (v *Begin) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
-	enc_otid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, false, enc_otid)
+	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
+	if tagErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
+	}
+	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion := v.DialoguePortion.Bytes
@@ -537,15 +688,36 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Begin to DER format.
 func (v *Begin) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.ComponentsIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	var children []byte
+	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
+	if tagErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
+	}
+	enc_otid = retagged_enc_otid
+	children = append(children, enc_otid...)
+	if v.DialoguePortion != nil {
+		enc_dialogueportion := v.DialoguePortion.Bytes
+		enc_dialogueportion = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, enc_dialogueportion)
+		children = append(children, enc_dialogueportion...)
+	}
+	if v.Components != nil {
+		enc_components, err := MarshalDERComponentPortion(v.Components)
+		if err != nil {
+			return nil, fmt.Errorf("encoding components: %w", err)
+		}
+		children = append(children, enc_components...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Begin as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Begin from BER/DER format.
 func (v *Begin) UnmarshalBER(data []byte) error {
+	*v = Begin{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Begin SEQUENCE: %w", err)
@@ -563,9 +735,12 @@ func (v *Begin) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for otid, got %s", "APPLICATION", 8, reqTag_)
 		}
 	}
-	_, n_otid, rawVal_otid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_otid, n_otid, rawVal_otid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding otid: %w", err)
+	}
+	if decodedTag_otid.Class != tag.ClassApplication || decodedTag_otid.Number != 8 {
+		return fmt.Errorf("decoding otid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid)
 	}
 	v.Otid = OrigTransactionID(rawVal_otid)
 	offset += n_otid
@@ -574,9 +749,12 @@ func (v *Begin) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				decodedTag_dialogueportion, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
+				}
+				if decodedTag_dialogueportion.Class != tag.ClassApplication || decodedTag_dialogueportion.Number != 11 || decodedTag_dialogueportion.Constructed != true {
+					return fmt.Errorf("decoding dialoguePortion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dialogueportion)
 				}
 				// Decode inner value from explicit tag wrapper
 				tmp_dialogueportion := runtime.RawValue{Bytes: innerData_dialogueportion}
@@ -622,7 +800,11 @@ func (v *Begin) UnmarshalBER(data []byte) error {
 func (v *End) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
-	enc_dtid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, false, enc_dtid)
+	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
+	if tagErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
+	}
+	enc_dtid = retagged_enc_dtid
 	children = append(children, enc_dtid...)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion := v.DialoguePortion.Bytes
@@ -648,15 +830,36 @@ func (v *End) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes End to DER format.
 func (v *End) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.ComponentsIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	var children []byte
+	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
+	if tagErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
+	}
+	enc_dtid = retagged_enc_dtid
+	children = append(children, enc_dtid...)
+	if v.DialoguePortion != nil {
+		enc_dialogueportion := v.DialoguePortion.Bytes
+		enc_dialogueportion = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, enc_dialogueportion)
+		children = append(children, enc_dialogueportion...)
+	}
+	if v.Components != nil {
+		enc_components, err := MarshalDERComponentPortion(v.Components)
+		if err != nil {
+			return nil, fmt.Errorf("encoding components: %w", err)
+		}
+		children = append(children, enc_components...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding End as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes End from BER/DER format.
 func (v *End) UnmarshalBER(data []byte) error {
+	*v = End{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding End SEQUENCE: %w", err)
@@ -674,9 +877,12 @@ func (v *End) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for dtid, got %s", "APPLICATION", 9, reqTag_)
 		}
 	}
-	_, n_dtid, rawVal_dtid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_dtid, n_dtid, rawVal_dtid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding dtid: %w", err)
+	}
+	if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
+		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
 	v.Dtid = DestTransactionID(rawVal_dtid)
 	offset += n_dtid
@@ -685,9 +891,12 @@ func (v *End) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				decodedTag_dialogueportion, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
+				}
+				if decodedTag_dialogueportion.Class != tag.ClassApplication || decodedTag_dialogueportion.Number != 11 || decodedTag_dialogueportion.Constructed != true {
+					return fmt.Errorf("decoding dialoguePortion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dialogueportion)
 				}
 				// Decode inner value from explicit tag wrapper
 				tmp_dialogueportion := runtime.RawValue{Bytes: innerData_dialogueportion}
@@ -733,10 +942,18 @@ func (v *End) UnmarshalBER(data []byte) error {
 func (v *Continue) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
-	enc_otid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, false, enc_otid)
+	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
+	if tagErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
+	}
+	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
 	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
-	enc_dtid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, false, enc_dtid)
+	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
+	if tagErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
+	}
+	enc_dtid = retagged_enc_dtid
 	children = append(children, enc_dtid...)
 	if v.DialoguePortion != nil {
 		enc_dialogueportion := v.DialoguePortion.Bytes
@@ -762,15 +979,43 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Continue to DER format.
 func (v *Continue) MarshalDER() ([]byte, error) {
-	// ITU-T X.690 (02/2021) Section 10.1 requires DER length forms to be definite.
-	derValue := *v
-	derValue.ComponentsIndef_ = false
-	v = &derValue
-	return v.MarshalBER()
+	var children []byte
+	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
+	if tagErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
+	}
+	enc_otid = retagged_enc_otid
+	children = append(children, enc_otid...)
+	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
+	if tagErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
+	}
+	enc_dtid = retagged_enc_dtid
+	children = append(children, enc_dtid...)
+	if v.DialoguePortion != nil {
+		enc_dialogueportion := v.DialoguePortion.Bytes
+		enc_dialogueportion = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, enc_dialogueportion)
+		children = append(children, enc_dialogueportion...)
+	}
+	if v.Components != nil {
+		enc_components, err := MarshalDERComponentPortion(v.Components)
+		if err != nil {
+			return nil, fmt.Errorf("encoding components: %w", err)
+		}
+		children = append(children, enc_components...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Continue as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Continue from BER/DER format.
 func (v *Continue) UnmarshalBER(data []byte) error {
+	*v = Continue{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Continue SEQUENCE: %w", err)
@@ -788,9 +1033,12 @@ func (v *Continue) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for otid, got %s", "APPLICATION", 8, reqTag_)
 		}
 	}
-	_, n_otid, rawVal_otid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_otid, n_otid, rawVal_otid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding otid: %w", err)
+	}
+	if decodedTag_otid.Class != tag.ClassApplication || decodedTag_otid.Number != 8 {
+		return fmt.Errorf("decoding otid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid)
 	}
 	v.Otid = OrigTransactionID(rawVal_otid)
 	offset += n_otid
@@ -803,9 +1051,12 @@ func (v *Continue) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for dtid, got %s", "APPLICATION", 9, reqTag_)
 		}
 	}
-	_, n_dtid, rawVal_dtid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_dtid, n_dtid, rawVal_dtid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding dtid: %w", err)
+	}
+	if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
+		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
 	v.Dtid = DestTransactionID(rawVal_dtid)
 	offset += n_dtid
@@ -814,9 +1065,12 @@ func (v *Continue) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
-				_, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
+				decodedTag_dialogueportion, n_dialogueportion, innerData_dialogueportion, err := ber.DecodeTLV(content[offset:])
 				if err != nil {
 					return fmt.Errorf("decoding dialoguePortion: %w", err)
+				}
+				if decodedTag_dialogueportion.Class != tag.ClassApplication || decodedTag_dialogueportion.Number != 11 || decodedTag_dialogueportion.Constructed != true {
+					return fmt.Errorf("decoding dialoguePortion: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dialogueportion)
 				}
 				// Decode inner value from explicit tag wrapper
 				tmp_dialogueportion := runtime.RawValue{Bytes: innerData_dialogueportion}
@@ -862,7 +1116,11 @@ func (v *Continue) UnmarshalBER(data []byte) error {
 func (v *Abort) MarshalBER() ([]byte, error) {
 	var children []byte
 	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
-	enc_dtid = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, false, enc_dtid)
+	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
+	if tagErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
+	}
+	enc_dtid = retagged_enc_dtid
 	children = append(children, enc_dtid...)
 	if v.Reason != nil {
 		enc_reason, err := v.Reason.MarshalBER()
@@ -876,12 +1134,31 @@ func (v *Abort) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes Abort to DER format.
 func (v *Abort) MarshalDER() ([]byte, error) {
-	// DER is a subset of BER; our BER encoder already uses DER-compatible encoding.
-	return v.MarshalBER()
+	var children []byte
+	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
+	if tagErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
+	}
+	enc_dtid = retagged_enc_dtid
+	children = append(children, enc_dtid...)
+	if v.Reason != nil {
+		enc_reason, err := v.Reason.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding reason: %w", err)
+		}
+		children = append(children, enc_reason...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Abort as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Abort from BER/DER format.
 func (v *Abort) UnmarshalBER(data []byte) error {
+	*v = Abort{}
 	content, total, err := ber.DecodeSequenceContent(data)
 	if err != nil {
 		return fmt.Errorf("decoding Abort SEQUENCE: %w", err)
@@ -899,9 +1176,12 @@ func (v *Abort) UnmarshalBER(data []byte) error {
 			return fmt.Errorf("expected tag [%s %d] for dtid, got %s", "APPLICATION", 9, reqTag_)
 		}
 	}
-	_, n_dtid, rawVal_dtid, err := ber.DecodeTLV(content[offset:])
+	decodedTag_dtid, n_dtid, rawVal_dtid, err := ber.DecodeTLV(content[offset:])
 	if err != nil {
 		return fmt.Errorf("decoding dtid: %w", err)
+	}
+	if decodedTag_dtid.Class != tag.ClassApplication || decodedTag_dtid.Number != 9 {
+		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
 	v.Dtid = DestTransactionID(rawVal_dtid)
 	offset += n_dtid
@@ -941,6 +1221,28 @@ func MarshalBERComponentPortion(list ComponentPortion) ([]byte, error) {
 		children = append(children, enc...)
 	}
 	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassApplication, Number: 12, Constructed: true}, children), nil
+}
+
+// MarshalDERComponentPortion encodes a ComponentPortion list to DER.
+func MarshalDERComponentPortion(list ComponentPortion) ([]byte, error) {
+	var children []byte
+	for _, elem := range list {
+		enc, err := elem.MarshalDER()
+		if err != nil {
+			return nil, fmt.Errorf("encoding element: %w", err)
+		}
+		children = append(children, enc...)
+	}
+	encoded := ber.EncodeSequence(children)
+	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 12, encoded)
+	if tagErr_encoded != nil {
+		return nil, fmt.Errorf("encoding ComponentPortion: %w", tagErr_encoded)
+	}
+	encoded = retagged_encoded
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ComponentPortion as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBERComponentPortion decodes a ComponentPortion list from BER.
@@ -992,7 +1294,11 @@ func (v *Component) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResultNotLast: %w", err)
 		}
-		enc_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 7, enc_1)
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding returnResultNotLast: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
 		return enc_1, nil
 	default:
 		return nil, fmt.Errorf("unknown choice %d for Component", v.Choice)
@@ -1010,6 +1316,9 @@ func (v *Component) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding basicROS: %w", err)
 		}
+		if derErr := ber.ValidateDERElement(enc_der_0); derErr != nil {
+			return nil, fmt.Errorf("encoding basicROS as DER: %w", derErr)
+		}
 		return enc_der_0, nil
 	case ComponentChoiceReturnResultNotLast:
 		if v.ReturnResultNotLast == nil {
@@ -1019,14 +1328,29 @@ func (v *Component) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding returnResultNotLast: %w", err)
 		}
-		enc_der_1 = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 7, enc_der_1)
+		retagged_enc_der_1, tagErr_enc_der_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_der_1)
+		if tagErr_enc_der_1 != nil {
+			return nil, fmt.Errorf("encoding returnResultNotLast: %w", tagErr_enc_der_1)
+		}
+		enc_der_1 = retagged_enc_der_1
+		if derErr := ber.ValidateDERElement(enc_der_1); derErr != nil {
+			return nil, fmt.Errorf("encoding returnResultNotLast as DER: %w", derErr)
+		}
 		return enc_der_1, nil
 	}
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding Component as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes Component from BER/DER format.
 func (v *Component) UnmarshalBER(data []byte) error {
+	*v = Component{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Component CHOICE")
 	}
@@ -1044,14 +1368,15 @@ func (v *Component) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "Component", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 && peekTag.Constructed == true {
 		v.Choice = ComponentChoiceReturnResultNotLast
-		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResultNotLast: %w", tlvErr)
 		}
-		var dec ROS
-		if unmErr := dec.UnmarshalBER(innerData); unmErr != nil {
+		reconstructed := ber.EncodeSequence(rawVal)
+		var dec ReturnResult
+		if unmErr := dec.UnmarshalBER(reconstructed); unmErr != nil {
 			return fmt.Errorf("decoding returnResultNotLast: %w", unmErr)
 		}
 		v.ReturnResultNotLast = &dec
@@ -1066,6 +1391,107 @@ func (v *Component) UnmarshalBER(data []byte) error {
 	return nil
 }
 
+// MarshalBER encodes TCInvokeIdSet to BER format.
+func (v *TCInvokeIdSet) MarshalBER() ([]byte, error) {
+	if v.Choice == TCInvokeIdSetChoicePresent {
+		if v.Present == nil {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
+		}
+		if int64(*v.Present) < -128 || int64(*v.Present) > 127 {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present violates its value range")
+		}
+	}
+	if v.Choice == TCInvokeIdSetChoiceAbsent {
+		return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Absent must be absent")
+	}
+	switch v.Choice {
+	case TCInvokeIdSetChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice TCInvokeIdSet: present is nil")
+		}
+		enc_0 := ber.EncodeInteger(int64(*v.Present))
+		return enc_0, nil
+	case TCInvokeIdSetChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for TCInvokeIdSet", v.Choice)
+	}
+}
+
+// MarshalDER encodes TCInvokeIdSet to DER format.
+func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
+	if v.Choice == TCInvokeIdSetChoicePresent {
+		if v.Present == nil {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
+		}
+		if int64(*v.Present) < -128 || int64(*v.Present) > 127 {
+			return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Present violates its value range")
+		}
+	}
+	if v.Choice == TCInvokeIdSetChoiceAbsent {
+		return nil, fmt.Errorf("encoding TCInvokeIdSet violates WITH COMPONENTS: Absent must be absent")
+	}
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding TCInvokeIdSet as DER: %w", err)
+	}
+	return encoded, nil
+}
+
+// UnmarshalBER decodes TCInvokeIdSet from BER/DER format.
+func (v *TCInvokeIdSet) UnmarshalBER(data []byte) error {
+	*v = TCInvokeIdSet{}
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for TCInvokeIdSet CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for TCInvokeIdSet: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding TCInvokeIdSet CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "TCInvokeIdSet", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
+		v.Choice = TCInvokeIdSetChoicePresent
+		decVal, _, intErr := ber.DecodeInteger(choiceData)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = &decVal
+	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 5 && peekTag.Constructed == false {
+		v.Choice = TCInvokeIdSetChoiceAbsent
+		_, nullErr := ber.DecodeNull(choiceData)
+		if nullErr != nil {
+			return fmt.Errorf("decoding absent: %w", nullErr)
+		}
+	} else {
+		return fmt.Errorf("unknown tag %s for TCInvokeIdSet CHOICE", peekTag)
+	}
+	if v.Choice == TCInvokeIdSetChoicePresent {
+		if v.Present == nil {
+			return fmt.Errorf("decoded TCInvokeIdSet violates WITH COMPONENTS: Present must carry a constrained value")
+		}
+		if int64(*v.Present) < -128 || int64(*v.Present) > 127 {
+			return fmt.Errorf("decoded TCInvokeIdSet violates WITH COMPONENTS: Present violates its value range")
+		}
+	}
+	if v.Choice == TCInvokeIdSetChoiceAbsent {
+		return fmt.Errorf("decoded TCInvokeIdSet violates WITH COMPONENTS: Absent must be absent")
+	}
+	return nil
+}
+
 // MarshalBER encodes AbortReason to BER format.
 func (v *AbortReason) MarshalBER() ([]byte, error) {
 	switch v.Choice {
@@ -1074,7 +1500,11 @@ func (v *AbortReason) MarshalBER() ([]byte, error) {
 			return nil, fmt.Errorf("choice AbortReason: p-abortCause is nil")
 		}
 		enc_0 := ber.EncodeInteger(int64(*v.PAbortCause))
-		enc_0 = ber.EncodeImplicitTagWithClass(tag.ClassApplication, 10, false, enc_0)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 10, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding p-abortCause: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
 		return enc_0, nil
 	case AbortReasonChoiceUAbortCause:
 		if v.UAbortCause == nil {
@@ -1090,11 +1520,19 @@ func (v *AbortReason) MarshalBER() ([]byte, error) {
 
 // MarshalDER encodes AbortReason to DER format.
 func (v *AbortReason) MarshalDER() ([]byte, error) {
-	return v.MarshalBER()
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding AbortReason as DER: %w", err)
+	}
+	return encoded, nil
 }
 
 // UnmarshalBER decodes AbortReason from BER/DER format.
 func (v *AbortReason) UnmarshalBER(data []byte) error {
+	*v = AbortReason{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AbortReason CHOICE")
 	}
@@ -1112,7 +1550,7 @@ func (v *AbortReason) UnmarshalBER(data []byte) error {
 		return &ber.DecodeError{Offset: total, TypeName: "AbortReason", Cause: ber.ErrExtraData}
 	}
 
-	if peekTag.Class == tag.ClassApplication && peekTag.Number == 10 {
+	if peekTag.Class == tag.ClassApplication && peekTag.Number == 10 && peekTag.Constructed == false {
 		v.Choice = AbortReasonChoicePAbortCause
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -1124,7 +1562,7 @@ func (v *AbortReason) UnmarshalBER(data []byte) error {
 		}
 		tmp := PAbortCause(decVal)
 		v.PAbortCause = &tmp
-	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 {
+	} else if peekTag.Class == tag.ClassApplication && peekTag.Number == 11 && peekTag.Constructed == true {
 		v.Choice = AbortReasonChoiceUAbortCause
 		_, _, innerData, tlvErr := ber.DecodeTLV(choiceData)
 		if tlvErr != nil {
@@ -1134,6 +1572,232 @@ func (v *AbortReason) UnmarshalBER(data []byte) error {
 		v.UAbortCause = &tmpRaw
 	} else {
 		return fmt.Errorf("unknown tag %s for AbortReason CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ComponentBasicROSInvokeLinkedId to BER format.
+func (v *ComponentBasicROSInvokeLinkedId) MarshalBER() ([]byte, error) {
+	switch v.Choice {
+	case ComponentBasicROSInvokeLinkedIdChoicePresent:
+		if v.Present == nil {
+			return nil, fmt.Errorf("choice ComponentBasicROSInvokeLinkedId: present is nil")
+		}
+		enc_0 := ber.EncodeBigInt(v.Present)
+		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
+		if tagErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
+		}
+		enc_0 = retagged_enc_0
+		return enc_0, nil
+	case ComponentBasicROSInvokeLinkedIdChoiceAbsent:
+		enc_1 := ber.EncodeNull()
+		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
+		if tagErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding absent: %w", tagErr_enc_1)
+		}
+		enc_1 = retagged_enc_1
+		return enc_1, nil
+	default:
+		return nil, fmt.Errorf("unknown choice %d for ComponentBasicROSInvokeLinkedId", v.Choice)
+	}
+}
+
+// MarshalDER encodes ComponentBasicROSInvokeLinkedId to DER format.
+func (v *ComponentBasicROSInvokeLinkedId) MarshalDER() ([]byte, error) {
+	encoded, err := v.MarshalBER()
+	if err != nil {
+		return nil, err
+	}
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ComponentBasicROSInvokeLinkedId as DER: %w", err)
+	}
+	return encoded, nil
+}
+
+// UnmarshalBER decodes ComponentBasicROSInvokeLinkedId from BER/DER format.
+func (v *ComponentBasicROSInvokeLinkedId) UnmarshalBER(data []byte) error {
+	*v = ComponentBasicROSInvokeLinkedId{}
+	if len(data) == 0 {
+		return fmt.Errorf("empty data for ComponentBasicROSInvokeLinkedId CHOICE")
+	}
+	choiceData := data
+	peekTag, peekErr := ber.PeekTag(choiceData)
+	if peekErr != nil {
+		return fmt.Errorf("peeking tag for ComponentBasicROSInvokeLinkedId: %w", peekErr)
+	}
+
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	if tlvErr != nil {
+		return fmt.Errorf("decoding ComponentBasicROSInvokeLinkedId CHOICE: %w", tlvErr)
+	}
+	if total != len(choiceData) {
+		return &ber.DecodeError{Offset: total, TypeName: "ComponentBasicROSInvokeLinkedId", Cause: ber.ErrExtraData}
+	}
+
+	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
+		v.Choice = ComponentBasicROSInvokeLinkedIdChoicePresent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding present: %w", tlvErr)
+		}
+		decVal, intErr := ber.DecodeBigIntValue(rawVal)
+		if intErr != nil {
+			return fmt.Errorf("decoding present: %w", intErr)
+		}
+		v.Present = decVal
+	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
+		v.Choice = ComponentBasicROSInvokeLinkedIdChoiceAbsent
+		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData)
+		if tlvErr != nil {
+			return fmt.Errorf("decoding absent: %w", tlvErr)
+		}
+		if len(rawVal) != 0 {
+			return fmt.Errorf("decoding absent: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal))
+		}
+		v.Absent = &struct{}{}
+	} else {
+		return fmt.Errorf("unknown tag %s for ComponentBasicROSInvokeLinkedId CHOICE", peekTag)
+	}
+	return nil
+}
+
+// MarshalBER encodes ComponentBasicROSReturnResultResult to BER format.
+func (v *ComponentBasicROSReturnResultResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ComponentBasicROSReturnResultResult to DER format.
+func (v *ComponentBasicROSReturnResultResult) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ComponentBasicROSReturnResultResult as DER: %w", err)
+	}
+	return encoded, nil
+}
+
+// UnmarshalBER decodes ComponentBasicROSReturnResultResult from BER/DER format.
+func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte) error {
+	*v = ComponentBasicROSReturnResultResult{}
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ComponentBasicROSReturnResultResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ComponentBasicROSReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ComponentBasicROSReturnResultResult", Cause: ber.ErrExtraData}
+	}
+	return nil
+}
+
+// MarshalBER encodes ComponentReturnResultNotLastResult to BER format.
+func (v *ComponentReturnResultNotLastResult) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalBER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes ComponentReturnResultNotLastResult to DER format.
+func (v *ComponentReturnResultNotLastResult) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_opcode, err := v.Opcode.MarshalDER()
+	if err != nil {
+		return nil, fmt.Errorf("encoding opcode: %w", err)
+	}
+	children = append(children, enc_opcode...)
+	enc_result := v.Result.Bytes
+	children = append(children, enc_result...)
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding ComponentReturnResultNotLastResult as DER: %w", err)
+	}
+	return encoded, nil
+}
+
+// UnmarshalBER decodes ComponentReturnResultNotLastResult from BER/DER format.
+func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte) error {
+	*v = ComponentReturnResultNotLastResult{}
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding ComponentReturnResultNotLastResult SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "ComponentReturnResultNotLastResult", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode opcode
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field opcode")
+	}
+	// Decode nested CHOICE (Code)
+	_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:])
+	if tlvErr_opcode != nil {
+		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
+	}
+	if unmErr := v.Opcode.UnmarshalBER(content[offset : offset+n_opcode]); unmErr != nil {
+		return fmt.Errorf("decoding opcode: %w", unmErr)
+	}
+	offset += n_opcode
+	// Decode result
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field result")
+	}
+	_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:])
+	if tlvErr_result != nil {
+		return fmt.Errorf("decoding result: %w", tlvErr_result)
+	}
+	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	offset += n_result
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "ComponentReturnResultNotLastResult", Cause: ber.ErrExtraData}
 	}
 	return nil
 }

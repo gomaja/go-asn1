@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"math/bits"
+	"strings"
+	"unicode/utf8"
 )
 
 // BitWidth returns the number of bits needed to represent values 0..rangeVal.
@@ -32,41 +34,39 @@ func DecodeBoolean(bb *BitBuffer) (bool, error) {
 }
 
 // EncodeConstrainedWholeNumber encodes v in [lb..ub] using minimal bits.
-// X.691 Section 12.2.2.
+// ITU-T X.691 (02/2021), clause 11.5.
 func EncodeConstrainedWholeNumber(bb *BitBuffer, v, lb, ub int64) error {
-	rangeVal := ub - lb
-	if rangeVal < 0 {
+	if lb > ub {
 		return fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
 	if v < lb || v > ub {
 		return fmt.Errorf("%w: %d not in [%d..%d]", ErrConstraintViolation, v, lb, ub)
 	}
-	if rangeVal == 0 {
+	rangeValue := uint64(ub) - uint64(lb)
+	if rangeValue == 0 {
 		return nil // no bits needed
 	}
-	offset := v - lb
-	n := BitWidth(rangeVal)
-	return bb.WriteBits(uint64(offset), n)
+	offset := uint64(v) - uint64(lb)
+	return bb.WriteBits(offset, bits.Len64(rangeValue))
 }
 
 // DecodeConstrainedWholeNumber decodes a value from [lb..ub].
 func DecodeConstrainedWholeNumber(bb *BitBuffer, lb, ub int64) (int64, error) {
-	rangeVal := ub - lb
-	if rangeVal < 0 {
+	if lb > ub {
 		return 0, fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
-	if rangeVal == 0 {
+	rangeValue := uint64(ub) - uint64(lb)
+	if rangeValue == 0 {
 		return lb, nil
 	}
-	n := BitWidth(rangeVal)
-	offset, err := bb.ReadBits(n)
+	offset, err := bb.ReadBits(bits.Len64(rangeValue))
 	if err != nil {
 		return 0, err
 	}
-	if int64(offset) > rangeVal {
-		return 0, fmt.Errorf("%w: constrained value %d exceeds range [%d..%d]", ErrInvalidValue, lb+int64(offset), lb, ub)
+	if offset > rangeValue {
+		return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, offset, lb, ub)
 	}
-	return lb + int64(offset), nil
+	return addNonNegativeOffset(lb, offset)
 }
 
 // EncodeNormallySmallNonNegative encodes a normally small non-negative whole number.
@@ -133,13 +133,12 @@ func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error
 }
 
 // EncodeSemiConstrainedWholeNumber encodes v with known lower bound but no upper bound.
-// X.691 Section 12.2.3.
+// ITU-T X.691 (02/2021), clause 11.7.
 func EncodeSemiConstrainedWholeNumber(bb *BitBuffer, v, lb int64) error {
-	offset := v - lb
-	if offset < 0 {
+	if v < lb {
 		return fmt.Errorf("%w: %d below lower bound %d", ErrConstraintViolation, v, lb)
 	}
-	return encodeNonNegativeBinaryIntegerWithLength(bb, uint64(offset))
+	return encodeNonNegativeBinaryIntegerWithLength(bb, uint64(v)-uint64(lb))
 }
 
 // DecodeSemiConstrainedWholeNumber decodes a semi-constrained whole number.
@@ -152,7 +151,7 @@ func DecodeSemiConstrainedWholeNumber(bb *BitBuffer, lb int64) (int64, error) {
 }
 
 // EncodeUnconstrainedWholeNumber encodes a signed integer with no bounds.
-// X.691 Section 12.2.4.
+// ITU-T X.691 (02/2021), clause 11.8.
 func EncodeUnconstrainedWholeNumber(bb *BitBuffer, v int64) error {
 	// Encode as 2's complement with length determinant.
 	var buf []byte
@@ -211,37 +210,14 @@ func EncodeUnconstrainedLength(bb *BitBuffer, n int64) error {
 
 // DecodeUnconstrainedLength decodes an unconstrained length determinant.
 func DecodeUnconstrainedLength(bb *BitBuffer) (int64, error) {
-	firstBit, err := bb.ReadBit()
+	length, more, _, err := decodeLengthFragmentDeterminant(bb, false)
 	if err != nil {
 		return 0, err
 	}
-	if firstBit == 0 {
-		// Short form: remaining 7 bits.
-		val, err := bb.ReadBits(7)
-		if err != nil {
-			return 0, err
-		}
-		return int64(val), nil
+	if more {
+		return 0, fmt.Errorf("%w: fragmented determinant requires interleaved value decoding", ErrInvalidValue)
 	}
-	secondBit, err := bb.ReadBit()
-	if err != nil {
-		return 0, err
-	}
-	if secondBit == 0 {
-		// Long form: remaining 14 bits.
-		val, err := bb.ReadBits(14)
-		if err != nil {
-			return 0, err
-		}
-		return int64(val), nil
-	}
-	// Fragmentation marker (11xxxxxx).
-	// Read remaining 6 bits to see the multiplier
-	mul, err := bb.ReadBits(6)
-	if err != nil {
-		return 0, err
-	}
-	return 0, fmt.Errorf("per: fragmented length determinant not yet supported (mul=%d, bitPos=%d)", mul, bb.BitPos())
+	return length, nil
 }
 
 // EncodeInteger encodes an integer using the appropriate method based on constraints.
@@ -334,40 +310,83 @@ func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, err
 // If constrained and ub <= 65536: constrained length + bits.
 // Otherwise: unconstrained length + bits.
 func EncodeBitString(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained bool) error {
-	if constrained && lb == ub {
+	return EncodeBitStringExt(bb, data, bitLen, lb, ub, constrained, false)
+}
+
+// EncodeBitStringExt encodes a BIT STRING with optional SIZE extensibility.
+func EncodeBitStringExt(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
+	if extensible && constrained {
+		inRoot := int64(bitLen) >= lb && int64(bitLen) <= ub
+		if err := EncodeBoolean(bb, !inRoot); err != nil {
+			return err
+		}
+		if !inRoot {
+			return encodeLengthDelimitedBits(bb, data, bitLen, false)
+		}
+	}
+	if err := validateRootSize(int64(bitLen), lb, ub, constrained); err != nil {
+		return err
+	}
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size — write exactly lb bits.
 		if int64(bitLen) != lb {
 			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
 		}
 		return bb.WriteBitsFromBytes(data, int(lb))
 	}
-	if constrained && ub <= 65536 {
+	if constrained && ub < 65536 {
 		if err := EncodeConstrainedWholeNumber(bb, int64(bitLen), lb, ub); err != nil {
 			return err
 		}
 		return bb.WriteBitsFromBytes(data, bitLen)
 	}
-	// Unconstrained.
-	if err := EncodeUnconstrainedLength(bb, int64(bitLen)); err != nil {
-		return err
-	}
-	return bb.WriteBitsFromBytes(data, bitLen)
+	return encodeLengthDelimitedBits(bb, data, bitLen, false)
 }
 
 // DecodeBitString decodes a bit string. Returns (bytes, bitLength, error).
 func DecodeBitString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, int, error) {
-	if constrained && lb == ub {
+	return DecodeBitStringExt(bb, lb, ub, constrained, false)
+}
+
+// DecodeBitStringExt decodes a BIT STRING with optional SIZE extensibility.
+func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, int, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return nil, 0, err
+	}
+	if extensible && constrained {
+		isExtension, err := DecodeBoolean(bb)
+		if err != nil {
+			return nil, 0, err
+		}
+		if isExtension {
+			return decodeLengthDelimitedBits(bb, false)
+		}
+	}
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		data, err := bb.ReadBitsToBytes(int(lb))
 		return data, int(lb), err
 	}
 	var bitLen int64
 	var err error
-	if constrained && ub <= 65536 {
+	if constrained && ub < 65536 {
 		bitLen, err = DecodeConstrainedWholeNumber(bb, lb, ub)
 	} else {
-		bitLen, err = DecodeUnconstrainedLength(bb)
+		var data []byte
+		var decodedLength int
+		data, decodedLength, err = decodeLengthDelimitedBitsBounded(bb, false, rootSizeMaximum(ub, constrained))
+		bitLen = int64(decodedLength)
+		if err == nil {
+			err = validateRootSize(bitLen, lb, ub, constrained)
+		}
+		return data, decodedLength, err
 	}
 	if err != nil {
+		return nil, 0, err
+	}
+	if err := validateRootSize(bitLen, lb, ub, constrained); err != nil {
 		return nil, 0, err
 	}
 	data, err := bb.ReadBitsToBytes(int(bitLen))
@@ -379,40 +398,84 @@ func DecodeBitString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, int
 // If constrained and ub <= 65536: constrained length + octets.
 // Otherwise: unconstrained length + octets.
 func EncodeOctetString(bb *BitBuffer, data []byte, lb, ub int64, constrained bool) error {
+	return EncodeOctetStringExt(bb, data, lb, ub, constrained, false)
+}
+
+// EncodeOctetStringExt implements the SIZE extension bit required by
+// ITU-T X.691 (02/2021) Section 17.3.
+func EncodeOctetStringExt(bb *BitBuffer, data []byte, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
 	length := int64(len(data))
-	if constrained && lb == ub {
+	if extensible && constrained {
+		inRoot := length >= lb && length <= ub
+		if err := EncodeBoolean(bb, !inRoot); err != nil {
+			return err
+		}
+		if !inRoot {
+			return encodeLengthDelimitedOctets(bb, data, false)
+		}
+	}
+	if err := validateRootSize(length, lb, ub, constrained); err != nil {
+		return err
+	}
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size — write exactly lb octets.
 		if int64(len(data)) != lb {
 			return fmt.Errorf("%w: OCTET STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, len(data), lb)
 		}
 		return bb.WriteBytes(data)
 	}
-	if constrained && ub <= 65536 {
+	if constrained && ub < 65536 {
 		if err := EncodeConstrainedWholeNumber(bb, length, lb, ub); err != nil {
 			return err
 		}
 		return bb.WriteBytes(data)
 	}
-	// Unconstrained.
-	if err := EncodeUnconstrainedLength(bb, length); err != nil {
-		return err
-	}
-	return bb.WriteBytes(data)
+	return encodeLengthDelimitedOctets(bb, data, false)
 }
 
 // DecodeOctetString decodes an octet string.
 func DecodeOctetString(bb *BitBuffer, lb, ub int64, constrained bool) ([]byte, error) {
-	if constrained && lb == ub {
+	return DecodeOctetStringExt(bb, lb, ub, constrained, false)
+}
+
+// DecodeOctetStringExt implements the SIZE extension bit required by
+// ITU-T X.691 (02/2021) Section 17.3.
+func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return nil, err
+	}
+	if extensible && constrained {
+		isExtension, err := DecodeBoolean(bb)
+		if err != nil {
+			return nil, err
+		}
+		if isExtension {
+			return decodeLengthDelimitedOctets(bb, false)
+		}
+	}
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		return bb.ReadBytes(int(lb))
 	}
 	var length int64
 	var err error
-	if constrained && ub <= 65536 {
+	if constrained && ub < 65536 {
 		length, err = DecodeConstrainedWholeNumber(bb, lb, ub)
 	} else {
-		length, err = DecodeUnconstrainedLength(bb)
+		var data []byte
+		data, err = decodeLengthDelimitedOctetsBounded(bb, false, rootSizeMaximum(ub, constrained))
+		length = int64(len(data))
+		if err == nil {
+			err = validateRootSize(length, lb, ub, constrained)
+		}
+		return data, err
 	}
 	if err != nil {
+		return nil, err
+	}
+	if err := validateRootSize(length, lb, ub, constrained); err != nil {
 		return nil, err
 	}
 	return bb.ReadBytes(int(length))
@@ -431,99 +494,109 @@ func DecodeNull(_ *BitBuffer) error {
 // EncodeKnownMultiplierString encodes a string with known character set.
 // bitsPerChar is the bits per character (e.g., 7 for IA5String/VisibleString, 4 for NumericString).
 func EncodeKnownMultiplierString(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained bool) error {
-	length := int64(len(s))
-	if constrained && lb == ub {
+	return EncodeKnownMultiplierStringExt(bb, s, bitsPerChar, lb, ub, constrained, false)
+}
+
+// EncodeKnownMultiplierStringExt implements the size extension bit required
+// by ITU-T X.691 (02/2021) Section 30.4.
+func EncodeKnownMultiplierStringExt(bb *BitBuffer, s string, bitsPerChar int, lb, ub int64, constrained, extensible bool) error {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
+	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
+		return err
+	}
+	if err := validateKnownMultiplierStringValue(s, bitsPerChar); err != nil {
+		return err
+	}
+	length := knownMultiplierStringLength(s, bitsPerChar)
+	if extensible && constrained {
+		inRoot := length >= lb && length <= ub
+		if err := EncodeBoolean(bb, !inRoot); err != nil {
+			return err
+		}
+		if !inRoot {
+			return encodeLengthDelimitedKnownMultiplierString(bb, s, bitsPerChar, false)
+		}
+	}
+	if err := validateRootSize(length, lb, ub, constrained); err != nil {
+		return err
+	}
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		// Fixed size — write exactly lb characters.
 		if length != lb {
 			return fmt.Errorf("%w: string length %d does not match fixed SIZE(%d)", ErrConstraintViolation, length, lb)
 		}
-		for _, ch := range []byte(s) {
-			if err := bb.WriteBits(uint64(ch), bitsPerChar); err != nil {
-				return err
-			}
-		}
-		return nil
+		return writeKnownMultiplierString(bb, s, bitsPerChar)
 	}
-	if constrained && ub <= 65536 {
+	if constrained && ub < 65536 {
 		if err := EncodeConstrainedWholeNumber(bb, length, lb, ub); err != nil {
 			return err
 		}
 	} else {
-		if err := EncodeUnconstrainedLength(bb, length); err != nil {
-			return err
-		}
+		return encodeLengthDelimitedKnownMultiplierString(bb, s, bitsPerChar, false)
 	}
-	for _, ch := range []byte(s) {
-		if err := bb.WriteBits(uint64(ch), bitsPerChar); err != nil {
-			return err
-		}
-	}
-	return nil
+	return writeKnownMultiplierString(bb, s, bitsPerChar)
 }
 
 // DecodeKnownMultiplierString decodes a string with known character set.
 func DecodeKnownMultiplierString(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained bool) (string, error) {
+	return DecodeKnownMultiplierStringExt(bb, bitsPerChar, lb, ub, constrained, false)
+}
+
+// DecodeKnownMultiplierStringExt implements the size extension bit required
+// by ITU-T X.691 (02/2021) Section 30.4.
+func DecodeKnownMultiplierStringExt(bb *BitBuffer, bitsPerChar int, lb, ub int64, constrained, extensible bool) (string, error) {
+	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return "", err
+	}
+	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
+		return "", err
+	}
+	if extensible && constrained {
+		isExtension, err := DecodeBoolean(bb)
+		if err != nil {
+			return "", err
+		}
+		if isExtension {
+			value, _, err := decodeLengthDelimitedKnownMultiplierString(bb, bitsPerChar, false)
+			return value, err
+		}
+	}
 	var length int64
 	var err error
-	if constrained && lb == ub {
+	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		length = lb
-	} else if constrained && ub <= 65536 {
+	} else if constrained && ub < 65536 {
 		length, err = DecodeConstrainedWholeNumber(bb, lb, ub)
 		if err != nil {
 			return "", err
 		}
 	} else {
-		length, err = DecodeUnconstrainedLength(bb)
+		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, false, rootSizeMaximum(ub, constrained))
 		if err != nil {
 			return "", err
 		}
-	}
-	buf := make([]byte, length)
-	for i := int64(0); i < length; i++ {
-		val, err := bb.ReadBits(bitsPerChar)
-		if err != nil {
+		if err := validateRootSize(decodedLength, lb, ub, constrained); err != nil {
 			return "", err
 		}
-		buf[i] = byte(val)
+		return value, nil
 	}
-	return string(buf), nil
+	if err := validateRootSize(length, lb, ub, constrained); err != nil {
+		return "", err
+	}
+	return readKnownMultiplierString(bb, length, bitsPerChar)
 }
 
 // EncodeOpenType wraps already-encoded bytes with an unconstrained length determinant.
 // Used for extension additions and open type fields.
 func EncodeOpenType(bb *BitBuffer, data []byte) error {
-	if err := EncodeUnconstrainedLength(bb, int64(len(data))); err != nil {
-		return err
-	}
-	return bb.WriteBytes(data)
+	return encodeLengthDelimitedOctets(bb, data, false)
 }
 
 // DecodeOpenType decodes an open type value.
 func DecodeOpenType(bb *BitBuffer) ([]byte, error) {
-	length, err := DecodeUnconstrainedLength(bb)
-	if err != nil {
-		return nil, err
-	}
-	return bb.ReadBytes(int(length))
-}
-
-// EncodeLength encodes a length determinant for SEQUENCE_OF/SET_OF.
-// If constrained is false, uses unconstrained length determinant (X.691 Section 11.9).
-// This is an alias provided for clarity in generated code.
-func EncodeLength(bb *BitBuffer, n int64, constrained bool) error {
-	if constrained {
-		return fmt.Errorf("per: constrained length encoding should use EncodeConstrainedWholeNumber")
-	}
-	return EncodeUnconstrainedLength(bb, n)
-}
-
-// DecodeLength decodes a length determinant for SEQUENCE_OF/SET_OF.
-// If constrained is false, uses unconstrained length determinant.
-func DecodeLength(bb *BitBuffer, constrained bool) (int64, error) {
-	if constrained {
-		return 0, fmt.Errorf("per: constrained length decoding should use DecodeConstrainedWholeNumber")
-	}
-	return DecodeUnconstrainedLength(bb)
+	return decodeLengthDelimitedOctets(bb, false)
 }
 
 // EncodeChoiceIndex encodes a CHOICE index for root alternatives.
@@ -566,6 +639,100 @@ func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int
 }
 
 // --- internal helpers ---
+
+func encodeLengthDelimitedBits(bb *BitBuffer, data []byte, bitLength int, aligned bool) error {
+	required, err := octetsForBitLength(bitLength)
+	if err != nil || required > len(data) {
+		return fmt.Errorf("%w: BIT STRING length %d exceeds %d source octets", ErrInvalidValue, bitLength, len(data))
+	}
+	return EncodeLengthFragments(bb, int64(bitLength), aligned, func(offset, length int64) error {
+		if aligned {
+			bb.AlignToOctetWrite()
+		}
+		if offset%8 != 0 {
+			return fmt.Errorf("%w: BIT STRING fragment offset %d is not octet-aligned", ErrInvalidValue, offset)
+		}
+		return bb.WriteBitsFromBytes(data[int(offset/8):], int(length))
+	})
+}
+
+func decodeLengthDelimitedBits(bb *BitBuffer, aligned bool) ([]byte, int, error) {
+	return decodeLengthDelimitedBitsBounded(bb, aligned, math.MaxInt64)
+}
+
+func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, int, error) {
+	var result []byte
+	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
+		if aligned {
+			bb.AlignToOctetRead()
+		}
+		if length > int64(bb.BitsRemaining()) {
+			return fmt.Errorf("%w: BIT STRING fragment requires %d bits with %d remaining", ErrTruncated, length, bb.BitsRemaining())
+		}
+		fragment, err := bb.ReadBitsToBytes(int(length))
+		if err != nil {
+			return err
+		}
+		result = append(result, fragment...)
+		return nil
+	})
+	if err != nil {
+		return nil, 0, err
+	}
+	maximumInt := int64(^uint(0) >> 1)
+	if total > maximumInt {
+		return nil, 0, fmt.Errorf("%w: BIT STRING length %d overflows int", ErrInvalidValue, total)
+	}
+	return result, int(total), nil
+}
+
+func encodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, value string, bitsPerChar int, aligned bool) error {
+	if err := validateKnownMultiplierStringValue(value, bitsPerChar); err != nil {
+		return err
+	}
+	length := knownMultiplierStringLength(value, bitsPerChar)
+	var runes []rune
+	if bitsPerChar > 8 {
+		runes = []rune(value)
+	}
+	return EncodeLengthFragments(bb, length, aligned, func(offset, fragmentLength int64) error {
+		if aligned {
+			bb.AlignToOctetWrite()
+		}
+		if bitsPerChar <= 8 {
+			return writeKnownMultiplierString(bb, value[int(offset):int(offset+fragmentLength)], bitsPerChar)
+		}
+		for _, character := range runes[int(offset):int(offset+fragmentLength)] {
+			if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+}
+
+func decodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, bitsPerChar int, aligned bool) (string, int64, error) {
+	return decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, aligned, math.MaxInt64)
+}
+
+func decodeLengthDelimitedKnownMultiplierStringBounded(bb *BitBuffer, bitsPerChar int, aligned bool, maximum int64) (string, int64, error) {
+	var result strings.Builder
+	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
+		if aligned {
+			bb.AlignToOctetRead()
+		}
+		fragment, err := readKnownMultiplierString(bb, length, bitsPerChar)
+		if err != nil {
+			return err
+		}
+		_, err = result.WriteString(fragment)
+		return err
+	})
+	if err != nil {
+		return "", 0, err
+	}
+	return result.String(), total, nil
+}
 
 func encodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer, v uint64) error {
 	buf := minimalUnsignedBytes(v)
@@ -612,6 +779,140 @@ func addNonNegativeOffset(lb int64, offset uint64) (int64, error) {
 	}
 	absLowerBound := uint64(-(lb + 1)) + 1
 	return int64(offset - absLowerBound), nil
+}
+
+func validateSizeBounds(lb, ub int64, constrained bool) error {
+	if constrained && (lb < 0 || ub < 0 || lb > ub) {
+		return fmt.Errorf("%w: invalid SIZE range [%d..%d]", ErrInvalidValue, lb, ub)
+	}
+	return nil
+}
+
+func validateRootSize(length, lb, ub int64, constrained bool) error {
+	if constrained && (length < lb || length > ub) {
+		return fmt.Errorf("%w: length %d not in SIZE(%d..%d)", ErrConstraintViolation, length, lb, ub)
+	}
+	return nil
+}
+
+func rootSizeMaximum(ub int64, constrained bool) int64 {
+	if constrained {
+		return ub
+	}
+	return math.MaxInt64
+}
+
+// X.691 (02/2021) 16.10 omits the length only for fixed sizes below
+// 64K; 16.11 requires a length determinant at 64K and above.
+func fixedRootSizeOmitsLength(lb, ub int64, constrained bool) bool {
+	return constrained && lb == ub && ub < 64*1024
+}
+
+func validateKnownMultiplierWidth(bitsPerChar int) error {
+	if bitsPerChar < 1 || bitsPerChar > 32 {
+		return fmt.Errorf("%w: character width %d bits is outside [1..32]", ErrInvalidValue, bitsPerChar)
+	}
+	return nil
+}
+
+func knownMultiplierStringLength(value string, bitsPerChar int) int64 {
+	if bitsPerChar <= 8 {
+		return int64(len(value))
+	}
+	return int64(utf8.RuneCountInString(value))
+}
+
+func knownMultiplierPayloadBits(length int64, bitsPerChar int) (int, error) {
+	if length < 0 {
+		return 0, fmt.Errorf("%w: negative character-string length %d", ErrInvalidValue, length)
+	}
+	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
+		return 0, err
+	}
+	maximumInt := int64(^uint(0) >> 1)
+	if length > maximumInt/int64(bitsPerChar) {
+		return 0, fmt.Errorf("%w: character-string payload length overflows int", ErrInvalidValue)
+	}
+	return int(length) * bitsPerChar, nil
+}
+
+func writeKnownMultiplierString(bb *BitBuffer, value string, bitsPerChar int) error {
+	if err := validateKnownMultiplierStringValue(value, bitsPerChar); err != nil {
+		return err
+	}
+
+	if bitsPerChar <= 8 {
+		for _, character := range []byte(value) {
+			if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+	for _, character := range value {
+		if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func validateKnownMultiplierStringValue(value string, bitsPerChar int) error {
+	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
+		return err
+	}
+	if bitsPerChar > 8 && !utf8.ValidString(value) {
+		return fmt.Errorf("%w: wide character string is not valid UTF-8", ErrInvalidValue)
+	}
+	maximum := uint64(1) << bitsPerChar
+	if bitsPerChar <= 8 {
+		for _, character := range []byte(value) {
+			if uint64(character) >= maximum {
+				return fmt.Errorf("%w: character %#x does not fit in %d bits", ErrConstraintViolation, character, bitsPerChar)
+			}
+		}
+		return nil
+	}
+	for _, character := range value {
+		if uint64(character) >= maximum {
+			return fmt.Errorf("%w: character %U does not fit in %d bits", ErrConstraintViolation, character, bitsPerChar)
+		}
+	}
+	return nil
+}
+
+func readKnownMultiplierString(bb *BitBuffer, length int64, bitsPerChar int) (string, error) {
+	payloadBits, err := knownMultiplierPayloadBits(length, bitsPerChar)
+	if err != nil {
+		return "", err
+	}
+	if payloadBits > bb.BitsRemaining() {
+		return "", fmt.Errorf("%w: character string requires %d bits with %d remaining", ErrTruncated, payloadBits, bb.BitsRemaining())
+	}
+	if bitsPerChar <= 8 {
+		result := make([]byte, int(length))
+		for index := range result {
+			value, err := bb.ReadBits(bitsPerChar)
+			if err != nil {
+				return "", err
+			}
+			result[index] = byte(value)
+		}
+		return string(result), nil
+	}
+	result := make([]rune, int(length))
+	for index := range result {
+		value, err := bb.ReadBits(bitsPerChar)
+		if err != nil {
+			return "", err
+		}
+		character := rune(value)
+		if !utf8.ValidRune(character) {
+			return "", fmt.Errorf("%w: invalid Unicode scalar value U+%X", ErrInvalidValue, value)
+		}
+		result[index] = character
+	}
+	return string(result), nil
 }
 
 func minimalUnsignedBytes(v uint64) []byte {

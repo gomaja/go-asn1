@@ -49,6 +49,6 @@ func TestBigIntValueRoundTrip(t *testing.T) {
 	}
 
 	if _, err := DecodeBigIntValue(nil); !errors.Is(err, ErrInvalidValue) {
-		t.Errorf("got %v, want ErrInvalidValue", err)
+		t.Errorf("DecodeBigIntValue(nil) error = %v, want %v", err, ErrInvalidValue)
 	}
 }

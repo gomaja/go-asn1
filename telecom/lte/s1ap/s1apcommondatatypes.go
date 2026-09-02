@@ -72,7 +72,7 @@ type PrivateIEID struct {
 	Global runtime.ObjectIdentifier `json:"Global,omitempty"`
 }
 
-// NewPrivateIEIDLocal creates a PrivateIE-ID with the local alternative.
+// NewPrivateIEIDLocal creates a PrivateIEID with the local alternative.
 func NewPrivateIEIDLocal(v int64) PrivateIEID {
 	return PrivateIEID{
 		Choice: PrivateIEIDChoiceLocal,
@@ -80,7 +80,7 @@ func NewPrivateIEIDLocal(v int64) PrivateIEID {
 	}
 }
 
-// NewPrivateIEIDGlobal creates a PrivateIE-ID with the global alternative.
+// NewPrivateIEIDGlobal creates a PrivateIEID with the global alternative.
 func NewPrivateIEIDGlobal(v runtime.ObjectIdentifier) PrivateIEID {
 	return PrivateIEID{
 		Choice: PrivateIEIDChoiceGlobal,
@@ -134,6 +134,9 @@ func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	switch v.Choice {
 	case PrivateIEIDChoiceLocal:
+		if v.Local == nil {
+			return fmt.Errorf("choice alternative local is nil")
+		}
 		if err := per.EncodeIntegerAligned(bb, int64(*v.Local), int64Ptr(0), int64Ptr(65535), false); err != nil {
 			return fmt.Errorf("encoding local: %w", err)
 		}
@@ -154,6 +157,7 @@ func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
 }
 
 func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+	*v = PrivateIEID{}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
