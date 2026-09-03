@@ -67,6 +67,26 @@ func TestDecodeRealBinaryArbitraryWidth(t *testing.T) {
 	assertReal(t, roundTrip, runtime.RealFinite, 2, "1", wantExponent.String())
 }
 
+func TestDecodeRealAcceptsBERValueWithoutDERRepresentation(t *testing.T) {
+	exponentBytes := append([]byte{0x30}, make([]byte, 254)...)
+	contents := append([]byte{0xeb, byte(len(exponentBytes))}, exponentBytes...)
+	contents = append(contents, 0x30)
+
+	decoded, err := DecodeRealValue(contents)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if decoded.Base != 2 || decoded.Exponent == nil || len(EncodeBigIntValue(decoded.Exponent)) != 256 {
+		t.Fatalf("decoded REAL = %#v, want a base-2 exponent requiring 256 octets", decoded)
+	}
+
+	// X.690 (02/2021) 8.5.4 permits base-16 BER, while 11.3.1 requires
+	// base-2 DER. This valid BER value has no representable DER exponent.
+	if _, err := EncodeReal(decoded); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("EncodeReal error = %v, want ErrInvalidValue", err)
+	}
+}
+
 func TestDecodeRealBinaryBasesAndScaleFactor(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -204,7 +224,13 @@ func FuzzDecodeRealValueNoPanic(f *testing.F) {
 		}
 		wire, err := EncodeReal(decoded)
 		if err != nil {
-			t.Fatalf("decoded REAL cannot be re-encoded: %v", err)
+			// X.690 (02/2021) 8.5.4 permits base-8/base-16 BER values whose
+			// canonical base-2 exponent cannot fit the 255-octet DER limit.
+			if !errors.Is(err, ErrInvalidValue) || decoded.Kind != runtime.RealFinite || decoded.Base != 2 ||
+				decoded.Exponent == nil || len(EncodeBigIntValue(decoded.Exponent)) <= 255 {
+				t.Fatalf("decoded REAL cannot be re-encoded: %v", err)
+			}
+			return
 		}
 		if _, consumed, err := DecodeReal(wire); err != nil || consumed != len(wire) {
 			t.Fatalf("canonical re-decode = consumed %d error %v", consumed, err)

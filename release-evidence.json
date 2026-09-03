@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "5134841b446fd88807e91afb7e395df5a8586609",
+  "compiler_commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
   "target_base_commit": "fd7ee7fb93e266530d8d57f8dcbcc51854feffa9",
   "inputs": {
     "sha256": "ada50cc9e90cc4104a45d1b416b49c154022d1985471d3d131f96d7752be928d",
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "5134841b446fd88807e91afb7e395df5a8586609",
+          "commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
           "dirty": false
         },
         "frontend": {
@@ -1677,7 +1677,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "5134841b446fd88807e91afb7e395df5a8586609",
+          "commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
           "dirty": false
         },
         "frontend": {
@@ -2076,7 +2076,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "5134841b446fd88807e91afb7e395df5a8586609",
+          "commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
           "dirty": false
         },
         "frontend": {
@@ -2465,7 +2465,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "5134841b446fd88807e91afb7e395df5a8586609",
+          "commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
           "dirty": false
         },
         "frontend": {
@@ -2826,7 +2826,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "5134841b446fd88807e91afb7e395df5a8586609",
+          "commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
           "dirty": false
         },
         "frontend": {
@@ -3211,7 +3211,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "5134841b446fd88807e91afb7e395df5a8586609",
+          "commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
           "dirty": false
         },
         "frontend": {
@@ -3572,7 +3572,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "5134841b446fd88807e91afb7e395df5a8586609",
+          "commit": "5a50f8464abf77fcc04b7c724fcf3e13778ca641",
           "dirty": false
         },
         "frontend": {
@@ -3934,7 +3934,7 @@
     }
   ],
   "outputs": {
-    "sha256": "be7908f6da9eaf370480d186bb89238e0ca0950e11f38e3221aa8cce9f2cd7ff",
+    "sha256": "fcda9407f78ea80cc2e9e15874a6cab628a34e60dc6ea563bb9a303777aa5798",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -3981,8 +3981,8 @@
       {
         "path": "runtime/ber/real_decimal_test.go",
         "mode": "0644",
-        "sha256": "31491e7dfb7ac727a43676d9dc14d480117d789948130b4ec73aaa5a94759b02",
-        "size_bytes": 7567
+        "sha256": "ba0149f1ba9ce3dbb857c7f894603bf6aaf08613ecd791d19a8c8fdb9ef65e89",
+        "size_bytes": 8702
       },
       {
         "path": "runtime/ber/string_fixed_width_test.go",
