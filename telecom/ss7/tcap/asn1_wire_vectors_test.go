@@ -1,4 +1,4 @@
-package sgp32
+package tcap
 
 import (
 	"bytes"
@@ -34,6 +34,15 @@ func TestASN1VectorPathRejectsNegativeIndex(t *testing.T) {
 	}
 }
 
+func TestASN1VectorPathRejectsEmptySegments(t *testing.T) {
+	value := reflect.ValueOf(struct{ Field int }{Field: 1})
+	for _, path := range []string{"", ".Field", "Field.", "Field..Nested"} {
+		if _, err := asn1VectorValueAtPath(value, path); err == nil {
+			t.Errorf("asn1VectorValueAtPath accepted malformed path %q", path)
+		}
+	}
+}
+
 func asn1VectorAssertPath(t *testing.T, value any, path, expectedJSON string) {
 	t.Helper()
 	actual, err := asn1VectorValueAtPath(reflect.ValueOf(value), path)
@@ -53,7 +62,13 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 	if path == "$" {
 		return asn1VectorInterface(current)
 	}
-	for _, segment := range strings.Split(path, ".") {
+	segments := strings.Split(path, ".")
+	for _, segment := range segments {
+		if segment == "" {
+			return nil, fmt.Errorf("path %s: malformed empty segment", path)
+		}
+	}
+	for _, segment := range segments {
 		var err error
 		current, err = asn1VectorDereference(current)
 		if err != nil {
@@ -131,18 +146,38 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 	return value.Interface(), nil
 }
 
-// TestVectorGetCertsResponseCertificates verifies GSMA SGP.32 V1.3 (2026-05-22), section 5.9.10 and normative Annex C; RFC 5280 section 4.1 and Appendix A.1.
-func TestVectorGetCertsResponseCertificates(t *testing.T) {
+// TestVectorComponentPortionReturnResult verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, ComponentPortion and returnResultLast.
+func TestVectorComponentPortionReturnResult(t *testing.T) {
 	t.Parallel()
-	input := asn1VectorHex(t, "bf5682020ca0820208a58201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03a68201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03")
-	var decoded GetCertsResponse
+	input := asn1VectorHex(t, "6c0fa20d02017f300802012d0403deadbe")
+	decoded, err := UnmarshalBERComponentPortion(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "[0].Choice", "1")
+	asn1VectorAssertPath(t, decoded, "[0].BasicROS.Choice", "2")
+	asn1VectorAssertPath(t, decoded, "[0].BasicROS.ReturnResult.InvokeId.Choice", "1")
+	wire, err := MarshalBERComponentPortion(decoded)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorEndReturnResult verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, End and ComponentPortion.
+func TestVectorEndReturnResult(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "64144901016c0fa20d02017f300802012d0403deadbe")
+	var decoded TCMessage
 	err := decoded.UnmarshalBER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	asn1VectorAssertPath(t, decoded, "Choice", "1")
-	asn1VectorAssertPath(t, decoded, "Certs.EumCertificate.TbsCertificate.SerialNumber", "1")
-	asn1VectorAssertPath(t, decoded, "Certs.EuiccCertificate.TbsCertificate.SerialNumber", "1")
+	asn1VectorAssertPath(t, decoded, "Choice", "3")
+	asn1VectorAssertPath(t, decoded, "End.Dtid", "\"AQ==\"")
+	asn1VectorAssertPath(t, decoded, "End.Components[0].Choice", "1")
 	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
@@ -152,10 +187,39 @@ func TestVectorGetCertsResponseCertificates(t *testing.T) {
 	}
 }
 
-func FuzzBERGetCertsResponse(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("bf5682020ca0820208a58201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03a68201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03"))
+// TestVectorBeginIndefiniteComponentPortion verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin and ComponentPortion; ITU-T X.690 (02/2021), section 8.1.3.6, indefinite form.
+func TestVectorBeginIndefiniteComponentPortion(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "620f4801016c80a10602010002012d0000")
+	var decoded TCMessage
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "Choice", "2")
+	asn1VectorAssertPath(t, decoded, "Begin.Otid", "\"AQ==\"")
+	asn1VectorAssertPath(t, decoded, "Begin.Components[0].Choice", "1")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+func FuzzBERComponentPortion(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("6c0fa20d02017f300802012d0403deadbe"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded GetCertsResponse
+		_, _ = UnmarshalBERComponentPortion(input)
+	})
+}
+
+func FuzzBERTCMessage(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("64144901016c0fa20d02017f300802012d0403deadbe"))
+	f.Add(asn1VectorHexForFuzz("620f4801016c80a10602010002012d0000"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded TCMessage
 		_ = decoded.UnmarshalBER(input)
 	})
 }

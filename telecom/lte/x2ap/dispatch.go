@@ -720,10 +720,10 @@ func decodeIEProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]
 
 // DecodeIEFieldValue decodes a known IE open value using its object-set context and ID.
 // Returns the decoded typed value, or nil if the combination is unknown.
-func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{}, error) {
+func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{}, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	switch messageType {
-	case "ERABItem", "E-RAB-ItemIEs":
+	switch objectSet {
+	case "E-RAB-ItemIEs":
 		switch ieId {
 		case 2: // id-E-RAB-Item -> ERABItem
 			var v ERABItem
@@ -732,7 +732,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABUsageReportItem", "E-RABUsageReport-ItemIEs":
+	case "E-RABUsageReport-ItemIEs":
 		switch ieId {
 		case 263: // id-E-RABUsageReport-Item -> ERABUsageReportItem
 			var v ERABUsageReportItem
@@ -741,7 +741,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SecondaryRATUsageReportItem", "SecondaryRATUsageReport-ItemIEs":
+	case "SecondaryRATUsageReport-ItemIEs":
 		switch ieId {
 		case 266: // id-SecondaryRATUsageReport-Item -> SecondaryRATUsageReportItem
 			var v SecondaryRATUsageReportItem
@@ -750,7 +750,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverRequest", "HandoverRequest-IEs":
+	case "HandoverRequest-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -917,7 +917,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := IABNodeIndication(v)
 			return &result, nil
 		}
-	case "ERABsToBeSetupItem", "E-RABs-ToBeSetup-ItemIEs":
+	case "E-RABs-ToBeSetup-ItemIEs":
 		switch ieId {
 		case 4: // id-E-RABs-ToBeSetup-Item -> ERABsToBeSetupItem
 			var v ERABsToBeSetupItem
@@ -926,7 +926,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverRequestAcknowledge", "HandoverRequestAcknowledge-IEs":
+	case "HandoverRequestAcknowledge-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1012,7 +1012,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedItem", "E-RABs-Admitted-ItemIEs":
+	case "E-RABs-Admitted-ItemIEs":
 		switch ieId {
 		case 0: // id-E-RABs-Admitted-Item -> ERABsAdmittedItem
 			var v ERABsAdmittedItem
@@ -1021,7 +1021,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverPreparationFailure", "HandoverPreparationFailure-IEs":
+	case "HandoverPreparationFailure-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1055,7 +1055,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverReport", "HandoverReport-IEs":
+	case "HandoverReport-IEs":
 		switch ieId {
 		case 54: // id-HandoverReportType -> HandoverReportType (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -1131,7 +1131,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TargetCellInNGRAN(v)
 			return &result, nil
 		}
-	case "EarlyStatusTransfer", "EarlyStatusTransfer-IEs":
+	case "EarlyStatusTransfer-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1173,7 +1173,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		}
-	case "SNStatusTransfer", "SNStatusTransfer-IEs":
+	case "SNStatusTransfer-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1215,7 +1215,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		}
-	case "ERABsSubjectToStatusTransferItem", "E-RABs-SubjectToStatusTransfer-ItemIEs":
+	case "E-RABs-SubjectToStatusTransfer-ItemIEs":
 		switch ieId {
 		case 19: // id-E-RABs-SubjectToStatusTransfer-Item -> ERABsSubjectToStatusTransferItem
 			var v ERABsSubjectToStatusTransferItem
@@ -1224,7 +1224,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "UEContextRelease", "UEContextRelease-IEs":
+	case "UEContextRelease-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1267,7 +1267,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		}
-	case "HandoverCancel", "HandoverCancel-IEs":
+	case "HandoverCancel-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1308,7 +1308,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "HandoverSuccess", "HandoverSuccess-IEs":
+	case "HandoverSuccess-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1343,7 +1343,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ConditionalHandoverCancel", "ConditionalHandoverCancel-IEs":
+	case "ConditionalHandoverCancel-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1384,7 +1384,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ErrorIndication", "ErrorIndication-IEs":
+	case "ErrorIndication-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -1438,7 +1438,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ResetRequest", "ResetRequest-IEs":
+	case "ResetRequest-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -1453,7 +1453,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ResetResponse", "ResetResponse-IEs":
+	case "ResetResponse-IEs":
 		switch ieId {
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
@@ -1468,7 +1468,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "X2SetupRequest", "X2SetupRequest-IEs":
+	case "X2SetupRequest-IEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -1496,7 +1496,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := LHNID(v)
 			return &result, nil
 		}
-	case "X2SetupResponse", "X2SetupResponse-IEs":
+	case "X2SetupResponse-IEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -1530,7 +1530,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := LHNID(v)
 			return &result, nil
 		}
-	case "X2SetupFailure", "X2SetupFailure-IEs":
+	case "X2SetupFailure-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -1552,7 +1552,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "LoadInformation", "LoadInformation-IEs":
+	case "LoadInformation-IEs":
 		switch ieId {
 		case 6: // id-CellInformation -> CellInformationList (SEQUENCE OF ProtocolIE-Field)
 			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
@@ -1561,7 +1561,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellInformationItem", "CellInformation-ItemIEs":
+	case "CellInformation-ItemIEs":
 		switch ieId {
 		case 7: // id-CellInformation-Item -> CellInformationItem
 			var v CellInformationItem
@@ -1570,7 +1570,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBConfigurationUpdate", "ENBConfigurationUpdate-IEs":
+	case "ENBConfigurationUpdate-IEs":
 		switch ieId {
 		case 25: // id-ServedCellsToAdd -> ServedCells (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedCellsFrom(bb)
@@ -1609,7 +1609,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBConfigurationUpdateAcknowledge", "ENBConfigurationUpdateAcknowledge-IEs":
+	case "ENBConfigurationUpdateAcknowledge-IEs":
 		switch ieId {
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
@@ -1618,7 +1618,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBConfigurationUpdateFailure", "ENBConfigurationUpdateFailure-IEs":
+	case "ENBConfigurationUpdateFailure-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -1640,7 +1640,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ResourceStatusRequest", "ResourceStatusRequest-IEs":
+	case "ResourceStatusRequest-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -1703,7 +1703,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := ReportingPeriodicityCSIR(v)
 			return &result, nil
 		}
-	case "CellToReportItem", "CellToReport-ItemIEs":
+	case "CellToReport-ItemIEs":
 		switch ieId {
 		case 31: // id-CellToReport-Item -> CellToReportItem
 			var v CellToReportItem
@@ -1712,7 +1712,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ResourceStatusResponse", "ResourceStatusResponse-IEs":
+	case "ResourceStatusResponse-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -1739,7 +1739,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MeasurementInitiationResultItem", "MeasurementInitiationResult-ItemIEs":
+	case "MeasurementInitiationResult-ItemIEs":
 		switch ieId {
 		case 66: // id-MeasurementInitiationResult-Item -> MeasurementInitiationResultItem
 			var v MeasurementInitiationResultItem
@@ -1748,7 +1748,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MeasurementFailureCauseItem", "MeasurementFailureCause-ItemIEs":
+	case "MeasurementFailureCause-ItemIEs":
 		switch ieId {
 		case 67: // id-MeasurementFailureCause-Item -> MeasurementFailureCauseItem
 			var v MeasurementFailureCauseItem
@@ -1757,7 +1757,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ResourceStatusFailure", "ResourceStatusFailure-IEs":
+	case "ResourceStatusFailure-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -1790,7 +1790,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CompleteFailureCauseInformationItem", "CompleteFailureCauseInformation-ItemIEs":
+	case "CompleteFailureCauseInformation-ItemIEs":
 		switch ieId {
 		case 69: // id-CompleteFailureCauseInformation-Item -> CompleteFailureCauseInformationItem
 			var v CompleteFailureCauseInformationItem
@@ -1799,7 +1799,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ResourceStatusUpdate", "ResourceStatusUpdate-IEs":
+	case "ResourceStatusUpdate-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -1820,7 +1820,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellMeasurementResultItem", "CellMeasurementResult-ItemIEs":
+	case "CellMeasurementResult-ItemIEs":
 		switch ieId {
 		case 33: // id-CellMeasurementResult-Item -> CellMeasurementResultItem
 			var v CellMeasurementResultItem
@@ -1829,7 +1829,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MobilityChangeRequest", "MobilityChangeRequest-IEs":
+	case "MobilityChangeRequest-IEs":
 		switch ieId {
 		case 43: // id-ENB1-Cell-ID -> ECGI
 			var v ECGI
@@ -1862,7 +1862,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MobilityChangeAcknowledge", "MobilityChangeAcknowledge-IEs":
+	case "MobilityChangeAcknowledge-IEs":
 		switch ieId {
 		case 43: // id-ENB1-Cell-ID -> ECGI
 			var v ECGI
@@ -1883,7 +1883,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "MobilityChangeFailure", "MobilityChangeFailure-IEs":
+	case "MobilityChangeFailure-IEs":
 		switch ieId {
 		case 43: // id-ENB1-Cell-ID -> ECGI
 			var v ECGI
@@ -1916,7 +1916,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RLFIndication", "RLFIndication-IEs":
+	case "RLFIndication-IEs":
 		switch ieId {
 		case 48: // id-FailureCellPCI -> PCI (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("503"), true)
@@ -1980,7 +1980,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := NBIoTRLFReportContainer(v)
 			return &result, nil
 		}
-	case "CellActivationRequest", "CellActivationRequest-IEs":
+	case "CellActivationRequest-IEs":
 		switch ieId {
 		case 57: // id-ServedCellsToActivate -> ServedCellsToActivate (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedCellsToActivateFrom(bb)
@@ -1989,7 +1989,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellActivationResponse", "CellActivationResponse-IEs":
+	case "CellActivationResponse-IEs":
 		switch ieId {
 		case 58: // id-ActivatedCellList -> ActivatedCellList (SEQUENCE_OF)
 			v, err := UnmarshalAPERActivatedCellListFrom(bb)
@@ -2004,7 +2004,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellActivationFailure", "CellActivationFailure-IEs":
+	case "CellActivationFailure-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -2019,7 +2019,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "X2Release", "X2Release-IEs":
+	case "X2Release-IEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -2028,7 +2028,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "X2APMessageTransfer", "X2APMessageTransfer-IEs":
+	case "X2APMessageTransfer-IEs":
 		switch ieId {
 		case 101: // id-RNL-Header -> RNLHeader
 			var v RNLHeader
@@ -2044,7 +2044,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := X2APMessage(v)
 			return &result, nil
 		}
-	case "SeNBAdditionRequest", "SeNBAdditionRequest-IEs":
+	case "SeNBAdditionRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2125,7 +2125,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsToBeAddedItem", "E-RABs-ToBeAdded-ItemIEs":
+	case "E-RABs-ToBeAdded-ItemIEs":
 		switch ieId {
 		case 118: // id-E-RABs-ToBeAdded-Item -> ERABsToBeAddedItem
 			var v ERABsToBeAddedItem
@@ -2134,7 +2134,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SeNBAdditionRequestAcknowledge", "SeNBAdditionRequestAcknowledge-IEs":
+	case "SeNBAdditionRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2208,7 +2208,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeAddedItem", "E-RABs-Admitted-ToBeAdded-ItemIEs":
+	case "E-RABs-Admitted-ToBeAdded-ItemIEs":
 		switch ieId {
 		case 121: // id-E-RABs-Admitted-ToBeAdded-Item -> ERABsAdmittedToBeAddedItem
 			var v ERABsAdmittedToBeAddedItem
@@ -2217,7 +2217,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SeNBAdditionRequestReject", "SeNBAdditionRequestReject-IEs":
+	case "SeNBAdditionRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2258,7 +2258,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SeNBReconfigurationComplete", "SeNBReconfigurationComplete-IEs":
+	case "SeNBReconfigurationComplete-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2293,7 +2293,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SeNBModificationRequest", "SeNBModificationRequest-IEs":
+	case "SeNBModificationRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2362,7 +2362,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsToBeAddedModReqItem", "E-RABs-ToBeAdded-ModReqItemIEs":
+	case "E-RABs-ToBeAdded-ModReqItemIEs":
 		switch ieId {
 		case 125: // id-E-RABs-ToBeAdded-ModReqItem -> ERABsToBeAddedModReqItem
 			var v ERABsToBeAddedModReqItem
@@ -2371,7 +2371,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeModifiedModReqItem", "E-RABs-ToBeModified-ModReqItemIEs":
+	case "E-RABs-ToBeModified-ModReqItemIEs":
 		switch ieId {
 		case 126: // id-E-RABs-ToBeModified-ModReqItem -> ERABsToBeModifiedModReqItem
 			var v ERABsToBeModifiedModReqItem
@@ -2380,7 +2380,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeReleasedModReqItem", "E-RABs-ToBeReleased-ModReqItemIEs":
+	case "E-RABs-ToBeReleased-ModReqItemIEs":
 		switch ieId {
 		case 127: // id-E-RABs-ToBeReleased-ModReqItem -> ERABsToBeReleasedModReqItem
 			var v ERABsToBeReleasedModReqItem
@@ -2389,7 +2389,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SeNBModificationRequestAcknowledge", "SeNBModificationRequestAcknowledge-IEs":
+	case "SeNBModificationRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2455,7 +2455,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsAdmittedToBeAddedModAckItem", "E-RABs-Admitted-ToBeAdded-ModAckItemIEs":
+	case "E-RABs-Admitted-ToBeAdded-ModAckItemIEs":
 		switch ieId {
 		case 131: // id-E-RABs-Admitted-ToBeAdded-ModAckItem -> ERABsAdmittedToBeAddedModAckItem
 			var v ERABsAdmittedToBeAddedModAckItem
@@ -2464,7 +2464,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeModifiedModAckItem", "E-RABs-Admitted-ToBeModified-ModAckItemIEs":
+	case "E-RABs-Admitted-ToBeModified-ModAckItemIEs":
 		switch ieId {
 		case 132: // id-E-RABs-Admitted-ToBeModified-ModAckItem -> ERABsAdmittedToBeModifiedModAckItem
 			var v ERABsAdmittedToBeModifiedModAckItem
@@ -2473,7 +2473,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeReleasedModAckItem", "E-RABs-Admitted-ToBeReleased-ModAckItemIEs":
+	case "E-RABs-Admitted-ToBeReleased-ModAckItemIEs":
 		switch ieId {
 		case 133: // id-E-RABs-Admitted-ToBeReleased-ModAckItem -> ERABsAdmittedToReleasedModAckItem
 			var v ERABsAdmittedToReleasedModAckItem
@@ -2482,7 +2482,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SeNBModificationRequestReject", "SeNBModificationRequestReject-IEs":
+	case "SeNBModificationRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2523,7 +2523,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SeNBModificationRequired", "SeNBModificationRequired-IEs":
+	case "SeNBModificationRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2578,7 +2578,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsToBeReleasedModReqdItem", "E-RABs-ToBeReleased-ModReqdItemIEs":
+	case "E-RABs-ToBeReleased-ModReqdItemIEs":
 		switch ieId {
 		case 135: // id-E-RABs-ToBeReleased-ModReqdItem -> ERABsToBeReleasedModReqdItem
 			var v ERABsToBeReleasedModReqdItem
@@ -2587,7 +2587,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SeNBModificationConfirm", "SeNBModificationConfirm-IEs":
+	case "SeNBModificationConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2629,7 +2629,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SeNBModificationRefuse", "SeNBModificationRefuse-IEs":
+	case "SeNBModificationRefuse-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2677,7 +2677,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SeNBReleaseRequest", "SeNBReleaseRequest-IEs":
+	case "SeNBReleaseRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2732,7 +2732,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MakeBeforeBreakIndicator(v)
 			return &result, nil
 		}
-	case "ERABsToBeReleasedRelReqItem", "E-RABs-ToBeReleased-RelReqItemIEs":
+	case "E-RABs-ToBeReleased-RelReqItemIEs":
 		switch ieId {
 		case 138: // id-E-RABs-ToBeReleased-RelReqItem -> ERABsToBeReleasedRelReqItem
 			var v ERABsToBeReleasedRelReqItem
@@ -2741,7 +2741,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SeNBReleaseRequired", "SeNBReleaseRequired-IEs":
+	case "SeNBReleaseRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2776,7 +2776,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SeNBReleaseConfirm", "SeNBReleaseConfirm-IEs":
+	case "SeNBReleaseConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2817,7 +2817,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsToBeReleasedRelConfItem", "E-RABs-ToBeReleased-RelConfItemIEs":
+	case "E-RABs-ToBeReleased-RelConfItemIEs":
 		switch ieId {
 		case 140: // id-E-RABs-ToBeReleased-RelConfItem -> ERABsToBeReleasedRelConfItem
 			var v ERABsToBeReleasedRelConfItem
@@ -2826,7 +2826,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SeNBCounterCheckRequest", "SeNBCounterCheckRequest-IEs":
+	case "SeNBCounterCheckRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2861,7 +2861,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsSubjectToCounterCheckItem", "E-RABs-SubjectToCounterCheckItemIEs":
+	case "E-RABs-SubjectToCounterCheckItemIEs":
 		switch ieId {
 		case 142: // id-E-RABs-SubjectToCounterCheckItem -> ERABsSubjectToCounterCheckItem
 			var v ERABsSubjectToCounterCheckItem
@@ -2870,7 +2870,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "X2RemovalRequest", "X2RemovalRequest-IEs":
+	case "X2RemovalRequest-IEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -2885,7 +2885,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "X2RemovalResponse", "X2RemovalResponse-IEs":
+	case "X2RemovalResponse-IEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -2900,7 +2900,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "X2RemovalFailure", "X2RemovalFailure-IEs":
+	case "X2RemovalFailure-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -2915,7 +2915,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RetrieveUEContextRequest", "RetrieveUEContextRequest-IEs":
+	case "RetrieveUEContextRequest-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -2964,7 +2964,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "RetrieveUEContextResponse", "RetrieveUEContextResponse-IEs":
+	case "RetrieveUEContextResponse-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3074,7 +3074,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeSetupRetrieveItem", "E-RABs-ToBeSetupRetrieve-ItemIEs":
+	case "E-RABs-ToBeSetupRetrieve-ItemIEs":
 		switch ieId {
 		case 174: // id-E-RABs-ToBeSetupRetrieve-Item -> ERABsToBeSetupRetrieveItem
 			var v ERABsToBeSetupRetrieveItem
@@ -3083,7 +3083,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RetrieveUEContextFailure", "RetrieveUEContextFailure-IEs":
+	case "RetrieveUEContextFailure-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3111,7 +3111,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBAdditionRequest", "SgNBAdditionRequest-IEs":
+	case "SgNBAdditionRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3345,7 +3345,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := IABAuthorized(v)
 			return &result, nil
 		}
-	case "ERABsToBeAddedSgNBAddReqItem", "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs":
+	case "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs":
 		switch ieId {
 		case 209: // id-E-RABs-ToBeAdded-SgNBAddReq-Item -> ERABsToBeAddedSgNBAddReqItem
 			var v ERABsToBeAddedSgNBAddReqItem
@@ -3354,7 +3354,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBAdditionRequestAcknowledge", "SgNBAdditionRequestAcknowledge-IEs":
+	case "SgNBAdditionRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3455,7 +3455,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeAddedSgNBAddReqAckItem", "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs":
+	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs":
 		switch ieId {
 		case 213: // id-E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item -> ERABsAdmittedToBeAddedSgNBAddReqAckItem
 			var v ERABsAdmittedToBeAddedSgNBAddReqAckItem
@@ -3464,7 +3464,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBAdditionRequestReject", "SgNBAdditionRequestReject-IEs":
+	case "SgNBAdditionRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3499,7 +3499,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SgNBReconfigurationComplete", "SgNBReconfigurationComplete-IEs":
+	case "SgNBReconfigurationComplete-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3528,7 +3528,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SgNBModificationRequest", "SgNBModificationRequest-IEs":
+	case "SgNBModificationRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3704,7 +3704,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := IABAuthorized(v)
 			return &result, nil
 		}
-	case "ERABsToBeAddedSgNBModReqItem", "E-RABs-ToBeAdded-SgNBModReq-ItemIEs":
+	case "E-RABs-ToBeAdded-SgNBModReq-ItemIEs":
 		switch ieId {
 		case 216: // id-E-RABs-ToBeAdded-SgNBModReq-Item -> ERABsToBeAddedSgNBModReqItem
 			var v ERABsToBeAddedSgNBModReqItem
@@ -3713,7 +3713,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeModifiedSgNBModReqItem", "E-RABs-ToBeModified-SgNBModReq-ItemIEs":
+	case "E-RABs-ToBeModified-SgNBModReq-ItemIEs":
 		switch ieId {
 		case 217: // id-E-RABs-ToBeModified-SgNBModReq-Item -> ERABsToBeModifiedSgNBModReqItem
 			var v ERABsToBeModifiedSgNBModReqItem
@@ -3722,7 +3722,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeReleasedSgNBModReqItem", "E-RABs-ToBeReleased-SgNBModReq-ItemIEs":
+	case "E-RABs-ToBeReleased-SgNBModReq-ItemIEs":
 		switch ieId {
 		case 218: // id-E-RABs-ToBeReleased-SgNBModReq-Item -> ERABsToBeReleasedSgNBModReqItem
 			var v ERABsToBeReleasedSgNBModReqItem
@@ -3731,7 +3731,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBModificationRequestAcknowledge", "SgNBModificationRequestAcknowledge-IEs":
+	case "SgNBModificationRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3857,7 +3857,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeAddedSgNBModAckItem", "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs":
+	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs":
 		switch ieId {
 		case 222: // id-E-RABs-Admitted-ToBeAdded-SgNBModAck-Item -> ERABsAdmittedToBeAddedSgNBModAckItem
 			var v ERABsAdmittedToBeAddedSgNBModAckItem
@@ -3866,7 +3866,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeModifiedSgNBModAckItem", "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs":
+	case "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs":
 		switch ieId {
 		case 223: // id-E-RABs-Admitted-ToBeModified-SgNBModAck-Item -> ERABsAdmittedToBeModifiedSgNBModAckItem
 			var v ERABsAdmittedToBeModifiedSgNBModAckItem
@@ -3875,7 +3875,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeReleasedSgNBModAckItem", "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs":
+	case "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs":
 		switch ieId {
 		case 224: // id-E-RABs-Admitted-ToBeReleased-SgNBModAck-Item -> ERABsAdmittedToReleasedSgNBModAckItem
 			var v ERABsAdmittedToReleasedSgNBModAckItem
@@ -3884,7 +3884,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBModificationRequestReject", "SgNBModificationRequestReject-IEs":
+	case "SgNBModificationRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -3919,7 +3919,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SgNBModificationRequired", "SgNBModificationRequired-IEs":
+	case "SgNBModificationRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4019,7 +4019,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := SCGreconfigNotification(v)
 			return &result, nil
 		}
-	case "ERABsToBeReleasedSgNBModReqdItem", "E-RABs-ToBeReleased-SgNBModReqd-ItemIEs":
+	case "E-RABs-ToBeReleased-SgNBModReqd-ItemIEs":
 		switch ieId {
 		case 227: // id-E-RABs-ToBeReleased-SgNBModReqd-Item -> ERABsToBeReleasedSgNBModReqdItem
 			var v ERABsToBeReleasedSgNBModReqdItem
@@ -4028,7 +4028,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeModifiedSgNBModReqdItem", "E-RABs-ToBeModified-SgNBModReqd-ItemIEs":
+	case "E-RABs-ToBeModified-SgNBModReqd-ItemIEs":
 		switch ieId {
 		case 228: // id-E-RABs-ToBeModified-SgNBModReqd-Item -> ERABsToBeModifiedSgNBModReqdItem
 			var v ERABsToBeModifiedSgNBModReqdItem
@@ -4037,7 +4037,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBModificationConfirm", "SgNBModificationConfirm-IEs":
+	case "SgNBModificationConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4085,7 +4085,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeModifiedSgNBModConfItem", "E-RABs-AdmittedToBeModified-SgNBModConf-ItemIEs":
+	case "E-RABs-AdmittedToBeModified-SgNBModConf-ItemIEs":
 		switch ieId {
 		case 295: // id-E-RABs-AdmittedToBeModified-SgNBModConf-Item -> ERABsAdmittedToBeModifiedSgNBModConfItem
 			var v ERABsAdmittedToBeModifiedSgNBModConfItem
@@ -4094,7 +4094,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBModificationRefuse", "SgNBModificationRefuse-IEs":
+	case "SgNBModificationRefuse-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4136,7 +4136,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SgNBReleaseRequest", "SgNBReleaseRequest-IEs":
+	case "SgNBReleaseRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4191,7 +4191,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeReleasedSgNBRelReqItem", "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs":
+	case "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs":
 		switch ieId {
 		case 232: // id-E-RABs-ToBeReleased-SgNBRelReq-Item -> ERABsToBeReleasedSgNBRelReqItem
 			var v ERABsToBeReleasedSgNBRelReqItem
@@ -4200,7 +4200,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBReleaseRequestAcknowledge", "SgNBReleaseRequestAcknowledge-IEs":
+	case "SgNBReleaseRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4241,7 +4241,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeReleasedSgNBRelReqAckItem", "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs":
+	case "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs":
 		switch ieId {
 		case 319: // id-E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-Item -> ERABsAdmittedToBeReleasedSgNBRelReqAckItem
 			var v ERABsAdmittedToBeReleasedSgNBRelReqAckItem
@@ -4250,7 +4250,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBReleaseRequestReject", "SgNBReleaseRequestReject-IEs":
+	case "SgNBReleaseRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4285,7 +4285,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SgNBReleaseRequired", "SgNBReleaseRequired-IEs":
+	case "SgNBReleaseRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4333,7 +4333,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsToBeReleasedSgNBRelReqdItem", "E-RABs-ToBeReleased-SgNBRelReqd-ItemIEs":
+	case "E-RABs-ToBeReleased-SgNBRelReqd-ItemIEs":
 		switch ieId {
 		case 321: // id-E-RABs-ToBeReleased-SgNBRelReqd-Item -> ERABsToBeReleasedSgNBRelReqdItem
 			var v ERABsToBeReleasedSgNBRelReqdItem
@@ -4342,7 +4342,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBReleaseConfirm", "SgNBReleaseConfirm-IEs":
+	case "SgNBReleaseConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4377,7 +4377,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsToBeReleasedSgNBRelConfItem", "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs":
+	case "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs":
 		switch ieId {
 		case 234: // id-E-RABs-ToBeReleased-SgNBRelConf-Item -> ERABsToBeReleasedSgNBRelConfItem
 			var v ERABsToBeReleasedSgNBRelConfItem
@@ -4386,7 +4386,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBCounterCheckRequest", "SgNBCounterCheckRequest-IEs":
+	case "SgNBCounterCheckRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4415,7 +4415,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ERABsSubjectToSgNBCounterCheckItem", "E-RABs-SubjectToSgNBCounterCheck-ItemIEs":
+	case "E-RABs-SubjectToSgNBCounterCheck-ItemIEs":
 		switch ieId {
 		case 236: // id-E-RABs-SubjectToSgNBCounterCheck-Item -> ERABsSubjectToSgNBCounterCheckItem
 			var v ERABsSubjectToSgNBCounterCheckItem
@@ -4424,7 +4424,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBChangeRequired", "SgNBChangeRequired-IEs":
+	case "SgNBChangeRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4478,7 +4478,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "AccessAndMobilityIndication", "AccessAndMobilityIndication-IEs":
+	case "AccessAndMobilityIndication-IEs":
 		switch ieId {
 		case 414: // id-NRRAReport -> NRRAReport (SEQUENCE_OF)
 			v, err := UnmarshalAPERNRRAReportFrom(bb)
@@ -4487,7 +4487,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBChangeConfirm", "SgNBChangeConfirm-IEs":
+	case "SgNBChangeConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4535,7 +4535,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := MeNBtoSgNBContainer(v)
 			return &result, nil
 		}
-	case "ERABsToBeReleasedSgNBChaConfItem", "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs":
+	case "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs":
 		switch ieId {
 		case 230: // id-E-RABs-ToBeReleased-SgNBChaConf-Item -> ERABsToBeReleasedSgNBChaConfItem
 			var v ERABsToBeReleasedSgNBChaConfItem
@@ -4544,7 +4544,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RRCTransfer", "RRCTransfer-IEs":
+	case "RRCTransfer-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4591,7 +4591,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SgNBChangeRefuse", "SgNBChangeRefuse-IEs":
+	case "SgNBChangeRefuse-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -4626,7 +4626,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCX2SetupRequest", "ENDCX2SetupRequest-IEs":
+	case "ENDCX2SetupRequest-IEs":
 		switch ieId {
 		case 244: // id-InitiatingNodeType-EndcX2Setup -> InitiatingNodeTypeEndcX2Setup
 			var v InitiatingNodeTypeEndcX2Setup
@@ -4647,7 +4647,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBENDCX2SetupReq", "ENB-ENDCX2SetupReqIEs":
+	case "ENB-ENDCX2SetupReqIEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -4674,7 +4674,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBENDCX2SetupReq", "En-gNB-ENDCX2SetupReqIEs":
+	case "En-gNB-ENDCX2SetupReqIEs":
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
@@ -4696,7 +4696,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PartialListIndicator(v)
 			return &result, nil
 		}
-	case "ENDCX2SetupResponse", "ENDCX2SetupResponse-IEs":
+	case "ENDCX2SetupResponse-IEs":
 		switch ieId {
 		case 246: // id-RespondingNodeType-EndcX2Setup -> RespondingNodeTypeEndcX2Setup
 			var v RespondingNodeTypeEndcX2Setup
@@ -4717,7 +4717,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBENDCX2SetupReqAck", "ENB-ENDCX2SetupReqAckIEs":
+	case "ENB-ENDCX2SetupReqAckIEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -4744,7 +4744,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBENDCX2SetupReqAck", "En-gNB-ENDCX2SetupReqAckIEs":
+	case "En-gNB-ENDCX2SetupReqAckIEs":
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
@@ -4766,7 +4766,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := PartialListIndicator(v)
 			return &result, nil
 		}
-	case "ENDCX2SetupFailure", "ENDCX2SetupFailure-IEs":
+	case "ENDCX2SetupFailure-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -4800,7 +4800,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENDCConfigurationUpdate", "ENDCConfigurationUpdate-IEs":
+	case "ENDCConfigurationUpdate-IEs":
 		switch ieId {
 		case 245: // id-InitiatingNodeType-EndcConfigUpdate -> InitiatingNodeTypeEndcConfigUpdate
 			var v InitiatingNodeTypeEndcConfigUpdate
@@ -4839,7 +4839,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENBENDCConfigUpdate", "ENB-ENDCConfigUpdateIEs":
+	case "ENB-ENDCConfigUpdateIEs":
 		switch ieId {
 		case 251: // id-CellAssistanceInformation -> CellAssistanceInformation
 			var v CellAssistanceInformation
@@ -4866,7 +4866,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBENDCConfigUpdate", "En-gNB-ENDCConfigUpdateIEs":
+	case "En-gNB-ENDCConfigUpdateIEs":
 		switch ieId {
 		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
@@ -4887,7 +4887,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENDCConfigurationUpdateAcknowledge", "ENDCConfigurationUpdateAcknowledge-IEs":
+	case "ENDCConfigurationUpdateAcknowledge-IEs":
 		switch ieId {
 		case 247: // id-RespondingNodeType-EndcConfigUpdate -> RespondingNodeTypeEndcConfigUpdate
 			var v RespondingNodeTypeEndcConfigUpdate
@@ -4926,7 +4926,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBENDCConfigUpdateAck", "En-gNB-ENDCConfigUpdateAckIEs":
+	case "En-gNB-ENDCConfigUpdateAckIEs":
 		switch ieId {
 		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
@@ -4935,7 +4935,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENDCConfigurationUpdateFailure", "ENDCConfigurationUpdateFailure-IEs":
+	case "ENDCConfigurationUpdateFailure-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -4963,7 +4963,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCCellActivationRequest", "ENDCCellActivationRequest-IEs":
+	case "ENDCCellActivationRequest-IEs":
 		switch ieId {
 		case 267: // id-ServedNRCellsToActivate -> ServedNRCellsToActivate (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedNRCellsToActivateFrom(bb)
@@ -4985,7 +4985,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCCellActivationResponse", "ENDCCellActivationResponse-IEs":
+	case "ENDCCellActivationResponse-IEs":
 		switch ieId {
 		case 268: // id-ActivatedNRCellList -> ActivatedNRCellList (SEQUENCE_OF)
 			v, err := UnmarshalAPERActivatedNRCellListFrom(bb)
@@ -5013,7 +5013,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCCellActivationFailure", "ENDCCellActivationFailure-IEs":
+	case "ENDCCellActivationFailure-IEs":
 		switch ieId {
 		case 256: // id-ActivationID -> ActivationID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
@@ -5041,7 +5041,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCResourceStatusRequest", "ENDCResourceStatusRequest-IEs":
+	case "ENDCResourceStatusRequest-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -5095,7 +5095,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellToReportNRENDCItem", "CellToReport-NR-ENDC-ItemIEs":
+	case "CellToReport-NR-ENDC-ItemIEs":
 		switch ieId {
 		case 392: // id-CellToReport-NR-ENDC-Item -> CellToReportNRENDCItem
 			var v CellToReportNRENDCItem
@@ -5104,7 +5104,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellToReportEUTRAENDCItem", "CellToReport-E-UTRA-ENDC-Item-IEs":
+	case "CellToReport-E-UTRA-ENDC-Item-IEs":
 		switch ieId {
 		case 404: // id-CellToReport-E-UTRA-ENDC-Item -> CellToReportEUTRAENDCItem
 			var v CellToReportEUTRAENDCItem
@@ -5113,7 +5113,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENDCResourceStatusResponse", "ENDCResourceStatusResponse-IEs":
+	case "ENDCResourceStatusResponse-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -5140,7 +5140,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCResourceStatusFailure", "ENDCResourceStatusFailure-IEs":
+	case "ENDCResourceStatusFailure-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -5173,7 +5173,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCResourceStatusUpdate", "ENDCResourceStatusUpdate-IEs":
+	case "ENDCResourceStatusUpdate-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
@@ -5206,7 +5206,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellMeasurementResultNRENDCItem", "CellMeasurementResult-NR-ENDC-ItemIEs":
+	case "CellMeasurementResult-NR-ENDC-ItemIEs":
 		switch ieId {
 		case 394: // id-CellMeasurementResult-NR-ENDC-Item -> CellMeasurementResultNRENDCItem
 			var v CellMeasurementResultNRENDCItem
@@ -5215,7 +5215,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CellMeasurementResultEUTRAENDCItem", "CellMeasurementResult-E-UTRA-ENDC-ItemIEs":
+	case "CellMeasurementResult-E-UTRA-ENDC-ItemIEs":
 		switch ieId {
 		case 402: // id-CellMeasurementResult-E-UTRA-ENDC-Item -> CellMeasurementResultEUTRAENDCItem
 			var v CellMeasurementResultEUTRAENDCItem
@@ -5224,7 +5224,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SecondaryRATDataUsageReport", "SecondaryRATDataUsageReport-IEs":
+	case "SecondaryRATDataUsageReport-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5253,7 +5253,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "SgNBActivityNotification", "SgNBActivityNotification-IEs":
+	case "SgNBActivityNotification-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5289,7 +5289,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCPartialResetRequired", "ENDCPartialResetRequired-IEs":
+	case "ENDCPartialResetRequired-IEs":
 		switch ieId {
 		case 270: // id-UEs-ToBeReset -> UEsToBeResetList (SEQUENCE_OF)
 			v, err := UnmarshalAPERUEsToBeResetListFrom(bb)
@@ -5310,7 +5310,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCPartialResetConfirm", "ENDCPartialResetConfirm-IEs":
+	case "ENDCPartialResetConfirm-IEs":
 		switch ieId {
 		case 271: // id-UEs-Admitted-ToBeReset -> UEsToBeResetList (SEQUENCE_OF)
 			v, err := UnmarshalAPERUEsToBeResetListFrom(bb)
@@ -5325,7 +5325,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "EUTRANRCellResourceCoordinationRequest", "EUTRANRCellResourceCoordinationRequest-IEs":
+	case "EUTRANRCellResourceCoordinationRequest-IEs":
 		switch ieId {
 		case 285: // id-InitiatingNodeType-EutranrCellResourceCoordination -> InitiatingNodeTypeEutranrCellResourceCoordination
 			var v InitiatingNodeTypeEutranrCellResourceCoordination
@@ -5340,7 +5340,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENBEUTRANRCellResourceCoordinationReq", "ENB-EUTRA-NRCellResourceCoordinationReqIEs":
+	case "ENB-EUTRA-NRCellResourceCoordinationReqIEs":
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
@@ -5362,7 +5362,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBEUTRANRCellResourceCoordinationReq", "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs":
+	case "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs":
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
@@ -5390,7 +5390,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EUTRANRCellResourceCoordinationResponse", "EUTRANRCellResourceCoordinationResponse-IEs":
+	case "EUTRANRCellResourceCoordinationResponse-IEs":
 		switch ieId {
 		case 286: // id-RespondingNodeType-EutranrCellResourceCoordination -> RespondingNodeTypeEutranrCellResourceCoordination
 			var v RespondingNodeTypeEutranrCellResourceCoordination
@@ -5405,7 +5405,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENBEUTRANRCellResourceCoordinationReqAck", "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs":
+	case "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs":
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
@@ -5427,7 +5427,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBEUTRANRCellResourceCoordinationReqAck", "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs":
+	case "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs":
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
@@ -5449,7 +5449,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENDCX2RemovalRequest", "ENDCX2RemovalRequest-IEs":
+	case "ENDCX2RemovalRequest-IEs":
 		switch ieId {
 		case 298: // id-InitiatingNodeType-EndcX2Removal -> InitiatingNodeTypeEndcX2Removal
 			var v InitiatingNodeTypeEndcX2Removal
@@ -5464,7 +5464,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENBENDCX2RemovalReq", "ENB-ENDCX2RemovalReqIEs":
+	case "ENB-ENDCX2RemovalReqIEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -5473,7 +5473,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBENDCX2RemovalReq", "En-gNB-ENDCX2RemovalReqIEs":
+	case "En-gNB-ENDCX2RemovalReqIEs":
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
@@ -5482,7 +5482,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENDCX2RemovalResponse", "ENDCX2RemovalResponse-IEs":
+	case "ENDCX2RemovalResponse-IEs":
 		switch ieId {
 		case 299: // id-RespondingNodeType-EndcX2Removal -> RespondingNodeTypeEndcX2Removal
 			var v RespondingNodeTypeEndcX2Removal
@@ -5497,7 +5497,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENBENDCX2RemovalReqAck", "ENB-ENDCX2RemovalReqAckIEs":
+	case "ENB-ENDCX2RemovalReqAckIEs":
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
@@ -5506,7 +5506,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "EnGNBENDCX2RemovalReqAck", "En-gNB-ENDCX2RemovalReqAckIEs":
+	case "En-gNB-ENDCX2RemovalReqAckIEs":
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
@@ -5515,7 +5515,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ENDCX2RemovalFailure", "ENDCX2RemovalFailure-IEs":
+	case "ENDCX2RemovalFailure-IEs":
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
@@ -5536,7 +5536,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "DataForwardingAddressIndication", "DataForwardingAddressIndication-IEs":
+	case "DataForwardingAddressIndication-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5598,7 +5598,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "ERABsDataForwardingAddressItem", "E-RABs-DataForwardingAddress-ItemIEs":
+	case "E-RABs-DataForwardingAddress-ItemIEs":
 		switch ieId {
 		case 308: // id-E-RABs-DataForwardingAddress-Item -> ERABsDataForwardingAddressItem
 			var v ERABsDataForwardingAddressItem
@@ -5607,7 +5607,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "GNBStatusIndication", "GNBStatusIndicationIEs":
+	case "GNBStatusIndicationIEs":
 		switch ieId {
 		case 310: // id-GNBOverloadInformation -> GNBOverloadInformation (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -5623,7 +5623,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "ENDCConfigurationTransfer", "ENDCConfigurationTransfer-IEs":
+	case "ENDCConfigurationTransfer-IEs":
 		switch ieId {
 		case 326: // id-endcSONConfigurationTransfer -> EndcSONConfigurationTransfer (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -5639,7 +5639,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "TraceStart", "TraceStartIEs":
+	case "TraceStartIEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5668,7 +5668,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "DeactivateTrace", "DeactivateTraceIEs":
+	case "DeactivateTraceIEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5698,7 +5698,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "CellTrafficTrace", "CellTrafficTraceIEs":
+	case "CellTrafficTraceIEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5742,7 +5742,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "F1CTrafficTransfer", "F1CTrafficTransfer-IEs":
+	case "F1CTrafficTransfer-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5772,7 +5772,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return v, nil
 		}
-	case "UERadioCapabilityIDMappingRequest", "UERadioCapabilityIDMappingRequestIEs":
+	case "UERadioCapabilityIDMappingRequestIEs":
 		switch ieId {
 		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -5782,7 +5782,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		}
-	case "UERadioCapabilityIDMappingResponse", "UERadioCapabilityIDMappingResponseIEs":
+	case "UERadioCapabilityIDMappingResponseIEs":
 		switch ieId {
 		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -5805,7 +5805,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "CPCCancel", "CPC-cancel-IEs":
+	case "CPC-cancel-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5840,7 +5840,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "RachIndication", "RachIndication-IEs":
+	case "RachIndication-IEs":
 		switch ieId {
 		case 447: // id-RaReportIndicationList -> RaReportIndicationList (SEQUENCE_OF)
 			v, err := UnmarshalAPERRaReportIndicationListFrom(bb)
@@ -5849,7 +5849,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			}
 			return &v, nil
 		}
-	case "SCGFailureInformationReport", "SCGFailureInformationReport-IEs":
+	case "SCGFailureInformationReport-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5892,7 +5892,7 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 			result := TimeSCGFailure(v)
 			return &result, nil
 		}
-	case "SCGFailureTransfer", "SCGFailureTransfer-IEs":
+	case "SCGFailureTransfer-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
@@ -5915,10 +5915,10 @@ func DecodeIEFieldValue(messageType string, ieId int64, data []byte) (interface{
 
 // DecodeExtensionFieldValue decodes a known extension open value using its object-set context and ID.
 // Returns the decoded typed value, or nil if the combination is unknown.
-func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (interface{}, error) {
+func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte) (interface{}, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	switch context {
-	case "CHOinformationREQExtIEs", "CHOinformation-REQ-ExtIEs":
+	switch objectSet {
+	case "CHOinformation-REQ-ExtIEs":
 		switch extensionId {
 		case 446: // id-CHOTimeBasedInformation -> CHOTimeBasedInformation
 			var v CHOTimeBasedInformation
@@ -5927,7 +5927,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABLevelQoSParametersExtIEs", "E-RAB-Level-QoS-Parameters-ExtIEs":
+	case "E-RAB-Level-QoS-Parameters-ExtIEs":
 		switch extensionId {
 		case 273: // id-DownlinkPacketLossRate -> PacketLossRate (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
@@ -5944,7 +5944,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := PacketLossRate(v)
 			return &result, nil
 		}
-	case "FDDInfoExtIEs", "FDD-Info-ExtIEs":
+	case "FDD-Info-ExtIEs":
 		switch extensionId {
 		case 95: // id-UL-EARFCNExtension -> EARFCNExtension (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("65536"), runtime.MustParseBigIntDecimal("262143"), true)
@@ -5987,7 +5987,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := NSSSNumOccasionDifferentPrecoder(v)
 			return &result, nil
 		}
-	case "FDDInfoNeighbourServedNRCellInformationExtIEs", "FDD-InfoNeighbourServedNRCell-Information-ExtIEs":
+	case "FDD-InfoNeighbourServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 387: // id-ULCarrierList -> NRCarrierList (SEQUENCE_OF)
 			v, err := UnmarshalAPERNRCarrierListFrom(bb)
@@ -5996,7 +5996,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "GBRQosInformationExtIEs", "GBR-QosInformation-ExtIEs":
+	case "GBR-QosInformation-ExtIEs":
 		switch extensionId {
 		case 196: // id-extended-e-RAB-MaximumBitrateDL -> ExtendedBitRate (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
@@ -6023,7 +6023,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return v, nil
 		}
-	case "GTPtunnelEndpointExtIEs", "GTPtunnelEndpoint-ExtIEs":
+	case "GTPtunnelEndpoint-ExtIEs":
 		switch extensionId {
 		case 396: // id-QoS-Mapping-Information -> QoSMappingInformation
 			var v QoSMappingInformation
@@ -6032,7 +6032,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "HandoverRestrictionListExtIEs", "HandoverRestrictionList-ExtIEs":
+	case "HandoverRestrictionList-ExtIEs":
 		switch extensionId {
 		case 202: // id-NRrestrictioninEPSasSecondaryRAT -> NRrestrictioninEPSasSecondaryRAT (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -6075,7 +6075,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "LastVisitedEUTRANCellInformationExtIEs", "LastVisitedEUTRANCellInformation-ExtIEs":
+	case "LastVisitedEUTRANCellInformation-ExtIEs":
 		switch extensionId {
 		case 77: // id-Time-UE-StayedInCell-EnhancedGranularity -> TimeUEStayedInCellEnhancedGranularity (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(40950), false)
@@ -6097,7 +6097,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "LocationReportingInformationExtIEs", "LocationReportingInformation-ExtIEs":
+	case "LocationReportingInformation-ExtIEs":
 		switch extensionId {
 		case 409: // id-AdditionLocationInformation -> AdditionLocationInformation (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -6107,7 +6107,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := AdditionLocationInformation(v)
 			return &result, nil
 		}
-	case "M4ConfigurationExtIEs", "M4Configuration-ExtIEs":
+	case "M4Configuration-ExtIEs":
 		switch extensionId {
 		case 442: // id-M4ReportAmount -> M4ReportAmountMDT (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
@@ -6117,7 +6117,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := M4ReportAmountMDT(v)
 			return &result, nil
 		}
-	case "M5ConfigurationExtIEs", "M5Configuration-ExtIEs":
+	case "M5Configuration-ExtIEs":
 		switch extensionId {
 		case 443: // id-M5ReportAmount -> M5ReportAmountMDT (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
@@ -6127,7 +6127,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := M5ReportAmountMDT(v)
 			return &result, nil
 		}
-	case "M6ConfigurationExtIEs", "M6Configuration-ExtIEs":
+	case "M6Configuration-ExtIEs":
 		switch extensionId {
 		case 444: // id-M6ReportAmount -> M6ReportAmountMDT (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
@@ -6137,7 +6137,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := M6ReportAmountMDT(v)
 			return &result, nil
 		}
-	case "M7ConfigurationExtIEs", "M7Configuration-ExtIEs":
+	case "M7Configuration-ExtIEs":
 		switch extensionId {
 		case 445: // id-M7ReportAmount -> M7ReportAmountMDT (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
@@ -6147,7 +6147,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := M7ReportAmountMDT(v)
 			return &result, nil
 		}
-	case "MDTConfigurationExtIEs", "MDT-Configuration-ExtIEs":
+	case "MDT-Configuration-ExtIEs":
 		switch extensionId {
 		case 85: // id-M3Configuration -> M3Configuration
 			var v M3Configuration
@@ -6227,7 +6227,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := MeNBCoordinationAssistanceInformation(v)
 			return &result, nil
 		}
-	case "NeighbourInformationExtIEs", "Neighbour-Information-ExtIEs":
+	case "Neighbour-Information-ExtIEs":
 		switch extensionId {
 		case 76: // id-NeighbourTAC -> TAC (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
@@ -6243,7 +6243,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return v, nil
 		}
-	case "NRFreqInfoExtIEs", "NRFreqInfo-ExtIEs":
+	case "NRFreqInfo-ExtIEs":
 		switch extensionId {
 		case 388: // id-FrequencyShift7p5khz -> FrequencyShift7p5khz (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -6253,7 +6253,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := FrequencyShift7p5khz(v)
 			return &result, nil
 		}
-	case "NRRAReportListItemExtIEs", "NRRAReportList-Item-ExtIEs":
+	case "NRRAReportList-Item-ExtIEs":
 		switch extensionId {
 		case 448: // id-PSCellListContainer -> PSCellListContainer (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -6263,7 +6263,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := PSCellListContainer(v)
 			return &result, nil
 		}
-	case "NRNeighbourInformationExtIEs", "NRNeighbour-Information-ExtIEs":
+	case "NRNeighbour-Information-ExtIEs":
 		switch extensionId {
 		case 380: // id-CSI-RSTransmissionIndication -> CSIRSTransmissionIndication (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -6292,7 +6292,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "NRRadioResourceStatusExtIEs", "NRRadioResourceStatus-ExtIEs":
+	case "NRRadioResourceStatus-ExtIEs":
 		switch extensionId {
 		case 439: // id-MIMOPRBusageInformation -> MIMOPRBusageInformation
 			var v MIMOPRBusageInformation
@@ -6301,7 +6301,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ProSeAuthorizedExtIEs", "ProSeAuthorized-ExtIEs":
+	case "ProSeAuthorized-ExtIEs":
 		switch extensionId {
 		case 149: // id-ProSeUEtoNetworkRelaying -> ProSeUEtoNetworkRelaying (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -6311,7 +6311,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := ProSeUEtoNetworkRelaying(v)
 			return &result, nil
 		}
-	case "RadioResourceStatusExtIEs", "RadioResourceStatus-ExtIEs":
+	case "RadioResourceStatus-ExtIEs":
 		switch extensionId {
 		case 193: // id-DL-scheduling-PDCCH-CCE-usage -> DLSchedulingPDCCHCCEUsage (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(100), false)
@@ -6328,7 +6328,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := ULSchedulingPDCCHCCEUsage(v)
 			return &result, nil
 		}
-	case "RelativeNarrowbandTxPowerExtIEs", "RelativeNarrowbandTxPower-ExtIEs":
+	case "RelativeNarrowbandTxPower-ExtIEs":
 		switch extensionId {
 		case 148: // id-enhancedRNTP -> EnhancedRNTP
 			var v EnhancedRNTP
@@ -6337,7 +6337,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "RSRPMRListExtIEs", "RSRPMRList-ExtIEs":
+	case "RSRPMRList-ExtIEs":
 		switch extensionId {
 		case 147: // id-UEID -> UEID (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
@@ -6347,7 +6347,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := UEID{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ServedCellExtIEs", "ServedCell-ExtIEs":
+	case "ServedCell-ExtIEs":
 		switch extensionId {
 		case 327: // id-NRNeighbourInfoToAdd -> NRNeighbourInformation (SEQUENCE_OF)
 			v, err := UnmarshalAPERNRNeighbourInformationFrom(bb)
@@ -6362,7 +6362,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ServedCellInformationExtIEs", "ServedCell-Information-ExtIEs":
+	case "ServedCell-Information-ExtIEs":
 		switch extensionId {
 		case 41: // id-Number-of-Antennaports -> NumberOfAntennaports (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
@@ -6457,7 +6457,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := SgNBCoordinationAssistanceInformation(v)
 			return &result, nil
 		}
-	case "SULInformationExtIEs", "SULInformation-ExtIEs":
+	case "SULInformation-ExtIEs":
 		switch extensionId {
 		case 386: // id-CarrierList -> NRCarrierList (SEQUENCE_OF)
 			v, err := UnmarshalAPERNRCarrierListFrom(bb)
@@ -6473,7 +6473,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := FrequencyShift7p5khz(v)
 			return &result, nil
 		}
-	case "TDDInfoExtIEs", "TDD-Info-ExtIEs":
+	case "TDD-Info-ExtIEs":
 		switch extensionId {
 		case 97: // id-AdditionalSpecialSubframe-Info -> AdditionalSpecialSubframeInfo
 			var v AdditionalSpecialSubframeInfo
@@ -6508,7 +6508,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := NBIoTULDLAlignmentOffset(v)
 			return &result, nil
 		}
-	case "TDDInfoNeighbourServedNRCellInformationExtIEs", "TDD-InfoNeighbourServedNRCell-Information-ExtIEs":
+	case "TDD-InfoNeighbourServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 399: // id-IntendedTDD-DL-ULConfiguration-NR -> IntendedTDDDLULConfigurationNR (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -6531,7 +6531,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "TraceActivationExtIEs", "TraceActivation-ExtIEs":
+	case "TraceActivation-ExtIEs":
 		switch extensionId {
 		case 72: // id-MDTConfiguration -> MDTConfiguration
 			var v MDTConfiguration
@@ -6560,7 +6560,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := URIAddress(v)
 			return &result, nil
 		}
-	case "UEAggregateMaximumBitrateExtIEs", "UEAggregate-MaximumBitrate-ExtIEs":
+	case "UEAggregate-MaximumBitrate-ExtIEs":
 		switch extensionId {
 		case 200: // id-extended-uEaggregateMaximumBitRateDownlink -> ExtendedBitRate (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
@@ -6575,7 +6575,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return v, nil
 		}
-	case "UEAppLayerMeasConfigExtIEs", "UEAppLayerMeasConfig-ExtIEs":
+	case "UEAppLayerMeasConfig-ExtIEs":
 		switch extensionId {
 		case 276: // id-serviceType -> ServiceType (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -6585,7 +6585,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := ServiceType(v)
 			return &result, nil
 		}
-	case "UEContextInformationExtIEs", "UE-ContextInformation-ExtIEs":
+	case "UE-ContextInformation-ExtIEs":
 		switch extensionId {
 		case 74: // id-ManagementBasedMDTallowed -> ManagementBasedMDTallowed (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -6641,7 +6641,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := IMSvoiceEPSfallbackfrom5G(v)
 			return &result, nil
 		}
-	case "ERABsToBeSetupItemExtIEs", "E-RABs-ToBeSetup-ItemExtIEs":
+	case "E-RABs-ToBeSetup-ItemExtIEs":
 		switch extensionId {
 		case 171: // id-BearerType -> BearerType (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -6677,7 +6677,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedItemExtIEs", "E-RABs-Admitted-Item-ExtIEs":
+	case "E-RABs-Admitted-Item-ExtIEs":
 		switch extensionId {
 		case 366: // id-DAPSResponseInfo -> DAPSResponseInfo
 			var v DAPSResponseInfo
@@ -6686,7 +6686,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABsSubjectToStatusTransferItemExtIEs", "E-RABs-SubjectToStatusTransfer-ItemExtIEs":
+	case "E-RABs-SubjectToStatusTransfer-ItemExtIEs":
 		switch extensionId {
 		case 91: // id-ReceiveStatusOfULPDCPSDUsExtended -> ReceiveStatusOfULPDCPSDUsExtended (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 16384, true)
@@ -6727,7 +6727,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "CellInformationItemExtIEs", "CellInformation-Item-ExtIEs":
+	case "CellInformation-Item-ExtIEs":
 		switch extensionId {
 		case 61: // id-ABSInformation -> ABSInformation
 			var v ABSInformation
@@ -6768,7 +6768,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ServedCellsToModifyItemExtIEs", "ServedCellsToModify-Item-ExtIEs":
+	case "ServedCellsToModify-Item-ExtIEs":
 		switch extensionId {
 		case 59: // id-DeactivationIndication -> DeactivationIndication (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
@@ -6784,7 +6784,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "CellMeasurementResultItemExtIEs", "CellMeasurementResult-Item-ExtIEs":
+	case "CellMeasurementResult-Item-ExtIEs":
 		switch extensionId {
 		case 42: // id-CompositeAvailableCapacityGroup -> CompositeAvailableCapacityGroup
 			var v CompositeAvailableCapacityGroup
@@ -6824,7 +6824,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABsToBeAddedItemSCGBearerExtIEs", "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs":
+	case "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs":
 		switch extensionId {
 		case 166: // id-Correlation-ID -> CorrelationID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
@@ -6862,7 +6862,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsToBeAddedItemSplitBearerExtIEs", "E-RABs-ToBeAdded-Item-Split-BearerExtIEs":
+	case "E-RABs-ToBeAdded-Item-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
@@ -6872,7 +6872,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsAdmittedToBeAddedItemSCGBearerExtIEs", "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
@@ -6882,7 +6882,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsAdmittedToBeAddedItemSplitBearerExtIEs", "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
@@ -6892,7 +6892,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsToBeAddedModReqItemSCGBearerExtIEs", "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs":
+	case "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs":
 		switch extensionId {
 		case 166: // id-Correlation-ID -> CorrelationID (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
@@ -6930,7 +6930,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsToBeAddedModReqItemSplitBearerExtIEs", "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs":
+	case "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
@@ -6940,7 +6940,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEs", "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
@@ -6950,7 +6950,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEs", "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
@@ -6960,7 +6960,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "UEContextInformationRetrieveExtIEs", "UE-ContextInformationRetrieve-ExtIEs":
+	case "UE-ContextInformationRetrieve-ExtIEs":
 		switch extensionId {
 		case 184: // id-UESidelinkAggregateMaximumBitRate -> UESidelinkAggregateMaximumBitRate
 			var v UESidelinkAggregateMaximumBitRate
@@ -7003,7 +7003,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := IMSvoiceEPSfallbackfrom5G(v)
 			return &result, nil
 		}
-	case "ERABsToBeSetupRetrieveItemExtIEs", "E-RABs-ToBeSetupRetrieve-ItemExtIEs":
+	case "E-RABs-ToBeSetupRetrieve-ItemExtIEs":
 		switch extensionId {
 		case 185: // id-uL-GTPtunnelEndpoint -> GTPtunnelEndpoint
 			var v GTPtunnelEndpoint
@@ -7039,7 +7039,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
@@ -7083,7 +7083,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7107,7 +7107,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := DuplicationActivation(v)
 			return &result, nil
 		}
-	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7137,7 +7137,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 314: // id-lCID -> LCID (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("32"), true)
@@ -7146,7 +7146,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return v, nil
 		}
-	case "UEContextInformationSgNBModReqExtIEs", "UE-ContextInformationSgNBModReqExtIEs":
+	case "UE-ContextInformationSgNBModReqExtIEs":
 		switch extensionId {
 		case 275: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
@@ -7170,7 +7170,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := LowerLayerPresenceStatusChange(v)
 			return &result, nil
 		}
-	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
@@ -7207,7 +7207,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7231,7 +7231,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := DuplicationActivation(v)
 			return &result, nil
 		}
-	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 300: // id-RLC-Status -> RLCStatus
 			var v RLCStatus
@@ -7240,7 +7240,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7263,7 +7263,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7293,7 +7293,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		}
-	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEs", "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 314: // id-lCID -> LCID (INTEGER)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("32"), true)
@@ -7302,7 +7302,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return v, nil
 		}
-	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs", "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7319,7 +7319,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := PDCPSnLength(v)
 			return &result, nil
 		}
-	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEs", "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 312: // id-secondarysgNBDLGTPTEIDatPDCP -> GTPtunnelEndpoint
 			var v GTPtunnelEndpoint
@@ -7334,7 +7334,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ERABsToBeReleasedSgNBModReqdItemExtIEs", "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs":
+	case "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs":
 		switch extensionId {
 		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
@@ -7344,7 +7344,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := RLCMode(v)
 			return &result, nil
 		}
-	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7368,7 +7368,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := NewDRBIDrequest(v)
 			return &result, nil
 		}
-	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIEs", "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 300: // id-RLC-Status -> RLCStatus
 			var v RLCStatus
@@ -7383,7 +7383,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return v, nil
 		}
-	case "ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs", "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs":
+	case "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
@@ -7400,7 +7400,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			result := PDCPSnLength(v)
 			return &result, nil
 		}
-	case "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEs", "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs":
+	case "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 441: // id-AdditionalListofForwardingGTPTunnelEndpoint -> AdditionalListofForwardingGTPTunnelEndpoint (SEQUENCE_OF)
 			v, err := UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointFrom(bb)
@@ -7409,7 +7409,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "EnGNBServedCellsExtIEs", "En-gNBServedCells-ExtIEs":
+	case "En-gNBServedCells-ExtIEs":
 		switch extensionId {
 		case 434: // id-ServedCellSpecificInfoReq-NR -> ServedCellSpecificInfoReqNR (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedCellSpecificInfoReqNRFrom(bb)
@@ -7418,7 +7418,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "ServedNRCellInformationExtIEs", "ServedNRCell-Information-ExtIEs":
+	case "ServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 334: // id-additionalPLMNs-Item -> AdditionalPLMNsItem (SEQUENCE_OF)
 			v, err := UnmarshalAPERAdditionalPLMNsItemFrom(bb)
@@ -7465,7 +7465,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "FDDInfoServedNRCellInformationExtIEs", "FDD-InfoServedNRCell-Information-ExtIEs":
+	case "FDD-InfoServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 387: // id-ULCarrierList -> NRCarrierList (SEQUENCE_OF)
 			v, err := UnmarshalAPERNRCarrierListFrom(bb)
@@ -7480,7 +7480,7 @@ func DecodeExtensionFieldValue(context string, extensionId int64, data []byte) (
 			}
 			return &v, nil
 		}
-	case "TDDInfoServedNRCellInformationExtIEs", "TDD-InfoServedNRCell-Information-ExtIEs":
+	case "TDD-InfoServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 385: // id-TDDULDLConfigurationCommonNR -> TDDULDLConfigurationCommonNR (OCTET_STRING)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
@@ -7595,7 +7595,6 @@ var protocolIEFieldObjectSets = map[string]string{
 	"MobilityChangeAcknowledge.ProtocolIEs":                           "MobilityChangeAcknowledge-IEs",
 	"MobilityChangeFailure.ProtocolIEs":                               "MobilityChangeFailure-IEs",
 	"MobilityChangeRequest.ProtocolIEs":                               "MobilityChangeRequest-IEs",
-	"PrivateMessage.PrivateIEs":                                       "PrivateMessage-IEs",
 	"ProcedureStageChoice.ChoiceExtension":                            "ProcedureStageChoice-ExtIEs",
 	"RLFIndication.ProtocolIEs":                                       "RLFIndication-IEs",
 	"RRCTransfer.ProtocolIEs":                                         "RRCTransfer-IEs",
@@ -7731,2922 +7730,310 @@ var protocolIETypeObjectSets = map[string]string{
 }
 
 var protocolExtensionFieldObjectSets = map[string]string{
+	"ABSInformationFDD.IEExtensions":                                          "ABSInformationFDD-ExtIEs",
+	"ABSInformationTDD.IEExtensions":                                          "ABSInformationTDD-ExtIEs",
+	"ABSStatus.IEExtensions":                                                  "ABS-Status-ExtIEs",
+	"ASSecurityInformation.IEExtensions":                                      "AS-SecurityInformation-ExtIEs",
+	"ActivatedCellListItem.IEExtensions":                                      "ActivatedCellList-Item-ExtIEs",
+	"ActivatedNRCellListItem.IEExtensions":                                    "ActivatedNRCellList-Item-ExtIEs",
+	"AdditionalListofForwardingGTPTunnelEndpointItem.IEExtensions":            "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs",
+	"AdditionalMeasurementTimingConfigurationItem.IEExtensions":               "Additional-Measurement-Timing-Configuration-Item-ExtIEs",
+	"AdditionalSpecialSubframeExtensionInfo.IEExtensions":                     "AdditionalSpecialSubframeExtension-Info-ExtIEs",
+	"AdditionalSpecialSubframeInfo.IEExtensions":                              "AdditionalSpecialSubframe-Info-ExtIEs",
+	"AllocationAndRetentionPriority.IEExtensions":                             "AllocationAndRetentionPriority-ExtIEs",
+	"BPLMNIDInfoEUTRAItem.IEExtension":                                        "BPLMN-ID-Info-EUTRA-Item-ExtIEs",
+	"BPLMNIDInfoNRItem.IEExtension":                                           "BPLMN-ID-Info-NR-Item-ExtIEs",
+	"BandInfo.IEExtensions":                                                   "BandInfo-ExtIEs",
+	"BluetoothMeasurementConfiguration.IEExtensions":                          "BluetoothMeasurementConfiguration-ExtIEs",
+	"CHOTimeBasedInformation.IEExtensions":                                    "CHOTimeBasedInformation-ExtIEs",
+	"CHOinformationACK.IEExtensions":                                          "CHOinformation-ACK-ExtIEs",
+	"CHOinformationAddReq.IEExtensions":                                       "CHOinformation-AddReq-ExtIEs",
+	"CHOinformationModReq.IEExtensions":                                       "CHOinformation-ModReq-ExtIEs",
 	"CHOinformationREQ.IEExtensions":                                          "CHOinformation-REQ-ExtIEs",
+	"CNTypeRestrictionsItem.IEExtensions":                                     "CNTypeRestrictionsItem-ExtIEs",
+	"COUNTValueExtended.IEExtensions":                                         "COUNTValueExtended-ExtIEs",
+	"COUNTvalue.IEExtensions":                                                 "COUNTvalue-ExtIEs",
+	"COUNTvaluePDCPSNlength18.IEExtensions":                                   "COUNTvaluePDCP-SNlength18-ExtIEs",
+	"CPACcandidatePSCellsItem.IEExtensions":                                   "CPACcandidatePSCells-item-ExtIEs",
+	"CPACinformationREQD.IEExtensions":                                        "CPACinformation-REQD-ExtIEs",
+	"CPAinformationMOD.IEExtensions":                                          "CPAinformation-MOD-ExtIEs",
+	"CPAinformationMODACK.IEExtensions":                                       "CPAinformation-MOD-ACK-ExtIEs",
+	"CPAinformationREQ.IEExtensions":                                          "CPAinformation-REQ-ExtIEs",
+	"CPAinformationREQACK.IEExtensions":                                       "CPAinformation-REQ-ACK-ExtIEs",
+	"CPCTargetSgNBConfItem.IEExtensions":                                      "CPC-target-SgNB-conf-item-ExtIEs",
+	"CPCTargetSgNBModItem.IEExtensions":                                       "CPC-target-SgNB-mod-item-ExtIEs",
+	"CPCTargetSgNBReqdItem.IEExtensions":                                      "CPC-target-SgNB-reqd-item-ExtIEs",
+	"CPCinformationCONF.IEExtensions":                                         "CPCinformation-CONF-ExtIEs",
+	"CPCinformationNOTIFY.IEExtensions":                                       "CPCinformation-NOTIFY-ExtIEs",
+	"CPCinformationREQD.IEExtensions":                                         "CPCinformation-REQD-ExtIEs",
+	"CPCupdateMOD.IEExtensions":                                               "CPCupdate-MOD-ExtIEs",
+	"CSIRSMTCConfigurationItem.IEExtensions":                                  "CSI-RS-MTC-Configuration-Item-ExtIEs",
+	"CSIRSMTCNeighbourItem.IEExtensions":                                      "CSI-RS-MTC-Neighbour-Item-ExtIEs",
+	"CSIRSNeighbourItem.IEExtensions":                                         "CSI-RS-Neighbour-Item-ExtIEs",
+	"CSIReportListElem.IEExtensions":                                          "CSIReportList-ExtIEs",
+	"CSIReportPerCSIProcessElem.IEExtensions":                                 "CSIReportPerCSIProcess-ExtIEs",
+	"CSIReportPerCSIProcessItemElem.IEExtensions":                             "CSIReportPerCSIProcessItem-ExtIEs",
+	"CellBasedMDT.IEExtensions":                                               "CellBasedMDT-ExtIEs",
+	"CellBasedQMC.IEExtensions":                                               "CellBasedQMC-ExtIEs",
 	"CellInformationItem.IEExtensions":                                        "CellInformation-Item-ExtIEs",
+	"CellMeasurementResultEUTRAENDCItem.IEExtensions":                         "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs",
 	"CellMeasurementResultItem.IEExtensions":                                  "CellMeasurementResult-Item-ExtIEs",
+	"CellMeasurementResultNRENDCItem.IEExtensions":                            "CellMeasurementResult-NR-ENDC-Item-ExtIEs",
+	"CellReplacingInfo.IEExtensions":                                          "CellReplacingInfo-ExtIEs",
+	"CellToReportEUTRAENDCItem.IEExtensions":                                  "CellToReport-E-UTRA-ENDC-Item-ExtIEs",
+	"CellToReportItem.IEExtensions":                                           "CellToReport-Item-ExtIEs",
+	"CellToReportNRENDCItem.IEExtensions":                                     "CellToReport-NR-ENDC-Item-ExtIEs",
+	"CellType.IEExtensions":                                                   "CellType-ExtIEs",
+	"CellandCapacityAssistInfo.IEExtensions":                                  "CellandCapacityAssistInfo-ExtIEs",
+	"CoMPHypothesisSetItem.IEExtensions":                                      "CoMPHypothesisSetItem-ExtIEs",
+	"CoMPInformation.IEExtensions":                                            "CoMPInformation-ExtIEs",
+	"CoMPInformationItemElem.IEExtensions":                                    "CoMPInformationItem-ExtIEs",
+	"CoMPInformationStartTimeElem.IEExtensions":                               "CoMPInformationStartTime-ExtIEs",
+	"CompleteFailureCauseInformationItem.IEExtensions":                        "CompleteFailureCauseInformation-Item-ExtIEs",
+	"CompositeAvailableCapacity.IEExtensions":                                 "CompositeAvailableCapacity-ExtIEs",
+	"CompositeAvailableCapacityGroup.IEExtensions":                            "CompositeAvailableCapacityGroup-ExtIEs",
+	"CriticalityDiagnostics.IEExtensions":                                     "CriticalityDiagnostics-ExtIEs",
+	"CriticalityDiagnosticsIEListElem.IEExtensions":                           "CriticalityDiagnostics-IE-List-ExtIEs",
+	"DAPSRequestInfo.IEExtensions":                                            "DAPSRequestInfo-ExtIEs",
+	"DAPSResponseInfo.IEExtensions":                                           "DAPSResponseInfo-ExtIEs",
+	"DLDiscarding.IEExtension":                                                "DLDiscarding-ExtIEs",
+	"DataTrafficResourceIndication.IEExtensions":                              "DataTrafficResourceIndication-ExtIEs",
+	"DeliveryStatus.IEExtensions":                                             "DeliveryStatus-ExtIEs",
+	"DynamicNAICSInformation.IEExtensions":                                    "DynamicNAICSInformation-ExtIEs",
+	"ECGI.IEExtensions":                                                       "ECGI-ExtIEs",
+	"ENDCResourceConfiguration.IEExtensions":                                  "EN-DC-ResourceConfigurationExtIEs",
+	"ERABActivityNotifyItem.IEExtensions":                                     "ERABActivityNotifyItem-ExtIEs",
+	"ERABItem.IEExtensions":                                                   "E-RAB-Item-ExtIEs",
 	"ERABLevelQoSParameters.IEExtensions":                                     "E-RAB-Level-QoS-Parameters-ExtIEs",
+	"ERABUsageReportItem.IEExtensions":                                        "E-RABUsageReport-Item-ExtIEs",
 	"ERABsAdmittedItem.IEExtensions":                                          "E-RABs-Admitted-Item-ExtIEs",
 	"ERABsAdmittedToBeAddedItemSCGBearer.IEExtensions":                        "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs",
 	"ERABsAdmittedToBeAddedItemSplitBearer.IEExtensions":                      "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs",
 	"ERABsAdmittedToBeAddedModAckItemSCGBearer.IEExtensions":                  "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs",
 	"ERABsAdmittedToBeAddedModAckItemSplitBearer.IEExtensions":                "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs",
+	"ERABsAdmittedToBeAddedSgNBAddReqAckItem.IEExtensions":                    "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs",
 	"ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresent.IEExtensions":  "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresent.IEExtensions":     "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeAddedSgNBModAckItem.IEExtensions":                       "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs",
 	"ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresent.IEExtensions":     "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresent.IEExtensions":        "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeModifiedModAckItemSCGBearer.IEExtensions":               "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs",
+	"ERABsAdmittedToBeModifiedModAckItemSplitBearer.IEExtensions":             "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs",
+	"ERABsAdmittedToBeModifiedSgNBModAckItem.IEExtensions":                    "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs",
 	"ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresent.IEExtensions":  "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresent.IEExtensions":     "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeModifiedSgNBModConfItem.IEExtensions":                   "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs",
 	"ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresent.IEExtensions": "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresent.IEExtensions":    "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeReleasedModAckItemSCGBearer.IEExtensions":               "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs",
+	"ERABsAdmittedToBeReleasedModAckItemSplitBearer.IEExtensions":             "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs",
+	"ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresent.IEExtensions":  "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresent.IEExtensions":     "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs",
+	"ERABsAdmittedToBeReleasedSgNBRelReqAckItem.IEExtensions":                 "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs",
+	"ERABsAdmittedToReleasedSgNBModAckItem.IEExtensions":                      "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs",
+	"ERABsDataForwardingAddressItem.IEExtensions":                             "E-RABs-DataForwardingAddress-ItemExtIEs",
+	"ERABsSubjectToCounterCheckItem.IEExtensions":                             "E-RABs-SubjectToCounterCheckItemExtIEs",
+	"ERABsSubjectToDLDiscardingItem.IEExtension":                              "E-RABsSubjectToDLDiscarding-Item-ExtIEs",
+	"ERABsSubjectToEarlyStatusTransferItem.IEExtension":                       "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs",
+	"ERABsSubjectToSgNBCounterCheckItem.IEExtensions":                         "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs",
 	"ERABsSubjectToStatusTransferItem.IEExtensions":                           "E-RABs-SubjectToStatusTransfer-ItemExtIEs",
 	"ERABsToBeAddedItemSCGBearer.IEExtensions":                                "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs",
 	"ERABsToBeAddedItemSplitBearer.IEExtensions":                              "E-RABs-ToBeAdded-Item-Split-BearerExtIEs",
 	"ERABsToBeAddedModReqItemSCGBearer.IEExtensions":                          "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs",
 	"ERABsToBeAddedModReqItemSplitBearer.IEExtensions":                        "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs",
+	"ERABsToBeAddedSgNBAddReqItem.IEExtensions":                               "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs",
 	"ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresent.IEExtensions":             "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresent.IEExtensions":                "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeAddedSgNBModReqItem.IEExtensions":                               "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs",
 	"ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresent.IEExtensions":             "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsToBeAddedSgNBModReqItemSgNBPDCPpresent.IEExtensions":                "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeModifiedModReqItemSCGBearer.IEExtensions":                       "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs",
+	"ERABsToBeModifiedModReqItemSplitBearer.IEExtensions":                     "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs",
+	"ERABsToBeModifiedSgNBModReqItem.IEExtensions":                            "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs",
 	"ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresent.IEExtensions":          "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresent.IEExtensions":             "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeModifiedSgNBModReqdItem.IEExtensions":                           "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs",
 	"ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresent.IEExtensions":         "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresent.IEExtensions":            "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeReleasedModReqItemSCGBearer.IEExtensions":                       "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs",
+	"ERABsToBeReleasedModReqItemSplitBearer.IEExtensions":                     "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs",
+	"ERABsToBeReleasedModReqdItem.IEExtensions":                               "E-RABs-ToBeReleased-ModReqdItemExtIEs",
+	"ERABsToBeReleasedRelConfItemSCGBearer.IEExtensions":                      "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs",
+	"ERABsToBeReleasedRelConfItemSplitBearer.IEExtensions":                    "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs",
+	"ERABsToBeReleasedRelReqItemSCGBearer.IEExtensions":                       "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs",
+	"ERABsToBeReleasedRelReqItemSplitBearer.IEExtensions":                     "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs",
+	"ERABsToBeReleasedSgNBChaConfItem.IEExtensions":                           "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs",
+	"ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresent.IEExtensions":         "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs",
 	"ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresent.IEExtensions":            "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeReleasedSgNBModReqItem.IEExtensions":                            "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs",
+	"ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresent.IEExtensions":          "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresent.IEExtensions":             "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs",
 	"ERABsToBeReleasedSgNBModReqdItem.IEExtensions":                           "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs",
+	"ERABsToBeReleasedSgNBRelConfItem.IEExtensions":                           "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs",
+	"ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresent.IEExtensions":         "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresent.IEExtensions":            "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeReleasedSgNBRelReqItem.IEExtensions":                            "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs",
+	"ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresent.IEExtensions":          "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs",
+	"ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresent.IEExtensions":             "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs",
+	"ERABsToBeReleasedSgNBRelReqdItem.IEExtensions":                           "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs",
 	"ERABsToBeSetupItem.IEExtensions":                                         "E-RABs-ToBeSetup-ItemExtIEs",
 	"ERABsToBeSetupRetrieveItem.IEExtensions":                                 "E-RABs-ToBeSetupRetrieve-ItemExtIEs",
+	"EnhancedRNTP.IEExtensions":                                               "EnhancedRNTP-ExtIEs",
+	"EnhancedRNTPStartTime.IEExtensions":                                      "EnhancedRNTPStartTime-ExtIEs",
+	"ExpectedUEActivityBehaviour.IEExtensions":                                "ExpectedUEActivityBehaviour-ExtIEs",
+	"ExpectedUEBehaviour.IEExtensions":                                        "ExpectedUEBehaviour-ExtIEs",
+	"ExtendedULInterferenceOverloadInfo.IEExtensions":                         "ExtendedULInterferenceOverloadInfo-ExtIEs",
 	"FDDInfo.IEExtensions":                                                    "FDD-Info-ExtIEs",
 	"FDDInfoNeighbourServedNRCellInformation.IEExtensions":                    "FDD-InfoNeighbourServedNRCell-Information-ExtIEs",
 	"FDDInfoServedNRCellInformation.IEExtensions":                             "FDD-InfoServedNRCell-Information-ExtIEs",
+	"FastMCGRecovery.IEExtensions":                                            "FastMCGRecovery-ExtIEs",
+	"FirstDLCount.IEExtension":                                                "FirstDLCount-ExtIEs",
+	"ForbiddenLAsItem.IEExtensions":                                           "ForbiddenLAs-Item-ExtIEs",
+	"ForbiddenTAsItem.IEExtensions":                                           "ForbiddenTAs-Item-ExtIEs",
+	"FreqBandNrItem.IEExtensions":                                             "FreqBandNrItem-ExtIEs",
 	"GBRQosInformation.IEExtensions":                                          "GBR-QosInformation-ExtIEs",
+	"GTPTLAItem.IEExtensions":                                                 "GTPTLA-Item-ExtIEs",
 	"GTPtunnelEndpoint.IEExtensions":                                          "GTPtunnelEndpoint-ExtIEs",
+	"GUGroupID.IEExtensions":                                                  "GU-Group-ID-ExtIEs",
+	"GUMMEI.IEExtensions":                                                     "GUMMEI-ExtIEs",
+	"GlobalENBID.IEExtensions":                                                "GlobalENB-ID-ExtIEs",
+	"GlobalGNBID.IEExtensions":                                                "GlobalGNB-ID-ExtIEs",
+	"HWLoadIndicator.IEExtensions":                                            "HWLoadIndicator-ExtIEs",
 	"HandoverRestrictionList.IEExtensions":                                    "HandoverRestrictionList-ExtIEs",
 	"LastVisitedEUTRANCellInformation.IEExtensions":                           "LastVisitedEUTRANCellInformation-ExtIEs",
+	"LimitedListElem.IEExtensions":                                            "Limited-list-ExtIEs",
+	"LocationInformationSgNB.IEExtensions":                                    "LocationInformationSgNB-ExtIEs",
 	"LocationReportingInformation.IEExtensions":                               "LocationReportingInformation-ExtIEs",
+	"M1PeriodicReporting.IEExtensions":                                        "M1PeriodicReporting-ExtIEs",
+	"M1ThresholdEventA2.IEExtensions":                                         "M1ThresholdEventA2-ExtIEs",
+	"M3Configuration.IEExtensions":                                            "M3Configuration-ExtIEs",
 	"M4Configuration.IEExtensions":                                            "M4Configuration-ExtIEs",
 	"M5Configuration.IEExtensions":                                            "M5Configuration-ExtIEs",
 	"M6Configuration.IEExtensions":                                            "M6Configuration-ExtIEs",
 	"M7Configuration.IEExtensions":                                            "M7Configuration-ExtIEs",
+	"MBSFNSubframeInfo.IEExtensions":                                          "MBSFN-Subframe-Info-ExtIEs",
 	"MDTConfiguration.IEExtensions":                                           "MDT-Configuration-ExtIEs",
+	"MIMOPRBusageInformation.IEExtensions":                                    "MIMOPRBusageInformation-ExtIEs",
 	"MeNBResourceCoordinationInformation.IEExtensions":                        "MeNBResourceCoordinationInformationExtIEs",
+	"MeasurementFailureCauseItem.IEExtensions":                                "MeasurementFailureCause-Item-ExtIEs",
+	"MeasurementInitiationResultItem.IEExtensions":                            "MeasurementInitiationResult-Item-ExtIEs",
+	"MeasurementResultforNRCellsPossiblyAggregatedItem.IEExtension":           "MeasurementResultforNRCellsPossiblyAggregated-Item-ExtIEs",
+	"MessageOversizeNotification.IEExtensions":                                "MessageOversizeNotification-ExtIEs",
+	"NPRACHConfiguration.IEExtensions":                                        "NPRACHConfiguration-ExtIEs",
+	"NPRACHConfigurationFDD.IEExtensions":                                     "NPRACHConfiguration-FDD-ExtIEs",
+	"NPRACHConfigurationTDD.IEExtensions":                                     "NPRACHConfiguration-TDD-ExtIEs",
+	"NRCGI.IEExtensions":                                                      "NRCGI-ExtIEs",
+	"NRCapacityValue.IEExtensions":                                            "NRCapacityValue-ExtIEs",
+	"NRCarrierItem.IEExtension":                                               "NRCarrierItem-ExtIEs",
+	"NRCompositeAvailableCapacity.IEExtensions":                               "NRCompositeAvailableCapacity-ExtIEs",
+	"NRCompositeAvailableCapacityGroup.IEExtensions":                          "NRCompositeAvailableCapacityGroup-ExtIEs",
 	"NRFreqInfo.IEExtensions":                                                 "NRFreqInfo-ExtIEs",
 	"NRNeighbourInformationElem.IEExtensions":                                 "NRNeighbour-Information-ExtIEs",
 	"NRRAReportListItem.IEExtensions":                                         "NRRAReportList-Item-ExtIEs",
 	"NRRadioResourceStatus.IEExtensions":                                      "NRRadioResourceStatus-ExtIEs",
+	"NRTxBW.IEExtensions":                                                     "NR-TxBW-ExtIEs",
+	"NRUESecurityCapabilities.IEExtensions":                                   "NRUESecurityCapabilities-ExtIEs",
+	"NRUESidelinkAggregateMaximumBitRate.IEExtensions":                        "NRUESidelinkAggregateMaximumBitRate-ExtIEs",
+	"NRUeReport.IEExtensions":                                                 "NRUeReport-ExtIEs",
+	"NRV2XServicesAuthorized.IEExtensions":                                    "NRV2XServicesAuthorized-ExtIEs",
 	"NeighbourInformationElem.IEExtensions":                                   "Neighbour-Information-ExtIEs",
+	"NonAnchorCarrierFrequencylistElem.IEExtensions":                          "Non-AnchorCarrierFrequencylist-ExtIEs",
 	"PC5FlowBitRates.IEExtensions":                                            "PC5FlowBitRates-ExtIEs",
 	"PC5QoSFlowItem.IEExtensions":                                             "PC5QoSFlowItem-ExtIEs",
 	"PC5QoSParameters.IEExtensions":                                           "PC5QoSParameters-ExtIEs",
+	"PLMNAreaBasedQMC.IEExtensions":                                           "PLMNAreaBasedQMC-ExtIEs",
+	"PRACHConfiguration.IEExtensions":                                         "PRACH-Configuration-ExtIEs",
 	"ProSeAuthorized.IEExtensions":                                            "ProSeAuthorized-ExtIEs",
+	"ProtectedEUTRAResourceIndication.IEExtensions":                           "ProtectedEUTRAResourceIndication-ExtIEs",
+	"ProtectedFootprintTimePattern.IEExtensions":                              "ProtectedFootprintTimePattern-ExtIEs",
+	"ProtectedResourceListItem.IEExtensions":                                  "ProtectedResourceList-Item-ExtIEs",
+	"QoSMappingInformation.IEExtensions":                                      "QoS-Mapping-Information-ExtIEs",
+	"RATRestrictionsItem.IEExtensions":                                        "RAT-RestrictionsItem-ExtIEs",
+	"RLCStatus.IEExtensions":                                                  "RLC-Status-ExtIEs",
+	"RNLHeader.IEExtensions":                                                  "RNL-Header-Item-ExtIEs",
 	"RSRPMRListElem.IEExtensions":                                             "RSRPMRList-ExtIEs",
+	"RSRPMeasurementResultElem.IEExtensions":                                  "RSRPMeasurementResult-ExtIEs",
+	"RaReportIndicationListItem.IEExtensions":                                 "RaReportIndicationList-Item-ExtIEs",
 	"RadioResourceStatus.IEExtensions":                                        "RadioResourceStatus-ExtIEs",
 	"RelativeNarrowbandTxPower.IEExtensions":                                  "RelativeNarrowbandTxPower-ExtIEs",
+	"ReservedSubframePattern.IEExtensions":                                    "ReservedSubframePattern-ExtIEs",
+	"ResponseInformationSeNBReconfCompRejectByMeNBItem.IEExtensions":          "ResponseInformationSeNBReconfComp-RejectByMeNBItemExtIEs",
+	"ResponseInformationSeNBReconfCompSuccessItem.IEExtensions":               "ResponseInformationSeNBReconfComp-SuccessItemExtIEs",
+	"ResponseInformationSgNBReconfCompRejectByMeNBItem.IEExtensions":          "ResponseInformationSgNBReconfComp-RejectByMeNBItemExtIEs",
+	"ResponseInformationSgNBReconfCompSuccessItem.IEExtensions":               "ResponseInformationSgNBReconfComp-SuccessItemExtIEs",
+	"S1TNLLoadIndicator.IEExtensions":                                         "S1TNLLoadIndicator-ExtIEs",
+	"SFNOffset.IEExtensions":                                                  "SFN-Offset-ExtIEs",
+	"SSBAreaCapacityValueItem.IEExtensions":                                   "SSBAreaCapacityValue-ExtIEs",
+	"SSBAreaRadioResourceStatusItem.IEExtensions":                             "SSBAreaRadioResourceStatus-ExtIEs",
+	"SSBToReportItem.IEExtensions":                                            "SSBToReport-Item-ExtIEs",
 	"SULInformation.IEExtensions":                                             "SULInformation-ExtIEs",
+	"ScheduledCommunicationTime.IEExtensions":                                 "ScheduledCommunicationTime-ExtIEs",
+	"SecondaryRATUsageReportItem.IEExtensions":                                "SecondaryRATUsageReport-Item-ExtIEs",
+	"SecurityIndication.IEExtensions":                                         "SecurityIndication-ExtIEs",
+	"SecurityResult.IEExtensions":                                             "SecurityResult-ExtIEs",
+	"SensorMeasConfigNameItem.IEExtensions":                                   "SensorMeasConfigNameItem-ExtIEs",
+	"SensorMeasurementConfiguration.IEExtensions":                             "SensorMeasurementConfiguration-ExtIEs",
 	"ServedCellInformation.IEExtensions":                                      "ServedCell-Information-ExtIEs",
+	"ServedCellSpecificInfoReqNRItem.IEExtensions":                            "ServedCellSpecificInfoReq-NR-Item-ExtIEs",
 	"ServedCellsElem.IEExtensions":                                            "ServedCell-ExtIEs",
+	"ServedCellsToActivateItem.IEExtensions":                                  "ServedCellsToActivate-Item-ExtIEs",
 	"ServedCellsToModifyItem.IEExtensions":                                    "ServedCellsToModify-Item-ExtIEs",
+	"ServedEUTRAcellsENDCX2ManagementListElem.IEExtensions":                   "ServedEUTRAcellsENDCX2Management-ExtIEs",
+	"ServedEUTRAcellsToModifyListENDCConfUpdElem.IEExtensions":                "ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs",
 	"ServedNRCellInformation.IEExtensions":                                    "ServedNRCell-Information-ExtIEs",
+	"ServedNRCellsToActivateItem.IEExtensions":                                "ServedNRCellsToActivate-Item-ExtIEs",
+	"ServedNRCellsToModifyItem.IEExtensions":                                  "ServedNRCellsToModify-Item-ExtIEs",
 	"ServedNRcellsENDCX2ManagementListElem.IEExtensions":                      "En-gNBServedCells-ExtIEs",
 	"SgNBResourceCoordinationInformation.IEExtensions":                        "SgNBResourceCoordinationInformationExtIEs",
+	"SpecialSubframeInfo.IEExtensions":                                        "SpecialSubframe-Info-ExtIEs",
+	"SplitSRB.IEExtensions":                                                   "SplitSRB-ExtIEs",
+	"SubbandCQI.IEExtensions":                                                 "SubbandCQI-ExtIEs",
+	"SubbandCQIItem.IEExtensions":                                             "SubbandCQIItem-ExtIEs",
+	"SubscriptionBasedUEDifferentiationInfo.IEExtensions":                     "Subscription-Based-UE-DifferentiationInfo-ExtIEs",
+	"SupportedSULFreqBandItem.IEExtensions":                                   "SupportedSULFreqBandItem-ExtIEs",
+	"TABasedMDT.IEExtensions":                                                 "TABasedMDT-ExtIEs",
+	"TABasedQMC.IEExtensions":                                                 "TABasedQMC-ExtIEs",
+	"TAIBasedMDT.IEExtensions":                                                "TAIBasedMDT-ExtIEs",
+	"TAIBasedQMC.IEExtensions":                                                "TAIBasedQMC-ExtIEs",
+	"TAIItem.IEExtensions":                                                    "TAI-Item-ExtIEs",
 	"TDDInfo.IEExtensions":                                                    "TDD-Info-ExtIEs",
 	"TDDInfoNeighbourServedNRCellInformation.IEExtensions":                    "TDD-InfoNeighbourServedNRCell-Information-ExtIEs",
 	"TDDInfoServedNRCellInformation.IEExtensions":                             "TDD-InfoServedNRCell-Information-ExtIEs",
+	"TNLAFailedToSetupItem.IEExtensions":                                      "TNLA-Failed-To-Setup-Item-ExtIEs",
+	"TNLASetupItem.IEExtensions":                                              "TNLA-Setup-Item-ExtIEs",
+	"TNLAToAddItem.IEExtensions":                                              "TNLA-To-Add-Item-ExtIEs",
+	"TNLAToRemoveItem.IEExtensions":                                           "TNLA-To-Remove-Item-ExtIEs",
+	"TNLAToUpdateItem.IEExtensions":                                           "TNLA-To-Update-Item-ExtIEs",
+	"TNLCapacityIndicator.IEExtensions":                                       "TNLCapacityIndicator-ExtIEs",
+	"TNLConfigurationInfo.IEExtensions":                                       "TNLConfigurationInfo-ExtIEs",
 	"TraceActivation.IEExtensions":                                            "TraceActivation-ExtIEs",
+	"TransportUPLayerAddressesInfoToAddItem.IEExtensions":                     "Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs",
+	"TransportUPLayerAddressesInfoToRemoveItem.IEExtensions":                  "Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs",
+	"TunnelInformation.IEExtensions":                                          "Tunnel-Information-ExtIEs",
 	"UEAggregateMaximumBitRate.IEExtensions":                                  "UEAggregate-MaximumBitrate-ExtIEs",
 	"UEAppLayerMeasConfig.IEExtensions":                                       "UEAppLayerMeasConfig-ExtIEs",
 	"UEContextInformation.IEExtensions":                                       "UE-ContextInformation-ExtIEs",
 	"UEContextInformationRetrieve.IEExtensions":                               "UE-ContextInformationRetrieve-ExtIEs",
+	"UEContextInformationSeNBModReq.IEExtensions":                             "UE-ContextInformationSeNBModReqExtIEs",
 	"UEContextInformationSgNBModReq.IEExtensions":                             "UE-ContextInformationSgNBModReqExtIEs",
+	"UEContextReferenceAtSeNB.IEExtensions":                                   "UE-ContextReferenceAtSeNB-ItemExtIEs",
+	"UEContextReferenceAtSgNB.IEExtensions":                                   "UE-ContextReferenceAtSgNB-ItemExtIEs",
+	"UEContextReferenceAtWT.IEExtensions":                                     "UE-ContextReferenceAtWT-ItemExtIEs",
+	"UESecurityCapabilities.IEExtensions":                                     "UESecurityCapabilities-ExtIEs",
+	"UESidelinkAggregateMaximumBitRate.IEExtensions":                          "UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs",
+	"UEsToBeResetListItem.IEExtensions":                                       "UEsToBeResetList-Item-ExtIEs",
+	"ULConfiguration.IEExtensions":                                            "ULConfiguration-ExtIEs",
+	"ULHighInterferenceIndicationInfoItem.IEExtensions":                       "UL-HighInterferenceIndicationInfo-Item-ExtIEs",
+	"ULOnlySharing.IEExtensions":                                              "ULOnlySharing-ExtIEs",
+	"ULandDLSharing.IEExtensions":                                             "ULandDLSharing-ExtIEs",
+	"UsableABSInformationFDD.IEExtensions":                                    "UsableABSInformationFDD-ExtIEs",
+	"UsableABSInformationTDD.IEExtensions":                                    "UsableABSInformationTDD-ExtIEs",
+	"V2XServicesAuthorized.IEExtensions":                                      "V2XServicesAuthorized-ExtIEs",
+	"WLANMeasurementConfiguration.IEExtensions":                               "WLANMeasurementConfiguration-ExtIEs",
+	"WidebandCQI.IEExtensions":                                                "WidebandCQI-ExtIEs",
 }
 
 var protocolExtensionTypeObjectSets = map[string]string{}
-
-func protocolIEObjectSet(context string) string {
-	switch context {
-	case "ABS-Status-ExtIEs":
-		return "ABS-Status-ExtIEs"
-	case "ABSInformationFDD-ExtIEs":
-		return "ABSInformationFDD-ExtIEs"
-	case "ABSInformationFDDExtIEs":
-		return "ABSInformationFDD-ExtIEs"
-	case "ABSInformationTDD-ExtIEs":
-		return "ABSInformationTDD-ExtIEs"
-	case "ABSInformationTDDExtIEs":
-		return "ABSInformationTDD-ExtIEs"
-	case "ABSStatusExtIEs":
-		return "ABS-Status-ExtIEs"
-	case "AS-SecurityInformation-ExtIEs":
-		return "AS-SecurityInformation-ExtIEs"
-	case "ASSecurityInformationExtIEs":
-		return "AS-SecurityInformation-ExtIEs"
-	case "AccessAndMobilityIndication":
-		return "AccessAndMobilityIndication-IEs"
-	case "AccessAndMobilityIndication-IEs":
-		return "AccessAndMobilityIndication-IEs"
-	case "ActivatedCellList-Item-ExtIEs":
-		return "ActivatedCellList-Item-ExtIEs"
-	case "ActivatedCellListItemExtIEs":
-		return "ActivatedCellList-Item-ExtIEs"
-	case "ActivatedNRCellList-Item-ExtIEs":
-		return "ActivatedNRCellList-Item-ExtIEs"
-	case "ActivatedNRCellListItemExtIEs":
-		return "ActivatedNRCellList-Item-ExtIEs"
-	case "Additional-Measurement-Timing-Configuration-Item-ExtIEs":
-		return "Additional-Measurement-Timing-Configuration-Item-ExtIEs"
-	case "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs":
-		return "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs"
-	case "AdditionalListofForwardingGTPTunnelEndpointItemExtIEs":
-		return "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs"
-	case "AdditionalMeasurementTimingConfigurationItemExtIEs":
-		return "Additional-Measurement-Timing-Configuration-Item-ExtIEs"
-	case "AdditionalSpecialSubframe-Info-ExtIEs":
-		return "AdditionalSpecialSubframe-Info-ExtIEs"
-	case "AdditionalSpecialSubframeExtension-Info-ExtIEs":
-		return "AdditionalSpecialSubframeExtension-Info-ExtIEs"
-	case "AdditionalSpecialSubframeExtensionInfoExtIEs":
-		return "AdditionalSpecialSubframeExtension-Info-ExtIEs"
-	case "AdditionalSpecialSubframeInfoExtIEs":
-		return "AdditionalSpecialSubframe-Info-ExtIEs"
-	case "AllocationAndRetentionPriority-ExtIEs":
-		return "AllocationAndRetentionPriority-ExtIEs"
-	case "AllocationAndRetentionPriorityExtIEs":
-		return "AllocationAndRetentionPriority-ExtIEs"
-	case "BPLMN-ID-Info-EUTRA-Item-ExtIEs":
-		return "BPLMN-ID-Info-EUTRA-Item-ExtIEs"
-	case "BPLMN-ID-Info-NR-Item-ExtIEs":
-		return "BPLMN-ID-Info-NR-Item-ExtIEs"
-	case "BPLMNIDInfoEUTRAItemExtIEs":
-		return "BPLMN-ID-Info-EUTRA-Item-ExtIEs"
-	case "BPLMNIDInfoNRItemExtIEs":
-		return "BPLMN-ID-Info-NR-Item-ExtIEs"
-	case "BandInfo-ExtIEs":
-		return "BandInfo-ExtIEs"
-	case "BandInfoExtIEs":
-		return "BandInfo-ExtIEs"
-	case "BluetoothMeasurementConfiguration-ExtIEs":
-		return "BluetoothMeasurementConfiguration-ExtIEs"
-	case "BluetoothMeasurementConfigurationExtIEs":
-		return "BluetoothMeasurementConfiguration-ExtIEs"
-	case "CHOTimeBasedInformation-ExtIEs":
-		return "CHOTimeBasedInformation-ExtIEs"
-	case "CHOTimeBasedInformationExtIEs":
-		return "CHOTimeBasedInformation-ExtIEs"
-	case "CHOinformation-ACK-ExtIEs":
-		return "CHOinformation-ACK-ExtIEs"
-	case "CHOinformation-AddReq-ExtIEs":
-		return "CHOinformation-AddReq-ExtIEs"
-	case "CHOinformation-ModReq-ExtIEs":
-		return "CHOinformation-ModReq-ExtIEs"
-	case "CHOinformationACKExtIEs":
-		return "CHOinformation-ACK-ExtIEs"
-	case "CHOinformationAddReqExtIEs":
-		return "CHOinformation-AddReq-ExtIEs"
-	case "CHOinformationModReqExtIEs":
-		return "CHOinformation-ModReq-ExtIEs"
-	case "CNTypeRestrictionsItem-ExtIEs":
-		return "CNTypeRestrictionsItem-ExtIEs"
-	case "CNTypeRestrictionsItemExtIEs":
-		return "CNTypeRestrictionsItem-ExtIEs"
-	case "COUNTValueExtended-ExtIEs":
-		return "COUNTValueExtended-ExtIEs"
-	case "COUNTValueExtendedExtIEs":
-		return "COUNTValueExtended-ExtIEs"
-	case "COUNTvalue-ExtIEs":
-		return "COUNTvalue-ExtIEs"
-	case "COUNTvalueExtIEs":
-		return "COUNTvalue-ExtIEs"
-	case "COUNTvaluePDCP-SNlength18-ExtIEs":
-		return "COUNTvaluePDCP-SNlength18-ExtIEs"
-	case "COUNTvaluePDCPSNlength18ExtIEs":
-		return "COUNTvaluePDCP-SNlength18-ExtIEs"
-	case "CPACcandidatePSCells-item-ExtIEs":
-		return "CPACcandidatePSCells-item-ExtIEs"
-	case "CPACcandidatePSCellsItemExtIEs":
-		return "CPACcandidatePSCells-item-ExtIEs"
-	case "CPACinformation-REQD-ExtIEs":
-		return "CPACinformation-REQD-ExtIEs"
-	case "CPACinformationREQDExtIEs":
-		return "CPACinformation-REQD-ExtIEs"
-	case "CPAinformation-MOD-ACK-ExtIEs":
-		return "CPAinformation-MOD-ACK-ExtIEs"
-	case "CPAinformation-MOD-ExtIEs":
-		return "CPAinformation-MOD-ExtIEs"
-	case "CPAinformation-REQ-ACK-ExtIEs":
-		return "CPAinformation-REQ-ACK-ExtIEs"
-	case "CPAinformation-REQ-ExtIEs":
-		return "CPAinformation-REQ-ExtIEs"
-	case "CPAinformationMODACKExtIEs":
-		return "CPAinformation-MOD-ACK-ExtIEs"
-	case "CPAinformationMODExtIEs":
-		return "CPAinformation-MOD-ExtIEs"
-	case "CPAinformationREQACKExtIEs":
-		return "CPAinformation-REQ-ACK-ExtIEs"
-	case "CPAinformationREQExtIEs":
-		return "CPAinformation-REQ-ExtIEs"
-	case "CPC-cancel-IEs":
-		return "CPC-cancel-IEs"
-	case "CPC-target-SgNB-conf-item-ExtIEs":
-		return "CPC-target-SgNB-conf-item-ExtIEs"
-	case "CPC-target-SgNB-mod-item-ExtIEs":
-		return "CPC-target-SgNB-mod-item-ExtIEs"
-	case "CPC-target-SgNB-reqd-item-ExtIEs":
-		return "CPC-target-SgNB-reqd-item-ExtIEs"
-	case "CPCCancel":
-		return "CPC-cancel-IEs"
-	case "CPCTargetSgNBConfItemExtIEs":
-		return "CPC-target-SgNB-conf-item-ExtIEs"
-	case "CPCTargetSgNBModItemExtIEs":
-		return "CPC-target-SgNB-mod-item-ExtIEs"
-	case "CPCTargetSgNBReqdItemExtIEs":
-		return "CPC-target-SgNB-reqd-item-ExtIEs"
-	case "CPCinformation-CONF-ExtIEs":
-		return "CPCinformation-CONF-ExtIEs"
-	case "CPCinformation-NOTIFY-ExtIEs":
-		return "CPCinformation-NOTIFY-ExtIEs"
-	case "CPCinformation-REQD-ExtIEs":
-		return "CPCinformation-REQD-ExtIEs"
-	case "CPCinformationCONFExtIEs":
-		return "CPCinformation-CONF-ExtIEs"
-	case "CPCinformationNOTIFYExtIEs":
-		return "CPCinformation-NOTIFY-ExtIEs"
-	case "CPCinformationREQDExtIEs":
-		return "CPCinformation-REQD-ExtIEs"
-	case "CPCupdate-MOD-ExtIEs":
-		return "CPCupdate-MOD-ExtIEs"
-	case "CPCupdateMODExtIEs":
-		return "CPCupdate-MOD-ExtIEs"
-	case "CSI-RS-MTC-Configuration-Item-ExtIEs":
-		return "CSI-RS-MTC-Configuration-Item-ExtIEs"
-	case "CSI-RS-MTC-Neighbour-Item-ExtIEs":
-		return "CSI-RS-MTC-Neighbour-Item-ExtIEs"
-	case "CSI-RS-Neighbour-Item-ExtIEs":
-		return "CSI-RS-Neighbour-Item-ExtIEs"
-	case "CSIRSMTCConfigurationItemExtIEs":
-		return "CSI-RS-MTC-Configuration-Item-ExtIEs"
-	case "CSIRSMTCNeighbourItemExtIEs":
-		return "CSI-RS-MTC-Neighbour-Item-ExtIEs"
-	case "CSIRSNeighbourItemExtIEs":
-		return "CSI-RS-Neighbour-Item-ExtIEs"
-	case "CSIReportList-ExtIEs":
-		return "CSIReportList-ExtIEs"
-	case "CSIReportListExtIEs":
-		return "CSIReportList-ExtIEs"
-	case "CSIReportPerCSIProcess-ExtIEs":
-		return "CSIReportPerCSIProcess-ExtIEs"
-	case "CSIReportPerCSIProcessExtIEs":
-		return "CSIReportPerCSIProcess-ExtIEs"
-	case "CSIReportPerCSIProcessItem-ExtIEs":
-		return "CSIReportPerCSIProcessItem-ExtIEs"
-	case "CSIReportPerCSIProcessItemExtIEs":
-		return "CSIReportPerCSIProcessItem-ExtIEs"
-	case "CellActivationFailure":
-		return "CellActivationFailure-IEs"
-	case "CellActivationFailure-IEs":
-		return "CellActivationFailure-IEs"
-	case "CellActivationRequest":
-		return "CellActivationRequest-IEs"
-	case "CellActivationRequest-IEs":
-		return "CellActivationRequest-IEs"
-	case "CellActivationResponse":
-		return "CellActivationResponse-IEs"
-	case "CellActivationResponse-IEs":
-		return "CellActivationResponse-IEs"
-	case "CellBasedMDT-ExtIEs":
-		return "CellBasedMDT-ExtIEs"
-	case "CellBasedMDTExtIEs":
-		return "CellBasedMDT-ExtIEs"
-	case "CellBasedQMC-ExtIEs":
-		return "CellBasedQMC-ExtIEs"
-	case "CellBasedQMCExtIEs":
-		return "CellBasedQMC-ExtIEs"
-	case "CellInformation-ItemIEs":
-		return "CellInformation-ItemIEs"
-	case "CellInformationItem":
-		return "CellInformation-ItemIEs"
-	case "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs":
-		return "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellMeasurementResult-E-UTRA-ENDC-ItemIEs":
-		return "CellMeasurementResult-E-UTRA-ENDC-ItemIEs"
-	case "CellMeasurementResult-ItemIEs":
-		return "CellMeasurementResult-ItemIEs"
-	case "CellMeasurementResult-NR-ENDC-Item-ExtIEs":
-		return "CellMeasurementResult-NR-ENDC-Item-ExtIEs"
-	case "CellMeasurementResult-NR-ENDC-ItemIEs":
-		return "CellMeasurementResult-NR-ENDC-ItemIEs"
-	case "CellMeasurementResultEUTRAENDCItem":
-		return "CellMeasurementResult-E-UTRA-ENDC-ItemIEs"
-	case "CellMeasurementResultEUTRAENDCItemExtIEs":
-		return "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellMeasurementResultItem":
-		return "CellMeasurementResult-ItemIEs"
-	case "CellMeasurementResultNRENDCItem":
-		return "CellMeasurementResult-NR-ENDC-ItemIEs"
-	case "CellMeasurementResultNRENDCItemExtIEs":
-		return "CellMeasurementResult-NR-ENDC-Item-ExtIEs"
-	case "CellReplacingInfo-ExtIEs":
-		return "CellReplacingInfo-ExtIEs"
-	case "CellReplacingInfoExtIEs":
-		return "CellReplacingInfo-ExtIEs"
-	case "CellToReport-E-UTRA-ENDC-Item-ExtIEs":
-		return "CellToReport-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellToReport-E-UTRA-ENDC-Item-IEs":
-		return "CellToReport-E-UTRA-ENDC-Item-IEs"
-	case "CellToReport-Item-ExtIEs":
-		return "CellToReport-Item-ExtIEs"
-	case "CellToReport-ItemIEs":
-		return "CellToReport-ItemIEs"
-	case "CellToReport-NR-ENDC-Item-ExtIEs":
-		return "CellToReport-NR-ENDC-Item-ExtIEs"
-	case "CellToReport-NR-ENDC-ItemIEs":
-		return "CellToReport-NR-ENDC-ItemIEs"
-	case "CellToReportEUTRAENDCItem":
-		return "CellToReport-E-UTRA-ENDC-Item-IEs"
-	case "CellToReportEUTRAENDCItemExtIEs":
-		return "CellToReport-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellToReportItem":
-		return "CellToReport-ItemIEs"
-	case "CellToReportItemExtIEs":
-		return "CellToReport-Item-ExtIEs"
-	case "CellToReportNRENDCItem":
-		return "CellToReport-NR-ENDC-ItemIEs"
-	case "CellToReportNRENDCItemExtIEs":
-		return "CellToReport-NR-ENDC-Item-ExtIEs"
-	case "CellTrafficTrace":
-		return "CellTrafficTraceIEs"
-	case "CellTrafficTraceIEs":
-		return "CellTrafficTraceIEs"
-	case "CellType-ExtIEs":
-		return "CellType-ExtIEs"
-	case "CellTypeExtIEs":
-		return "CellType-ExtIEs"
-	case "CellandCapacityAssistInfo-ExtIEs":
-		return "CellandCapacityAssistInfo-ExtIEs"
-	case "CellandCapacityAssistInfoExtIEs":
-		return "CellandCapacityAssistInfo-ExtIEs"
-	case "CoMPHypothesisSetItem-ExtIEs":
-		return "CoMPHypothesisSetItem-ExtIEs"
-	case "CoMPHypothesisSetItemExtIEs":
-		return "CoMPHypothesisSetItem-ExtIEs"
-	case "CoMPInformation-ExtIEs":
-		return "CoMPInformation-ExtIEs"
-	case "CoMPInformationExtIEs":
-		return "CoMPInformation-ExtIEs"
-	case "CoMPInformationItem-ExtIEs":
-		return "CoMPInformationItem-ExtIEs"
-	case "CoMPInformationItemExtIEs":
-		return "CoMPInformationItem-ExtIEs"
-	case "CoMPInformationStartTime-ExtIEs":
-		return "CoMPInformationStartTime-ExtIEs"
-	case "CoMPInformationStartTimeExtIEs":
-		return "CoMPInformationStartTime-ExtIEs"
-	case "CompleteFailureCauseInformation-Item-ExtIEs":
-		return "CompleteFailureCauseInformation-Item-ExtIEs"
-	case "CompleteFailureCauseInformation-ItemIEs":
-		return "CompleteFailureCauseInformation-ItemIEs"
-	case "CompleteFailureCauseInformationItem":
-		return "CompleteFailureCauseInformation-ItemIEs"
-	case "CompleteFailureCauseInformationItemExtIEs":
-		return "CompleteFailureCauseInformation-Item-ExtIEs"
-	case "CompositeAvailableCapacity-ExtIEs":
-		return "CompositeAvailableCapacity-ExtIEs"
-	case "CompositeAvailableCapacityExtIEs":
-		return "CompositeAvailableCapacity-ExtIEs"
-	case "CompositeAvailableCapacityGroup-ExtIEs":
-		return "CompositeAvailableCapacityGroup-ExtIEs"
-	case "CompositeAvailableCapacityGroupExtIEs":
-		return "CompositeAvailableCapacityGroup-ExtIEs"
-	case "ConditionalHandoverCancel":
-		return "ConditionalHandoverCancel-IEs"
-	case "ConditionalHandoverCancel-IEs":
-		return "ConditionalHandoverCancel-IEs"
-	case "CriticalityDiagnostics-ExtIEs":
-		return "CriticalityDiagnostics-ExtIEs"
-	case "CriticalityDiagnostics-IE-List-ExtIEs":
-		return "CriticalityDiagnostics-IE-List-ExtIEs"
-	case "CriticalityDiagnosticsExtIEs":
-		return "CriticalityDiagnostics-ExtIEs"
-	case "CriticalityDiagnosticsIEListExtIEs":
-		return "CriticalityDiagnostics-IE-List-ExtIEs"
-	case "DAPSRequestInfo-ExtIEs":
-		return "DAPSRequestInfo-ExtIEs"
-	case "DAPSRequestInfoExtIEs":
-		return "DAPSRequestInfo-ExtIEs"
-	case "DAPSResponseInfo-ExtIEs":
-		return "DAPSResponseInfo-ExtIEs"
-	case "DAPSResponseInfoExtIEs":
-		return "DAPSResponseInfo-ExtIEs"
-	case "DLDiscarding-ExtIEs":
-		return "DLDiscarding-ExtIEs"
-	case "DLDiscardingExtIEs":
-		return "DLDiscarding-ExtIEs"
-	case "DataForwardingAddressIndication":
-		return "DataForwardingAddressIndication-IEs"
-	case "DataForwardingAddressIndication-IEs":
-		return "DataForwardingAddressIndication-IEs"
-	case "DataTrafficResourceIndication-ExtIEs":
-		return "DataTrafficResourceIndication-ExtIEs"
-	case "DataTrafficResourceIndicationExtIEs":
-		return "DataTrafficResourceIndication-ExtIEs"
-	case "DeactivateTrace":
-		return "DeactivateTraceIEs"
-	case "DeactivateTraceIEs":
-		return "DeactivateTraceIEs"
-	case "DeliveryStatus-ExtIEs":
-		return "DeliveryStatus-ExtIEs"
-	case "DeliveryStatusExtIEs":
-		return "DeliveryStatus-ExtIEs"
-	case "DynamicNAICSInformation-ExtIEs":
-		return "DynamicNAICSInformation-ExtIEs"
-	case "DynamicNAICSInformationExtIEs":
-		return "DynamicNAICSInformation-ExtIEs"
-	case "E-RAB-Item-ExtIEs":
-		return "E-RAB-Item-ExtIEs"
-	case "E-RAB-ItemIEs":
-		return "E-RAB-ItemIEs"
-	case "E-RABUsageReport-Item-ExtIEs":
-		return "E-RABUsageReport-Item-ExtIEs"
-	case "E-RABUsageReport-ItemIEs":
-		return "E-RABUsageReport-ItemIEs"
-	case "E-RABs-Admitted-ItemIEs":
-		return "E-RABs-Admitted-ItemIEs"
-	case "E-RABs-Admitted-ToBeAdded-ItemIEs":
-		return "E-RABs-Admitted-ToBeAdded-ItemIEs"
-	case "E-RABs-Admitted-ToBeAdded-ModAckItemIEs":
-		return "E-RABs-Admitted-ToBeAdded-ModAckItemIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs"
-	case "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeModified-ModAckItemIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItemIEs"
-	case "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs":
-		return "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs"
-	case "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-ModAckItemIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItemIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs"
-	case "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs"
-	case "E-RABs-AdmittedToBeModified-SgNBModConf-ItemIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-ItemIEs"
-	case "E-RABs-DataForwardingAddress-ItemExtIEs":
-		return "E-RABs-DataForwardingAddress-ItemExtIEs"
-	case "E-RABs-DataForwardingAddress-ItemIEs":
-		return "E-RABs-DataForwardingAddress-ItemIEs"
-	case "E-RABs-SubjectToCounterCheckItemExtIEs":
-		return "E-RABs-SubjectToCounterCheckItemExtIEs"
-	case "E-RABs-SubjectToCounterCheckItemIEs":
-		return "E-RABs-SubjectToCounterCheckItemIEs"
-	case "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs":
-		return "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs"
-	case "E-RABs-SubjectToSgNBCounterCheck-ItemIEs":
-		return "E-RABs-SubjectToSgNBCounterCheck-ItemIEs"
-	case "E-RABs-SubjectToStatusTransfer-ItemIEs":
-		return "E-RABs-SubjectToStatusTransfer-ItemIEs"
-	case "E-RABs-ToBeAdded-ItemIEs":
-		return "E-RABs-ToBeAdded-ItemIEs"
-	case "E-RABs-ToBeAdded-ModReqItemIEs":
-		return "E-RABs-ToBeAdded-ModReqItemIEs"
-	case "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs"
-	case "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs"
-	case "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs"
-	case "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs"
-	case "E-RABs-ToBeAdded-SgNBModReq-ItemIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-ItemIEs"
-	case "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeModified-ModReqItemIEs":
-		return "E-RABs-ToBeModified-ModReqItemIEs"
-	case "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReq-ItemIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-ItemIEs"
-	case "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReqd-ItemIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-ItemIEs"
-	case "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeReleased-ModReqItemIEs":
-		return "E-RABs-ToBeReleased-ModReqItemIEs"
-	case "E-RABs-ToBeReleased-ModReqdItemExtIEs":
-		return "E-RABs-ToBeReleased-ModReqdItemExtIEs"
-	case "E-RABs-ToBeReleased-ModReqdItemIEs":
-		return "E-RABs-ToBeReleased-ModReqdItemIEs"
-	case "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeReleased-RelConfItemIEs":
-		return "E-RABs-ToBeReleased-RelConfItemIEs"
-	case "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeReleased-RelReqItemIEs":
-		return "E-RABs-ToBeReleased-RelReqItemIEs"
-	case "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs"
-	case "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReq-ItemIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-ItemIEs"
-	case "E-RABs-ToBeReleased-SgNBModReqd-ItemIEs":
-		return "E-RABs-ToBeReleased-SgNBModReqd-ItemIEs"
-	case "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReqd-ItemIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReqd-ItemIEs"
-	case "E-RABs-ToBeSetup-ItemIEs":
-		return "E-RABs-ToBeSetup-ItemIEs"
-	case "E-RABs-ToBeSetupRetrieve-ItemIEs":
-		return "E-RABs-ToBeSetupRetrieve-ItemIEs"
-	case "E-RABsSubjectToDLDiscarding-Item-ExtIEs":
-		return "E-RABsSubjectToDLDiscarding-Item-ExtIEs"
-	case "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs":
-		return "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs"
-	case "ECGI-ExtIEs":
-		return "ECGI-ExtIEs"
-	case "ECGIExtIEs":
-		return "ECGI-ExtIEs"
-	case "EN-DC-ResourceConfigurationExtIEs":
-		return "EN-DC-ResourceConfigurationExtIEs"
-	case "ENB-ENDCConfigUpdateAckIEs":
-		return "ENB-ENDCConfigUpdateAckIEs"
-	case "ENB-ENDCConfigUpdateIEs":
-		return "ENB-ENDCConfigUpdateIEs"
-	case "ENB-ENDCX2RemovalReqAckIEs":
-		return "ENB-ENDCX2RemovalReqAckIEs"
-	case "ENB-ENDCX2RemovalReqIEs":
-		return "ENB-ENDCX2RemovalReqIEs"
-	case "ENB-ENDCX2SetupReqAckIEs":
-		return "ENB-ENDCX2SetupReqAckIEs"
-	case "ENB-ENDCX2SetupReqIEs":
-		return "ENB-ENDCX2SetupReqIEs"
-	case "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs":
-		return "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs"
-	case "ENB-EUTRA-NRCellResourceCoordinationReqIEs":
-		return "ENB-EUTRA-NRCellResourceCoordinationReqIEs"
-	case "ENBConfigurationUpdate":
-		return "ENBConfigurationUpdate-IEs"
-	case "ENBConfigurationUpdate-IEs":
-		return "ENBConfigurationUpdate-IEs"
-	case "ENBConfigurationUpdateAcknowledge":
-		return "ENBConfigurationUpdateAcknowledge-IEs"
-	case "ENBConfigurationUpdateAcknowledge-IEs":
-		return "ENBConfigurationUpdateAcknowledge-IEs"
-	case "ENBConfigurationUpdateFailure":
-		return "ENBConfigurationUpdateFailure-IEs"
-	case "ENBConfigurationUpdateFailure-IEs":
-		return "ENBConfigurationUpdateFailure-IEs"
-	case "ENBENDCConfigUpdate":
-		return "ENB-ENDCConfigUpdateIEs"
-	case "ENBENDCConfigUpdateAck":
-		return "ENB-ENDCConfigUpdateAckIEs"
-	case "ENBENDCConfigUpdateAckIEs":
-		return "ENB-ENDCConfigUpdateAckIEs"
-	case "ENBENDCX2RemovalReq":
-		return "ENB-ENDCX2RemovalReqIEs"
-	case "ENBENDCX2RemovalReqAck":
-		return "ENB-ENDCX2RemovalReqAckIEs"
-	case "ENBENDCX2SetupReq":
-		return "ENB-ENDCX2SetupReqIEs"
-	case "ENBENDCX2SetupReqAck":
-		return "ENB-ENDCX2SetupReqAckIEs"
-	case "ENBEUTRANRCellResourceCoordinationReq":
-		return "ENB-EUTRA-NRCellResourceCoordinationReqIEs"
-	case "ENBEUTRANRCellResourceCoordinationReqAck":
-		return "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs"
-	case "ENDCCellActivationFailure":
-		return "ENDCCellActivationFailure-IEs"
-	case "ENDCCellActivationFailure-IEs":
-		return "ENDCCellActivationFailure-IEs"
-	case "ENDCCellActivationRequest":
-		return "ENDCCellActivationRequest-IEs"
-	case "ENDCCellActivationRequest-IEs":
-		return "ENDCCellActivationRequest-IEs"
-	case "ENDCCellActivationResponse":
-		return "ENDCCellActivationResponse-IEs"
-	case "ENDCCellActivationResponse-IEs":
-		return "ENDCCellActivationResponse-IEs"
-	case "ENDCConfigurationTransfer":
-		return "ENDCConfigurationTransfer-IEs"
-	case "ENDCConfigurationTransfer-IEs":
-		return "ENDCConfigurationTransfer-IEs"
-	case "ENDCConfigurationUpdate":
-		return "ENDCConfigurationUpdate-IEs"
-	case "ENDCConfigurationUpdate-IEs":
-		return "ENDCConfigurationUpdate-IEs"
-	case "ENDCConfigurationUpdateAcknowledge":
-		return "ENDCConfigurationUpdateAcknowledge-IEs"
-	case "ENDCConfigurationUpdateAcknowledge-IEs":
-		return "ENDCConfigurationUpdateAcknowledge-IEs"
-	case "ENDCConfigurationUpdateFailure":
-		return "ENDCConfigurationUpdateFailure-IEs"
-	case "ENDCConfigurationUpdateFailure-IEs":
-		return "ENDCConfigurationUpdateFailure-IEs"
-	case "ENDCPartialResetConfirm":
-		return "ENDCPartialResetConfirm-IEs"
-	case "ENDCPartialResetConfirm-IEs":
-		return "ENDCPartialResetConfirm-IEs"
-	case "ENDCPartialResetRequired":
-		return "ENDCPartialResetRequired-IEs"
-	case "ENDCPartialResetRequired-IEs":
-		return "ENDCPartialResetRequired-IEs"
-	case "ENDCResourceConfigurationExtIEs":
-		return "EN-DC-ResourceConfigurationExtIEs"
-	case "ENDCResourceStatusFailure":
-		return "ENDCResourceStatusFailure-IEs"
-	case "ENDCResourceStatusFailure-IEs":
-		return "ENDCResourceStatusFailure-IEs"
-	case "ENDCResourceStatusRequest":
-		return "ENDCResourceStatusRequest-IEs"
-	case "ENDCResourceStatusRequest-IEs":
-		return "ENDCResourceStatusRequest-IEs"
-	case "ENDCResourceStatusResponse":
-		return "ENDCResourceStatusResponse-IEs"
-	case "ENDCResourceStatusResponse-IEs":
-		return "ENDCResourceStatusResponse-IEs"
-	case "ENDCResourceStatusUpdate":
-		return "ENDCResourceStatusUpdate-IEs"
-	case "ENDCResourceStatusUpdate-IEs":
-		return "ENDCResourceStatusUpdate-IEs"
-	case "ENDCX2RemovalFailure":
-		return "ENDCX2RemovalFailure-IEs"
-	case "ENDCX2RemovalFailure-IEs":
-		return "ENDCX2RemovalFailure-IEs"
-	case "ENDCX2RemovalRequest":
-		return "ENDCX2RemovalRequest-IEs"
-	case "ENDCX2RemovalRequest-IEs":
-		return "ENDCX2RemovalRequest-IEs"
-	case "ENDCX2RemovalResponse":
-		return "ENDCX2RemovalResponse-IEs"
-	case "ENDCX2RemovalResponse-IEs":
-		return "ENDCX2RemovalResponse-IEs"
-	case "ENDCX2SetupFailure":
-		return "ENDCX2SetupFailure-IEs"
-	case "ENDCX2SetupFailure-IEs":
-		return "ENDCX2SetupFailure-IEs"
-	case "ENDCX2SetupRequest":
-		return "ENDCX2SetupRequest-IEs"
-	case "ENDCX2SetupRequest-IEs":
-		return "ENDCX2SetupRequest-IEs"
-	case "ENDCX2SetupResponse":
-		return "ENDCX2SetupResponse-IEs"
-	case "ENDCX2SetupResponse-IEs":
-		return "ENDCX2SetupResponse-IEs"
-	case "ERABActivityNotifyItem-ExtIEs":
-		return "ERABActivityNotifyItem-ExtIEs"
-	case "ERABActivityNotifyItemExtIEs":
-		return "ERABActivityNotifyItem-ExtIEs"
-	case "ERABItem":
-		return "E-RAB-ItemIEs"
-	case "ERABItemExtIEs":
-		return "E-RAB-Item-ExtIEs"
-	case "ERABUsageReportItem":
-		return "E-RABUsageReport-ItemIEs"
-	case "ERABUsageReportItemExtIEs":
-		return "E-RABUsageReport-Item-ExtIEs"
-	case "ERABsAdmittedItem":
-		return "E-RABs-Admitted-ItemIEs"
-	case "ERABsAdmittedToBeAddedItem":
-		return "E-RABs-Admitted-ToBeAdded-ItemIEs"
-	case "ERABsAdmittedToBeAddedModAckItem":
-		return "E-RABs-Admitted-ToBeAdded-ModAckItemIEs"
-	case "ERABsAdmittedToBeAddedSgNBAddReqAckItem":
-		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs"
-	case "ERABsAdmittedToBeAddedSgNBModAckItem":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs"
-	case "ERABsAdmittedToBeAddedSgNBModAckItemExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "ERABsAdmittedToBeModifiedModAckItem":
-		return "E-RABs-Admitted-ToBeModified-ModAckItemIEs"
-	case "ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs"
-	case "ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModAckItem":
-		return "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModConfItem":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-ItemIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModConfItemExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsAdmittedToBeReleasedModAckItem":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItemIEs"
-	case "ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs"
-	case "ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs"
-	case "ERABsAdmittedToBeReleasedSgNBModAckItem":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs"
-	case "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsAdmittedToBeReleasedSgNBRelReqAckItem":
-		return "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs"
-	case "ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs"
-	case "ERABsDataForwardingAddressItem":
-		return "E-RABs-DataForwardingAddress-ItemIEs"
-	case "ERABsDataForwardingAddressItemExtIEs":
-		return "E-RABs-DataForwardingAddress-ItemExtIEs"
-	case "ERABsSubjectToCounterCheckItem":
-		return "E-RABs-SubjectToCounterCheckItemIEs"
-	case "ERABsSubjectToCounterCheckItemExtIEs":
-		return "E-RABs-SubjectToCounterCheckItemExtIEs"
-	case "ERABsSubjectToDLDiscardingItemExtIEs":
-		return "E-RABsSubjectToDLDiscarding-Item-ExtIEs"
-	case "ERABsSubjectToEarlyStatusTransferItemExtIEs":
-		return "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs"
-	case "ERABsSubjectToSgNBCounterCheckItem":
-		return "E-RABs-SubjectToSgNBCounterCheck-ItemIEs"
-	case "ERABsSubjectToSgNBCounterCheckItemExtIEs":
-		return "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs"
-	case "ERABsSubjectToStatusTransferItem":
-		return "E-RABs-SubjectToStatusTransfer-ItemIEs"
-	case "ERABsToBeAddedItem":
-		return "E-RABs-ToBeAdded-ItemIEs"
-	case "ERABsToBeAddedModReqItem":
-		return "E-RABs-ToBeAdded-ModReqItemIEs"
-	case "ERABsToBeAddedSgNBAddReqAckItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs"
-	case "ERABsToBeAddedSgNBAddReqItem":
-		return "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs"
-	case "ERABsToBeAddedSgNBAddReqItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs"
-	case "ERABsToBeAddedSgNBModAckItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "ERABsToBeAddedSgNBModReqItem":
-		return "E-RABs-ToBeAdded-SgNBModReq-ItemIEs"
-	case "ERABsToBeAddedSgNBModReqItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs"
-	case "ERABsToBeModifiedModReqItem":
-		return "E-RABs-ToBeModified-ModReqItemIEs"
-	case "ERABsToBeModifiedModReqItemSCGBearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs"
-	case "ERABsToBeModifiedModReqItemSplitBearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs"
-	case "ERABsToBeModifiedSgNBModReqItem":
-		return "E-RABs-ToBeModified-SgNBModReq-ItemIEs"
-	case "ERABsToBeModifiedSgNBModReqItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs"
-	case "ERABsToBeModifiedSgNBModReqdItem":
-		return "E-RABs-ToBeModified-SgNBModReqd-ItemIEs"
-	case "ERABsToBeModifiedSgNBModReqdItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs"
-	case "ERABsToBeReleasedModReqItem":
-		return "E-RABs-ToBeReleased-ModReqItemIEs"
-	case "ERABsToBeReleasedModReqItemSCGBearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs"
-	case "ERABsToBeReleasedModReqItemSplitBearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs"
-	case "ERABsToBeReleasedModReqdItem":
-		return "E-RABs-ToBeReleased-ModReqdItemIEs"
-	case "ERABsToBeReleasedModReqdItemExtIEs":
-		return "E-RABs-ToBeReleased-ModReqdItemExtIEs"
-	case "ERABsToBeReleasedRelConfItem":
-		return "E-RABs-ToBeReleased-RelConfItemIEs"
-	case "ERABsToBeReleasedRelConfItemSCGBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs"
-	case "ERABsToBeReleasedRelConfItemSplitBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs"
-	case "ERABsToBeReleasedRelReqItem":
-		return "E-RABs-ToBeReleased-RelReqItemIEs"
-	case "ERABsToBeReleasedRelReqItemSCGBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs"
-	case "ERABsToBeReleasedRelReqItemSplitBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs"
-	case "ERABsToBeReleasedSgNBChaConfItem":
-		return "E-RABs-ToBeReleased-SgNBChaConf-ItemIEs"
-	case "ERABsToBeReleasedSgNBChaConfItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBModAckItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBModReqItem":
-		return "E-RABs-ToBeReleased-SgNBModReq-ItemIEs"
-	case "ERABsToBeReleasedSgNBModReqItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedSgNBModReqdItem":
-		return "E-RABs-ToBeReleased-SgNBModReqd-ItemIEs"
-	case "ERABsToBeReleasedSgNBRelConfItem":
-		return "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs"
-	case "ERABsToBeReleasedSgNBRelConfItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqItem":
-		return "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs"
-	case "ERABsToBeReleasedSgNBRelReqItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqdItem":
-		return "E-RABs-ToBeReleased-SgNBRelReqd-ItemIEs"
-	case "ERABsToBeReleasedSgNBRelReqdItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs"
-	case "ERABsToBeSetupItem":
-		return "E-RABs-ToBeSetup-ItemIEs"
-	case "ERABsToBeSetupRetrieveItem":
-		return "E-RABs-ToBeSetupRetrieve-ItemIEs"
-	case "EUTRANRCellResourceCoordinationRequest":
-		return "EUTRANRCellResourceCoordinationRequest-IEs"
-	case "EUTRANRCellResourceCoordinationRequest-IEs":
-		return "EUTRANRCellResourceCoordinationRequest-IEs"
-	case "EUTRANRCellResourceCoordinationResponse":
-		return "EUTRANRCellResourceCoordinationResponse-IEs"
-	case "EUTRANRCellResourceCoordinationResponse-IEs":
-		return "EUTRANRCellResourceCoordinationResponse-IEs"
-	case "EarlyStatusTransfer":
-		return "EarlyStatusTransfer-IEs"
-	case "EarlyStatusTransfer-IEs":
-		return "EarlyStatusTransfer-IEs"
-	case "En-gNB-ENDCConfigUpdateAckIEs":
-		return "En-gNB-ENDCConfigUpdateAckIEs"
-	case "En-gNB-ENDCConfigUpdateIEs":
-		return "En-gNB-ENDCConfigUpdateIEs"
-	case "En-gNB-ENDCX2RemovalReqAckIEs":
-		return "En-gNB-ENDCX2RemovalReqAckIEs"
-	case "En-gNB-ENDCX2RemovalReqIEs":
-		return "En-gNB-ENDCX2RemovalReqIEs"
-	case "En-gNB-ENDCX2SetupReqAckIEs":
-		return "En-gNB-ENDCX2SetupReqAckIEs"
-	case "En-gNB-ENDCX2SetupReqIEs":
-		return "En-gNB-ENDCX2SetupReqIEs"
-	case "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs":
-		return "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs"
-	case "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs":
-		return "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs"
-	case "EnGNBENDCConfigUpdate":
-		return "En-gNB-ENDCConfigUpdateIEs"
-	case "EnGNBENDCConfigUpdateAck":
-		return "En-gNB-ENDCConfigUpdateAckIEs"
-	case "EnGNBENDCConfigUpdateAckIEs":
-		return "En-gNB-ENDCConfigUpdateAckIEs"
-	case "EnGNBENDCX2RemovalReq":
-		return "En-gNB-ENDCX2RemovalReqIEs"
-	case "EnGNBENDCX2RemovalReqAck":
-		return "En-gNB-ENDCX2RemovalReqAckIEs"
-	case "EnGNBENDCX2SetupReq":
-		return "En-gNB-ENDCX2SetupReqIEs"
-	case "EnGNBENDCX2SetupReqAck":
-		return "En-gNB-ENDCX2SetupReqAckIEs"
-	case "EnGNBEUTRANRCellResourceCoordinationReq":
-		return "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs"
-	case "EnGNBEUTRANRCellResourceCoordinationReqAck":
-		return "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs"
-	case "EnhancedRNTP-ExtIEs":
-		return "EnhancedRNTP-ExtIEs"
-	case "EnhancedRNTPExtIEs":
-		return "EnhancedRNTP-ExtIEs"
-	case "EnhancedRNTPStartTime-ExtIEs":
-		return "EnhancedRNTPStartTime-ExtIEs"
-	case "EnhancedRNTPStartTimeExtIEs":
-		return "EnhancedRNTPStartTime-ExtIEs"
-	case "ErrorIndication":
-		return "ErrorIndication-IEs"
-	case "ErrorIndication-IEs":
-		return "ErrorIndication-IEs"
-	case "ExpectedUEActivityBehaviour-ExtIEs":
-		return "ExpectedUEActivityBehaviour-ExtIEs"
-	case "ExpectedUEActivityBehaviourExtIEs":
-		return "ExpectedUEActivityBehaviour-ExtIEs"
-	case "ExpectedUEBehaviour-ExtIEs":
-		return "ExpectedUEBehaviour-ExtIEs"
-	case "ExpectedUEBehaviourExtIEs":
-		return "ExpectedUEBehaviour-ExtIEs"
-	case "ExtendedULInterferenceOverloadInfo-ExtIEs":
-		return "ExtendedULInterferenceOverloadInfo-ExtIEs"
-	case "ExtendedULInterferenceOverloadInfoExtIEs":
-		return "ExtendedULInterferenceOverloadInfo-ExtIEs"
-	case "F1CTrafficTransfer":
-		return "F1CTrafficTransfer-IEs"
-	case "F1CTrafficTransfer-IEs":
-		return "F1CTrafficTransfer-IEs"
-	case "FastMCGRecovery-ExtIEs":
-		return "FastMCGRecovery-ExtIEs"
-	case "FastMCGRecoveryExtIEs":
-		return "FastMCGRecovery-ExtIEs"
-	case "FirstDLCount-ExtIEs":
-		return "FirstDLCount-ExtIEs"
-	case "FirstDLCountExtIEs":
-		return "FirstDLCount-ExtIEs"
-	case "ForbiddenLAs-Item-ExtIEs":
-		return "ForbiddenLAs-Item-ExtIEs"
-	case "ForbiddenLAsItemExtIEs":
-		return "ForbiddenLAs-Item-ExtIEs"
-	case "ForbiddenTAs-Item-ExtIEs":
-		return "ForbiddenTAs-Item-ExtIEs"
-	case "ForbiddenTAsItemExtIEs":
-		return "ForbiddenTAs-Item-ExtIEs"
-	case "FreqBandNrItem-ExtIEs":
-		return "FreqBandNrItem-ExtIEs"
-	case "FreqBandNrItemExtIEs":
-		return "FreqBandNrItem-ExtIEs"
-	case "GNBStatusIndication":
-		return "GNBStatusIndicationIEs"
-	case "GNBStatusIndicationIEs":
-		return "GNBStatusIndicationIEs"
-	case "GTPTLA-Item-ExtIEs":
-		return "GTPTLA-Item-ExtIEs"
-	case "GTPTLAItemExtIEs":
-		return "GTPTLA-Item-ExtIEs"
-	case "GU-Group-ID-ExtIEs":
-		return "GU-Group-ID-ExtIEs"
-	case "GUGroupIDExtIEs":
-		return "GU-Group-ID-ExtIEs"
-	case "GUMMEI-ExtIEs":
-		return "GUMMEI-ExtIEs"
-	case "GUMMEIExtIEs":
-		return "GUMMEI-ExtIEs"
-	case "Global-RAN-NODE-ID-ExtIEs":
-		return "Global-RAN-NODE-ID-ExtIEs"
-	case "GlobalENB-ID-ExtIEs":
-		return "GlobalENB-ID-ExtIEs"
-	case "GlobalENBIDExtIEs":
-		return "GlobalENB-ID-ExtIEs"
-	case "GlobalGNB-ID-ExtIEs":
-		return "GlobalGNB-ID-ExtIEs"
-	case "GlobalGNBIDExtIEs":
-		return "GlobalGNB-ID-ExtIEs"
-	case "GlobalRANNODEIDExt":
-		return "Global-RAN-NODE-ID-ExtIEs"
-	case "GlobalRANNODEIDExtIEs":
-		return "Global-RAN-NODE-ID-ExtIEs"
-	case "HWLoadIndicator-ExtIEs":
-		return "HWLoadIndicator-ExtIEs"
-	case "HWLoadIndicatorExtIEs":
-		return "HWLoadIndicator-ExtIEs"
-	case "HandoverCancel":
-		return "HandoverCancel-IEs"
-	case "HandoverCancel-IEs":
-		return "HandoverCancel-IEs"
-	case "HandoverPreparationFailure":
-		return "HandoverPreparationFailure-IEs"
-	case "HandoverPreparationFailure-IEs":
-		return "HandoverPreparationFailure-IEs"
-	case "HandoverReport":
-		return "HandoverReport-IEs"
-	case "HandoverReport-IEs":
-		return "HandoverReport-IEs"
-	case "HandoverRequest":
-		return "HandoverRequest-IEs"
-	case "HandoverRequest-IEs":
-		return "HandoverRequest-IEs"
-	case "HandoverRequestAcknowledge":
-		return "HandoverRequestAcknowledge-IEs"
-	case "HandoverRequestAcknowledge-IEs":
-		return "HandoverRequestAcknowledge-IEs"
-	case "HandoverSuccess":
-		return "HandoverSuccess-IEs"
-	case "HandoverSuccess-IEs":
-		return "HandoverSuccess-IEs"
-	case "Limited-list-ExtIEs":
-		return "Limited-list-ExtIEs"
-	case "LimitedListExtIEs":
-		return "Limited-list-ExtIEs"
-	case "LoadInformation":
-		return "LoadInformation-IEs"
-	case "LoadInformation-IEs":
-		return "LoadInformation-IEs"
-	case "LocationInformationSgNB-ExtIEs":
-		return "LocationInformationSgNB-ExtIEs"
-	case "LocationInformationSgNBExtIEs":
-		return "LocationInformationSgNB-ExtIEs"
-	case "M1PeriodicReporting-ExtIEs":
-		return "M1PeriodicReporting-ExtIEs"
-	case "M1PeriodicReportingExtIEs":
-		return "M1PeriodicReporting-ExtIEs"
-	case "M1ThresholdEventA2-ExtIEs":
-		return "M1ThresholdEventA2-ExtIEs"
-	case "M1ThresholdEventA2ExtIEs":
-		return "M1ThresholdEventA2-ExtIEs"
-	case "M3Configuration-ExtIEs":
-		return "M3Configuration-ExtIEs"
-	case "M3ConfigurationExtIEs":
-		return "M3Configuration-ExtIEs"
-	case "MBSFN-Subframe-Info-ExtIEs":
-		return "MBSFN-Subframe-Info-ExtIEs"
-	case "MBSFNSubframeInfoExtIEs":
-		return "MBSFN-Subframe-Info-ExtIEs"
-	case "MIMOPRBusageInformation-ExtIEs":
-		return "MIMOPRBusageInformation-ExtIEs"
-	case "MIMOPRBusageInformationExtIEs":
-		return "MIMOPRBusageInformation-ExtIEs"
-	case "MeasurementFailureCause-Item-ExtIEs":
-		return "MeasurementFailureCause-Item-ExtIEs"
-	case "MeasurementFailureCause-ItemIEs":
-		return "MeasurementFailureCause-ItemIEs"
-	case "MeasurementFailureCauseItem":
-		return "MeasurementFailureCause-ItemIEs"
-	case "MeasurementFailureCauseItemExtIEs":
-		return "MeasurementFailureCause-Item-ExtIEs"
-	case "MeasurementInitiationResult-Item-ExtIEs":
-		return "MeasurementInitiationResult-Item-ExtIEs"
-	case "MeasurementInitiationResult-ItemIEs":
-		return "MeasurementInitiationResult-ItemIEs"
-	case "MeasurementInitiationResultItem":
-		return "MeasurementInitiationResult-ItemIEs"
-	case "MeasurementInitiationResultItemExtIEs":
-		return "MeasurementInitiationResult-Item-ExtIEs"
-	case "MeasurementResultforNRCellsPossiblyAggregated-Item-ExtIEs":
-		return "MeasurementResultforNRCellsPossiblyAggregated-Item-ExtIEs"
-	case "MeasurementResultforNRCellsPossiblyAggregatedItemExtIEs":
-		return "MeasurementResultforNRCellsPossiblyAggregated-Item-ExtIEs"
-	case "MessageOversizeNotification-ExtIEs":
-		return "MessageOversizeNotification-ExtIEs"
-	case "MessageOversizeNotificationExtIEs":
-		return "MessageOversizeNotification-ExtIEs"
-	case "MobilityChangeAcknowledge":
-		return "MobilityChangeAcknowledge-IEs"
-	case "MobilityChangeAcknowledge-IEs":
-		return "MobilityChangeAcknowledge-IEs"
-	case "MobilityChangeFailure":
-		return "MobilityChangeFailure-IEs"
-	case "MobilityChangeFailure-IEs":
-		return "MobilityChangeFailure-IEs"
-	case "MobilityChangeRequest":
-		return "MobilityChangeRequest-IEs"
-	case "MobilityChangeRequest-IEs":
-		return "MobilityChangeRequest-IEs"
-	case "NPRACHConfiguration-ExtIEs":
-		return "NPRACHConfiguration-ExtIEs"
-	case "NPRACHConfiguration-FDD-ExtIEs":
-		return "NPRACHConfiguration-FDD-ExtIEs"
-	case "NPRACHConfiguration-TDD-ExtIEs":
-		return "NPRACHConfiguration-TDD-ExtIEs"
-	case "NPRACHConfigurationExtIEs":
-		return "NPRACHConfiguration-ExtIEs"
-	case "NPRACHConfigurationFDDExtIEs":
-		return "NPRACHConfiguration-FDD-ExtIEs"
-	case "NPRACHConfigurationTDDExtIEs":
-		return "NPRACHConfiguration-TDD-ExtIEs"
-	case "NR-TxBW-ExtIEs":
-		return "NR-TxBW-ExtIEs"
-	case "NRCGI-ExtIEs":
-		return "NRCGI-ExtIEs"
-	case "NRCGIExtIEs":
-		return "NRCGI-ExtIEs"
-	case "NRCapacityValue-ExtIEs":
-		return "NRCapacityValue-ExtIEs"
-	case "NRCapacityValueExtIEs":
-		return "NRCapacityValue-ExtIEs"
-	case "NRCarrierItem-ExtIEs":
-		return "NRCarrierItem-ExtIEs"
-	case "NRCarrierItemExtIEs":
-		return "NRCarrierItem-ExtIEs"
-	case "NRCompositeAvailableCapacity-ExtIEs":
-		return "NRCompositeAvailableCapacity-ExtIEs"
-	case "NRCompositeAvailableCapacityExtIEs":
-		return "NRCompositeAvailableCapacity-ExtIEs"
-	case "NRCompositeAvailableCapacityGroup-ExtIEs":
-		return "NRCompositeAvailableCapacityGroup-ExtIEs"
-	case "NRCompositeAvailableCapacityGroupExtIEs":
-		return "NRCompositeAvailableCapacityGroup-ExtIEs"
-	case "NRTxBWExtIEs":
-		return "NR-TxBW-ExtIEs"
-	case "NRUESecurityCapabilities-ExtIEs":
-		return "NRUESecurityCapabilities-ExtIEs"
-	case "NRUESecurityCapabilitiesExtIEs":
-		return "NRUESecurityCapabilities-ExtIEs"
-	case "NRUESidelinkAggregateMaximumBitRate-ExtIEs":
-		return "NRUESidelinkAggregateMaximumBitRate-ExtIEs"
-	case "NRUESidelinkAggregateMaximumBitRateExtIEs":
-		return "NRUESidelinkAggregateMaximumBitRate-ExtIEs"
-	case "NRUeReport-ExtIEs":
-		return "NRUeReport-ExtIEs"
-	case "NRUeReportExtIEs":
-		return "NRUeReport-ExtIEs"
-	case "NRV2XServicesAuthorized-ExtIEs":
-		return "NRV2XServicesAuthorized-ExtIEs"
-	case "NRV2XServicesAuthorizedExtIEs":
-		return "NRV2XServicesAuthorized-ExtIEs"
-	case "Non-AnchorCarrierFrequencylist-ExtIEs":
-		return "Non-AnchorCarrierFrequencylist-ExtIEs"
-	case "NonAnchorCarrierFrequencylistExtIEs":
-		return "Non-AnchorCarrierFrequencylist-ExtIEs"
-	case "PLMNAreaBasedQMC-ExtIEs":
-		return "PLMNAreaBasedQMC-ExtIEs"
-	case "PLMNAreaBasedQMCExtIEs":
-		return "PLMNAreaBasedQMC-ExtIEs"
-	case "PRACH-Configuration-ExtIEs":
-		return "PRACH-Configuration-ExtIEs"
-	case "PRACHConfigurationExtIEs":
-		return "PRACH-Configuration-ExtIEs"
-	case "PrivateMessage-IEs":
-		return "PrivateMessage-IEs"
-	case "PrivateMessageIEs":
-		return "PrivateMessage-IEs"
-	case "ProcedureStageChoice-ExtIEs":
-		return "ProcedureStageChoice-ExtIEs"
-	case "ProcedureStageChoiceExt":
-		return "ProcedureStageChoice-ExtIEs"
-	case "ProcedureStageChoiceExtIEs":
-		return "ProcedureStageChoice-ExtIEs"
-	case "ProtectedEUTRAResourceIndication-ExtIEs":
-		return "ProtectedEUTRAResourceIndication-ExtIEs"
-	case "ProtectedEUTRAResourceIndicationExtIEs":
-		return "ProtectedEUTRAResourceIndication-ExtIEs"
-	case "ProtectedFootprintTimePattern-ExtIEs":
-		return "ProtectedFootprintTimePattern-ExtIEs"
-	case "ProtectedFootprintTimePatternExtIEs":
-		return "ProtectedFootprintTimePattern-ExtIEs"
-	case "ProtectedResourceList-Item-ExtIEs":
-		return "ProtectedResourceList-Item-ExtIEs"
-	case "ProtectedResourceListItemExtIEs":
-		return "ProtectedResourceList-Item-ExtIEs"
-	case "QoS-Mapping-Information-ExtIEs":
-		return "QoS-Mapping-Information-ExtIEs"
-	case "QoSMappingInformationExtIEs":
-		return "QoS-Mapping-Information-ExtIEs"
-	case "RAT-RestrictionsItem-ExtIEs":
-		return "RAT-RestrictionsItem-ExtIEs"
-	case "RATRestrictionsItemExtIEs":
-		return "RAT-RestrictionsItem-ExtIEs"
-	case "RLC-Status-ExtIEs":
-		return "RLC-Status-ExtIEs"
-	case "RLCStatusExtIEs":
-		return "RLC-Status-ExtIEs"
-	case "RLFIndication":
-		return "RLFIndication-IEs"
-	case "RLFIndication-IEs":
-		return "RLFIndication-IEs"
-	case "RNL-Header-Item-ExtIEs":
-		return "RNL-Header-Item-ExtIEs"
-	case "RNLHeaderItemExtIEs":
-		return "RNL-Header-Item-ExtIEs"
-	case "RRCTransfer":
-		return "RRCTransfer-IEs"
-	case "RRCTransfer-IEs":
-		return "RRCTransfer-IEs"
-	case "RSRPMeasurementResult-ExtIEs":
-		return "RSRPMeasurementResult-ExtIEs"
-	case "RSRPMeasurementResultExtIEs":
-		return "RSRPMeasurementResult-ExtIEs"
-	case "RaReportIndicationList-Item-ExtIEs":
-		return "RaReportIndicationList-Item-ExtIEs"
-	case "RaReportIndicationListItemExtIEs":
-		return "RaReportIndicationList-Item-ExtIEs"
-	case "RachIndication":
-		return "RachIndication-IEs"
-	case "RachIndication-IEs":
-		return "RachIndication-IEs"
-	case "ReservedSubframePattern-ExtIEs":
-		return "ReservedSubframePattern-ExtIEs"
-	case "ReservedSubframePatternExtIEs":
-		return "ReservedSubframePattern-ExtIEs"
-	case "ResetRequest":
-		return "ResetRequest-IEs"
-	case "ResetRequest-IEs":
-		return "ResetRequest-IEs"
-	case "ResetResponse":
-		return "ResetResponse-IEs"
-	case "ResetResponse-IEs":
-		return "ResetResponse-IEs"
-	case "ResourceStatusFailure":
-		return "ResourceStatusFailure-IEs"
-	case "ResourceStatusFailure-IEs":
-		return "ResourceStatusFailure-IEs"
-	case "ResourceStatusRequest":
-		return "ResourceStatusRequest-IEs"
-	case "ResourceStatusRequest-IEs":
-		return "ResourceStatusRequest-IEs"
-	case "ResourceStatusResponse":
-		return "ResourceStatusResponse-IEs"
-	case "ResourceStatusResponse-IEs":
-		return "ResourceStatusResponse-IEs"
-	case "ResourceStatusUpdate":
-		return "ResourceStatusUpdate-IEs"
-	case "ResourceStatusUpdate-IEs":
-		return "ResourceStatusUpdate-IEs"
-	case "ResponseInformationSeNBReconfComp-RejectByMeNBItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSeNBReconfComp-SuccessItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-SuccessItemExtIEs"
-	case "ResponseInformationSeNBReconfCompRejectByMeNBItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSeNBReconfCompSuccessItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-SuccessItemExtIEs"
-	case "ResponseInformationSgNBReconfComp-RejectByMeNBItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSgNBReconfComp-SuccessItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-SuccessItemExtIEs"
-	case "ResponseInformationSgNBReconfCompRejectByMeNBItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSgNBReconfCompSuccessItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-SuccessItemExtIEs"
-	case "RetrieveUEContextFailure":
-		return "RetrieveUEContextFailure-IEs"
-	case "RetrieveUEContextFailure-IEs":
-		return "RetrieveUEContextFailure-IEs"
-	case "RetrieveUEContextRequest":
-		return "RetrieveUEContextRequest-IEs"
-	case "RetrieveUEContextRequest-IEs":
-		return "RetrieveUEContextRequest-IEs"
-	case "RetrieveUEContextResponse":
-		return "RetrieveUEContextResponse-IEs"
-	case "RetrieveUEContextResponse-IEs":
-		return "RetrieveUEContextResponse-IEs"
-	case "S1TNLLoadIndicator-ExtIEs":
-		return "S1TNLLoadIndicator-ExtIEs"
-	case "S1TNLLoadIndicatorExtIEs":
-		return "S1TNLLoadIndicator-ExtIEs"
-	case "SCGFailureInformationReport":
-		return "SCGFailureInformationReport-IEs"
-	case "SCGFailureInformationReport-IEs":
-		return "SCGFailureInformationReport-IEs"
-	case "SCGFailureTransfer":
-		return "SCGFailureTransfer-IEs"
-	case "SCGFailureTransfer-IEs":
-		return "SCGFailureTransfer-IEs"
-	case "SFN-Offset-ExtIEs":
-		return "SFN-Offset-ExtIEs"
-	case "SFNOffsetExtIEs":
-		return "SFN-Offset-ExtIEs"
-	case "SNStatusTransfer":
-		return "SNStatusTransfer-IEs"
-	case "SNStatusTransfer-IEs":
-		return "SNStatusTransfer-IEs"
-	case "SSB-PositionsInBurst-ExtIEs":
-		return "SSB-PositionsInBurst-ExtIEs"
-	case "SSBAreaCapacityValue-ExtIEs":
-		return "SSBAreaCapacityValue-ExtIEs"
-	case "SSBAreaCapacityValueExtIEs":
-		return "SSBAreaCapacityValue-ExtIEs"
-	case "SSBAreaRadioResourceStatus-ExtIEs":
-		return "SSBAreaRadioResourceStatus-ExtIEs"
-	case "SSBAreaRadioResourceStatusExtIEs":
-		return "SSBAreaRadioResourceStatus-ExtIEs"
-	case "SSBPositionsInBurstExt":
-		return "SSB-PositionsInBurst-ExtIEs"
-	case "SSBPositionsInBurstExtIEs":
-		return "SSB-PositionsInBurst-ExtIEs"
-	case "SSBToReport-Item-ExtIEs":
-		return "SSBToReport-Item-ExtIEs"
-	case "SSBToReportItemExtIEs":
-		return "SSBToReport-Item-ExtIEs"
-	case "ScheduledCommunicationTime-ExtIEs":
-		return "ScheduledCommunicationTime-ExtIEs"
-	case "ScheduledCommunicationTimeExtIEs":
-		return "ScheduledCommunicationTime-ExtIEs"
-	case "SeNBAdditionRequest":
-		return "SeNBAdditionRequest-IEs"
-	case "SeNBAdditionRequest-IEs":
-		return "SeNBAdditionRequest-IEs"
-	case "SeNBAdditionRequestAcknowledge":
-		return "SeNBAdditionRequestAcknowledge-IEs"
-	case "SeNBAdditionRequestAcknowledge-IEs":
-		return "SeNBAdditionRequestAcknowledge-IEs"
-	case "SeNBAdditionRequestReject":
-		return "SeNBAdditionRequestReject-IEs"
-	case "SeNBAdditionRequestReject-IEs":
-		return "SeNBAdditionRequestReject-IEs"
-	case "SeNBCounterCheckRequest":
-		return "SeNBCounterCheckRequest-IEs"
-	case "SeNBCounterCheckRequest-IEs":
-		return "SeNBCounterCheckRequest-IEs"
-	case "SeNBModificationConfirm":
-		return "SeNBModificationConfirm-IEs"
-	case "SeNBModificationConfirm-IEs":
-		return "SeNBModificationConfirm-IEs"
-	case "SeNBModificationRefuse":
-		return "SeNBModificationRefuse-IEs"
-	case "SeNBModificationRefuse-IEs":
-		return "SeNBModificationRefuse-IEs"
-	case "SeNBModificationRequest":
-		return "SeNBModificationRequest-IEs"
-	case "SeNBModificationRequest-IEs":
-		return "SeNBModificationRequest-IEs"
-	case "SeNBModificationRequestAcknowledge":
-		return "SeNBModificationRequestAcknowledge-IEs"
-	case "SeNBModificationRequestAcknowledge-IEs":
-		return "SeNBModificationRequestAcknowledge-IEs"
-	case "SeNBModificationRequestReject":
-		return "SeNBModificationRequestReject-IEs"
-	case "SeNBModificationRequestReject-IEs":
-		return "SeNBModificationRequestReject-IEs"
-	case "SeNBModificationRequired":
-		return "SeNBModificationRequired-IEs"
-	case "SeNBModificationRequired-IEs":
-		return "SeNBModificationRequired-IEs"
-	case "SeNBReconfigurationComplete":
-		return "SeNBReconfigurationComplete-IEs"
-	case "SeNBReconfigurationComplete-IEs":
-		return "SeNBReconfigurationComplete-IEs"
-	case "SeNBReleaseConfirm":
-		return "SeNBReleaseConfirm-IEs"
-	case "SeNBReleaseConfirm-IEs":
-		return "SeNBReleaseConfirm-IEs"
-	case "SeNBReleaseRequest":
-		return "SeNBReleaseRequest-IEs"
-	case "SeNBReleaseRequest-IEs":
-		return "SeNBReleaseRequest-IEs"
-	case "SeNBReleaseRequired":
-		return "SeNBReleaseRequired-IEs"
-	case "SeNBReleaseRequired-IEs":
-		return "SeNBReleaseRequired-IEs"
-	case "SecondaryRATDataUsageReport":
-		return "SecondaryRATDataUsageReport-IEs"
-	case "SecondaryRATDataUsageReport-IEs":
-		return "SecondaryRATDataUsageReport-IEs"
-	case "SecondaryRATUsageReport-Item-ExtIEs":
-		return "SecondaryRATUsageReport-Item-ExtIEs"
-	case "SecondaryRATUsageReport-ItemIEs":
-		return "SecondaryRATUsageReport-ItemIEs"
-	case "SecondaryRATUsageReportItem":
-		return "SecondaryRATUsageReport-ItemIEs"
-	case "SecondaryRATUsageReportItemExtIEs":
-		return "SecondaryRATUsageReport-Item-ExtIEs"
-	case "SecurityIndication-ExtIEs":
-		return "SecurityIndication-ExtIEs"
-	case "SecurityIndicationExtIEs":
-		return "SecurityIndication-ExtIEs"
-	case "SecurityResult-ExtIEs":
-		return "SecurityResult-ExtIEs"
-	case "SecurityResultExtIEs":
-		return "SecurityResult-ExtIEs"
-	case "SensorMeasConfigNameItem-ExtIEs":
-		return "SensorMeasConfigNameItem-ExtIEs"
-	case "SensorMeasConfigNameItemExtIEs":
-		return "SensorMeasConfigNameItem-ExtIEs"
-	case "SensorMeasurementConfiguration-ExtIEs":
-		return "SensorMeasurementConfiguration-ExtIEs"
-	case "SensorMeasurementConfigurationExtIEs":
-		return "SensorMeasurementConfiguration-ExtIEs"
-	case "SensorNameConfig-ExtIEs":
-		return "SensorNameConfig-ExtIEs"
-	case "SensorNameConfigExt":
-		return "SensorNameConfig-ExtIEs"
-	case "SensorNameConfigExtIEs":
-		return "SensorNameConfig-ExtIEs"
-	case "ServedCellSpecificInfoReq-NR-Item-ExtIEs":
-		return "ServedCellSpecificInfoReq-NR-Item-ExtIEs"
-	case "ServedCellSpecificInfoReqNRItemExtIEs":
-		return "ServedCellSpecificInfoReq-NR-Item-ExtIEs"
-	case "ServedCellsToActivate-Item-ExtIEs":
-		return "ServedCellsToActivate-Item-ExtIEs"
-	case "ServedCellsToActivateItemExtIEs":
-		return "ServedCellsToActivate-Item-ExtIEs"
-	case "ServedEUTRAcellsENDCX2Management-ExtIEs":
-		return "ServedEUTRAcellsENDCX2Management-ExtIEs"
-	case "ServedEUTRAcellsENDCX2ManagementExtIEs":
-		return "ServedEUTRAcellsENDCX2Management-ExtIEs"
-	case "ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs":
-		return "ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs"
-	case "ServedEUTRAcellsToModifyListENDCConfUpdExtIEs":
-		return "ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs"
-	case "ServedNRCellsToActivate-Item-ExtIEs":
-		return "ServedNRCellsToActivate-Item-ExtIEs"
-	case "ServedNRCellsToActivateItemExtIEs":
-		return "ServedNRCellsToActivate-Item-ExtIEs"
-	case "ServedNRCellsToModify-Item-ExtIEs":
-		return "ServedNRCellsToModify-Item-ExtIEs"
-	case "ServedNRCellsToModifyItemExtIEs":
-		return "ServedNRCellsToModify-Item-ExtIEs"
-	case "SgNBActivityNotification":
-		return "SgNBActivityNotification-IEs"
-	case "SgNBActivityNotification-IEs":
-		return "SgNBActivityNotification-IEs"
-	case "SgNBAdditionRequest":
-		return "SgNBAdditionRequest-IEs"
-	case "SgNBAdditionRequest-IEs":
-		return "SgNBAdditionRequest-IEs"
-	case "SgNBAdditionRequestAcknowledge":
-		return "SgNBAdditionRequestAcknowledge-IEs"
-	case "SgNBAdditionRequestAcknowledge-IEs":
-		return "SgNBAdditionRequestAcknowledge-IEs"
-	case "SgNBAdditionRequestReject":
-		return "SgNBAdditionRequestReject-IEs"
-	case "SgNBAdditionRequestReject-IEs":
-		return "SgNBAdditionRequestReject-IEs"
-	case "SgNBChangeConfirm":
-		return "SgNBChangeConfirm-IEs"
-	case "SgNBChangeConfirm-IEs":
-		return "SgNBChangeConfirm-IEs"
-	case "SgNBChangeRefuse":
-		return "SgNBChangeRefuse-IEs"
-	case "SgNBChangeRefuse-IEs":
-		return "SgNBChangeRefuse-IEs"
-	case "SgNBChangeRequired":
-		return "SgNBChangeRequired-IEs"
-	case "SgNBChangeRequired-IEs":
-		return "SgNBChangeRequired-IEs"
-	case "SgNBCounterCheckRequest":
-		return "SgNBCounterCheckRequest-IEs"
-	case "SgNBCounterCheckRequest-IEs":
-		return "SgNBCounterCheckRequest-IEs"
-	case "SgNBModificationConfirm":
-		return "SgNBModificationConfirm-IEs"
-	case "SgNBModificationConfirm-IEs":
-		return "SgNBModificationConfirm-IEs"
-	case "SgNBModificationRefuse":
-		return "SgNBModificationRefuse-IEs"
-	case "SgNBModificationRefuse-IEs":
-		return "SgNBModificationRefuse-IEs"
-	case "SgNBModificationRequest":
-		return "SgNBModificationRequest-IEs"
-	case "SgNBModificationRequest-IEs":
-		return "SgNBModificationRequest-IEs"
-	case "SgNBModificationRequestAcknowledge":
-		return "SgNBModificationRequestAcknowledge-IEs"
-	case "SgNBModificationRequestAcknowledge-IEs":
-		return "SgNBModificationRequestAcknowledge-IEs"
-	case "SgNBModificationRequestReject":
-		return "SgNBModificationRequestReject-IEs"
-	case "SgNBModificationRequestReject-IEs":
-		return "SgNBModificationRequestReject-IEs"
-	case "SgNBModificationRequired":
-		return "SgNBModificationRequired-IEs"
-	case "SgNBModificationRequired-IEs":
-		return "SgNBModificationRequired-IEs"
-	case "SgNBReconfigurationComplete":
-		return "SgNBReconfigurationComplete-IEs"
-	case "SgNBReconfigurationComplete-IEs":
-		return "SgNBReconfigurationComplete-IEs"
-	case "SgNBReleaseConfirm":
-		return "SgNBReleaseConfirm-IEs"
-	case "SgNBReleaseConfirm-IEs":
-		return "SgNBReleaseConfirm-IEs"
-	case "SgNBReleaseRequest":
-		return "SgNBReleaseRequest-IEs"
-	case "SgNBReleaseRequest-IEs":
-		return "SgNBReleaseRequest-IEs"
-	case "SgNBReleaseRequestAcknowledge":
-		return "SgNBReleaseRequestAcknowledge-IEs"
-	case "SgNBReleaseRequestAcknowledge-IEs":
-		return "SgNBReleaseRequestAcknowledge-IEs"
-	case "SgNBReleaseRequestReject":
-		return "SgNBReleaseRequestReject-IEs"
-	case "SgNBReleaseRequestReject-IEs":
-		return "SgNBReleaseRequestReject-IEs"
-	case "SgNBReleaseRequired":
-		return "SgNBReleaseRequired-IEs"
-	case "SgNBReleaseRequired-IEs":
-		return "SgNBReleaseRequired-IEs"
-	case "SpecialSubframe-Info-ExtIEs":
-		return "SpecialSubframe-Info-ExtIEs"
-	case "SpecialSubframeInfoExtIEs":
-		return "SpecialSubframe-Info-ExtIEs"
-	case "SplitSRB-ExtIEs":
-		return "SplitSRB-ExtIEs"
-	case "SplitSRBExtIEs":
-		return "SplitSRB-ExtIEs"
-	case "SubbandCQI-ExtIEs":
-		return "SubbandCQI-ExtIEs"
-	case "SubbandCQIExtIEs":
-		return "SubbandCQI-ExtIEs"
-	case "SubbandCQIItem-ExtIEs":
-		return "SubbandCQIItem-ExtIEs"
-	case "SubbandCQIItemExtIEs":
-		return "SubbandCQIItem-ExtIEs"
-	case "Subscription-Based-UE-DifferentiationInfo-ExtIEs":
-		return "Subscription-Based-UE-DifferentiationInfo-ExtIEs"
-	case "SubscriptionBasedUEDifferentiationInfoExtIEs":
-		return "Subscription-Based-UE-DifferentiationInfo-ExtIEs"
-	case "SupportedSULFreqBandItem-ExtIEs":
-		return "SupportedSULFreqBandItem-ExtIEs"
-	case "SupportedSULFreqBandItemExtIEs":
-		return "SupportedSULFreqBandItem-ExtIEs"
-	case "TABasedMDT-ExtIEs":
-		return "TABasedMDT-ExtIEs"
-	case "TABasedMDTExtIEs":
-		return "TABasedMDT-ExtIEs"
-	case "TABasedQMC-ExtIEs":
-		return "TABasedQMC-ExtIEs"
-	case "TABasedQMCExtIEs":
-		return "TABasedQMC-ExtIEs"
-	case "TAI-Item-ExtIEs":
-		return "TAI-Item-ExtIEs"
-	case "TAIBasedMDT-ExtIEs":
-		return "TAIBasedMDT-ExtIEs"
-	case "TAIBasedMDTExtIEs":
-		return "TAIBasedMDT-ExtIEs"
-	case "TAIBasedQMC-ExtIEs":
-		return "TAIBasedQMC-ExtIEs"
-	case "TAIBasedQMCExtIEs":
-		return "TAIBasedQMC-ExtIEs"
-	case "TAIItemExtIEs":
-		return "TAI-Item-ExtIEs"
-	case "TNLA-Failed-To-Setup-Item-ExtIEs":
-		return "TNLA-Failed-To-Setup-Item-ExtIEs"
-	case "TNLA-Setup-Item-ExtIEs":
-		return "TNLA-Setup-Item-ExtIEs"
-	case "TNLA-To-Add-Item-ExtIEs":
-		return "TNLA-To-Add-Item-ExtIEs"
-	case "TNLA-To-Remove-Item-ExtIEs":
-		return "TNLA-To-Remove-Item-ExtIEs"
-	case "TNLA-To-Update-Item-ExtIEs":
-		return "TNLA-To-Update-Item-ExtIEs"
-	case "TNLAFailedToSetupItemExtIEs":
-		return "TNLA-Failed-To-Setup-Item-ExtIEs"
-	case "TNLASetupItemExtIEs":
-		return "TNLA-Setup-Item-ExtIEs"
-	case "TNLAToAddItemExtIEs":
-		return "TNLA-To-Add-Item-ExtIEs"
-	case "TNLAToRemoveItemExtIEs":
-		return "TNLA-To-Remove-Item-ExtIEs"
-	case "TNLAToUpdateItemExtIEs":
-		return "TNLA-To-Update-Item-ExtIEs"
-	case "TNLCapacityIndicator-ExtIEs":
-		return "TNLCapacityIndicator-ExtIEs"
-	case "TNLCapacityIndicatorExtIEs":
-		return "TNLCapacityIndicator-ExtIEs"
-	case "TNLConfigurationInfo-ExtIEs":
-		return "TNLConfigurationInfo-ExtIEs"
-	case "TNLConfigurationInfoExtIEs":
-		return "TNLConfigurationInfo-ExtIEs"
-	case "TraceStart":
-		return "TraceStartIEs"
-	case "TraceStartIEs":
-		return "TraceStartIEs"
-	case "Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs"
-	case "Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs"
-	case "TransportUPLayerAddressesInfoToAddItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs"
-	case "TransportUPLayerAddressesInfoToRemoveItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs"
-	case "Tunnel-Information-ExtIEs":
-		return "Tunnel-Information-ExtIEs"
-	case "TunnelInformationExtIEs":
-		return "Tunnel-Information-ExtIEs"
-	case "UE-ContextInformationSeNBModReqExtIEs":
-		return "UE-ContextInformationSeNBModReqExtIEs"
-	case "UE-ContextReferenceAtSeNB-ItemExtIEs":
-		return "UE-ContextReferenceAtSeNB-ItemExtIEs"
-	case "UE-ContextReferenceAtSgNB-ItemExtIEs":
-		return "UE-ContextReferenceAtSgNB-ItemExtIEs"
-	case "UE-ContextReferenceAtWT-ItemExtIEs":
-		return "UE-ContextReferenceAtWT-ItemExtIEs"
-	case "UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs":
-		return "UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs"
-	case "UEContextInformationSeNBModReqExtIEs":
-		return "UE-ContextInformationSeNBModReqExtIEs"
-	case "UEContextReferenceAtSeNBItemExtIEs":
-		return "UE-ContextReferenceAtSeNB-ItemExtIEs"
-	case "UEContextReferenceAtSgNBItemExtIEs":
-		return "UE-ContextReferenceAtSgNB-ItemExtIEs"
-	case "UEContextReferenceAtWTItemExtIEs":
-		return "UE-ContextReferenceAtWT-ItemExtIEs"
-	case "UEContextRelease":
-		return "UEContextRelease-IEs"
-	case "UEContextRelease-IEs":
-		return "UEContextRelease-IEs"
-	case "UERadioCapabilityIDMappingRequest":
-		return "UERadioCapabilityIDMappingRequestIEs"
-	case "UERadioCapabilityIDMappingRequestIEs":
-		return "UERadioCapabilityIDMappingRequestIEs"
-	case "UERadioCapabilityIDMappingResponse":
-		return "UERadioCapabilityIDMappingResponseIEs"
-	case "UERadioCapabilityIDMappingResponseIEs":
-		return "UERadioCapabilityIDMappingResponseIEs"
-	case "UESecurityCapabilities-ExtIEs":
-		return "UESecurityCapabilities-ExtIEs"
-	case "UESecurityCapabilitiesExtIEs":
-		return "UESecurityCapabilities-ExtIEs"
-	case "UESidelinkAggregateMaximumBitRateExtIEs":
-		return "UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs"
-	case "UEsToBeResetList-Item-ExtIEs":
-		return "UEsToBeResetList-Item-ExtIEs"
-	case "UEsToBeResetListItemExtIEs":
-		return "UEsToBeResetList-Item-ExtIEs"
-	case "UL-HighInterferenceIndicationInfo-Item-ExtIEs":
-		return "UL-HighInterferenceIndicationInfo-Item-ExtIEs"
-	case "ULConfiguration-ExtIEs":
-		return "ULConfiguration-ExtIEs"
-	case "ULConfigurationExtIEs":
-		return "ULConfiguration-ExtIEs"
-	case "ULHighInterferenceIndicationInfoItemExtIEs":
-		return "UL-HighInterferenceIndicationInfo-Item-ExtIEs"
-	case "ULOnlySharing-ExtIEs":
-		return "ULOnlySharing-ExtIEs"
-	case "ULOnlySharingExtIEs":
-		return "ULOnlySharing-ExtIEs"
-	case "ULandDLSharing-ExtIEs":
-		return "ULandDLSharing-ExtIEs"
-	case "ULandDLSharingExtIEs":
-		return "ULandDLSharing-ExtIEs"
-	case "UsableABSInformationFDD-ExtIEs":
-		return "UsableABSInformationFDD-ExtIEs"
-	case "UsableABSInformationFDDExtIEs":
-		return "UsableABSInformationFDD-ExtIEs"
-	case "UsableABSInformationTDD-ExtIEs":
-		return "UsableABSInformationTDD-ExtIEs"
-	case "UsableABSInformationTDDExtIEs":
-		return "UsableABSInformationTDD-ExtIEs"
-	case "V2XServicesAuthorized-ExtIEs":
-		return "V2XServicesAuthorized-ExtIEs"
-	case "V2XServicesAuthorizedExtIEs":
-		return "V2XServicesAuthorized-ExtIEs"
-	case "WLANMeasurementConfiguration-ExtIEs":
-		return "WLANMeasurementConfiguration-ExtIEs"
-	case "WLANMeasurementConfigurationExtIEs":
-		return "WLANMeasurementConfiguration-ExtIEs"
-	case "WidebandCQI-ExtIEs":
-		return "WidebandCQI-ExtIEs"
-	case "WidebandCQIExtIEs":
-		return "WidebandCQI-ExtIEs"
-	case "X2APMessageTransfer":
-		return "X2APMessageTransfer-IEs"
-	case "X2APMessageTransfer-IEs":
-		return "X2APMessageTransfer-IEs"
-	case "X2Release":
-		return "X2Release-IEs"
-	case "X2Release-IEs":
-		return "X2Release-IEs"
-	case "X2RemovalFailure":
-		return "X2RemovalFailure-IEs"
-	case "X2RemovalFailure-IEs":
-		return "X2RemovalFailure-IEs"
-	case "X2RemovalRequest":
-		return "X2RemovalRequest-IEs"
-	case "X2RemovalRequest-IEs":
-		return "X2RemovalRequest-IEs"
-	case "X2RemovalResponse":
-		return "X2RemovalResponse-IEs"
-	case "X2RemovalResponse-IEs":
-		return "X2RemovalResponse-IEs"
-	case "X2SetupFailure":
-		return "X2SetupFailure-IEs"
-	case "X2SetupFailure-IEs":
-		return "X2SetupFailure-IEs"
-	case "X2SetupRequest":
-		return "X2SetupRequest-IEs"
-	case "X2SetupRequest-IEs":
-		return "X2SetupRequest-IEs"
-	case "X2SetupResponse":
-		return "X2SetupResponse-IEs"
-	case "X2SetupResponse-IEs":
-		return "X2SetupResponse-IEs"
-	default:
-		return context
-	}
-}
-
-func protocolExtensionObjectSet(context string) string {
-	switch context {
-	case "ABS-Status-ExtIEs":
-		return "ABS-Status-ExtIEs"
-	case "ABSInformationFDD-ExtIEs":
-		return "ABSInformationFDD-ExtIEs"
-	case "ABSInformationFDDExtIEs":
-		return "ABSInformationFDD-ExtIEs"
-	case "ABSInformationTDD-ExtIEs":
-		return "ABSInformationTDD-ExtIEs"
-	case "ABSInformationTDDExtIEs":
-		return "ABSInformationTDD-ExtIEs"
-	case "ABSStatusExtIEs":
-		return "ABS-Status-ExtIEs"
-	case "AS-SecurityInformation-ExtIEs":
-		return "AS-SecurityInformation-ExtIEs"
-	case "ASSecurityInformationExtIEs":
-		return "AS-SecurityInformation-ExtIEs"
-	case "ActivatedCellList-Item-ExtIEs":
-		return "ActivatedCellList-Item-ExtIEs"
-	case "ActivatedCellListItemExtIEs":
-		return "ActivatedCellList-Item-ExtIEs"
-	case "ActivatedNRCellList-Item-ExtIEs":
-		return "ActivatedNRCellList-Item-ExtIEs"
-	case "ActivatedNRCellListItemExtIEs":
-		return "ActivatedNRCellList-Item-ExtIEs"
-	case "Additional-Measurement-Timing-Configuration-Item-ExtIEs":
-		return "Additional-Measurement-Timing-Configuration-Item-ExtIEs"
-	case "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs":
-		return "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs"
-	case "AdditionalListofForwardingGTPTunnelEndpointItemExtIEs":
-		return "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs"
-	case "AdditionalMeasurementTimingConfigurationItemExtIEs":
-		return "Additional-Measurement-Timing-Configuration-Item-ExtIEs"
-	case "AdditionalSpecialSubframe-Info-ExtIEs":
-		return "AdditionalSpecialSubframe-Info-ExtIEs"
-	case "AdditionalSpecialSubframeExtension-Info-ExtIEs":
-		return "AdditionalSpecialSubframeExtension-Info-ExtIEs"
-	case "AdditionalSpecialSubframeExtensionInfoExtIEs":
-		return "AdditionalSpecialSubframeExtension-Info-ExtIEs"
-	case "AdditionalSpecialSubframeInfoExtIEs":
-		return "AdditionalSpecialSubframe-Info-ExtIEs"
-	case "AllocationAndRetentionPriority-ExtIEs":
-		return "AllocationAndRetentionPriority-ExtIEs"
-	case "AllocationAndRetentionPriorityExtIEs":
-		return "AllocationAndRetentionPriority-ExtIEs"
-	case "BPLMN-ID-Info-EUTRA-Item-ExtIEs":
-		return "BPLMN-ID-Info-EUTRA-Item-ExtIEs"
-	case "BPLMN-ID-Info-NR-Item-ExtIEs":
-		return "BPLMN-ID-Info-NR-Item-ExtIEs"
-	case "BPLMNIDInfoEUTRAItemExtIEs":
-		return "BPLMN-ID-Info-EUTRA-Item-ExtIEs"
-	case "BPLMNIDInfoNRItemExtIEs":
-		return "BPLMN-ID-Info-NR-Item-ExtIEs"
-	case "BandInfo-ExtIEs":
-		return "BandInfo-ExtIEs"
-	case "BandInfoExtIEs":
-		return "BandInfo-ExtIEs"
-	case "BluetoothMeasurementConfiguration-ExtIEs":
-		return "BluetoothMeasurementConfiguration-ExtIEs"
-	case "BluetoothMeasurementConfigurationExtIEs":
-		return "BluetoothMeasurementConfiguration-ExtIEs"
-	case "CHOTimeBasedInformation-ExtIEs":
-		return "CHOTimeBasedInformation-ExtIEs"
-	case "CHOTimeBasedInformationExtIEs":
-		return "CHOTimeBasedInformation-ExtIEs"
-	case "CHOinformation-ACK-ExtIEs":
-		return "CHOinformation-ACK-ExtIEs"
-	case "CHOinformation-AddReq-ExtIEs":
-		return "CHOinformation-AddReq-ExtIEs"
-	case "CHOinformation-ModReq-ExtIEs":
-		return "CHOinformation-ModReq-ExtIEs"
-	case "CHOinformation-REQ-ExtIEs":
-		return "CHOinformation-REQ-ExtIEs"
-	case "CHOinformationACKExtIEs":
-		return "CHOinformation-ACK-ExtIEs"
-	case "CHOinformationAddReqExtIEs":
-		return "CHOinformation-AddReq-ExtIEs"
-	case "CHOinformationModReqExtIEs":
-		return "CHOinformation-ModReq-ExtIEs"
-	case "CHOinformationREQExtIEs":
-		return "CHOinformation-REQ-ExtIEs"
-	case "CNTypeRestrictionsItem-ExtIEs":
-		return "CNTypeRestrictionsItem-ExtIEs"
-	case "CNTypeRestrictionsItemExtIEs":
-		return "CNTypeRestrictionsItem-ExtIEs"
-	case "COUNTValueExtended-ExtIEs":
-		return "COUNTValueExtended-ExtIEs"
-	case "COUNTValueExtendedExtIEs":
-		return "COUNTValueExtended-ExtIEs"
-	case "COUNTvalue-ExtIEs":
-		return "COUNTvalue-ExtIEs"
-	case "COUNTvalueExtIEs":
-		return "COUNTvalue-ExtIEs"
-	case "COUNTvaluePDCP-SNlength18-ExtIEs":
-		return "COUNTvaluePDCP-SNlength18-ExtIEs"
-	case "COUNTvaluePDCPSNlength18ExtIEs":
-		return "COUNTvaluePDCP-SNlength18-ExtIEs"
-	case "CPACcandidatePSCells-item-ExtIEs":
-		return "CPACcandidatePSCells-item-ExtIEs"
-	case "CPACcandidatePSCellsItemExtIEs":
-		return "CPACcandidatePSCells-item-ExtIEs"
-	case "CPACinformation-REQD-ExtIEs":
-		return "CPACinformation-REQD-ExtIEs"
-	case "CPACinformationREQDExtIEs":
-		return "CPACinformation-REQD-ExtIEs"
-	case "CPAinformation-MOD-ACK-ExtIEs":
-		return "CPAinformation-MOD-ACK-ExtIEs"
-	case "CPAinformation-MOD-ExtIEs":
-		return "CPAinformation-MOD-ExtIEs"
-	case "CPAinformation-REQ-ACK-ExtIEs":
-		return "CPAinformation-REQ-ACK-ExtIEs"
-	case "CPAinformation-REQ-ExtIEs":
-		return "CPAinformation-REQ-ExtIEs"
-	case "CPAinformationMODACKExtIEs":
-		return "CPAinformation-MOD-ACK-ExtIEs"
-	case "CPAinformationMODExtIEs":
-		return "CPAinformation-MOD-ExtIEs"
-	case "CPAinformationREQACKExtIEs":
-		return "CPAinformation-REQ-ACK-ExtIEs"
-	case "CPAinformationREQExtIEs":
-		return "CPAinformation-REQ-ExtIEs"
-	case "CPC-target-SgNB-conf-item-ExtIEs":
-		return "CPC-target-SgNB-conf-item-ExtIEs"
-	case "CPC-target-SgNB-mod-item-ExtIEs":
-		return "CPC-target-SgNB-mod-item-ExtIEs"
-	case "CPC-target-SgNB-reqd-item-ExtIEs":
-		return "CPC-target-SgNB-reqd-item-ExtIEs"
-	case "CPCTargetSgNBConfItemExtIEs":
-		return "CPC-target-SgNB-conf-item-ExtIEs"
-	case "CPCTargetSgNBModItemExtIEs":
-		return "CPC-target-SgNB-mod-item-ExtIEs"
-	case "CPCTargetSgNBReqdItemExtIEs":
-		return "CPC-target-SgNB-reqd-item-ExtIEs"
-	case "CPCinformation-CONF-ExtIEs":
-		return "CPCinformation-CONF-ExtIEs"
-	case "CPCinformation-NOTIFY-ExtIEs":
-		return "CPCinformation-NOTIFY-ExtIEs"
-	case "CPCinformation-REQD-ExtIEs":
-		return "CPCinformation-REQD-ExtIEs"
-	case "CPCinformationCONFExtIEs":
-		return "CPCinformation-CONF-ExtIEs"
-	case "CPCinformationNOTIFYExtIEs":
-		return "CPCinformation-NOTIFY-ExtIEs"
-	case "CPCinformationREQDExtIEs":
-		return "CPCinformation-REQD-ExtIEs"
-	case "CPCupdate-MOD-ExtIEs":
-		return "CPCupdate-MOD-ExtIEs"
-	case "CPCupdateMODExtIEs":
-		return "CPCupdate-MOD-ExtIEs"
-	case "CSI-RS-MTC-Configuration-Item-ExtIEs":
-		return "CSI-RS-MTC-Configuration-Item-ExtIEs"
-	case "CSI-RS-MTC-Neighbour-Item-ExtIEs":
-		return "CSI-RS-MTC-Neighbour-Item-ExtIEs"
-	case "CSI-RS-Neighbour-Item-ExtIEs":
-		return "CSI-RS-Neighbour-Item-ExtIEs"
-	case "CSIRSMTCConfigurationItemExtIEs":
-		return "CSI-RS-MTC-Configuration-Item-ExtIEs"
-	case "CSIRSMTCNeighbourItemExtIEs":
-		return "CSI-RS-MTC-Neighbour-Item-ExtIEs"
-	case "CSIRSNeighbourItemExtIEs":
-		return "CSI-RS-Neighbour-Item-ExtIEs"
-	case "CSIReportList-ExtIEs":
-		return "CSIReportList-ExtIEs"
-	case "CSIReportListExtIEs":
-		return "CSIReportList-ExtIEs"
-	case "CSIReportPerCSIProcess-ExtIEs":
-		return "CSIReportPerCSIProcess-ExtIEs"
-	case "CSIReportPerCSIProcessExtIEs":
-		return "CSIReportPerCSIProcess-ExtIEs"
-	case "CSIReportPerCSIProcessItem-ExtIEs":
-		return "CSIReportPerCSIProcessItem-ExtIEs"
-	case "CSIReportPerCSIProcessItemExtIEs":
-		return "CSIReportPerCSIProcessItem-ExtIEs"
-	case "CellBasedMDT-ExtIEs":
-		return "CellBasedMDT-ExtIEs"
-	case "CellBasedMDTExtIEs":
-		return "CellBasedMDT-ExtIEs"
-	case "CellBasedQMC-ExtIEs":
-		return "CellBasedQMC-ExtIEs"
-	case "CellBasedQMCExtIEs":
-		return "CellBasedQMC-ExtIEs"
-	case "CellInformation-Item-ExtIEs":
-		return "CellInformation-Item-ExtIEs"
-	case "CellInformationItemExtIEs":
-		return "CellInformation-Item-ExtIEs"
-	case "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs":
-		return "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellMeasurementResult-Item-ExtIEs":
-		return "CellMeasurementResult-Item-ExtIEs"
-	case "CellMeasurementResult-NR-ENDC-Item-ExtIEs":
-		return "CellMeasurementResult-NR-ENDC-Item-ExtIEs"
-	case "CellMeasurementResultEUTRAENDCItemExtIEs":
-		return "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellMeasurementResultItemExtIEs":
-		return "CellMeasurementResult-Item-ExtIEs"
-	case "CellMeasurementResultNRENDCItemExtIEs":
-		return "CellMeasurementResult-NR-ENDC-Item-ExtIEs"
-	case "CellReplacingInfo-ExtIEs":
-		return "CellReplacingInfo-ExtIEs"
-	case "CellReplacingInfoExtIEs":
-		return "CellReplacingInfo-ExtIEs"
-	case "CellToReport-E-UTRA-ENDC-Item-ExtIEs":
-		return "CellToReport-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellToReport-Item-ExtIEs":
-		return "CellToReport-Item-ExtIEs"
-	case "CellToReport-NR-ENDC-Item-ExtIEs":
-		return "CellToReport-NR-ENDC-Item-ExtIEs"
-	case "CellToReportEUTRAENDCItemExtIEs":
-		return "CellToReport-E-UTRA-ENDC-Item-ExtIEs"
-	case "CellToReportItemExtIEs":
-		return "CellToReport-Item-ExtIEs"
-	case "CellToReportNRENDCItemExtIEs":
-		return "CellToReport-NR-ENDC-Item-ExtIEs"
-	case "CellType-ExtIEs":
-		return "CellType-ExtIEs"
-	case "CellTypeExtIEs":
-		return "CellType-ExtIEs"
-	case "CellandCapacityAssistInfo-ExtIEs":
-		return "CellandCapacityAssistInfo-ExtIEs"
-	case "CellandCapacityAssistInfoExtIEs":
-		return "CellandCapacityAssistInfo-ExtIEs"
-	case "CoMPHypothesisSetItem-ExtIEs":
-		return "CoMPHypothesisSetItem-ExtIEs"
-	case "CoMPHypothesisSetItemExtIEs":
-		return "CoMPHypothesisSetItem-ExtIEs"
-	case "CoMPInformation-ExtIEs":
-		return "CoMPInformation-ExtIEs"
-	case "CoMPInformationExtIEs":
-		return "CoMPInformation-ExtIEs"
-	case "CoMPInformationItem-ExtIEs":
-		return "CoMPInformationItem-ExtIEs"
-	case "CoMPInformationItemExtIEs":
-		return "CoMPInformationItem-ExtIEs"
-	case "CoMPInformationStartTime-ExtIEs":
-		return "CoMPInformationStartTime-ExtIEs"
-	case "CoMPInformationStartTimeExtIEs":
-		return "CoMPInformationStartTime-ExtIEs"
-	case "CompleteFailureCauseInformation-Item-ExtIEs":
-		return "CompleteFailureCauseInformation-Item-ExtIEs"
-	case "CompleteFailureCauseInformationItemExtIEs":
-		return "CompleteFailureCauseInformation-Item-ExtIEs"
-	case "CompositeAvailableCapacity-ExtIEs":
-		return "CompositeAvailableCapacity-ExtIEs"
-	case "CompositeAvailableCapacityExtIEs":
-		return "CompositeAvailableCapacity-ExtIEs"
-	case "CompositeAvailableCapacityGroup-ExtIEs":
-		return "CompositeAvailableCapacityGroup-ExtIEs"
-	case "CompositeAvailableCapacityGroupExtIEs":
-		return "CompositeAvailableCapacityGroup-ExtIEs"
-	case "CriticalityDiagnostics-ExtIEs":
-		return "CriticalityDiagnostics-ExtIEs"
-	case "CriticalityDiagnostics-IE-List-ExtIEs":
-		return "CriticalityDiagnostics-IE-List-ExtIEs"
-	case "CriticalityDiagnosticsExtIEs":
-		return "CriticalityDiagnostics-ExtIEs"
-	case "CriticalityDiagnosticsIEListExtIEs":
-		return "CriticalityDiagnostics-IE-List-ExtIEs"
-	case "DAPSRequestInfo-ExtIEs":
-		return "DAPSRequestInfo-ExtIEs"
-	case "DAPSRequestInfoExtIEs":
-		return "DAPSRequestInfo-ExtIEs"
-	case "DAPSResponseInfo-ExtIEs":
-		return "DAPSResponseInfo-ExtIEs"
-	case "DAPSResponseInfoExtIEs":
-		return "DAPSResponseInfo-ExtIEs"
-	case "DLDiscarding-ExtIEs":
-		return "DLDiscarding-ExtIEs"
-	case "DLDiscardingExtIEs":
-		return "DLDiscarding-ExtIEs"
-	case "DataTrafficResourceIndication-ExtIEs":
-		return "DataTrafficResourceIndication-ExtIEs"
-	case "DataTrafficResourceIndicationExtIEs":
-		return "DataTrafficResourceIndication-ExtIEs"
-	case "DeliveryStatus-ExtIEs":
-		return "DeliveryStatus-ExtIEs"
-	case "DeliveryStatusExtIEs":
-		return "DeliveryStatus-ExtIEs"
-	case "DynamicNAICSInformation-ExtIEs":
-		return "DynamicNAICSInformation-ExtIEs"
-	case "DynamicNAICSInformationExtIEs":
-		return "DynamicNAICSInformation-ExtIEs"
-	case "E-RAB-Item-ExtIEs":
-		return "E-RAB-Item-ExtIEs"
-	case "E-RAB-Level-QoS-Parameters-ExtIEs":
-		return "E-RAB-Level-QoS-Parameters-ExtIEs"
-	case "E-RABUsageReport-Item-ExtIEs":
-		return "E-RABUsageReport-Item-ExtIEs"
-	case "E-RABs-Admitted-Item-ExtIEs":
-		return "E-RABs-Admitted-Item-ExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs"
-	case "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs"
-	case "E-RABs-DataForwardingAddress-ItemExtIEs":
-		return "E-RABs-DataForwardingAddress-ItemExtIEs"
-	case "E-RABs-SubjectToCounterCheckItemExtIEs":
-		return "E-RABs-SubjectToCounterCheckItemExtIEs"
-	case "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs":
-		return "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs"
-	case "E-RABs-SubjectToStatusTransfer-ItemExtIEs":
-		return "E-RABs-SubjectToStatusTransfer-ItemExtIEs"
-	case "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs":
-		return "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs"
-	case "E-RABs-ToBeAdded-Item-Split-BearerExtIEs":
-		return "E-RABs-ToBeAdded-Item-Split-BearerExtIEs"
-	case "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs"
-	case "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs"
-	case "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs"
-	case "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs"
-	case "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeReleased-ModReqdItemExtIEs":
-		return "E-RABs-ToBeReleased-ModReqdItemExtIEs"
-	case "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs"
-	case "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs"
-	case "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs"
-	case "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs"
-	case "E-RABs-ToBeSetup-ItemExtIEs":
-		return "E-RABs-ToBeSetup-ItemExtIEs"
-	case "E-RABs-ToBeSetupRetrieve-ItemExtIEs":
-		return "E-RABs-ToBeSetupRetrieve-ItemExtIEs"
-	case "E-RABsSubjectToDLDiscarding-Item-ExtIEs":
-		return "E-RABsSubjectToDLDiscarding-Item-ExtIEs"
-	case "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs":
-		return "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs"
-	case "ECGI-ExtIEs":
-		return "ECGI-ExtIEs"
-	case "ECGIExtIEs":
-		return "ECGI-ExtIEs"
-	case "EN-DC-ResourceConfigurationExtIEs":
-		return "EN-DC-ResourceConfigurationExtIEs"
-	case "ENDCResourceConfigurationExtIEs":
-		return "EN-DC-ResourceConfigurationExtIEs"
-	case "ERABActivityNotifyItem-ExtIEs":
-		return "ERABActivityNotifyItem-ExtIEs"
-	case "ERABActivityNotifyItemExtIEs":
-		return "ERABActivityNotifyItem-ExtIEs"
-	case "ERABItemExtIEs":
-		return "E-RAB-Item-ExtIEs"
-	case "ERABLevelQoSParametersExtIEs":
-		return "E-RAB-Level-QoS-Parameters-ExtIEs"
-	case "ERABUsageReportItemExtIEs":
-		return "E-RABUsageReport-Item-ExtIEs"
-	case "ERABsAdmittedItemExtIEs":
-		return "E-RABs-Admitted-Item-ExtIEs"
-	case "ERABsAdmittedToBeAddedItemSCGBearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs"
-	case "ERABsAdmittedToBeAddedItemSplitBearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs"
-	case "ERABsAdmittedToBeAddedModAckItemSCGBearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs"
-	case "ERABsAdmittedToBeAddedModAckItemSplitBearerExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs"
-	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsAdmittedToBeAddedSgNBModAckItemExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs"
-	case "ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEs":
-		return "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModConfItemExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs"
-	case "ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs"
-	case "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEs":
-		return "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs"
-	case "ERABsDataForwardingAddressItemExtIEs":
-		return "E-RABs-DataForwardingAddress-ItemExtIEs"
-	case "ERABsSubjectToCounterCheckItemExtIEs":
-		return "E-RABs-SubjectToCounterCheckItemExtIEs"
-	case "ERABsSubjectToDLDiscardingItemExtIEs":
-		return "E-RABsSubjectToDLDiscarding-Item-ExtIEs"
-	case "ERABsSubjectToEarlyStatusTransferItemExtIEs":
-		return "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs"
-	case "ERABsSubjectToSgNBCounterCheckItemExtIEs":
-		return "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs"
-	case "ERABsSubjectToStatusTransferItemExtIEs":
-		return "E-RABs-SubjectToStatusTransfer-ItemExtIEs"
-	case "ERABsToBeAddedItemSCGBearerExtIEs":
-		return "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs"
-	case "ERABsToBeAddedItemSplitBearerExtIEs":
-		return "E-RABs-ToBeAdded-Item-Split-BearerExtIEs"
-	case "ERABsToBeAddedModReqItemSCGBearerExtIEs":
-		return "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs"
-	case "ERABsToBeAddedModReqItemSplitBearerExtIEs":
-		return "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs"
-	case "ERABsToBeAddedSgNBAddReqAckItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs"
-	case "ERABsToBeAddedSgNBAddReqItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs"
-	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeAddedSgNBAddReqItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeAddedSgNBModAckItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs"
-	case "ERABsToBeAddedSgNBModReqItemExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs"
-	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeAddedSgNBModReqItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeModifiedModReqItemSCGBearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs"
-	case "ERABsToBeModifiedModReqItemSplitBearerExtIEs":
-		return "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs"
-	case "ERABsToBeModifiedSgNBModReqItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs"
-	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeModifiedSgNBModReqItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeModifiedSgNBModReqdItemExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs"
-	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeModifiedSgNBModReqdItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedModReqItemSCGBearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs"
-	case "ERABsToBeReleasedModReqItemSplitBearerExtIEs":
-		return "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs"
-	case "ERABsToBeReleasedModReqdItemExtIEs":
-		return "E-RABs-ToBeReleased-ModReqdItemExtIEs"
-	case "ERABsToBeReleasedRelConfItemSCGBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs"
-	case "ERABsToBeReleasedRelConfItemSplitBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs"
-	case "ERABsToBeReleasedRelReqItemSCGBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs"
-	case "ERABsToBeReleasedRelReqItemSplitBearerExtIEs":
-		return "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs"
-	case "ERABsToBeReleasedSgNBChaConfItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBChaConfItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedSgNBModAckItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBModReqItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedSgNBModReqdItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBRelConfItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs"
-	case "ERABsToBeReleasedSgNBRelReqdItemExtIEs":
-		return "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs"
-	case "ERABsToBeSetupItemExtIEs":
-		return "E-RABs-ToBeSetup-ItemExtIEs"
-	case "ERABsToBeSetupRetrieveItemExtIEs":
-		return "E-RABs-ToBeSetupRetrieve-ItemExtIEs"
-	case "En-gNBServedCells-ExtIEs":
-		return "En-gNBServedCells-ExtIEs"
-	case "EnGNBServedCellsExtIEs":
-		return "En-gNBServedCells-ExtIEs"
-	case "EnhancedRNTP-ExtIEs":
-		return "EnhancedRNTP-ExtIEs"
-	case "EnhancedRNTPExtIEs":
-		return "EnhancedRNTP-ExtIEs"
-	case "EnhancedRNTPStartTime-ExtIEs":
-		return "EnhancedRNTPStartTime-ExtIEs"
-	case "EnhancedRNTPStartTimeExtIEs":
-		return "EnhancedRNTPStartTime-ExtIEs"
-	case "ExpectedUEActivityBehaviour-ExtIEs":
-		return "ExpectedUEActivityBehaviour-ExtIEs"
-	case "ExpectedUEActivityBehaviourExtIEs":
-		return "ExpectedUEActivityBehaviour-ExtIEs"
-	case "ExpectedUEBehaviour-ExtIEs":
-		return "ExpectedUEBehaviour-ExtIEs"
-	case "ExpectedUEBehaviourExtIEs":
-		return "ExpectedUEBehaviour-ExtIEs"
-	case "ExtendedULInterferenceOverloadInfo-ExtIEs":
-		return "ExtendedULInterferenceOverloadInfo-ExtIEs"
-	case "ExtendedULInterferenceOverloadInfoExtIEs":
-		return "ExtendedULInterferenceOverloadInfo-ExtIEs"
-	case "FDD-Info-ExtIEs":
-		return "FDD-Info-ExtIEs"
-	case "FDD-InfoNeighbourServedNRCell-Information-ExtIEs":
-		return "FDD-InfoNeighbourServedNRCell-Information-ExtIEs"
-	case "FDD-InfoServedNRCell-Information-ExtIEs":
-		return "FDD-InfoServedNRCell-Information-ExtIEs"
-	case "FDDInfoExtIEs":
-		return "FDD-Info-ExtIEs"
-	case "FDDInfoNeighbourServedNRCellInformationExtIEs":
-		return "FDD-InfoNeighbourServedNRCell-Information-ExtIEs"
-	case "FDDInfoServedNRCellInformationExtIEs":
-		return "FDD-InfoServedNRCell-Information-ExtIEs"
-	case "FastMCGRecovery-ExtIEs":
-		return "FastMCGRecovery-ExtIEs"
-	case "FastMCGRecoveryExtIEs":
-		return "FastMCGRecovery-ExtIEs"
-	case "FirstDLCount-ExtIEs":
-		return "FirstDLCount-ExtIEs"
-	case "FirstDLCountExtIEs":
-		return "FirstDLCount-ExtIEs"
-	case "ForbiddenLAs-Item-ExtIEs":
-		return "ForbiddenLAs-Item-ExtIEs"
-	case "ForbiddenLAsItemExtIEs":
-		return "ForbiddenLAs-Item-ExtIEs"
-	case "ForbiddenTAs-Item-ExtIEs":
-		return "ForbiddenTAs-Item-ExtIEs"
-	case "ForbiddenTAsItemExtIEs":
-		return "ForbiddenTAs-Item-ExtIEs"
-	case "FreqBandNrItem-ExtIEs":
-		return "FreqBandNrItem-ExtIEs"
-	case "FreqBandNrItemExtIEs":
-		return "FreqBandNrItem-ExtIEs"
-	case "GBR-QosInformation-ExtIEs":
-		return "GBR-QosInformation-ExtIEs"
-	case "GBRQosInformationExtIEs":
-		return "GBR-QosInformation-ExtIEs"
-	case "GTPTLA-Item-ExtIEs":
-		return "GTPTLA-Item-ExtIEs"
-	case "GTPTLAItemExtIEs":
-		return "GTPTLA-Item-ExtIEs"
-	case "GTPtunnelEndpoint-ExtIEs":
-		return "GTPtunnelEndpoint-ExtIEs"
-	case "GTPtunnelEndpointExtIEs":
-		return "GTPtunnelEndpoint-ExtIEs"
-	case "GU-Group-ID-ExtIEs":
-		return "GU-Group-ID-ExtIEs"
-	case "GUGroupIDExtIEs":
-		return "GU-Group-ID-ExtIEs"
-	case "GUMMEI-ExtIEs":
-		return "GUMMEI-ExtIEs"
-	case "GUMMEIExtIEs":
-		return "GUMMEI-ExtIEs"
-	case "GlobalENB-ID-ExtIEs":
-		return "GlobalENB-ID-ExtIEs"
-	case "GlobalENBIDExtIEs":
-		return "GlobalENB-ID-ExtIEs"
-	case "GlobalGNB-ID-ExtIEs":
-		return "GlobalGNB-ID-ExtIEs"
-	case "GlobalGNBIDExtIEs":
-		return "GlobalGNB-ID-ExtIEs"
-	case "HWLoadIndicator-ExtIEs":
-		return "HWLoadIndicator-ExtIEs"
-	case "HWLoadIndicatorExtIEs":
-		return "HWLoadIndicator-ExtIEs"
-	case "HandoverRestrictionList-ExtIEs":
-		return "HandoverRestrictionList-ExtIEs"
-	case "HandoverRestrictionListExtIEs":
-		return "HandoverRestrictionList-ExtIEs"
-	case "LastVisitedEUTRANCellInformation-ExtIEs":
-		return "LastVisitedEUTRANCellInformation-ExtIEs"
-	case "LastVisitedEUTRANCellInformationExtIEs":
-		return "LastVisitedEUTRANCellInformation-ExtIEs"
-	case "Limited-list-ExtIEs":
-		return "Limited-list-ExtIEs"
-	case "LimitedListExtIEs":
-		return "Limited-list-ExtIEs"
-	case "LocationInformationSgNB-ExtIEs":
-		return "LocationInformationSgNB-ExtIEs"
-	case "LocationInformationSgNBExtIEs":
-		return "LocationInformationSgNB-ExtIEs"
-	case "LocationReportingInformation-ExtIEs":
-		return "LocationReportingInformation-ExtIEs"
-	case "LocationReportingInformationExtIEs":
-		return "LocationReportingInformation-ExtIEs"
-	case "M1PeriodicReporting-ExtIEs":
-		return "M1PeriodicReporting-ExtIEs"
-	case "M1PeriodicReportingExtIEs":
-		return "M1PeriodicReporting-ExtIEs"
-	case "M1ThresholdEventA2-ExtIEs":
-		return "M1ThresholdEventA2-ExtIEs"
-	case "M1ThresholdEventA2ExtIEs":
-		return "M1ThresholdEventA2-ExtIEs"
-	case "M3Configuration-ExtIEs":
-		return "M3Configuration-ExtIEs"
-	case "M3ConfigurationExtIEs":
-		return "M3Configuration-ExtIEs"
-	case "M4Configuration-ExtIEs":
-		return "M4Configuration-ExtIEs"
-	case "M4ConfigurationExtIEs":
-		return "M4Configuration-ExtIEs"
-	case "M5Configuration-ExtIEs":
-		return "M5Configuration-ExtIEs"
-	case "M5ConfigurationExtIEs":
-		return "M5Configuration-ExtIEs"
-	case "M6Configuration-ExtIEs":
-		return "M6Configuration-ExtIEs"
-	case "M6ConfigurationExtIEs":
-		return "M6Configuration-ExtIEs"
-	case "M7Configuration-ExtIEs":
-		return "M7Configuration-ExtIEs"
-	case "M7ConfigurationExtIEs":
-		return "M7Configuration-ExtIEs"
-	case "MBSFN-Subframe-Info-ExtIEs":
-		return "MBSFN-Subframe-Info-ExtIEs"
-	case "MBSFNSubframeInfoExtIEs":
-		return "MBSFN-Subframe-Info-ExtIEs"
-	case "MDT-Configuration-ExtIEs":
-		return "MDT-Configuration-ExtIEs"
-	case "MDTConfigurationExtIEs":
-		return "MDT-Configuration-ExtIEs"
-	case "MIMOPRBusageInformation-ExtIEs":
-		return "MIMOPRBusageInformation-ExtIEs"
-	case "MIMOPRBusageInformationExtIEs":
-		return "MIMOPRBusageInformation-ExtIEs"
-	case "MeNBResourceCoordinationInformationExtIEs":
-		return "MeNBResourceCoordinationInformationExtIEs"
-	case "MeasurementFailureCause-Item-ExtIEs":
-		return "MeasurementFailureCause-Item-ExtIEs"
-	case "MeasurementFailureCauseItemExtIEs":
-		return "MeasurementFailureCause-Item-ExtIEs"
-	case "MeasurementInitiationResult-Item-ExtIEs":
-		return "MeasurementInitiationResult-Item-ExtIEs"
-	case "MeasurementInitiationResultItemExtIEs":
-		return "MeasurementInitiationResult-Item-ExtIEs"
-	case "MeasurementResultforNRCellsPossiblyAggregated-Item-ExtIEs":
-		return "MeasurementResultforNRCellsPossiblyAggregated-Item-ExtIEs"
-	case "MeasurementResultforNRCellsPossiblyAggregatedItemExtIEs":
-		return "MeasurementResultforNRCellsPossiblyAggregated-Item-ExtIEs"
-	case "MessageOversizeNotification-ExtIEs":
-		return "MessageOversizeNotification-ExtIEs"
-	case "MessageOversizeNotificationExtIEs":
-		return "MessageOversizeNotification-ExtIEs"
-	case "NPRACHConfiguration-ExtIEs":
-		return "NPRACHConfiguration-ExtIEs"
-	case "NPRACHConfiguration-FDD-ExtIEs":
-		return "NPRACHConfiguration-FDD-ExtIEs"
-	case "NPRACHConfiguration-TDD-ExtIEs":
-		return "NPRACHConfiguration-TDD-ExtIEs"
-	case "NPRACHConfigurationExtIEs":
-		return "NPRACHConfiguration-ExtIEs"
-	case "NPRACHConfigurationFDDExtIEs":
-		return "NPRACHConfiguration-FDD-ExtIEs"
-	case "NPRACHConfigurationTDDExtIEs":
-		return "NPRACHConfiguration-TDD-ExtIEs"
-	case "NR-TxBW-ExtIEs":
-		return "NR-TxBW-ExtIEs"
-	case "NRCGI-ExtIEs":
-		return "NRCGI-ExtIEs"
-	case "NRCGIExtIEs":
-		return "NRCGI-ExtIEs"
-	case "NRCapacityValue-ExtIEs":
-		return "NRCapacityValue-ExtIEs"
-	case "NRCapacityValueExtIEs":
-		return "NRCapacityValue-ExtIEs"
-	case "NRCarrierItem-ExtIEs":
-		return "NRCarrierItem-ExtIEs"
-	case "NRCarrierItemExtIEs":
-		return "NRCarrierItem-ExtIEs"
-	case "NRCompositeAvailableCapacity-ExtIEs":
-		return "NRCompositeAvailableCapacity-ExtIEs"
-	case "NRCompositeAvailableCapacityExtIEs":
-		return "NRCompositeAvailableCapacity-ExtIEs"
-	case "NRCompositeAvailableCapacityGroup-ExtIEs":
-		return "NRCompositeAvailableCapacityGroup-ExtIEs"
-	case "NRCompositeAvailableCapacityGroupExtIEs":
-		return "NRCompositeAvailableCapacityGroup-ExtIEs"
-	case "NRFreqInfo-ExtIEs":
-		return "NRFreqInfo-ExtIEs"
-	case "NRFreqInfoExtIEs":
-		return "NRFreqInfo-ExtIEs"
-	case "NRNeighbour-Information-ExtIEs":
-		return "NRNeighbour-Information-ExtIEs"
-	case "NRNeighbourInformationExtIEs":
-		return "NRNeighbour-Information-ExtIEs"
-	case "NRRAReportList-Item-ExtIEs":
-		return "NRRAReportList-Item-ExtIEs"
-	case "NRRAReportListItemExtIEs":
-		return "NRRAReportList-Item-ExtIEs"
-	case "NRRadioResourceStatus-ExtIEs":
-		return "NRRadioResourceStatus-ExtIEs"
-	case "NRRadioResourceStatusExtIEs":
-		return "NRRadioResourceStatus-ExtIEs"
-	case "NRTxBWExtIEs":
-		return "NR-TxBW-ExtIEs"
-	case "NRUESecurityCapabilities-ExtIEs":
-		return "NRUESecurityCapabilities-ExtIEs"
-	case "NRUESecurityCapabilitiesExtIEs":
-		return "NRUESecurityCapabilities-ExtIEs"
-	case "NRUESidelinkAggregateMaximumBitRate-ExtIEs":
-		return "NRUESidelinkAggregateMaximumBitRate-ExtIEs"
-	case "NRUESidelinkAggregateMaximumBitRateExtIEs":
-		return "NRUESidelinkAggregateMaximumBitRate-ExtIEs"
-	case "NRUeReport-ExtIEs":
-		return "NRUeReport-ExtIEs"
-	case "NRUeReportExtIEs":
-		return "NRUeReport-ExtIEs"
-	case "NRV2XServicesAuthorized-ExtIEs":
-		return "NRV2XServicesAuthorized-ExtIEs"
-	case "NRV2XServicesAuthorizedExtIEs":
-		return "NRV2XServicesAuthorized-ExtIEs"
-	case "Neighbour-Information-ExtIEs":
-		return "Neighbour-Information-ExtIEs"
-	case "NeighbourInformationExtIEs":
-		return "Neighbour-Information-ExtIEs"
-	case "Non-AnchorCarrierFrequencylist-ExtIEs":
-		return "Non-AnchorCarrierFrequencylist-ExtIEs"
-	case "NonAnchorCarrierFrequencylistExtIEs":
-		return "Non-AnchorCarrierFrequencylist-ExtIEs"
-	case "PC5FlowBitRates-ExtIEs":
-		return "PC5FlowBitRates-ExtIEs"
-	case "PC5FlowBitRatesExtIEs":
-		return "PC5FlowBitRates-ExtIEs"
-	case "PC5QoSFlowItem-ExtIEs":
-		return "PC5QoSFlowItem-ExtIEs"
-	case "PC5QoSFlowItemExtIEs":
-		return "PC5QoSFlowItem-ExtIEs"
-	case "PC5QoSParameters-ExtIEs":
-		return "PC5QoSParameters-ExtIEs"
-	case "PC5QoSParametersExtIEs":
-		return "PC5QoSParameters-ExtIEs"
-	case "PLMNAreaBasedQMC-ExtIEs":
-		return "PLMNAreaBasedQMC-ExtIEs"
-	case "PLMNAreaBasedQMCExtIEs":
-		return "PLMNAreaBasedQMC-ExtIEs"
-	case "PRACH-Configuration-ExtIEs":
-		return "PRACH-Configuration-ExtIEs"
-	case "PRACHConfigurationExtIEs":
-		return "PRACH-Configuration-ExtIEs"
-	case "ProSeAuthorized-ExtIEs":
-		return "ProSeAuthorized-ExtIEs"
-	case "ProSeAuthorizedExtIEs":
-		return "ProSeAuthorized-ExtIEs"
-	case "ProtectedEUTRAResourceIndication-ExtIEs":
-		return "ProtectedEUTRAResourceIndication-ExtIEs"
-	case "ProtectedEUTRAResourceIndicationExtIEs":
-		return "ProtectedEUTRAResourceIndication-ExtIEs"
-	case "ProtectedFootprintTimePattern-ExtIEs":
-		return "ProtectedFootprintTimePattern-ExtIEs"
-	case "ProtectedFootprintTimePatternExtIEs":
-		return "ProtectedFootprintTimePattern-ExtIEs"
-	case "ProtectedResourceList-Item-ExtIEs":
-		return "ProtectedResourceList-Item-ExtIEs"
-	case "ProtectedResourceListItemExtIEs":
-		return "ProtectedResourceList-Item-ExtIEs"
-	case "QoS-Mapping-Information-ExtIEs":
-		return "QoS-Mapping-Information-ExtIEs"
-	case "QoSMappingInformationExtIEs":
-		return "QoS-Mapping-Information-ExtIEs"
-	case "RAT-RestrictionsItem-ExtIEs":
-		return "RAT-RestrictionsItem-ExtIEs"
-	case "RATRestrictionsItemExtIEs":
-		return "RAT-RestrictionsItem-ExtIEs"
-	case "RLC-Status-ExtIEs":
-		return "RLC-Status-ExtIEs"
-	case "RLCStatusExtIEs":
-		return "RLC-Status-ExtIEs"
-	case "RNL-Header-Item-ExtIEs":
-		return "RNL-Header-Item-ExtIEs"
-	case "RNLHeaderItemExtIEs":
-		return "RNL-Header-Item-ExtIEs"
-	case "RSRPMRList-ExtIEs":
-		return "RSRPMRList-ExtIEs"
-	case "RSRPMRListExtIEs":
-		return "RSRPMRList-ExtIEs"
-	case "RSRPMeasurementResult-ExtIEs":
-		return "RSRPMeasurementResult-ExtIEs"
-	case "RSRPMeasurementResultExtIEs":
-		return "RSRPMeasurementResult-ExtIEs"
-	case "RaReportIndicationList-Item-ExtIEs":
-		return "RaReportIndicationList-Item-ExtIEs"
-	case "RaReportIndicationListItemExtIEs":
-		return "RaReportIndicationList-Item-ExtIEs"
-	case "RadioResourceStatus-ExtIEs":
-		return "RadioResourceStatus-ExtIEs"
-	case "RadioResourceStatusExtIEs":
-		return "RadioResourceStatus-ExtIEs"
-	case "RelativeNarrowbandTxPower-ExtIEs":
-		return "RelativeNarrowbandTxPower-ExtIEs"
-	case "RelativeNarrowbandTxPowerExtIEs":
-		return "RelativeNarrowbandTxPower-ExtIEs"
-	case "ReservedSubframePattern-ExtIEs":
-		return "ReservedSubframePattern-ExtIEs"
-	case "ReservedSubframePatternExtIEs":
-		return "ReservedSubframePattern-ExtIEs"
-	case "ResponseInformationSeNBReconfComp-RejectByMeNBItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSeNBReconfComp-SuccessItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-SuccessItemExtIEs"
-	case "ResponseInformationSeNBReconfCompRejectByMeNBItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSeNBReconfCompSuccessItemExtIEs":
-		return "ResponseInformationSeNBReconfComp-SuccessItemExtIEs"
-	case "ResponseInformationSgNBReconfComp-RejectByMeNBItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSgNBReconfComp-SuccessItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-SuccessItemExtIEs"
-	case "ResponseInformationSgNBReconfCompRejectByMeNBItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-RejectByMeNBItemExtIEs"
-	case "ResponseInformationSgNBReconfCompSuccessItemExtIEs":
-		return "ResponseInformationSgNBReconfComp-SuccessItemExtIEs"
-	case "S1TNLLoadIndicator-ExtIEs":
-		return "S1TNLLoadIndicator-ExtIEs"
-	case "S1TNLLoadIndicatorExtIEs":
-		return "S1TNLLoadIndicator-ExtIEs"
-	case "SFN-Offset-ExtIEs":
-		return "SFN-Offset-ExtIEs"
-	case "SFNOffsetExtIEs":
-		return "SFN-Offset-ExtIEs"
-	case "SSBAreaCapacityValue-ExtIEs":
-		return "SSBAreaCapacityValue-ExtIEs"
-	case "SSBAreaCapacityValueExtIEs":
-		return "SSBAreaCapacityValue-ExtIEs"
-	case "SSBAreaRadioResourceStatus-ExtIEs":
-		return "SSBAreaRadioResourceStatus-ExtIEs"
-	case "SSBAreaRadioResourceStatusExtIEs":
-		return "SSBAreaRadioResourceStatus-ExtIEs"
-	case "SSBToReport-Item-ExtIEs":
-		return "SSBToReport-Item-ExtIEs"
-	case "SSBToReportItemExtIEs":
-		return "SSBToReport-Item-ExtIEs"
-	case "SULInformation-ExtIEs":
-		return "SULInformation-ExtIEs"
-	case "SULInformationExtIEs":
-		return "SULInformation-ExtIEs"
-	case "ScheduledCommunicationTime-ExtIEs":
-		return "ScheduledCommunicationTime-ExtIEs"
-	case "ScheduledCommunicationTimeExtIEs":
-		return "ScheduledCommunicationTime-ExtIEs"
-	case "SecondaryRATUsageReport-Item-ExtIEs":
-		return "SecondaryRATUsageReport-Item-ExtIEs"
-	case "SecondaryRATUsageReportItemExtIEs":
-		return "SecondaryRATUsageReport-Item-ExtIEs"
-	case "SecurityIndication-ExtIEs":
-		return "SecurityIndication-ExtIEs"
-	case "SecurityIndicationExtIEs":
-		return "SecurityIndication-ExtIEs"
-	case "SecurityResult-ExtIEs":
-		return "SecurityResult-ExtIEs"
-	case "SecurityResultExtIEs":
-		return "SecurityResult-ExtIEs"
-	case "SensorMeasConfigNameItem-ExtIEs":
-		return "SensorMeasConfigNameItem-ExtIEs"
-	case "SensorMeasConfigNameItemExtIEs":
-		return "SensorMeasConfigNameItem-ExtIEs"
-	case "SensorMeasurementConfiguration-ExtIEs":
-		return "SensorMeasurementConfiguration-ExtIEs"
-	case "SensorMeasurementConfigurationExtIEs":
-		return "SensorMeasurementConfiguration-ExtIEs"
-	case "ServedCell-ExtIEs":
-		return "ServedCell-ExtIEs"
-	case "ServedCell-Information-ExtIEs":
-		return "ServedCell-Information-ExtIEs"
-	case "ServedCellExtIEs":
-		return "ServedCell-ExtIEs"
-	case "ServedCellInformationExtIEs":
-		return "ServedCell-Information-ExtIEs"
-	case "ServedCellSpecificInfoReq-NR-Item-ExtIEs":
-		return "ServedCellSpecificInfoReq-NR-Item-ExtIEs"
-	case "ServedCellSpecificInfoReqNRItemExtIEs":
-		return "ServedCellSpecificInfoReq-NR-Item-ExtIEs"
-	case "ServedCellsToActivate-Item-ExtIEs":
-		return "ServedCellsToActivate-Item-ExtIEs"
-	case "ServedCellsToActivateItemExtIEs":
-		return "ServedCellsToActivate-Item-ExtIEs"
-	case "ServedCellsToModify-Item-ExtIEs":
-		return "ServedCellsToModify-Item-ExtIEs"
-	case "ServedCellsToModifyItemExtIEs":
-		return "ServedCellsToModify-Item-ExtIEs"
-	case "ServedEUTRAcellsENDCX2Management-ExtIEs":
-		return "ServedEUTRAcellsENDCX2Management-ExtIEs"
-	case "ServedEUTRAcellsENDCX2ManagementExtIEs":
-		return "ServedEUTRAcellsENDCX2Management-ExtIEs"
-	case "ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs":
-		return "ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs"
-	case "ServedEUTRAcellsToModifyListENDCConfUpdExtIEs":
-		return "ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs"
-	case "ServedNRCell-Information-ExtIEs":
-		return "ServedNRCell-Information-ExtIEs"
-	case "ServedNRCellInformationExtIEs":
-		return "ServedNRCell-Information-ExtIEs"
-	case "ServedNRCellsToActivate-Item-ExtIEs":
-		return "ServedNRCellsToActivate-Item-ExtIEs"
-	case "ServedNRCellsToActivateItemExtIEs":
-		return "ServedNRCellsToActivate-Item-ExtIEs"
-	case "ServedNRCellsToModify-Item-ExtIEs":
-		return "ServedNRCellsToModify-Item-ExtIEs"
-	case "ServedNRCellsToModifyItemExtIEs":
-		return "ServedNRCellsToModify-Item-ExtIEs"
-	case "SgNBResourceCoordinationInformationExtIEs":
-		return "SgNBResourceCoordinationInformationExtIEs"
-	case "SpecialSubframe-Info-ExtIEs":
-		return "SpecialSubframe-Info-ExtIEs"
-	case "SpecialSubframeInfoExtIEs":
-		return "SpecialSubframe-Info-ExtIEs"
-	case "SplitSRB-ExtIEs":
-		return "SplitSRB-ExtIEs"
-	case "SplitSRBExtIEs":
-		return "SplitSRB-ExtIEs"
-	case "SubbandCQI-ExtIEs":
-		return "SubbandCQI-ExtIEs"
-	case "SubbandCQIExtIEs":
-		return "SubbandCQI-ExtIEs"
-	case "SubbandCQIItem-ExtIEs":
-		return "SubbandCQIItem-ExtIEs"
-	case "SubbandCQIItemExtIEs":
-		return "SubbandCQIItem-ExtIEs"
-	case "Subscription-Based-UE-DifferentiationInfo-ExtIEs":
-		return "Subscription-Based-UE-DifferentiationInfo-ExtIEs"
-	case "SubscriptionBasedUEDifferentiationInfoExtIEs":
-		return "Subscription-Based-UE-DifferentiationInfo-ExtIEs"
-	case "SupportedSULFreqBandItem-ExtIEs":
-		return "SupportedSULFreqBandItem-ExtIEs"
-	case "SupportedSULFreqBandItemExtIEs":
-		return "SupportedSULFreqBandItem-ExtIEs"
-	case "TABasedMDT-ExtIEs":
-		return "TABasedMDT-ExtIEs"
-	case "TABasedMDTExtIEs":
-		return "TABasedMDT-ExtIEs"
-	case "TABasedQMC-ExtIEs":
-		return "TABasedQMC-ExtIEs"
-	case "TABasedQMCExtIEs":
-		return "TABasedQMC-ExtIEs"
-	case "TAI-Item-ExtIEs":
-		return "TAI-Item-ExtIEs"
-	case "TAIBasedMDT-ExtIEs":
-		return "TAIBasedMDT-ExtIEs"
-	case "TAIBasedMDTExtIEs":
-		return "TAIBasedMDT-ExtIEs"
-	case "TAIBasedQMC-ExtIEs":
-		return "TAIBasedQMC-ExtIEs"
-	case "TAIBasedQMCExtIEs":
-		return "TAIBasedQMC-ExtIEs"
-	case "TAIItemExtIEs":
-		return "TAI-Item-ExtIEs"
-	case "TDD-Info-ExtIEs":
-		return "TDD-Info-ExtIEs"
-	case "TDD-InfoNeighbourServedNRCell-Information-ExtIEs":
-		return "TDD-InfoNeighbourServedNRCell-Information-ExtIEs"
-	case "TDD-InfoServedNRCell-Information-ExtIEs":
-		return "TDD-InfoServedNRCell-Information-ExtIEs"
-	case "TDDInfoExtIEs":
-		return "TDD-Info-ExtIEs"
-	case "TDDInfoNeighbourServedNRCellInformationExtIEs":
-		return "TDD-InfoNeighbourServedNRCell-Information-ExtIEs"
-	case "TDDInfoServedNRCellInformationExtIEs":
-		return "TDD-InfoServedNRCell-Information-ExtIEs"
-	case "TNLA-Failed-To-Setup-Item-ExtIEs":
-		return "TNLA-Failed-To-Setup-Item-ExtIEs"
-	case "TNLA-Setup-Item-ExtIEs":
-		return "TNLA-Setup-Item-ExtIEs"
-	case "TNLA-To-Add-Item-ExtIEs":
-		return "TNLA-To-Add-Item-ExtIEs"
-	case "TNLA-To-Remove-Item-ExtIEs":
-		return "TNLA-To-Remove-Item-ExtIEs"
-	case "TNLA-To-Update-Item-ExtIEs":
-		return "TNLA-To-Update-Item-ExtIEs"
-	case "TNLAFailedToSetupItemExtIEs":
-		return "TNLA-Failed-To-Setup-Item-ExtIEs"
-	case "TNLASetupItemExtIEs":
-		return "TNLA-Setup-Item-ExtIEs"
-	case "TNLAToAddItemExtIEs":
-		return "TNLA-To-Add-Item-ExtIEs"
-	case "TNLAToRemoveItemExtIEs":
-		return "TNLA-To-Remove-Item-ExtIEs"
-	case "TNLAToUpdateItemExtIEs":
-		return "TNLA-To-Update-Item-ExtIEs"
-	case "TNLCapacityIndicator-ExtIEs":
-		return "TNLCapacityIndicator-ExtIEs"
-	case "TNLCapacityIndicatorExtIEs":
-		return "TNLCapacityIndicator-ExtIEs"
-	case "TNLConfigurationInfo-ExtIEs":
-		return "TNLConfigurationInfo-ExtIEs"
-	case "TNLConfigurationInfoExtIEs":
-		return "TNLConfigurationInfo-ExtIEs"
-	case "TraceActivation-ExtIEs":
-		return "TraceActivation-ExtIEs"
-	case "TraceActivationExtIEs":
-		return "TraceActivation-ExtIEs"
-	case "Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs"
-	case "Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs"
-	case "TransportUPLayerAddressesInfoToAddItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs"
-	case "TransportUPLayerAddressesInfoToRemoveItemExtIEs":
-		return "Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs"
-	case "Tunnel-Information-ExtIEs":
-		return "Tunnel-Information-ExtIEs"
-	case "TunnelInformationExtIEs":
-		return "Tunnel-Information-ExtIEs"
-	case "UE-ContextInformation-ExtIEs":
-		return "UE-ContextInformation-ExtIEs"
-	case "UE-ContextInformationRetrieve-ExtIEs":
-		return "UE-ContextInformationRetrieve-ExtIEs"
-	case "UE-ContextInformationSeNBModReqExtIEs":
-		return "UE-ContextInformationSeNBModReqExtIEs"
-	case "UE-ContextInformationSgNBModReqExtIEs":
-		return "UE-ContextInformationSgNBModReqExtIEs"
-	case "UE-ContextReferenceAtSeNB-ItemExtIEs":
-		return "UE-ContextReferenceAtSeNB-ItemExtIEs"
-	case "UE-ContextReferenceAtSgNB-ItemExtIEs":
-		return "UE-ContextReferenceAtSgNB-ItemExtIEs"
-	case "UE-ContextReferenceAtWT-ItemExtIEs":
-		return "UE-ContextReferenceAtWT-ItemExtIEs"
-	case "UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs":
-		return "UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs"
-	case "UEAggregate-MaximumBitrate-ExtIEs":
-		return "UEAggregate-MaximumBitrate-ExtIEs"
-	case "UEAggregateMaximumBitrateExtIEs":
-		return "UEAggregate-MaximumBitrate-ExtIEs"
-	case "UEAppLayerMeasConfig-ExtIEs":
-		return "UEAppLayerMeasConfig-ExtIEs"
-	case "UEAppLayerMeasConfigExtIEs":
-		return "UEAppLayerMeasConfig-ExtIEs"
-	case "UEContextInformationExtIEs":
-		return "UE-ContextInformation-ExtIEs"
-	case "UEContextInformationRetrieveExtIEs":
-		return "UE-ContextInformationRetrieve-ExtIEs"
-	case "UEContextInformationSeNBModReqExtIEs":
-		return "UE-ContextInformationSeNBModReqExtIEs"
-	case "UEContextInformationSgNBModReqExtIEs":
-		return "UE-ContextInformationSgNBModReqExtIEs"
-	case "UEContextReferenceAtSeNBItemExtIEs":
-		return "UE-ContextReferenceAtSeNB-ItemExtIEs"
-	case "UEContextReferenceAtSgNBItemExtIEs":
-		return "UE-ContextReferenceAtSgNB-ItemExtIEs"
-	case "UEContextReferenceAtWTItemExtIEs":
-		return "UE-ContextReferenceAtWT-ItemExtIEs"
-	case "UESecurityCapabilities-ExtIEs":
-		return "UESecurityCapabilities-ExtIEs"
-	case "UESecurityCapabilitiesExtIEs":
-		return "UESecurityCapabilities-ExtIEs"
-	case "UESidelinkAggregateMaximumBitRateExtIEs":
-		return "UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs"
-	case "UEsToBeResetList-Item-ExtIEs":
-		return "UEsToBeResetList-Item-ExtIEs"
-	case "UEsToBeResetListItemExtIEs":
-		return "UEsToBeResetList-Item-ExtIEs"
-	case "UL-HighInterferenceIndicationInfo-Item-ExtIEs":
-		return "UL-HighInterferenceIndicationInfo-Item-ExtIEs"
-	case "ULConfiguration-ExtIEs":
-		return "ULConfiguration-ExtIEs"
-	case "ULConfigurationExtIEs":
-		return "ULConfiguration-ExtIEs"
-	case "ULHighInterferenceIndicationInfoItemExtIEs":
-		return "UL-HighInterferenceIndicationInfo-Item-ExtIEs"
-	case "ULOnlySharing-ExtIEs":
-		return "ULOnlySharing-ExtIEs"
-	case "ULOnlySharingExtIEs":
-		return "ULOnlySharing-ExtIEs"
-	case "ULandDLSharing-ExtIEs":
-		return "ULandDLSharing-ExtIEs"
-	case "ULandDLSharingExtIEs":
-		return "ULandDLSharing-ExtIEs"
-	case "UsableABSInformationFDD-ExtIEs":
-		return "UsableABSInformationFDD-ExtIEs"
-	case "UsableABSInformationFDDExtIEs":
-		return "UsableABSInformationFDD-ExtIEs"
-	case "UsableABSInformationTDD-ExtIEs":
-		return "UsableABSInformationTDD-ExtIEs"
-	case "UsableABSInformationTDDExtIEs":
-		return "UsableABSInformationTDD-ExtIEs"
-	case "V2XServicesAuthorized-ExtIEs":
-		return "V2XServicesAuthorized-ExtIEs"
-	case "V2XServicesAuthorizedExtIEs":
-		return "V2XServicesAuthorized-ExtIEs"
-	case "WLANMeasurementConfiguration-ExtIEs":
-		return "WLANMeasurementConfiguration-ExtIEs"
-	case "WLANMeasurementConfigurationExtIEs":
-		return "WLANMeasurementConfiguration-ExtIEs"
-	case "WidebandCQI-ExtIEs":
-		return "WidebandCQI-ExtIEs"
-	case "WidebandCQIExtIEs":
-		return "WidebandCQI-ExtIEs"
-	default:
-		return context
-	}
-}
 
 func protocolIEValueTypeHint(objectSet string, id int64) protocolOpenTypeHint {
 	switch objectSet {
@@ -10844,15 +8231,13 @@ type decodedProtocolFields struct {
 	extensions  []DecodedProtocolExtensionField
 }
 
-// DecodeProtocolIEFieldsRecursive decodes fields using an ASN.1 object-set or legacy message-type context.
-func DecodeProtocolIEFieldsRecursive(context string, fields []ProtocolIEField) ([]DecodedProtocolIEField, error) {
-	objectSet := protocolIEObjectSet(context)
+// DecodeProtocolIEFieldsRecursive decodes fields using an ASN.1 object set.
+func DecodeProtocolIEFieldsRecursive(objectSet string, fields []ProtocolIEField) ([]DecodedProtocolIEField, error) {
 	return decodeProtocolIEFieldsAt(objectSet, fields, objectSet, map[protocolOpenTypeVisit]bool{})
 }
 
 // DecodeProtocolExtensionFieldsRecursive decodes extension fields using their ASN.1 object-set context.
-func DecodeProtocolExtensionFieldsRecursive(context string, fields []ProtocolExtensionField) ([]DecodedProtocolExtensionField, error) {
-	objectSet := protocolExtensionObjectSet(context)
+func DecodeProtocolExtensionFieldsRecursive(objectSet string, fields []ProtocolExtensionField) ([]DecodedProtocolExtensionField, error) {
 	return decodeProtocolExtensionFieldsAt(objectSet, fields, objectSet, map[protocolOpenTypeVisit]bool{})
 }
 
@@ -11206,13 +8591,12 @@ func (v *UnsuccessfulOutcome) DecodeValue() (interface{}, error) {
 	return DecodeUnsuccessfulOutcomeValue(v.ProcedureCode, v.Value.Bytes)
 }
 
-// DecodeValue decodes the Value field of a ProtocolIE-Field based on message type and IE ID.
-// messageType should be the Go type name (e.g., "HandoverRequired").
-func (v *ProtocolIEField) DecodeValue(messageType string) (interface{}, error) {
-	return DecodeIEFieldValue(messageType, int64(v.Id), v.Value.Bytes)
+// DecodeValue decodes the Value field of a ProtocolIE-Field from its ASN.1 object set and IE ID.
+func (v *ProtocolIEField) DecodeValue(objectSet string) (interface{}, error) {
+	return DecodeIEFieldValue(objectSet, int64(v.Id), v.Value.Bytes)
 }
 
 // DecodeValue decodes ExtensionValue based on its object-set context and extension ID.
-func (v *ProtocolExtensionField) DecodeValue(context string) (interface{}, error) {
-	return DecodeExtensionFieldValue(context, int64(v.Id), v.ExtensionValue.Bytes)
+func (v *ProtocolExtensionField) DecodeValue(objectSet string) (interface{}, error) {
+	return DecodeExtensionFieldValue(objectSet, int64(v.Id), v.ExtensionValue.Bytes)
 }

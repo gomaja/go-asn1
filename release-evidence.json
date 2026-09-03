@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
-  "target_base_commit": "02b943a06d385616436a34f2bed0fa2a58c34cfe",
+  "compiler_commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
+  "target_base_commit": "3d893857c62631bd039181908e114cc54b46192e",
   "inputs": {
     "sha256": "ada50cc9e90cc4104a45d1b416b49c154022d1985471d3d131f96d7752be928d",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -1030,14 +1030,19 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "403e733fc184326538a10bb7498c749d4822bfccaa79598ed700e0932a8663ba",
-          "size_bytes": 7227497
+          "sha256": "fe507a9d07e239aa792bebbf00ac7354d86769b7511e1c4c159ea5896882b7b4",
+          "size_bytes": 7232431
         },
         "outputs": [
           {
-            "path": "gsm_map/asn1_vectors_test.go",
-            "sha256": "5bc60b4222d54272c9fc9a6bb357ed56085403e78a46bc3ff77dee4a9ccd22ed",
-            "size_bytes": 9011
+            "path": "gsm_map/asn1_contract_vectors_test.go",
+            "sha256": "b0c416dbccdbdf6cc15e299ba1aca86e84d052a189b84a68c64e6d22654ce98b",
+            "size_bytes": 3993
+          },
+          {
+            "path": "gsm_map/asn1_wire_vectors_test.go",
+            "sha256": "2fc496db5f4023046d9ab5e063018372acc292ff7d8d67a409a0893207df2562",
+            "size_bytes": 14013
           },
           {
             "path": "gsm_map/dummymap.go",
@@ -1420,7 +1425,8 @@
             "name": "/Users/marwanjadid/go/bin/gopls",
             "args": [
               "check",
-              "$WORK/gsm-map/generated/gsm_map/asn1_vectors_test.go",
+              "$WORK/gsm-map/generated/gsm_map/asn1_contract_vectors_test.go",
+              "$WORK/gsm-map/generated/gsm_map/asn1_wire_vectors_test.go",
               "$WORK/gsm-map/generated/gsm_map/dummymap.go",
               "$WORK/gsm-map/generated/gsm_map/ericssonmap.go",
               "$WORK/gsm-map/generated/gsm_map/mapapplicationcontexts.go",
@@ -1671,7 +1677,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -1789,14 +1795,14 @@
         ],
         "ir": {
           "path": "lte-rrc/resolved-schema.json",
-          "sha256": "c56cd279e0bc0a6cb250cf1f16d99ac074b863ef2fe6952624834f2939d70faa",
-          "size_bytes": 5579641
+          "sha256": "3ea8c02239e93bfc3119fb68f2f659b5898e139902d2df546b11e4ba32b0570a",
+          "size_bytes": 5596445
         },
         "outputs": [
           {
-            "path": "rrc/asn1_vectors_test.go",
-            "sha256": "27647307b13c94d84a3e30b620627335d7d2e3816d7736c41c3d871f1928f504",
-            "size_bytes": 8433
+            "path": "rrc/asn1_wire_vectors_test.go",
+            "sha256": "31ec4b4b75d13eb37f05572387c2df0be054c09df9e3f0c1e460ffaec2f33ddd",
+            "size_bytes": 8922
           },
           {
             "path": "rrc/eutrainternodedefinitions.go",
@@ -1879,7 +1885,7 @@
             "name": "/Users/marwanjadid/go/bin/gopls",
             "args": [
               "check",
-              "$WORK/lte-rrc/generated/rrc/asn1_vectors_test.go",
+              "$WORK/lte-rrc/generated/rrc/asn1_wire_vectors_test.go",
               "$WORK/lte-rrc/generated/rrc/eutrainternodedefinitions.go",
               "$WORK/lte-rrc/generated/rrc/eutrarrcdefinitions.go",
               "$WORK/lte-rrc/generated/rrc/eutrasidelinkpreconf.go",
@@ -2070,7 +2076,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -2178,19 +2184,19 @@
         ],
         "ir": {
           "path": "s1ap/resolved-schema.json",
-          "sha256": "12445ce25f3be6eac24a9ee1935634f87d3e8255666845051199bf0ff99ccd2b",
-          "size_bytes": 2207705
+          "sha256": "6652b3293b2cb9b4fd0c0dae5c2b4528663b107c7a09b41bbf2553308c7e87a8",
+          "size_bytes": 2208837
         },
         "outputs": [
           {
-            "path": "s1ap/asn1_vectors_test.go",
-            "sha256": "909d50aa973dc7c92240f79bcf75f093ac0d45704cba68072036c892abab3fda",
-            "size_bytes": 8437
+            "path": "s1ap/asn1_wire_vectors_test.go",
+            "sha256": "f8c07be0c1c7da02b0a954289366ffcdfd67c13eabdfdd1a26d82dbe5516159c",
+            "size_bytes": 25218
           },
           {
             "path": "s1ap/dispatch.go",
-            "sha256": "c86a84d5d67020c232ea18363b3109458c1b10c11744e54293368fd0ded584b0",
-            "size_bytes": 363839
+            "sha256": "f2301408ccb6320341a58b36367eed88866df9fe1a2dfe52290d02c23d9eabe9",
+            "size_bytes": 302825
           },
           {
             "path": "s1ap/per_helpers.go",
@@ -2268,7 +2274,7 @@
             "name": "/Users/marwanjadid/go/bin/gopls",
             "args": [
               "check",
-              "$WORK/s1ap/generated/s1ap/asn1_vectors_test.go",
+              "$WORK/s1ap/generated/s1ap/asn1_wire_vectors_test.go",
               "$WORK/s1ap/generated/s1ap/dispatch.go",
               "$WORK/s1ap/generated/s1ap/per_helpers.go",
               "$WORK/s1ap/generated/s1ap/s1apcommondatatypes.go",
@@ -2459,7 +2465,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -2561,14 +2567,14 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "207fd52606fc2aa8ca0b365fcbb640cb886d2a1297511fceb76ee972d1dc9e8e",
-          "size_bytes": 403155
+          "sha256": "2c5c0c9c9e6d2b0ef22526fbdba49cde050e65b8e2410f3f82ff009c86726356",
+          "size_bytes": 403623
         },
         "outputs": [
           {
-            "path": "sgp22/asn1_vectors_test.go",
-            "sha256": "40d668cd2e0fad3de8e08e19fdc48d5c6e1dad7a2b29b1546459775d120b9fb1",
-            "size_bytes": 5942
+            "path": "sgp22/asn1_wire_vectors_test.go",
+            "sha256": "8298faae0abe90dae3fe7c1af7c578a61694a2b8b9136989117333ec9f6d6d4c",
+            "size_bytes": 19026
           },
           {
             "path": "sgp22/pedefinitions.go",
@@ -2636,7 +2642,7 @@
             "name": "/Users/marwanjadid/go/bin/gopls",
             "args": [
               "check",
-              "$WORK/sgp22/generated/sgp22/asn1_vectors_test.go",
+              "$WORK/sgp22/generated/sgp22/asn1_wire_vectors_test.go",
               "$WORK/sgp22/generated/sgp22/pedefinitions.go",
               "$WORK/sgp22/generated/sgp22/pkix1explicit88.go",
               "$WORK/sgp22/generated/sgp22/pkix1implicit88.go",
@@ -2820,7 +2826,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -2940,14 +2946,14 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "6df0351f499fccfdb077dad6267201d9ae821c8f85cd81997b4df73a79e54ad6",
-          "size_bytes": 638209
+          "sha256": "33aa09c0bbc5f0cdbb9f90eefe575d69e46b1e2f414dd7f0dd7834b7b1bc2644",
+          "size_bytes": 639153
         },
         "outputs": [
           {
-            "path": "sgp32/asn1_vectors_test.go",
-            "sha256": "3c5f2fccf88cada4b3d48b0f095d6b0d165f51b43db52932a662aed30dec2809",
-            "size_bytes": 6604
+            "path": "sgp32/asn1_wire_vectors_test.go",
+            "sha256": "8602409b0ae8530fc55bac72671509ada42271998955cf7a98f8d798a6be8a38",
+            "size_bytes": 7093
           },
           {
             "path": "sgp32/pedefinitions.go",
@@ -3020,7 +3026,7 @@
             "name": "/Users/marwanjadid/go/bin/gopls",
             "args": [
               "check",
-              "$WORK/sgp32/generated/sgp32/asn1_vectors_test.go",
+              "$WORK/sgp32/generated/sgp32/asn1_wire_vectors_test.go",
               "$WORK/sgp32/generated/sgp32/pedefinitions.go",
               "$WORK/sgp32/generated/sgp32/pkix1explicit88.go",
               "$WORK/sgp32/generated/sgp32/pkix1implicit88.go",
@@ -3205,7 +3211,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -3303,14 +3309,14 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "c7b81c66c993b600fecf49c049d1afae7c5ebc443036b94ca9e99a03d691391c",
-          "size_bytes": 249759
+          "sha256": "133dce4611959badd288078c93b80e541d4786fc166f255170817fc52e2f26b9",
+          "size_bytes": 249883
         },
         "outputs": [
           {
-            "path": "tcap/asn1_vectors_test.go",
-            "sha256": "6d9239f4479e315f6a2abf2d050194036c22681fe394480f880c5ad21cbf6f14",
-            "size_bytes": 6251
+            "path": "tcap/asn1_wire_vectors_test.go",
+            "sha256": "b8314cde3d84d419274f1a5ada521c6321024e4492dc871618a7474a42246501",
+            "size_bytes": 6740
           },
           {
             "path": "tcap/dialoguepdus.go",
@@ -3378,7 +3384,7 @@
             "name": "/Users/marwanjadid/go/bin/gopls",
             "args": [
               "check",
-              "$WORK/tcap/generated/tcap/asn1_vectors_test.go",
+              "$WORK/tcap/generated/tcap/asn1_wire_vectors_test.go",
               "$WORK/tcap/generated/tcap/dialoguepdus.go",
               "$WORK/tcap/generated/tcap/remoteoperationsgenericrospdus.go",
               "$WORK/tcap/generated/tcap/remoteoperationsinformationobjects.go",
@@ -3566,7 +3572,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "b0924ba8f19be3d67a90d235051e69472361b0b8",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -3654,19 +3660,24 @@
         ],
         "ir": {
           "path": "x2ap/resolved-schema.json",
-          "sha256": "3768d4e793087ddfdd7013ca3e8a39ed67017d96864c47972b704b1dbbcc0832",
-          "size_bytes": 2924053
+          "sha256": "70e6d920fbbe10a713b331c37c24a810bb9196104bd446133ad9c0f691c862de",
+          "size_bytes": 2925245
         },
         "outputs": [
           {
-            "path": "x2ap/asn1_vectors_test.go",
-            "sha256": "1e8f74cea8d48a443f2075b88d2ca42612f30f49222c6dccbcd6395485d328f0",
-            "size_bytes": 10053
+            "path": "x2ap/asn1_contract_vectors_test.go",
+            "sha256": "63a61bf3221ad81d3f1fc1108c9c47710cf111cc27b7ccb13a016fb71cd49562",
+            "size_bytes": 12989
+          },
+          {
+            "path": "x2ap/asn1_wire_vectors_test.go",
+            "sha256": "0f846514a9e7c76ca7d5ae8d790667ad2b7294c25f4485793b9fa9fc5de078b3",
+            "size_bytes": 24611
           },
           {
             "path": "x2ap/dispatch.go",
-            "sha256": "bb6436a87476dd0dd407c1d9332dd28bb99d6f1d39cef0c3eba1fcd418c05b00",
-            "size_bytes": 493591
+            "sha256": "f98d6121dfa249bfa06f5b9833a76a7cbe7d6ad6abc2d2df7da5e4d6d1789e61",
+            "size_bytes": 390912
           },
           {
             "path": "x2ap/per_helpers.go",
@@ -3739,7 +3750,8 @@
             "name": "/Users/marwanjadid/go/bin/gopls",
             "args": [
               "check",
-              "$WORK/x2ap/generated/x2ap/asn1_vectors_test.go",
+              "$WORK/x2ap/generated/x2ap/asn1_contract_vectors_test.go",
+              "$WORK/x2ap/generated/x2ap/asn1_wire_vectors_test.go",
               "$WORK/x2ap/generated/x2ap/dispatch.go",
               "$WORK/x2ap/generated/x2ap/per_helpers.go",
               "$WORK/x2ap/generated/x2ap/x2apcommondatatypes.go",
@@ -3922,7 +3934,7 @@
     }
   ],
   "outputs": {
-    "sha256": "52b6400b54dc9e72a61a9165fb8f9dcf4e745ec10572be54bfe407e8bef1e7d5",
+    "sha256": "e400204ba476bb7f19f17f23e62aea4d29c84b2565e934a71cb5872492c790f7",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -4093,10 +4105,10 @@
         "size_bytes": 1736
       },
       {
-        "path": "telecom/esim/sgp22/asn1_vectors_test.go",
+        "path": "telecom/esim/sgp22/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "40d668cd2e0fad3de8e08e19fdc48d5c6e1dad7a2b29b1546459775d120b9fb1",
-        "size_bytes": 5942
+        "sha256": "8298faae0abe90dae3fe7c1af7c578a61694a2b8b9136989117333ec9f6d6d4c",
+        "size_bytes": 19026
       },
       {
         "path": "telecom/esim/sgp22/pedefinitions.go",
@@ -4123,10 +4135,10 @@
         "size_bytes": 1067894
       },
       {
-        "path": "telecom/esim/sgp32/asn1_vectors_test.go",
+        "path": "telecom/esim/sgp32/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "3c5f2fccf88cada4b3d48b0f095d6b0d165f51b43db52932a662aed30dec2809",
-        "size_bytes": 6604
+        "sha256": "8602409b0ae8530fc55bac72671509ada42271998955cf7a98f8d798a6be8a38",
+        "size_bytes": 7093
       },
       {
         "path": "telecom/esim/sgp32/pedefinitions.go",
@@ -4165,10 +4177,10 @@
         "size_bytes": 8019
       },
       {
-        "path": "telecom/lte/rrc/asn1_vectors_test.go",
+        "path": "telecom/lte/rrc/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "27647307b13c94d84a3e30b620627335d7d2e3816d7736c41c3d871f1928f504",
-        "size_bytes": 8433
+        "sha256": "31ec4b4b75d13eb37f05572387c2df0be054c09df9e3f0c1e460ffaec2f33ddd",
+        "size_bytes": 8922
       },
       {
         "path": "telecom/lte/rrc/eutrainternodedefinitions.go",
@@ -4231,16 +4243,16 @@
         "size_bytes": 101
       },
       {
-        "path": "telecom/lte/s1ap/asn1_vectors_test.go",
+        "path": "telecom/lte/s1ap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "909d50aa973dc7c92240f79bcf75f093ac0d45704cba68072036c892abab3fda",
-        "size_bytes": 8437
+        "sha256": "f8c07be0c1c7da02b0a954289366ffcdfd67c13eabdfdd1a26d82dbe5516159c",
+        "size_bytes": 25218
       },
       {
         "path": "telecom/lte/s1ap/dispatch.go",
         "mode": "0644",
-        "sha256": "c86a84d5d67020c232ea18363b3109458c1b10c11744e54293368fd0ded584b0",
-        "size_bytes": 363839
+        "sha256": "f2301408ccb6320341a58b36367eed88866df9fe1a2dfe52290d02c23d9eabe9",
+        "size_bytes": 302825
       },
       {
         "path": "telecom/lte/s1ap/per_helpers.go",
@@ -4291,16 +4303,22 @@
         "size_bytes": 143305
       },
       {
-        "path": "telecom/lte/x2ap/asn1_vectors_test.go",
+        "path": "telecom/lte/x2ap/asn1_contract_vectors_test.go",
         "mode": "0644",
-        "sha256": "1e8f74cea8d48a443f2075b88d2ca42612f30f49222c6dccbcd6395485d328f0",
-        "size_bytes": 10053
+        "sha256": "63a61bf3221ad81d3f1fc1108c9c47710cf111cc27b7ccb13a016fb71cd49562",
+        "size_bytes": 12989
+      },
+      {
+        "path": "telecom/lte/x2ap/asn1_wire_vectors_test.go",
+        "mode": "0644",
+        "sha256": "0f846514a9e7c76ca7d5ae8d790667ad2b7294c25f4485793b9fa9fc5de078b3",
+        "size_bytes": 24611
       },
       {
         "path": "telecom/lte/x2ap/dispatch.go",
         "mode": "0644",
-        "sha256": "bb6436a87476dd0dd407c1d9332dd28bb99d6f1d39cef0c3eba1fcd418c05b00",
-        "size_bytes": 493591
+        "sha256": "f98d6121dfa249bfa06f5b9833a76a7cbe7d6ad6abc2d2df7da5e4d6d1789e61",
+        "size_bytes": 390912
       },
       {
         "path": "telecom/lte/x2ap/per_helpers.go",
@@ -4345,10 +4363,16 @@
         "size_bytes": 10486
       },
       {
-        "path": "telecom/ss7/gsm_map/asn1_vectors_test.go",
+        "path": "telecom/ss7/gsm_map/asn1_contract_vectors_test.go",
         "mode": "0644",
-        "sha256": "5bc60b4222d54272c9fc9a6bb357ed56085403e78a46bc3ff77dee4a9ccd22ed",
-        "size_bytes": 9011
+        "sha256": "b0c416dbccdbdf6cc15e299ba1aca86e84d052a189b84a68c64e6d22654ce98b",
+        "size_bytes": 3993
+      },
+      {
+        "path": "telecom/ss7/gsm_map/asn1_wire_vectors_test.go",
+        "mode": "0644",
+        "sha256": "2fc496db5f4023046d9ab5e063018372acc292ff7d8d67a409a0893207df2562",
+        "size_bytes": 14013
       },
       {
         "path": "telecom/ss7/gsm_map/dummymap.go",
@@ -4765,10 +4789,10 @@
         "size_bytes": 315
       },
       {
-        "path": "telecom/ss7/tcap/asn1_vectors_test.go",
+        "path": "telecom/ss7/tcap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "6d9239f4479e315f6a2abf2d050194036c22681fe394480f880c5ad21cbf6f14",
-        "size_bytes": 6251
+        "sha256": "b8314cde3d84d419274f1a5ada521c6321024e4492dc871618a7474a42246501",
+        "size_bytes": 6740
       },
       {
         "path": "telecom/ss7/tcap/dialoguepdus.go",
@@ -4847,19 +4871,19 @@
         "$STAGE/runtime/per/uper_test.go",
         "$STAGE/runtime/tag/tag.go",
         "$STAGE/runtime/types.go",
-        "$STAGE/telecom/esim/sgp22/asn1_vectors_test.go",
+        "$STAGE/telecom/esim/sgp22/asn1_wire_vectors_test.go",
         "$STAGE/telecom/esim/sgp22/pedefinitions.go",
         "$STAGE/telecom/esim/sgp22/pkix1explicit88.go",
         "$STAGE/telecom/esim/sgp22/pkix1implicit88.go",
         "$STAGE/telecom/esim/sgp22/rspdefinitions.go",
-        "$STAGE/telecom/esim/sgp32/asn1_vectors_test.go",
+        "$STAGE/telecom/esim/sgp32/asn1_wire_vectors_test.go",
         "$STAGE/telecom/esim/sgp32/pedefinitions.go",
         "$STAGE/telecom/esim/sgp32/pkix1explicit88.go",
         "$STAGE/telecom/esim/sgp32/pkix1implicit88.go",
         "$STAGE/telecom/esim/sgp32/rspdefinitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions_test.go",
-        "$STAGE/telecom/lte/rrc/asn1_vectors_test.go",
+        "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrarrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrasidelinkpreconf.go",
@@ -4870,7 +4894,7 @@
         "$STAGE/telecom/lte/rrc/package_api_test.go",
         "$STAGE/telecom/lte/rrc/pc5rrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/per_helpers.go",
-        "$STAGE/telecom/lte/s1ap/asn1_vectors_test.go",
+        "$STAGE/telecom/lte/s1ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/s1ap/dispatch.go",
         "$STAGE/telecom/lte/s1ap/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/s1apcommondatatypes.go",
@@ -4880,7 +4904,8 @@
         "$STAGE/telecom/lte/s1ap/s1appducontents.go",
         "$STAGE/telecom/lte/s1ap/s1appdudescriptions.go",
         "$STAGE/telecom/lte/s1ap/sontransferies.go",
-        "$STAGE/telecom/lte/x2ap/asn1_vectors_test.go",
+        "$STAGE/telecom/lte/x2ap/asn1_contract_vectors_test.go",
+        "$STAGE/telecom/lte/x2ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/x2ap/dispatch.go",
         "$STAGE/telecom/lte/x2ap/per_helpers.go",
         "$STAGE/telecom/lte/x2ap/x2apcommondatatypes.go",
@@ -4889,7 +4914,8 @@
         "$STAGE/telecom/lte/x2ap/x2apies.go",
         "$STAGE/telecom/lte/x2ap/x2appducontents.go",
         "$STAGE/telecom/lte/x2ap/x2appdudescriptions.go",
-        "$STAGE/telecom/ss7/gsm_map/asn1_vectors_test.go",
+        "$STAGE/telecom/ss7/gsm_map/asn1_contract_vectors_test.go",
+        "$STAGE/telecom/ss7/gsm_map/asn1_wire_vectors_test.go",
         "$STAGE/telecom/ss7/gsm_map/dummymap.go",
         "$STAGE/telecom/ss7/gsm_map/ericssonmap.go",
         "$STAGE/telecom/ss7/gsm_map/mapapplicationcontexts.go",
@@ -4959,7 +4985,7 @@
         "$STAGE/telecom/ss7/gsm_map/ssdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/sserrors.go",
         "$STAGE/telecom/ss7/gsm_map/ssoperations.go",
-        "$STAGE/telecom/ss7/tcap/asn1_vectors_test.go",
+        "$STAGE/telecom/ss7/tcap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/ss7/tcap/dialoguepdus.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsgenericrospdus.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsinformationobjects.go",
@@ -5014,19 +5040,19 @@
         "$STAGE/runtime/per/uper_test.go",
         "$STAGE/runtime/tag/tag.go",
         "$STAGE/runtime/types.go",
-        "$STAGE/telecom/esim/sgp22/asn1_vectors_test.go",
+        "$STAGE/telecom/esim/sgp22/asn1_wire_vectors_test.go",
         "$STAGE/telecom/esim/sgp22/pedefinitions.go",
         "$STAGE/telecom/esim/sgp22/pkix1explicit88.go",
         "$STAGE/telecom/esim/sgp22/pkix1implicit88.go",
         "$STAGE/telecom/esim/sgp22/rspdefinitions.go",
-        "$STAGE/telecom/esim/sgp32/asn1_vectors_test.go",
+        "$STAGE/telecom/esim/sgp32/asn1_wire_vectors_test.go",
         "$STAGE/telecom/esim/sgp32/pedefinitions.go",
         "$STAGE/telecom/esim/sgp32/pkix1explicit88.go",
         "$STAGE/telecom/esim/sgp32/pkix1implicit88.go",
         "$STAGE/telecom/esim/sgp32/rspdefinitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions_test.go",
-        "$STAGE/telecom/lte/rrc/asn1_vectors_test.go",
+        "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrarrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrasidelinkpreconf.go",
@@ -5037,7 +5063,7 @@
         "$STAGE/telecom/lte/rrc/package_api_test.go",
         "$STAGE/telecom/lte/rrc/pc5rrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/per_helpers.go",
-        "$STAGE/telecom/lte/s1ap/asn1_vectors_test.go",
+        "$STAGE/telecom/lte/s1ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/s1ap/dispatch.go",
         "$STAGE/telecom/lte/s1ap/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/s1apcommondatatypes.go",
@@ -5047,7 +5073,8 @@
         "$STAGE/telecom/lte/s1ap/s1appducontents.go",
         "$STAGE/telecom/lte/s1ap/s1appdudescriptions.go",
         "$STAGE/telecom/lte/s1ap/sontransferies.go",
-        "$STAGE/telecom/lte/x2ap/asn1_vectors_test.go",
+        "$STAGE/telecom/lte/x2ap/asn1_contract_vectors_test.go",
+        "$STAGE/telecom/lte/x2ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/x2ap/dispatch.go",
         "$STAGE/telecom/lte/x2ap/per_helpers.go",
         "$STAGE/telecom/lte/x2ap/x2apcommondatatypes.go",
@@ -5056,7 +5083,8 @@
         "$STAGE/telecom/lte/x2ap/x2apies.go",
         "$STAGE/telecom/lte/x2ap/x2appducontents.go",
         "$STAGE/telecom/lte/x2ap/x2appdudescriptions.go",
-        "$STAGE/telecom/ss7/gsm_map/asn1_vectors_test.go",
+        "$STAGE/telecom/ss7/gsm_map/asn1_contract_vectors_test.go",
+        "$STAGE/telecom/ss7/gsm_map/asn1_wire_vectors_test.go",
         "$STAGE/telecom/ss7/gsm_map/dummymap.go",
         "$STAGE/telecom/ss7/gsm_map/ericssonmap.go",
         "$STAGE/telecom/ss7/gsm_map/mapapplicationcontexts.go",
@@ -5126,7 +5154,7 @@
         "$STAGE/telecom/ss7/gsm_map/ssdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/sserrors.go",
         "$STAGE/telecom/ss7/gsm_map/ssoperations.go",
-        "$STAGE/telecom/ss7/tcap/asn1_vectors_test.go",
+        "$STAGE/telecom/ss7/tcap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/ss7/tcap/dialoguepdus.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsgenericrospdus.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsinformationobjects.go",

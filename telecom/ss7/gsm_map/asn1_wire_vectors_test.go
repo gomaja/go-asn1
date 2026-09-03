@@ -34,6 +34,15 @@ func TestASN1VectorPathRejectsNegativeIndex(t *testing.T) {
 	}
 }
 
+func TestASN1VectorPathRejectsEmptySegments(t *testing.T) {
+	value := reflect.ValueOf(struct{ Field int }{Field: 1})
+	for _, path := range []string{"", ".Field", "Field.", "Field..Nested"} {
+		if _, err := asn1VectorValueAtPath(value, path); err == nil {
+			t.Errorf("asn1VectorValueAtPath accepted malformed path %q", path)
+		}
+	}
+}
+
 func asn1VectorAssertPath(t *testing.T, value any, path, expectedJSON string) {
 	t.Helper()
 	actual, err := asn1VectorValueAtPath(reflect.ValueOf(value), path)
@@ -53,7 +62,13 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 	if path == "$" {
 		return asn1VectorInterface(current)
 	}
-	for _, segment := range strings.Split(path, ".") {
+	segments := strings.Split(path, ".")
+	for _, segment := range segments {
+		if segment == "" {
+			return nil, fmt.Errorf("path %s: malformed empty segment", path)
+		}
+	}
+	for _, segment := range segments {
 		var err error
 		current, err = asn1VectorDereference(current)
 		if err != nil {
@@ -153,6 +168,7 @@ func TestVectorSendRoutingInfoRealCapture(t *testing.T) {
 }
 
 // TestVectorSendAuthenticationInfoEpsOnly verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.1, SendAuthenticationInfoRes and EPS-AuthenticationSetList.
+// Regression: go-asn1-v0.1.9.gsm-map.eps-only-authentication-set
 func TestVectorSendAuthenticationInfoEpsOnly(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "a350a24e304c0410000102030405060708090a0b0c0d0e0f0404aabbccdd0410101112131415161718191a1b1c1d1e1f0420202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f")
@@ -175,6 +191,7 @@ func TestVectorSendAuthenticationInfoEpsOnly(t *testing.T) {
 }
 
 // TestVectorSendAuthenticationInfoOptionalChoice verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.1, SendAuthenticationInfoRes and AuthenticationSetList.
+// Regression: go-asn1-v0.1.9.gsm-map.optional-choice-tag-guard
 func TestVectorSendAuthenticationInfoOptionalChoice(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "a326a02430220410000102030405060708090a0b0c0d0e0f0404aabbccdd04081011121314151617")
@@ -187,6 +204,90 @@ func TestVectorSendAuthenticationInfoOptionalChoice(t *testing.T) {
 	asn1VectorAssertPath(t, decoded, "AuthenticationSetList.TripletList[0].Rand", "\"AAECAwQFBgcICQoLDA0ODw==\"")
 	asn1VectorAssertPath(t, decoded, "AuthenticationSetList.TripletList[0].Sres", "\"qrvM3Q==\"")
 	asn1VectorAssertPath(t, decoded, "AuthenticationSetList.TripletList[0].Kc", "\"EBESExQVFhc=\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorSendAuthenticationInfoMixedOptionals verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.1; optional root and extension authentication fields decode in ASN.1 tag order.
+// Regression: go-asn1-v0.4.2.gsm-map.mixed-authentication-optionals
+func TestVectorSendAuthenticationInfoMixedOptionals(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "a37ca02430220410000102030405060708090a0b0c0d0e0f0404aabbccdd04081011121314151617a24e304c0410000102030405060708090a0b0c0d0e0f0404aabbccdd0410101112131415161718191a1b1c1d1e1f0420202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f830409080706")
+	var decoded SendAuthenticationInfoRes
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "AuthenticationSetList.Choice", "1")
+	asn1VectorAssertPath(t, decoded, "AuthenticationSetList.TripletList[0].Rand", "\"AAECAwQFBgcICQoLDA0ODw==\"")
+	asn1VectorAssertPath(t, decoded, "EpsAuthenticationSetList[0].Rand", "\"AAECAwQFBgcICQoLDA0ODw==\"")
+	asn1VectorAssertPath(t, decoded, "EpsAuthenticationSetList[0].Kasme", "\"ICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj8=\"")
+	asn1VectorAssertPath(t, decoded, "UeUsageType", "\"CQgHBg==\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorPcsExtensionsPreserveUnknownExtension verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.11; unknown SEQUENCE extension additions are preserved byte-exactly.
+// Regression: go-asn1-v0.4.2.gsm-map.pcs-extension-preservation
+func TestVectorPcsExtensionsPreserveUnknownExtension(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3003800100")
+	var decoded PCSExtensions
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "ExtData_[0]", "\"gAEA\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorShortTermDenialPreserveUnknownExtension verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.6.2; unknown ShortTermDenialParam extension additions are preserved byte-exactly.
+// Regression: go-asn1-v0.4.2.gsm-map.short-term-denial-extension-preservation
+func TestVectorShortTermDenialPreserveUnknownExtension(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3003800100")
+	var decoded ShortTermDenialParam
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "ExtData_[0]", "\"gAEA\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorLongTermDenialPreserveUnknownExtension verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.6.2; unknown LongTermDenialParam extension additions are preserved byte-exactly.
+// Regression: go-asn1-v0.4.2.gsm-map.long-term-denial-extension-preservation
+func TestVectorLongTermDenialPreserveUnknownExtension(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3003800100")
+	var decoded LongTermDenialParam
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "ExtData_[0]", "\"gAEA\"")
 	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
@@ -249,8 +350,33 @@ func FuzzBERSendRoutingInfoArg(f *testing.F) {
 func FuzzBERSendAuthenticationInfoRes(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("a350a24e304c0410000102030405060708090a0b0c0d0e0f0404aabbccdd0410101112131415161718191a1b1c1d1e1f0420202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f"))
 	f.Add(asn1VectorHexForFuzz("a326a02430220410000102030405060708090a0b0c0d0e0f0404aabbccdd04081011121314151617"))
+	f.Add(asn1VectorHexForFuzz("a37ca02430220410000102030405060708090a0b0c0d0e0f0404aabbccdd04081011121314151617a24e304c0410000102030405060708090a0b0c0d0e0f0404aabbccdd0410101112131415161718191a1b1c1d1e1f0420202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f830409080706"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded SendAuthenticationInfoRes
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERPCSExtensions(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("3003800100"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded PCSExtensions
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERShortTermDenialParam(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("3003800100"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded ShortTermDenialParam
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERLongTermDenialParam(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("3003800100"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded LongTermDenialParam
 		_ = decoded.UnmarshalBER(input)
 	})
 }

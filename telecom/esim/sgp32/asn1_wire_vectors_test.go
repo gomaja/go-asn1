@@ -1,4 +1,4 @@
-package sgp22
+package sgp32
 
 import (
 	"bytes"
@@ -34,6 +34,15 @@ func TestASN1VectorPathRejectsNegativeIndex(t *testing.T) {
 	}
 }
 
+func TestASN1VectorPathRejectsEmptySegments(t *testing.T) {
+	value := reflect.ValueOf(struct{ Field int }{Field: 1})
+	for _, path := range []string{"", ".Field", "Field.", "Field..Nested"} {
+		if _, err := asn1VectorValueAtPath(value, path); err == nil {
+			t.Errorf("asn1VectorValueAtPath accepted malformed path %q", path)
+		}
+	}
+}
+
 func asn1VectorAssertPath(t *testing.T, value any, path, expectedJSON string) {
 	t.Helper()
 	actual, err := asn1VectorValueAtPath(reflect.ValueOf(value), path)
@@ -53,7 +62,13 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 	if path == "$" {
 		return asn1VectorInterface(current)
 	}
-	for _, segment := range strings.Split(path, ".") {
+	segments := strings.Split(path, ".")
+	for _, segment := range segments {
+		if segment == "" {
+			return nil, fmt.Errorf("path %s: malformed empty segment", path)
+		}
+	}
+	for _, segment := range segments {
 		var err error
 		current, err = asn1VectorDereference(current)
 		if err != nil {
@@ -131,18 +146,18 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 	return value.Interface(), nil
 }
 
-// TestVectorPrepareDownloadCertificate verifies GSMA SGP.22 V2.7 (2026-04-24), section 5.7.5 and normative Annex H; RFC 5280 section 4.1 and Appendix A.1.
-func TestVectorPrepareDownloadCertificate(t *testing.T) {
+// TestVectorGetCertsResponseCertificates verifies GSMA SGP.32 V1.3 (2026-05-22), section 5.9.10 and normative Annex C; RFC 5280 section 4.1 and Appendix A.1.
+func TestVectorGetCertsResponseCertificates(t *testing.T) {
 	t.Parallel()
-	input := asn1VectorHex(t, "bf2182015e30158010000102030405060708090a0b0c0d0e0f0101005f3740a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5308201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03")
-	var decoded PrepareDownloadRequest
+	input := asn1VectorHex(t, "bf5682020ca0820208a58201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03a68201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03")
+	var decoded GetCertsResponse
 	err := decoded.UnmarshalBER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	asn1VectorAssertPath(t, decoded, "SmdpSigned2.TransactionId", "\"AAECAwQFBgcICQoLDA0ODw==\"")
-	asn1VectorAssertPath(t, decoded, "SmdpSigned2.CcRequiredFlag", "false")
-	asn1VectorAssertPath(t, decoded, "SmdpCertificate.TbsCertificate.SerialNumber", "1")
+	asn1VectorAssertPath(t, decoded, "Choice", "1")
+	asn1VectorAssertPath(t, decoded, "Certs.EumCertificate.TbsCertificate.SerialNumber", "1")
+	asn1VectorAssertPath(t, decoded, "Certs.EuiccCertificate.TbsCertificate.SerialNumber", "1")
 	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
@@ -152,10 +167,10 @@ func TestVectorPrepareDownloadCertificate(t *testing.T) {
 	}
 }
 
-func FuzzBERPrepareDownloadRequest(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("bf2182015e30158010000102030405060708090a0b0c0d0e0f0101005f3740a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5308201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03"))
+func FuzzBERGetCertsResponse(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("bf5682020ca0820208a58201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03a68201003081b3a003020102020101300506032b65703020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72301e170d3236303130313030303030305a170d3237303130313030303030305a3020311e301c0603550403131541534e2e3120436f6d70696c657220566563746f72302a300506032b657003210079b5562e8fe654f94078b112e8a98ba7901f853ae695bed7e0e3910bad049664a3123010300e0603551d0f0101ff040403020780300506032b657003410068ba274f6ca267f6c3ee16f952c62b403f8e7c6c5d3416c85b12677f24a53edda0b32fb98e5b0e3cfdcf0c4ce51d906eb3c24fb77858ffaf55271d58f6ef9a03"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded PrepareDownloadRequest
+		var decoded GetCertsResponse
 		_ = decoded.UnmarshalBER(input)
 	})
 }
