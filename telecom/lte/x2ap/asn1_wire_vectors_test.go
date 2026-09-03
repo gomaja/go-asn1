@@ -245,6 +245,24 @@ func TestVectorX2apPduHeader(t *testing.T) {
 	}
 }
 
+// TestVectorGlobalGnbIdRepeatedFieldErrorPath verifies 3GPP TS 36.423 V19.1.0 (2026-02), section 9.2; malformed GlobalGNB-ID diagnostics retain the containing field and selected GNB-ID alternative.
+// Regression: go-asn1-v0.5.0.x2ap.repeated-field-error-path
+func TestVectorGlobalGnbIdRepeatedFieldErrorPath(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "0001020300")
+	var decoded GlobalGNBID
+	err := decoded.UnmarshalAPER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "per: data truncated") {
+		t.Fatalf("decode error = %q, want substring %q", err, "per: data truncated")
+	}
+	if !strings.Contains(err.Error(), "GlobalGNBID.GNBID.GNBID") {
+		t.Fatalf("decode error = %q, want path %q", err, "GlobalGNBID.GNBID.GNBID")
+	}
+}
+
 // TestVectorHandoverRequestNineVisitedCells verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.2.38 through 9.2.40; UE-HistoryInformation permits up to 16 visited cells.
 // Regression: go-asn1-v0.4.2.x2ap.ue-history-nine-cells
 func TestVectorHandoverRequestNineVisitedCells(t *testing.T) {
@@ -551,6 +569,14 @@ func FuzzAPERX2APPDU(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("002e0002bbcc"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded X2APPDU
+		_ = decoded.UnmarshalAPER(input)
+	})
+}
+
+func FuzzAPERGlobalGNBID(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("0001020300"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded GlobalGNBID
 		_ = decoded.UnmarshalAPER(input)
 	})
 }

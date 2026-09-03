@@ -1605,7 +1605,7 @@ func (v *HandoverRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -1614,7 +1614,7 @@ func (v *HandoverRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -1707,7 +1707,7 @@ func (v *HandoverCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -1716,7 +1716,7 @@ func (v *HandoverCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -1980,7 +1980,7 @@ func (v *ERABDataForwardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -1989,7 +1989,7 @@ func (v *ERABDataForwardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2082,7 +2082,7 @@ func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2091,7 +2091,7 @@ func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2184,7 +2184,7 @@ func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2193,7 +2193,7 @@ func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2397,7 +2397,7 @@ func (v *ERABToBeSetupItemHOReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2406,7 +2406,7 @@ func (v *ERABToBeSetupItemHOReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2499,7 +2499,7 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2508,7 +2508,7 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2786,7 +2786,7 @@ func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2795,7 +2795,7 @@ func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2983,7 +2983,7 @@ func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2992,7 +2992,7 @@ func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3085,7 +3085,7 @@ func (v *HandoverFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3094,7 +3094,7 @@ func (v *HandoverFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3187,7 +3187,7 @@ func (v *HandoverNotify) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3196,7 +3196,7 @@ func (v *HandoverNotify) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3289,7 +3289,7 @@ func (v *PathSwitchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3298,7 +3298,7 @@ func (v *PathSwitchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3496,7 +3496,7 @@ func (v *ERABToBeSwitchedDLItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3505,7 +3505,7 @@ func (v *ERABToBeSwitchedDLItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3598,7 +3598,7 @@ func (v *PathSwitchRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3607,7 +3607,7 @@ func (v *PathSwitchRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3805,7 +3805,7 @@ func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3814,7 +3814,7 @@ func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4015,7 +4015,7 @@ func (v *ERABToBeUpdatedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4024,7 +4024,7 @@ func (v *ERABToBeUpdatedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4117,7 +4117,7 @@ func (v *PathSwitchRequestFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4126,7 +4126,7 @@ func (v *PathSwitchRequestFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4219,7 +4219,7 @@ func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4228,7 +4228,7 @@ func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4321,7 +4321,7 @@ func (v *HandoverCancelAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4330,7 +4330,7 @@ func (v *HandoverCancelAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4423,7 +4423,7 @@ func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4432,7 +4432,7 @@ func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4525,7 +4525,7 @@ func (v *ENBEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4534,7 +4534,7 @@ func (v *ENBEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4627,7 +4627,7 @@ func (v *MMEEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4636,7 +4636,7 @@ func (v *MMEEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4729,7 +4729,7 @@ func (v *ERABSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4738,7 +4738,7 @@ func (v *ERABSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4950,7 +4950,7 @@ func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4959,7 +4959,7 @@ func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -5052,7 +5052,7 @@ func (v *ERABSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5061,7 +5061,7 @@ func (v *ERABSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -5259,7 +5259,7 @@ func (v *ERABSetupItemBearerSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5268,7 +5268,7 @@ func (v *ERABSetupItemBearerSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -5361,7 +5361,7 @@ func (v *ERABModifyRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5370,7 +5370,7 @@ func (v *ERABModifyRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -5568,7 +5568,7 @@ func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5577,7 +5577,7 @@ func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -5670,7 +5670,7 @@ func (v *ERABModifyResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5679,7 +5679,7 @@ func (v *ERABModifyResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -5861,7 +5861,7 @@ func (v *ERABModifyItemBearerModRes) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5870,7 +5870,7 @@ func (v *ERABModifyItemBearerModRes) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -5963,7 +5963,7 @@ func (v *ERABReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -5972,7 +5972,7 @@ func (v *ERABReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -6065,7 +6065,7 @@ func (v *ERABReleaseResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -6074,7 +6074,7 @@ func (v *ERABReleaseResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -6256,7 +6256,7 @@ func (v *ERABReleaseItemBearerRelComp) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -6265,7 +6265,7 @@ func (v *ERABReleaseItemBearerRelComp) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -6358,7 +6358,7 @@ func (v *ERABReleaseIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -6367,7 +6367,7 @@ func (v *ERABReleaseIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -6460,7 +6460,7 @@ func (v *InitialContextSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -6469,7 +6469,7 @@ func (v *InitialContextSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -6693,7 +6693,7 @@ func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -6702,7 +6702,7 @@ func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -6795,7 +6795,7 @@ func (v *InitialContextSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -6804,7 +6804,7 @@ func (v *InitialContextSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7002,7 +7002,7 @@ func (v *ERABSetupItemCtxtSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7011,7 +7011,7 @@ func (v *ERABSetupItemCtxtSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7104,7 +7104,7 @@ func (v *InitialContextSetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7113,7 +7113,7 @@ func (v *InitialContextSetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7206,7 +7206,7 @@ func (v *Paging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7215,7 +7215,7 @@ func (v *Paging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7395,7 +7395,7 @@ func (v *TAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7404,7 +7404,7 @@ func (v *TAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7497,7 +7497,7 @@ func (v *UEContextReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7506,7 +7506,7 @@ func (v *UEContextReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7599,7 +7599,7 @@ func (v *UEContextReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7608,7 +7608,7 @@ func (v *UEContextReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7701,7 +7701,7 @@ func (v *UEContextReleaseComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7710,7 +7710,7 @@ func (v *UEContextReleaseComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7803,7 +7803,7 @@ func (v *UEContextModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7812,7 +7812,7 @@ func (v *UEContextModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -7905,7 +7905,7 @@ func (v *UEContextModificationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -7914,7 +7914,7 @@ func (v *UEContextModificationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8007,7 +8007,7 @@ func (v *UEContextModificationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8016,7 +8016,7 @@ func (v *UEContextModificationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8109,7 +8109,7 @@ func (v *UERadioCapabilityMatchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8118,7 +8118,7 @@ func (v *UERadioCapabilityMatchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8211,7 +8211,7 @@ func (v *UERadioCapabilityMatchResponse) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8220,7 +8220,7 @@ func (v *UERadioCapabilityMatchResponse) UnmarshalAPERFrom(bb *per.BitBuffer) er
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8313,7 +8313,7 @@ func (v *DownlinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8322,7 +8322,7 @@ func (v *DownlinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8415,7 +8415,7 @@ func (v *InitialUEMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8424,7 +8424,7 @@ func (v *InitialUEMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8517,7 +8517,7 @@ func (v *UplinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8526,7 +8526,7 @@ func (v *UplinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8619,7 +8619,7 @@ func (v *NASNonDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8628,7 +8628,7 @@ func (v *NASNonDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8721,7 +8721,7 @@ func (v *RerouteNASRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8730,7 +8730,7 @@ func (v *RerouteNASRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8823,7 +8823,7 @@ func (v *NASDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8832,7 +8832,7 @@ func (v *NASDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -8925,7 +8925,7 @@ func (v *Reset) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -8934,7 +8934,7 @@ func (v *Reset) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -9024,11 +9024,11 @@ func (v *ResetType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
 		return nil
@@ -9219,7 +9219,7 @@ func (v *ResetAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -9228,7 +9228,7 @@ func (v *ResetAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -9390,7 +9390,7 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -9399,7 +9399,7 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -9492,7 +9492,7 @@ func (v *S1SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -9501,7 +9501,7 @@ func (v *S1SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -9594,7 +9594,7 @@ func (v *S1SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -9603,7 +9603,7 @@ func (v *S1SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -9696,7 +9696,7 @@ func (v *S1SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -9705,7 +9705,7 @@ func (v *S1SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -9798,7 +9798,7 @@ func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -9807,7 +9807,7 @@ func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -9900,7 +9900,7 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -9909,7 +9909,7 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10002,7 +10002,7 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10011,7 +10011,7 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10104,7 +10104,7 @@ func (v *MMEConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10113,7 +10113,7 @@ func (v *MMEConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10206,7 +10206,7 @@ func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10215,7 +10215,7 @@ func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10308,7 +10308,7 @@ func (v *MMEConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10317,7 +10317,7 @@ func (v *MMEConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10410,7 +10410,7 @@ func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10419,7 +10419,7 @@ func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10512,7 +10512,7 @@ func (v *UplinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10521,7 +10521,7 @@ func (v *UplinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10614,7 +10614,7 @@ func (v *UECapabilityInfoIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10623,7 +10623,7 @@ func (v *UECapabilityInfoIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10716,7 +10716,7 @@ func (v *ENBStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10725,7 +10725,7 @@ func (v *ENBStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10818,7 +10818,7 @@ func (v *MMEStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10827,7 +10827,7 @@ func (v *MMEStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -10920,7 +10920,7 @@ func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -10929,7 +10929,7 @@ func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11022,7 +11022,7 @@ func (v *TraceFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11031,7 +11031,7 @@ func (v *TraceFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11124,7 +11124,7 @@ func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11133,7 +11133,7 @@ func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11226,7 +11226,7 @@ func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11235,7 +11235,7 @@ func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11328,7 +11328,7 @@ func (v *LocationReportingControl) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11337,7 +11337,7 @@ func (v *LocationReportingControl) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11430,7 +11430,7 @@ func (v *LocationReportingFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11439,7 +11439,7 @@ func (v *LocationReportingFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11532,7 +11532,7 @@ func (v *LocationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11541,7 +11541,7 @@ func (v *LocationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11634,7 +11634,7 @@ func (v *OverloadStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11643,7 +11643,7 @@ func (v *OverloadStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11736,7 +11736,7 @@ func (v *OverloadStop) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11745,7 +11745,7 @@ func (v *OverloadStop) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11838,7 +11838,7 @@ func (v *WriteReplaceWarningRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11847,7 +11847,7 @@ func (v *WriteReplaceWarningRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -11940,7 +11940,7 @@ func (v *WriteReplaceWarningResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -11949,7 +11949,7 @@ func (v *WriteReplaceWarningResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12042,7 +12042,7 @@ func (v *ENBDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12051,7 +12051,7 @@ func (v *ENBDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12127,11 +12127,11 @@ func (v *InterSystemInformationTransferType) UnmarshalAPERFrom(bb *per.BitBuffer
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
 		return nil
@@ -12232,7 +12232,7 @@ func (v *MMEDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12241,7 +12241,7 @@ func (v *MMEDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12334,7 +12334,7 @@ func (v *ENBConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12343,7 +12343,7 @@ func (v *ENBConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12436,7 +12436,7 @@ func (v *MMEConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12445,7 +12445,7 @@ func (v *MMEConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12538,7 +12538,7 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12547,7 +12547,7 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12640,7 +12640,7 @@ func (v *KillRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12649,7 +12649,7 @@ func (v *KillRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12742,7 +12742,7 @@ func (v *KillResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12751,7 +12751,7 @@ func (v *KillResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12844,7 +12844,7 @@ func (v *PWSRestartIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12853,7 +12853,7 @@ func (v *PWSRestartIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -12946,7 +12946,7 @@ func (v *PWSFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -12955,7 +12955,7 @@ func (v *PWSFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -13048,7 +13048,7 @@ func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -13057,7 +13057,7 @@ func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer)
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -13150,7 +13150,7 @@ func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -13159,7 +13159,7 @@ func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -13252,7 +13252,7 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuff
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -13261,7 +13261,7 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuff
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -13354,7 +13354,7 @@ func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -13363,7 +13363,7 @@ func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -13456,7 +13456,7 @@ func (v *ERABModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -13465,7 +13465,7 @@ func (v *ERABModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -13665,7 +13665,7 @@ func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -13674,7 +13674,7 @@ func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -13874,7 +13874,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffe
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -13883,7 +13883,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffe
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14046,7 +14046,7 @@ func (v *CSGMembershipInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14055,7 +14055,7 @@ func (v *CSGMembershipInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14148,7 +14148,7 @@ func (v *ERABModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14157,7 +14157,7 @@ func (v *ERABModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14339,7 +14339,7 @@ func (v *ERABModifyItemBearerModConf) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14348,7 +14348,7 @@ func (v *ERABModifyItemBearerModConf) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14441,7 +14441,7 @@ func (v *UEContextModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14450,7 +14450,7 @@ func (v *UEContextModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14543,7 +14543,7 @@ func (v *UEContextModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14552,7 +14552,7 @@ func (v *UEContextModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14645,7 +14645,7 @@ func (v *UEContextSuspendRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14654,7 +14654,7 @@ func (v *UEContextSuspendRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14747,7 +14747,7 @@ func (v *UEContextSuspendResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14756,7 +14756,7 @@ func (v *UEContextSuspendResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -14849,7 +14849,7 @@ func (v *UEContextResumeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -14858,7 +14858,7 @@ func (v *UEContextResumeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15048,7 +15048,7 @@ func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15057,7 +15057,7 @@ func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15150,7 +15150,7 @@ func (v *UEContextResumeResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15159,7 +15159,7 @@ func (v *UEContextResumeResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15349,7 +15349,7 @@ func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15358,7 +15358,7 @@ func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15451,7 +15451,7 @@ func (v *UEContextResumeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15460,7 +15460,7 @@ func (v *UEContextResumeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15553,7 +15553,7 @@ func (v *ConnectionEstablishmentIndication) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15562,7 +15562,7 @@ func (v *ConnectionEstablishmentIndication) UnmarshalAPERFrom(bb *per.BitBuffer)
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15655,7 +15655,7 @@ func (v *RetrieveUEInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15664,7 +15664,7 @@ func (v *RetrieveUEInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15757,7 +15757,7 @@ func (v *UEInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15766,7 +15766,7 @@ func (v *UEInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15859,7 +15859,7 @@ func (v *ENBCPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15868,7 +15868,7 @@ func (v *ENBCPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -15961,7 +15961,7 @@ func (v *MMECPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -15970,7 +15970,7 @@ func (v *MMECPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -16063,7 +16063,7 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -16072,7 +16072,7 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -16165,7 +16165,7 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -16174,7 +16174,7 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer)
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -16267,7 +16267,7 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -16276,7 +16276,7 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -16369,7 +16369,7 @@ func (v *S1RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -16378,7 +16378,7 @@ func (v *S1RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -16471,7 +16471,7 @@ func (v *S1RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -16480,7 +16480,7 @@ func (v *S1RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -16573,7 +16573,7 @@ func (v *S1RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -16582,7 +16582,7 @@ func (v *S1RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}

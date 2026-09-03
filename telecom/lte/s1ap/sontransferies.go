@@ -1000,11 +1000,11 @@ func (v *SONtransferRequestContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		if extIdx >= 6 {
 			v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
@@ -1012,38 +1012,45 @@ func (v *SONtransferRequestContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		v.Choice = int(extIdx) + 1 + 1
+		extensionPath := "UnknownExtension"
 		switch v.Choice {
 		case SONtransferRequestContainerChoiceMultiCellLoadReporting:
+			extensionPath = "MultiCellLoadReporting"
 			var dec_multicellloadreporting MultiCellLoadReportingRequest
 			if err := dec_multicellloadreporting.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "MultiCellLoadReporting")
 			}
 			v.MultiCellLoadReporting = &dec_multicellloadreporting
 		case SONtransferRequestContainerChoiceEventTriggeredCellLoadReporting:
+			extensionPath = "EventTriggeredCellLoadReporting"
 			var dec_eventtriggeredcellloadreporting EventTriggeredCellLoadReportingRequest
 			if err := dec_eventtriggeredcellloadreporting.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "EventTriggeredCellLoadReporting")
 			}
 			v.EventTriggeredCellLoadReporting = &dec_eventtriggeredcellloadreporting
 		case SONtransferRequestContainerChoiceHOReporting:
+			extensionPath = "HOReporting"
 			var dec_horeporting HOReport
 			if err := dec_horeporting.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "HOReporting")
 			}
 			v.HOReporting = &dec_horeporting
 		case SONtransferRequestContainerChoiceEutranCellActivation:
+			extensionPath = "EutranCellActivation"
 			var dec_eutrancellactivation CellActivationRequest
 			if err := dec_eutrancellactivation.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "EutranCellActivation")
 			}
 			v.EutranCellActivation = &dec_eutrancellactivation
 		case SONtransferRequestContainerChoiceEnergySavingsIndication:
+			extensionPath = "EnergySavingsIndication"
 			var dec_energysavingsindication CellStateIndication
 			if err := dec_energysavingsindication.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "EnergySavingsIndication")
 			}
 			v.EnergySavingsIndication = &dec_energysavingsindication
 		case SONtransferRequestContainerChoiceFailureEventReporting:
+			extensionPath = "FailureEventReporting"
 			var dec_failureeventreporting FailureEventReport
 			if err := dec_failureeventreporting.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "FailureEventReporting")
@@ -1051,7 +1058,7 @@ func (v *SONtransferRequestContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			v.FailureEventReporting = &dec_failureeventreporting
 		}
 		if err := per.ValidateOpenTypePadding(inner); err != nil {
-			return fmt.Errorf("SONtransferRequestContainer: extension choice %d: %w", v.Choice, err)
+			return runtime.WrapDecodePath(err, extensionPath)
 		}
 		return nil
 	}
@@ -1171,11 +1178,11 @@ func (v *SONtransferResponseContainer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		if extIdx >= 6 {
 			v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
@@ -1183,8 +1190,10 @@ func (v *SONtransferResponseContainer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		v.Choice = int(extIdx) + 1 + 1
+		extensionPath := "UnknownExtension"
 		switch v.Choice {
 		case SONtransferResponseContainerChoiceMultiCellLoadReporting:
+			extensionPath = "MultiCellLoadReporting"
 			tmp_multicellloadreporting := make(MultiCellLoadReportingResponse, 0)
 			_, errCollection_multicellloadreporting := per.DecodeCollection(inner, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, true, func(fragmentOffset_multicellloadreporting, fragmentLength_multicellloadreporting int64) error {
 				for i := int64(0); i < fragmentLength_multicellloadreporting; i++ {
@@ -1201,23 +1210,28 @@ func (v *SONtransferResponseContainer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			}
 			v.MultiCellLoadReporting = tmp_multicellloadreporting
 		case SONtransferResponseContainerChoiceEventTriggeredCellLoadReporting:
+			extensionPath = "EventTriggeredCellLoadReporting"
 			var dec_eventtriggeredcellloadreporting EventTriggeredCellLoadReportingResponse
 			if err := dec_eventtriggeredcellloadreporting.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "EventTriggeredCellLoadReporting")
 			}
 			v.EventTriggeredCellLoadReporting = &dec_eventtriggeredcellloadreporting
 		case SONtransferResponseContainerChoiceHOReporting:
+			extensionPath = "HOReporting"
 		case SONtransferResponseContainerChoiceEutranCellActivation:
+			extensionPath = "EutranCellActivation"
 			var dec_eutrancellactivation CellActivationResponse
 			if err := dec_eutrancellactivation.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "EutranCellActivation")
 			}
 			v.EutranCellActivation = &dec_eutrancellactivation
 		case SONtransferResponseContainerChoiceEnergySavingsIndication:
+			extensionPath = "EnergySavingsIndication"
 		case SONtransferResponseContainerChoiceFailureEventReporting:
+			extensionPath = "FailureEventReporting"
 		}
 		if err := per.ValidateOpenTypePadding(inner); err != nil {
-			return fmt.Errorf("SONtransferResponseContainer: extension choice %d: %w", v.Choice, err)
+			return runtime.WrapDecodePath(err, extensionPath)
 		}
 		return nil
 	}
@@ -1356,11 +1370,11 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		if extIdx >= 6 {
 			v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
@@ -1368,8 +1382,10 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		v.Choice = int(extIdx) + 1 + 1
+		extensionPath := "UnknownExtension"
 		switch v.Choice {
 		case SONtransferCauseChoiceMultiCellLoadReporting:
+			extensionPath = "MultiCellLoadReporting"
 			val_multicellloadreporting, err := per.DecodeEnumeratedAligned(inner, 3, true)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "MultiCellLoadReporting")
@@ -1377,6 +1393,7 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_multicellloadreporting := CellLoadReportingCause(val_multicellloadreporting)
 			v.MultiCellLoadReporting = &tmp_multicellloadreporting
 		case SONtransferCauseChoiceEventTriggeredCellLoadReporting:
+			extensionPath = "EventTriggeredCellLoadReporting"
 			val_eventtriggeredcellloadreporting, err := per.DecodeEnumeratedAligned(inner, 3, true)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "EventTriggeredCellLoadReporting")
@@ -1384,6 +1401,7 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_eventtriggeredcellloadreporting := CellLoadReportingCause(val_eventtriggeredcellloadreporting)
 			v.EventTriggeredCellLoadReporting = &tmp_eventtriggeredcellloadreporting
 		case SONtransferCauseChoiceHOReporting:
+			extensionPath = "HOReporting"
 			val_horeporting, err := per.DecodeEnumeratedAligned(inner, 3, true)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "HOReporting")
@@ -1391,6 +1409,7 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_horeporting := HOReportingCause(val_horeporting)
 			v.HOReporting = &tmp_horeporting
 		case SONtransferCauseChoiceEutranCellActivation:
+			extensionPath = "EutranCellActivation"
 			val_eutrancellactivation, err := per.DecodeEnumeratedAligned(inner, 3, true)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "EutranCellActivation")
@@ -1398,6 +1417,7 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_eutrancellactivation := CellActivationCause(val_eutrancellactivation)
 			v.EutranCellActivation = &tmp_eutrancellactivation
 		case SONtransferCauseChoiceEnergySavingsIndication:
+			extensionPath = "EnergySavingsIndication"
 			val_energysavingsindication, err := per.DecodeEnumeratedAligned(inner, 3, true)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "EnergySavingsIndication")
@@ -1405,6 +1425,7 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_energysavingsindication := CellStateIndicationCause(val_energysavingsindication)
 			v.EnergySavingsIndication = &tmp_energysavingsindication
 		case SONtransferCauseChoiceFailureEventReporting:
+			extensionPath = "FailureEventReporting"
 			val_failureeventreporting, err := per.DecodeEnumeratedAligned(inner, 3, true)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "FailureEventReporting")
@@ -1413,7 +1434,7 @@ func (v *SONtransferCause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			v.FailureEventReporting = &tmp_failureeventreporting
 		}
 		if err := per.ValidateOpenTypePadding(inner); err != nil {
-			return fmt.Errorf("SONtransferCause: extension choice %d: %w", v.Choice, err)
+			return runtime.WrapDecodePath(err, extensionPath)
 		}
 		return nil
 	}
@@ -1529,11 +1550,11 @@ func (v *CellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		if extIdx >= 1 {
 			v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
@@ -1541,8 +1562,10 @@ func (v *CellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		v.Choice = int(extIdx) + 3 + 1
+		extensionPath := "UnknownExtension"
 		switch v.Choice {
 		case CellLoadReportingResponseChoiceEHRPD:
+			extensionPath = "EHRPD"
 			var dec_ehrpd EHRPDSectorLoadReportingResponse
 			if err := dec_ehrpd.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "EHRPD")
@@ -1550,7 +1573,7 @@ func (v *CellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			v.EHRPD = &dec_ehrpd
 		}
 		if err := per.ValidateOpenTypePadding(inner); err != nil {
-			return fmt.Errorf("CellLoadReportingResponse: extension choice %d: %w", v.Choice, err)
+			return runtime.WrapDecodePath(err, extensionPath)
 		}
 		return nil
 	}
@@ -1652,7 +1675,7 @@ func (v *EUTRANcellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -1661,7 +1684,7 @@ func (v *EUTRANcellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -1744,7 +1767,7 @@ func (v *EUTRANResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -1753,7 +1776,7 @@ func (v *EUTRANResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -1858,11 +1881,11 @@ func (v *IRATCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		if extIdx >= 1 {
 			v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
@@ -1870,8 +1893,10 @@ func (v *IRATCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		v.Choice = int(extIdx) + 3 + 1
+		extensionPath := "UnknownExtension"
 		switch v.Choice {
 		case IRATCellIDChoiceEHRPD:
+			extensionPath = "EHRPD"
 			val_ehrpd, err := per.DecodeOctetStringAligned(inner, 16, 16, true)
 			if err != nil {
 				return runtime.WrapDecodePath(err, "EHRPD")
@@ -1880,7 +1905,7 @@ func (v *IRATCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			v.EHRPD = &tmp_ehrpd
 		}
 		if err := per.ValidateOpenTypePadding(inner); err != nil {
-			return fmt.Errorf("IRATCellID: extension choice %d: %w", v.Choice, err)
+			return runtime.WrapDecodePath(err, extensionPath)
 		}
 		return nil
 	}
@@ -2066,7 +2091,7 @@ func (v *MultiCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2075,7 +2100,7 @@ func (v *MultiCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2150,7 +2175,7 @@ func (v *ReportingCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2159,7 +2184,7 @@ func (v *ReportingCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2403,11 +2428,11 @@ func (v *MultiCellLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		if extIdx >= 1 {
 			v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
@@ -2415,8 +2440,10 @@ func (v *MultiCellLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.BitBuffer
 		}
 		inner := per.NewBitBufferFromBytes(openData)
 		v.Choice = int(extIdx) + 3 + 1
+		extensionPath := "UnknownExtension"
 		switch v.Choice {
 		case MultiCellLoadReportingResponseItemChoiceEHRPD:
+			extensionPath = "EHRPD"
 			var dec_ehrpd EHRPDMultiSectorLoadReportingResponseItem
 			if err := dec_ehrpd.UnmarshalAPERFrom(inner); err != nil {
 				return runtime.WrapDecodePath(err, "EHRPD")
@@ -2424,7 +2451,7 @@ func (v *MultiCellLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.BitBuffer
 			v.EHRPD = &dec_ehrpd
 		}
 		if err := per.ValidateOpenTypePadding(inner); err != nil {
-			return fmt.Errorf("MultiCellLoadReportingResponseItem: extension choice %d: %w", v.Choice, err)
+			return runtime.WrapDecodePath(err, extensionPath)
 		}
 		return nil
 	}
@@ -2526,7 +2553,7 @@ func (v *EventTriggeredCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBu
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2535,7 +2562,7 @@ func (v *EventTriggeredCellLoadReportingRequest) UnmarshalAPERFrom(bb *per.BitBu
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2632,7 +2659,7 @@ func (v *EventTriggeredCellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitB
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -2641,7 +2668,7 @@ func (v *EventTriggeredCellLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitB
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2807,7 +2834,7 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -2815,13 +2842,13 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenTypeAligned(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_candidatepcilist, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "CandidatePCIList")
 			}
 			if ext_opt_candidatepcilist {
 				tmp_candidatepcilist := make(CandidatePCIList, 0)
@@ -2841,14 +2868,14 @@ func (v *HOReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 				v.CandidatePCIList = tmp_candidatepcilist
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("HOReport: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3067,7 +3094,7 @@ func (v *CandidatePCI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3076,7 +3103,7 @@ func (v *CandidatePCI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3190,7 +3217,7 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3199,7 +3226,7 @@ func (v *CellActivationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3343,7 +3370,7 @@ func (v *CellsToActivateListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3352,7 +3379,7 @@ func (v *CellsToActivateListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3445,7 +3472,7 @@ func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3454,7 +3481,7 @@ func (v *CellActivationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3598,7 +3625,7 @@ func (v *ActivatedCellsListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3607,7 +3634,7 @@ func (v *ActivatedCellsListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3700,7 +3727,7 @@ func (v *CellStateIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3709,7 +3736,7 @@ func (v *CellStateIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3861,7 +3888,7 @@ func (v *NotificationCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -3870,7 +3897,7 @@ func (v *NotificationCellListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3946,11 +3973,11 @@ func (v *FailureEventReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if isExtension {
 		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		openData, err := per.DecodeOpenTypeAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
 		return nil
@@ -4057,7 +4084,7 @@ func (v *TooEarlyInterRATHOReportReportFromEUTRAN) UnmarshalAPERFrom(bb *per.Bit
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4066,7 +4093,7 @@ func (v *TooEarlyInterRATHOReportReportFromEUTRAN) UnmarshalAPERFrom(bb *per.Bit
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4147,7 +4174,7 @@ func (v *EHRPDSectorLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4156,7 +4183,7 @@ func (v *EHRPDSectorLoadReportingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4241,7 +4268,7 @@ func (v *EHRPDCompositeAvailableCapacity) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4250,7 +4277,7 @@ func (v *EHRPDCompositeAvailableCapacity) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -4333,7 +4360,7 @@ func (v *EHRPDMultiSectorLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.Bi
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmapAligned(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -4342,7 +4369,7 @@ func (v *EHRPDMultiSectorLoadReportingResponseItem) UnmarshalAPERFrom(bb *per.Bi
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}

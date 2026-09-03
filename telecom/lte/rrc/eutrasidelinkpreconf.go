@@ -485,7 +485,7 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -493,21 +493,21 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_preconfigcommv1310, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "PreconfigCommV1310")
 			}
 			ext_opt_preconfigdiscr13, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "PreconfigDiscR13")
 			}
 			ext_opt_preconfigrelayr13, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "PreconfigRelayR13")
 			}
 			if ext_opt_preconfigcommv1310 {
 				var dec_preconfigcommv1310 SLPreconfigurationR12PreconfigCommV1310
@@ -531,14 +531,14 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.PreconfigRelayR13 = &dec_preconfigrelayr13
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLPreconfigurationR12: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -697,7 +697,7 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -705,13 +705,13 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_additionalspectrumemissionv1440, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "AdditionalSpectrumEmissionV1440")
 			}
 			if ext_opt_additionalspectrumemissionv1440 {
 				val_additionalspectrumemissionv1440, err := per.DecodeInteger(extBB, int64Ptr(33), int64Ptr(288), false)
@@ -722,14 +722,14 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.AdditionalSpectrumEmissionV1440 = &tmp_additionalspectrumemissionv1440
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLPreconfigGeneralR12: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -900,7 +900,7 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -908,13 +908,13 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_synctxperiodicr13, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "SyncTxPeriodicR13")
 			}
 			if ext_opt_synctxperiodicr13 {
 				val_synctxperiodicr13, err := per.DecodeEnumerated(extBB, 1, false)
@@ -924,14 +924,14 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.SyncTxPeriodicR13 = &val_synctxperiodicr13
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLPreconfigSyncR12: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -1312,7 +1312,7 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -1320,13 +1320,13 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_prioritylistr13, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "PriorityListR13")
 			}
 			if ext_opt_prioritylistr13 {
 				tmp_prioritylistr13 := make(SLPriorityListR13, 0)
@@ -1346,14 +1346,14 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.PriorityListR13 = tmp_prioritylistr13
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLPreconfigCommPoolR12: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -1615,7 +1615,7 @@ func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtData_ = make([][]byte, extCount+1)
@@ -1624,7 +1624,7 @@ func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -1916,7 +1916,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -1924,25 +1924,25 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_v2xpacketduplicationconfigr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "V2xPacketDuplicationConfigR15")
 			}
 			ext_opt_syncfreqlistr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "SyncFreqListR15")
 			}
 			ext_opt_slsstxmultifreqr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "SlssTxMultiFreqR15")
 			}
 			ext_opt_v2xtxprofilelistr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "V2xTxProfileListR15")
 			}
 			if ext_opt_v2xpacketduplicationconfigr15 {
 				var dec_v2xpacketduplicationconfigr15 SLV2XPacketDuplicationConfigR15
@@ -1993,19 +1993,19 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.V2xTxProfileListR15 = tmp_v2xtxprofilelistr15
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLV2XPreconfigurationR14: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		if int64(1) <= extCount && extPresent[1] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_anchorcarrierfreqlistnrr16, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "AnchorCarrierFreqListNRR16")
 			}
 			if ext_opt_anchorcarrierfreqlistnrr16 {
 				tmp_anchorcarrierfreqlistnrr16 := make(SLNRAnchorCarrierFreqListR16, 0)
@@ -2025,14 +2025,14 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.AnchorCarrierFreqListNRR16 = tmp_anchorcarrierfreqlistnrr16
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLV2XPreconfigurationR14: extension group 1: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
 		}
 		for i := int64(2); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -2475,7 +2475,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -2483,13 +2483,13 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_v2xfreqselectionconfiglistr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "V2xFreqSelectionConfigListR15")
 			}
 			if ext_opt_v2xfreqselectionconfiglistr15 {
 				tmp_v2xfreqselectionconfiglistr15 := make(SLV2XFreqSelectionConfigListR15, 0)
@@ -2509,14 +2509,14 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.V2xFreqSelectionConfigListR15 = tmp_v2xfreqselectionconfiglistr15
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLV2XPreconfigFreqInfoR14: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3013,7 +3013,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -3021,17 +3021,17 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_slmint2valuelistr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "SlMinT2ValueListR15")
 			}
 			ext_opt_cbrpsschtxconfiglistv1530, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "CbrPsschTxConfigListV1530")
 			}
 			if ext_opt_slmint2valuelistr15 {
 				tmp_slmint2valuelistr15 := make(SLMinT2ValueListR15, 0)
@@ -3068,14 +3068,14 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.CbrPsschTxConfigListV1530 = tmp_cbrpsschtxconfiglistv1530
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLV2XPreconfigCommPoolR14: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}
@@ -3228,7 +3228,7 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
 		if err != nil {
-			return err
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
@@ -3236,13 +3236,13 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 			extBB := per.NewBitBufferFromBytes(extData)
 			_ = extBB
 			ext_opt_slsstxdisabledr15, err := per.DecodeBoolean(extBB)
 			if err != nil {
-				return err
+				return runtime.WrapDecodePath(err, "SlssTxDisabledR15")
 			}
 			if ext_opt_slsstxdisabledr15 {
 				val_slsstxdisabledr15, err := per.DecodeEnumerated(extBB, 1, false)
@@ -3252,14 +3252,14 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				v.SlssTxDisabledR15 = &val_slsstxdisabledr15
 			}
 			if err := per.ValidateOpenTypePadding(extBB); err != nil {
-				return fmt.Errorf("SLPreconfigV2XSyncR14: extension group 0: %w", err)
+				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
 				if err != nil {
-					return err
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				v.ExtData_[i] = data
 			}

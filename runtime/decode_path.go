@@ -24,7 +24,7 @@ func WrapDecodePath(err error, segment string) error {
 		return nil
 	}
 	if pathErr, ok := err.(*DecodePathError); ok {
-		if pathErr.Path == segment || strings.HasPrefix(pathErr.Path, segment+".") || strings.HasPrefix(pathErr.Path, segment+"[") {
+		if strings.HasPrefix(pathErr.Path, segment+"[") {
 			return pathErr
 		}
 		separator := "."

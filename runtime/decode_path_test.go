@@ -30,3 +30,14 @@ func TestWrapDecodePathHandlesIndexAndNil(t *testing.T) {
 		t.Fatal("wrapping nil returned a non-nil error")
 	}
 }
+
+func TestWrapDecodePathPreservesRepeatedNamedSegments(t *testing.T) {
+	cause := errors.New("malformed value")
+	err := WrapDecodePath(cause, "GNBID")
+	err = WrapDecodePath(err, "GNBID")
+	err = WrapDecodePath(err, "GlobalGNBID")
+
+	if got, want := err.Error(), "decoding GlobalGNBID.GNBID.GNBID: malformed value"; got != want {
+		t.Fatalf("error = %q, want %q", got, want)
+	}
+}
