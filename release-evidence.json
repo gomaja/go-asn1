@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
-  "target_base_commit": "ffb245c891a03af625dab6f510a0f19a59cde5ba",
+  "compiler_commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
+  "target_base_commit": "3d893857c62631bd039181908e114cc54b46192e",
   "inputs": {
     "sha256": "ada50cc9e90cc4104a45d1b416b49c154022d1985471d3d131f96d7752be928d",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -1041,8 +1041,8 @@
           },
           {
             "path": "gsm_map/asn1_wire_vectors_test.go",
-            "sha256": "a6eababed6dbd2f10391660779fea794ff2e184c21b5e85901ae487d4c6a1cb9",
-            "size_bytes": 13524
+            "sha256": "2fc496db5f4023046d9ab5e063018372acc292ff7d8d67a409a0893207df2562",
+            "size_bytes": 14013
           },
           {
             "path": "gsm_map/dummymap.go",
@@ -1677,7 +1677,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -1801,8 +1801,8 @@
         "outputs": [
           {
             "path": "rrc/asn1_wire_vectors_test.go",
-            "sha256": "27647307b13c94d84a3e30b620627335d7d2e3816d7736c41c3d871f1928f504",
-            "size_bytes": 8433
+            "sha256": "31ec4b4b75d13eb37f05572387c2df0be054c09df9e3f0c1e460ffaec2f33ddd",
+            "size_bytes": 8922
           },
           {
             "path": "rrc/eutrainternodedefinitions.go",
@@ -2076,7 +2076,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -2190,8 +2190,8 @@
         "outputs": [
           {
             "path": "s1ap/asn1_wire_vectors_test.go",
-            "sha256": "fec3be14f32498b5640bc189b0fe7bd9bfc2529636bd8656da18b55cfbbf8936",
-            "size_bytes": 24729
+            "sha256": "f8c07be0c1c7da02b0a954289366ffcdfd67c13eabdfdd1a26d82dbe5516159c",
+            "size_bytes": 25218
           },
           {
             "path": "s1ap/dispatch.go",
@@ -2465,7 +2465,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -2573,8 +2573,8 @@
         "outputs": [
           {
             "path": "sgp22/asn1_wire_vectors_test.go",
-            "sha256": "5b7f7021fb3cabda272380a8beae663d10edeed60fb5a623d2dfb955eb9cd3ca",
-            "size_bytes": 18537
+            "sha256": "8298faae0abe90dae3fe7c1af7c578a61694a2b8b9136989117333ec9f6d6d4c",
+            "size_bytes": 19026
           },
           {
             "path": "sgp22/pedefinitions.go",
@@ -2826,7 +2826,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -2952,8 +2952,8 @@
         "outputs": [
           {
             "path": "sgp32/asn1_wire_vectors_test.go",
-            "sha256": "3c5f2fccf88cada4b3d48b0f095d6b0d165f51b43db52932a662aed30dec2809",
-            "size_bytes": 6604
+            "sha256": "8602409b0ae8530fc55bac72671509ada42271998955cf7a98f8d798a6be8a38",
+            "size_bytes": 7093
           },
           {
             "path": "sgp32/pedefinitions.go",
@@ -3211,7 +3211,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -3315,8 +3315,8 @@
         "outputs": [
           {
             "path": "tcap/asn1_wire_vectors_test.go",
-            "sha256": "6d9239f4479e315f6a2abf2d050194036c22681fe394480f880c5ad21cbf6f14",
-            "size_bytes": 6251
+            "sha256": "b8314cde3d84d419274f1a5ada521c6321024e4492dc871618a7474a42246501",
+            "size_bytes": 6740
           },
           {
             "path": "tcap/dialoguepdus.go",
@@ -3572,7 +3572,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "42349826560d4f7fd9ca2f7f7a3f58b42168cab4",
+          "commit": "95347fdd1ebae6226fbc79197a5d8145d16662a7",
           "dirty": false
         },
         "frontend": {
@@ -3671,8 +3671,8 @@
           },
           {
             "path": "x2ap/asn1_wire_vectors_test.go",
-            "sha256": "6f8e85d967e94d6ba04d15c5360867f08d3e1443bdcdc2e6984c4d564303b4b5",
-            "size_bytes": 24122
+            "sha256": "0f846514a9e7c76ca7d5ae8d790667ad2b7294c25f4485793b9fa9fc5de078b3",
+            "size_bytes": 24611
           },
           {
             "path": "x2ap/dispatch.go",
@@ -3934,7 +3934,7 @@
     }
   ],
   "outputs": {
-    "sha256": "21c3692caf3ac168446c7d3d4018432f9a031c058d7ad6a45f3b04bc559b8a2c",
+    "sha256": "e400204ba476bb7f19f17f23e62aea4d29c84b2565e934a71cb5872492c790f7",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -4107,8 +4107,8 @@
       {
         "path": "telecom/esim/sgp22/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "5b7f7021fb3cabda272380a8beae663d10edeed60fb5a623d2dfb955eb9cd3ca",
-        "size_bytes": 18537
+        "sha256": "8298faae0abe90dae3fe7c1af7c578a61694a2b8b9136989117333ec9f6d6d4c",
+        "size_bytes": 19026
       },
       {
         "path": "telecom/esim/sgp22/pedefinitions.go",
@@ -4137,8 +4137,8 @@
       {
         "path": "telecom/esim/sgp32/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "3c5f2fccf88cada4b3d48b0f095d6b0d165f51b43db52932a662aed30dec2809",
-        "size_bytes": 6604
+        "sha256": "8602409b0ae8530fc55bac72671509ada42271998955cf7a98f8d798a6be8a38",
+        "size_bytes": 7093
       },
       {
         "path": "telecom/esim/sgp32/pedefinitions.go",
@@ -4179,8 +4179,8 @@
       {
         "path": "telecom/lte/rrc/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "27647307b13c94d84a3e30b620627335d7d2e3816d7736c41c3d871f1928f504",
-        "size_bytes": 8433
+        "sha256": "31ec4b4b75d13eb37f05572387c2df0be054c09df9e3f0c1e460ffaec2f33ddd",
+        "size_bytes": 8922
       },
       {
         "path": "telecom/lte/rrc/eutrainternodedefinitions.go",
@@ -4245,8 +4245,8 @@
       {
         "path": "telecom/lte/s1ap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "fec3be14f32498b5640bc189b0fe7bd9bfc2529636bd8656da18b55cfbbf8936",
-        "size_bytes": 24729
+        "sha256": "f8c07be0c1c7da02b0a954289366ffcdfd67c13eabdfdd1a26d82dbe5516159c",
+        "size_bytes": 25218
       },
       {
         "path": "telecom/lte/s1ap/dispatch.go",
@@ -4311,8 +4311,8 @@
       {
         "path": "telecom/lte/x2ap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "6f8e85d967e94d6ba04d15c5360867f08d3e1443bdcdc2e6984c4d564303b4b5",
-        "size_bytes": 24122
+        "sha256": "0f846514a9e7c76ca7d5ae8d790667ad2b7294c25f4485793b9fa9fc5de078b3",
+        "size_bytes": 24611
       },
       {
         "path": "telecom/lte/x2ap/dispatch.go",
@@ -4371,8 +4371,8 @@
       {
         "path": "telecom/ss7/gsm_map/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "a6eababed6dbd2f10391660779fea794ff2e184c21b5e85901ae487d4c6a1cb9",
-        "size_bytes": 13524
+        "sha256": "2fc496db5f4023046d9ab5e063018372acc292ff7d8d67a409a0893207df2562",
+        "size_bytes": 14013
       },
       {
         "path": "telecom/ss7/gsm_map/dummymap.go",
@@ -4791,8 +4791,8 @@
       {
         "path": "telecom/ss7/tcap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "6d9239f4479e315f6a2abf2d050194036c22681fe394480f880c5ad21cbf6f14",
-        "size_bytes": 6251
+        "sha256": "b8314cde3d84d419274f1a5ada521c6321024e4492dc871618a7474a42246501",
+        "size_bytes": 6740
       },
       {
         "path": "telecom/ss7/tcap/dialoguepdus.go",

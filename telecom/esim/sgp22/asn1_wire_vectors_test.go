@@ -34,6 +34,15 @@ func TestASN1VectorPathRejectsNegativeIndex(t *testing.T) {
 	}
 }
 
+func TestASN1VectorPathRejectsEmptySegments(t *testing.T) {
+	value := reflect.ValueOf(struct{ Field int }{Field: 1})
+	for _, path := range []string{"", ".Field", "Field.", "Field..Nested"} {
+		if _, err := asn1VectorValueAtPath(value, path); err == nil {
+			t.Errorf("asn1VectorValueAtPath accepted malformed path %q", path)
+		}
+	}
+}
+
 func asn1VectorAssertPath(t *testing.T, value any, path, expectedJSON string) {
 	t.Helper()
 	actual, err := asn1VectorValueAtPath(reflect.ValueOf(value), path)
@@ -53,7 +62,13 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 	if path == "$" {
 		return asn1VectorInterface(current)
 	}
-	for _, segment := range strings.Split(path, ".") {
+	segments := strings.Split(path, ".")
+	for _, segment := range segments {
+		if segment == "" {
+			return nil, fmt.Errorf("path %s: malformed empty segment", path)
+		}
+	}
+	for _, segment := range segments {
 		var err error
 		current, err = asn1VectorDereference(current)
 		if err != nil {
