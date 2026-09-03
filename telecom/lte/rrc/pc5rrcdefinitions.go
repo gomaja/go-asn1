@@ -59,7 +59,7 @@ func (v *SBCCHSLBCHMessage) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SBCCHSLBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -73,15 +73,18 @@ func (v *SBCCHSLBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SBCCHSLBCHMessage) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
+	}
+	return nil
 }
 
 func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = SBCCHSLBCHMessage{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding message: %w", err)
+		return runtime.WrapDecodePath(err, "Message")
 	}
 	return nil
 }
@@ -92,7 +95,7 @@ func (v *SBCCHSLBCHMessageV2XR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SBCCHSLBCHMessageV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -106,15 +109,18 @@ func (v *SBCCHSLBCHMessageV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
+	}
+	return nil
 }
 
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = SBCCHSLBCHMessageV2XR14{}
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding message: %w", err)
+		return runtime.WrapDecodePath(err, "Message")
 	}
 	return nil
 }
@@ -125,7 +131,7 @@ func (v *MasterInformationBlockSL) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MasterInformationBlockSL) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -154,39 +160,42 @@ func (v *MasterInformationBlockSL) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *MasterInformationBlockSL) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
+	}
+	return nil
 }
 
 func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = MasterInformationBlockSL{}
 	val_slbandwidthr12, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
-		return fmt.Errorf("decoding sl-Bandwidth-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SlBandwidthR12")
 	}
 	v.SlBandwidthR12 = val_slbandwidthr12
 	if err := v.TddConfigSLR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tdd-ConfigSL-r12: %w", err)
+		return runtime.WrapDecodePath(err, "TddConfigSLR12")
 	}
 	bsBytes_directframenumberr12, bsBitLen_directframenumberr12, err := per.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding directFrameNumber-r12: %w", err)
+		return runtime.WrapDecodePath(err, "DirectFrameNumberR12")
 	}
 	v.DirectFrameNumberR12 = runtime.BitString{Bytes: bsBytes_directframenumberr12, BitLength: bsBitLen_directframenumberr12}
 	val_directsubframenumberr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
 	if err != nil {
-		return fmt.Errorf("decoding directSubframeNumber-r12: %w", err)
+		return runtime.WrapDecodePath(err, "DirectSubframeNumberR12")
 	}
 	v.DirectSubframeNumberR12 = val_directsubframenumberr12
 	val_incoverager12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding inCoverage-r12: %w", err)
+		return runtime.WrapDecodePath(err, "InCoverageR12")
 	}
 	v.InCoverageR12 = val_incoverager12
 	bsBytes_reservedr12, bsBitLen_reservedr12, err := per.DecodeBitStringExt(bb, 19, 19, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding reserved-r12: %w", err)
+		return runtime.WrapDecodePath(err, "ReservedR12")
 	}
 	v.ReservedR12 = runtime.BitString{Bytes: bsBytes_reservedr12, BitLength: bsBitLen_reservedr12}
 	return nil
@@ -198,7 +207,7 @@ func (v *MasterInformationBlockSLV2XR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MasterInformationBlockSLV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -227,39 +236,42 @@ func (v *MasterInformationBlockSLV2XR14) MarshalUPERTo(bb *per.BitBuffer) error 
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
+	}
+	return nil
 }
 
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = MasterInformationBlockSLV2XR14{}
 	val_slbandwidthr14, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
-		return fmt.Errorf("decoding sl-Bandwidth-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SlBandwidthR14")
 	}
 	v.SlBandwidthR14 = val_slbandwidthr14
 	if err := v.TddConfigSLR14.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tdd-ConfigSL-r14: %w", err)
+		return runtime.WrapDecodePath(err, "TddConfigSLR14")
 	}
 	bsBytes_directframenumberr14, bsBitLen_directframenumberr14, err := per.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding directFrameNumber-r14: %w", err)
+		return runtime.WrapDecodePath(err, "DirectFrameNumberR14")
 	}
 	v.DirectFrameNumberR14 = runtime.BitString{Bytes: bsBytes_directframenumberr14, BitLength: bsBitLen_directframenumberr14}
 	val_directsubframenumberr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
 	if err != nil {
-		return fmt.Errorf("decoding directSubframeNumber-r14: %w", err)
+		return runtime.WrapDecodePath(err, "DirectSubframeNumberR14")
 	}
 	v.DirectSubframeNumberR14 = val_directsubframenumberr14
 	val_incoverager14, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding inCoverage-r14: %w", err)
+		return runtime.WrapDecodePath(err, "InCoverageR14")
 	}
 	v.InCoverageR14 = val_incoverager14
 	bsBytes_reservedr14, bsBitLen_reservedr14, err := per.DecodeBitStringExt(bb, 27, 27, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding reserved-r14: %w", err)
+		return runtime.WrapDecodePath(err, "ReservedR14")
 	}
 	v.ReservedR14 = runtime.BitString{Bytes: bsBytes_reservedr14, BitLength: bsBitLen_reservedr14}
 	return nil

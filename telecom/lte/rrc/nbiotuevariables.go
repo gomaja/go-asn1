@@ -55,7 +55,7 @@ func (v *VarANRMeasConfigNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *VarANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -79,16 +79,19 @@ func (v *VarANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *VarANRMeasConfigNBR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "VarANRMeasConfigNBR16")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "VarANRMeasConfigNBR16")
+	}
+	return nil
 }
 
 func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarANRMeasConfigNBR16{}
 	val_anrqualitythresholdr16, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(113), false)
 	if err != nil {
-		return fmt.Errorf("decoding anr-QualityThreshold-r16: %w", err)
+		return runtime.WrapDecodePath(err, "AnrQualityThresholdR16")
 	}
 	v.AnrQualityThresholdR16 = NRSRPRangeNBR14(val_anrqualitythresholdr16)
 	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, 0)
@@ -96,14 +99,14 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_anrcarrierlistr16; i++ {
 			var elem ANRCarrierNBR16
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding anr-CarrierList-r16 element %d: %w", fragmentOffset_anrcarrierlistr16+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("AnrCarrierListR16[%d]", fragmentOffset_anrcarrierlistr16+i))
 			}
 			v.AnrCarrierListR16 = append(v.AnrCarrierListR16, elem)
 		}
 		return nil
 	})
 	if errCollection_anrcarrierlistr16 != nil {
-		return fmt.Errorf("decoding anr-CarrierList-r16: %w", errCollection_anrcarrierlistr16)
+		return runtime.WrapDecodePath(errCollection_anrcarrierlistr16, "AnrCarrierListR16")
 	}
 	return nil
 }
@@ -114,7 +117,7 @@ func (v *VarANRMeasReportNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -154,9 +157,12 @@ func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *VarANRMeasReportNBR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16")
+	}
+	return nil
 }
 
 func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -166,24 +172,24 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_plmnidentitylistr16; i++ {
 			var elem PLMNIdentity
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding plmn-IdentityList-r16 element %d: %w", fragmentOffset_plmnidentitylistr16+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("PlmnIdentityListR16[%d]", fragmentOffset_plmnidentitylistr16+i))
 			}
 			v.PlmnIdentityListR16 = append(v.PlmnIdentityListR16, elem)
 		}
 		return nil
 	})
 	if errCollection_plmnidentitylistr16 != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r16: %w", errCollection_plmnidentitylistr16)
+		return runtime.WrapDecodePath(errCollection_plmnidentitylistr16, "PlmnIdentityListR16")
 	}
 	if err := v.ServCellIdentityR16.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding servCellIdentity-r16: %w", err)
+		return runtime.WrapDecodePath(err, "ServCellIdentityR16")
 	}
 	if err := v.MeasResultServCellR16.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding measResultServCell-r16: %w", err)
+		return runtime.WrapDecodePath(err, "MeasResultServCellR16")
 	}
 	val_relativetimestampr16, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(95), false)
 	if err != nil {
-		return fmt.Errorf("decoding relativeTimeStamp-r16: %w", err)
+		return runtime.WrapDecodePath(err, "RelativeTimeStampR16")
 	}
 	v.RelativeTimeStampR16 = val_relativetimestampr16
 	v.MeasResultListR16 = make(VarANRMeasReportNBR16MeasResultListR16, 0)
@@ -191,14 +197,14 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_measresultlistr16; i++ {
 			var elem ANRMeasResultNBR16
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding measResultList-r16 element %d: %w", fragmentOffset_measresultlistr16+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("MeasResultListR16[%d]", fragmentOffset_measresultlistr16+i))
 			}
 			v.MeasResultListR16 = append(v.MeasResultListR16, elem)
 		}
 		return nil
 	})
 	if errCollection_measresultlistr16 != nil {
-		return fmt.Errorf("decoding measResultList-r16: %w", errCollection_measresultlistr16)
+		return runtime.WrapDecodePath(errCollection_measresultlistr16, "MeasResultListR16")
 	}
 	return nil
 }
@@ -209,7 +215,7 @@ func (v *VarRLFReportNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *VarRLFReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -233,29 +239,32 @@ func (v *VarRLFReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *VarRLFReportNBR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "VarRLFReportNBR16")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "VarRLFReportNBR16")
+	}
+	return nil
 }
 
 func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarRLFReportNBR16{}
 	if err := v.RlfReportR16.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding rlf-Report-r16: %w", err)
+		return runtime.WrapDecodePath(err, "RlfReportR16")
 	}
 	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
 		for i := int64(0); i < fragmentLength_plmnidentitylistr16; i++ {
 			var elem PLMNIdentity
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding plmn-IdentityList-r16 element %d: %w", fragmentOffset_plmnidentitylistr16+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("PlmnIdentityListR16[%d]", fragmentOffset_plmnidentitylistr16+i))
 			}
 			v.PlmnIdentityListR16 = append(v.PlmnIdentityListR16, elem)
 		}
 		return nil
 	})
 	if errCollection_plmnidentitylistr16 != nil {
-		return fmt.Errorf("decoding plmn-IdentityList-r16: %w", errCollection_plmnidentitylistr16)
+		return runtime.WrapDecodePath(errCollection_plmnidentitylistr16, "PlmnIdentityListR16")
 	}
 	return nil
 }
@@ -270,7 +279,7 @@ func MarshalUPERVarANRMeasReportNBR16MeasResultListR16(list VarANRMeasReportNBR1
 	if err := MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERVarANRMeasReportNBR16MeasResultListR16To appends a VarANRMeasReportNBR16MeasResultListR16 list to bb.
@@ -294,10 +303,10 @@ func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMea
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
 	}
 	return value, nil
 }
@@ -317,14 +326,14 @@ func unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERVarANRM
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ANRMeasResultNBR16
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }

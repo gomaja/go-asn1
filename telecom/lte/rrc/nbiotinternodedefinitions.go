@@ -481,7 +481,7 @@ func (v *HandoverPreparationInformationNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -495,15 +495,18 @@ func (v *HandoverPreparationInformationNB) MarshalUPERTo(bb *per.BitBuffer) erro
 func (v *HandoverPreparationInformationNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNB")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = HandoverPreparationInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
+		return runtime.WrapDecodePath(err, "CriticalExtensions")
 	}
 	return nil
 }
@@ -514,7 +517,7 @@ func (v *HandoverPreparationInformationNBIEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -556,9 +559,12 @@ func (v *HandoverPreparationInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) e
 func (v *HandoverPreparationInformationNBIEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBIEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBIEs")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -577,29 +583,29 @@ func (v *HandoverPreparationInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffe
 		return err
 	}
 	if err := v.UeRadioAccessCapabilityInfoR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r13: %w", err)
+		return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoR13")
 	}
 	if err := v.AsConfigR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding as-Config-r13: %w", err)
+		return runtime.WrapDecodePath(err, "AsConfigR13")
 	}
 	if opt_rrmconfigr13 {
 		var dec_rrmconfigr13 RRMConfigNB
 		if err := dec_rrmconfigr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rrm-Config-r13: %w", err)
+			return runtime.WrapDecodePath(err, "RrmConfigR13")
 		}
 		v.RrmConfigR13 = &dec_rrmconfigr13
 	}
 	if opt_ascontextr13 {
 		var dec_ascontextr13 ASContextNB
 		if err := dec_ascontextr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding as-Context-r13: %w", err)
+			return runtime.WrapDecodePath(err, "AsContextR13")
 		}
 		v.AsContextR13 = &dec_ascontextr13
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension HandoverPreparationInformationNBV1380IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -612,7 +618,7 @@ func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPER() ([]byte, error)
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -640,9 +646,12 @@ func (v *HandoverPreparationInformationNBV1380IEs) MarshalUPERTo(bb *per.BitBuff
 func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBV1380IEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBV1380IEs")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -659,7 +668,7 @@ func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.Bit
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "LateNonCriticalExtension")
 		}
 		tmp_latenoncriticalextension := val_latenoncriticalextension
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
@@ -667,7 +676,7 @@ func (v *HandoverPreparationInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.Bit
 	if opt_noncriticalextension {
 		var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -680,7 +689,7 @@ func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPER() ([]byte, error
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -712,9 +721,12 @@ func (v *HandoverPreparationInformationNBExtR14IEs) MarshalUPERTo(bb *per.BitBuf
 func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBExtR14IEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBExtR14IEs")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -731,7 +743,7 @@ func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_ueradioaccesscapabilityinfoextr14 {
 		containedBytes_ueradioaccesscapabilityinfoextr14, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 		if err != nil {
-			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfoExt-r14: %w", err)
+			return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoExtR14")
 		}
 		var contained_ueradioaccesscapabilityinfoextr14 UECapabilityNBExtR14IEs
 		if err := contained_ueradioaccesscapabilityinfoextr14.UnmarshalUPER(containedBytes_ueradioaccesscapabilityinfoextr14); err != nil {
@@ -742,7 +754,7 @@ func (v *HandoverPreparationInformationNBExtR14IEs) UnmarshalUPERFrom(bb *per.Bi
 	if opt_noncriticalextension {
 		var dec_noncriticalextension HandoverPreparationInformationNBExtR14IEsNonCriticalExtension
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -755,7 +767,7 @@ func (v *UEPagingCoverageInformationNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingCoverageInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -769,15 +781,18 @@ func (v *UEPagingCoverageInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *UEPagingCoverageInformationNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNB")
+	}
+	return nil
 }
 
 func (v *UEPagingCoverageInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = UEPagingCoverageInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
+		return runtime.WrapDecodePath(err, "CriticalExtensions")
 	}
 	return nil
 }
@@ -788,7 +803,7 @@ func (v *UEPagingCoverageInformationNBIEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingCoverageInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -816,9 +831,12 @@ func (v *UEPagingCoverageInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) erro
 func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBIEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBIEs")
+	}
+	return nil
 }
 
 func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -835,14 +853,14 @@ func (v *UEPagingCoverageInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_npdcchnumrepetitionpagingr13 {
 		val_npdcchnumrepetitionpagingr13, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(2048), false)
 		if err != nil {
-			return fmt.Errorf("decoding npdcch-NumRepetitionPaging-r13: %w", err)
+			return runtime.WrapDecodePath(err, "NpdcchNumRepetitionPagingR13")
 		}
 		v.NpdcchNumRepetitionPagingR13 = &val_npdcchnumrepetitionpagingr13
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -855,7 +873,7 @@ func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -883,9 +901,12 @@ func (v *UEPagingCoverageInformationNBV1700IEs) MarshalUPERTo(bb *per.BitBuffer)
 func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBV1700IEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBV1700IEs")
+	}
+	return nil
 }
 
 func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -902,14 +923,14 @@ func (v *UEPagingCoverageInformationNBV1700IEs) UnmarshalUPERFrom(bb *per.BitBuf
 	if opt_cbpindexr17 {
 		val_cbpindexr17, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(2), false)
 		if err != nil {
-			return fmt.Errorf("decoding cbp-Index-r17: %w", err)
+			return runtime.WrapDecodePath(err, "CbpIndexR17")
 		}
 		v.CbpIndexR17 = &val_cbpindexr17
 	}
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UEPagingCoverageInformationNBV1700IEsNonCriticalExtension
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -922,7 +943,7 @@ func (v *UERadioAccessCapabilityInformationNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -936,15 +957,18 @@ func (v *UERadioAccessCapabilityInformationNB) MarshalUPERTo(bb *per.BitBuffer) 
 func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNB")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = UERadioAccessCapabilityInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
+		return runtime.WrapDecodePath(err, "CriticalExtensions")
 	}
 	return nil
 }
@@ -955,7 +979,7 @@ func (v *UERadioAccessCapabilityInformationNBIEs) MarshalUPER() ([]byte, error) 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -982,9 +1006,12 @@ func (v *UERadioAccessCapabilityInformationNBIEs) MarshalUPERTo(bb *per.BitBuffe
 func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBIEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBIEs")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -996,7 +1023,7 @@ func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *per.BitB
 	}
 	containedBytes_ueradioaccesscapabilityinfor13, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 	if err != nil {
-		return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r13: %w", err)
+		return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoR13")
 	}
 	var contained_ueradioaccesscapabilityinfor13 UECapabilityNBR13
 	if err := contained_ueradioaccesscapabilityinfor13.UnmarshalUPER(containedBytes_ueradioaccesscapabilityinfor13); err != nil {
@@ -1006,7 +1033,7 @@ func (v *UERadioAccessCapabilityInformationNBIEs) UnmarshalUPERFrom(bb *per.BitB
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UERadioAccessCapabilityInformationNBV1380IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -1019,7 +1046,7 @@ func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPER() ([]byte, er
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1047,9 +1074,12 @@ func (v *UERadioAccessCapabilityInformationNBV1380IEs) MarshalUPERTo(bb *per.Bit
 func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBV1380IEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBV1380IEs")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1066,7 +1096,7 @@ func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPERFrom(bb *per
 	if opt_latenoncriticalextension {
 		val_latenoncriticalextension, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 		if err != nil {
-			return fmt.Errorf("decoding lateNonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "LateNonCriticalExtension")
 		}
 		tmp_latenoncriticalextension := val_latenoncriticalextension
 		v.LateNonCriticalExtension = tmp_latenoncriticalextension
@@ -1074,7 +1104,7 @@ func (v *UERadioAccessCapabilityInformationNBV1380IEs) UnmarshalUPERFrom(bb *per
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEs
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -1087,7 +1117,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPER() ([]byte, erro
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1119,9 +1149,12 @@ func (v *UERadioAccessCapabilityInformationNBR14IEs) MarshalUPERTo(bb *per.BitBu
 func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBR14IEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBR14IEs")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1138,7 +1171,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPERFrom(bb *per.B
 	if opt_ueradioaccesscapabilityinfor14 {
 		containedBytes_ueradioaccesscapabilityinfor14, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 		if err != nil {
-			return fmt.Errorf("decoding ue-RadioAccessCapabilityInfo-r14: %w", err)
+			return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInfoR14")
 		}
 		var contained_ueradioaccesscapabilityinfor14 UECapabilityInformationNB
 		if err := contained_ueradioaccesscapabilityinfor14.UnmarshalUPER(containedBytes_ueradioaccesscapabilityinfor14); err != nil {
@@ -1149,7 +1182,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEs) UnmarshalUPERFrom(bb *per.B
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -1162,7 +1195,7 @@ func (v *UERadioPagingInformationNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioPagingInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1176,15 +1209,18 @@ func (v *UERadioPagingInformationNB) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *UERadioPagingInformationNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNB")
+	}
+	return nil
 }
 
 func (v *UERadioPagingInformationNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = UERadioPagingInformationNB{}
 	if err := v.CriticalExtensions.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding criticalExtensions: %w", err)
+		return runtime.WrapDecodePath(err, "CriticalExtensions")
 	}
 	return nil
 }
@@ -1195,7 +1231,7 @@ func (v *UERadioPagingInformationNBIEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioPagingInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1222,9 +1258,12 @@ func (v *UERadioPagingInformationNBIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *UERadioPagingInformationNBIEs) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBIEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBIEs")
+	}
+	return nil
 }
 
 func (v *UERadioPagingInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1236,7 +1275,7 @@ func (v *UERadioPagingInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	}
 	containedBytes_ueradiopaginginfor13, err := per.DecodeOctetStringExt(bb, 0, 0, false, false)
 	if err != nil {
-		return fmt.Errorf("decoding ue-RadioPagingInfo-r13: %w", err)
+		return runtime.WrapDecodePath(err, "UeRadioPagingInfoR13")
 	}
 	var contained_ueradiopaginginfor13 UERadioPagingInfoNBR13
 	if err := contained_ueradiopaginginfor13.UnmarshalUPER(containedBytes_ueradiopaginginfor13); err != nil {
@@ -1246,7 +1285,7 @@ func (v *UERadioPagingInformationNBIEs) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if opt_noncriticalextension {
 		var dec_noncriticalextension UERadioPagingInformationNBIEsNonCriticalExtension
 		if err := dec_noncriticalextension.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding nonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(err, "NonCriticalExtension")
 		}
 		v.NonCriticalExtension = &dec_noncriticalextension
 	}
@@ -1259,7 +1298,7 @@ func (v *ASConfigNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ASConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1323,7 +1362,7 @@ func (v *ASConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding sourceDL-CarrierFreq-v1550: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -1346,9 +1385,12 @@ func (v *ASConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *ASConfigNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ASConfigNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ASConfigNB")
+	}
+	return nil
 }
 
 func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1358,18 +1400,18 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.SourceRadioResourceConfigR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceRadioResourceConfig-r13: %w", err)
+		return runtime.WrapDecodePath(err, "SourceRadioResourceConfigR13")
 	}
 	if err := v.SourceSecurityAlgorithmConfigR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceSecurityAlgorithmConfig-r13: %w", err)
+		return runtime.WrapDecodePath(err, "SourceSecurityAlgorithmConfigR13")
 	}
 	bsBytes_sourceueidentityr13, bsBitLen_sourceueidentityr13, err := per.DecodeBitStringExt(bb, 16, 16, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding sourceUE-Identity-r13: %w", err)
+		return runtime.WrapDecodePath(err, "SourceUEIdentityR13")
 	}
 	v.SourceUEIdentityR13 = runtime.BitString{Bytes: bsBytes_sourceueidentityr13, BitLength: bsBitLen_sourceueidentityr13}
 	if err := v.SourceDlCarrierFreqR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceDl-CarrierFreq-r13: %w", err)
+		return runtime.WrapDecodePath(err, "SourceDlCarrierFreqR13")
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
@@ -1393,7 +1435,7 @@ func (v *ASConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_sourcedlcarrierfreqv1550 {
 				var dec_sourcedlcarrierfreqv1550 CarrierFreqNBV1550
 				if err := dec_sourcedlcarrierfreqv1550.UnmarshalUPERFrom(extBB); err != nil {
-					return fmt.Errorf("decoding sourceDL-CarrierFreq-v1550: %w", err)
+					return runtime.WrapDecodePath(err, "SourceDLCarrierFreqV1550")
 				}
 				v.SourceDLCarrierFreqV1550 = &dec_sourcedlcarrierfreqv1550
 			}
@@ -1420,7 +1462,7 @@ func (v *ASContextNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ASContextNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1466,9 +1508,12 @@ func (v *ASContextNB) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *ASContextNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ASContextNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ASContextNB")
+	}
+	return nil
 }
 
 func (v *ASContextNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1485,7 +1530,7 @@ func (v *ASContextNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_reestablishmentinfor13 {
 		var dec_reestablishmentinfor13 ReestablishmentInfoNB
 		if err := dec_reestablishmentinfor13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding reestablishmentInfo-r13: %w", err)
+			return runtime.WrapDecodePath(err, "ReestablishmentInfoR13")
 		}
 		v.ReestablishmentInfoR13 = &dec_reestablishmentinfor13
 	}
@@ -1516,7 +1561,7 @@ func (v *ReestablishmentInfoNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ReestablishmentInfoNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1575,9 +1620,12 @@ func (v *ReestablishmentInfoNB) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *ReestablishmentInfoNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ReestablishmentInfoNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ReestablishmentInfoNB")
+	}
+	return nil
 }
 
 func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1593,12 +1641,12 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	val_sourcephyscellidr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(503), false)
 	if err != nil {
-		return fmt.Errorf("decoding sourcePhysCellId-r13: %w", err)
+		return runtime.WrapDecodePath(err, "SourcePhysCellIdR13")
 	}
 	v.SourcePhysCellIdR13 = PhysCellId(val_sourcephyscellidr13)
 	bsBytes_targetcellshortmacir13, bsBitLen_targetcellshortmacir13, err := per.DecodeBitStringExt(bb, 16, 16, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding targetCellShortMAC-I-r13: %w", err)
+		return runtime.WrapDecodePath(err, "TargetCellShortMACIR13")
 	}
 	v.TargetCellShortMACIR13 = runtime.BitString{Bytes: bsBytes_targetcellshortmacir13, BitLength: bsBitLen_targetcellshortmacir13}
 	if opt_additionalreestabinfolistr13 {
@@ -1607,14 +1655,14 @@ func (v *ReestablishmentInfoNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_additionalreestabinfolistr13; i++ {
 				var elem AdditionalReestabInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding additionalReestabInfoList-r13 element %d: %w", fragmentOffset_additionalreestabinfolistr13+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("AdditionalReestabInfoListR13[%d]", fragmentOffset_additionalreestabinfolistr13+i))
 				}
 				tmp_additionalreestabinfolistr13 = append(tmp_additionalreestabinfolistr13, elem)
 			}
 			return nil
 		})
 		if errCollection_additionalreestabinfolistr13 != nil {
-			return fmt.Errorf("decoding additionalReestabInfoList-r13: %w", errCollection_additionalreestabinfolistr13)
+			return runtime.WrapDecodePath(errCollection_additionalreestabinfolistr13, "AdditionalReestabInfoListR13")
 		}
 		v.AdditionalReestabInfoListR13 = tmp_additionalreestabinfolistr13
 	}
@@ -1645,7 +1693,7 @@ func (v *RRMConfigNB) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RRMConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1691,9 +1739,12 @@ func (v *RRMConfigNB) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *RRMConfigNB) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RRMConfigNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RRMConfigNB")
+	}
+	return nil
 }
 
 func (v *RRMConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1710,7 +1761,7 @@ func (v *RRMConfigNB) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueinactivetime {
 		val_ueinactivetime, err := per.DecodeEnumerated(bb, 64, false)
 		if err != nil {
-			return fmt.Errorf("decoding ue-InactiveTime: %w", err)
+			return runtime.WrapDecodePath(err, "UeInactiveTime")
 		}
 		v.UeInactiveTime = &val_ueinactivetime
 	}
@@ -1741,7 +1792,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) MarshalUPER() ([]by
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1773,9 +1824,12 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) MarshalUPERTo(bb *p
 func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBCriticalExtensions")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBCriticalExtensions")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1789,13 +1843,13 @@ func (v *HandoverPreparationInformationNBCriticalExtensions) UnmarshalUPERFrom(b
 	case HandoverPreparationInformationNBCriticalExtensionsChoiceC1:
 		var dec_c1 HandoverPreparationInformationNBCriticalExtensionsC1
 		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding c1: %w", err)
+			return runtime.WrapDecodePath(err, "C1")
 		}
 		v.C1 = &dec_c1
 	case HandoverPreparationInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
 		var dec_criticalextensionsfuture HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding criticalExtensionsFuture: %w", err)
+			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
 	}
@@ -1808,7 +1862,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) MarshalUPER() ([]
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1836,9 +1890,12 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) MarshalUPERTo(bb 
 func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBCriticalExtensionsC1")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBCriticalExtensionsC1")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1852,7 +1909,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsC1) UnmarshalUPERFrom
 	case HandoverPreparationInformationNBCriticalExtensionsC1ChoiceHandoverPreparationInformationR13:
 		var dec_handoverpreparationinformationr13 HandoverPreparationInformationNBIEs
 		if err := dec_handoverpreparationinformationr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding handoverPreparationInformation-r13: %w", err)
+			return runtime.WrapDecodePath(err, "HandoverPreparationInformationR13")
 		}
 		v.HandoverPreparationInformationR13 = &dec_handoverpreparationinformationr13
 	case HandoverPreparationInformationNBCriticalExtensionsC1ChoiceSpare3:
@@ -1868,7 +1925,7 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFut
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1879,9 +1936,12 @@ func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFut
 func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1895,7 +1955,7 @@ func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) MarshalU
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1906,9 +1966,12 @@ func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) MarshalU
 func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBExtR14IEsNonCriticalExtension")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverPreparationInformationNBExtR14IEsNonCriticalExtension")
+	}
+	return nil
 }
 
 func (v *HandoverPreparationInformationNBExtR14IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1922,7 +1985,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) MarshalUPER() ([]byte,
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1954,9 +2017,12 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) MarshalUPERTo(bb *per.
 func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBCriticalExtensions")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBCriticalExtensions")
+	}
+	return nil
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1970,13 +2036,13 @@ func (v *UEPagingCoverageInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceC1:
 		var dec_c1 UEPagingCoverageInformationNBCriticalExtensionsC1
 		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding c1: %w", err)
+			return runtime.WrapDecodePath(err, "C1")
 		}
 		v.C1 = &dec_c1
 	case UEPagingCoverageInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
 		var dec_criticalextensionsfuture UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding criticalExtensionsFuture: %w", err)
+			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
 	}
@@ -1989,7 +2055,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) MarshalUPER() ([]byt
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2017,9 +2083,12 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *pe
 func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBCriticalExtensionsC1")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBCriticalExtensionsC1")
+	}
+	return nil
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2033,7 +2102,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb
 	case UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceUePagingCoverageInformationR13:
 		var dec_uepagingcoverageinformationr13 UEPagingCoverageInformationNBIEs
 		if err := dec_uepagingcoverageinformationr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding uePagingCoverageInformation-r13: %w", err)
+			return runtime.WrapDecodePath(err, "UePagingCoverageInformationR13")
 		}
 		v.UePagingCoverageInformationR13 = &dec_uepagingcoverageinformationr13
 	case UEPagingCoverageInformationNBCriticalExtensionsC1ChoiceSpare3:
@@ -2049,7 +2118,7 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2060,9 +2129,12 @@ func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture
 func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture")
+	}
+	return nil
 }
 
 func (v *UEPagingCoverageInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2076,7 +2148,7 @@ func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) MarshalUPER(
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2087,9 +2159,12 @@ func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) MarshalUPERT
 func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBV1700IEsNonCriticalExtension")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationNBV1700IEsNonCriticalExtension")
+	}
+	return nil
 }
 
 func (v *UEPagingCoverageInformationNBV1700IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2103,7 +2178,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) MarshalUPER() (
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2135,9 +2210,12 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) MarshalUPERTo(b
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBCriticalExtensions")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBCriticalExtensions")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2151,13 +2229,13 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensions) UnmarshalUPERFr
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceC1:
 		var dec_c1 UERadioAccessCapabilityInformationNBCriticalExtensionsC1
 		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding c1: %w", err)
+			return runtime.WrapDecodePath(err, "C1")
 		}
 		v.C1 = &dec_c1
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
 		var dec_criticalextensionsfuture UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding criticalExtensionsFuture: %w", err)
+			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
 	}
@@ -2170,7 +2248,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) MarshalUPER()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2198,9 +2276,12 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) MarshalUPERTo
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBCriticalExtensionsC1")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBCriticalExtensionsC1")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2214,7 +2295,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsC1) UnmarshalUPER
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceUeRadioAccessCapabilityInformationR13:
 		var dec_ueradioaccesscapabilityinformationr13 UERadioAccessCapabilityInformationNBIEs
 		if err := dec_ueradioaccesscapabilityinformationr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding ueRadioAccessCapabilityInformation-r13: %w", err)
+			return runtime.WrapDecodePath(err, "UeRadioAccessCapabilityInformationR13")
 		}
 		v.UeRadioAccessCapabilityInformationR13 = &dec_ueradioaccesscapabilityinformationr13
 	case UERadioAccessCapabilityInformationNBCriticalExtensionsC1ChoiceSpare3:
@@ -2230,7 +2311,7 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtension
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2241,9 +2322,12 @@ func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtension
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2257,7 +2341,7 @@ func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) Marshal
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2268,9 +2352,12 @@ func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) Marshal
 func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension")
+	}
+	return nil
 }
 
 func (v *UERadioAccessCapabilityInformationNBR14IEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2284,7 +2371,7 @@ func (v *UERadioPagingInformationNBCriticalExtensions) MarshalUPER() ([]byte, er
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2316,9 +2403,12 @@ func (v *UERadioPagingInformationNBCriticalExtensions) MarshalUPERTo(bb *per.Bit
 func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBCriticalExtensions")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBCriticalExtensions")
+	}
+	return nil
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2332,13 +2422,13 @@ func (v *UERadioPagingInformationNBCriticalExtensions) UnmarshalUPERFrom(bb *per
 	case UERadioPagingInformationNBCriticalExtensionsChoiceC1:
 		var dec_c1 UERadioPagingInformationNBCriticalExtensionsC1
 		if err := dec_c1.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding c1: %w", err)
+			return runtime.WrapDecodePath(err, "C1")
 		}
 		v.C1 = &dec_c1
 	case UERadioPagingInformationNBCriticalExtensionsChoiceCriticalExtensionsFuture:
 		var dec_criticalextensionsfuture UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture
 		if err := dec_criticalextensionsfuture.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding criticalExtensionsFuture: %w", err)
+			return runtime.WrapDecodePath(err, "CriticalExtensionsFuture")
 		}
 		v.CriticalExtensionsFuture = &dec_criticalextensionsfuture
 	}
@@ -2351,7 +2441,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) MarshalUPER() ([]byte, 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2379,9 +2469,12 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) MarshalUPERTo(bb *per.B
 func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBCriticalExtensionsC1")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBCriticalExtensionsC1")
+	}
+	return nil
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2395,7 +2488,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsC1) UnmarshalUPERFrom(bb *p
 	case UERadioPagingInformationNBCriticalExtensionsC1ChoiceUeRadioPagingInformationR13:
 		var dec_ueradiopaginginformationr13 UERadioPagingInformationNBIEs
 		if err := dec_ueradiopaginginformationr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding ueRadioPagingInformation-r13: %w", err)
+			return runtime.WrapDecodePath(err, "UeRadioPagingInformationR13")
 		}
 		v.UeRadioPagingInformationR13 = &dec_ueradiopaginginformationr13
 	case UERadioPagingInformationNBCriticalExtensionsC1ChoiceSpare3:
@@ -2411,7 +2504,7 @@ func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) M
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2422,9 +2515,12 @@ func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) M
 func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture")
+	}
+	return nil
 }
 
 func (v *UERadioPagingInformationNBCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2438,7 +2534,7 @@ func (v *UERadioPagingInformationNBIEsNonCriticalExtension) MarshalUPER() ([]byt
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UERadioPagingInformationNBIEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2449,9 +2545,12 @@ func (v *UERadioPagingInformationNBIEsNonCriticalExtension) MarshalUPERTo(bb *pe
 func (v *UERadioPagingInformationNBIEsNonCriticalExtension) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBIEsNonCriticalExtension")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationNBIEsNonCriticalExtension")
+	}
+	return nil
 }
 
 func (v *UERadioPagingInformationNBIEsNonCriticalExtension) UnmarshalUPERFrom(bb *per.BitBuffer) error {

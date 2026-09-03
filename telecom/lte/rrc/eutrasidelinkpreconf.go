@@ -341,7 +341,7 @@ func (v *SLPreconfigurationR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -425,7 +425,7 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding preconfigRelay-r13: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -448,9 +448,12 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPreconfigurationR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigurationR12")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigurationR12")
+	}
+	return nil
 }
 
 func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -460,24 +463,24 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.PreconfigGeneralR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding preconfigGeneral-r12: %w", err)
+		return runtime.WrapDecodePath(err, "PreconfigGeneralR12")
 	}
 	if err := v.PreconfigSyncR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding preconfigSync-r12: %w", err)
+		return runtime.WrapDecodePath(err, "PreconfigSyncR12")
 	}
 	v.PreconfigCommR12 = make(SLPreconfigCommPoolList4R12, 0)
 	_, errCollection_preconfigcommr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_preconfigcommr12, fragmentLength_preconfigcommr12 int64) error {
 		for i := int64(0); i < fragmentLength_preconfigcommr12; i++ {
 			var elem SLPreconfigCommPoolR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding preconfigComm-r12 element %d: %w", fragmentOffset_preconfigcommr12+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("PreconfigCommR12[%d]", fragmentOffset_preconfigcommr12+i))
 			}
 			v.PreconfigCommR12 = append(v.PreconfigCommR12, elem)
 		}
 		return nil
 	})
 	if errCollection_preconfigcommr12 != nil {
-		return fmt.Errorf("decoding preconfigComm-r12: %w", errCollection_preconfigcommr12)
+		return runtime.WrapDecodePath(errCollection_preconfigcommr12, "PreconfigCommR12")
 	}
 	if hasExtensions {
 		extCount, extPresent, err := per.DecodeExtensionBitmap(bb)
@@ -509,21 +512,21 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_preconfigcommv1310 {
 				var dec_preconfigcommv1310 SLPreconfigurationR12PreconfigCommV1310
 				if err := dec_preconfigcommv1310.UnmarshalUPERFrom(extBB); err != nil {
-					return fmt.Errorf("decoding preconfigComm-v1310: %w", err)
+					return runtime.WrapDecodePath(err, "PreconfigCommV1310")
 				}
 				v.PreconfigCommV1310 = &dec_preconfigcommv1310
 			}
 			if ext_opt_preconfigdiscr13 {
 				var dec_preconfigdiscr13 SLPreconfigurationR12PreconfigDiscR13
 				if err := dec_preconfigdiscr13.UnmarshalUPERFrom(extBB); err != nil {
-					return fmt.Errorf("decoding preconfigDisc-r13: %w", err)
+					return runtime.WrapDecodePath(err, "PreconfigDiscR13")
 				}
 				v.PreconfigDiscR13 = &dec_preconfigdiscr13
 			}
 			if ext_opt_preconfigrelayr13 {
 				var dec_preconfigrelayr13 SLPreconfigRelayR13
 				if err := dec_preconfigrelayr13.UnmarshalUPERFrom(extBB); err != nil {
-					return fmt.Errorf("decoding preconfigRelay-r13: %w", err)
+					return runtime.WrapDecodePath(err, "PreconfigRelayR13")
 				}
 				v.PreconfigRelayR13 = &dec_preconfigrelayr13
 			}
@@ -550,7 +553,7 @@ func (v *SLPreconfigGeneralR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -623,7 +626,7 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding additionalSpectrumEmission-v1440: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -646,9 +649,12 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPreconfigGeneralR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12")
+	}
+	return nil
 }
 
 func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -658,34 +664,34 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.RohcProfilesR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding rohc-Profiles-r12: %w", err)
+		return runtime.WrapDecodePath(err, "RohcProfilesR12")
 	}
 	val_carrierfreqr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
 	if err != nil {
-		return fmt.Errorf("decoding carrierFreq-r12: %w", err)
+		return runtime.WrapDecodePath(err, "CarrierFreqR12")
 	}
 	v.CarrierFreqR12 = ARFCNValueEUTRAR9(val_carrierfreqr12)
 	val_maxtxpowerr12, err := per.DecodeInteger(bb, int64Ptr(-30), int64Ptr(33), false)
 	if err != nil {
-		return fmt.Errorf("decoding maxTxPower-r12: %w", err)
+		return runtime.WrapDecodePath(err, "MaxTxPowerR12")
 	}
 	v.MaxTxPowerR12 = PMax(val_maxtxpowerr12)
 	val_additionalspectrumemissionr12, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 	if err != nil {
-		return fmt.Errorf("decoding additionalSpectrumEmission-r12: %w", err)
+		return runtime.WrapDecodePath(err, "AdditionalSpectrumEmissionR12")
 	}
 	v.AdditionalSpectrumEmissionR12 = AdditionalSpectrumEmission(val_additionalspectrumemissionr12)
 	val_slbandwidthr12, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
-		return fmt.Errorf("decoding sl-bandwidth-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SlBandwidthR12")
 	}
 	v.SlBandwidthR12 = val_slbandwidthr12
 	if err := v.TddConfigSLR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tdd-ConfigSL-r12: %w", err)
+		return runtime.WrapDecodePath(err, "TddConfigSLR12")
 	}
 	bsBytes_reservedr12, bsBitLen_reservedr12, err := per.DecodeBitStringExt(bb, 19, 19, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding reserved-r12: %w", err)
+		return runtime.WrapDecodePath(err, "ReservedR12")
 	}
 	v.ReservedR12 = runtime.BitString{Bytes: bsBytes_reservedr12, BitLength: bsBitLen_reservedr12}
 	if hasExtensions {
@@ -710,7 +716,7 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_additionalspectrumemissionv1440 {
 				val_additionalspectrumemissionv1440, err := per.DecodeInteger(extBB, int64Ptr(33), int64Ptr(288), false)
 				if err != nil {
-					return fmt.Errorf("decoding additionalSpectrumEmission-v1440: %w", err)
+					return runtime.WrapDecodePath(err, "AdditionalSpectrumEmissionV1440")
 				}
 				tmp_additionalspectrumemissionv1440 := AdditionalSpectrumEmissionV10l0(val_additionalspectrumemissionv1440)
 				v.AdditionalSpectrumEmissionV1440 = &tmp_additionalspectrumemissionv1440
@@ -738,7 +744,7 @@ func (v *SLPreconfigSyncR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -814,7 +820,7 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding syncTxPeriodic-r13: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -837,9 +843,12 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPreconfigSyncR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigSyncR12")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigSyncR12")
+	}
+	return nil
 }
 
 func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -850,42 +859,42 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	val_synccplenr12, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
-		return fmt.Errorf("decoding syncCP-Len-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SyncCPLenR12")
 	}
 	v.SyncCPLenR12 = SLCPLenR12(val_synccplenr12)
 	val_syncoffsetindicator1r12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(39), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncOffsetIndicator1-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SyncOffsetIndicator1R12")
 	}
 	v.SyncOffsetIndicator1R12 = SLOffsetIndicatorSyncR12(val_syncoffsetindicator1r12)
 	val_syncoffsetindicator2r12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(39), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncOffsetIndicator2-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SyncOffsetIndicator2R12")
 	}
 	v.SyncOffsetIndicator2R12 = SLOffsetIndicatorSyncR12(val_syncoffsetindicator2r12)
 	val_synctxparametersr12, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncTxParameters-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SyncTxParametersR12")
 	}
 	v.SyncTxParametersR12 = P0SLR12(val_synctxparametersr12)
 	val_synctxthreshoocr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(11), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncTxThreshOoC-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SyncTxThreshOoCR12")
 	}
 	v.SyncTxThreshOoCR12 = RSRPRangeSL3R12(val_synctxthreshoocr12)
 	val_filtercoefficientr12, err := per.DecodeEnumerated(bb, 16, true)
 	if err != nil {
-		return fmt.Errorf("decoding filterCoefficient-r12: %w", err)
+		return runtime.WrapDecodePath(err, "FilterCoefficientR12")
 	}
 	v.FilterCoefficientR12 = FilterCoefficient(val_filtercoefficientr12)
 	val_syncrefminhystr12, err := per.DecodeEnumerated(bb, 5, false)
 	if err != nil {
-		return fmt.Errorf("decoding syncRefMinHyst-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SyncRefMinHystR12")
 	}
 	v.SyncRefMinHystR12 = val_syncrefminhystr12
 	val_syncrefdiffhystr12, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
-		return fmt.Errorf("decoding syncRefDiffHyst-r12: %w", err)
+		return runtime.WrapDecodePath(err, "SyncRefDiffHystR12")
 	}
 	v.SyncRefDiffHystR12 = val_syncrefdiffhystr12
 	if hasExtensions {
@@ -910,7 +919,7 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_synctxperiodicr13 {
 				val_synctxperiodicr13, err := per.DecodeEnumerated(extBB, 1, false)
 				if err != nil {
-					return fmt.Errorf("decoding syncTxPeriodic-r13: %w", err)
+					return runtime.WrapDecodePath(err, "SyncTxPeriodicR13")
 				}
 				v.SyncTxPeriodicR13 = &val_synctxperiodicr13
 			}
@@ -939,7 +948,7 @@ func MarshalUPERSLPreconfigCommPoolList4R12(list SLPreconfigCommPoolList4R12) ([
 	if err := MarshalUPERSLPreconfigCommPoolList4R12To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPreconfigCommPoolList4R12To appends a SLPreconfigCommPoolList4R12 list to bb.
@@ -963,10 +972,10 @@ func UnmarshalUPERSLPreconfigCommPoolList4R12(data []byte) (SLPreconfigCommPoolL
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPreconfigCommPoolList4R12From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommPoolList4R12")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommPoolList4R12")
 	}
 	return value, nil
 }
@@ -986,14 +995,14 @@ func unmarshalUPERSLPreconfigCommPoolList4R12Into(v *asn1cUPERSLPreconfigCommPoo
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLPreconfigCommPoolR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -1006,7 +1015,7 @@ func MarshalUPERSLPreconfigCommRxPoolListR13(list SLPreconfigCommRxPoolListR13) 
 	if err := MarshalUPERSLPreconfigCommRxPoolListR13To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPreconfigCommRxPoolListR13To appends a SLPreconfigCommRxPoolListR13 list to bb.
@@ -1030,10 +1039,10 @@ func UnmarshalUPERSLPreconfigCommRxPoolListR13(data []byte) (SLPreconfigCommRxPo
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPreconfigCommRxPoolListR13From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommRxPoolListR13")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommRxPoolListR13")
 	}
 	return value, nil
 }
@@ -1053,14 +1062,14 @@ func unmarshalUPERSLPreconfigCommRxPoolListR13Into(v *asn1cUPERSLPreconfigCommRx
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLPreconfigCommPoolR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -1073,7 +1082,7 @@ func MarshalUPERSLPreconfigCommTxPoolListR13(list SLPreconfigCommTxPoolListR13) 
 	if err := MarshalUPERSLPreconfigCommTxPoolListR13To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPreconfigCommTxPoolListR13To appends a SLPreconfigCommTxPoolListR13 list to bb.
@@ -1097,10 +1106,10 @@ func UnmarshalUPERSLPreconfigCommTxPoolListR13(data []byte) (SLPreconfigCommTxPo
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPreconfigCommTxPoolListR13From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommTxPoolListR13")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommTxPoolListR13")
 	}
 	return value, nil
 }
@@ -1120,14 +1129,14 @@ func unmarshalUPERSLPreconfigCommTxPoolListR13Into(v *asn1cUPERSLPreconfigCommTx
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLPreconfigCommPoolR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -1138,7 +1147,7 @@ func (v *SLPreconfigCommPoolR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1224,7 +1233,7 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding priorityList-r13: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -1247,9 +1256,12 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPreconfigCommPoolR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolR12")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolR12")
+	}
+	return nil
 }
 
 func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1260,41 +1272,41 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	val_sccplenr12, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
-		return fmt.Errorf("decoding sc-CP-Len-r12: %w", err)
+		return runtime.WrapDecodePath(err, "ScCPLenR12")
 	}
 	v.ScCPLenR12 = SLCPLenR12(val_sccplenr12)
 	val_scperiodr12, err := per.DecodeEnumerated(bb, 16, false)
 	if err != nil {
-		return fmt.Errorf("decoding sc-Period-r12: %w", err)
+		return runtime.WrapDecodePath(err, "ScPeriodR12")
 	}
 	v.ScPeriodR12 = SLPeriodCommR12(val_scperiodr12)
 	if err := v.ScTFResourceConfigR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sc-TF-ResourceConfig-r12: %w", err)
+		return runtime.WrapDecodePath(err, "ScTFResourceConfigR12")
 	}
 	val_sctxparametersr12, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
 	if err != nil {
-		return fmt.Errorf("decoding sc-TxParameters-r12: %w", err)
+		return runtime.WrapDecodePath(err, "ScTxParametersR12")
 	}
 	v.ScTxParametersR12 = P0SLR12(val_sctxparametersr12)
 	val_datacplenr12, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
-		return fmt.Errorf("decoding data-CP-Len-r12: %w", err)
+		return runtime.WrapDecodePath(err, "DataCPLenR12")
 	}
 	v.DataCPLenR12 = SLCPLenR12(val_datacplenr12)
 	if err := v.DataTFResourceConfigR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding data-TF-ResourceConfig-r12: %w", err)
+		return runtime.WrapDecodePath(err, "DataTFResourceConfigR12")
 	}
 	if err := v.DataHoppingConfigR12.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dataHoppingConfig-r12: %w", err)
+		return runtime.WrapDecodePath(err, "DataHoppingConfigR12")
 	}
 	val_datatxparametersr12, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
 	if err != nil {
-		return fmt.Errorf("decoding dataTxParameters-r12: %w", err)
+		return runtime.WrapDecodePath(err, "DataTxParametersR12")
 	}
 	v.DataTxParametersR12 = P0SLR12(val_datatxparametersr12)
 	bsBytes_trptsubsetr12, bsBitLen_trptsubsetr12, err := per.DecodeBitStringExt(bb, 3, 5, true, false)
 	if err != nil {
-		return fmt.Errorf("decoding trpt-Subset-r12: %w", err)
+		return runtime.WrapDecodePath(err, "TrptSubsetR12")
 	}
 	v.TrptSubsetR12 = runtime.BitString{Bytes: bsBytes_trptsubsetr12, BitLength: bsBitLen_trptsubsetr12}
 	if hasExtensions {
@@ -1322,14 +1334,14 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 					for i := int64(0); i < fragmentLength_prioritylistr13; i++ {
 						val, err := per.DecodeInteger(extBB, int64Ptr(1), int64Ptr(8), false)
 						if err != nil {
-							return fmt.Errorf("decoding priorityList-r13 element %d: %w", fragmentOffset_prioritylistr13+i, err)
+							return runtime.WrapDecodePath(err, fmt.Sprintf("PriorityListR13[%d]", fragmentOffset_prioritylistr13+i))
 						}
 						tmp_prioritylistr13 = append(tmp_prioritylistr13, SLPriorityR13(val))
 					}
 					return nil
 				})
 				if errCollection_prioritylistr13 != nil {
-					return fmt.Errorf("decoding priorityList-r13: %w", errCollection_prioritylistr13)
+					return runtime.WrapDecodePath(errCollection_prioritylistr13, "PriorityListR13")
 				}
 				v.PriorityListR13 = tmp_prioritylistr13
 			}
@@ -1358,7 +1370,7 @@ func MarshalUPERSLPreconfigDiscRxPoolListR13(list SLPreconfigDiscRxPoolListR13) 
 	if err := MarshalUPERSLPreconfigDiscRxPoolListR13To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPreconfigDiscRxPoolListR13To appends a SLPreconfigDiscRxPoolListR13 list to bb.
@@ -1382,10 +1394,10 @@ func UnmarshalUPERSLPreconfigDiscRxPoolListR13(data []byte) (SLPreconfigDiscRxPo
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPreconfigDiscRxPoolListR13From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscRxPoolListR13")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscRxPoolListR13")
 	}
 	return value, nil
 }
@@ -1405,14 +1417,14 @@ func unmarshalUPERSLPreconfigDiscRxPoolListR13Into(v *asn1cUPERSLPreconfigDiscRx
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLPreconfigDiscPoolR13
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -1425,7 +1437,7 @@ func MarshalUPERSLPreconfigDiscTxPoolListR13(list SLPreconfigDiscTxPoolListR13) 
 	if err := MarshalUPERSLPreconfigDiscTxPoolListR13To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPreconfigDiscTxPoolListR13To appends a SLPreconfigDiscTxPoolListR13 list to bb.
@@ -1449,10 +1461,10 @@ func UnmarshalUPERSLPreconfigDiscTxPoolListR13(data []byte) (SLPreconfigDiscTxPo
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPreconfigDiscTxPoolListR13From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscTxPoolListR13")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscTxPoolListR13")
 	}
 	return value, nil
 }
@@ -1472,14 +1484,14 @@ func unmarshalUPERSLPreconfigDiscTxPoolListR13Into(v *asn1cUPERSLPreconfigDiscTx
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLPreconfigDiscPoolR13
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -1490,7 +1502,7 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1551,9 +1563,12 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPreconfigDiscPoolR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13")
+	}
+	return nil
 }
 
 func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1569,31 +1584,31 @@ func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	val_cplenr13, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
-		return fmt.Errorf("decoding cp-Len-r13: %w", err)
+		return runtime.WrapDecodePath(err, "CpLenR13")
 	}
 	v.CpLenR13 = SLCPLenR12(val_cplenr13)
 	val_discperiodr13, err := per.DecodeEnumerated(bb, 16, false)
 	if err != nil {
-		return fmt.Errorf("decoding discPeriod-r13: %w", err)
+		return runtime.WrapDecodePath(err, "DiscPeriodR13")
 	}
 	v.DiscPeriodR13 = val_discperiodr13
 	val_numretxr13, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(3), false)
 	if err != nil {
-		return fmt.Errorf("decoding numRetx-r13: %w", err)
+		return runtime.WrapDecodePath(err, "NumRetxR13")
 	}
 	v.NumRetxR13 = val_numretxr13
 	val_numrepetitionr13, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(50), false)
 	if err != nil {
-		return fmt.Errorf("decoding numRepetition-r13: %w", err)
+		return runtime.WrapDecodePath(err, "NumRepetitionR13")
 	}
 	v.NumRepetitionR13 = val_numrepetitionr13
 	if err := v.TfResourceConfigR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tf-ResourceConfig-r13: %w", err)
+		return runtime.WrapDecodePath(err, "TfResourceConfigR13")
 	}
 	if opt_txparametersr13 {
 		var dec_txparametersr13 SLPreconfigDiscPoolR13TxParametersR13
 		if err := dec_txparametersr13.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding txParameters-r13: %w", err)
+			return runtime.WrapDecodePath(err, "TxParametersR13")
 		}
 		v.TxParametersR13 = &dec_txparametersr13
 	}
@@ -1624,7 +1639,7 @@ func (v *SLPreconfigRelayR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigRelayR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1638,15 +1653,18 @@ func (v *SLPreconfigRelayR13) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPreconfigRelayR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigRelayR13")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigRelayR13")
+	}
+	return nil
 }
 
 func (v *SLPreconfigRelayR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = SLPreconfigRelayR13{}
 	if err := v.ReselectionInfoOoCR13.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding reselectionInfoOoC-r13: %w", err)
+		return runtime.WrapDecodePath(err, "ReselectionInfoOoCR13")
 	}
 	return nil
 }
@@ -1657,7 +1675,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1790,7 +1808,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding v2x-TxProfileList-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -1811,7 +1829,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding anchorCarrierFreqListNR-r16: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -1834,9 +1852,12 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLV2XPreconfigurationR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigurationR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigurationR14")
+	}
+	return nil
 }
 
 func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1859,14 +1880,14 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_v2xpreconfigfreqlistr14; i++ {
 			var elem SLV2XPreconfigFreqInfoR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding v2x-PreconfigFreqList-r14 element %d: %w", fragmentOffset_v2xpreconfigfreqlistr14+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("V2xPreconfigFreqListR14[%d]", fragmentOffset_v2xpreconfigfreqlistr14+i))
 			}
 			v.V2xPreconfigFreqListR14 = append(v.V2xPreconfigFreqListR14, elem)
 		}
 		return nil
 	})
 	if errCollection_v2xpreconfigfreqlistr14 != nil {
-		return fmt.Errorf("decoding v2x-PreconfigFreqList-r14: %w", errCollection_v2xpreconfigfreqlistr14)
+		return runtime.WrapDecodePath(errCollection_v2xpreconfigfreqlistr14, "V2xPreconfigFreqListR14")
 	}
 	if opt_anchorcarrierfreqlistr14 {
 		tmp_anchorcarrierfreqlistr14 := make(SLAnchorCarrierFreqListV2XR14, 0)
@@ -1874,21 +1895,21 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_anchorcarrierfreqlistr14; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(262143), false)
 				if err != nil {
-					return fmt.Errorf("decoding anchorCarrierFreqList-r14 element %d: %w", fragmentOffset_anchorcarrierfreqlistr14+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("AnchorCarrierFreqListR14[%d]", fragmentOffset_anchorcarrierfreqlistr14+i))
 				}
 				tmp_anchorcarrierfreqlistr14 = append(tmp_anchorcarrierfreqlistr14, ARFCNValueEUTRAR9(val))
 			}
 			return nil
 		})
 		if errCollection_anchorcarrierfreqlistr14 != nil {
-			return fmt.Errorf("decoding anchorCarrierFreqList-r14: %w", errCollection_anchorcarrierfreqlistr14)
+			return runtime.WrapDecodePath(errCollection_anchorcarrierfreqlistr14, "AnchorCarrierFreqListR14")
 		}
 		v.AnchorCarrierFreqListR14 = tmp_anchorcarrierfreqlistr14
 	}
 	if opt_cbrpreconfiglistr14 {
 		var dec_cbrpreconfiglistr14 SLCBRPreconfigTxConfigListR14
 		if err := dec_cbrpreconfiglistr14.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cbr-PreconfigList-r14: %w", err)
+			return runtime.WrapDecodePath(err, "CbrPreconfigListR14")
 		}
 		v.CbrPreconfigListR14 = &dec_cbrpreconfiglistr14
 	}
@@ -1926,7 +1947,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_v2xpacketduplicationconfigr15 {
 				var dec_v2xpacketduplicationconfigr15 SLV2XPacketDuplicationConfigR15
 				if err := dec_v2xpacketduplicationconfigr15.UnmarshalUPERFrom(extBB); err != nil {
-					return fmt.Errorf("decoding v2x-PacketDuplicationConfig-r15: %w", err)
+					return runtime.WrapDecodePath(err, "V2xPacketDuplicationConfigR15")
 				}
 				v.V2xPacketDuplicationConfigR15 = &dec_v2xpacketduplicationconfigr15
 			}
@@ -1936,21 +1957,21 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 					for i := int64(0); i < fragmentLength_syncfreqlistr15; i++ {
 						val, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(262143), false)
 						if err != nil {
-							return fmt.Errorf("decoding syncFreqList-r15 element %d: %w", fragmentOffset_syncfreqlistr15+i, err)
+							return runtime.WrapDecodePath(err, fmt.Sprintf("SyncFreqListR15[%d]", fragmentOffset_syncfreqlistr15+i))
 						}
 						tmp_syncfreqlistr15 = append(tmp_syncfreqlistr15, ARFCNValueEUTRAR9(val))
 					}
 					return nil
 				})
 				if errCollection_syncfreqlistr15 != nil {
-					return fmt.Errorf("decoding syncFreqList-r15: %w", errCollection_syncfreqlistr15)
+					return runtime.WrapDecodePath(errCollection_syncfreqlistr15, "SyncFreqListR15")
 				}
 				v.SyncFreqListR15 = tmp_syncfreqlistr15
 			}
 			if ext_opt_slsstxmultifreqr15 {
 				val_slsstxmultifreqr15, err := per.DecodeEnumerated(extBB, 1, false)
 				if err != nil {
-					return fmt.Errorf("decoding slss-TxMultiFreq-r15: %w", err)
+					return runtime.WrapDecodePath(err, "SlssTxMultiFreqR15")
 				}
 				v.SlssTxMultiFreqR15 = &val_slsstxmultifreqr15
 			}
@@ -1960,14 +1981,14 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 					for i := int64(0); i < fragmentLength_v2xtxprofilelistr15; i++ {
 						val, err := per.DecodeEnumerated(extBB, 8, true)
 						if err != nil {
-							return fmt.Errorf("decoding v2x-TxProfileList-r15 element %d: %w", fragmentOffset_v2xtxprofilelistr15+i, err)
+							return runtime.WrapDecodePath(err, fmt.Sprintf("V2xTxProfileListR15[%d]", fragmentOffset_v2xtxprofilelistr15+i))
 						}
 						tmp_v2xtxprofilelistr15 = append(tmp_v2xtxprofilelistr15, SLV2XTxProfileR15(val))
 					}
 					return nil
 				})
 				if errCollection_v2xtxprofilelistr15 != nil {
-					return fmt.Errorf("decoding v2x-TxProfileList-r15: %w", errCollection_v2xtxprofilelistr15)
+					return runtime.WrapDecodePath(errCollection_v2xtxprofilelistr15, "V2xTxProfileListR15")
 				}
 				v.V2xTxProfileListR15 = tmp_v2xtxprofilelistr15
 			}
@@ -1992,14 +2013,14 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 					for i := int64(0); i < fragmentLength_anchorcarrierfreqlistnrr16; i++ {
 						val, err := per.DecodeInteger(extBB, int64Ptr(0), int64Ptr(3279165), false)
 						if err != nil {
-							return fmt.Errorf("decoding anchorCarrierFreqListNR-r16 element %d: %w", fragmentOffset_anchorcarrierfreqlistnrr16+i, err)
+							return runtime.WrapDecodePath(err, fmt.Sprintf("AnchorCarrierFreqListNRR16[%d]", fragmentOffset_anchorcarrierfreqlistnrr16+i))
 						}
 						tmp_anchorcarrierfreqlistnrr16 = append(tmp_anchorcarrierfreqlistnrr16, ARFCNValueNRR15(val))
 					}
 					return nil
 				})
 				if errCollection_anchorcarrierfreqlistnrr16 != nil {
-					return fmt.Errorf("decoding anchorCarrierFreqListNR-r16: %w", errCollection_anchorcarrierfreqlistnrr16)
+					return runtime.WrapDecodePath(errCollection_anchorcarrierfreqlistnrr16, "AnchorCarrierFreqListNRR16")
 				}
 				v.AnchorCarrierFreqListNRR16 = tmp_anchorcarrierfreqlistnrr16
 			}
@@ -2026,7 +2047,7 @@ func (v *SLCBRPreconfigTxConfigListR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLCBRPreconfigTxConfigListR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2057,9 +2078,12 @@ func (v *SLCBRPreconfigTxConfigListR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14")
+	}
+	return nil
 }
 
 func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2069,28 +2093,28 @@ func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) err
 		for i_cbrrangecommonconfiglistr14 := int64(0); i_cbrrangecommonconfiglistr14 < fragmentLength_cbrrangecommonconfiglistr14; i_cbrrangecommonconfiglistr14++ {
 			elem, err := UnmarshalUPERSLCBRLevelsConfigR14From(bb)
 			if err != nil {
-				return fmt.Errorf("decoding cbr-RangeCommonConfigList-r14 element %d: %w", fragmentOffset_cbrrangecommonconfiglistr14+i_cbrrangecommonconfiglistr14, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CbrRangeCommonConfigListR14[%d]", fragmentOffset_cbrrangecommonconfiglistr14+i_cbrrangecommonconfiglistr14))
 			}
 			v.CbrRangeCommonConfigListR14 = append(v.CbrRangeCommonConfigListR14, elem)
 		}
 		return nil
 	})
 	if errCollection_cbrrangecommonconfiglistr14 != nil {
-		return fmt.Errorf("decoding cbr-RangeCommonConfigList-r14: %w", errCollection_cbrrangecommonconfiglistr14)
+		return runtime.WrapDecodePath(errCollection_cbrrangecommonconfiglistr14, "CbrRangeCommonConfigListR14")
 	}
 	v.SlCBRPSSCHTxConfigListR14 = make(SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, 0)
 	_, errCollection_slcbrpsschtxconfiglistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 128, HasUpper: true}, false, func(fragmentOffset_slcbrpsschtxconfiglistr14, fragmentLength_slcbrpsschtxconfiglistr14 int64) error {
 		for i := int64(0); i < fragmentLength_slcbrpsschtxconfiglistr14; i++ {
 			var elem SLCBRPSSCHTxConfigR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding sl-CBR-PSSCH-TxConfigList-r14 element %d: %w", fragmentOffset_slcbrpsschtxconfiglistr14+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("SlCBRPSSCHTxConfigListR14[%d]", fragmentOffset_slcbrpsschtxconfiglistr14+i))
 			}
 			v.SlCBRPSSCHTxConfigListR14 = append(v.SlCBRPSSCHTxConfigListR14, elem)
 		}
 		return nil
 	})
 	if errCollection_slcbrpsschtxconfiglistr14 != nil {
-		return fmt.Errorf("decoding sl-CBR-PSSCH-TxConfigList-r14: %w", errCollection_slcbrpsschtxconfiglistr14)
+		return runtime.WrapDecodePath(errCollection_slcbrpsschtxconfiglistr14, "SlCBRPSSCHTxConfigListR14")
 	}
 	return nil
 }
@@ -2103,7 +2127,7 @@ func MarshalUPERSLV2XPreconfigFreqListR14(list SLV2XPreconfigFreqListR14) ([]byt
 	if err := MarshalUPERSLV2XPreconfigFreqListR14To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLV2XPreconfigFreqListR14To appends a SLV2XPreconfigFreqListR14 list to bb.
@@ -2127,10 +2151,10 @@ func UnmarshalUPERSLV2XPreconfigFreqListR14(data []byte) (SLV2XPreconfigFreqList
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLV2XPreconfigFreqListR14From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLV2XPreconfigFreqListR14")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLV2XPreconfigFreqListR14")
 	}
 	return value, nil
 }
@@ -2150,14 +2174,14 @@ func unmarshalUPERSLV2XPreconfigFreqListR14Into(v *asn1cUPERSLV2XPreconfigFreqLi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLV2XPreconfigFreqInfoR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -2168,7 +2192,7 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2304,7 +2328,7 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding v2x-FreqSelectionConfigList-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -2327,9 +2351,12 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqInfoR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqInfoR14")
+	}
+	return nil
 }
 
 func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2360,12 +2387,12 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.V2xCommPreconfigGeneralR14.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding v2x-CommPreconfigGeneral-r14: %w", err)
+		return runtime.WrapDecodePath(err, "V2xCommPreconfigGeneralR14")
 	}
 	if opt_v2xcommpreconfigsyncr14 {
 		var dec_v2xcommpreconfigsyncr14 SLPreconfigV2XSyncR14
 		if err := dec_v2xcommpreconfigsyncr14.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding v2x-CommPreconfigSync-r14: %w", err)
+			return runtime.WrapDecodePath(err, "V2xCommPreconfigSyncR14")
 		}
 		v.V2xCommPreconfigSyncR14 = &dec_v2xcommpreconfigsyncr14
 	}
@@ -2374,66 +2401,66 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_v2xcommrxpoollistr14; i++ {
 			var elem SLV2XPreconfigCommPoolR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding v2x-CommRxPoolList-r14 element %d: %w", fragmentOffset_v2xcommrxpoollistr14+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("V2xCommRxPoolListR14[%d]", fragmentOffset_v2xcommrxpoollistr14+i))
 			}
 			v.V2xCommRxPoolListR14 = append(v.V2xCommRxPoolListR14, elem)
 		}
 		return nil
 	})
 	if errCollection_v2xcommrxpoollistr14 != nil {
-		return fmt.Errorf("decoding v2x-CommRxPoolList-r14: %w", errCollection_v2xcommrxpoollistr14)
+		return runtime.WrapDecodePath(errCollection_v2xcommrxpoollistr14, "V2xCommRxPoolListR14")
 	}
 	v.V2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, 0)
 	_, errCollection_v2xcommtxpoollistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_v2xcommtxpoollistr14, fragmentLength_v2xcommtxpoollistr14 int64) error {
 		for i := int64(0); i < fragmentLength_v2xcommtxpoollistr14; i++ {
 			var elem SLV2XPreconfigCommPoolR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding v2x-CommTxPoolList-r14 element %d: %w", fragmentOffset_v2xcommtxpoollistr14+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("V2xCommTxPoolListR14[%d]", fragmentOffset_v2xcommtxpoollistr14+i))
 			}
 			v.V2xCommTxPoolListR14 = append(v.V2xCommTxPoolListR14, elem)
 		}
 		return nil
 	})
 	if errCollection_v2xcommtxpoollistr14 != nil {
-		return fmt.Errorf("decoding v2x-CommTxPoolList-r14: %w", errCollection_v2xcommtxpoollistr14)
+		return runtime.WrapDecodePath(errCollection_v2xcommtxpoollistr14, "V2xCommTxPoolListR14")
 	}
 	v.P2xCommTxPoolListR14 = make(SLPreconfigV2XTxPoolListR14, 0)
 	_, errCollection_p2xcommtxpoollistr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_p2xcommtxpoollistr14, fragmentLength_p2xcommtxpoollistr14 int64) error {
 		for i := int64(0); i < fragmentLength_p2xcommtxpoollistr14; i++ {
 			var elem SLV2XPreconfigCommPoolR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding p2x-CommTxPoolList-r14 element %d: %w", fragmentOffset_p2xcommtxpoollistr14+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("P2xCommTxPoolListR14[%d]", fragmentOffset_p2xcommtxpoollistr14+i))
 			}
 			v.P2xCommTxPoolListR14 = append(v.P2xCommTxPoolListR14, elem)
 		}
 		return nil
 	})
 	if errCollection_p2xcommtxpoollistr14 != nil {
-		return fmt.Errorf("decoding p2x-CommTxPoolList-r14: %w", errCollection_p2xcommtxpoollistr14)
+		return runtime.WrapDecodePath(errCollection_p2xcommtxpoollistr14, "P2xCommTxPoolListR14")
 	}
 	if opt_v2xresourceselectionconfigr14 {
 		var dec_v2xresourceselectionconfigr14 SLCommTxPoolSensingConfigR14
 		if err := dec_v2xresourceselectionconfigr14.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding v2x-ResourceSelectionConfig-r14: %w", err)
+			return runtime.WrapDecodePath(err, "V2xResourceSelectionConfigR14")
 		}
 		v.V2xResourceSelectionConfigR14 = &dec_v2xresourceselectionconfigr14
 	}
 	if opt_zoneconfigr14 {
 		var dec_zoneconfigr14 SLZoneConfigR14
 		if err := dec_zoneconfigr14.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding zoneConfig-r14: %w", err)
+			return runtime.WrapDecodePath(err, "ZoneConfigR14")
 		}
 		v.ZoneConfigR14 = &dec_zoneconfigr14
 	}
 	val_syncpriorityr14, err := per.DecodeEnumerated(bb, 2, false)
 	if err != nil {
-		return fmt.Errorf("decoding syncPriority-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncPriorityR14")
 	}
 	v.SyncPriorityR14 = val_syncpriorityr14
 	if opt_thressltxprioritizationr14 {
 		val_thressltxprioritizationr14, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(8), false)
 		if err != nil {
-			return fmt.Errorf("decoding thresSL-TxPrioritization-r14: %w", err)
+			return runtime.WrapDecodePath(err, "ThresSLTxPrioritizationR14")
 		}
 		tmp_thressltxprioritizationr14 := SLPriorityR13(val_thressltxprioritizationr14)
 		v.ThresSLTxPrioritizationR14 = &tmp_thressltxprioritizationr14
@@ -2441,7 +2468,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_offsetdfnr14 {
 		val_offsetdfnr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(1000), false)
 		if err != nil {
-			return fmt.Errorf("decoding offsetDFN-r14: %w", err)
+			return runtime.WrapDecodePath(err, "OffsetDFNR14")
 		}
 		v.OffsetDFNR14 = &val_offsetdfnr14
 	}
@@ -2470,14 +2497,14 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 					for i := int64(0); i < fragmentLength_v2xfreqselectionconfiglistr15; i++ {
 						var elem SLV2XFreqSelectionConfigR15
 						if err := elem.UnmarshalUPERFrom(extBB); err != nil {
-							return fmt.Errorf("decoding v2x-FreqSelectionConfigList-r15 element %d: %w", fragmentOffset_v2xfreqselectionconfiglistr15+i, err)
+							return runtime.WrapDecodePath(err, fmt.Sprintf("V2xFreqSelectionConfigListR15[%d]", fragmentOffset_v2xfreqselectionconfiglistr15+i))
 						}
 						tmp_v2xfreqselectionconfiglistr15 = append(tmp_v2xfreqselectionconfiglistr15, elem)
 					}
 					return nil
 				})
 				if errCollection_v2xfreqselectionconfiglistr15 != nil {
-					return fmt.Errorf("decoding v2x-FreqSelectionConfigList-r15: %w", errCollection_v2xfreqselectionconfiglistr15)
+					return runtime.WrapDecodePath(errCollection_v2xfreqselectionconfiglistr15, "V2xFreqSelectionConfigListR15")
 				}
 				v.V2xFreqSelectionConfigListR15 = tmp_v2xfreqselectionconfiglistr15
 			}
@@ -2506,7 +2533,7 @@ func MarshalUPERSLPreconfigV2XRxPoolListR14(list SLPreconfigV2XRxPoolListR14) ([
 	if err := MarshalUPERSLPreconfigV2XRxPoolListR14To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPreconfigV2XRxPoolListR14To appends a SLPreconfigV2XRxPoolListR14 list to bb.
@@ -2530,10 +2557,10 @@ func UnmarshalUPERSLPreconfigV2XRxPoolListR14(data []byte) (SLPreconfigV2XRxPool
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPreconfigV2XRxPoolListR14From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XRxPoolListR14")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XRxPoolListR14")
 	}
 	return value, nil
 }
@@ -2553,14 +2580,14 @@ func unmarshalUPERSLPreconfigV2XRxPoolListR14Into(v *asn1cUPERSLPreconfigV2XRxPo
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLV2XPreconfigCommPoolR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -2573,7 +2600,7 @@ func MarshalUPERSLPreconfigV2XTxPoolListR14(list SLPreconfigV2XTxPoolListR14) ([
 	if err := MarshalUPERSLPreconfigV2XTxPoolListR14To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPreconfigV2XTxPoolListR14To appends a SLPreconfigV2XTxPoolListR14 list to bb.
@@ -2597,10 +2624,10 @@ func UnmarshalUPERSLPreconfigV2XTxPoolListR14(data []byte) (SLPreconfigV2XTxPool
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPreconfigV2XTxPoolListR14From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XTxPoolListR14")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XTxPoolListR14")
 	}
 	return value, nil
 }
@@ -2620,14 +2647,14 @@ func unmarshalUPERSLPreconfigV2XTxPoolListR14Into(v *asn1cUPERSLPreconfigV2XTxPo
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLV2XPreconfigCommPoolR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -2638,7 +2665,7 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2809,7 +2836,7 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding cbr-pssch-TxConfigList-v1530: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -2832,9 +2859,12 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigCommPoolR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigCommPoolR14")
+	}
+	return nil
 }
 
 func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2879,56 +2909,56 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_sloffsetindicatorr14 {
 		var dec_sloffsetindicatorr14 SLOffsetIndicatorR12
 		if err := dec_sloffsetindicatorr14.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding sl-OffsetIndicator-r14: %w", err)
+			return runtime.WrapDecodePath(err, "SlOffsetIndicatorR14")
 		}
 		v.SlOffsetIndicatorR14 = &dec_sloffsetindicatorr14
 	}
 	if err := v.SlSubframeR14.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sl-Subframe-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SlSubframeR14")
 	}
 	val_adjacencypscchpsschr14, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding adjacencyPSCCH-PSSCH-r14: %w", err)
+		return runtime.WrapDecodePath(err, "AdjacencyPSCCHPSSCHR14")
 	}
 	v.AdjacencyPSCCHPSSCHR14 = val_adjacencypscchpsschr14
 	val_sizesubchannelr14, err := per.DecodeEnumerated(bb, 32, false)
 	if err != nil {
-		return fmt.Errorf("decoding sizeSubchannel-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SizeSubchannelR14")
 	}
 	v.SizeSubchannelR14 = val_sizesubchannelr14
 	val_numsubchannelr14, err := per.DecodeEnumerated(bb, 8, false)
 	if err != nil {
-		return fmt.Errorf("decoding numSubchannel-r14: %w", err)
+		return runtime.WrapDecodePath(err, "NumSubchannelR14")
 	}
 	v.NumSubchannelR14 = val_numsubchannelr14
 	val_startrbsubchannelr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(99), false)
 	if err != nil {
-		return fmt.Errorf("decoding startRB-Subchannel-r14: %w", err)
+		return runtime.WrapDecodePath(err, "StartRBSubchannelR14")
 	}
 	v.StartRBSubchannelR14 = val_startrbsubchannelr14
 	if opt_startrbpscchpoolr14 {
 		val_startrbpscchpoolr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(99), false)
 		if err != nil {
-			return fmt.Errorf("decoding startRB-PSCCH-Pool-r14: %w", err)
+			return runtime.WrapDecodePath(err, "StartRBPSCCHPoolR14")
 		}
 		v.StartRBPSCCHPoolR14 = &val_startrbpscchpoolr14
 	}
 	val_datatxparametersr14, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
 	if err != nil {
-		return fmt.Errorf("decoding dataTxParameters-r14: %w", err)
+		return runtime.WrapDecodePath(err, "DataTxParametersR14")
 	}
 	v.DataTxParametersR14 = P0SLR12(val_datatxparametersr14)
 	if opt_zoneidr14 {
 		val_zoneidr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(7), false)
 		if err != nil {
-			return fmt.Errorf("decoding zoneID-r14: %w", err)
+			return runtime.WrapDecodePath(err, "ZoneIDR14")
 		}
 		v.ZoneIDR14 = &val_zoneidr14
 	}
 	if opt_threshsrssicbrr14 {
 		val_threshsrssicbrr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(45), false)
 		if err != nil {
-			return fmt.Errorf("decoding threshS-RSSI-CBR-r14: %w", err)
+			return runtime.WrapDecodePath(err, "ThreshSRSSICBRR14")
 		}
 		v.ThreshSRSSICBRR14 = &val_threshsrssicbrr14
 	}
@@ -2938,28 +2968,28 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_cbrpsschtxconfiglistr14; i++ {
 				var elem SLPPPPTxPreconfigIndexR14
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding cbr-pssch-TxConfigList-r14 element %d: %w", fragmentOffset_cbrpsschtxconfiglistr14+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("CbrPsschTxConfigListR14[%d]", fragmentOffset_cbrpsschtxconfiglistr14+i))
 				}
 				tmp_cbrpsschtxconfiglistr14 = append(tmp_cbrpsschtxconfiglistr14, elem)
 			}
 			return nil
 		})
 		if errCollection_cbrpsschtxconfiglistr14 != nil {
-			return fmt.Errorf("decoding cbr-pssch-TxConfigList-r14: %w", errCollection_cbrpsschtxconfiglistr14)
+			return runtime.WrapDecodePath(errCollection_cbrpsschtxconfiglistr14, "CbrPsschTxConfigListR14")
 		}
 		v.CbrPsschTxConfigListR14 = tmp_cbrpsschtxconfiglistr14
 	}
 	if opt_resourceselectionconfigp2xr14 {
 		var dec_resourceselectionconfigp2xr14 SLP2XResourceSelectionConfigR14
 		if err := dec_resourceselectionconfigp2xr14.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding resourceSelectionConfigP2X-r14: %w", err)
+			return runtime.WrapDecodePath(err, "ResourceSelectionConfigP2XR14")
 		}
 		v.ResourceSelectionConfigP2XR14 = &dec_resourceselectionconfigp2xr14
 	}
 	if opt_syncallowedr14 {
 		var dec_syncallowedr14 SLSyncAllowedR14
 		if err := dec_syncallowedr14.UnmarshalUPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding syncAllowed-r14: %w", err)
+			return runtime.WrapDecodePath(err, "SyncAllowedR14")
 		}
 		v.SyncAllowedR14 = &dec_syncallowedr14
 	}
@@ -2969,14 +2999,14 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_restrictresourcereservationperiodr14; i++ {
 				val, err := per.DecodeEnumerated(bb, 16, false)
 				if err != nil {
-					return fmt.Errorf("decoding restrictResourceReservationPeriod-r14 element %d: %w", fragmentOffset_restrictresourcereservationperiodr14+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("RestrictResourceReservationPeriodR14[%d]", fragmentOffset_restrictresourcereservationperiodr14+i))
 				}
 				tmp_restrictresourcereservationperiodr14 = append(tmp_restrictresourcereservationperiodr14, SLRestrictResourceReservationPeriodR14(val))
 			}
 			return nil
 		})
 		if errCollection_restrictresourcereservationperiodr14 != nil {
-			return fmt.Errorf("decoding restrictResourceReservationPeriod-r14: %w", errCollection_restrictresourcereservationperiodr14)
+			return runtime.WrapDecodePath(errCollection_restrictresourcereservationperiodr14, "RestrictResourceReservationPeriodR14")
 		}
 		v.RestrictResourceReservationPeriodR14 = tmp_restrictresourcereservationperiodr14
 	}
@@ -3009,14 +3039,14 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 					for i := int64(0); i < fragmentLength_slmint2valuelistr15; i++ {
 						var elem SLMinT2ValueR15
 						if err := elem.UnmarshalUPERFrom(extBB); err != nil {
-							return fmt.Errorf("decoding sl-MinT2ValueList-r15 element %d: %w", fragmentOffset_slmint2valuelistr15+i, err)
+							return runtime.WrapDecodePath(err, fmt.Sprintf("SlMinT2ValueListR15[%d]", fragmentOffset_slmint2valuelistr15+i))
 						}
 						tmp_slmint2valuelistr15 = append(tmp_slmint2valuelistr15, elem)
 					}
 					return nil
 				})
 				if errCollection_slmint2valuelistr15 != nil {
-					return fmt.Errorf("decoding sl-MinT2ValueList-r15: %w", errCollection_slmint2valuelistr15)
+					return runtime.WrapDecodePath(errCollection_slmint2valuelistr15, "SlMinT2ValueListR15")
 				}
 				v.SlMinT2ValueListR15 = tmp_slmint2valuelistr15
 			}
@@ -3026,14 +3056,14 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 					for i := int64(0); i < fragmentLength_cbrpsschtxconfiglistv1530; i++ {
 						var elem SLPPPPTxPreconfigIndexV1530
 						if err := elem.UnmarshalUPERFrom(extBB); err != nil {
-							return fmt.Errorf("decoding cbr-pssch-TxConfigList-v1530 element %d: %w", fragmentOffset_cbrpsschtxconfiglistv1530+i, err)
+							return runtime.WrapDecodePath(err, fmt.Sprintf("CbrPsschTxConfigListV1530[%d]", fragmentOffset_cbrpsschtxconfiglistv1530+i))
 						}
 						tmp_cbrpsschtxconfiglistv1530 = append(tmp_cbrpsschtxconfiglistv1530, elem)
 					}
 					return nil
 				})
 				if errCollection_cbrpsschtxconfiglistv1530 != nil {
-					return fmt.Errorf("decoding cbr-pssch-TxConfigList-v1530: %w", errCollection_cbrpsschtxconfiglistv1530)
+					return runtime.WrapDecodePath(errCollection_cbrpsschtxconfiglistv1530, "CbrPsschTxConfigListV1530")
 				}
 				v.CbrPsschTxConfigListV1530 = tmp_cbrpsschtxconfiglistv1530
 			}
@@ -3060,7 +3090,7 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3130,7 +3160,7 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding slss-TxDisabled-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.Bytes()); err != nil {
+			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
 				return err
 			}
 		}
@@ -3153,9 +3183,12 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPreconfigV2XSyncR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigV2XSyncR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigV2XSyncR14")
+	}
+	return nil
 }
 
 func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3165,31 +3198,31 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.SyncOffsetIndicatorsR14.UnmarshalUPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding syncOffsetIndicators-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncOffsetIndicatorsR14")
 	}
 	val_synctxparametersr14, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncTxParameters-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncTxParametersR14")
 	}
 	v.SyncTxParametersR14 = P0SLR12(val_synctxparametersr14)
 	val_synctxthreshoocr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(11), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncTxThreshOoC-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncTxThreshOoCR14")
 	}
 	v.SyncTxThreshOoCR14 = RSRPRangeSL3R12(val_synctxthreshoocr14)
 	val_filtercoefficientr14, err := per.DecodeEnumerated(bb, 16, true)
 	if err != nil {
-		return fmt.Errorf("decoding filterCoefficient-r14: %w", err)
+		return runtime.WrapDecodePath(err, "FilterCoefficientR14")
 	}
 	v.FilterCoefficientR14 = FilterCoefficient(val_filtercoefficientr14)
 	val_syncrefminhystr14, err := per.DecodeEnumerated(bb, 5, false)
 	if err != nil {
-		return fmt.Errorf("decoding syncRefMinHyst-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncRefMinHystR14")
 	}
 	v.SyncRefMinHystR14 = val_syncrefminhystr14
 	val_syncrefdiffhystr14, err := per.DecodeEnumerated(bb, 6, false)
 	if err != nil {
-		return fmt.Errorf("decoding syncRefDiffHyst-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncRefDiffHystR14")
 	}
 	v.SyncRefDiffHystR14 = val_syncrefdiffhystr14
 	if hasExtensions {
@@ -3214,7 +3247,7 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_slsstxdisabledr15 {
 				val_slsstxdisabledr15, err := per.DecodeEnumerated(extBB, 1, false)
 				if err != nil {
-					return fmt.Errorf("decoding slss-TxDisabled-r15: %w", err)
+					return runtime.WrapDecodePath(err, "SlssTxDisabledR15")
 				}
 				v.SlssTxDisabledR15 = &val_slsstxdisabledr15
 			}
@@ -3241,7 +3274,7 @@ func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3267,9 +3300,12 @@ func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLV2XSyncOffsetIndicatorsR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XSyncOffsetIndicatorsR14")
+	}
+	return nil
 }
 
 func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3281,18 +3317,18 @@ func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	}
 	val_syncoffsetindicator1r14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(159), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncOffsetIndicator1-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncOffsetIndicator1R14")
 	}
 	v.SyncOffsetIndicator1R14 = SLOffsetIndicatorSyncR14(val_syncoffsetindicator1r14)
 	val_syncoffsetindicator2r14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(159), false)
 	if err != nil {
-		return fmt.Errorf("decoding syncOffsetIndicator2-r14: %w", err)
+		return runtime.WrapDecodePath(err, "SyncOffsetIndicator2R14")
 	}
 	v.SyncOffsetIndicator2R14 = SLOffsetIndicatorSyncR14(val_syncoffsetindicator2r14)
 	if opt_syncoffsetindicator3r14 {
 		val_syncoffsetindicator3r14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(159), false)
 		if err != nil {
-			return fmt.Errorf("decoding syncOffsetIndicator3-r14: %w", err)
+			return runtime.WrapDecodePath(err, "SyncOffsetIndicator3R14")
 		}
 		tmp_syncoffsetindicator3r14 := SLOffsetIndicatorSyncR14(val_syncoffsetindicator3r14)
 		v.SyncOffsetIndicator3R14 = &tmp_syncoffsetindicator3r14
@@ -3308,7 +3344,7 @@ func MarshalUPERSLCBRPPPPTxPreconfigListR14(list SLCBRPPPPTxPreconfigListR14) ([
 	if err := MarshalUPERSLCBRPPPPTxPreconfigListR14To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLCBRPPPPTxPreconfigListR14To appends a SLCBRPPPPTxPreconfigListR14 list to bb.
@@ -3332,10 +3368,10 @@ func UnmarshalUPERSLCBRPPPPTxPreconfigListR14(data []byte) (SLCBRPPPPTxPreconfig
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListR14From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListR14")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListR14")
 	}
 	return value, nil
 }
@@ -3355,14 +3391,14 @@ func unmarshalUPERSLCBRPPPPTxPreconfigListR14Into(v *asn1cUPERSLCBRPPPPTxPreconf
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLPPPPTxPreconfigIndexR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -3373,7 +3409,7 @@ func (v *SLPPPPTxPreconfigIndexR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPPPPTxPreconfigIndexR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3403,26 +3439,29 @@ func (v *SLPPPPTxPreconfigIndexR14) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14")
+	}
+	return nil
 }
 
 func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = SLPPPPTxPreconfigIndexR14{}
 	val_prioritythresholdr14, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(8), false)
 	if err != nil {
-		return fmt.Errorf("decoding priorityThreshold-r14: %w", err)
+		return runtime.WrapDecodePath(err, "PriorityThresholdR14")
 	}
 	v.PriorityThresholdR14 = SLPriorityR13(val_prioritythresholdr14)
 	val_defaulttxconfigindexr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
-		return fmt.Errorf("decoding defaultTxConfigIndex-r14: %w", err)
+		return runtime.WrapDecodePath(err, "DefaultTxConfigIndexR14")
 	}
 	v.DefaultTxConfigIndexR14 = val_defaulttxconfigindexr14
 	val_cbrconfigindexr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(7), false)
 	if err != nil {
-		return fmt.Errorf("decoding cbr-ConfigIndex-r14: %w", err)
+		return runtime.WrapDecodePath(err, "CbrConfigIndexR14")
 	}
 	v.CbrConfigIndexR14 = val_cbrconfigindexr14
 	v.TxConfigIndexListR14 = make(SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, 0)
@@ -3430,14 +3469,14 @@ func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_txconfigindexlistr14; i++ {
 			val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
 			if err != nil {
-				return fmt.Errorf("decoding tx-ConfigIndexList-r14 element %d: %w", fragmentOffset_txconfigindexlistr14+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("TxConfigIndexListR14[%d]", fragmentOffset_txconfigindexlistr14+i))
 			}
 			v.TxConfigIndexListR14 = append(v.TxConfigIndexListR14, TxPreconfigIndexR14(val))
 		}
 		return nil
 	})
 	if errCollection_txconfigindexlistr14 != nil {
-		return fmt.Errorf("decoding tx-ConfigIndexList-r14: %w", errCollection_txconfigindexlistr14)
+		return runtime.WrapDecodePath(errCollection_txconfigindexlistr14, "TxConfigIndexListR14")
 	}
 	return nil
 }
@@ -3450,7 +3489,7 @@ func MarshalUPERSLCBRPPPPTxPreconfigListV1530(list SLCBRPPPPTxPreconfigListV1530
 	if err := MarshalUPERSLCBRPPPPTxPreconfigListV1530To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLCBRPPPPTxPreconfigListV1530To appends a SLCBRPPPPTxPreconfigListV1530 list to bb.
@@ -3474,10 +3513,10 @@ func UnmarshalUPERSLCBRPPPPTxPreconfigListV1530(data []byte) (SLCBRPPPPTxPreconf
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListV1530From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListV1530")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListV1530")
 	}
 	return value, nil
 }
@@ -3497,14 +3536,14 @@ func unmarshalUPERSLCBRPPPPTxPreconfigListV1530Into(v *asn1cUPERSLCBRPPPPTxPreco
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLPPPPTxPreconfigIndexV1530
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -3515,7 +3554,7 @@ func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3542,9 +3581,12 @@ func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPERTo(bb *per.BitBuffer) error {
 func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530")
+	}
+	return nil
 }
 
 func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3560,14 +3602,14 @@ func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error
 			for i := int64(0); i < fragmentLength_mcspsschranger15; i++ {
 				var elem MCSPSSCHRangeR15
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding mcs-PSSCH-Range-r15 element %d: %w", fragmentOffset_mcspsschranger15+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("McsPSSCHRangeR15[%d]", fragmentOffset_mcspsschranger15+i))
 				}
 				tmp_mcspsschranger15 = append(tmp_mcspsschranger15, elem)
 			}
 			return nil
 		})
 		if errCollection_mcspsschranger15 != nil {
-			return fmt.Errorf("decoding mcs-PSSCH-Range-r15: %w", errCollection_mcspsschranger15)
+			return runtime.WrapDecodePath(errCollection_mcspsschranger15, "McsPSSCHRangeR15")
 		}
 		v.McsPSSCHRangeR15 = tmp_mcspsschranger15
 	}
@@ -3582,7 +3624,7 @@ func MarshalUPERSLV2XTxProfileListR15(list SLV2XTxProfileListR15) ([]byte, error
 	if err := MarshalUPERSLV2XTxProfileListR15To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLV2XTxProfileListR15To appends a SLV2XTxProfileListR15 list to bb.
@@ -3606,10 +3648,10 @@ func UnmarshalUPERSLV2XTxProfileListR15(data []byte) (SLV2XTxProfileListR15, err
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLV2XTxProfileListR15From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLV2XTxProfileListR15")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLV2XTxProfileListR15")
 	}
 	return value, nil
 }
@@ -3629,14 +3671,14 @@ func unmarshalUPERSLV2XTxProfileListR15Into(v *asn1cUPERSLV2XTxProfileListR15Lis
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeEnumerated(bb, 8, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, SLV2XTxProfileR15(val))
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -3647,7 +3689,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPER() ([]byte, error) 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3684,9 +3726,12 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPERTo(bb *per.BitBuffe
 func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigCommV1310")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigCommV1310")
+	}
+	return nil
 }
 
 func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3701,14 +3746,14 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitB
 		for i := int64(0); i < fragmentLength_commrxpoollistr13; i++ {
 			var elem SLPreconfigCommPoolR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding commRxPoolList-r13 element %d: %w", fragmentOffset_commrxpoollistr13+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CommRxPoolListR13[%d]", fragmentOffset_commrxpoollistr13+i))
 			}
 			v.CommRxPoolListR13 = append(v.CommRxPoolListR13, elem)
 		}
 		return nil
 	})
 	if errCollection_commrxpoollistr13 != nil {
-		return fmt.Errorf("decoding commRxPoolList-r13: %w", errCollection_commrxpoollistr13)
+		return runtime.WrapDecodePath(errCollection_commrxpoollistr13, "CommRxPoolListR13")
 	}
 	if opt_commtxpoollistr13 {
 		tmp_commtxpoollistr13 := make(SLPreconfigCommTxPoolListR13, 0)
@@ -3716,14 +3761,14 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitB
 			for i := int64(0); i < fragmentLength_commtxpoollistr13; i++ {
 				var elem SLPreconfigCommPoolR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding commTxPoolList-r13 element %d: %w", fragmentOffset_commtxpoollistr13+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("CommTxPoolListR13[%d]", fragmentOffset_commtxpoollistr13+i))
 				}
 				tmp_commtxpoollistr13 = append(tmp_commtxpoollistr13, elem)
 			}
 			return nil
 		})
 		if errCollection_commtxpoollistr13 != nil {
-			return fmt.Errorf("decoding commTxPoolList-r13: %w", errCollection_commtxpoollistr13)
+			return runtime.WrapDecodePath(errCollection_commtxpoollistr13, "CommTxPoolListR13")
 		}
 		v.CommTxPoolListR13 = tmp_commtxpoollistr13
 	}
@@ -3736,7 +3781,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3773,9 +3818,12 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPERTo(bb *per.BitBuffer)
 func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigDiscR13")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigDiscR13")
+	}
+	return nil
 }
 
 func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3790,14 +3838,14 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuf
 		for i := int64(0); i < fragmentLength_discrxpoollistr13; i++ {
 			var elem SLPreconfigDiscPoolR13
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding discRxPoolList-r13 element %d: %w", fragmentOffset_discrxpoollistr13+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("DiscRxPoolListR13[%d]", fragmentOffset_discrxpoollistr13+i))
 			}
 			v.DiscRxPoolListR13 = append(v.DiscRxPoolListR13, elem)
 		}
 		return nil
 	})
 	if errCollection_discrxpoollistr13 != nil {
-		return fmt.Errorf("decoding discRxPoolList-r13: %w", errCollection_discrxpoollistr13)
+		return runtime.WrapDecodePath(errCollection_discrxpoollistr13, "DiscRxPoolListR13")
 	}
 	if opt_disctxpoollistr13 {
 		tmp_disctxpoollistr13 := make(SLPreconfigDiscTxPoolListR13, 0)
@@ -3805,14 +3853,14 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuf
 			for i := int64(0); i < fragmentLength_disctxpoollistr13; i++ {
 				var elem SLPreconfigDiscPoolR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding discTxPoolList-r13 element %d: %w", fragmentOffset_disctxpoollistr13+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("DiscTxPoolListR13[%d]", fragmentOffset_disctxpoollistr13+i))
 				}
 				tmp_disctxpoollistr13 = append(tmp_disctxpoollistr13, elem)
 			}
 			return nil
 		})
 		if errCollection_disctxpoollistr13 != nil {
-			return fmt.Errorf("decoding discTxPoolList-r13: %w", errCollection_disctxpoollistr13)
+			return runtime.WrapDecodePath(errCollection_disctxpoollistr13, "DiscTxPoolListR13")
 		}
 		v.DiscTxPoolListR13 = tmp_disctxpoollistr13
 	}
@@ -3825,7 +3873,7 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3857,46 +3905,49 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPERTo(bb *per.BitBuffer) 
 func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12RohcProfilesR12")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12RohcProfilesR12")
+	}
+	return nil
 }
 
 func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = SLPreconfigGeneralR12RohcProfilesR12{}
 	val_profile0x0001r12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding profile0x0001-r12: %w", err)
+		return runtime.WrapDecodePath(err, "Profile0x0001R12")
 	}
 	v.Profile0x0001R12 = val_profile0x0001r12
 	val_profile0x0002r12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding profile0x0002-r12: %w", err)
+		return runtime.WrapDecodePath(err, "Profile0x0002R12")
 	}
 	v.Profile0x0002R12 = val_profile0x0002r12
 	val_profile0x0004r12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding profile0x0004-r12: %w", err)
+		return runtime.WrapDecodePath(err, "Profile0x0004R12")
 	}
 	v.Profile0x0004R12 = val_profile0x0004r12
 	val_profile0x0006r12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding profile0x0006-r12: %w", err)
+		return runtime.WrapDecodePath(err, "Profile0x0006R12")
 	}
 	v.Profile0x0006R12 = val_profile0x0006r12
 	val_profile0x0101r12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding profile0x0101-r12: %w", err)
+		return runtime.WrapDecodePath(err, "Profile0x0101R12")
 	}
 	v.Profile0x0101R12 = val_profile0x0101r12
 	val_profile0x0102r12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding profile0x0102-r12: %w", err)
+		return runtime.WrapDecodePath(err, "Profile0x0102R12")
 	}
 	v.Profile0x0102R12 = val_profile0x0102r12
 	val_profile0x0104r12, err := per.DecodeBoolean(bb)
 	if err != nil {
-		return fmt.Errorf("decoding profile0x0104-r12: %w", err)
+		return runtime.WrapDecodePath(err, "Profile0x0104R12")
 	}
 	v.Profile0x0104R12 = val_profile0x0104r12
 	return nil
@@ -3908,7 +3959,7 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3925,21 +3976,24 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPERTo(bb *per.BitBuffer)
 func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13TxParametersR13")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13TxParametersR13")
+	}
+	return nil
 }
 
 func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = SLPreconfigDiscPoolR13TxParametersR13{}
 	val_txparametersgeneralr13, err := per.DecodeInteger(bb, int64Ptr(-126), int64Ptr(31), false)
 	if err != nil {
-		return fmt.Errorf("decoding txParametersGeneral-r13: %w", err)
+		return runtime.WrapDecodePath(err, "TxParametersGeneralR13")
 	}
 	v.TxParametersGeneralR13 = P0SLR12(val_txparametersgeneralr13)
 	val_txprobabilityr13, err := per.DecodeEnumerated(bb, 4, false)
 	if err != nil {
-		return fmt.Errorf("decoding txProbability-r13: %w", err)
+		return runtime.WrapDecodePath(err, "TxProbabilityR13")
 	}
 	v.TxProbabilityR13 = val_txprobabilityr13
 	return nil
@@ -3955,7 +4009,7 @@ func MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14(list SL
 	if err := MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14To appends a SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 list to bb.
@@ -3979,10 +4033,10 @@ func UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14(data 
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14")
 	}
 	return value, nil
 }
@@ -4002,14 +4056,14 @@ func unmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Into(v
 		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
 			elem, err := UnmarshalUPERSLCBRLevelsConfigR14From(bb)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i_value, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i_value))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -4024,7 +4078,7 @@ func MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14(list SLCB
 	if err := MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14To appends a SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 list to bb.
@@ -4048,10 +4102,10 @@ func UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14(data []
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14")
 	}
 	return value, nil
 }
@@ -4071,14 +4125,14 @@ func unmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Into(v *
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SLCBRPSSCHTxConfigR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -4093,7 +4147,7 @@ func MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14(list SLPPPPTxPreco
 	if err := MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14To appends a SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 list to bb.
@@ -4117,10 +4171,10 @@ func UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14(data []byte) (SL
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14TxConfigIndexListR14")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14TxConfigIndexListR14")
 	}
 	return value, nil
 }
@@ -4140,14 +4194,14 @@ func unmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14Into(v *asn1cUPER
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(127), false)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, TxPreconfigIndexR14(val))
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -4162,7 +4216,7 @@ func MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15(list SLPPPPTxPreconf
 	if err := MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15To(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15To appends a SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 list to bb.
@@ -4186,10 +4240,10 @@ func UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15(data []byte) (SLPP
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15From(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15")
 	}
 	return value, nil
 }
@@ -4209,14 +4263,14 @@ func unmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Into(v *asn1cUPERSL
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem MCSPSSCHRangeR15
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }

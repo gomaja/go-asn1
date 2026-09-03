@@ -118,6 +118,16 @@ func (bb *BitBuffer) Bytes() []byte {
 	return bb.data
 }
 
+// CompleteBytes returns a complete PER encoding. X.691 (02/2021), clauses
+// 11.1.3.1 and 11.1.4 require a zero-bit outermost encoding to be represented
+// by one zero octet.
+func (bb *BitBuffer) CompleteBytes() []byte {
+	if bb.bitPos == 0 && len(bb.data) == 0 {
+		return []byte{0}
+	}
+	return bb.data
+}
+
 // BitsWritten returns the total number of bits written.
 func (bb *BitBuffer) BitsWritten() int {
 	return bb.bitPos
@@ -148,8 +158,20 @@ func ValidateFinalPadding(bb *BitBuffer) error {
 
 func validateTrailingPadding(bb *BitBuffer, context string) error {
 	remaining := bb.BitsRemaining()
+	if bb.BitPos() == 0 {
+		switch {
+		case remaining == 0:
+			return fmt.Errorf("%w: %s complete encoding is empty", ErrTruncated, context)
+		case remaining < 8:
+			return fmt.Errorf("%w: %s zero-bit complete encoding has %d bits", ErrTruncated, context, remaining)
+		case remaining > 8:
+			return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+		}
+	}
 	if remaining > 7 {
-		return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+		if bb.BitPos() != 0 {
+			return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+		}
 	}
 	padding, err := bb.ReadBits(remaining)
 	if err != nil {

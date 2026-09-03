@@ -6501,7 +6501,7 @@ func (v *AdditionalGUTI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *AdditionalGUTI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6560,9 +6560,12 @@ func (v *AdditionalGUTI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *AdditionalGUTI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "AdditionalGUTI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "AdditionalGUTI")
+	}
+	return nil
 }
 
 func (v *AdditionalGUTI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6577,11 +6580,11 @@ func (v *AdditionalGUTI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GUMMEI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding gUMMEI: %w", err)
+		return runtime.WrapDecodePath(err, "GUMMEI")
 	}
 	val_mtmsi, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding m-TMSI: %w", err)
+		return runtime.WrapDecodePath(err, "MTMSI")
 	}
 	v.MTMSI = MTMSI(val_mtmsi)
 	if opt_ieextensions {
@@ -6590,14 +6593,14 @@ func (v *AdditionalGUTI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -6628,13 +6631,16 @@ func (v *AreaScopeOfMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("AreaScopeOfMDT: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("AreaScopeOfMDT: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if v.UnknownExtension.Index < 1 {
 			return fmt.Errorf("AreaScopeOfMDT: extension index %d is known to this schema", v.UnknownExtension.Index)
@@ -6667,7 +6673,7 @@ func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown AreaScopeOfMDT extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
 			return err
 		}
 		return nil
@@ -6701,9 +6707,12 @@ func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *AreaScopeOfMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "AreaScopeOfMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "AreaScopeOfMDT")
+	}
+	return nil
 }
 
 func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6731,7 +6740,7 @@ func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		case AreaScopeOfMDTChoiceTAIBased:
 			var dec_taibased TAIBasedMDT
 			if err := dec_taibased.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding tAIBased: %w", err)
+				return runtime.WrapDecodePath(err, "TAIBased")
 			}
 			v.TAIBased = &dec_taibased
 		}
@@ -6749,13 +6758,13 @@ func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case AreaScopeOfMDTChoiceCellBased:
 		var dec_cellbased CellBasedMDT
 		if err := dec_cellbased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cellBased: %w", err)
+			return runtime.WrapDecodePath(err, "CellBased")
 		}
 		v.CellBased = &dec_cellbased
 	case AreaScopeOfMDTChoiceTABased:
 		var dec_tabased TABasedMDT
 		if err := dec_tabased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tABased: %w", err)
+			return runtime.WrapDecodePath(err, "TABased")
 		}
 		v.TABased = &dec_tabased
 	case AreaScopeOfMDTChoicePLMNWide:
@@ -6769,7 +6778,7 @@ func (v *AreaScopeOfQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *AreaScopeOfQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6778,7 +6787,7 @@ func (v *AreaScopeOfQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("AreaScopeOfQMC: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("AreaScopeOfQMC: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("AreaScopeOfQMC: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -6837,9 +6846,12 @@ func (v *AreaScopeOfQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *AreaScopeOfQMC) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "AreaScopeOfQMC")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "AreaScopeOfQMC")
+	}
+	return nil
 }
 
 func (v *AreaScopeOfQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6869,25 +6881,25 @@ func (v *AreaScopeOfQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case AreaScopeOfQMCChoiceCellBased:
 		var dec_cellbased CellBasedQMC
 		if err := dec_cellbased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cellBased: %w", err)
+			return runtime.WrapDecodePath(err, "CellBased")
 		}
 		v.CellBased = &dec_cellbased
 	case AreaScopeOfQMCChoiceTABased:
 		var dec_tabased TABasedQMC
 		if err := dec_tabased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tABased: %w", err)
+			return runtime.WrapDecodePath(err, "TABased")
 		}
 		v.TABased = &dec_tabased
 	case AreaScopeOfQMCChoiceTAIBased:
 		var dec_taibased TAIBasedQMC
 		if err := dec_taibased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tAIBased: %w", err)
+			return runtime.WrapDecodePath(err, "TAIBased")
 		}
 		v.TAIBased = &dec_taibased
 	case AreaScopeOfQMCChoicePLMNAreaBased:
 		var dec_plmnareabased PLMNAreaBasedQMC
 		if err := dec_plmnareabased.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding pLMNAreaBased: %w", err)
+			return runtime.WrapDecodePath(err, "PLMNAreaBased")
 		}
 		v.PLMNAreaBased = &dec_plmnareabased
 	}
@@ -6900,7 +6912,7 @@ func (v *AllocationAndRetentionPriority) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *AllocationAndRetentionPriority) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6962,9 +6974,12 @@ func (v *AllocationAndRetentionPriority) MarshalAPERTo(bb *per.BitBuffer) error 
 func (v *AllocationAndRetentionPriority) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "AllocationAndRetentionPriority")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "AllocationAndRetentionPriority")
+	}
+	return nil
 }
 
 func (v *AllocationAndRetentionPriority) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6980,17 +6995,17 @@ func (v *AllocationAndRetentionPriority) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	}
 	val_prioritylevel, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(15), false)
 	if err != nil {
-		return fmt.Errorf("decoding priorityLevel: %w", err)
+		return runtime.WrapDecodePath(err, "PriorityLevel")
 	}
 	v.PriorityLevel = PriorityLevel(val_prioritylevel)
 	val_preemptioncapability, err := per.DecodeEnumeratedAligned(bb, 2, false)
 	if err != nil {
-		return fmt.Errorf("decoding pre-emptionCapability: %w", err)
+		return runtime.WrapDecodePath(err, "PreEmptionCapability")
 	}
 	v.PreEmptionCapability = PreEmptionCapability(val_preemptioncapability)
 	val_preemptionvulnerability, err := per.DecodeEnumeratedAligned(bb, 2, false)
 	if err != nil {
-		return fmt.Errorf("decoding pre-emptionVulnerability: %w", err)
+		return runtime.WrapDecodePath(err, "PreEmptionVulnerability")
 	}
 	v.PreEmptionVulnerability = PreEmptionVulnerability(val_preemptionvulnerability)
 	if opt_ieextensions {
@@ -6999,14 +7014,14 @@ func (v *AllocationAndRetentionPriority) UnmarshalAPERFrom(bb *per.BitBuffer) er
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7037,7 +7052,7 @@ func (v *AssistanceDataForCECapableUEs) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *AssistanceDataForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7093,9 +7108,12 @@ func (v *AssistanceDataForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *AssistanceDataForCECapableUEs) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "AssistanceDataForCECapableUEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceDataForCECapableUEs")
+	}
+	return nil
 }
 
 func (v *AssistanceDataForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7110,7 +7128,7 @@ func (v *AssistanceDataForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) err
 		return err
 	}
 	if err := v.CellIdentifierAndCELevelForCECapableUEs.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding cellIdentifierAndCELevelForCECapableUEs: %w", err)
+		return runtime.WrapDecodePath(err, "CellIdentifierAndCELevelForCECapableUEs")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -7118,14 +7136,14 @@ func (v *AssistanceDataForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7156,7 +7174,7 @@ func (v *AssistanceDataForPaging) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *AssistanceDataForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7233,9 +7251,12 @@ func (v *AssistanceDataForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *AssistanceDataForPaging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "AssistanceDataForPaging")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceDataForPaging")
+	}
+	return nil
 }
 
 func (v *AssistanceDataForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7264,21 +7285,21 @@ func (v *AssistanceDataForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_assistancedataforrecommendedcells {
 		var dec_assistancedataforrecommendedcells AssistanceDataForRecommendedCells
 		if err := dec_assistancedataforrecommendedcells.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding assistanceDataForRecommendedCells: %w", err)
+			return runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCells")
 		}
 		v.AssistanceDataForRecommendedCells = &dec_assistancedataforrecommendedcells
 	}
 	if opt_assistancedataforcecapableues {
 		var dec_assistancedataforcecapableues AssistanceDataForCECapableUEs
 		if err := dec_assistancedataforcecapableues.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding assistanceDataForCECapableUEs: %w", err)
+			return runtime.WrapDecodePath(err, "AssistanceDataForCECapableUEs")
 		}
 		v.AssistanceDataForCECapableUEs = &dec_assistancedataforcecapableues
 	}
 	if opt_pagingattemptinformation {
 		var dec_pagingattemptinformation PagingAttemptInformation
 		if err := dec_pagingattemptinformation.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding pagingAttemptInformation: %w", err)
+			return runtime.WrapDecodePath(err, "PagingAttemptInformation")
 		}
 		v.PagingAttemptInformation = &dec_pagingattemptinformation
 	}
@@ -7288,14 +7309,14 @@ func (v *AssistanceDataForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7326,7 +7347,7 @@ func (v *AssistanceDataForRecommendedCells) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *AssistanceDataForRecommendedCells) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7382,9 +7403,12 @@ func (v *AssistanceDataForRecommendedCells) MarshalAPERTo(bb *per.BitBuffer) err
 func (v *AssistanceDataForRecommendedCells) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCells")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCells")
+	}
+	return nil
 }
 
 func (v *AssistanceDataForRecommendedCells) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7399,7 +7423,7 @@ func (v *AssistanceDataForRecommendedCells) UnmarshalAPERFrom(bb *per.BitBuffer)
 		return err
 	}
 	if err := v.RecommendedCellsForPaging.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding recommendedCellsForPaging: %w", err)
+		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -7407,14 +7431,14 @@ func (v *AssistanceDataForRecommendedCells) UnmarshalAPERFrom(bb *per.BitBuffer)
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7449,7 +7473,7 @@ func MarshalAPERBearersSubjectToStatusTransferList(list BearersSubjectToStatusTr
 	if err := MarshalAPERBearersSubjectToStatusTransferListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERBearersSubjectToStatusTransferListTo appends a BearersSubjectToStatusTransferList list to bb.
@@ -7473,10 +7497,10 @@ func UnmarshalAPERBearersSubjectToStatusTransferList(data []byte) (BearersSubjec
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERBearersSubjectToStatusTransferListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferList")
 	}
 	return value, nil
 }
@@ -7496,14 +7520,14 @@ func unmarshalAPERBearersSubjectToStatusTransferListInto(v *asn1cAPERBearersSubj
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -7514,7 +7538,7 @@ func (v *BearersSubjectToStatusTransferItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *BearersSubjectToStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7584,9 +7608,12 @@ func (v *BearersSubjectToStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) er
 func (v *BearersSubjectToStatusTransferItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferItem")
+	}
+	return nil
 }
 
 func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7606,19 +7633,19 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	if err := v.ULCOUNTvalue.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding uL-COUNTvalue: %w", err)
+		return runtime.WrapDecodePath(err, "ULCOUNTvalue")
 	}
 	if err := v.DLCOUNTvalue.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dL-COUNTvalue: %w", err)
+		return runtime.WrapDecodePath(err, "DLCOUNTvalue")
 	}
 	if opt_receivestatusofulpdcpsdus {
 		bsBytes_receivestatusofulpdcpsdus, bsBitLen_receivestatusofulpdcpsdus, err := per.DecodeBitStringAligned(bb, 4096, 4096, true)
 		if err != nil {
-			return fmt.Errorf("decoding receiveStatusofULPDCPSDUs: %w", err)
+			return runtime.WrapDecodePath(err, "ReceiveStatusofULPDCPSDUs")
 		}
 		tmp_receivestatusofulpdcpsdus := runtime.BitString{Bytes: bsBytes_receivestatusofulpdcpsdus, BitLength: bsBitLen_receivestatusofulpdcpsdus}
 		v.ReceiveStatusofULPDCPSDUs = &tmp_receivestatusofulpdcpsdus
@@ -7629,14 +7656,14 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7671,7 +7698,7 @@ func MarshalAPERBearersSubjectToEarlyStatusTransferList(list BearersSubjectToEar
 	if err := MarshalAPERBearersSubjectToEarlyStatusTransferListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERBearersSubjectToEarlyStatusTransferListTo appends a BearersSubjectToEarlyStatusTransferList list to bb.
@@ -7695,10 +7722,10 @@ func UnmarshalAPERBearersSubjectToEarlyStatusTransferList(data []byte) (BearersS
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERBearersSubjectToEarlyStatusTransferListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferList")
 	}
 	return value, nil
 }
@@ -7718,14 +7745,14 @@ func unmarshalAPERBearersSubjectToEarlyStatusTransferListInto(v *asn1cAPERBearer
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -7736,7 +7763,7 @@ func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPER() ([]byte, error) 
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7795,9 +7822,12 @@ func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPERTo(bb *per.BitBuffe
 func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItem")
+	}
+	return nil
 }
 
 func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7813,11 +7843,11 @@ func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitB
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	if err := v.DLCOUNTPDCPSNlength.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dLCOUNT-PDCP-SNlength: %w", err)
+		return runtime.WrapDecodePath(err, "DLCOUNTPDCPSNlength")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -7825,14 +7855,14 @@ func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitB
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -7867,7 +7897,7 @@ func MarshalAPERBearersSubjectToDLDiscardingList(list BearersSubjectToDLDiscardi
 	if err := MarshalAPERBearersSubjectToDLDiscardingListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERBearersSubjectToDLDiscardingListTo appends a BearersSubjectToDLDiscardingList list to bb.
@@ -7891,10 +7921,10 @@ func UnmarshalAPERBearersSubjectToDLDiscardingList(data []byte) (BearersSubjectT
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERBearersSubjectToDLDiscardingListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingList")
 	}
 	return value, nil
 }
@@ -7914,14 +7944,14 @@ func unmarshalAPERBearersSubjectToDLDiscardingListInto(v *asn1cAPERBearersSubjec
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -7932,7 +7962,7 @@ func (v *BearersSubjectToDLDiscardingItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *BearersSubjectToDLDiscardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7991,9 +8021,12 @@ func (v *BearersSubjectToDLDiscardingItem) MarshalAPERTo(bb *per.BitBuffer) erro
 func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItem")
+	}
+	return nil
 }
 
 func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8009,11 +8042,11 @@ func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	if err := v.DLDiscarding.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dL-Discarding: %w", err)
+		return runtime.WrapDecodePath(err, "DLDiscarding")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -8021,14 +8054,14 @@ func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8059,7 +8092,7 @@ func (v *BluetoothMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *BluetoothMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8138,9 +8171,12 @@ func (v *BluetoothMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) err
 func (v *BluetoothMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "BluetoothMeasurementConfiguration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "BluetoothMeasurementConfiguration")
+	}
+	return nil
 }
 
 func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8164,7 +8200,7 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	val_bluetoothmeasconfig, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding bluetoothMeasConfig: %w", err)
+		return runtime.WrapDecodePath(err, "BluetoothMeasConfig")
 	}
 	v.BluetoothMeasConfig = BluetoothMeasConfig(val_bluetoothmeasconfig)
 	if opt_bluetoothmeasconfignamelist {
@@ -8173,21 +8209,21 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer)
 			for i := int64(0); i < fragmentLength_bluetoothmeasconfignamelist; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 1, 248, true)
 				if err != nil {
-					return fmt.Errorf("decoding bluetoothMeasConfigNameList element %d: %w", fragmentOffset_bluetoothmeasconfignamelist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("BluetoothMeasConfigNameList[%d]", fragmentOffset_bluetoothmeasconfignamelist+i))
 				}
 				tmp_bluetoothmeasconfignamelist = append(tmp_bluetoothmeasconfignamelist, val)
 			}
 			return nil
 		})
 		if errCollection_bluetoothmeasconfignamelist != nil {
-			return fmt.Errorf("decoding bluetoothMeasConfigNameList: %w", errCollection_bluetoothmeasconfignamelist)
+			return runtime.WrapDecodePath(errCollection_bluetoothmeasconfignamelist, "BluetoothMeasConfigNameList")
 		}
 		v.BluetoothMeasConfigNameList = tmp_bluetoothmeasconfignamelist
 	}
 	if opt_btrssi {
 		val_btrssi, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding bt-rssi: %w", err)
+			return runtime.WrapDecodePath(err, "BtRssi")
 		}
 		v.BtRssi = &val_btrssi
 	}
@@ -8197,14 +8233,14 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer)
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8237,7 +8273,7 @@ func MarshalAPERBluetoothMeasConfigNameList(list BluetoothMeasConfigNameList) ([
 	if err := MarshalAPERBluetoothMeasConfigNameListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERBluetoothMeasConfigNameListTo appends a BluetoothMeasConfigNameList list to bb.
@@ -8261,10 +8297,10 @@ func UnmarshalAPERBluetoothMeasConfigNameList(data []byte) (BluetoothMeasConfigN
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERBluetoothMeasConfigNameListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BluetoothMeasConfigNameList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BluetoothMeasConfigNameList")
 	}
 	return value, nil
 }
@@ -8284,14 +8320,14 @@ func unmarshalAPERBluetoothMeasConfigNameListInto(v *asn1cAPERBluetoothMeasConfi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 248, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -8304,7 +8340,7 @@ func MarshalAPERBPLMNs(list BPLMNs) ([]byte, error) {
 	if err := MarshalAPERBPLMNsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERBPLMNsTo appends a BPLMNs list to bb.
@@ -8328,10 +8364,10 @@ func UnmarshalAPERBPLMNs(data []byte) (BPLMNs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERBPLMNsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BPLMNs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "BPLMNs")
 	}
 	return value, nil
 }
@@ -8351,14 +8387,14 @@ func unmarshalAPERBPLMNsInto(v *asn1cAPERBPLMNsListValue, bb *per.BitBuffer) err
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -8369,7 +8405,7 @@ func (v *BroadcastCancelledAreaList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *BroadcastCancelledAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8378,7 +8414,7 @@ func (v *BroadcastCancelledAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("BroadcastCancelledAreaList: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("BroadcastCancelledAreaList: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("BroadcastCancelledAreaList: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -8442,9 +8478,12 @@ func (v *BroadcastCancelledAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *BroadcastCancelledAreaList) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "BroadcastCancelledAreaList")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "BroadcastCancelledAreaList")
+	}
+	return nil
 }
 
 func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8477,14 +8516,14 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_cellidcancelled; i++ {
 				var elem CellIDCancelledItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding cellID-Cancelled element %d: %w", fragmentOffset_cellidcancelled+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("CellIDCancelled[%d]", fragmentOffset_cellidcancelled+i))
 				}
 				tmp_cellidcancelled = append(tmp_cellidcancelled, elem)
 			}
 			return nil
 		})
 		if errCollection_cellidcancelled != nil {
-			return fmt.Errorf("decoding cellID-Cancelled: %w", errCollection_cellidcancelled)
+			return runtime.WrapDecodePath(errCollection_cellidcancelled, "CellIDCancelled")
 		}
 		v.CellIDCancelled = tmp_cellidcancelled
 	case BroadcastCancelledAreaListChoiceTAICancelled:
@@ -8493,14 +8532,14 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_taicancelled; i++ {
 				var elem TAICancelledItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding tAI-Cancelled element %d: %w", fragmentOffset_taicancelled+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("TAICancelled[%d]", fragmentOffset_taicancelled+i))
 				}
 				tmp_taicancelled = append(tmp_taicancelled, elem)
 			}
 			return nil
 		})
 		if errCollection_taicancelled != nil {
-			return fmt.Errorf("decoding tAI-Cancelled: %w", errCollection_taicancelled)
+			return runtime.WrapDecodePath(errCollection_taicancelled, "TAICancelled")
 		}
 		v.TAICancelled = tmp_taicancelled
 	case BroadcastCancelledAreaListChoiceEmergencyAreaIDCancelled:
@@ -8509,14 +8548,14 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_emergencyareaidcancelled; i++ {
 				var elem EmergencyAreaIDCancelledItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding emergencyAreaID-Cancelled element %d: %w", fragmentOffset_emergencyareaidcancelled+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("EmergencyAreaIDCancelled[%d]", fragmentOffset_emergencyareaidcancelled+i))
 				}
 				tmp_emergencyareaidcancelled = append(tmp_emergencyareaidcancelled, elem)
 			}
 			return nil
 		})
 		if errCollection_emergencyareaidcancelled != nil {
-			return fmt.Errorf("decoding emergencyAreaID-Cancelled: %w", errCollection_emergencyareaidcancelled)
+			return runtime.WrapDecodePath(errCollection_emergencyareaidcancelled, "EmergencyAreaIDCancelled")
 		}
 		v.EmergencyAreaIDCancelled = tmp_emergencyareaidcancelled
 	}
@@ -8529,7 +8568,7 @@ func (v *BroadcastCompletedAreaList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *BroadcastCompletedAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8538,7 +8577,7 @@ func (v *BroadcastCompletedAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("BroadcastCompletedAreaList: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("BroadcastCompletedAreaList: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("BroadcastCompletedAreaList: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -8602,9 +8641,12 @@ func (v *BroadcastCompletedAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *BroadcastCompletedAreaList) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "BroadcastCompletedAreaList")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "BroadcastCompletedAreaList")
+	}
+	return nil
 }
 
 func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8637,14 +8679,14 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_cellidbroadcast; i++ {
 				var elem CellIDBroadcastItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding cellID-Broadcast element %d: %w", fragmentOffset_cellidbroadcast+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("CellIDBroadcast[%d]", fragmentOffset_cellidbroadcast+i))
 				}
 				tmp_cellidbroadcast = append(tmp_cellidbroadcast, elem)
 			}
 			return nil
 		})
 		if errCollection_cellidbroadcast != nil {
-			return fmt.Errorf("decoding cellID-Broadcast: %w", errCollection_cellidbroadcast)
+			return runtime.WrapDecodePath(errCollection_cellidbroadcast, "CellIDBroadcast")
 		}
 		v.CellIDBroadcast = tmp_cellidbroadcast
 	case BroadcastCompletedAreaListChoiceTAIBroadcast:
@@ -8653,14 +8695,14 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_taibroadcast; i++ {
 				var elem TAIBroadcastItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding tAI-Broadcast element %d: %w", fragmentOffset_taibroadcast+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("TAIBroadcast[%d]", fragmentOffset_taibroadcast+i))
 				}
 				tmp_taibroadcast = append(tmp_taibroadcast, elem)
 			}
 			return nil
 		})
 		if errCollection_taibroadcast != nil {
-			return fmt.Errorf("decoding tAI-Broadcast: %w", errCollection_taibroadcast)
+			return runtime.WrapDecodePath(errCollection_taibroadcast, "TAIBroadcast")
 		}
 		v.TAIBroadcast = tmp_taibroadcast
 	case BroadcastCompletedAreaListChoiceEmergencyAreaIDBroadcast:
@@ -8669,14 +8711,14 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_emergencyareaidbroadcast; i++ {
 				var elem EmergencyAreaIDBroadcastItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding emergencyAreaID-Broadcast element %d: %w", fragmentOffset_emergencyareaidbroadcast+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("EmergencyAreaIDBroadcast[%d]", fragmentOffset_emergencyareaidbroadcast+i))
 				}
 				tmp_emergencyareaidbroadcast = append(tmp_emergencyareaidbroadcast, elem)
 			}
 			return nil
 		})
 		if errCollection_emergencyareaidbroadcast != nil {
-			return fmt.Errorf("decoding emergencyAreaID-Broadcast: %w", errCollection_emergencyareaidbroadcast)
+			return runtime.WrapDecodePath(errCollection_emergencyareaidbroadcast, "EmergencyAreaIDBroadcast")
 		}
 		v.EmergencyAreaIDBroadcast = tmp_emergencyareaidbroadcast
 	}
@@ -8691,7 +8733,7 @@ func MarshalAPERCancelledCellinEAI(list CancelledCellinEAI) ([]byte, error) {
 	if err := MarshalAPERCancelledCellinEAITo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCancelledCellinEAITo appends a CancelledCellinEAI list to bb.
@@ -8715,10 +8757,10 @@ func UnmarshalAPERCancelledCellinEAI(data []byte) (CancelledCellinEAI, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCancelledCellinEAIFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CancelledCellinEAI")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CancelledCellinEAI")
 	}
 	return value, nil
 }
@@ -8738,14 +8780,14 @@ func unmarshalAPERCancelledCellinEAIInto(v *asn1cAPERCancelledCellinEAIListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CancelledCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -8756,7 +8798,7 @@ func (v *CancelledCellinEAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CancelledCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8815,9 +8857,12 @@ func (v *CancelledCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CancelledCellinEAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CancelledCellinEAIItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CancelledCellinEAIItem")
+	}
+	return nil
 }
 
 func (v *CancelledCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8832,11 +8877,11 @@ func (v *CancelledCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
+		return runtime.WrapDecodePath(err, "ECGI")
 	}
 	val_numberofbroadcasts, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
+		return runtime.WrapDecodePath(err, "NumberOfBroadcasts")
 	}
 	v.NumberOfBroadcasts = NumberOfBroadcasts(val_numberofbroadcasts)
 	if opt_ieextensions {
@@ -8845,14 +8890,14 @@ func (v *CancelledCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -8885,7 +8930,7 @@ func MarshalAPERCancelledCellinTAI(list CancelledCellinTAI) ([]byte, error) {
 	if err := MarshalAPERCancelledCellinTAITo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCancelledCellinTAITo appends a CancelledCellinTAI list to bb.
@@ -8909,10 +8954,10 @@ func UnmarshalAPERCancelledCellinTAI(data []byte) (CancelledCellinTAI, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCancelledCellinTAIFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CancelledCellinTAI")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CancelledCellinTAI")
 	}
 	return value, nil
 }
@@ -8932,14 +8977,14 @@ func unmarshalAPERCancelledCellinTAIInto(v *asn1cAPERCancelledCellinTAIListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CancelledCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -8950,7 +8995,7 @@ func (v *CancelledCellinTAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CancelledCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9009,9 +9054,12 @@ func (v *CancelledCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CancelledCellinTAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CancelledCellinTAIItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CancelledCellinTAIItem")
+	}
+	return nil
 }
 
 func (v *CancelledCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9026,11 +9074,11 @@ func (v *CancelledCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
+		return runtime.WrapDecodePath(err, "ECGI")
 	}
 	val_numberofbroadcasts, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
+		return runtime.WrapDecodePath(err, "NumberOfBroadcasts")
 	}
 	v.NumberOfBroadcasts = NumberOfBroadcasts(val_numberofbroadcasts)
 	if opt_ieextensions {
@@ -9039,14 +9087,14 @@ func (v *CancelledCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9077,7 +9125,7 @@ func (v *Cause) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9086,7 +9134,7 @@ func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("Cause: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("Cause: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("Cause: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -9152,9 +9200,12 @@ func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *Cause) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "Cause")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "Cause")
+	}
+	return nil
 }
 
 func (v *Cause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9184,35 +9235,35 @@ func (v *Cause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case CauseChoiceRadioNetwork:
 		val_radionetwork, err := per.DecodeEnumeratedAligned(bb, 36, true)
 		if err != nil {
-			return fmt.Errorf("decoding radioNetwork: %w", err)
+			return runtime.WrapDecodePath(err, "RadioNetwork")
 		}
 		tmp_radionetwork := CauseRadioNetwork(val_radionetwork)
 		v.RadioNetwork = &tmp_radionetwork
 	case CauseChoiceTransport:
 		val_transport, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding transport: %w", err)
+			return runtime.WrapDecodePath(err, "Transport")
 		}
 		tmp_transport := CauseTransport(val_transport)
 		v.Transport = &tmp_transport
 	case CauseChoiceNas:
 		val_nas, err := per.DecodeEnumeratedAligned(bb, 4, true)
 		if err != nil {
-			return fmt.Errorf("decoding nas: %w", err)
+			return runtime.WrapDecodePath(err, "Nas")
 		}
 		tmp_nas := CauseNas(val_nas)
 		v.Nas = &tmp_nas
 	case CauseChoiceProtocol:
 		val_protocol, err := per.DecodeEnumeratedAligned(bb, 7, true)
 		if err != nil {
-			return fmt.Errorf("decoding protocol: %w", err)
+			return runtime.WrapDecodePath(err, "Protocol")
 		}
 		tmp_protocol := CauseProtocol(val_protocol)
 		v.Protocol = &tmp_protocol
 	case CauseChoiceMisc:
 		val_misc, err := per.DecodeEnumeratedAligned(bb, 6, true)
 		if err != nil {
-			return fmt.Errorf("decoding misc: %w", err)
+			return runtime.WrapDecodePath(err, "Misc")
 		}
 		tmp_misc := CauseMisc(val_misc)
 		v.Misc = &tmp_misc
@@ -9226,7 +9277,7 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPER() ([]byte, error) 
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9285,9 +9336,12 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffe
 func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CellIdentifierAndCELevelForCECapableUEs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CellIdentifierAndCELevelForCECapableUEs")
+	}
+	return nil
 }
 
 func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9302,11 +9356,11 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitB
 		return err
 	}
 	if err := v.GlobalCellID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-Cell-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalCellID")
 	}
 	val_celevel, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding cELevel: %w", err)
+		return runtime.WrapDecodePath(err, "CELevel")
 	}
 	v.CELevel = CELevel(val_celevel)
 	if opt_ieextensions {
@@ -9315,14 +9369,14 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitB
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9355,7 +9409,7 @@ func MarshalAPERCellIDBroadcast(list CellIDBroadcast) ([]byte, error) {
 	if err := MarshalAPERCellIDBroadcastTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCellIDBroadcastTo appends a CellIDBroadcast list to bb.
@@ -9379,10 +9433,10 @@ func UnmarshalAPERCellIDBroadcast(data []byte) (CellIDBroadcast, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCellIDBroadcastFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIDBroadcast")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIDBroadcast")
 	}
 	return value, nil
 }
@@ -9402,14 +9456,14 @@ func unmarshalAPERCellIDBroadcastInto(v *asn1cAPERCellIDBroadcastListValue, bb *
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CellIDBroadcastItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -9420,7 +9474,7 @@ func (v *CellIDBroadcastItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CellIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9476,9 +9530,12 @@ func (v *CellIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CellIDBroadcastItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CellIDBroadcastItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CellIDBroadcastItem")
+	}
+	return nil
 }
 
 func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9493,7 +9550,7 @@ func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
+		return runtime.WrapDecodePath(err, "ECGI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -9501,14 +9558,14 @@ func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9541,7 +9598,7 @@ func MarshalAPERCellIDCancelled(list CellIDCancelled) ([]byte, error) {
 	if err := MarshalAPERCellIDCancelledTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCellIDCancelledTo appends a CellIDCancelled list to bb.
@@ -9565,10 +9622,10 @@ func UnmarshalAPERCellIDCancelled(data []byte) (CellIDCancelled, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCellIDCancelledFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIDCancelled")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIDCancelled")
 	}
 	return value, nil
 }
@@ -9588,14 +9645,14 @@ func unmarshalAPERCellIDCancelledInto(v *asn1cAPERCellIDCancelledListValue, bb *
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CellIDCancelledItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -9606,7 +9663,7 @@ func (v *CellIDCancelledItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CellIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9665,9 +9722,12 @@ func (v *CellIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CellIDCancelledItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CellIDCancelledItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CellIDCancelledItem")
+	}
+	return nil
 }
 
 func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9682,11 +9742,11 @@ func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
+		return runtime.WrapDecodePath(err, "ECGI")
 	}
 	val_numberofbroadcasts, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding numberOfBroadcasts: %w", err)
+		return runtime.WrapDecodePath(err, "NumberOfBroadcasts")
 	}
 	v.NumberOfBroadcasts = NumberOfBroadcasts(val_numberofbroadcasts)
 	if opt_ieextensions {
@@ -9695,14 +9755,14 @@ func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9733,7 +9793,7 @@ func (v *CellBasedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CellBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9796,9 +9856,12 @@ func (v *CellBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CellBasedMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CellBasedMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CellBasedMDT")
+	}
+	return nil
 }
 
 func (v *CellBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9817,14 +9880,14 @@ func (v *CellBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_cellidlistformdt; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cellIdListforMDT element %d: %w", fragmentOffset_cellidlistformdt+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CellIdListforMDT[%d]", fragmentOffset_cellidlistformdt+i))
 			}
 			v.CellIdListforMDT = append(v.CellIdListforMDT, elem)
 		}
 		return nil
 	})
 	if errCollection_cellidlistformdt != nil {
-		return fmt.Errorf("decoding cellIdListforMDT: %w", errCollection_cellidlistformdt)
+		return runtime.WrapDecodePath(errCollection_cellidlistformdt, "CellIdListforMDT")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -9832,14 +9895,14 @@ func (v *CellBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -9872,7 +9935,7 @@ func MarshalAPERCellIdListforMDT(list CellIdListforMDT) ([]byte, error) {
 	if err := MarshalAPERCellIdListforMDTTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCellIdListforMDTTo appends a CellIdListforMDT list to bb.
@@ -9896,10 +9959,10 @@ func UnmarshalAPERCellIdListforMDT(data []byte) (CellIdListforMDT, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCellIdListforMDTFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIdListforMDT")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIdListforMDT")
 	}
 	return value, nil
 }
@@ -9919,14 +9982,14 @@ func unmarshalAPERCellIdListforMDTInto(v *asn1cAPERCellIdListforMDTListValue, bb
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -9937,7 +10000,7 @@ func (v *CellBasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CellBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10000,9 +10063,12 @@ func (v *CellBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CellBasedQMC) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CellBasedQMC")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CellBasedQMC")
+	}
+	return nil
 }
 
 func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10021,14 +10087,14 @@ func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_cellidlistforqmc; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cellIdListforQMC element %d: %w", fragmentOffset_cellidlistforqmc+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CellIdListforQMC[%d]", fragmentOffset_cellidlistforqmc+i))
 			}
 			v.CellIdListforQMC = append(v.CellIdListforQMC, elem)
 		}
 		return nil
 	})
 	if errCollection_cellidlistforqmc != nil {
-		return fmt.Errorf("decoding cellIdListforQMC: %w", errCollection_cellidlistforqmc)
+		return runtime.WrapDecodePath(errCollection_cellidlistforqmc, "CellIdListforQMC")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -10036,14 +10102,14 @@ func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10076,7 +10142,7 @@ func MarshalAPERCellIdListforQMC(list CellIdListforQMC) ([]byte, error) {
 	if err := MarshalAPERCellIdListforQMCTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCellIdListforQMCTo appends a CellIdListforQMC list to bb.
@@ -10100,10 +10166,10 @@ func UnmarshalAPERCellIdListforQMC(data []byte) (CellIdListforQMC, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCellIdListforQMCFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIdListforQMC")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CellIdListforQMC")
 	}
 	return value, nil
 }
@@ -10123,14 +10189,14 @@ func unmarshalAPERCellIdListforQMCInto(v *asn1cAPERCellIdListforQMCListValue, bb
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -10141,7 +10207,7 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10203,9 +10269,12 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "Cdma2000OneXSRVCCInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "Cdma2000OneXSRVCCInfo")
+	}
+	return nil
 }
 
 func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10221,17 +10290,17 @@ func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_cdma2000onexmeid, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding cdma2000OneXMEID: %w", err)
+		return runtime.WrapDecodePath(err, "Cdma2000OneXMEID")
 	}
 	v.Cdma2000OneXMEID = Cdma2000OneXMEID(val_cdma2000onexmeid)
 	val_cdma2000onexmsi, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding cdma2000OneXMSI: %w", err)
+		return runtime.WrapDecodePath(err, "Cdma2000OneXMSI")
 	}
 	v.Cdma2000OneXMSI = Cdma2000OneXMSI(val_cdma2000onexmsi)
 	val_cdma2000onexpilot, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding cdma2000OneXPilot: %w", err)
+		return runtime.WrapDecodePath(err, "Cdma2000OneXPilot")
 	}
 	v.Cdma2000OneXPilot = Cdma2000OneXPilot(val_cdma2000onexpilot)
 	if opt_ieextensions {
@@ -10240,14 +10309,14 @@ func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10278,7 +10347,7 @@ func (v *CellType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CellType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10334,9 +10403,12 @@ func (v *CellType) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CellType) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CellType")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CellType")
+	}
+	return nil
 }
 
 func (v *CellType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10352,7 +10424,7 @@ func (v *CellType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_cellsize, err := per.DecodeEnumeratedAligned(bb, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding cell-Size: %w", err)
+		return runtime.WrapDecodePath(err, "CellSize")
 	}
 	v.CellSize = CellSize(val_cellsize)
 	if opt_ieextensions {
@@ -10361,14 +10433,14 @@ func (v *CellType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10399,7 +10471,7 @@ func (v *CGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10469,9 +10541,12 @@ func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CGI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CGI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CGI")
+	}
+	return nil
 }
 
 func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10491,23 +10566,23 @@ func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	val_lac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding lAC: %w", err)
+		return runtime.WrapDecodePath(err, "LAC")
 	}
 	v.LAC = LAC(val_lac)
 	val_ci, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding cI: %w", err)
+		return runtime.WrapDecodePath(err, "CI")
 	}
 	v.CI = CI(val_ci)
 	if opt_rac {
 		val_rac, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding rAC: %w", err)
+			return runtime.WrapDecodePath(err, "RAC")
 		}
 		tmp_rac := RAC(val_rac)
 		v.RAC = &tmp_rac
@@ -10518,14 +10593,14 @@ func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10558,7 +10633,7 @@ func MarshalAPERCNTypeRestrictions(list CNTypeRestrictions) ([]byte, error) {
 	if err := MarshalAPERCNTypeRestrictionsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCNTypeRestrictionsTo appends a CNTypeRestrictions list to bb.
@@ -10582,10 +10657,10 @@ func UnmarshalAPERCNTypeRestrictions(data []byte) (CNTypeRestrictions, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCNTypeRestrictionsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CNTypeRestrictions")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CNTypeRestrictions")
 	}
 	return value, nil
 }
@@ -10605,14 +10680,14 @@ func unmarshalAPERCNTypeRestrictionsInto(v *asn1cAPERCNTypeRestrictionsListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CNTypeRestrictionsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -10623,7 +10698,7 @@ func (v *CNTypeRestrictionsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10682,9 +10757,12 @@ func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CNTypeRestrictionsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CNTypeRestrictionsItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CNTypeRestrictionsItem")
+	}
+	return nil
 }
 
 func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10700,12 +10778,12 @@ func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	val_cntype, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding cNType: %w", err)
+		return runtime.WrapDecodePath(err, "CNType")
 	}
 	v.CNType = CNType(val_cntype)
 	if opt_ieextensions {
@@ -10714,14 +10792,14 @@ func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10754,7 +10832,7 @@ func MarshalAPERConnectedengNBList(list ConnectedengNBList) ([]byte, error) {
 	if err := MarshalAPERConnectedengNBListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERConnectedengNBListTo appends a ConnectedengNBList list to bb.
@@ -10778,10 +10856,10 @@ func UnmarshalAPERConnectedengNBList(data []byte) (ConnectedengNBList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERConnectedengNBListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ConnectedengNBList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ConnectedengNBList")
 	}
 	return value, nil
 }
@@ -10801,14 +10879,14 @@ func unmarshalAPERConnectedengNBListInto(v *asn1cAPERConnectedengNBListListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ConnectedengNBItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -10819,7 +10897,7 @@ func (v *ConnectedengNBItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ConnectedengNBItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10885,9 +10963,12 @@ func (v *ConnectedengNBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ConnectedengNBItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ConnectedengNBItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ConnectedengNBItem")
+	}
+	return nil
 }
 
 func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10903,7 +10984,7 @@ func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_engnbid, bsBitLen_engnbid, err := per.DecodeBitStringAlignedExt(bb, 22, 32, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding en-gNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "EnGNBID")
 	}
 	v.EnGNBID = runtime.BitString{Bytes: bsBytes_engnbid, BitLength: bsBitLen_engnbid}
 	v.SupportedTAs = make(SupportedTAs, 0)
@@ -10911,14 +10992,14 @@ func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_supportedtas; i++ {
 			var elem SupportedTAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding supportedTAs element %d: %w", fragmentOffset_supportedtas+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("SupportedTAs[%d]", fragmentOffset_supportedtas+i))
 			}
 			v.SupportedTAs = append(v.SupportedTAs, elem)
 		}
 		return nil
 	})
 	if errCollection_supportedtas != nil {
-		return fmt.Errorf("decoding supportedTAs: %w", errCollection_supportedtas)
+		return runtime.WrapDecodePath(errCollection_supportedtas, "SupportedTAs")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -10926,14 +11007,14 @@ func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -10964,7 +11045,7 @@ func (v *ContextatSource) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ContextatSource) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11023,9 +11104,12 @@ func (v *ContextatSource) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ContextatSource) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ContextatSource")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ContextatSource")
+	}
+	return nil
 }
 
 func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11040,11 +11124,11 @@ func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.SourceNGRANNodeID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceNG-RAN-node-ID: %w", err)
+		return runtime.WrapDecodePath(err, "SourceNGRANNodeID")
 	}
 	val_ranuengapid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 	if err != nil {
-		return fmt.Errorf("decoding rAN-UE-NGAP-ID: %w", err)
+		return runtime.WrapDecodePath(err, "RANUENGAPID")
 	}
 	v.RANUENGAPID = RANUENGAPID(val_ranuengapid)
 	if opt_ieextensions {
@@ -11053,14 +11137,14 @@ func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11093,7 +11177,7 @@ func MarshalAPERCSGIdList(list CSGIdList) ([]byte, error) {
 	if err := MarshalAPERCSGIdListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCSGIdListTo appends a CSGIdList list to bb.
@@ -11117,10 +11201,10 @@ func UnmarshalAPERCSGIdList(data []byte) (CSGIdList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCSGIdListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CSGIdList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CSGIdList")
 	}
 	return value, nil
 }
@@ -11140,14 +11224,14 @@ func unmarshalAPERCSGIdListInto(v *asn1cAPERCSGIdListListValue, bb *per.BitBuffe
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CSGIdListItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -11158,7 +11242,7 @@ func (v *CSGIdListItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CSGIdListItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11214,9 +11298,12 @@ func (v *CSGIdListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CSGIdListItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CSGIdListItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CSGIdListItem")
+	}
+	return nil
 }
 
 func (v *CSGIdListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11232,7 +11319,7 @@ func (v *CSGIdListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_csgid, bsBitLen_csgid, err := per.DecodeBitStringAligned(bb, 27, 27, true)
 	if err != nil {
-		return fmt.Errorf("decoding cSG-Id: %w", err)
+		return runtime.WrapDecodePath(err, "CSGId")
 	}
 	v.CSGId = runtime.BitString{Bytes: bsBytes_csgid, BitLength: bsBitLen_csgid}
 	if opt_ieextensions {
@@ -11241,14 +11328,14 @@ func (v *CSGIdListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11279,7 +11366,7 @@ func (v *COUNTvalue) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *COUNTvalue) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11338,9 +11425,12 @@ func (v *COUNTvalue) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *COUNTvalue) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "COUNTvalue")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "COUNTvalue")
+	}
+	return nil
 }
 
 func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11356,12 +11446,12 @@ func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_pdcpsn, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 	if err != nil {
-		return fmt.Errorf("decoding pDCP-SN: %w", err)
+		return runtime.WrapDecodePath(err, "PDCPSN")
 	}
 	v.PDCPSN = PDCPSN(val_pdcpsn)
 	val_hfn, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1048575), false)
 	if err != nil {
-		return fmt.Errorf("decoding hFN: %w", err)
+		return runtime.WrapDecodePath(err, "HFN")
 	}
 	v.HFN = HFN(val_hfn)
 	if opt_ieextensions {
@@ -11370,14 +11460,14 @@ func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11408,7 +11498,7 @@ func (v *COUNTValueExtended) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *COUNTValueExtended) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11467,9 +11557,12 @@ func (v *COUNTValueExtended) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *COUNTValueExtended) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "COUNTValueExtended")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "COUNTValueExtended")
+	}
+	return nil
 }
 
 func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11485,12 +11578,12 @@ func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_pdcpsnextended, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(32767), false)
 	if err != nil {
-		return fmt.Errorf("decoding pDCP-SNExtended: %w", err)
+		return runtime.WrapDecodePath(err, "PDCPSNExtended")
 	}
 	v.PDCPSNExtended = PDCPSNExtended(val_pdcpsnextended)
 	val_hfnmodified, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(131071), false)
 	if err != nil {
-		return fmt.Errorf("decoding hFNModified: %w", err)
+		return runtime.WrapDecodePath(err, "HFNModified")
 	}
 	v.HFNModified = HFNModified(val_hfnmodified)
 	if opt_ieextensions {
@@ -11499,14 +11592,14 @@ func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11537,7 +11630,7 @@ func (v *COUNTvaluePDCPSNlength18) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *COUNTvaluePDCPSNlength18) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11596,9 +11689,12 @@ func (v *COUNTvaluePDCPSNlength18) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *COUNTvaluePDCPSNlength18) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
+	}
+	return nil
 }
 
 func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11614,12 +11710,12 @@ func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_pdcpsnlength18, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(262143), false)
 	if err != nil {
-		return fmt.Errorf("decoding pDCP-SNlength18: %w", err)
+		return runtime.WrapDecodePath(err, "PDCPSNlength18")
 	}
 	v.PDCPSNlength18 = PDCPSNlength18(val_pdcpsnlength18)
 	val_hfnforpdcpsnlength18, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16383), false)
 	if err != nil {
-		return fmt.Errorf("decoding hFNforPDCP-SNlength18: %w", err)
+		return runtime.WrapDecodePath(err, "HFNforPDCPSNlength18")
 	}
 	v.HFNforPDCPSNlength18 = HFNforPDCPSNlength18(val_hfnforpdcpsnlength18)
 	if opt_ieextensions {
@@ -11628,14 +11724,14 @@ func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11666,7 +11762,7 @@ func (v *CriticalityDiagnostics) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11758,9 +11854,12 @@ func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CriticalityDiagnostics) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
+	}
+	return nil
 }
 
 func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11793,7 +11892,7 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_procedurecode {
 		val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 		if err != nil {
-			return fmt.Errorf("decoding procedureCode: %w", err)
+			return runtime.WrapDecodePath(err, "ProcedureCode")
 		}
 		tmp_procedurecode := ProcedureCode(val_procedurecode)
 		v.ProcedureCode = &tmp_procedurecode
@@ -11801,7 +11900,7 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_triggeringmessage {
 		val_triggeringmessage, err := per.DecodeEnumeratedAligned(bb, 3, false)
 		if err != nil {
-			return fmt.Errorf("decoding triggeringMessage: %w", err)
+			return runtime.WrapDecodePath(err, "TriggeringMessage")
 		}
 		tmp_triggeringmessage := TriggeringMessage(val_triggeringmessage)
 		v.TriggeringMessage = &tmp_triggeringmessage
@@ -11809,7 +11908,7 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_procedurecriticality {
 		val_procedurecriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 		if err != nil {
-			return fmt.Errorf("decoding procedureCriticality: %w", err)
+			return runtime.WrapDecodePath(err, "ProcedureCriticality")
 		}
 		tmp_procedurecriticality := Criticality(val_procedurecriticality)
 		v.ProcedureCriticality = &tmp_procedurecriticality
@@ -11820,14 +11919,14 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_iescriticalitydiagnostics; i++ {
 				var elem CriticalityDiagnosticsIEItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iEsCriticalityDiagnostics element %d: %w", fragmentOffset_iescriticalitydiagnostics+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEsCriticalityDiagnostics[%d]", fragmentOffset_iescriticalitydiagnostics+i))
 				}
 				tmp_iescriticalitydiagnostics = append(tmp_iescriticalitydiagnostics, elem)
 			}
 			return nil
 		})
 		if errCollection_iescriticalitydiagnostics != nil {
-			return fmt.Errorf("decoding iEsCriticalityDiagnostics: %w", errCollection_iescriticalitydiagnostics)
+			return runtime.WrapDecodePath(errCollection_iescriticalitydiagnostics, "IEsCriticalityDiagnostics")
 		}
 		v.IEsCriticalityDiagnostics = tmp_iescriticalitydiagnostics
 	}
@@ -11837,14 +11936,14 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -11877,7 +11976,7 @@ func MarshalAPERCriticalityDiagnosticsIEList(list CriticalityDiagnosticsIEList) 
 	if err := MarshalAPERCriticalityDiagnosticsIEListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCriticalityDiagnosticsIEListTo appends a CriticalityDiagnosticsIEList list to bb.
@@ -11901,10 +12000,10 @@ func UnmarshalAPERCriticalityDiagnosticsIEList(data []byte) (CriticalityDiagnost
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCriticalityDiagnosticsIEListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
 	}
 	return value, nil
 }
@@ -11924,14 +12023,14 @@ func unmarshalAPERCriticalityDiagnosticsIEListInto(v *asn1cAPERCriticalityDiagno
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CriticalityDiagnosticsIEItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -11942,7 +12041,7 @@ func (v *CriticalityDiagnosticsIEItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CriticalityDiagnosticsIEItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12004,9 +12103,12 @@ func (v *CriticalityDiagnosticsIEItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CriticalityDiagnosticsIEItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEItem")
+	}
+	return nil
 }
 
 func (v *CriticalityDiagnosticsIEItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12022,17 +12124,17 @@ func (v *CriticalityDiagnosticsIEItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	val_iecriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding iECriticality: %w", err)
+		return runtime.WrapDecodePath(err, "IECriticality")
 	}
 	v.IECriticality = Criticality(val_iecriticality)
 	val_ieid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding iE-ID: %w", err)
+		return runtime.WrapDecodePath(err, "IEID")
 	}
 	v.IEID = ProtocolIEID(val_ieid)
 	val_typeoferror, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding typeOfError: %w", err)
+		return runtime.WrapDecodePath(err, "TypeOfError")
 	}
 	v.TypeOfError = TypeOfError(val_typeoferror)
 	if opt_ieextensions {
@@ -12041,14 +12143,14 @@ func (v *CriticalityDiagnosticsIEItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12079,7 +12181,7 @@ func (v *DAPSRequestInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *DAPSRequestInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12135,9 +12237,12 @@ func (v *DAPSRequestInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *DAPSRequestInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "DAPSRequestInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "DAPSRequestInfo")
+	}
+	return nil
 }
 
 func (v *DAPSRequestInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12153,7 +12258,7 @@ func (v *DAPSRequestInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_dapsindicator, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding dAPSIndicator: %w", err)
+		return runtime.WrapDecodePath(err, "DAPSIndicator")
 	}
 	v.DAPSIndicator = val_dapsindicator
 	if opt_ieextensions {
@@ -12162,14 +12267,14 @@ func (v *DAPSRequestInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12202,7 +12307,7 @@ func MarshalAPERDAPSResponseInfoList(list DAPSResponseInfoList) ([]byte, error) 
 	if err := MarshalAPERDAPSResponseInfoListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERDAPSResponseInfoListTo appends a DAPSResponseInfoList list to bb.
@@ -12226,10 +12331,10 @@ func UnmarshalAPERDAPSResponseInfoList(data []byte) (DAPSResponseInfoList, error
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERDAPSResponseInfoListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "DAPSResponseInfoList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "DAPSResponseInfoList")
 	}
 	return value, nil
 }
@@ -12249,14 +12354,14 @@ func unmarshalAPERDAPSResponseInfoListInto(v *asn1cAPERDAPSResponseInfoListListV
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -12267,7 +12372,7 @@ func (v *DAPSResponseInfoItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *DAPSResponseInfoItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12326,9 +12431,12 @@ func (v *DAPSResponseInfoItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *DAPSResponseInfoItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "DAPSResponseInfoItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "DAPSResponseInfoItem")
+	}
+	return nil
 }
 
 func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12344,11 +12452,11 @@ func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	if err := v.DAPSResponseInfo.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding dAPSResponseInfo: %w", err)
+		return runtime.WrapDecodePath(err, "DAPSResponseInfo")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -12356,14 +12464,14 @@ func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12394,7 +12502,7 @@ func (v *DAPSResponseInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *DAPSResponseInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12450,9 +12558,12 @@ func (v *DAPSResponseInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *DAPSResponseInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "DAPSResponseInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "DAPSResponseInfo")
+	}
+	return nil
 }
 
 func (v *DAPSResponseInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12468,7 +12579,7 @@ func (v *DAPSResponseInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_dapsresponseindicator, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding dapsresponseindicator: %w", err)
+		return runtime.WrapDecodePath(err, "Dapsresponseindicator")
 	}
 	v.Dapsresponseindicator = val_dapsresponseindicator
 	if opt_ieextensions {
@@ -12477,14 +12588,14 @@ func (v *DAPSResponseInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12517,7 +12628,7 @@ func MarshalAPERServedDCNs(list ServedDCNs) ([]byte, error) {
 	if err := MarshalAPERServedDCNsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERServedDCNsTo appends a ServedDCNs list to bb.
@@ -12541,10 +12652,10 @@ func UnmarshalAPERServedDCNs(data []byte) (ServedDCNs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERServedDCNsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedDCNs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedDCNs")
 	}
 	return value, nil
 }
@@ -12564,14 +12675,14 @@ func unmarshalAPERServedDCNsInto(v *asn1cAPERServedDCNsListValue, bb *per.BitBuf
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ServedDCNsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -12582,7 +12693,7 @@ func (v *ServedDCNsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12641,9 +12752,12 @@ func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ServedDCNsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ServedDCNsItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ServedDCNsItem")
+	}
+	return nil
 }
 
 func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12659,12 +12773,12 @@ func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_dcnid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding dCN-ID: %w", err)
+		return runtime.WrapDecodePath(err, "DCNID")
 	}
 	v.DCNID = DCNID(val_dcnid)
 	val_relativedcncapacity, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
-		return fmt.Errorf("decoding relativeDCNCapacity: %w", err)
+		return runtime.WrapDecodePath(err, "RelativeDCNCapacity")
 	}
 	v.RelativeDCNCapacity = RelativeMMECapacity(val_relativedcncapacity)
 	if opt_ieextensions {
@@ -12673,14 +12787,14 @@ func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12711,7 +12825,7 @@ func (v *DLCPSecurityInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *DLCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12767,9 +12881,12 @@ func (v *DLCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *DLCPSecurityInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "DLCPSecurityInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "DLCPSecurityInformation")
+	}
+	return nil
 }
 
 func (v *DLCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12785,7 +12902,7 @@ func (v *DLCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_dlnasmac, bsBitLen_dlnasmac, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 	if err != nil {
-		return fmt.Errorf("decoding dl-NAS-MAC: %w", err)
+		return runtime.WrapDecodePath(err, "DlNASMAC")
 	}
 	v.DlNASMAC = runtime.BitString{Bytes: bsBytes_dlnasmac, BitLength: bsBitLen_dlnasmac}
 	if opt_ieextensions {
@@ -12794,14 +12911,14 @@ func (v *DLCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -12832,7 +12949,7 @@ func (v *DLCOUNTPDCPSNlength) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *DLCOUNTPDCPSNlength) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12841,7 +12958,7 @@ func (v *DLCOUNTPDCPSNlength) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("DLCOUNTPDCPSNlength: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("DLCOUNTPDCPSNlength: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("DLCOUNTPDCPSNlength: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -12893,9 +13010,12 @@ func (v *DLCOUNTPDCPSNlength) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *DLCOUNTPDCPSNlength) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "DLCOUNTPDCPSNlength")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "DLCOUNTPDCPSNlength")
+	}
+	return nil
 }
 
 func (v *DLCOUNTPDCPSNlength) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12925,19 +13045,19 @@ func (v *DLCOUNTPDCPSNlength) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength12:
 		var dec_dlcountvaluepdcpsnlength12 COUNTvalue
 		if err := dec_dlcountvaluepdcpsnlength12.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength12: %w", err)
+			return runtime.WrapDecodePath(err, "DLCOUNTValuePDCPSNlength12")
 		}
 		v.DLCOUNTValuePDCPSNlength12 = &dec_dlcountvaluepdcpsnlength12
 	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength15:
 		var dec_dlcountvaluepdcpsnlength15 COUNTValueExtended
 		if err := dec_dlcountvaluepdcpsnlength15.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength15: %w", err)
+			return runtime.WrapDecodePath(err, "DLCOUNTValuePDCPSNlength15")
 		}
 		v.DLCOUNTValuePDCPSNlength15 = &dec_dlcountvaluepdcpsnlength15
 	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength18:
 		var dec_dlcountvaluepdcpsnlength18 COUNTvaluePDCPSNlength18
 		if err := dec_dlcountvaluepdcpsnlength18.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding dLCOUNTValuePDCP-SNlength18: %w", err)
+			return runtime.WrapDecodePath(err, "DLCOUNTValuePDCPSNlength18")
 		}
 		v.DLCOUNTValuePDCPSNlength18 = &dec_dlcountvaluepdcpsnlength18
 	}
@@ -12950,7 +13070,7 @@ func (v *DLDiscarding) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *DLDiscarding) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12959,7 +13079,7 @@ func (v *DLDiscarding) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("DLDiscarding: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("DLDiscarding: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("DLDiscarding: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -13011,9 +13131,12 @@ func (v *DLDiscarding) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *DLDiscarding) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "DLDiscarding")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "DLDiscarding")
+	}
+	return nil
 }
 
 func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13043,19 +13166,19 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength12:
 		var dec_discarddlcountvaluepdcpsnlength12 COUNTvalue
 		if err := dec_discarddlcountvaluepdcpsnlength12.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding discardDLCOUNTValuePDCP-SNlength12: %w", err)
+			return runtime.WrapDecodePath(err, "DiscardDLCOUNTValuePDCPSNlength12")
 		}
 		v.DiscardDLCOUNTValuePDCPSNlength12 = &dec_discarddlcountvaluepdcpsnlength12
 	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength15:
 		var dec_discarddlcountvaluepdcpsnlength15 COUNTValueExtended
 		if err := dec_discarddlcountvaluepdcpsnlength15.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding discardDLCOUNTValuePDCP-SNlength15: %w", err)
+			return runtime.WrapDecodePath(err, "DiscardDLCOUNTValuePDCPSNlength15")
 		}
 		v.DiscardDLCOUNTValuePDCPSNlength15 = &dec_discarddlcountvaluepdcpsnlength15
 	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength18:
 		var dec_discarddlcountvaluepdcpsnlength18 COUNTvaluePDCPSNlength18
 		if err := dec_discarddlcountvaluepdcpsnlength18.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding discardDLCOUNTValuePDCP-SNlength18: %w", err)
+			return runtime.WrapDecodePath(err, "DiscardDLCOUNTValuePDCPSNlength18")
 		}
 		v.DiscardDLCOUNTValuePDCPSNlength18 = &dec_discarddlcountvaluepdcpsnlength18
 	}
@@ -13070,7 +13193,7 @@ func MarshalAPERECGIList(list ECGIList) ([]byte, error) {
 	if err := MarshalAPERECGIListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERECGIListTo appends a ECGIList list to bb.
@@ -13094,10 +13217,10 @@ func UnmarshalAPERECGIList(data []byte) (ECGIList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERECGIListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ECGIList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ECGIList")
 	}
 	return value, nil
 }
@@ -13117,14 +13240,14 @@ func unmarshalAPERECGIListInto(v *asn1cAPERECGIListListValue, bb *per.BitBuffer)
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -13137,7 +13260,7 @@ func MarshalAPERPWSfailedECGIList(list PWSfailedECGIList) ([]byte, error) {
 	if err := MarshalAPERPWSfailedECGIListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERPWSfailedECGIListTo appends a PWSfailedECGIList list to bb.
@@ -13161,10 +13284,10 @@ func UnmarshalAPERPWSfailedECGIList(data []byte) (PWSfailedECGIList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERPWSfailedECGIListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "PWSfailedECGIList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "PWSfailedECGIList")
 	}
 	return value, nil
 }
@@ -13184,14 +13307,14 @@ func unmarshalAPERPWSfailedECGIListInto(v *asn1cAPERPWSfailedECGIListListValue, 
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -13204,7 +13327,7 @@ func MarshalAPEREmergencyAreaIDList(list EmergencyAreaIDList) ([]byte, error) {
 	if err := MarshalAPEREmergencyAreaIDListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPEREmergencyAreaIDListTo appends a EmergencyAreaIDList list to bb.
@@ -13228,10 +13351,10 @@ func UnmarshalAPEREmergencyAreaIDList(data []byte) (EmergencyAreaIDList, error) 
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPEREmergencyAreaIDListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDList")
 	}
 	return value, nil
 }
@@ -13251,14 +13374,14 @@ func unmarshalAPEREmergencyAreaIDListInto(v *asn1cAPEREmergencyAreaIDListListVal
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -13271,7 +13394,7 @@ func MarshalAPEREmergencyAreaIDBroadcast(list EmergencyAreaIDBroadcast) ([]byte,
 	if err := MarshalAPEREmergencyAreaIDBroadcastTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPEREmergencyAreaIDBroadcastTo appends a EmergencyAreaIDBroadcast list to bb.
@@ -13295,10 +13418,10 @@ func UnmarshalAPEREmergencyAreaIDBroadcast(data []byte) (EmergencyAreaIDBroadcas
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPEREmergencyAreaIDBroadcastFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcast")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcast")
 	}
 	return value, nil
 }
@@ -13318,14 +13441,14 @@ func unmarshalAPEREmergencyAreaIDBroadcastInto(v *asn1cAPEREmergencyAreaIDBroadc
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EmergencyAreaIDBroadcastItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -13336,7 +13459,7 @@ func (v *EmergencyAreaIDBroadcastItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13402,9 +13525,12 @@ func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcastItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcastItem")
+	}
+	return nil
 }
 
 func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13420,7 +13546,7 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	val_emergencyareaid, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding emergencyAreaID: %w", err)
+		return runtime.WrapDecodePath(err, "EmergencyAreaID")
 	}
 	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
 	v.CompletedCellinEAI = make(CompletedCellinEAI, 0)
@@ -13428,14 +13554,14 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		for i := int64(0); i < fragmentLength_completedcellineai; i++ {
 			var elem CompletedCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding completedCellinEAI element %d: %w", fragmentOffset_completedcellineai+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CompletedCellinEAI[%d]", fragmentOffset_completedcellineai+i))
 			}
 			v.CompletedCellinEAI = append(v.CompletedCellinEAI, elem)
 		}
 		return nil
 	})
 	if errCollection_completedcellineai != nil {
-		return fmt.Errorf("decoding completedCellinEAI: %w", errCollection_completedcellineai)
+		return runtime.WrapDecodePath(errCollection_completedcellineai, "CompletedCellinEAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -13443,14 +13569,14 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13483,7 +13609,7 @@ func MarshalAPEREmergencyAreaIDCancelled(list EmergencyAreaIDCancelled) ([]byte,
 	if err := MarshalAPEREmergencyAreaIDCancelledTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPEREmergencyAreaIDCancelledTo appends a EmergencyAreaIDCancelled list to bb.
@@ -13507,10 +13633,10 @@ func UnmarshalAPEREmergencyAreaIDCancelled(data []byte) (EmergencyAreaIDCancelle
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPEREmergencyAreaIDCancelledFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDCancelled")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDCancelled")
 	}
 	return value, nil
 }
@@ -13530,14 +13656,14 @@ func unmarshalAPEREmergencyAreaIDCancelledInto(v *asn1cAPEREmergencyAreaIDCancel
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EmergencyAreaIDCancelledItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -13548,7 +13674,7 @@ func (v *EmergencyAreaIDCancelledItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13614,9 +13740,12 @@ func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *EmergencyAreaIDCancelledItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDCancelledItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDCancelledItem")
+	}
+	return nil
 }
 
 func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13632,7 +13761,7 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	val_emergencyareaid, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding emergencyAreaID: %w", err)
+		return runtime.WrapDecodePath(err, "EmergencyAreaID")
 	}
 	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
 	v.CancelledCellinEAI = make(CancelledCellinEAI, 0)
@@ -13640,14 +13769,14 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		for i := int64(0); i < fragmentLength_cancelledcellineai; i++ {
 			var elem CancelledCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cancelledCellinEAI element %d: %w", fragmentOffset_cancelledcellineai+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CancelledCellinEAI[%d]", fragmentOffset_cancelledcellineai+i))
 			}
 			v.CancelledCellinEAI = append(v.CancelledCellinEAI, elem)
 		}
 		return nil
 	})
 	if errCollection_cancelledcellineai != nil {
-		return fmt.Errorf("decoding cancelledCellinEAI: %w", errCollection_cancelledcellineai)
+		return runtime.WrapDecodePath(errCollection_cancelledcellineai, "CancelledCellinEAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -13655,14 +13784,14 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13695,7 +13824,7 @@ func MarshalAPERCompletedCellinEAI(list CompletedCellinEAI) ([]byte, error) {
 	if err := MarshalAPERCompletedCellinEAITo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCompletedCellinEAITo appends a CompletedCellinEAI list to bb.
@@ -13719,10 +13848,10 @@ func UnmarshalAPERCompletedCellinEAI(data []byte) (CompletedCellinEAI, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCompletedCellinEAIFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CompletedCellinEAI")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CompletedCellinEAI")
 	}
 	return value, nil
 }
@@ -13742,14 +13871,14 @@ func unmarshalAPERCompletedCellinEAIInto(v *asn1cAPERCompletedCellinEAIListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CompletedCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -13760,7 +13889,7 @@ func (v *CompletedCellinEAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CompletedCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13816,9 +13945,12 @@ func (v *CompletedCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CompletedCellinEAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CompletedCellinEAIItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CompletedCellinEAIItem")
+	}
+	return nil
 }
 
 func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13833,7 +13965,7 @@ func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
+		return runtime.WrapDecodePath(err, "ECGI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -13841,14 +13973,14 @@ func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -13881,7 +14013,7 @@ func MarshalAPERIEsECGIList(list IEsECGIList) ([]byte, error) {
 	if err := MarshalAPERIEsECGIListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERIEsECGIListTo appends a IEsECGIList list to bb.
@@ -13905,10 +14037,10 @@ func UnmarshalAPERIEsECGIList(data []byte) (IEsECGIList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERIEsECGIListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "IEsECGIList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "IEsECGIList")
 	}
 	return value, nil
 }
@@ -13928,14 +14060,14 @@ func unmarshalAPERIEsECGIListInto(v *asn1cAPERIEsECGIListListValue, bb *per.BitB
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -13948,7 +14080,7 @@ func MarshalAPEREmergencyAreaIDListForRestart(list EmergencyAreaIDListForRestart
 	if err := MarshalAPEREmergencyAreaIDListForRestartTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPEREmergencyAreaIDListForRestartTo appends a EmergencyAreaIDListForRestart list to bb.
@@ -13972,10 +14104,10 @@ func UnmarshalAPEREmergencyAreaIDListForRestart(data []byte) (EmergencyAreaIDLis
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPEREmergencyAreaIDListForRestartFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDListForRestart")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDListForRestart")
 	}
 	return value, nil
 }
@@ -13995,14 +14127,14 @@ func unmarshalAPEREmergencyAreaIDListForRestartInto(v *asn1cAPEREmergencyAreaIDL
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -14013,7 +14145,7 @@ func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPER() ([]byte, erro
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14076,9 +14208,12 @@ func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBu
 func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENBEarlyStatusTransferTransparentContainer")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENBEarlyStatusTransferTransparentContainer")
+	}
+	return nil
 }
 
 func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14097,14 +14232,14 @@ func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.B
 		for i := int64(0); i < fragmentLength_bearerssubjecttoearlystatustransferlist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding bearers-SubjectToEarlyStatusTransferList element %d: %w", fragmentOffset_bearerssubjecttoearlystatustransferlist+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("BearersSubjectToEarlyStatusTransferList[%d]", fragmentOffset_bearerssubjecttoearlystatustransferlist+i))
 			}
 			v.BearersSubjectToEarlyStatusTransferList = append(v.BearersSubjectToEarlyStatusTransferList, elem)
 		}
 		return nil
 	})
 	if errCollection_bearerssubjecttoearlystatustransferlist != nil {
-		return fmt.Errorf("decoding bearers-SubjectToEarlyStatusTransferList: %w", errCollection_bearerssubjecttoearlystatustransferlist)
+		return runtime.WrapDecodePath(errCollection_bearerssubjecttoearlystatustransferlist, "BearersSubjectToEarlyStatusTransferList")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -14112,14 +14247,14 @@ func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.B
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14150,13 +14285,16 @@ func (v *ENBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("ENBID: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("ENBID: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if v.UnknownExtension.Index < 2 {
 			return fmt.Errorf("ENBID: extension index %d is known to this schema", v.UnknownExtension.Index)
@@ -14196,7 +14334,7 @@ func (v *ENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown ENBID extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
 			return err
 		}
 		return nil
@@ -14229,9 +14367,12 @@ func (v *ENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENBID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENBID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENBID")
+	}
+	return nil
 }
 
 func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14259,14 +14400,14 @@ func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		case ENBIDChoiceShortMacroENBID:
 			bsBytes_shortmacroenbid, bsBitLen_shortmacroenbid, err := per.DecodeBitStringAligned(inner, 18, 18, true)
 			if err != nil {
-				return fmt.Errorf("decoding short-macroENB-ID: %w", err)
+				return runtime.WrapDecodePath(err, "ShortMacroENBID")
 			}
 			tmp_shortmacroenbid := runtime.BitString{Bytes: bsBytes_shortmacroenbid, BitLength: bsBitLen_shortmacroenbid}
 			v.ShortMacroENBID = &tmp_shortmacroenbid
 		case ENBIDChoiceLongMacroENBID:
 			bsBytes_longmacroenbid, bsBitLen_longmacroenbid, err := per.DecodeBitStringAligned(inner, 21, 21, true)
 			if err != nil {
-				return fmt.Errorf("decoding long-macroENB-ID: %w", err)
+				return runtime.WrapDecodePath(err, "LongMacroENBID")
 			}
 			tmp_longmacroenbid := runtime.BitString{Bytes: bsBytes_longmacroenbid, BitLength: bsBitLen_longmacroenbid}
 			v.LongMacroENBID = &tmp_longmacroenbid
@@ -14285,14 +14426,14 @@ func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case ENBIDChoiceMacroENBID:
 		bsBytes_macroenbid, bsBitLen_macroenbid, err := per.DecodeBitStringAligned(bb, 20, 20, true)
 		if err != nil {
-			return fmt.Errorf("decoding macroENB-ID: %w", err)
+			return runtime.WrapDecodePath(err, "MacroENBID")
 		}
 		tmp_macroenbid := runtime.BitString{Bytes: bsBytes_macroenbid, BitLength: bsBitLen_macroenbid}
 		v.MacroENBID = &tmp_macroenbid
 	case ENBIDChoiceHomeENBID:
 		bsBytes_homeenbid, bsBitLen_homeenbid, err := per.DecodeBitStringAligned(bb, 28, 28, true)
 		if err != nil {
-			return fmt.Errorf("decoding homeENB-ID: %w", err)
+			return runtime.WrapDecodePath(err, "HomeENBID")
 		}
 		tmp_homeenbid := runtime.BitString{Bytes: bsBytes_homeenbid, BitLength: bsBitLen_homeenbid}
 		v.HomeENBID = &tmp_homeenbid
@@ -14306,7 +14447,7 @@ func (v *GERANCellID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GERANCellID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14368,9 +14509,12 @@ func (v *GERANCellID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GERANCellID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GERANCellID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GERANCellID")
+	}
+	return nil
 }
 
 func (v *GERANCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14385,16 +14529,16 @@ func (v *GERANCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.LAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding lAI: %w", err)
+		return runtime.WrapDecodePath(err, "LAI")
 	}
 	val_rac, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding rAC: %w", err)
+		return runtime.WrapDecodePath(err, "RAC")
 	}
 	v.RAC = RAC(val_rac)
 	val_ci, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding cI: %w", err)
+		return runtime.WrapDecodePath(err, "CI")
 	}
 	v.CI = CI(val_ci)
 	if opt_ieextensions {
@@ -14403,14 +14547,14 @@ func (v *GERANCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14441,7 +14585,7 @@ func (v *GlobalENBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GlobalENBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14500,9 +14644,12 @@ func (v *GlobalENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GlobalENBID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GlobalENBID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GlobalENBID")
+	}
+	return nil
 }
 
 func (v *GlobalENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14518,11 +14665,11 @@ func (v *GlobalENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	if err := v.ENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ENBID")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -14530,14 +14677,14 @@ func (v *GlobalENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14568,7 +14715,7 @@ func (v *GlobalEnGNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GlobalEnGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14627,9 +14774,12 @@ func (v *GlobalEnGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GlobalEnGNBID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GlobalEnGNBID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GlobalEnGNBID")
+	}
+	return nil
 }
 
 func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14645,12 +14795,12 @@ func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	bsBytes_engnbid, bsBitLen_engnbid, err := per.DecodeBitStringAlignedExt(bb, 22, 32, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding en-gNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "EnGNBID")
 	}
 	v.EnGNBID = runtime.BitString{Bytes: bsBytes_engnbid, BitLength: bsBitLen_engnbid}
 	if opt_ieextensions {
@@ -14659,14 +14809,14 @@ func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14699,7 +14849,7 @@ func MarshalAPERGUMMEIList(list GUMMEIList) ([]byte, error) {
 	if err := MarshalAPERGUMMEIListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERGUMMEIListTo appends a GUMMEIList list to bb.
@@ -14723,10 +14873,10 @@ func UnmarshalAPERGUMMEIList(data []byte) (GUMMEIList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERGUMMEIListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "GUMMEIList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "GUMMEIList")
 	}
 	return value, nil
 }
@@ -14746,14 +14896,14 @@ func unmarshalAPERGUMMEIListInto(v *asn1cAPERGUMMEIListListValue, bb *per.BitBuf
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem GUMMEI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -14764,7 +14914,7 @@ func (v *ENBStatusTransferTransparentContainer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENBStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14827,9 +14977,12 @@ func (v *ENBStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer)
 func (v *ENBStatusTransferTransparentContainer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENBStatusTransferTransparentContainer")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENBStatusTransferTransparentContainer")
+	}
+	return nil
 }
 
 func (v *ENBStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14848,14 +15001,14 @@ func (v *ENBStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuf
 		for i := int64(0); i < fragmentLength_bearerssubjecttostatustransferlist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding bearers-SubjectToStatusTransferList element %d: %w", fragmentOffset_bearerssubjecttostatustransferlist+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("BearersSubjectToStatusTransferList[%d]", fragmentOffset_bearerssubjecttostatustransferlist+i))
 			}
 			v.BearersSubjectToStatusTransferList = append(v.BearersSubjectToStatusTransferList, elem)
 		}
 		return nil
 	})
 	if errCollection_bearerssubjecttostatustransferlist != nil {
-		return fmt.Errorf("decoding bearers-SubjectToStatusTransferList: %w", errCollection_bearerssubjecttostatustransferlist)
+		return runtime.WrapDecodePath(errCollection_bearerssubjecttostatustransferlist, "BearersSubjectToStatusTransferList")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -14863,14 +15016,14 @@ func (v *ENBStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuf
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -14903,7 +15056,7 @@ func MarshalAPERENBX2TLAs(list ENBX2TLAs) ([]byte, error) {
 	if err := MarshalAPERENBX2TLAsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERENBX2TLAsTo appends a ENBX2TLAs list to bb.
@@ -14927,10 +15080,10 @@ func UnmarshalAPERENBX2TLAs(data []byte) (ENBX2TLAs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERENBX2TLAsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBX2TLAs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBX2TLAs")
 	}
 	return value, nil
 }
@@ -14950,14 +15103,14 @@ func unmarshalAPERENBX2TLAsInto(v *asn1cAPERENBX2TLAsListValue, bb *per.BitBuffe
 		for i := int64(0); i < fragmentLength_value; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, runtime.BitString{Bytes: elemBytes, BitLength: elemBitLength})
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -14968,7 +15121,7 @@ func (v *ENDCSONConfigurationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENDCSONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15035,9 +15188,12 @@ func (v *ENDCSONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENDCSONConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
+	}
+	return nil
 }
 
 func (v *ENDCSONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15056,15 +15212,15 @@ func (v *ENDCSONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 		return err
 	}
 	if err := v.Transfertype.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding transfertype: %w", err)
+		return runtime.WrapDecodePath(err, "Transfertype")
 	}
 	if err := v.SONInformation.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sONInformation: %w", err)
+		return runtime.WrapDecodePath(err, "SONInformation")
 	}
 	if opt_x2tnlconfiginfo {
 		var dec_x2tnlconfiginfo X2TNLConfigurationInfo
 		if err := dec_x2tnlconfiginfo.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding x2TNLConfigInfo: %w", err)
+			return runtime.WrapDecodePath(err, "X2TNLConfigInfo")
 		}
 		v.X2TNLConfigInfo = &dec_x2tnlconfiginfo
 	}
@@ -15074,14 +15230,14 @@ func (v *ENDCSONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15112,7 +15268,7 @@ func (v *ENDCSONTransferType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENDCSONTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15121,7 +15277,7 @@ func (v *ENDCSONTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("ENDCSONTransferType: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("ENDCSONTransferType: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("ENDCSONTransferType: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -15166,9 +15322,12 @@ func (v *ENDCSONTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENDCSONTransferType) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENDCSONTransferType")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCSONTransferType")
+	}
+	return nil
 }
 
 func (v *ENDCSONTransferType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15198,13 +15357,13 @@ func (v *ENDCSONTransferType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case ENDCSONTransferTypeChoiceRequest:
 		var dec_request ENDCTransferTypeRequest
 		if err := dec_request.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding request: %w", err)
+			return runtime.WrapDecodePath(err, "Request")
 		}
 		v.Request = &dec_request
 	case ENDCSONTransferTypeChoiceReply:
 		var dec_reply ENDCTransferTypeReply
 		if err := dec_reply.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding reply: %w", err)
+			return runtime.WrapDecodePath(err, "Reply")
 		}
 		v.Reply = &dec_reply
 	}
@@ -15217,7 +15376,7 @@ func (v *ENDCTransferTypeRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENDCTransferTypeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15300,9 +15459,12 @@ func (v *ENDCTransferTypeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENDCTransferTypeRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENDCTransferTypeRequest")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCTransferTypeRequest")
+	}
+	return nil
 }
 
 func (v *ENDCTransferTypeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15329,29 +15491,29 @@ func (v *ENDCTransferTypeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.SourceeNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceeNB: %w", err)
+		return runtime.WrapDecodePath(err, "SourceeNB")
 	}
 	if err := v.TargetengNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding targetengNB: %w", err)
+		return runtime.WrapDecodePath(err, "TargetengNB")
 	}
 	if opt_targetenb {
 		var dec_targetenb ENDCSONeNBIdentification
 		if err := dec_targetenb.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding targeteNB: %w", err)
+			return runtime.WrapDecodePath(err, "TargeteNB")
 		}
 		v.TargeteNB = &dec_targetenb
 	}
 	if opt_associatedtai {
 		var dec_associatedtai TAI
 		if err := dec_associatedtai.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding associatedTAI: %w", err)
+			return runtime.WrapDecodePath(err, "AssociatedTAI")
 		}
 		v.AssociatedTAI = &dec_associatedtai
 	}
 	if opt_broadcast5gstai {
 		var dec_broadcast5gstai FiveGSTAI
 		if err := dec_broadcast5gstai.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding broadcast5GSTAI: %w", err)
+			return runtime.WrapDecodePath(err, "Broadcast5GSTAI")
 		}
 		v.Broadcast5GSTAI = &dec_broadcast5gstai
 	}
@@ -15361,14 +15523,14 @@ func (v *ENDCTransferTypeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15399,7 +15561,7 @@ func (v *ENDCTransferTypeReply) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENDCTransferTypeReply) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15458,9 +15620,12 @@ func (v *ENDCTransferTypeReply) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENDCTransferTypeReply) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENDCTransferTypeReply")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCTransferTypeReply")
+	}
+	return nil
 }
 
 func (v *ENDCTransferTypeReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15475,10 +15640,10 @@ func (v *ENDCTransferTypeReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.SourceengNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceengNB: %w", err)
+		return runtime.WrapDecodePath(err, "SourceengNB")
 	}
 	if err := v.TargeteNB.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding targeteNB: %w", err)
+		return runtime.WrapDecodePath(err, "TargeteNB")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -15486,14 +15651,14 @@ func (v *ENDCTransferTypeReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15524,7 +15689,7 @@ func (v *ENDCSONeNBIdentification) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENDCSONeNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15583,9 +15748,12 @@ func (v *ENDCSONeNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENDCSONeNBIdentification) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENDCSONeNBIdentification")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCSONeNBIdentification")
+	}
+	return nil
 }
 
 func (v *ENDCSONeNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15600,10 +15768,10 @@ func (v *ENDCSONeNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GlobaleNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding globaleNBID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobaleNBID")
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding selectedTAI: %w", err)
+		return runtime.WrapDecodePath(err, "SelectedTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -15611,14 +15779,14 @@ func (v *ENDCSONeNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15649,7 +15817,7 @@ func (v *ENDCSONengNBIdentification) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENDCSONengNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15708,9 +15876,12 @@ func (v *ENDCSONengNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENDCSONengNBIdentification) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENDCSONengNBIdentification")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCSONengNBIdentification")
+	}
+	return nil
 }
 
 func (v *ENDCSONengNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15725,10 +15896,10 @@ func (v *ENDCSONengNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 		return err
 	}
 	if err := v.GlobalengNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding globalengNBID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalengNBID")
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding selectedTAI: %w", err)
+		return runtime.WrapDecodePath(err, "SelectedTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -15736,14 +15907,14 @@ func (v *ENDCSONengNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -15776,7 +15947,7 @@ func MarshalAPEREPLMNs(list EPLMNs) ([]byte, error) {
 	if err := MarshalAPEREPLMNsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPEREPLMNsTo appends a EPLMNs list to bb.
@@ -15800,10 +15971,10 @@ func UnmarshalAPEREPLMNs(data []byte) (EPLMNs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPEREPLMNsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EPLMNs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "EPLMNs")
 	}
 	return value, nil
 }
@@ -15823,14 +15994,14 @@ func unmarshalAPEREPLMNsInto(v *asn1cAPEREPLMNsListValue, bb *per.BitBuffer) err
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -15843,7 +16014,7 @@ func MarshalAPERERABInformationList(list ERABInformationList) ([]byte, error) {
 	if err := MarshalAPERERABInformationListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERERABInformationListTo appends a ERABInformationList list to bb.
@@ -15867,10 +16038,10 @@ func UnmarshalAPERERABInformationList(data []byte) (ERABInformationList, error) 
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERERABInformationListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABInformationList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABInformationList")
 	}
 	return value, nil
 }
@@ -15890,14 +16061,14 @@ func unmarshalAPERERABInformationListInto(v *asn1cAPERERABInformationListListVal
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -15908,7 +16079,7 @@ func (v *ERABInformationListItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ERABInformationListItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15972,9 +16143,12 @@ func (v *ERABInformationListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ERABInformationListItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ERABInformationListItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABInformationListItem")
+	}
+	return nil
 }
 
 func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15994,13 +16168,13 @@ func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	if opt_dlforwarding {
 		val_dlforwarding, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding dL-Forwarding: %w", err)
+			return runtime.WrapDecodePath(err, "DLForwarding")
 		}
 		tmp_dlforwarding := DLForwarding(val_dlforwarding)
 		v.DLForwarding = &tmp_dlforwarding
@@ -16011,14 +16185,14 @@ func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16051,7 +16225,7 @@ func MarshalAPERERABList(list ERABList) ([]byte, error) {
 	if err := MarshalAPERERABListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERERABListTo appends a ERABList list to bb.
@@ -16075,10 +16249,10 @@ func UnmarshalAPERERABList(data []byte) (ERABList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERERABListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABList")
 	}
 	return value, nil
 }
@@ -16098,14 +16272,14 @@ func unmarshalAPERERABListInto(v *asn1cAPERERABListListValue, bb *per.BitBuffer)
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -16116,7 +16290,7 @@ func (v *ERABItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ERABItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16175,9 +16349,12 @@ func (v *ERABItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ERABItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ERABItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABItem")
+	}
+	return nil
 }
 
 func (v *ERABItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -16193,11 +16370,11 @@ func (v *ERABItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	if err := v.Cause.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding cause: %w", err)
+		return runtime.WrapDecodePath(err, "Cause")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -16205,14 +16382,14 @@ func (v *ERABItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16243,7 +16420,7 @@ func (v *ERABLevelQoSParameters) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ERABLevelQoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16310,9 +16487,12 @@ func (v *ERABLevelQoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ERABLevelQoSParameters) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ERABLevelQoSParameters")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABLevelQoSParameters")
+	}
+	return nil
 }
 
 func (v *ERABLevelQoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -16332,16 +16512,16 @@ func (v *ERABLevelQoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_qci, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
-		return fmt.Errorf("decoding qCI: %w", err)
+		return runtime.WrapDecodePath(err, "QCI")
 	}
 	v.QCI = QCI(val_qci)
 	if err := v.AllocationRetentionPriority.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding allocationRetentionPriority: %w", err)
+		return runtime.WrapDecodePath(err, "AllocationRetentionPriority")
 	}
 	if opt_gbrqosinformation {
 		var dec_gbrqosinformation GBRQosInformation
 		if err := dec_gbrqosinformation.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding gbrQosInformation: %w", err)
+			return runtime.WrapDecodePath(err, "GbrQosInformation")
 		}
 		v.GbrQosInformation = &dec_gbrqosinformation
 	}
@@ -16351,14 +16531,14 @@ func (v *ERABLevelQoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16391,7 +16571,7 @@ func MarshalAPERERABSecurityResultList(list ERABSecurityResultList) ([]byte, err
 	if err := MarshalAPERERABSecurityResultListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERERABSecurityResultListTo appends a ERABSecurityResultList list to bb.
@@ -16415,10 +16595,10 @@ func UnmarshalAPERERABSecurityResultList(data []byte) (ERABSecurityResultList, e
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERERABSecurityResultListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABSecurityResultList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABSecurityResultList")
 	}
 	return value, nil
 }
@@ -16438,14 +16618,14 @@ func unmarshalAPERERABSecurityResultListInto(v *asn1cAPERERABSecurityResultListL
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -16456,7 +16636,7 @@ func (v *ERABSecurityResultItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ERABSecurityResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16515,9 +16695,12 @@ func (v *ERABSecurityResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ERABSecurityResultItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ERABSecurityResultItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABSecurityResultItem")
+	}
+	return nil
 }
 
 func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -16533,11 +16716,11 @@ func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	if err := v.SecurityResult.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding securityResult: %w", err)
+		return runtime.WrapDecodePath(err, "SecurityResult")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -16545,14 +16728,14 @@ func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16585,7 +16768,7 @@ func MarshalAPERERABUsageReportList(list ERABUsageReportList) ([]byte, error) {
 	if err := MarshalAPERERABUsageReportListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERERABUsageReportListTo appends a ERABUsageReportList list to bb.
@@ -16609,10 +16792,10 @@ func UnmarshalAPERERABUsageReportList(data []byte) (ERABUsageReportList, error) 
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERERABUsageReportListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABUsageReportList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ERABUsageReportList")
 	}
 	return value, nil
 }
@@ -16632,14 +16815,14 @@ func unmarshalAPERERABUsageReportListInto(v *asn1cAPERERABUsageReportListListVal
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -16650,7 +16833,7 @@ func (v *ERABUsageReportItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ERABUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16715,9 +16898,12 @@ func (v *ERABUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ERABUsageReportItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ERABUsageReportItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ERABUsageReportItem")
+	}
+	return nil
 }
 
 func (v *ERABUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -16733,22 +16919,22 @@ func (v *ERABUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_starttimestamp, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding startTimestamp: %w", err)
+		return runtime.WrapDecodePath(err, "StartTimestamp")
 	}
 	v.StartTimestamp = val_starttimestamp
 	val_endtimestamp, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding endTimestamp: %w", err)
+		return runtime.WrapDecodePath(err, "EndTimestamp")
 	}
 	v.EndTimestamp = val_endtimestamp
 	val_usagecountul, err := per.DecodeIntegerUint64Aligned(bb, 0, 18446744073709551615, false)
 	if err != nil {
-		return fmt.Errorf("decoding usageCountUL: %w", err)
+		return runtime.WrapDecodePath(err, "UsageCountUL")
 	}
 	v.UsageCountUL = val_usagecountul
 	val_usagecountdl, err := per.DecodeIntegerUint64Aligned(bb, 0, 18446744073709551615, false)
 	if err != nil {
-		return fmt.Errorf("decoding usageCountDL: %w", err)
+		return runtime.WrapDecodePath(err, "UsageCountDL")
 	}
 	v.UsageCountDL = val_usagecountdl
 	if opt_ieextensions {
@@ -16757,14 +16943,14 @@ func (v *ERABUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16795,7 +16981,7 @@ func (v *EUTRANCGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16854,9 +17040,12 @@ func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *EUTRANCGI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "EUTRANCGI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "EUTRANCGI")
+	}
+	return nil
 }
 
 func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -16872,12 +17061,12 @@ func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	bsBytes_cellid, bsBitLen_cellid, err := per.DecodeBitStringAligned(bb, 28, 28, true)
 	if err != nil {
-		return fmt.Errorf("decoding cell-ID: %w", err)
+		return runtime.WrapDecodePath(err, "CellID")
 	}
 	v.CellID = runtime.BitString{Bytes: bsBytes_cellid, BitLength: bsBitLen_cellid}
 	if opt_ieextensions {
@@ -16886,14 +17075,14 @@ func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -16924,7 +17113,7 @@ func (v *EventL1LoggedMDTConfig) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *EventL1LoggedMDTConfig) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16986,9 +17175,12 @@ func (v *EventL1LoggedMDTConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *EventL1LoggedMDTConfig) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "EventL1LoggedMDTConfig")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "EventL1LoggedMDTConfig")
+	}
+	return nil
 }
 
 func (v *EventL1LoggedMDTConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -17003,16 +17195,16 @@ func (v *EventL1LoggedMDTConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.L1Threshold.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding l1Threshold: %w", err)
+		return runtime.WrapDecodePath(err, "L1Threshold")
 	}
 	val_hysteresis, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(30), false)
 	if err != nil {
-		return fmt.Errorf("decoding hysteresis: %w", err)
+		return runtime.WrapDecodePath(err, "Hysteresis")
 	}
 	v.Hysteresis = Hysteresis(val_hysteresis)
 	val_timetotrigger, err := per.DecodeEnumeratedAligned(bb, 16, false)
 	if err != nil {
-		return fmt.Errorf("decoding timeToTrigger: %w", err)
+		return runtime.WrapDecodePath(err, "TimeToTrigger")
 	}
 	v.TimeToTrigger = TimeToTrigger(val_timetotrigger)
 	if opt_ieextensions {
@@ -17021,14 +17213,14 @@ func (v *EventL1LoggedMDTConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17059,7 +17251,7 @@ func (v *EventTrigger) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *EventTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17098,9 +17290,12 @@ func (v *EventTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *EventTrigger) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "EventTrigger")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "EventTrigger")
+	}
+	return nil
 }
 
 func (v *EventTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -17114,19 +17309,19 @@ func (v *EventTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case EventTriggerChoiceOutOfCoverage:
 		val_outofcoverage, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding outOfCoverage: %w", err)
+			return runtime.WrapDecodePath(err, "OutOfCoverage")
 		}
 		v.OutOfCoverage = &val_outofcoverage
 	case EventTriggerChoiceEventL1LoggedMDTConfig:
 		var dec_eventl1loggedmdtconfig EventL1LoggedMDTConfig
 		if err := dec_eventl1loggedmdtconfig.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding eventL1LoggedMDTConfig: %w", err)
+			return runtime.WrapDecodePath(err, "EventL1LoggedMDTConfig")
 		}
 		v.EventL1LoggedMDTConfig = &dec_eventl1loggedmdtconfig
 	case EventTriggerChoiceChoiceExtensions:
 		var dec_choiceextensions ProtocolIESingleContainer
 		if err := dec_choiceextensions.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding choice-Extensions: %w", err)
+			return runtime.WrapDecodePath(err, "ChoiceExtensions")
 		}
 		v.ChoiceExtensions = &dec_choiceextensions
 	}
@@ -17139,7 +17334,7 @@ func (v *ExpectedUEBehaviour) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ExpectedUEBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17208,9 +17403,12 @@ func (v *ExpectedUEBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ExpectedUEBehaviour) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ExpectedUEBehaviour")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ExpectedUEBehaviour")
+	}
+	return nil
 }
 
 func (v *ExpectedUEBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -17235,14 +17433,14 @@ func (v *ExpectedUEBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_expectedactivity {
 		var dec_expectedactivity ExpectedUEActivityBehaviour
 		if err := dec_expectedactivity.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding expectedActivity: %w", err)
+			return runtime.WrapDecodePath(err, "ExpectedActivity")
 		}
 		v.ExpectedActivity = &dec_expectedactivity
 	}
 	if opt_expectedhointerval {
 		val_expectedhointerval, err := per.DecodeEnumeratedAligned(bb, 7, true)
 		if err != nil {
-			return fmt.Errorf("decoding expectedHOInterval: %w", err)
+			return runtime.WrapDecodePath(err, "ExpectedHOInterval")
 		}
 		tmp_expectedhointerval := ExpectedHOInterval(val_expectedhointerval)
 		v.ExpectedHOInterval = &tmp_expectedhointerval
@@ -17253,14 +17451,14 @@ func (v *ExpectedUEBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17291,7 +17489,7 @@ func (v *ExpectedUEActivityBehaviour) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ExpectedUEActivityBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17368,9 +17566,12 @@ func (v *ExpectedUEActivityBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ExpectedUEActivityBehaviour) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ExpectedUEActivityBehaviour")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ExpectedUEActivityBehaviour")
+	}
+	return nil
 }
 
 func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -17399,21 +17600,21 @@ func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if opt_expectedactivityperiod {
 		val_expectedactivityperiod, err := per.DecodeIntegerValueSetBigAligned(bb, []per.IntegerRange{{Min: 1, Max: 30}, {Min: 40, Max: 40}, {Min: 50, Max: 50}, {Min: 60, Max: 60}, {Min: 80, Max: 80}, {Min: 100, Max: 100}, {Min: 120, Max: 120}, {Min: 150, Max: 150}, {Min: 180, Max: 181}}, true)
 		if err != nil {
-			return fmt.Errorf("decoding expectedActivityPeriod: %w", err)
+			return runtime.WrapDecodePath(err, "ExpectedActivityPeriod")
 		}
 		v.ExpectedActivityPeriod = val_expectedactivityperiod
 	}
 	if opt_expectedidleperiod {
 		val_expectedidleperiod, err := per.DecodeIntegerValueSetBigAligned(bb, []per.IntegerRange{{Min: 1, Max: 30}, {Min: 40, Max: 40}, {Min: 50, Max: 50}, {Min: 60, Max: 60}, {Min: 80, Max: 80}, {Min: 100, Max: 100}, {Min: 120, Max: 120}, {Min: 150, Max: 150}, {Min: 180, Max: 181}}, true)
 		if err != nil {
-			return fmt.Errorf("decoding expectedIdlePeriod: %w", err)
+			return runtime.WrapDecodePath(err, "ExpectedIdlePeriod")
 		}
 		v.ExpectedIdlePeriod = val_expectedidleperiod
 	}
 	if opt_sourceofueactivitybehaviourinformation {
 		val_sourceofueactivitybehaviourinformation, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding sourceofUEActivityBehaviourInformation: %w", err)
+			return runtime.WrapDecodePath(err, "SourceofUEActivityBehaviourInformation")
 		}
 		tmp_sourceofueactivitybehaviourinformation := SourceOfUEActivityBehaviourInformation(val_sourceofueactivitybehaviourinformation)
 		v.SourceofUEActivityBehaviourInformation = &tmp_sourceofueactivitybehaviourinformation
@@ -17424,14 +17625,14 @@ func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17462,7 +17663,7 @@ func (v *FiveGSTAI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *FiveGSTAI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17521,9 +17722,12 @@ func (v *FiveGSTAI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *FiveGSTAI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "FiveGSTAI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "FiveGSTAI")
+	}
+	return nil
 }
 
 func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -17539,12 +17743,12 @@ func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	val_fivegstac, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding fiveGSTAC: %w", err)
+		return runtime.WrapDecodePath(err, "FiveGSTAC")
 	}
 	v.FiveGSTAC = FiveGSTAC(val_fivegstac)
 	if opt_ieextensions {
@@ -17553,14 +17757,14 @@ func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17593,7 +17797,7 @@ func MarshalAPERForbiddenTAs(list ForbiddenTAs) ([]byte, error) {
 	if err := MarshalAPERForbiddenTAsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERForbiddenTAsTo appends a ForbiddenTAs list to bb.
@@ -17617,10 +17821,10 @@ func UnmarshalAPERForbiddenTAs(data []byte) (ForbiddenTAs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERForbiddenTAsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenTAs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenTAs")
 	}
 	return value, nil
 }
@@ -17640,14 +17844,14 @@ func unmarshalAPERForbiddenTAsInto(v *asn1cAPERForbiddenTAsListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ForbiddenTAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -17658,7 +17862,7 @@ func (v *ForbiddenTAsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17724,9 +17928,12 @@ func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ForbiddenTAsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ForbiddenTAsItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenTAsItem")
+	}
+	return nil
 }
 
 func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -17742,7 +17949,7 @@ func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	v.ForbiddenTACs = make(ForbiddenTACs, 0)
@@ -17750,14 +17957,14 @@ func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_forbiddentacs; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding forbiddenTACs element %d: %w", fragmentOffset_forbiddentacs+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ForbiddenTACs[%d]", fragmentOffset_forbiddentacs+i))
 			}
 			v.ForbiddenTACs = append(v.ForbiddenTACs, val)
 		}
 		return nil
 	})
 	if errCollection_forbiddentacs != nil {
-		return fmt.Errorf("decoding forbiddenTACs: %w", errCollection_forbiddentacs)
+		return runtime.WrapDecodePath(errCollection_forbiddentacs, "ForbiddenTACs")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -17765,14 +17972,14 @@ func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -17805,7 +18012,7 @@ func MarshalAPERForbiddenTACs(list ForbiddenTACs) ([]byte, error) {
 	if err := MarshalAPERForbiddenTACsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERForbiddenTACsTo appends a ForbiddenTACs list to bb.
@@ -17829,10 +18036,10 @@ func UnmarshalAPERForbiddenTACs(data []byte) (ForbiddenTACs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERForbiddenTACsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenTACs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenTACs")
 	}
 	return value, nil
 }
@@ -17852,14 +18059,14 @@ func unmarshalAPERForbiddenTACsInto(v *asn1cAPERForbiddenTACsListValue, bb *per.
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -17872,7 +18079,7 @@ func MarshalAPERForbiddenLAs(list ForbiddenLAs) ([]byte, error) {
 	if err := MarshalAPERForbiddenLAsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERForbiddenLAsTo appends a ForbiddenLAs list to bb.
@@ -17896,10 +18103,10 @@ func UnmarshalAPERForbiddenLAs(data []byte) (ForbiddenLAs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERForbiddenLAsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenLAs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenLAs")
 	}
 	return value, nil
 }
@@ -17919,14 +18126,14 @@ func unmarshalAPERForbiddenLAsInto(v *asn1cAPERForbiddenLAsListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ForbiddenLAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -17937,7 +18144,7 @@ func (v *ForbiddenLAsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ForbiddenLAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18003,9 +18210,12 @@ func (v *ForbiddenLAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ForbiddenLAsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ForbiddenLAsItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenLAsItem")
+	}
+	return nil
 }
 
 func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -18021,7 +18231,7 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	v.ForbiddenLACs = make(ForbiddenLACs, 0)
@@ -18029,14 +18239,14 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_forbiddenlacs; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding forbiddenLACs element %d: %w", fragmentOffset_forbiddenlacs+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ForbiddenLACs[%d]", fragmentOffset_forbiddenlacs+i))
 			}
 			v.ForbiddenLACs = append(v.ForbiddenLACs, val)
 		}
 		return nil
 	})
 	if errCollection_forbiddenlacs != nil {
-		return fmt.Errorf("decoding forbiddenLACs: %w", errCollection_forbiddenlacs)
+		return runtime.WrapDecodePath(errCollection_forbiddenlacs, "ForbiddenLACs")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -18044,14 +18254,14 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18084,7 +18294,7 @@ func MarshalAPERForbiddenLACs(list ForbiddenLACs) ([]byte, error) {
 	if err := MarshalAPERForbiddenLACsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERForbiddenLACsTo appends a ForbiddenLACs list to bb.
@@ -18108,10 +18318,10 @@ func UnmarshalAPERForbiddenLACs(data []byte) (ForbiddenLACs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERForbiddenLACsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenLACs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ForbiddenLACs")
 	}
 	return value, nil
 }
@@ -18131,14 +18341,14 @@ func unmarshalAPERForbiddenLACsInto(v *asn1cAPERForbiddenLACsListValue, bb *per.
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -18149,7 +18359,7 @@ func (v *GBRQosInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GBRQosInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18214,9 +18424,12 @@ func (v *GBRQosInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GBRQosInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GBRQosInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GBRQosInformation")
+	}
+	return nil
 }
 
 func (v *GBRQosInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -18232,22 +18445,22 @@ func (v *GBRQosInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_erabmaximumbitratedl, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-MaximumBitrateDL: %w", err)
+		return runtime.WrapDecodePath(err, "ERABMaximumBitrateDL")
 	}
 	v.ERABMaximumBitrateDL = BitRate(val_erabmaximumbitratedl)
 	val_erabmaximumbitrateul, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-MaximumBitrateUL: %w", err)
+		return runtime.WrapDecodePath(err, "ERABMaximumBitrateUL")
 	}
 	v.ERABMaximumBitrateUL = BitRate(val_erabmaximumbitrateul)
 	val_erabguaranteedbitratedl, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-GuaranteedBitrateDL: %w", err)
+		return runtime.WrapDecodePath(err, "ERABGuaranteedBitrateDL")
 	}
 	v.ERABGuaranteedBitrateDL = BitRate(val_erabguaranteedbitratedl)
 	val_erabguaranteedbitrateul, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-GuaranteedBitrateUL: %w", err)
+		return runtime.WrapDecodePath(err, "ERABGuaranteedBitrateUL")
 	}
 	v.ERABGuaranteedBitrateUL = BitRate(val_erabguaranteedbitrateul)
 	if opt_ieextensions {
@@ -18256,14 +18469,14 @@ func (v *GBRQosInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18294,7 +18507,7 @@ func (v *GUMMEI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GUMMEI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18356,9 +18569,12 @@ func (v *GUMMEI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GUMMEI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GUMMEI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GUMMEI")
+	}
+	return nil
 }
 
 func (v *GUMMEI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -18374,17 +18590,17 @@ func (v *GUMMEI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	val_mmegroupid, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding mME-Group-ID: %w", err)
+		return runtime.WrapDecodePath(err, "MMEGroupID")
 	}
 	v.MMEGroupID = MMEGroupID(val_mmegroupid)
 	val_mmecode, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding mME-Code: %w", err)
+		return runtime.WrapDecodePath(err, "MMECode")
 	}
 	v.MMECode = MMECode(val_mmecode)
 	if opt_ieextensions {
@@ -18393,14 +18609,14 @@ func (v *GUMMEI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18431,7 +18647,7 @@ func (v *HandoverRestrictionList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18540,9 +18756,12 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *HandoverRestrictionList) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "HandoverRestrictionList")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "HandoverRestrictionList")
+	}
+	return nil
 }
 
 func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -18574,7 +18793,7 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_servingplmn, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding servingPLMN: %w", err)
+		return runtime.WrapDecodePath(err, "ServingPLMN")
 	}
 	v.ServingPLMN = PLMNidentity(val_servingplmn)
 	if opt_equivalentplmns {
@@ -18583,14 +18802,14 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_equivalentplmns; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 				if err != nil {
-					return fmt.Errorf("decoding equivalentPLMNs element %d: %w", fragmentOffset_equivalentplmns+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("EquivalentPLMNs[%d]", fragmentOffset_equivalentplmns+i))
 				}
 				tmp_equivalentplmns = append(tmp_equivalentplmns, val)
 			}
 			return nil
 		})
 		if errCollection_equivalentplmns != nil {
-			return fmt.Errorf("decoding equivalentPLMNs: %w", errCollection_equivalentplmns)
+			return runtime.WrapDecodePath(errCollection_equivalentplmns, "EquivalentPLMNs")
 		}
 		v.EquivalentPLMNs = tmp_equivalentplmns
 	}
@@ -18600,14 +18819,14 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_forbiddentas; i++ {
 				var elem ForbiddenTAsItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding forbiddenTAs element %d: %w", fragmentOffset_forbiddentas+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ForbiddenTAs[%d]", fragmentOffset_forbiddentas+i))
 				}
 				tmp_forbiddentas = append(tmp_forbiddentas, elem)
 			}
 			return nil
 		})
 		if errCollection_forbiddentas != nil {
-			return fmt.Errorf("decoding forbiddenTAs: %w", errCollection_forbiddentas)
+			return runtime.WrapDecodePath(errCollection_forbiddentas, "ForbiddenTAs")
 		}
 		v.ForbiddenTAs = tmp_forbiddentas
 	}
@@ -18617,21 +18836,21 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_forbiddenlas; i++ {
 				var elem ForbiddenLAsItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding forbiddenLAs element %d: %w", fragmentOffset_forbiddenlas+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ForbiddenLAs[%d]", fragmentOffset_forbiddenlas+i))
 				}
 				tmp_forbiddenlas = append(tmp_forbiddenlas, elem)
 			}
 			return nil
 		})
 		if errCollection_forbiddenlas != nil {
-			return fmt.Errorf("decoding forbiddenLAs: %w", errCollection_forbiddenlas)
+			return runtime.WrapDecodePath(errCollection_forbiddenlas, "ForbiddenLAs")
 		}
 		v.ForbiddenLAs = tmp_forbiddenlas
 	}
 	if opt_forbiddeninterrats {
 		val_forbiddeninterrats, err := per.DecodeEnumeratedAligned(bb, 4, true)
 		if err != nil {
-			return fmt.Errorf("decoding forbiddenInterRATs: %w", err)
+			return runtime.WrapDecodePath(err, "ForbiddenInterRATs")
 		}
 		tmp_forbiddeninterrats := ForbiddenInterRATs(val_forbiddeninterrats)
 		v.ForbiddenInterRATs = &tmp_forbiddeninterrats
@@ -18642,14 +18861,14 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18680,7 +18899,7 @@ func (v *ImmediateMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ImmediateMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18755,9 +18974,12 @@ func (v *ImmediateMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ImmediateMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ImmediateMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ImmediateMDT")
+	}
+	return nil
 }
 
 func (v *ImmediateMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -18781,25 +19003,25 @@ func (v *ImmediateMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_measurementstoactivate, bsBitLen_measurementstoactivate, err := per.DecodeBitStringAligned(bb, 8, 8, true)
 	if err != nil {
-		return fmt.Errorf("decoding measurementsToActivate: %w", err)
+		return runtime.WrapDecodePath(err, "MeasurementsToActivate")
 	}
 	v.MeasurementsToActivate = runtime.BitString{Bytes: bsBytes_measurementstoactivate, BitLength: bsBitLen_measurementstoactivate}
 	val_m1reportingtrigger, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding m1reportingTrigger: %w", err)
+		return runtime.WrapDecodePath(err, "M1reportingTrigger")
 	}
 	v.M1reportingTrigger = M1ReportingTrigger(val_m1reportingtrigger)
 	if opt_m1thresholdeventa2 {
 		var dec_m1thresholdeventa2 M1ThresholdEventA2
 		if err := dec_m1thresholdeventa2.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding m1thresholdeventA2: %w", err)
+			return runtime.WrapDecodePath(err, "M1thresholdeventA2")
 		}
 		v.M1thresholdeventA2 = &dec_m1thresholdeventa2
 	}
 	if opt_m1periodicreporting {
 		var dec_m1periodicreporting M1PeriodicReporting
 		if err := dec_m1periodicreporting.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding m1periodicReporting: %w", err)
+			return runtime.WrapDecodePath(err, "M1periodicReporting")
 		}
 		v.M1periodicReporting = &dec_m1periodicreporting
 	}
@@ -18809,14 +19031,14 @@ func (v *ImmediateMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18847,7 +19069,7 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) MarshalAPER() ([]byte, e
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *InformationOnRecommendedCellsAndENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18906,9 +19128,12 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) MarshalAPERTo(bb *per.Bi
 func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "InformationOnRecommendedCellsAndENBsForPaging")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "InformationOnRecommendedCellsAndENBsForPaging")
+	}
+	return nil
 }
 
 func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -18923,10 +19148,10 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPERFrom(bb *pe
 		return err
 	}
 	if err := v.RecommendedCellsForPaging.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding recommendedCellsForPaging: %w", err)
+		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
 	}
 	if err := v.RecommendENBsForPaging.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding recommendENBsForPaging: %w", err)
+		return runtime.WrapDecodePath(err, "RecommendENBsForPaging")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -18934,14 +19159,14 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPERFrom(bb *pe
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -18972,7 +19197,7 @@ func (v *IntersystemMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *IntersystemMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19052,9 +19277,12 @@ func (v *IntersystemMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) e
 func (v *IntersystemMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "IntersystemMeasurementConfiguration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "IntersystemMeasurementConfiguration")
+	}
+	return nil
 }
 
 func (v *IntersystemMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -19083,26 +19311,26 @@ func (v *IntersystemMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffe
 	if opt_rsrp {
 		val_rsrp, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(127), false)
 		if err != nil {
-			return fmt.Errorf("decoding rSRP: %w", err)
+			return runtime.WrapDecodePath(err, "RSRP")
 		}
 		v.RSRP = &val_rsrp
 	}
 	if opt_rsrq {
 		val_rsrq, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(127), false)
 		if err != nil {
-			return fmt.Errorf("decoding rSRQ: %w", err)
+			return runtime.WrapDecodePath(err, "RSRQ")
 		}
 		v.RSRQ = &val_rsrq
 	}
 	if opt_sinr {
 		val_sinr, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(127), false)
 		if err != nil {
-			return fmt.Errorf("decoding sINR: %w", err)
+			return runtime.WrapDecodePath(err, "SINR")
 		}
 		v.SINR = &val_sinr
 	}
 	if err := v.InterSystemMeasurementParameters.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding interSystemMeasurementParameters: %w", err)
+		return runtime.WrapDecodePath(err, "InterSystemMeasurementParameters")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -19110,14 +19338,14 @@ func (v *IntersystemMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffe
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19148,7 +19376,7 @@ func (v *InterSystemMeasurementParameters) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19219,9 +19447,12 @@ func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) erro
 func (v *InterSystemMeasurementParameters) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "InterSystemMeasurementParameters")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "InterSystemMeasurementParameters")
+	}
+	return nil
 }
 
 func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -19241,7 +19472,7 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	}
 	val_measurementduration, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(100), false)
 	if err != nil {
-		return fmt.Errorf("decoding measurementDuration: %w", err)
+		return runtime.WrapDecodePath(err, "MeasurementDuration")
 	}
 	v.MeasurementDuration = val_measurementduration
 	if opt_intersystemmeasurementlist {
@@ -19250,14 +19481,14 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			for i := int64(0); i < fragmentLength_intersystemmeasurementlist; i++ {
 				var elem InterSystemMeasurementItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding interSystemMeasurementList element %d: %w", fragmentOffset_intersystemmeasurementlist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("InterSystemMeasurementList[%d]", fragmentOffset_intersystemmeasurementlist+i))
 				}
 				tmp_intersystemmeasurementlist = append(tmp_intersystemmeasurementlist, elem)
 			}
 			return nil
 		})
 		if errCollection_intersystemmeasurementlist != nil {
-			return fmt.Errorf("decoding interSystemMeasurementList: %w", errCollection_intersystemmeasurementlist)
+			return runtime.WrapDecodePath(errCollection_intersystemmeasurementlist, "InterSystemMeasurementList")
 		}
 		v.InterSystemMeasurementList = tmp_intersystemmeasurementlist
 	}
@@ -19267,14 +19498,14 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19307,7 +19538,7 @@ func MarshalAPERInterSystemMeasurementList(list InterSystemMeasurementList) ([]b
 	if err := MarshalAPERInterSystemMeasurementListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERInterSystemMeasurementListTo appends a InterSystemMeasurementList list to bb.
@@ -19331,10 +19562,10 @@ func UnmarshalAPERInterSystemMeasurementList(data []byte) (InterSystemMeasuremen
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERInterSystemMeasurementListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "InterSystemMeasurementList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "InterSystemMeasurementList")
 	}
 	return value, nil
 }
@@ -19354,14 +19585,14 @@ func unmarshalAPERInterSystemMeasurementListInto(v *asn1cAPERInterSystemMeasurem
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem InterSystemMeasurementItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -19372,7 +19603,7 @@ func (v *InterSystemMeasurementItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *InterSystemMeasurementItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19464,9 +19695,12 @@ func (v *InterSystemMeasurementItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *InterSystemMeasurementItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "InterSystemMeasurementItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "InterSystemMeasurementItem")
+	}
+	return nil
 }
 
 func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -19506,30 +19740,30 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	val_freqbandindicatornr, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(1024), false)
 	if err != nil {
-		return fmt.Errorf("decoding freqBandIndicatorNR: %w", err)
+		return runtime.WrapDecodePath(err, "FreqBandIndicatorNR")
 	}
 	v.FreqBandIndicatorNR = val_freqbandindicatornr
 	val_ssbfrequencies, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(3279165), false)
 	if err != nil {
-		return fmt.Errorf("decoding sSBfrequencies: %w", err)
+		return runtime.WrapDecodePath(err, "SSBfrequencies")
 	}
 	v.SSBfrequencies = val_ssbfrequencies
 	val_subcarrierspacingssb, err := per.DecodeEnumeratedAligned(bb, 5, true)
 	if err != nil {
-		return fmt.Errorf("decoding subcarrierSpacingSSB: %w", err)
+		return runtime.WrapDecodePath(err, "SubcarrierSpacingSSB")
 	}
 	v.SubcarrierSpacingSSB = val_subcarrierspacingssb
 	if opt_maxrsindexcellqual {
 		val_maxrsindexcellqual, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(16), false)
 		if err != nil {
-			return fmt.Errorf("decoding maxRSIndexCellQual: %w", err)
+			return runtime.WrapDecodePath(err, "MaxRSIndexCellQual")
 		}
 		v.MaxRSIndexCellQual = &val_maxrsindexcellqual
 	}
 	if opt_smtc {
 		val_smtc, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding sMTC: %w", err)
+			return runtime.WrapDecodePath(err, "SMTC")
 		}
 		tmp_smtc := val_smtc
 		v.SMTC = tmp_smtc
@@ -19537,7 +19771,7 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_threshrsindexr15 {
 		val_threshrsindexr15, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding threshRS-Index-r15: %w", err)
+			return runtime.WrapDecodePath(err, "ThreshRSIndexR15")
 		}
 		tmp_threshrsindexr15 := val_threshrsindexr15
 		v.ThreshRSIndexR15 = tmp_threshrsindexr15
@@ -19545,7 +19779,7 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ssbtomeasure {
 		val_ssbtomeasure, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding sSBToMeasure: %w", err)
+			return runtime.WrapDecodePath(err, "SSBToMeasure")
 		}
 		tmp_ssbtomeasure := val_ssbtomeasure
 		v.SSBToMeasure = tmp_ssbtomeasure
@@ -19553,7 +19787,7 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ssrssimeasurement {
 		val_ssrssimeasurement, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding sSRSSIMeasurement: %w", err)
+			return runtime.WrapDecodePath(err, "SSRSSIMeasurement")
 		}
 		tmp_ssrssimeasurement := val_ssrssimeasurement
 		v.SSRSSIMeasurement = tmp_ssrssimeasurement
@@ -19561,7 +19795,7 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_quantityconfignrr15 {
 		val_quantityconfignrr15, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding quantityConfigNR-R15: %w", err)
+			return runtime.WrapDecodePath(err, "QuantityConfigNRR15")
 		}
 		tmp_quantityconfignrr15 := val_quantityconfignrr15
 		v.QuantityConfigNRR15 = tmp_quantityconfignrr15
@@ -19569,7 +19803,7 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_excludedcellstoaddmodlist {
 		val_excludedcellstoaddmodlist, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding excludedCellsToAddModList: %w", err)
+			return runtime.WrapDecodePath(err, "ExcludedCellsToAddModList")
 		}
 		tmp_excludedcellstoaddmodlist := val_excludedcellstoaddmodlist
 		v.ExcludedCellsToAddModList = tmp_excludedcellstoaddmodlist
@@ -19580,14 +19814,14 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19600,7 +19834,7 @@ func (v *LAI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LAI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19659,9 +19893,12 @@ func (v *LAI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *LAI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LAI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LAI")
+	}
+	return nil
 }
 
 func (v *LAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -19677,12 +19914,12 @@ func (v *LAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	val_lac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding lAC: %w", err)
+		return runtime.WrapDecodePath(err, "LAC")
 	}
 	v.LAC = LAC(val_lac)
 	if opt_ieextensions {
@@ -19691,14 +19928,14 @@ func (v *LAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -19729,13 +19966,16 @@ func (v *LastVisitedCellItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LastVisitedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("LastVisitedCellItem: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("LastVisitedCellItem: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if v.UnknownExtension.Index < 1 {
 			return fmt.Errorf("LastVisitedCellItem: extension index %d is known to this schema", v.UnknownExtension.Index)
@@ -19768,7 +20008,7 @@ func (v *LastVisitedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown LastVisitedCellItem extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
 			return err
 		}
 		return nil
@@ -19808,9 +20048,12 @@ func (v *LastVisitedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *LastVisitedCellItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LastVisitedCellItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LastVisitedCellItem")
+	}
+	return nil
 }
 
 func (v *LastVisitedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -19838,7 +20081,7 @@ func (v *LastVisitedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		case LastVisitedCellItemChoiceNGRANCell:
 			val_ngrancell, err := per.DecodeOctetStringAligned(inner, 0, 0, false)
 			if err != nil {
-				return fmt.Errorf("decoding nG-RAN-Cell: %w", err)
+				return runtime.WrapDecodePath(err, "NGRANCell")
 			}
 			tmp_ngrancell := LastVisitedNGRANCellInformation(val_ngrancell)
 			v.NGRANCell = &tmp_ngrancell
@@ -19857,20 +20100,20 @@ func (v *LastVisitedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case LastVisitedCellItemChoiceEUTRANCell:
 		var dec_eutrancell LastVisitedEUTRANCellInformation
 		if err := dec_eutrancell.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding e-UTRAN-Cell: %w", err)
+			return runtime.WrapDecodePath(err, "EUTRANCell")
 		}
 		v.EUTRANCell = &dec_eutrancell
 	case LastVisitedCellItemChoiceUTRANCell:
 		val_utrancell, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding uTRAN-Cell: %w", err)
+			return runtime.WrapDecodePath(err, "UTRANCell")
 		}
 		tmp_utrancell := LastVisitedUTRANCellInformation(val_utrancell)
 		v.UTRANCell = &tmp_utrancell
 	case LastVisitedCellItemChoiceGERANCell:
 		var dec_gerancell LastVisitedGERANCellInformation
 		if err := dec_gerancell.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding gERAN-Cell: %w", err)
+			return runtime.WrapDecodePath(err, "GERANCell")
 		}
 		v.GERANCell = &dec_gerancell
 	}
@@ -19883,7 +20126,7 @@ func (v *LastVisitedEUTRANCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LastVisitedEUTRANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19945,9 +20188,12 @@ func (v *LastVisitedEUTRANCellInformation) MarshalAPERTo(bb *per.BitBuffer) erro
 func (v *LastVisitedEUTRANCellInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LastVisitedEUTRANCellInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LastVisitedEUTRANCellInformation")
+	}
+	return nil
 }
 
 func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -19962,14 +20208,14 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) 
 		return err
 	}
 	if err := v.GlobalCellID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-Cell-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalCellID")
 	}
 	if err := v.CellType.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding cellType: %w", err)
+		return runtime.WrapDecodePath(err, "CellType")
 	}
 	val_timeuestayedincell, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 	if err != nil {
-		return fmt.Errorf("decoding time-UE-StayedInCell: %w", err)
+		return runtime.WrapDecodePath(err, "TimeUEStayedInCell")
 	}
 	v.TimeUEStayedInCell = TimeUEStayedInCell(val_timeuestayedincell)
 	if opt_ieextensions {
@@ -19978,14 +20224,14 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20018,7 +20264,7 @@ func MarshalAPERLastVisitedPSCellList(list LastVisitedPSCellList) ([]byte, error
 	if err := MarshalAPERLastVisitedPSCellListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERLastVisitedPSCellListTo appends a LastVisitedPSCellList list to bb.
@@ -20042,10 +20288,10 @@ func UnmarshalAPERLastVisitedPSCellList(data []byte) (LastVisitedPSCellList, err
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERLastVisitedPSCellListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "LastVisitedPSCellList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "LastVisitedPSCellList")
 	}
 	return value, nil
 }
@@ -20065,14 +20311,14 @@ func unmarshalAPERLastVisitedPSCellListInto(v *asn1cAPERLastVisitedPSCellListLis
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem LastVisitedPSCellInformation
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -20083,7 +20329,7 @@ func (v *LastVisitedPSCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LastVisitedPSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20147,9 +20393,12 @@ func (v *LastVisitedPSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *LastVisitedPSCellInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LastVisitedPSCellInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LastVisitedPSCellInformation")
+	}
+	return nil
 }
 
 func (v *LastVisitedPSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -20170,13 +20419,13 @@ func (v *LastVisitedPSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_pscellid {
 		var dec_pscellid PSCellInformation
 		if err := dec_pscellid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding pSCellID: %w", err)
+			return runtime.WrapDecodePath(err, "PSCellID")
 		}
 		v.PSCellID = &dec_pscellid
 	}
 	val_timestay, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(40950), false)
 	if err != nil {
-		return fmt.Errorf("decoding timeStay: %w", err)
+		return runtime.WrapDecodePath(err, "TimeStay")
 	}
 	v.TimeStay = val_timestay
 	if opt_ieextensions {
@@ -20185,14 +20434,14 @@ func (v *LastVisitedPSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20223,7 +20472,7 @@ func (v *LastVisitedGERANCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LastVisitedGERANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20232,7 +20481,7 @@ func (v *LastVisitedGERANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error
 			return fmt.Errorf("LastVisitedGERANCellInformation: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("LastVisitedGERANCellInformation: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("LastVisitedGERANCellInformation: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -20261,9 +20510,12 @@ func (v *LastVisitedGERANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error
 func (v *LastVisitedGERANCellInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LastVisitedGERANCellInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LastVisitedGERANCellInformation")
+	}
+	return nil
 }
 
 func (v *LastVisitedGERANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -20297,7 +20549,7 @@ func (v *ListeningSubframePattern) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ListeningSubframePattern) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20356,9 +20608,12 @@ func (v *ListeningSubframePattern) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ListeningSubframePattern) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ListeningSubframePattern")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ListeningSubframePattern")
+	}
+	return nil
 }
 
 func (v *ListeningSubframePattern) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -20374,12 +20629,12 @@ func (v *ListeningSubframePattern) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_patternperiod, err := per.DecodeEnumeratedAligned(bb, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding pattern-period: %w", err)
+		return runtime.WrapDecodePath(err, "PatternPeriod")
 	}
 	v.PatternPeriod = val_patternperiod
 	val_patternoffset, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("10239"), true)
 	if err != nil {
-		return fmt.Errorf("decoding pattern-offset: %w", err)
+		return runtime.WrapDecodePath(err, "PatternOffset")
 	}
 	v.PatternOffset = val_patternoffset
 	if opt_ieextensions {
@@ -20388,14 +20643,14 @@ func (v *ListeningSubframePattern) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20426,7 +20681,7 @@ func (v *LoggedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20485,9 +20740,12 @@ func (v *LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *LoggedMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LoggedMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LoggedMDT")
+	}
+	return nil
 }
 
 func (v *LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -20503,12 +20761,12 @@ func (v *LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_logginginterval, err := per.DecodeEnumeratedAligned(bb, 8, false)
 	if err != nil {
-		return fmt.Errorf("decoding loggingInterval: %w", err)
+		return runtime.WrapDecodePath(err, "LoggingInterval")
 	}
 	v.LoggingInterval = LoggingInterval(val_logginginterval)
 	val_loggingduration, err := per.DecodeEnumeratedAligned(bb, 6, false)
 	if err != nil {
-		return fmt.Errorf("decoding loggingDuration: %w", err)
+		return runtime.WrapDecodePath(err, "LoggingDuration")
 	}
 	v.LoggingDuration = LoggingDuration(val_loggingduration)
 	if opt_ieextensions {
@@ -20517,14 +20775,14 @@ func (v *LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20555,7 +20813,7 @@ func (v *LoggedMBSFNMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LoggedMBSFNMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20629,9 +20887,12 @@ func (v *LoggedMBSFNMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *LoggedMBSFNMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LoggedMBSFNMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LoggedMBSFNMDT")
+	}
+	return nil
 }
 
 func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -20651,12 +20912,12 @@ func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_logginginterval, err := per.DecodeEnumeratedAligned(bb, 8, false)
 	if err != nil {
-		return fmt.Errorf("decoding loggingInterval: %w", err)
+		return runtime.WrapDecodePath(err, "LoggingInterval")
 	}
 	v.LoggingInterval = LoggingInterval(val_logginginterval)
 	val_loggingduration, err := per.DecodeEnumeratedAligned(bb, 6, false)
 	if err != nil {
-		return fmt.Errorf("decoding loggingDuration: %w", err)
+		return runtime.WrapDecodePath(err, "LoggingDuration")
 	}
 	v.LoggingDuration = LoggingDuration(val_loggingduration)
 	if opt_mbsfnresulttolog {
@@ -20665,14 +20926,14 @@ func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_mbsfnresulttolog; i++ {
 				var elem MBSFNResultToLogInfo
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding mBSFN-ResultToLog element %d: %w", fragmentOffset_mbsfnresulttolog+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("MBSFNResultToLog[%d]", fragmentOffset_mbsfnresulttolog+i))
 				}
 				tmp_mbsfnresulttolog = append(tmp_mbsfnresulttolog, elem)
 			}
 			return nil
 		})
 		if errCollection_mbsfnresulttolog != nil {
-			return fmt.Errorf("decoding mBSFN-ResultToLog: %w", errCollection_mbsfnresulttolog)
+			return runtime.WrapDecodePath(errCollection_mbsfnresulttolog, "MBSFNResultToLog")
 		}
 		v.MBSFNResultToLog = tmp_mbsfnresulttolog
 	}
@@ -20682,14 +20943,14 @@ func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20720,7 +20981,7 @@ func (v *LoggedMDTTrigger) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LoggedMDTTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20729,7 +20990,7 @@ func (v *LoggedMDTTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("LoggedMDTTrigger: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("LoggedMDTTrigger: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("LoggedMDTTrigger: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -20768,9 +21029,12 @@ func (v *LoggedMDTTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *LoggedMDTTrigger) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LoggedMDTTrigger")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LoggedMDTTrigger")
+	}
+	return nil
 }
 
 func (v *LoggedMDTTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -20801,7 +21065,7 @@ func (v *LoggedMDTTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case LoggedMDTTriggerChoiceEventTrigger:
 		var dec_eventtrigger EventTrigger
 		if err := dec_eventtrigger.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding eventTrigger: %w", err)
+			return runtime.WrapDecodePath(err, "EventTrigger")
 		}
 		v.EventTrigger = &dec_eventtrigger
 	}
@@ -20814,7 +21078,7 @@ func (v *LTENTNTAIInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20888,9 +21152,12 @@ func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *LTENTNTAIInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "LTENTNTAIInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "LTENTNTAIInformation")
+	}
+	return nil
 }
 
 func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -20910,7 +21177,7 @@ func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_servingplmn, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding servingPLMN: %w", err)
+		return runtime.WrapDecodePath(err, "ServingPLMN")
 	}
 	v.ServingPLMN = PLMNidentity(val_servingplmn)
 	v.TACListInLTENTN = make(TACListInLTENTN, 0)
@@ -20918,19 +21185,19 @@ func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_taclistinltentn; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding tACList-In-LTE-NTN element %d: %w", fragmentOffset_taclistinltentn+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("TACListInLTENTN[%d]", fragmentOffset_taclistinltentn+i))
 			}
 			v.TACListInLTENTN = append(v.TACListInLTENTN, val)
 		}
 		return nil
 	})
 	if errCollection_taclistinltentn != nil {
-		return fmt.Errorf("decoding tACList-In-LTE-NTN: %w", errCollection_taclistinltentn)
+		return runtime.WrapDecodePath(errCollection_taclistinltentn, "TACListInLTENTN")
 	}
 	if opt_uelocationderivedtac {
 		val_uelocationderivedtac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding uE-Location-Derived-TAC: %w", err)
+			return runtime.WrapDecodePath(err, "UELocationDerivedTAC")
 		}
 		tmp_uelocationderivedtac := TAC(val_uelocationderivedtac)
 		v.UELocationDerivedTAC = &tmp_uelocationderivedtac
@@ -20941,14 +21208,14 @@ func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -20979,7 +21246,7 @@ func (v *M3Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *M3Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21035,9 +21302,12 @@ func (v *M3Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *M3Configuration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "M3Configuration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "M3Configuration")
+	}
+	return nil
 }
 
 func (v *M3Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -21053,7 +21323,7 @@ func (v *M3Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_m3period, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding m3period: %w", err)
+		return runtime.WrapDecodePath(err, "M3period")
 	}
 	v.M3period = M3period(val_m3period)
 	if opt_ieextensions {
@@ -21062,14 +21332,14 @@ func (v *M3Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21100,7 +21370,7 @@ func (v *M4Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *M4Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21159,9 +21429,12 @@ func (v *M4Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *M4Configuration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "M4Configuration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "M4Configuration")
+	}
+	return nil
 }
 
 func (v *M4Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -21177,12 +21450,12 @@ func (v *M4Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_m4period, err := per.DecodeEnumeratedAligned(bb, 5, true)
 	if err != nil {
-		return fmt.Errorf("decoding m4period: %w", err)
+		return runtime.WrapDecodePath(err, "M4period")
 	}
 	v.M4period = M4period(val_m4period)
 	val_m4linkstolog, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding m4-links-to-log: %w", err)
+		return runtime.WrapDecodePath(err, "M4LinksToLog")
 	}
 	v.M4LinksToLog = LinksToLog(val_m4linkstolog)
 	if opt_ieextensions {
@@ -21191,14 +21464,14 @@ func (v *M4Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21229,7 +21502,7 @@ func (v *M5Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *M5Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21288,9 +21561,12 @@ func (v *M5Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *M5Configuration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "M5Configuration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "M5Configuration")
+	}
+	return nil
 }
 
 func (v *M5Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -21306,12 +21582,12 @@ func (v *M5Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_m5period, err := per.DecodeEnumeratedAligned(bb, 5, true)
 	if err != nil {
-		return fmt.Errorf("decoding m5period: %w", err)
+		return runtime.WrapDecodePath(err, "M5period")
 	}
 	v.M5period = M5period(val_m5period)
 	val_m5linkstolog, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding m5-links-to-log: %w", err)
+		return runtime.WrapDecodePath(err, "M5LinksToLog")
 	}
 	v.M5LinksToLog = LinksToLog(val_m5linkstolog)
 	if opt_ieextensions {
@@ -21320,14 +21596,14 @@ func (v *M5Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21358,7 +21634,7 @@ func (v *M6Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *M6Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21425,9 +21701,12 @@ func (v *M6Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *M6Configuration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "M6Configuration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "M6Configuration")
+	}
+	return nil
 }
 
 func (v *M6Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -21447,20 +21726,20 @@ func (v *M6Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_m6reportinterval, err := per.DecodeEnumeratedAligned(bb, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding m6report-Interval: %w", err)
+		return runtime.WrapDecodePath(err, "M6reportInterval")
 	}
 	v.M6reportInterval = M6reportInterval(val_m6reportinterval)
 	if opt_m6delaythreshold {
 		val_m6delaythreshold, err := per.DecodeEnumeratedAligned(bb, 12, true)
 		if err != nil {
-			return fmt.Errorf("decoding m6delay-threshold: %w", err)
+			return runtime.WrapDecodePath(err, "M6delayThreshold")
 		}
 		tmp_m6delaythreshold := M6delayThreshold(val_m6delaythreshold)
 		v.M6delayThreshold = &tmp_m6delaythreshold
 	}
 	val_m6linkstolog, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding m6-links-to-log: %w", err)
+		return runtime.WrapDecodePath(err, "M6LinksToLog")
 	}
 	v.M6LinksToLog = LinksToLog(val_m6linkstolog)
 	if opt_ieextensions {
@@ -21469,14 +21748,14 @@ func (v *M6Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21507,7 +21786,7 @@ func (v *M7Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *M7Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21566,9 +21845,12 @@ func (v *M7Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *M7Configuration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "M7Configuration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "M7Configuration")
+	}
+	return nil
 }
 
 func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -21584,12 +21866,12 @@ func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_m7period, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("60"), true)
 	if err != nil {
-		return fmt.Errorf("decoding m7period: %w", err)
+		return runtime.WrapDecodePath(err, "M7period")
 	}
 	v.M7period = val_m7period
 	val_m7linkstolog, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding m7-links-to-log: %w", err)
+		return runtime.WrapDecodePath(err, "M7LinksToLog")
 	}
 	v.M7LinksToLog = LinksToLog(val_m7linkstolog)
 	if opt_ieextensions {
@@ -21598,14 +21880,14 @@ func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21636,7 +21918,7 @@ func (v *MDTConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MDTConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21698,9 +21980,12 @@ func (v *MDTConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *MDTConfiguration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MDTConfiguration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MDTConfiguration")
+	}
+	return nil
 }
 
 func (v *MDTConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -21716,14 +22001,14 @@ func (v *MDTConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_mdtactivation, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding mdt-Activation: %w", err)
+		return runtime.WrapDecodePath(err, "MdtActivation")
 	}
 	v.MdtActivation = MDTActivation(val_mdtactivation)
 	if err := v.AreaScopeOfMDT.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding areaScopeOfMDT: %w", err)
+		return runtime.WrapDecodePath(err, "AreaScopeOfMDT")
 	}
 	if err := v.MDTMode.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding mDTMode: %w", err)
+		return runtime.WrapDecodePath(err, "MDTMode")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -21731,14 +22016,14 @@ func (v *MDTConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21771,7 +22056,7 @@ func MarshalAPERMBSFNResultToLog(list MBSFNResultToLog) ([]byte, error) {
 	if err := MarshalAPERMBSFNResultToLogTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERMBSFNResultToLogTo appends a MBSFNResultToLog list to bb.
@@ -21795,10 +22080,10 @@ func UnmarshalAPERMBSFNResultToLog(data []byte) (MBSFNResultToLog, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERMBSFNResultToLogFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "MBSFNResultToLog")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "MBSFNResultToLog")
 	}
 	return value, nil
 }
@@ -21818,14 +22103,14 @@ func unmarshalAPERMBSFNResultToLogInto(v *asn1cAPERMBSFNResultToLogListValue, bb
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem MBSFNResultToLogInfo
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -21836,7 +22121,7 @@ func (v *MBSFNResultToLogInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MBSFNResultToLogInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21900,9 +22185,12 @@ func (v *MBSFNResultToLogInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *MBSFNResultToLogInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MBSFNResultToLogInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MBSFNResultToLogInfo")
+	}
+	return nil
 }
 
 func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -21923,13 +22211,13 @@ func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_mbsfnareaid {
 		val_mbsfnareaid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 		if err != nil {
-			return fmt.Errorf("decoding mBSFN-AreaId: %w", err)
+			return runtime.WrapDecodePath(err, "MBSFNAreaId")
 		}
 		v.MBSFNAreaId = &val_mbsfnareaid
 	}
 	val_carrierfreq, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("262143"), true)
 	if err != nil {
-		return fmt.Errorf("decoding carrierFreq: %w", err)
+		return runtime.WrapDecodePath(err, "CarrierFreq")
 	}
 	v.CarrierFreq = val_carrierfreq
 	if opt_ieextensions {
@@ -21938,14 +22226,14 @@ func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -21978,7 +22266,7 @@ func MarshalAPERMDTPLMNList(list MDTPLMNList) ([]byte, error) {
 	if err := MarshalAPERMDTPLMNListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERMDTPLMNListTo appends a MDTPLMNList list to bb.
@@ -22002,10 +22290,10 @@ func UnmarshalAPERMDTPLMNList(data []byte) (MDTPLMNList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERMDTPLMNListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "MDTPLMNList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "MDTPLMNList")
 	}
 	return value, nil
 }
@@ -22025,14 +22313,14 @@ func unmarshalAPERMDTPLMNListInto(v *asn1cAPERMDTPLMNListListValue, bb *per.BitB
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -22043,13 +22331,16 @@ func (v *MDTMode) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("MDTMode: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("MDTMode: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if v.UnknownExtension.Index < 1 {
 			return fmt.Errorf("MDTMode: extension index %d is known to this schema", v.UnknownExtension.Index)
@@ -22082,7 +22373,7 @@ func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown MDTMode extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
 			return err
 		}
 		return nil
@@ -22115,9 +22406,12 @@ func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *MDTMode) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MDTMode")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MDTMode")
+	}
+	return nil
 }
 
 func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -22145,7 +22439,7 @@ func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		case MDTModeChoiceMDTModeExtension:
 			var dec_mdtmodeextension MDTModeExtension
 			if err := dec_mdtmodeextension.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding mDTMode-Extension: %w", err)
+				return runtime.WrapDecodePath(err, "MDTModeExtension")
 			}
 			v.MDTModeExtension = &dec_mdtmodeextension
 		}
@@ -22163,13 +22457,13 @@ func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case MDTModeChoiceImmediateMDT:
 		var dec_immediatemdt ImmediateMDT
 		if err := dec_immediatemdt.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding immediateMDT: %w", err)
+			return runtime.WrapDecodePath(err, "ImmediateMDT")
 		}
 		v.ImmediateMDT = &dec_immediatemdt
 	case MDTModeChoiceLoggedMDT:
 		var dec_loggedmdt LoggedMDT
 		if err := dec_loggedmdt.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding loggedMDT: %w", err)
+			return runtime.WrapDecodePath(err, "LoggedMDT")
 		}
 		v.LoggedMDT = &dec_loggedmdt
 	}
@@ -22182,7 +22476,7 @@ func (v *MDTModeExtension) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MDTModeExtension) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22202,26 +22496,29 @@ func (v *MDTModeExtension) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *MDTModeExtension) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MDTModeExtension")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MDTModeExtension")
+	}
+	return nil
 }
 
 func (v *MDTModeExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = MDTModeExtension{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
 	openData_value, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
@@ -22233,7 +22530,7 @@ func (v *MeasurementThresholdA2) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MeasurementThresholdA2) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22242,7 +22539,7 @@ func (v *MeasurementThresholdA2) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("MeasurementThresholdA2: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("MeasurementThresholdA2: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("MeasurementThresholdA2: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -22287,9 +22584,12 @@ func (v *MeasurementThresholdA2) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *MeasurementThresholdA2) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MeasurementThresholdA2")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementThresholdA2")
+	}
+	return nil
 }
 
 func (v *MeasurementThresholdA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -22319,14 +22619,14 @@ func (v *MeasurementThresholdA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case MeasurementThresholdA2ChoiceThresholdRSRP:
 		val_thresholdrsrp, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(97), false)
 		if err != nil {
-			return fmt.Errorf("decoding threshold-RSRP: %w", err)
+			return runtime.WrapDecodePath(err, "ThresholdRSRP")
 		}
 		tmp_thresholdrsrp := ThresholdRSRP(val_thresholdrsrp)
 		v.ThresholdRSRP = &tmp_thresholdrsrp
 	case MeasurementThresholdA2ChoiceThresholdRSRQ:
 		val_thresholdrsrq, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(34), false)
 		if err != nil {
-			return fmt.Errorf("decoding threshold-RSRQ: %w", err)
+			return runtime.WrapDecodePath(err, "ThresholdRSRQ")
 		}
 		tmp_thresholdrsrq := ThresholdRSRQ(val_thresholdrsrq)
 		v.ThresholdRSRQ = &tmp_thresholdrsrq
@@ -22340,7 +22640,7 @@ func (v *MeasurementThresholdL1LoggedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MeasurementThresholdL1LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22379,9 +22679,12 @@ func (v *MeasurementThresholdL1LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error
 func (v *MeasurementThresholdL1LoggedMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MeasurementThresholdL1LoggedMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MeasurementThresholdL1LoggedMDT")
+	}
+	return nil
 }
 
 func (v *MeasurementThresholdL1LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -22395,21 +22698,21 @@ func (v *MeasurementThresholdL1LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	case MeasurementThresholdL1LoggedMDTChoiceThresholdRSRP:
 		val_thresholdrsrp, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(97), false)
 		if err != nil {
-			return fmt.Errorf("decoding threshold-RSRP: %w", err)
+			return runtime.WrapDecodePath(err, "ThresholdRSRP")
 		}
 		tmp_thresholdrsrp := ThresholdRSRP(val_thresholdrsrp)
 		v.ThresholdRSRP = &tmp_thresholdrsrp
 	case MeasurementThresholdL1LoggedMDTChoiceThresholdRSRQ:
 		val_thresholdrsrq, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(34), false)
 		if err != nil {
-			return fmt.Errorf("decoding threshold-RSRQ: %w", err)
+			return runtime.WrapDecodePath(err, "ThresholdRSRQ")
 		}
 		tmp_thresholdrsrq := ThresholdRSRQ(val_thresholdrsrq)
 		v.ThresholdRSRQ = &tmp_thresholdrsrq
 	case MeasurementThresholdL1LoggedMDTChoiceChoiceExtensions:
 		var dec_choiceextensions ProtocolIESingleContainer
 		if err := dec_choiceextensions.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding choice-Extensions: %w", err)
+			return runtime.WrapDecodePath(err, "ChoiceExtensions")
 		}
 		v.ChoiceExtensions = &dec_choiceextensions
 	}
@@ -22422,7 +22725,7 @@ func (v *MMEPagingTarget) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MMEPagingTarget) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22431,7 +22734,7 @@ func (v *MMEPagingTarget) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("MMEPagingTarget: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("MMEPagingTarget: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("MMEPagingTarget: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -22476,9 +22779,12 @@ func (v *MMEPagingTarget) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *MMEPagingTarget) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MMEPagingTarget")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MMEPagingTarget")
+	}
+	return nil
 }
 
 func (v *MMEPagingTarget) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -22508,13 +22814,13 @@ func (v *MMEPagingTarget) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case MMEPagingTargetChoiceGlobalENBID:
 		var dec_globalenbid GlobalENBID
 		if err := dec_globalenbid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding global-ENB-ID: %w", err)
+			return runtime.WrapDecodePath(err, "GlobalENBID")
 		}
 		v.GlobalENBID = &dec_globalenbid
 	case MMEPagingTargetChoiceTAI:
 		var dec_tai TAI
 		if err := dec_tai.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding tAI: %w", err)
+			return runtime.WrapDecodePath(err, "TAI")
 		}
 		v.TAI = &dec_tai
 	}
@@ -22527,7 +22833,7 @@ func (v *MutingPatternInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *MutingPatternInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22591,9 +22897,12 @@ func (v *MutingPatternInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *MutingPatternInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "MutingPatternInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "MutingPatternInformation")
+	}
+	return nil
 }
 
 func (v *MutingPatternInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -22613,13 +22922,13 @@ func (v *MutingPatternInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_mutingpatternperiod, err := per.DecodeEnumeratedAligned(bb, 5, true)
 	if err != nil {
-		return fmt.Errorf("decoding muting-pattern-period: %w", err)
+		return runtime.WrapDecodePath(err, "MutingPatternPeriod")
 	}
 	v.MutingPatternPeriod = val_mutingpatternperiod
 	if opt_mutingpatternoffset {
 		val_mutingpatternoffset, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("10239"), true)
 		if err != nil {
-			return fmt.Errorf("decoding muting-pattern-offset: %w", err)
+			return runtime.WrapDecodePath(err, "MutingPatternOffset")
 		}
 		v.MutingPatternOffset = val_mutingpatternoffset
 	}
@@ -22629,14 +22938,14 @@ func (v *MutingPatternInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22667,7 +22976,7 @@ func (v *NBIoTPagingEDRXInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *NBIoTPagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22731,9 +23040,12 @@ func (v *NBIoTPagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *NBIoTPagingEDRXInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "NBIoTPagingEDRXInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "NBIoTPagingEDRXInformation")
+	}
+	return nil
 }
 
 func (v *NBIoTPagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -22753,13 +23065,13 @@ func (v *NBIoTPagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	val_nbiotpagingedrxcycle, err := per.DecodeEnumeratedAligned(bb, 14, true)
 	if err != nil {
-		return fmt.Errorf("decoding nB-IoT-paging-eDRX-Cycle: %w", err)
+		return runtime.WrapDecodePath(err, "NBIoTPagingEDRXCycle")
 	}
 	v.NBIoTPagingEDRXCycle = NBIoTPagingEDRXCycle(val_nbiotpagingedrxcycle)
 	if opt_nbiotpagingtimewindow {
 		val_nbiotpagingtimewindow, err := per.DecodeEnumeratedAligned(bb, 16, true)
 		if err != nil {
-			return fmt.Errorf("decoding nB-IoT-pagingTimeWindow: %w", err)
+			return runtime.WrapDecodePath(err, "NBIoTPagingTimeWindow")
 		}
 		tmp_nbiotpagingtimewindow := NBIoTPagingTimeWindow(val_nbiotpagingtimewindow)
 		v.NBIoTPagingTimeWindow = &tmp_nbiotpagingtimewindow
@@ -22770,14 +23082,14 @@ func (v *NBIoTPagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22808,7 +23120,7 @@ func (v *NRCGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22867,9 +23179,12 @@ func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *NRCGI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "NRCGI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "NRCGI")
+	}
+	return nil
 }
 
 func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -22885,12 +23200,12 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNIdentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	bsBytes_nrcellidentity, bsBitLen_nrcellidentity, err := per.DecodeBitStringAligned(bb, 36, 36, true)
 	if err != nil {
-		return fmt.Errorf("decoding nRCellIdentity: %w", err)
+		return runtime.WrapDecodePath(err, "NRCellIdentity")
 	}
 	v.NRCellIdentity = runtime.BitString{Bytes: bsBytes_nrcellidentity, BitLength: bsBitLen_nrcellidentity}
 	if opt_ieextensions {
@@ -22899,14 +23214,14 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -22937,7 +23252,7 @@ func (v *NRUESecurityCapabilities) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *NRUESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22996,9 +23311,12 @@ func (v *NRUESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *NRUESecurityCapabilities) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "NRUESecurityCapabilities")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "NRUESecurityCapabilities")
+	}
+	return nil
 }
 
 func (v *NRUESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -23014,12 +23332,12 @@ func (v *NRUESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_nrencryptionalgorithms, bsBitLen_nrencryptionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding nRencryptionAlgorithms: %w", err)
+		return runtime.WrapDecodePath(err, "NRencryptionAlgorithms")
 	}
 	v.NRencryptionAlgorithms = runtime.BitString{Bytes: bsBytes_nrencryptionalgorithms, BitLength: bsBitLen_nrencryptionalgorithms}
 	bsBytes_nrintegrityprotectionalgorithms, bsBitLen_nrintegrityprotectionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding nRintegrityProtectionAlgorithms: %w", err)
+		return runtime.WrapDecodePath(err, "NRintegrityProtectionAlgorithms")
 	}
 	v.NRintegrityProtectionAlgorithms = runtime.BitString{Bytes: bsBytes_nrintegrityprotectionalgorithms, BitLength: bsBitLen_nrintegrityprotectionalgorithms}
 	if opt_ieextensions {
@@ -23028,14 +23346,14 @@ func (v *NRUESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23066,7 +23384,7 @@ func (v *NRV2XServicesAuthorized) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *NRV2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23135,9 +23453,12 @@ func (v *NRV2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *NRV2XServicesAuthorized) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "NRV2XServicesAuthorized")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "NRV2XServicesAuthorized")
+	}
+	return nil
 }
 
 func (v *NRV2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -23162,7 +23483,7 @@ func (v *NRV2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_vehicleue {
 		val_vehicleue, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding vehicleUE: %w", err)
+			return runtime.WrapDecodePath(err, "VehicleUE")
 		}
 		tmp_vehicleue := VehicleUE(val_vehicleue)
 		v.VehicleUE = &tmp_vehicleue
@@ -23170,7 +23491,7 @@ func (v *NRV2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_pedestrianue {
 		val_pedestrianue, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding pedestrianUE: %w", err)
+			return runtime.WrapDecodePath(err, "PedestrianUE")
 		}
 		tmp_pedestrianue := PedestrianUE(val_pedestrianue)
 		v.PedestrianUE = &tmp_pedestrianue
@@ -23181,14 +23502,14 @@ func (v *NRV2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23219,7 +23540,7 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23275,9 +23596,12 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) e
 func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "NRUESidelinkAggregateMaximumBitrate")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "NRUESidelinkAggregateMaximumBitrate")
+	}
+	return nil
 }
 
 func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -23293,7 +23617,7 @@ func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffe
 	}
 	val_ueaggregatemaximumbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding uEaggregateMaximumBitRate: %w", err)
+		return runtime.WrapDecodePath(err, "UEaggregateMaximumBitRate")
 	}
 	v.UEaggregateMaximumBitRate = BitRate(val_ueaggregatemaximumbitrate)
 	if opt_ieextensions {
@@ -23302,14 +23626,14 @@ func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffe
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23340,7 +23664,7 @@ func (v *OverloadResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *OverloadResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23349,7 +23673,7 @@ func (v *OverloadResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("OverloadResponse: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("OverloadResponse: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("OverloadResponse: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -23384,9 +23708,12 @@ func (v *OverloadResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *OverloadResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "OverloadResponse")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "OverloadResponse")
+	}
+	return nil
 }
 
 func (v *OverloadResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -23412,7 +23739,7 @@ func (v *OverloadResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case OverloadResponseChoiceOverloadAction:
 		val_overloadaction, err := per.DecodeEnumeratedAligned(bb, 3, true)
 		if err != nil {
-			return fmt.Errorf("decoding overloadAction: %w", err)
+			return runtime.WrapDecodePath(err, "OverloadAction")
 		}
 		tmp_overloadaction := OverloadAction(val_overloadaction)
 		v.OverloadAction = &tmp_overloadaction
@@ -23426,7 +23753,7 @@ func (v *PagingAttemptInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23493,9 +23820,12 @@ func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *PagingAttemptInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "PagingAttemptInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PagingAttemptInformation")
+	}
+	return nil
 }
 
 func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -23515,18 +23845,18 @@ func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_pagingattemptcount, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("16"), true)
 	if err != nil {
-		return fmt.Errorf("decoding pagingAttemptCount: %w", err)
+		return runtime.WrapDecodePath(err, "PagingAttemptCount")
 	}
 	v.PagingAttemptCount = val_pagingattemptcount
 	val_intendednumberofpagingattempts, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("16"), true)
 	if err != nil {
-		return fmt.Errorf("decoding intendedNumberOfPagingAttempts: %w", err)
+		return runtime.WrapDecodePath(err, "IntendedNumberOfPagingAttempts")
 	}
 	v.IntendedNumberOfPagingAttempts = val_intendednumberofpagingattempts
 	if opt_nextpagingareascope {
 		val_nextpagingareascope, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding nextPagingAreaScope: %w", err)
+			return runtime.WrapDecodePath(err, "NextPagingAreaScope")
 		}
 		tmp_nextpagingareascope := NextPagingAreaScope(val_nextpagingareascope)
 		v.NextPagingAreaScope = &tmp_nextpagingareascope
@@ -23537,14 +23867,14 @@ func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23575,7 +23905,7 @@ func (v *PagingEDRXInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23639,9 +23969,12 @@ func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *PagingEDRXInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "PagingEDRXInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PagingEDRXInformation")
+	}
+	return nil
 }
 
 func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -23661,13 +23994,13 @@ func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_pagingedrxcycle, err := per.DecodeEnumeratedAligned(bb, 14, true)
 	if err != nil {
-		return fmt.Errorf("decoding paging-eDRX-Cycle: %w", err)
+		return runtime.WrapDecodePath(err, "PagingEDRXCycle")
 	}
 	v.PagingEDRXCycle = PagingEDRXCycle(val_pagingedrxcycle)
 	if opt_pagingtimewindow {
 		val_pagingtimewindow, err := per.DecodeEnumeratedAligned(bb, 16, true)
 		if err != nil {
-			return fmt.Errorf("decoding pagingTimeWindow: %w", err)
+			return runtime.WrapDecodePath(err, "PagingTimeWindow")
 		}
 		tmp_pagingtimewindow := PagingTimeWindow(val_pagingtimewindow)
 		v.PagingTimeWindow = &tmp_pagingtimewindow
@@ -23678,14 +24011,14 @@ func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23716,7 +24049,7 @@ func (v *PC5QoSParameters) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PC5QoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23787,9 +24120,12 @@ func (v *PC5QoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *PC5QoSParameters) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "PC5QoSParameters")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PC5QoSParameters")
+	}
+	return nil
 }
 
 func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -23812,19 +24148,19 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_pc5qosflowlist; i++ {
 			var elem PC5QoSFlowItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding pc5QoSFlowList element %d: %w", fragmentOffset_pc5qosflowlist+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Pc5QoSFlowList[%d]", fragmentOffset_pc5qosflowlist+i))
 			}
 			v.Pc5QoSFlowList = append(v.Pc5QoSFlowList, elem)
 		}
 		return nil
 	})
 	if errCollection_pc5qosflowlist != nil {
-		return fmt.Errorf("decoding pc5QoSFlowList: %w", errCollection_pc5qosflowlist)
+		return runtime.WrapDecodePath(errCollection_pc5qosflowlist, "Pc5QoSFlowList")
 	}
 	if opt_pc5linkaggregatedbitrates {
 		val_pc5linkaggregatedbitrates, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 		if err != nil {
-			return fmt.Errorf("decoding pc5LinkAggregatedBitRates: %w", err)
+			return runtime.WrapDecodePath(err, "Pc5LinkAggregatedBitRates")
 		}
 		tmp_pc5linkaggregatedbitrates := BitRate(val_pc5linkaggregatedbitrates)
 		v.Pc5LinkAggregatedBitRates = &tmp_pc5linkaggregatedbitrates
@@ -23835,14 +24171,14 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -23875,7 +24211,7 @@ func MarshalAPERPC5QoSFlowList(list PC5QoSFlowList) ([]byte, error) {
 	if err := MarshalAPERPC5QoSFlowListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERPC5QoSFlowListTo appends a PC5QoSFlowList list to bb.
@@ -23899,10 +24235,10 @@ func UnmarshalAPERPC5QoSFlowList(data []byte) (PC5QoSFlowList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERPC5QoSFlowListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "PC5QoSFlowList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "PC5QoSFlowList")
 	}
 	return value, nil
 }
@@ -23922,14 +24258,14 @@ func unmarshalAPERPC5QoSFlowListInto(v *asn1cAPERPC5QoSFlowListListValue, bb *pe
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem PC5QoSFlowItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -23940,7 +24276,7 @@ func (v *PC5QoSFlowItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PC5QoSFlowItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24012,9 +24348,12 @@ func (v *PC5QoSFlowItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *PC5QoSFlowItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "PC5QoSFlowItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PC5QoSFlowItem")
+	}
+	return nil
 }
 
 func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -24038,20 +24377,20 @@ func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_pqi, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 	if err != nil {
-		return fmt.Errorf("decoding pQI: %w", err)
+		return runtime.WrapDecodePath(err, "PQI")
 	}
 	v.PQI = val_pqi
 	if opt_pc5flowbitrates {
 		var dec_pc5flowbitrates PC5FlowBitRates
 		if err := dec_pc5flowbitrates.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding pc5FlowBitRates: %w", err)
+			return runtime.WrapDecodePath(err, "Pc5FlowBitRates")
 		}
 		v.Pc5FlowBitRates = &dec_pc5flowbitrates
 	}
 	if opt_range {
 		val_range, err := per.DecodeEnumeratedAligned(bb, 9, true)
 		if err != nil {
-			return fmt.Errorf("decoding range: %w", err)
+			return runtime.WrapDecodePath(err, "Range")
 		}
 		tmp_range := Range(val_range)
 		v.Range = &tmp_range
@@ -24062,14 +24401,14 @@ func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24100,7 +24439,7 @@ func (v *PC5FlowBitRates) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PC5FlowBitRates) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24159,9 +24498,12 @@ func (v *PC5FlowBitRates) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *PC5FlowBitRates) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "PC5FlowBitRates")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PC5FlowBitRates")
+	}
+	return nil
 }
 
 func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -24177,12 +24519,12 @@ func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_guaranteedflowbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding guaranteedFlowBitRate: %w", err)
+		return runtime.WrapDecodePath(err, "GuaranteedFlowBitRate")
 	}
 	v.GuaranteedFlowBitRate = BitRate(val_guaranteedflowbitrate)
 	val_maximumflowbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding maximumFlowBitRate: %w", err)
+		return runtime.WrapDecodePath(err, "MaximumFlowBitRate")
 	}
 	v.MaximumFlowBitRate = BitRate(val_maximumflowbitrate)
 	if opt_ieextensions {
@@ -24191,14 +24533,14 @@ func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24229,7 +24571,7 @@ func (v *M1PeriodicReporting) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *M1PeriodicReporting) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24288,9 +24630,12 @@ func (v *M1PeriodicReporting) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *M1PeriodicReporting) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "M1PeriodicReporting")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "M1PeriodicReporting")
+	}
+	return nil
 }
 
 func (v *M1PeriodicReporting) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -24306,12 +24651,12 @@ func (v *M1PeriodicReporting) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_reportinterval, err := per.DecodeEnumeratedAligned(bb, 13, false)
 	if err != nil {
-		return fmt.Errorf("decoding reportInterval: %w", err)
+		return runtime.WrapDecodePath(err, "ReportInterval")
 	}
 	v.ReportInterval = ReportIntervalMDT(val_reportinterval)
 	val_reportamount, err := per.DecodeEnumeratedAligned(bb, 8, false)
 	if err != nil {
-		return fmt.Errorf("decoding reportAmount: %w", err)
+		return runtime.WrapDecodePath(err, "ReportAmount")
 	}
 	v.ReportAmount = ReportAmountMDT(val_reportamount)
 	if opt_ieextensions {
@@ -24320,14 +24665,14 @@ func (v *M1PeriodicReporting) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24358,7 +24703,7 @@ func (v *PLMNAreaBasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PLMNAreaBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24421,9 +24766,12 @@ func (v *PLMNAreaBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *PLMNAreaBasedQMC) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "PLMNAreaBasedQMC")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PLMNAreaBasedQMC")
+	}
+	return nil
 }
 
 func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -24442,14 +24790,14 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_plmnlistforqmc; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding plmnListforQMC element %d: %w", fragmentOffset_plmnlistforqmc+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("PlmnListforQMC[%d]", fragmentOffset_plmnlistforqmc+i))
 			}
 			v.PlmnListforQMC = append(v.PlmnListforQMC, val)
 		}
 		return nil
 	})
 	if errCollection_plmnlistforqmc != nil {
-		return fmt.Errorf("decoding plmnListforQMC: %w", errCollection_plmnlistforqmc)
+		return runtime.WrapDecodePath(errCollection_plmnlistforqmc, "PlmnListforQMC")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -24457,14 +24805,14 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24497,7 +24845,7 @@ func MarshalAPERPLMNListforQMC(list PLMNListforQMC) ([]byte, error) {
 	if err := MarshalAPERPLMNListforQMCTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERPLMNListforQMCTo appends a PLMNListforQMC list to bb.
@@ -24521,10 +24869,10 @@ func UnmarshalAPERPLMNListforQMC(data []byte) (PLMNListforQMC, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERPLMNListforQMCFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "PLMNListforQMC")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "PLMNListforQMC")
 	}
 	return value, nil
 }
@@ -24544,14 +24892,14 @@ func unmarshalAPERPLMNListforQMCInto(v *asn1cAPERPLMNListforQMCListValue, bb *pe
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -24562,7 +24910,7 @@ func (v *ProSeAuthorized) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ProSeAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24631,9 +24979,12 @@ func (v *ProSeAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ProSeAuthorized) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ProSeAuthorized")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProSeAuthorized")
+	}
+	return nil
 }
 
 func (v *ProSeAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -24658,7 +25009,7 @@ func (v *ProSeAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_prosedirectdiscovery {
 		val_prosedirectdiscovery, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding proSeDirectDiscovery: %w", err)
+			return runtime.WrapDecodePath(err, "ProSeDirectDiscovery")
 		}
 		tmp_prosedirectdiscovery := ProSeDirectDiscovery(val_prosedirectdiscovery)
 		v.ProSeDirectDiscovery = &tmp_prosedirectdiscovery
@@ -24666,7 +25017,7 @@ func (v *ProSeAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_prosedirectcommunication {
 		val_prosedirectcommunication, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding proSeDirectCommunication: %w", err)
+			return runtime.WrapDecodePath(err, "ProSeDirectCommunication")
 		}
 		tmp_prosedirectcommunication := ProSeDirectCommunication(val_prosedirectcommunication)
 		v.ProSeDirectCommunication = &tmp_prosedirectcommunication
@@ -24677,14 +25028,14 @@ func (v *ProSeAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24715,7 +25066,7 @@ func (v *PSCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24771,9 +25122,12 @@ func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *PSCellInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "PSCellInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PSCellInformation")
+	}
+	return nil
 }
 
 func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -24788,7 +25142,7 @@ func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.NCGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding nCGI: %w", err)
+		return runtime.WrapDecodePath(err, "NCGI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -24796,14 +25150,14 @@ func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24834,7 +25188,7 @@ func (v *RecommendedCellsForPaging) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24897,9 +25251,12 @@ func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RecommendedCellsForPaging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
+	}
+	return nil
 }
 
 func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -24918,14 +25275,14 @@ func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_recommendedcelllist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding recommendedCellList element %d: %w", fragmentOffset_recommendedcelllist+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("RecommendedCellList[%d]", fragmentOffset_recommendedcelllist+i))
 			}
 			v.RecommendedCellList = append(v.RecommendedCellList, elem)
 		}
 		return nil
 	})
 	if errCollection_recommendedcelllist != nil {
-		return fmt.Errorf("decoding recommendedCellList: %w", errCollection_recommendedcelllist)
+		return runtime.WrapDecodePath(errCollection_recommendedcelllist, "RecommendedCellList")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -24933,14 +25290,14 @@ func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -24973,7 +25330,7 @@ func MarshalAPERRecommendedCellList(list RecommendedCellList) ([]byte, error) {
 	if err := MarshalAPERRecommendedCellListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERRecommendedCellListTo appends a RecommendedCellList list to bb.
@@ -24997,10 +25354,10 @@ func UnmarshalAPERRecommendedCellList(data []byte) (RecommendedCellList, error) 
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERRecommendedCellListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "RecommendedCellList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "RecommendedCellList")
 	}
 	return value, nil
 }
@@ -25020,14 +25377,14 @@ func unmarshalAPERRecommendedCellListInto(v *asn1cAPERRecommendedCellListListVal
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -25038,7 +25395,7 @@ func (v *RecommendedCellItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RecommendedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25102,9 +25459,12 @@ func (v *RecommendedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RecommendedCellItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RecommendedCellItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedCellItem")
+	}
+	return nil
 }
 
 func (v *RecommendedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -25123,12 +25483,12 @@ func (v *RecommendedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.EUTRANCGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eUTRAN-CGI: %w", err)
+		return runtime.WrapDecodePath(err, "EUTRANCGI")
 	}
 	if opt_timestayedincell {
 		val_timestayedincell, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 		if err != nil {
-			return fmt.Errorf("decoding timeStayedInCell: %w", err)
+			return runtime.WrapDecodePath(err, "TimeStayedInCell")
 		}
 		v.TimeStayedInCell = &val_timestayedincell
 	}
@@ -25138,14 +25498,14 @@ func (v *RecommendedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25176,7 +25536,7 @@ func (v *RecommendedENBsForPaging) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25239,9 +25599,12 @@ func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RecommendedENBsForPaging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RecommendedENBsForPaging")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedENBsForPaging")
+	}
+	return nil
 }
 
 func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -25260,14 +25623,14 @@ func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_recommendedenblist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding recommendedENBList element %d: %w", fragmentOffset_recommendedenblist+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("RecommendedENBList[%d]", fragmentOffset_recommendedenblist+i))
 			}
 			v.RecommendedENBList = append(v.RecommendedENBList, elem)
 		}
 		return nil
 	})
 	if errCollection_recommendedenblist != nil {
-		return fmt.Errorf("decoding recommendedENBList: %w", errCollection_recommendedenblist)
+		return runtime.WrapDecodePath(errCollection_recommendedenblist, "RecommendedENBList")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -25275,14 +25638,14 @@ func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25315,7 +25678,7 @@ func MarshalAPERRecommendedENBList(list RecommendedENBList) ([]byte, error) {
 	if err := MarshalAPERRecommendedENBListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERRecommendedENBListTo appends a RecommendedENBList list to bb.
@@ -25339,10 +25702,10 @@ func UnmarshalAPERRecommendedENBList(data []byte) (RecommendedENBList, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERRecommendedENBListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "RecommendedENBList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "RecommendedENBList")
 	}
 	return value, nil
 }
@@ -25362,14 +25725,14 @@ func unmarshalAPERRecommendedENBListInto(v *asn1cAPERRecommendedENBListListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -25380,7 +25743,7 @@ func (v *RecommendedENBItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RecommendedENBItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25436,9 +25799,12 @@ func (v *RecommendedENBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RecommendedENBItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RecommendedENBItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedENBItem")
+	}
+	return nil
 }
 
 func (v *RecommendedENBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -25453,7 +25819,7 @@ func (v *RecommendedENBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.MMEPagingTarget.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding mMEPagingTarget: %w", err)
+		return runtime.WrapDecodePath(err, "MMEPagingTarget")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -25461,14 +25827,14 @@ func (v *RecommendedENBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25501,7 +25867,7 @@ func MarshalAPERRATRestrictions(list RATRestrictions) ([]byte, error) {
 	if err := MarshalAPERRATRestrictionsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERRATRestrictionsTo appends a RATRestrictions list to bb.
@@ -25525,10 +25891,10 @@ func UnmarshalAPERRATRestrictions(data []byte) (RATRestrictions, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERRATRestrictionsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "RATRestrictions")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "RATRestrictions")
 	}
 	return value, nil
 }
@@ -25548,14 +25914,14 @@ func unmarshalAPERRATRestrictionsInto(v *asn1cAPERRATRestrictionsListValue, bb *
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem RATRestrictionsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -25566,7 +25932,7 @@ func (v *RATRestrictionsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25625,9 +25991,12 @@ func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RATRestrictionsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RATRestrictionsItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RATRestrictionsItem")
+	}
+	return nil
 }
 
 func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -25643,12 +26012,12 @@ func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	bsBytes_ratrestrictioninformation, bsBitLen_ratrestrictioninformation, err := per.DecodeBitStringAlignedExt(bb, 8, 8, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding rAT-RestrictionInformation: %w", err)
+		return runtime.WrapDecodePath(err, "RATRestrictionInformation")
 	}
 	v.RATRestrictionInformation = runtime.BitString{Bytes: bsBytes_ratrestrictioninformation, BitLength: bsBitLen_ratrestrictioninformation}
 	if opt_ieextensions {
@@ -25657,14 +26026,14 @@ func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25695,7 +26064,7 @@ func (v *RequestedTNLInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RequestedTNLInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25751,9 +26120,12 @@ func (v *RequestedTNLInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RequestedTNLInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RequestedTNLInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RequestedTNLInfo")
+	}
+	return nil
 }
 
 func (v *RequestedTNLInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -25769,7 +26141,7 @@ func (v *RequestedTNLInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	if opt_ieextensions {
@@ -25778,14 +26150,14 @@ func (v *RequestedTNLInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25816,7 +26188,7 @@ func (v *RequestType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RequestType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25875,9 +26247,12 @@ func (v *RequestType) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RequestType) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RequestType")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RequestType")
+	}
+	return nil
 }
 
 func (v *RequestType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -25893,12 +26268,12 @@ func (v *RequestType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_eventtype, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding eventType: %w", err)
+		return runtime.WrapDecodePath(err, "EventType")
 	}
 	v.EventType = EventType(val_eventtype)
 	val_reportarea, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding reportArea: %w", err)
+		return runtime.WrapDecodePath(err, "ReportArea")
 	}
 	v.ReportArea = ReportArea(val_reportarea)
 	if opt_ieextensions {
@@ -25907,14 +26282,14 @@ func (v *RequestType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -25945,7 +26320,7 @@ func (v *RIMTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26009,9 +26384,12 @@ func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RIMTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RIMTransfer")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RIMTransfer")
+	}
+	return nil
 }
 
 func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -26031,13 +26409,13 @@ func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_riminformation, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding rIMInformation: %w", err)
+		return runtime.WrapDecodePath(err, "RIMInformation")
 	}
 	v.RIMInformation = RIMInformation(val_riminformation)
 	if opt_rimroutingaddress {
 		var dec_rimroutingaddress RIMRoutingAddress
 		if err := dec_rimroutingaddress.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rIMRoutingAddress: %w", err)
+			return runtime.WrapDecodePath(err, "RIMRoutingAddress")
 		}
 		v.RIMRoutingAddress = &dec_rimroutingaddress
 	}
@@ -26047,14 +26425,14 @@ func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26085,13 +26463,16 @@ func (v *RIMRoutingAddress) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("RIMRoutingAddress: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("RIMRoutingAddress: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if v.UnknownExtension.Index < 2 {
 			return fmt.Errorf("RIMRoutingAddress: extension index %d is known to this schema", v.UnknownExtension.Index)
@@ -26128,7 +26509,7 @@ func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown RIMRoutingAddress extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
 			return err
 		}
 		return nil
@@ -26151,9 +26532,12 @@ func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RIMRoutingAddress) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RIMRoutingAddress")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RIMRoutingAddress")
+	}
+	return nil
 }
 
 func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -26181,13 +26565,13 @@ func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		case RIMRoutingAddressChoiceTargetRNCID:
 			var dec_targetrncid TargetRNCID
 			if err := dec_targetrncid.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding targetRNC-ID: %w", err)
+				return runtime.WrapDecodePath(err, "TargetRNCID")
 			}
 			v.TargetRNCID = &dec_targetrncid
 		case RIMRoutingAddressChoiceEHRPDSectorID:
 			val_ehrpdsectorid, err := per.DecodeOctetStringAligned(inner, 16, 16, true)
 			if err != nil {
-				return fmt.Errorf("decoding eHRPD-Sector-ID: %w", err)
+				return runtime.WrapDecodePath(err, "EHRPDSectorID")
 			}
 			tmp_ehrpdsectorid := val_ehrpdsectorid
 			v.EHRPDSectorID = tmp_ehrpdsectorid
@@ -26202,7 +26586,7 @@ func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case RIMRoutingAddressChoiceGERANCellID:
 		var dec_gerancellid GERANCellID
 		if err := dec_gerancellid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding gERAN-Cell-ID: %w", err)
+			return runtime.WrapDecodePath(err, "GERANCellID")
 		}
 		v.GERANCellID = &dec_gerancellid
 	}
@@ -26215,7 +26599,7 @@ func (v *RLFReportInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26279,9 +26663,12 @@ func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *RLFReportInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "RLFReportInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "RLFReportInformation")
+	}
+	return nil
 }
 
 func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -26301,13 +26688,13 @@ func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_uerlfreportcontainer, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding uE-RLF-Report-Container: %w", err)
+		return runtime.WrapDecodePath(err, "UERLFReportContainer")
 	}
 	v.UERLFReportContainer = UERLFReportContainer(val_uerlfreportcontainer)
 	if opt_uerlfreportcontainerforextendedbands {
 		val_uerlfreportcontainerforextendedbands, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 		if err != nil {
-			return fmt.Errorf("decoding uE-RLF-Report-Container-for-extended-bands: %w", err)
+			return runtime.WrapDecodePath(err, "UERLFReportContainerForExtendedBands")
 		}
 		tmp_uerlfreportcontainerforextendedbands := UERLFReportContainerForExtendedBands(val_uerlfreportcontainerforextendedbands)
 		v.UERLFReportContainerForExtendedBands = &tmp_uerlfreportcontainerforextendedbands
@@ -26318,14 +26705,14 @@ func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26358,7 +26745,7 @@ func MarshalAPERECGIListForRestart(list ECGIListForRestart) ([]byte, error) {
 	if err := MarshalAPERECGIListForRestartTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERECGIListForRestartTo appends a ECGIListForRestart list to bb.
@@ -26382,10 +26769,10 @@ func UnmarshalAPERECGIListForRestart(data []byte) (ECGIListForRestart, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERECGIListForRestartFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ECGIListForRestart")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ECGIListForRestart")
 	}
 	return value, nil
 }
@@ -26405,14 +26792,14 @@ func unmarshalAPERECGIListForRestartInto(v *asn1cAPERECGIListForRestartListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -26423,7 +26810,7 @@ func (v *SecurityContext) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SecurityContext) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26482,9 +26869,12 @@ func (v *SecurityContext) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SecurityContext) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SecurityContext")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SecurityContext")
+	}
+	return nil
 }
 
 func (v *SecurityContext) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -26500,12 +26890,12 @@ func (v *SecurityContext) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_nexthopchainingcount, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(7), false)
 	if err != nil {
-		return fmt.Errorf("decoding nextHopChainingCount: %w", err)
+		return runtime.WrapDecodePath(err, "NextHopChainingCount")
 	}
 	v.NextHopChainingCount = val_nexthopchainingcount
 	bsBytes_nexthopparameter, bsBitLen_nexthopparameter, err := per.DecodeBitStringAligned(bb, 256, 256, true)
 	if err != nil {
-		return fmt.Errorf("decoding nextHopParameter: %w", err)
+		return runtime.WrapDecodePath(err, "NextHopParameter")
 	}
 	v.NextHopParameter = runtime.BitString{Bytes: bsBytes_nexthopparameter, BitLength: bsBitLen_nexthopparameter}
 	if opt_ieextensions {
@@ -26514,14 +26904,14 @@ func (v *SecurityContext) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26556,7 +26946,7 @@ func MarshalAPERSecondaryRATDataUsageReportList(list SecondaryRATDataUsageReport
 	if err := MarshalAPERSecondaryRATDataUsageReportListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERSecondaryRATDataUsageReportListTo appends a SecondaryRATDataUsageReportList list to bb.
@@ -26580,10 +26970,10 @@ func UnmarshalAPERSecondaryRATDataUsageReportList(data []byte) (SecondaryRATData
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERSecondaryRATDataUsageReportListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
 	}
 	return value, nil
 }
@@ -26603,14 +26993,14 @@ func unmarshalAPERSecondaryRATDataUsageReportListInto(v *asn1cAPERSecondaryRATDa
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -26621,7 +27011,7 @@ func (v *SecondaryRATDataUsageReportItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26690,9 +27080,12 @@ func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error
 func (v *SecondaryRATDataUsageReportItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportItem")
+	}
+	return nil
 }
 
 func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -26708,12 +27101,12 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	}
 	val_erabid, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("15"), true)
 	if err != nil {
-		return fmt.Errorf("decoding e-RAB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
 	val_secondaryrattype, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding secondaryRATType: %w", err)
+		return runtime.WrapDecodePath(err, "SecondaryRATType")
 	}
 	v.SecondaryRATType = SecondaryRATType(val_secondaryrattype)
 	v.ERABUsageReportList = make(ERABUsageReportList, 0)
@@ -26721,14 +27114,14 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 		for i := int64(0); i < fragmentLength_erabusagereportlist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding e-RABUsageReportList element %d: %w", fragmentOffset_erabusagereportlist+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ERABUsageReportList[%d]", fragmentOffset_erabusagereportlist+i))
 			}
 			v.ERABUsageReportList = append(v.ERABUsageReportList, elem)
 		}
 		return nil
 	})
 	if errCollection_erabusagereportlist != nil {
-		return fmt.Errorf("decoding e-RABUsageReportList: %w", errCollection_erabusagereportlist)
+		return runtime.WrapDecodePath(errCollection_erabusagereportlist, "ERABUsageReportList")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -26736,14 +27129,14 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26774,7 +27167,7 @@ func (v *SecurityIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SecurityIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26830,9 +27223,12 @@ func (v *SecurityIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SecurityIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SecurityIndication")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SecurityIndication")
+	}
+	return nil
 }
 
 func (v *SecurityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -26848,7 +27244,7 @@ func (v *SecurityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_integrityprotectionindication, err := per.DecodeEnumeratedAligned(bb, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding integrityProtectionIndication: %w", err)
+		return runtime.WrapDecodePath(err, "IntegrityProtectionIndication")
 	}
 	v.IntegrityProtectionIndication = IntegrityProtectionIndication(val_integrityprotectionindication)
 	if opt_ieextensions {
@@ -26857,14 +27253,14 @@ func (v *SecurityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -26895,7 +27291,7 @@ func (v *SecurityResult) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SecurityResult) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26951,9 +27347,12 @@ func (v *SecurityResult) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SecurityResult) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SecurityResult")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SecurityResult")
+	}
+	return nil
 }
 
 func (v *SecurityResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -26969,7 +27368,7 @@ func (v *SecurityResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_integrityprotectionresult, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding integrityProtectionResult: %w", err)
+		return runtime.WrapDecodePath(err, "IntegrityProtectionResult")
 	}
 	v.IntegrityProtectionResult = IntegrityProtectionResult(val_integrityprotectionresult)
 	if opt_ieextensions {
@@ -26978,14 +27377,14 @@ func (v *SecurityResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27016,7 +27415,7 @@ func (v *SensorMeasConfigNameItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SensorMeasConfigNameItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27072,9 +27471,12 @@ func (v *SensorMeasConfigNameItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SensorMeasConfigNameItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SensorMeasConfigNameItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SensorMeasConfigNameItem")
+	}
+	return nil
 }
 
 func (v *SensorMeasConfigNameItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -27089,7 +27491,7 @@ func (v *SensorMeasConfigNameItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.SensorNameConfig.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sensorNameConfig: %w", err)
+		return runtime.WrapDecodePath(err, "SensorNameConfig")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -27097,14 +27499,14 @@ func (v *SensorMeasConfigNameItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27137,7 +27539,7 @@ func MarshalAPERSensorMeasConfigNameList(list SensorMeasConfigNameList) ([]byte,
 	if err := MarshalAPERSensorMeasConfigNameListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERSensorMeasConfigNameListTo appends a SensorMeasConfigNameList list to bb.
@@ -27161,10 +27563,10 @@ func UnmarshalAPERSensorMeasConfigNameList(data []byte) (SensorMeasConfigNameLis
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERSensorMeasConfigNameListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
 	}
 	return value, nil
 }
@@ -27184,14 +27586,14 @@ func unmarshalAPERSensorMeasConfigNameListInto(v *asn1cAPERSensorMeasConfigNameL
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SensorMeasConfigNameItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -27202,7 +27604,7 @@ func (v *SensorMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SensorMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27273,9 +27675,12 @@ func (v *SensorMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error 
 func (v *SensorMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SensorMeasurementConfiguration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SensorMeasurementConfiguration")
+	}
+	return nil
 }
 
 func (v *SensorMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -27295,7 +27700,7 @@ func (v *SensorMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	}
 	val_sensormeasconfig, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding sensorMeasConfig: %w", err)
+		return runtime.WrapDecodePath(err, "SensorMeasConfig")
 	}
 	v.SensorMeasConfig = SensorMeasConfig(val_sensormeasconfig)
 	if opt_sensormeasconfignamelist {
@@ -27304,14 +27709,14 @@ func (v *SensorMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) er
 			for i := int64(0); i < fragmentLength_sensormeasconfignamelist; i++ {
 				var elem SensorMeasConfigNameItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding sensorMeasConfigNameList element %d: %w", fragmentOffset_sensormeasconfignamelist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("SensorMeasConfigNameList[%d]", fragmentOffset_sensormeasconfignamelist+i))
 				}
 				tmp_sensormeasconfignamelist = append(tmp_sensormeasconfignamelist, elem)
 			}
 			return nil
 		})
 		if errCollection_sensormeasconfignamelist != nil {
-			return fmt.Errorf("decoding sensorMeasConfigNameList: %w", errCollection_sensormeasconfignamelist)
+			return runtime.WrapDecodePath(errCollection_sensormeasconfignamelist, "SensorMeasConfigNameList")
 		}
 		v.SensorMeasConfigNameList = tmp_sensormeasconfignamelist
 	}
@@ -27321,14 +27726,14 @@ func (v *SensorMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) er
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27359,7 +27764,7 @@ func (v *SensorNameConfig) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SensorNameConfig) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27391,9 +27796,12 @@ func (v *SensorNameConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SensorNameConfig) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SensorNameConfig")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SensorNameConfig")
+	}
+	return nil
 }
 
 func (v *SensorNameConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -27407,13 +27815,13 @@ func (v *SensorNameConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case SensorNameConfigChoiceUncompensatedBarometricConfig:
 		val_uncompensatedbarometricconfig, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding uncompensatedBarometricConfig: %w", err)
+			return runtime.WrapDecodePath(err, "UncompensatedBarometricConfig")
 		}
 		v.UncompensatedBarometricConfig = &val_uncompensatedbarometricconfig
 	case SensorNameConfigChoiceChoiceExtensions:
 		var dec_choiceextensions ProtocolIESingleContainer
 		if err := dec_choiceextensions.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding choice-Extensions: %w", err)
+			return runtime.WrapDecodePath(err, "ChoiceExtensions")
 		}
 		v.ChoiceExtensions = &dec_choiceextensions
 	}
@@ -27426,13 +27834,16 @@ func (v *SONInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("SONInformation: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("SONInformation: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if v.UnknownExtension.Index < 1 {
 			return fmt.Errorf("SONInformation: extension index %d is known to this schema", v.UnknownExtension.Index)
@@ -27465,7 +27876,7 @@ func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown SONInformation extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
 			return err
 		}
 		return nil
@@ -27498,9 +27909,12 @@ func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SONInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SONInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformation")
+	}
+	return nil
 }
 
 func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -27528,7 +27942,7 @@ func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		case SONInformationChoiceSONInformationExtension:
 			var dec_soninformationextension SONInformationExtension
 			if err := dec_soninformationextension.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding sONInformation-Extension: %w", err)
+				return runtime.WrapDecodePath(err, "SONInformationExtension")
 			}
 			v.SONInformationExtension = &dec_soninformationextension
 		}
@@ -27546,14 +27960,14 @@ func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case SONInformationChoiceSONInformationRequest:
 		val_soninformationrequest, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding sONInformationRequest: %w", err)
+			return runtime.WrapDecodePath(err, "SONInformationRequest")
 		}
 		tmp_soninformationrequest := SONInformationRequest(val_soninformationrequest)
 		v.SONInformationRequest = &tmp_soninformationrequest
 	case SONInformationChoiceSONInformationReply:
 		var dec_soninformationreply SONInformationReply
 		if err := dec_soninformationreply.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding sONInformationReply: %w", err)
+			return runtime.WrapDecodePath(err, "SONInformationReply")
 		}
 		v.SONInformationReply = &dec_soninformationreply
 	}
@@ -27566,7 +27980,7 @@ func (v *SONInformationExtension) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SONInformationExtension) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27586,26 +28000,29 @@ func (v *SONInformationExtension) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SONInformationExtension) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SONInformationExtension")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformationExtension")
+	}
+	return nil
 }
 
 func (v *SONInformationExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = SONInformationExtension{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
 	openData_value, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
@@ -27617,7 +28034,7 @@ func (v *SONInformationReply) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27678,9 +28095,12 @@ func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SONInformationReply) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SONInformationReply")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformationReply")
+	}
+	return nil
 }
 
 func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -27701,7 +28121,7 @@ func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_x2tnlconfigurationinfo {
 		var dec_x2tnlconfigurationinfo X2TNLConfigurationInfo
 		if err := dec_x2tnlconfigurationinfo.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding x2TNLConfigurationInfo: %w", err)
+			return runtime.WrapDecodePath(err, "X2TNLConfigurationInfo")
 		}
 		v.X2TNLConfigurationInfo = &dec_x2tnlconfigurationinfo
 	}
@@ -27711,14 +28131,14 @@ func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27749,7 +28169,7 @@ func (v *SONInformationReport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SONInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27758,7 +28178,7 @@ func (v *SONInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("SONInformationReport: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("SONInformationReport: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("SONInformationReport: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -27793,9 +28213,12 @@ func (v *SONInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SONInformationReport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SONInformationReport")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformationReport")
+	}
+	return nil
 }
 
 func (v *SONInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -27821,7 +28244,7 @@ func (v *SONInformationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case SONInformationReportChoiceRLFReportInformation:
 		var dec_rlfreportinformation RLFReportInformation
 		if err := dec_rlfreportinformation.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding rLFReportInformation: %w", err)
+			return runtime.WrapDecodePath(err, "RLFReportInformation")
 		}
 		v.RLFReportInformation = &dec_rlfreportinformation
 	}
@@ -27834,7 +28257,7 @@ func (v *SONConfigurationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27896,9 +28319,12 @@ func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SONConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SONConfigurationTransfer")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONConfigurationTransfer")
+	}
+	return nil
 }
 
 func (v *SONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -27913,13 +28339,13 @@ func (v *SONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.TargeteNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding targeteNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "TargeteNBID")
 	}
 	if err := v.SourceeNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sourceeNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "SourceeNBID")
 	}
 	if err := v.SONInformation.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding sONInformation: %w", err)
+		return runtime.WrapDecodePath(err, "SONInformation")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -27927,14 +28353,14 @@ func (v *SONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -27965,7 +28391,7 @@ func (v *SynchronisationInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28049,9 +28475,12 @@ func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SynchronisationInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SynchronisationInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SynchronisationInformation")
+	}
+	return nil
 }
 
 func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -28080,14 +28509,14 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_sourcestratumlevel {
 		val_sourcestratumlevel, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("3"), true)
 		if err != nil {
-			return fmt.Errorf("decoding sourceStratumLevel: %w", err)
+			return runtime.WrapDecodePath(err, "SourceStratumLevel")
 		}
 		v.SourceStratumLevel = val_sourcestratumlevel
 	}
 	if opt_listeningsubframepattern {
 		var dec_listeningsubframepattern ListeningSubframePattern
 		if err := dec_listeningsubframepattern.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding listeningSubframePattern: %w", err)
+			return runtime.WrapDecodePath(err, "ListeningSubframePattern")
 		}
 		v.ListeningSubframePattern = &dec_listeningsubframepattern
 	}
@@ -28097,14 +28526,14 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_aggressorecgilist; i++ {
 				var elem EUTRANCGI
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding aggressoreCGI-List element %d: %w", fragmentOffset_aggressorecgilist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("AggressoreCGIList[%d]", fragmentOffset_aggressorecgilist+i))
 				}
 				tmp_aggressorecgilist = append(tmp_aggressorecgilist, elem)
 			}
 			return nil
 		})
 		if errCollection_aggressorecgilist != nil {
-			return fmt.Errorf("decoding aggressoreCGI-List: %w", errCollection_aggressorecgilist)
+			return runtime.WrapDecodePath(errCollection_aggressorecgilist, "AggressoreCGIList")
 		}
 		v.AggressoreCGIList = tmp_aggressorecgilist
 	}
@@ -28114,14 +28543,14 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28152,7 +28581,7 @@ func (v *SourceeNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SourceeNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28185,9 +28614,12 @@ func (v *SourceeNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SourceeNBID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SourceeNBID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SourceeNBID")
+	}
+	return nil
 }
 
 func (v *SourceeNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -28198,10 +28630,10 @@ func (v *SourceeNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GlobalENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-ENB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalENBID")
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding selected-TAI: %w", err)
+		return runtime.WrapDecodePath(err, "SelectedTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -28209,14 +28641,14 @@ func (v *SourceeNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28229,7 +28661,7 @@ func (v *SourceNodeID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SourceNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28261,9 +28693,12 @@ func (v *SourceNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SourceNodeID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SourceNodeID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SourceNodeID")
+	}
+	return nil
 }
 
 func (v *SourceNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -28277,13 +28712,13 @@ func (v *SourceNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case SourceNodeIDChoiceSourceNgRanNodeID:
 		var dec_sourcengrannodeid SourceNgRanNodeID
 		if err := dec_sourcengrannodeid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding sourceNgRanNode-ID: %w", err)
+			return runtime.WrapDecodePath(err, "SourceNgRanNodeID")
 		}
 		v.SourceNgRanNodeID = &dec_sourcengrannodeid
 	case SourceNodeIDChoiceSourceNodeIDExtension:
 		var dec_sourcenodeidextension SourceNodeIDExtension
 		if err := dec_sourcenodeidextension.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding sourceNodeID-Extension: %w", err)
+			return runtime.WrapDecodePath(err, "SourceNodeIDExtension")
 		}
 		v.SourceNodeIDExtension = &dec_sourcenodeidextension
 	}
@@ -28296,7 +28731,7 @@ func (v *SourceNodeIDExtension) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SourceNodeIDExtension) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28316,26 +28751,29 @@ func (v *SourceNodeIDExtension) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SourceNodeIDExtension) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SourceNodeIDExtension")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SourceNodeIDExtension")
+	}
+	return nil
 }
 
 func (v *SourceNodeIDExtension) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = SourceNodeIDExtension{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
 	openData_value, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
@@ -28347,7 +28785,7 @@ func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPER() ([]byte, error)
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28439,9 +28877,12 @@ func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SourceeNBToTargeteNBTransparentContainer")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SourceeNBToTargeteNBTransparentContainer")
+	}
+	return nil
 }
 
 func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -28465,7 +28906,7 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	}
 	val_rrccontainer, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding rRC-Container: %w", err)
+		return runtime.WrapDecodePath(err, "RRCContainer")
 	}
 	v.RRCContainer = RRCContainer(val_rrccontainer)
 	if opt_erabinformationlist {
@@ -28474,24 +28915,24 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 			for i := int64(0); i < fragmentLength_erabinformationlist; i++ {
 				var elem ProtocolIESingleContainer
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding e-RABInformationList element %d: %w", fragmentOffset_erabinformationlist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ERABInformationList[%d]", fragmentOffset_erabinformationlist+i))
 				}
 				tmp_erabinformationlist = append(tmp_erabinformationlist, elem)
 			}
 			return nil
 		})
 		if errCollection_erabinformationlist != nil {
-			return fmt.Errorf("decoding e-RABInformationList: %w", errCollection_erabinformationlist)
+			return runtime.WrapDecodePath(errCollection_erabinformationlist, "ERABInformationList")
 		}
 		v.ERABInformationList = tmp_erabinformationlist
 	}
 	if err := v.TargetCellID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding targetCell-ID: %w", err)
+		return runtime.WrapDecodePath(err, "TargetCellID")
 	}
 	if opt_subscriberprofileidforrfp {
 		val_subscriberprofileidforrfp, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 		if err != nil {
-			return fmt.Errorf("decoding subscriberProfileIDforRFP: %w", err)
+			return runtime.WrapDecodePath(err, "SubscriberProfileIDforRFP")
 		}
 		tmp_subscriberprofileidforrfp := SubscriberProfileIDforRFP(val_subscriberprofileidforrfp)
 		v.SubscriberProfileIDforRFP = &tmp_subscriberprofileidforrfp
@@ -28501,14 +28942,14 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 		for i := int64(0); i < fragmentLength_uehistoryinformation; i++ {
 			var elem LastVisitedCellItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding uE-HistoryInformation element %d: %w", fragmentOffset_uehistoryinformation+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("UEHistoryInformation[%d]", fragmentOffset_uehistoryinformation+i))
 			}
 			v.UEHistoryInformation = append(v.UEHistoryInformation, elem)
 		}
 		return nil
 	})
 	if errCollection_uehistoryinformation != nil {
-		return fmt.Errorf("decoding uE-HistoryInformation: %w", errCollection_uehistoryinformation)
+		return runtime.WrapDecodePath(errCollection_uehistoryinformation, "UEHistoryInformation")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -28516,14 +28957,14 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28554,7 +28995,7 @@ func (v *SourceNgRanNodeID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SourceNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28613,9 +29054,12 @@ func (v *SourceNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SourceNgRanNodeID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SourceNgRanNodeID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SourceNgRanNodeID")
+	}
+	return nil
 }
 
 func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -28630,10 +29074,10 @@ func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GlobalRANNODEID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-RAN-NODE-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding selected-TAI: %w", err)
+		return runtime.WrapDecodePath(err, "SelectedTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -28641,14 +29085,14 @@ func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28681,7 +29125,7 @@ func MarshalAPERServedGUMMEIs(list ServedGUMMEIs) ([]byte, error) {
 	if err := MarshalAPERServedGUMMEIsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERServedGUMMEIsTo appends a ServedGUMMEIs list to bb.
@@ -28705,10 +29149,10 @@ func UnmarshalAPERServedGUMMEIs(data []byte) (ServedGUMMEIs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERServedGUMMEIsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedGUMMEIs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedGUMMEIs")
 	}
 	return value, nil
 }
@@ -28728,14 +29172,14 @@ func unmarshalAPERServedGUMMEIsInto(v *asn1cAPERServedGUMMEIsListValue, bb *per.
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ServedGUMMEIsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -28746,7 +29190,7 @@ func (v *ServedGUMMEIsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28829,9 +29273,12 @@ func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ServedGUMMEIsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ServedGUMMEIsItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ServedGUMMEIsItem")
+	}
+	return nil
 }
 
 func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -28850,42 +29297,42 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_servedplmns; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding servedPLMNs element %d: %w", fragmentOffset_servedplmns+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ServedPLMNs[%d]", fragmentOffset_servedplmns+i))
 			}
 			v.ServedPLMNs = append(v.ServedPLMNs, val)
 		}
 		return nil
 	})
 	if errCollection_servedplmns != nil {
-		return fmt.Errorf("decoding servedPLMNs: %w", errCollection_servedplmns)
+		return runtime.WrapDecodePath(errCollection_servedplmns, "ServedPLMNs")
 	}
 	v.ServedGroupIDs = make(ServedGroupIDs, 0)
 	_, errCollection_servedgroupids := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_servedgroupids, fragmentLength_servedgroupids int64) error {
 		for i := int64(0); i < fragmentLength_servedgroupids; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding servedGroupIDs element %d: %w", fragmentOffset_servedgroupids+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ServedGroupIDs[%d]", fragmentOffset_servedgroupids+i))
 			}
 			v.ServedGroupIDs = append(v.ServedGroupIDs, val)
 		}
 		return nil
 	})
 	if errCollection_servedgroupids != nil {
-		return fmt.Errorf("decoding servedGroupIDs: %w", errCollection_servedgroupids)
+		return runtime.WrapDecodePath(errCollection_servedgroupids, "ServedGroupIDs")
 	}
 	v.ServedMMECs = make(ServedMMECs, 0)
 	_, errCollection_servedmmecs := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_servedmmecs, fragmentLength_servedmmecs int64) error {
 		for i := int64(0); i < fragmentLength_servedmmecs; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 			if err != nil {
-				return fmt.Errorf("decoding servedMMECs element %d: %w", fragmentOffset_servedmmecs+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ServedMMECs[%d]", fragmentOffset_servedmmecs+i))
 			}
 			v.ServedMMECs = append(v.ServedMMECs, val)
 		}
 		return nil
 	})
 	if errCollection_servedmmecs != nil {
-		return fmt.Errorf("decoding servedMMECs: %w", errCollection_servedmmecs)
+		return runtime.WrapDecodePath(errCollection_servedmmecs, "ServedMMECs")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -28893,14 +29340,14 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -28933,7 +29380,7 @@ func MarshalAPERServedGroupIDs(list ServedGroupIDs) ([]byte, error) {
 	if err := MarshalAPERServedGroupIDsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERServedGroupIDsTo appends a ServedGroupIDs list to bb.
@@ -28957,10 +29404,10 @@ func UnmarshalAPERServedGroupIDs(data []byte) (ServedGroupIDs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERServedGroupIDsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedGroupIDs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedGroupIDs")
 	}
 	return value, nil
 }
@@ -28980,14 +29427,14 @@ func unmarshalAPERServedGroupIDsInto(v *asn1cAPERServedGroupIDsListValue, bb *pe
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -29000,7 +29447,7 @@ func MarshalAPERServedMMECs(list ServedMMECs) ([]byte, error) {
 	if err := MarshalAPERServedMMECsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERServedMMECsTo appends a ServedMMECs list to bb.
@@ -29024,10 +29471,10 @@ func UnmarshalAPERServedMMECs(data []byte) (ServedMMECs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERServedMMECsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedMMECs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedMMECs")
 	}
 	return value, nil
 }
@@ -29047,14 +29494,14 @@ func unmarshalAPERServedMMECsInto(v *asn1cAPERServedMMECsListValue, bb *per.BitB
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -29067,7 +29514,7 @@ func MarshalAPERServedPLMNs(list ServedPLMNs) ([]byte, error) {
 	if err := MarshalAPERServedPLMNsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERServedPLMNsTo appends a ServedPLMNs list to bb.
@@ -29091,10 +29538,10 @@ func UnmarshalAPERServedPLMNs(data []byte) (ServedPLMNs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERServedPLMNsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedPLMNs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ServedPLMNs")
 	}
 	return value, nil
 }
@@ -29114,14 +29561,14 @@ func unmarshalAPERServedPLMNsInto(v *asn1cAPERServedPLMNsListValue, bb *per.BitB
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -29132,7 +29579,7 @@ func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29233,9 +29680,12 @@ func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPERTo(bb *per.BitBuffer
 func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SubscriptionBasedUEDifferentiationInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SubscriptionBasedUEDifferentiationInfo")
+	}
+	return nil
 }
 
 func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -29276,42 +29726,42 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPERFrom(bb *per.BitBu
 	if opt_periodiccommunicationindicator {
 		val_periodiccommunicationindicator, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding periodicCommunicationIndicator: %w", err)
+			return runtime.WrapDecodePath(err, "PeriodicCommunicationIndicator")
 		}
 		v.PeriodicCommunicationIndicator = &val_periodiccommunicationindicator
 	}
 	if opt_periodictime {
 		val_periodictime, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("3600"), true)
 		if err != nil {
-			return fmt.Errorf("decoding periodicTime: %w", err)
+			return runtime.WrapDecodePath(err, "PeriodicTime")
 		}
 		v.PeriodicTime = val_periodictime
 	}
 	if opt_scheduledcommunicationtime {
 		var dec_scheduledcommunicationtime ScheduledCommunicationTime
 		if err := dec_scheduledcommunicationtime.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding scheduledCommunicationTime: %w", err)
+			return runtime.WrapDecodePath(err, "ScheduledCommunicationTime")
 		}
 		v.ScheduledCommunicationTime = &dec_scheduledcommunicationtime
 	}
 	if opt_stationaryindication {
 		val_stationaryindication, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding stationaryIndication: %w", err)
+			return runtime.WrapDecodePath(err, "StationaryIndication")
 		}
 		v.StationaryIndication = &val_stationaryindication
 	}
 	if opt_trafficprofile {
 		val_trafficprofile, err := per.DecodeEnumeratedAligned(bb, 3, true)
 		if err != nil {
-			return fmt.Errorf("decoding trafficProfile: %w", err)
+			return runtime.WrapDecodePath(err, "TrafficProfile")
 		}
 		v.TrafficProfile = &val_trafficprofile
 	}
 	if opt_batteryindication {
 		val_batteryindication, err := per.DecodeEnumeratedAligned(bb, 3, true)
 		if err != nil {
-			return fmt.Errorf("decoding batteryIndication: %w", err)
+			return runtime.WrapDecodePath(err, "BatteryIndication")
 		}
 		v.BatteryIndication = &val_batteryindication
 	}
@@ -29321,14 +29771,14 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPERFrom(bb *per.BitBu
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29359,7 +29809,7 @@ func (v *ScheduledCommunicationTime) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ScheduledCommunicationTime) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29436,9 +29886,12 @@ func (v *ScheduledCommunicationTime) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ScheduledCommunicationTime) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ScheduledCommunicationTime")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ScheduledCommunicationTime")
+	}
+	return nil
 }
 
 func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -29467,7 +29920,7 @@ func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_dayofweek {
 		bsBytes_dayofweek, bsBitLen_dayofweek, err := per.DecodeBitStringAligned(bb, 7, 7, true)
 		if err != nil {
-			return fmt.Errorf("decoding dayofWeek: %w", err)
+			return runtime.WrapDecodePath(err, "DayofWeek")
 		}
 		tmp_dayofweek := runtime.BitString{Bytes: bsBytes_dayofweek, BitLength: bsBitLen_dayofweek}
 		v.DayofWeek = &tmp_dayofweek
@@ -29475,14 +29928,14 @@ func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_timeofdaystart {
 		val_timeofdaystart, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("86399"), true)
 		if err != nil {
-			return fmt.Errorf("decoding timeofDayStart: %w", err)
+			return runtime.WrapDecodePath(err, "TimeofDayStart")
 		}
 		v.TimeofDayStart = val_timeofdaystart
 	}
 	if opt_timeofdayend {
 		val_timeofdayend, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("86399"), true)
 		if err != nil {
-			return fmt.Errorf("decoding timeofDayEnd: %w", err)
+			return runtime.WrapDecodePath(err, "TimeofDayEnd")
 		}
 		v.TimeofDayEnd = val_timeofdayend
 	}
@@ -29492,14 +29945,14 @@ func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29532,7 +29985,7 @@ func MarshalAPERSupportedTAs(list SupportedTAs) ([]byte, error) {
 	if err := MarshalAPERSupportedTAsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERSupportedTAsTo appends a SupportedTAs list to bb.
@@ -29556,10 +30009,10 @@ func UnmarshalAPERSupportedTAs(data []byte) (SupportedTAs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERSupportedTAsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SupportedTAs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "SupportedTAs")
 	}
 	return value, nil
 }
@@ -29579,14 +30032,14 @@ func unmarshalAPERSupportedTAsInto(v *asn1cAPERSupportedTAsListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SupportedTAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -29597,7 +30050,7 @@ func (v *SupportedTAsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *SupportedTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29663,9 +30116,12 @@ func (v *SupportedTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *SupportedTAsItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "SupportedTAsItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SupportedTAsItem")
+	}
+	return nil
 }
 
 func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -29681,7 +30137,7 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_tac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding tAC: %w", err)
+		return runtime.WrapDecodePath(err, "TAC")
 	}
 	v.TAC = TAC(val_tac)
 	v.BroadcastPLMNs = make(BPLMNs, 0)
@@ -29689,14 +30145,14 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_broadcastplmns; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
-				return fmt.Errorf("decoding broadcastPLMNs element %d: %w", fragmentOffset_broadcastplmns+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("BroadcastPLMNs[%d]", fragmentOffset_broadcastplmns+i))
 			}
 			v.BroadcastPLMNs = append(v.BroadcastPLMNs, val)
 		}
 		return nil
 	})
 	if errCollection_broadcastplmns != nil {
-		return fmt.Errorf("decoding broadcastPLMNs: %w", errCollection_broadcastplmns)
+		return runtime.WrapDecodePath(errCollection_broadcastplmns, "BroadcastPLMNs")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -29704,14 +30160,14 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29742,7 +30198,7 @@ func (v *TimeSynchronisationInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29801,9 +30257,12 @@ func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TimeSynchronisationInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TimeSynchronisationInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TimeSynchronisationInfo")
+	}
+	return nil
 }
 
 func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -29819,12 +30278,12 @@ func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_stratumlevel, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("3"), true)
 	if err != nil {
-		return fmt.Errorf("decoding stratumLevel: %w", err)
+		return runtime.WrapDecodePath(err, "StratumLevel")
 	}
 	v.StratumLevel = val_stratumlevel
 	val_synchronisationstatus, err := per.DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding synchronisationStatus: %w", err)
+		return runtime.WrapDecodePath(err, "SynchronisationStatus")
 	}
 	v.SynchronisationStatus = SynchronisationStatus(val_synchronisationstatus)
 	if opt_ieextensions {
@@ -29833,14 +30292,14 @@ func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -29871,7 +30330,7 @@ func (v *STMSI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29930,9 +30389,12 @@ func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *STMSI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "STMSI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "STMSI")
+	}
+	return nil
 }
 
 func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -29948,12 +30410,12 @@ func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_mmec, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding mMEC: %w", err)
+		return runtime.WrapDecodePath(err, "MMEC")
 	}
 	v.MMEC = MMECode(val_mmec)
 	val_mtmsi, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding m-TMSI: %w", err)
+		return runtime.WrapDecodePath(err, "MTMSI")
 	}
 	v.MTMSI = MTMSI(val_mtmsi)
 	if opt_ieextensions {
@@ -29962,14 +30424,14 @@ func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30002,7 +30464,7 @@ func MarshalAPERTACListInLTENTN(list TACListInLTENTN) ([]byte, error) {
 	if err := MarshalAPERTACListInLTENTNTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTACListInLTENTNTo appends a TACListInLTENTN list to bb.
@@ -30026,10 +30488,10 @@ func UnmarshalAPERTACListInLTENTN(data []byte) (TACListInLTENTN, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTACListInLTENTNFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TACListInLTENTN")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TACListInLTENTN")
 	}
 	return value, nil
 }
@@ -30049,14 +30511,14 @@ func unmarshalAPERTACListInLTENTNInto(v *asn1cAPERTACListInLTENTNListValue, bb *
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -30067,7 +30529,7 @@ func (v *TAIBasedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TAIBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30130,9 +30592,12 @@ func (v *TAIBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TAIBasedMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TAIBasedMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TAIBasedMDT")
+	}
+	return nil
 }
 
 func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -30151,14 +30616,14 @@ func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_tailistformdt; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding tAIListforMDT element %d: %w", fragmentOffset_tailistformdt+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("TAIListforMDT[%d]", fragmentOffset_tailistformdt+i))
 			}
 			v.TAIListforMDT = append(v.TAIListforMDT, elem)
 		}
 		return nil
 	})
 	if errCollection_tailistformdt != nil {
-		return fmt.Errorf("decoding tAIListforMDT: %w", errCollection_tailistformdt)
+		return runtime.WrapDecodePath(errCollection_tailistformdt, "TAIListforMDT")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -30166,14 +30631,14 @@ func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30206,7 +30671,7 @@ func MarshalAPERTAIListforMDT(list TAIListforMDT) ([]byte, error) {
 	if err := MarshalAPERTAIListforMDTTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAIListforMDTTo appends a TAIListforMDT list to bb.
@@ -30230,10 +30695,10 @@ func UnmarshalAPERTAIListforMDT(data []byte) (TAIListforMDT, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAIListforMDTFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListforMDT")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListforMDT")
 	}
 	return value, nil
 }
@@ -30253,14 +30718,14 @@ func unmarshalAPERTAIListforMDTInto(v *asn1cAPERTAIListforMDTListValue, bb *per.
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -30273,7 +30738,7 @@ func MarshalAPERTAIListforWarning(list TAIListforWarning) ([]byte, error) {
 	if err := MarshalAPERTAIListforWarningTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAIListforWarningTo appends a TAIListforWarning list to bb.
@@ -30297,10 +30762,10 @@ func UnmarshalAPERTAIListforWarning(data []byte) (TAIListforWarning, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAIListforWarningFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListforWarning")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListforWarning")
 	}
 	return value, nil
 }
@@ -30320,14 +30785,14 @@ func unmarshalAPERTAIListforWarningInto(v *asn1cAPERTAIListforWarningListValue, 
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -30338,7 +30803,7 @@ func (v *TAI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30397,9 +30862,12 @@ func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TAI) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TAI")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TAI")
+	}
+	return nil
 }
 
 func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -30415,12 +30883,12 @@ func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMNidentity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNidentity")
 	}
 	v.PLMNidentity = PLMNidentity(val_plmnidentity)
 	val_tac, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 	if err != nil {
-		return fmt.Errorf("decoding tAC: %w", err)
+		return runtime.WrapDecodePath(err, "TAC")
 	}
 	v.TAC = TAC(val_tac)
 	if opt_ieextensions {
@@ -30429,14 +30897,14 @@ func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30469,7 +30937,7 @@ func MarshalAPERTAIBroadcast(list TAIBroadcast) ([]byte, error) {
 	if err := MarshalAPERTAIBroadcastTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAIBroadcastTo appends a TAIBroadcast list to bb.
@@ -30493,10 +30961,10 @@ func UnmarshalAPERTAIBroadcast(data []byte) (TAIBroadcast, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAIBroadcastFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIBroadcast")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIBroadcast")
 	}
 	return value, nil
 }
@@ -30516,14 +30984,14 @@ func unmarshalAPERTAIBroadcastInto(v *asn1cAPERTAIBroadcastListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAIBroadcastItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -30534,7 +31002,7 @@ func (v *TAIBroadcastItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TAIBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30600,9 +31068,12 @@ func (v *TAIBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TAIBroadcastItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TAIBroadcastItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TAIBroadcastItem")
+	}
+	return nil
 }
 
 func (v *TAIBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -30617,21 +31088,21 @@ func (v *TAIBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.TAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tAI: %w", err)
+		return runtime.WrapDecodePath(err, "TAI")
 	}
 	v.CompletedCellinTAI = make(CompletedCellinTAI, 0)
 	_, errCollection_completedcellintai := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_completedcellintai, fragmentLength_completedcellintai int64) error {
 		for i := int64(0); i < fragmentLength_completedcellintai; i++ {
 			var elem CompletedCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding completedCellinTAI element %d: %w", fragmentOffset_completedcellintai+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CompletedCellinTAI[%d]", fragmentOffset_completedcellintai+i))
 			}
 			v.CompletedCellinTAI = append(v.CompletedCellinTAI, elem)
 		}
 		return nil
 	})
 	if errCollection_completedcellintai != nil {
-		return fmt.Errorf("decoding completedCellinTAI: %w", errCollection_completedcellintai)
+		return runtime.WrapDecodePath(errCollection_completedcellintai, "CompletedCellinTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -30639,14 +31110,14 @@ func (v *TAIBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30679,7 +31150,7 @@ func MarshalAPERTAICancelled(list TAICancelled) ([]byte, error) {
 	if err := MarshalAPERTAICancelledTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAICancelledTo appends a TAICancelled list to bb.
@@ -30703,10 +31174,10 @@ func UnmarshalAPERTAICancelled(data []byte) (TAICancelled, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAICancelledFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAICancelled")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAICancelled")
 	}
 	return value, nil
 }
@@ -30726,14 +31197,14 @@ func unmarshalAPERTAICancelledInto(v *asn1cAPERTAICancelledListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAICancelledItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -30744,7 +31215,7 @@ func (v *TAICancelledItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TAICancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30810,9 +31281,12 @@ func (v *TAICancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TAICancelledItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TAICancelledItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TAICancelledItem")
+	}
+	return nil
 }
 
 func (v *TAICancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -30827,21 +31301,21 @@ func (v *TAICancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.TAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tAI: %w", err)
+		return runtime.WrapDecodePath(err, "TAI")
 	}
 	v.CancelledCellinTAI = make(CancelledCellinTAI, 0)
 	_, errCollection_cancelledcellintai := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cancelledcellintai, fragmentLength_cancelledcellintai int64) error {
 		for i := int64(0); i < fragmentLength_cancelledcellintai; i++ {
 			var elem CancelledCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding cancelledCellinTAI element %d: %w", fragmentOffset_cancelledcellintai+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("CancelledCellinTAI[%d]", fragmentOffset_cancelledcellintai+i))
 			}
 			v.CancelledCellinTAI = append(v.CancelledCellinTAI, elem)
 		}
 		return nil
 	})
 	if errCollection_cancelledcellintai != nil {
-		return fmt.Errorf("decoding cancelledCellinTAI: %w", errCollection_cancelledcellintai)
+		return runtime.WrapDecodePath(errCollection_cancelledcellintai, "CancelledCellinTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -30849,14 +31323,14 @@ func (v *TAICancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -30887,7 +31361,7 @@ func (v *TABasedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30950,9 +31424,12 @@ func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TABasedMDT) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TABasedMDT")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TABasedMDT")
+	}
+	return nil
 }
 
 func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -30971,14 +31448,14 @@ func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_talistformdt; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding tAListforMDT element %d: %w", fragmentOffset_talistformdt+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("TAListforMDT[%d]", fragmentOffset_talistformdt+i))
 			}
 			v.TAListforMDT = append(v.TAListforMDT, val)
 		}
 		return nil
 	})
 	if errCollection_talistformdt != nil {
-		return fmt.Errorf("decoding tAListforMDT: %w", errCollection_talistformdt)
+		return runtime.WrapDecodePath(errCollection_talistformdt, "TAListforMDT")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -30986,14 +31463,14 @@ func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31026,7 +31503,7 @@ func MarshalAPERTAListforMDT(list TAListforMDT) ([]byte, error) {
 	if err := MarshalAPERTAListforMDTTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAListforMDTTo appends a TAListforMDT list to bb.
@@ -31050,10 +31527,10 @@ func UnmarshalAPERTAListforMDT(data []byte) (TAListforMDT, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAListforMDTFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAListforMDT")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAListforMDT")
 	}
 	return value, nil
 }
@@ -31073,14 +31550,14 @@ func unmarshalAPERTAListforMDTInto(v *asn1cAPERTAListforMDTListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -31091,7 +31568,7 @@ func (v *TABasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31154,9 +31631,12 @@ func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TABasedQMC) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TABasedQMC")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TABasedQMC")
+	}
+	return nil
 }
 
 func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -31175,14 +31655,14 @@ func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_talistforqmc; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding tAListforQMC element %d: %w", fragmentOffset_talistforqmc+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("TAListforQMC[%d]", fragmentOffset_talistforqmc+i))
 			}
 			v.TAListforQMC = append(v.TAListforQMC, val)
 		}
 		return nil
 	})
 	if errCollection_talistforqmc != nil {
-		return fmt.Errorf("decoding tAListforQMC: %w", errCollection_talistforqmc)
+		return runtime.WrapDecodePath(errCollection_talistforqmc, "TAListforQMC")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -31190,14 +31670,14 @@ func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31230,7 +31710,7 @@ func MarshalAPERTAListforQMC(list TAListforQMC) ([]byte, error) {
 	if err := MarshalAPERTAListforQMCTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAListforQMCTo appends a TAListforQMC list to bb.
@@ -31254,10 +31734,10 @@ func UnmarshalAPERTAListforQMC(data []byte) (TAListforQMC, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAListforQMCFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAListforQMC")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAListforQMC")
 	}
 	return value, nil
 }
@@ -31277,14 +31757,14 @@ func unmarshalAPERTAListforQMCInto(v *asn1cAPERTAListforQMCListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -31295,7 +31775,7 @@ func (v *TAIBasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31358,9 +31838,12 @@ func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TAIBasedQMC) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TAIBasedQMC")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TAIBasedQMC")
+	}
+	return nil
 }
 
 func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -31379,14 +31862,14 @@ func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_tailistforqmc; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding tAIListforQMC element %d: %w", fragmentOffset_tailistforqmc+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("TAIListforQMC[%d]", fragmentOffset_tailistforqmc+i))
 			}
 			v.TAIListforQMC = append(v.TAIListforQMC, elem)
 		}
 		return nil
 	})
 	if errCollection_tailistforqmc != nil {
-		return fmt.Errorf("decoding tAIListforQMC: %w", errCollection_tailistforqmc)
+		return runtime.WrapDecodePath(errCollection_tailistforqmc, "TAIListforQMC")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -31394,14 +31877,14 @@ func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31434,7 +31917,7 @@ func MarshalAPERTAIListforQMC(list TAIListforQMC) ([]byte, error) {
 	if err := MarshalAPERTAIListforQMCTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAIListforQMCTo appends a TAIListforQMC list to bb.
@@ -31458,10 +31941,10 @@ func UnmarshalAPERTAIListforQMC(data []byte) (TAIListforQMC, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAIListforQMCFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListforQMC")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListforQMC")
 	}
 	return value, nil
 }
@@ -31481,14 +31964,14 @@ func unmarshalAPERTAIListforQMCInto(v *asn1cAPERTAIListforQMCListValue, bb *per.
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -31501,7 +31984,7 @@ func MarshalAPERCompletedCellinTAI(list CompletedCellinTAI) ([]byte, error) {
 	if err := MarshalAPERCompletedCellinTAITo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERCompletedCellinTAITo appends a CompletedCellinTAI list to bb.
@@ -31525,10 +32008,10 @@ func UnmarshalAPERCompletedCellinTAI(data []byte) (CompletedCellinTAI, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERCompletedCellinTAIFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CompletedCellinTAI")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "CompletedCellinTAI")
 	}
 	return value, nil
 }
@@ -31548,14 +32031,14 @@ func unmarshalAPERCompletedCellinTAIInto(v *asn1cAPERCompletedCellinTAIListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CompletedCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -31566,7 +32049,7 @@ func (v *CompletedCellinTAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *CompletedCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31622,9 +32105,12 @@ func (v *CompletedCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *CompletedCellinTAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "CompletedCellinTAIItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "CompletedCellinTAIItem")
+	}
+	return nil
 }
 
 func (v *CompletedCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -31639,7 +32125,7 @@ func (v *CompletedCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.ECGI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eCGI: %w", err)
+		return runtime.WrapDecodePath(err, "ECGI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -31647,14 +32133,14 @@ func (v *CompletedCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31685,13 +32171,16 @@ func (v *TargetID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TargetID) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("TargetID: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("TargetID: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if v.UnknownExtension.Index < 1 {
 			return fmt.Errorf("TargetID: extension index %d is known to this schema", v.UnknownExtension.Index)
@@ -31724,7 +32213,7 @@ func (v *TargetID) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown TargetID extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.Bytes()); err != nil {
+		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
 			return err
 		}
 		return nil
@@ -31764,9 +32253,12 @@ func (v *TargetID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TargetID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TargetID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TargetID")
+	}
+	return nil
 }
 
 func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -31794,7 +32286,7 @@ func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		case TargetIDChoiceTargetgNgRanNodeID:
 			var dec_targetgngrannodeid TargetNgRanNodeID
 			if err := dec_targetgngrannodeid.UnmarshalAPERFrom(inner); err != nil {
-				return fmt.Errorf("decoding targetgNgRanNode-ID: %w", err)
+				return runtime.WrapDecodePath(err, "TargetgNgRanNodeID")
 			}
 			v.TargetgNgRanNodeID = &dec_targetgngrannodeid
 		}
@@ -31812,19 +32304,19 @@ func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case TargetIDChoiceTargeteNBID:
 		var dec_targetenbid TargeteNBID
 		if err := dec_targetenbid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding targeteNB-ID: %w", err)
+			return runtime.WrapDecodePath(err, "TargeteNBID")
 		}
 		v.TargeteNBID = &dec_targetenbid
 	case TargetIDChoiceTargetRNCID:
 		var dec_targetrncid TargetRNCID
 		if err := dec_targetrncid.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding targetRNC-ID: %w", err)
+			return runtime.WrapDecodePath(err, "TargetRNCID")
 		}
 		v.TargetRNCID = &dec_targetrncid
 	case TargetIDChoiceCGI:
 		var dec_cgi CGI
 		if err := dec_cgi.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding cGI: %w", err)
+			return runtime.WrapDecodePath(err, "CGI")
 		}
 		v.CGI = &dec_cgi
 	}
@@ -31837,7 +32329,7 @@ func (v *TargeteNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31896,9 +32388,12 @@ func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TargeteNBID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TargeteNBID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TargeteNBID")
+	}
+	return nil
 }
 
 func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -31913,10 +32408,10 @@ func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GlobalENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-ENB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalENBID")
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding selected-TAI: %w", err)
+		return runtime.WrapDecodePath(err, "SelectedTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -31924,14 +32419,14 @@ func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -31962,7 +32457,7 @@ func (v *TargetRNCID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TargetRNCID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32037,9 +32532,12 @@ func (v *TargetRNCID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TargetRNCID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TargetRNCID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TargetRNCID")
+	}
+	return nil
 }
 
 func (v *TargetRNCID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32062,25 +32560,25 @@ func (v *TargetRNCID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.LAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding lAI: %w", err)
+		return runtime.WrapDecodePath(err, "LAI")
 	}
 	if opt_rac {
 		val_rac, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding rAC: %w", err)
+			return runtime.WrapDecodePath(err, "RAC")
 		}
 		tmp_rac := RAC(val_rac)
 		v.RAC = &tmp_rac
 	}
 	val_rncid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 	if err != nil {
-		return fmt.Errorf("decoding rNC-ID: %w", err)
+		return runtime.WrapDecodePath(err, "RNCID")
 	}
 	v.RNCID = RNCID(val_rncid)
 	if opt_extendedrncid {
 		val_extendedrncid, err := per.DecodeIntegerAligned(bb, int64Ptr(4096), int64Ptr(65535), false)
 		if err != nil {
-			return fmt.Errorf("decoding extendedRNC-ID: %w", err)
+			return runtime.WrapDecodePath(err, "ExtendedRNCID")
 		}
 		tmp_extendedrncid := ExtendedRNCID(val_extendedrncid)
 		v.ExtendedRNCID = &tmp_extendedrncid
@@ -32091,14 +32589,14 @@ func (v *TargetRNCID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32129,7 +32627,7 @@ func (v *TargetNgRanNodeID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32188,9 +32686,12 @@ func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TargetNgRanNodeID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TargetNgRanNodeID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TargetNgRanNodeID")
+	}
+	return nil
 }
 
 func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32205,10 +32706,10 @@ func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GlobalRANNODEID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-RAN-NODE-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
 	}
 	if err := v.SelectedTAI.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding selected-TAI: %w", err)
+		return runtime.WrapDecodePath(err, "SelectedTAI")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -32216,14 +32717,14 @@ func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32254,7 +32755,7 @@ func (v *GlobalRANNODEID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GlobalRANNODEID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32263,7 +32764,7 @@ func (v *GlobalRANNODEID) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("GlobalRANNODEID: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("GlobalRANNODEID: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("GlobalRANNODEID: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -32308,9 +32809,12 @@ func (v *GlobalRANNODEID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GlobalRANNODEID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
+	}
+	return nil
 }
 
 func (v *GlobalRANNODEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32340,13 +32844,13 @@ func (v *GlobalRANNODEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case GlobalRANNODEIDChoiceGNB:
 		var dec_gnb GNB
 		if err := dec_gnb.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding gNB: %w", err)
+			return runtime.WrapDecodePath(err, "GNB")
 		}
 		v.GNB = &dec_gnb
 	case GlobalRANNODEIDChoiceNgENB:
 		var dec_ngenb NGENB
 		if err := dec_ngenb.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding ng-eNB: %w", err)
+			return runtime.WrapDecodePath(err, "NgENB")
 		}
 		v.NgENB = &dec_ngenb
 	}
@@ -32359,7 +32863,7 @@ func (v *GNB) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GNB) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32415,9 +32919,12 @@ func (v *GNB) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GNB) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GNB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GNB")
+	}
+	return nil
 }
 
 func (v *GNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32432,7 +32939,7 @@ func (v *GNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GlobalGNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-gNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalGNBID")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -32440,14 +32947,14 @@ func (v *GNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32478,7 +32985,7 @@ func (v *GlobalGNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GlobalGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32537,9 +33044,12 @@ func (v *GlobalGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GlobalGNBID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GlobalGNBID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GlobalGNBID")
+	}
+	return nil
 }
 
 func (v *GlobalGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32555,11 +33065,11 @@ func (v *GlobalGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_plmnidentity, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 	if err != nil {
-		return fmt.Errorf("decoding pLMN-Identity: %w", err)
+		return runtime.WrapDecodePath(err, "PLMNIdentity")
 	}
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	if err := v.GNBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding gNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GNBID")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -32567,14 +33077,14 @@ func (v *GlobalGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32605,7 +33115,7 @@ func (v *GNBIdentity) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *GNBIdentity) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32614,7 +33124,7 @@ func (v *GNBIdentity) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("GNBIdentity: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("GNBIdentity: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("GNBIdentity: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -32649,9 +33159,12 @@ func (v *GNBIdentity) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *GNBIdentity) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "GNBIdentity")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "GNBIdentity")
+	}
+	return nil
 }
 
 func (v *GNBIdentity) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32677,7 +33190,7 @@ func (v *GNBIdentity) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case GNBIdentityChoiceGNBID:
 		bsBytes_gnbid, bsBitLen_gnbid, err := per.DecodeBitStringAligned(bb, 22, 32, true)
 		if err != nil {
-			return fmt.Errorf("decoding gNB-ID: %w", err)
+			return runtime.WrapDecodePath(err, "GNBID")
 		}
 		tmp_gnbid := runtime.BitString{Bytes: bsBytes_gnbid, BitLength: bsBitLen_gnbid}
 		v.GNBID = &tmp_gnbid
@@ -32691,7 +33204,7 @@ func (v *NGENB) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *NGENB) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32747,9 +33260,12 @@ func (v *NGENB) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *NGENB) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "NGENB")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "NGENB")
+	}
+	return nil
 }
 
 func (v *NGENB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32764,7 +33280,7 @@ func (v *NGENB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.GlobalNgENBID.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding global-ng-eNB-ID: %w", err)
+		return runtime.WrapDecodePath(err, "GlobalNgENBID")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -32772,14 +33288,14 @@ func (v *NGENB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32810,7 +33326,7 @@ func (v *TargeteNBToSourceeNBTransparentContainer) MarshalAPER() ([]byte, error)
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TargeteNBToSourceeNBTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32866,9 +33382,12 @@ func (v *TargeteNBToSourceeNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TargeteNBToSourceeNBTransparentContainer")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TargeteNBToSourceeNBTransparentContainer")
+	}
+	return nil
 }
 
 func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -32884,7 +33403,7 @@ func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	}
 	val_rrccontainer, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
-		return fmt.Errorf("decoding rRC-Container: %w", err)
+		return runtime.WrapDecodePath(err, "RRCContainer")
 	}
 	v.RRCContainer = RRCContainer(val_rrccontainer)
 	if opt_ieextensions {
@@ -32893,14 +33412,14 @@ func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -32931,7 +33450,7 @@ func (v *M1ThresholdEventA2) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32987,9 +33506,12 @@ func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *M1ThresholdEventA2) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "M1ThresholdEventA2")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "M1ThresholdEventA2")
+	}
+	return nil
 }
 
 func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33004,7 +33526,7 @@ func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.MeasurementThreshold.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding measurementThreshold: %w", err)
+		return runtime.WrapDecodePath(err, "MeasurementThreshold")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -33012,14 +33534,14 @@ func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -33050,7 +33572,7 @@ func (v *TimeBasedHandoverInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TimeBasedHandoverInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33109,9 +33631,12 @@ func (v *TimeBasedHandoverInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TimeBasedHandoverInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TimeBasedHandoverInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TimeBasedHandoverInformation")
+	}
+	return nil
 }
 
 func (v *TimeBasedHandoverInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33127,12 +33652,12 @@ func (v *TimeBasedHandoverInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	val_howindowstart, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1048575), false)
 	if err != nil {
-		return fmt.Errorf("decoding hOWindowStart: %w", err)
+		return runtime.WrapDecodePath(err, "HOWindowStart")
 	}
 	v.HOWindowStart = HandoverWindowStart(val_howindowstart)
 	val_howindowduration, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(6000), false)
 	if err != nil {
-		return fmt.Errorf("decoding hOWindowDuration: %w", err)
+		return runtime.WrapDecodePath(err, "HOWindowDuration")
 	}
 	v.HOWindowDuration = HandoverWindowDuration(val_howindowduration)
 	if opt_ieextensions {
@@ -33141,14 +33666,14 @@ func (v *TimeBasedHandoverInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -33179,7 +33704,7 @@ func (v *TransportInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TransportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33222,9 +33747,12 @@ func (v *TransportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TransportInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TransportInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TransportInformation")
+	}
+	return nil
 }
 
 func (v *TransportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33235,12 +33763,12 @@ func (v *TransportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+		return runtime.WrapDecodePath(err, "TransportLayerAddress")
 	}
 	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
 	val_ulgtpteid, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 	if err != nil {
-		return fmt.Errorf("decoding uL-GTP-TEID: %w", err)
+		return runtime.WrapDecodePath(err, "ULGTPTEID")
 	}
 	v.ULGTPTEID = GTPTEID(val_ulgtpteid)
 	if hasExtensions {
@@ -33270,7 +33798,7 @@ func (v *TraceActivation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TraceActivation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33335,9 +33863,12 @@ func (v *TraceActivation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TraceActivation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TraceActivation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TraceActivation")
+	}
+	return nil
 }
 
 func (v *TraceActivation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33353,22 +33884,22 @@ func (v *TraceActivation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_eutrantraceid, err := per.DecodeOctetStringAligned(bb, 8, 8, true)
 	if err != nil {
-		return fmt.Errorf("decoding e-UTRAN-Trace-ID: %w", err)
+		return runtime.WrapDecodePath(err, "EUTRANTraceID")
 	}
 	v.EUTRANTraceID = EUTRANTraceID(val_eutrantraceid)
 	bsBytes_interfacestotrace, bsBitLen_interfacestotrace, err := per.DecodeBitStringAligned(bb, 8, 8, true)
 	if err != nil {
-		return fmt.Errorf("decoding interfacesToTrace: %w", err)
+		return runtime.WrapDecodePath(err, "InterfacesToTrace")
 	}
 	v.InterfacesToTrace = runtime.BitString{Bytes: bsBytes_interfacestotrace, BitLength: bsBitLen_interfacestotrace}
 	val_tracedepth, err := per.DecodeEnumeratedAligned(bb, 6, true)
 	if err != nil {
-		return fmt.Errorf("decoding traceDepth: %w", err)
+		return runtime.WrapDecodePath(err, "TraceDepth")
 	}
 	v.TraceDepth = TraceDepth(val_tracedepth)
 	bsBytes_tracecollectionentityipaddress, bsBitLen_tracecollectionentityipaddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding traceCollectionEntityIPAddress: %w", err)
+		return runtime.WrapDecodePath(err, "TraceCollectionEntityIPAddress")
 	}
 	v.TraceCollectionEntityIPAddress = runtime.BitString{Bytes: bsBytes_tracecollectionentityipaddress, BitLength: bsBitLen_tracecollectionentityipaddress}
 	if opt_ieextensions {
@@ -33377,14 +33908,14 @@ func (v *TraceActivation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -33415,7 +33946,7 @@ func (v *TunnelInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *TunnelInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33479,9 +34010,12 @@ func (v *TunnelInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *TunnelInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "TunnelInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "TunnelInformation")
+	}
+	return nil
 }
 
 func (v *TunnelInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33501,13 +34035,13 @@ func (v *TunnelInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_transportlayeraddress, bsBitLen_transportlayeraddress, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding transportLayerAddress: %w", err)
+		return runtime.WrapDecodePath(err, "TransportLayerAddress")
 	}
 	v.TransportLayerAddress = runtime.BitString{Bytes: bsBytes_transportlayeraddress, BitLength: bsBitLen_transportlayeraddress}
 	if opt_udpportnumber {
 		val_udpportnumber, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding uDP-Port-Number: %w", err)
+			return runtime.WrapDecodePath(err, "UDPPortNumber")
 		}
 		tmp_udpportnumber := PortNumber(val_udpportnumber)
 		v.UDPPortNumber = &tmp_udpportnumber
@@ -33518,14 +34052,14 @@ func (v *TunnelInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -33558,7 +34092,7 @@ func MarshalAPERTAIListForRestart(list TAIListForRestart) ([]byte, error) {
 	if err := MarshalAPERTAIListForRestartTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERTAIListForRestartTo appends a TAIListForRestart list to bb.
@@ -33582,10 +34116,10 @@ func UnmarshalAPERTAIListForRestart(data []byte) (TAIListForRestart, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERTAIListForRestartFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListForRestart")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "TAIListForRestart")
 	}
 	return value, nil
 }
@@ -33605,14 +34139,14 @@ func unmarshalAPERTAIListForRestartInto(v *asn1cAPERTAIListForRestartListValue, 
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -33623,7 +34157,7 @@ func (v *UEAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33682,9 +34216,12 @@ func (v *UEAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *UEAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEAggregateMaximumBitrate")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEAggregateMaximumBitrate")
+	}
+	return nil
 }
 
 func (v *UEAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33700,12 +34237,12 @@ func (v *UEAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_ueaggregatemaximumbitratedl, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding uEaggregateMaximumBitRateDL: %w", err)
+		return runtime.WrapDecodePath(err, "UEaggregateMaximumBitRateDL")
 	}
 	v.UEaggregateMaximumBitRateDL = BitRate(val_ueaggregatemaximumbitratedl)
 	val_ueaggregatemaximumbitrateul, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding uEaggregateMaximumBitRateUL: %w", err)
+		return runtime.WrapDecodePath(err, "UEaggregateMaximumBitRateUL")
 	}
 	v.UEaggregateMaximumBitRateUL = BitRate(val_ueaggregatemaximumbitrateul)
 	if opt_ieextensions {
@@ -33714,14 +34251,14 @@ func (v *UEAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -33752,7 +34289,7 @@ func (v *UEAppLayerMeasConfig) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEAppLayerMeasConfig) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33811,9 +34348,12 @@ func (v *UEAppLayerMeasConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *UEAppLayerMeasConfig) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEAppLayerMeasConfig")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEAppLayerMeasConfig")
+	}
+	return nil
 }
 
 func (v *UEAppLayerMeasConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33829,11 +34369,11 @@ func (v *UEAppLayerMeasConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_containerforapplayermeasconfig, err := per.DecodeOctetStringAligned(bb, 1, 1000, true)
 	if err != nil {
-		return fmt.Errorf("decoding containerForAppLayerMeasConfig: %w", err)
+		return runtime.WrapDecodePath(err, "ContainerForAppLayerMeasConfig")
 	}
 	v.ContainerForAppLayerMeasConfig = val_containerforapplayermeasconfig
 	if err := v.AreaScopeOfQMC.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding areaScopeOfQMC: %w", err)
+		return runtime.WrapDecodePath(err, "AreaScopeOfQMC")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -33841,14 +34381,14 @@ func (v *UEAppLayerMeasConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -33879,7 +34419,7 @@ func (v *UES1APIDs) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UES1APIDs) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33888,7 +34428,7 @@ func (v *UES1APIDs) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("UES1APIDs: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("UES1APIDs: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("UES1APIDs: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -33933,9 +34473,12 @@ func (v *UES1APIDs) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *UES1APIDs) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UES1APIDs")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UES1APIDs")
+	}
+	return nil
 }
 
 func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -33965,13 +34508,13 @@ func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case UES1APIDsChoiceUES1APIDPair:
 		var dec_ues1apidpair UES1APIDPair
 		if err := dec_ues1apidpair.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding uE-S1AP-ID-pair: %w", err)
+			return runtime.WrapDecodePath(err, "UES1APIDPair")
 		}
 		v.UES1APIDPair = &dec_ues1apidpair
 	case UES1APIDsChoiceMMEUES1APID:
 		val_mmeues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 		if err != nil {
-			return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
+			return runtime.WrapDecodePath(err, "MMEUES1APID")
 		}
 		tmp_mmeues1apid := MMEUES1APID(val_mmeues1apid)
 		v.MMEUES1APID = &tmp_mmeues1apid
@@ -33985,7 +34528,7 @@ func (v *UES1APIDPair) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UES1APIDPair) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34044,9 +34587,12 @@ func (v *UES1APIDPair) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *UES1APIDPair) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UES1APIDPair")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UES1APIDPair")
+	}
+	return nil
 }
 
 func (v *UES1APIDPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -34062,12 +34608,12 @@ func (v *UES1APIDPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_mmeues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 	if err != nil {
-		return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
+		return runtime.WrapDecodePath(err, "MMEUES1APID")
 	}
 	v.MMEUES1APID = MMEUES1APID(val_mmeues1apid)
 	val_enbues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 	if err != nil {
-		return fmt.Errorf("decoding eNB-UE-S1AP-ID: %w", err)
+		return runtime.WrapDecodePath(err, "ENBUES1APID")
 	}
 	v.ENBUES1APID = ENBUES1APID(val_enbues1apid)
 	if opt_ieextensions {
@@ -34076,14 +34622,14 @@ func (v *UES1APIDPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34114,7 +34660,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34183,9 +34729,12 @@ func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPERTo(bb *per.BitBuffer) e
 func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionItem")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionItem")
+	}
+	return nil
 }
 
 func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -34210,7 +34759,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 	if opt_mmeues1apid {
 		val_mmeues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 		if err != nil {
-			return fmt.Errorf("decoding mME-UE-S1AP-ID: %w", err)
+			return runtime.WrapDecodePath(err, "MMEUES1APID")
 		}
 		tmp_mmeues1apid := MMEUES1APID(val_mmeues1apid)
 		v.MMEUES1APID = &tmp_mmeues1apid
@@ -34218,7 +34767,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 	if opt_enbues1apid {
 		val_enbues1apid, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 		if err != nil {
-			return fmt.Errorf("decoding eNB-UE-S1AP-ID: %w", err)
+			return runtime.WrapDecodePath(err, "ENBUES1APID")
 		}
 		tmp_enbues1apid := ENBUES1APID(val_enbues1apid)
 		v.ENBUES1APID = &tmp_enbues1apid
@@ -34229,14 +34778,14 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34269,7 +34818,7 @@ func MarshalAPERUEHistoryInformation(list UEHistoryInformation) ([]byte, error) 
 	if err := MarshalAPERUEHistoryInformationTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERUEHistoryInformationTo appends a UEHistoryInformation list to bb.
@@ -34293,10 +34842,10 @@ func UnmarshalAPERUEHistoryInformation(data []byte) (UEHistoryInformation, error
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERUEHistoryInformationFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "UEHistoryInformation")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "UEHistoryInformation")
 	}
 	return value, nil
 }
@@ -34316,14 +34865,14 @@ func unmarshalAPERUEHistoryInformationInto(v *asn1cAPERUEHistoryInformationListV
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem LastVisitedCellItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -34334,7 +34883,7 @@ func (v *UEPagingID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UEPagingID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34343,7 +34892,7 @@ func (v *UEPagingID) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("UEPagingID: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("UEPagingID: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("UEPagingID: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -34388,9 +34937,12 @@ func (v *UEPagingID) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *UEPagingID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UEPagingID")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UEPagingID")
+	}
+	return nil
 }
 
 func (v *UEPagingID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -34420,13 +34972,13 @@ func (v *UEPagingID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case UEPagingIDChoiceSTMSI:
 		var dec_stmsi STMSI
 		if err := dec_stmsi.UnmarshalAPERFrom(bb); err != nil {
-			return fmt.Errorf("decoding s-TMSI: %w", err)
+			return runtime.WrapDecodePath(err, "STMSI")
 		}
 		v.STMSI = &dec_stmsi
 	case UEPagingIDChoiceIMSI:
 		val_imsi, err := per.DecodeOctetStringAligned(bb, 3, 8, true)
 		if err != nil {
-			return fmt.Errorf("decoding iMSI: %w", err)
+			return runtime.WrapDecodePath(err, "IMSI")
 		}
 		tmp_imsi := IMSI(val_imsi)
 		v.IMSI = &tmp_imsi
@@ -34440,7 +34992,7 @@ func (v *UESecurityCapabilities) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34499,9 +35051,12 @@ func (v *UESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *UESecurityCapabilities) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UESecurityCapabilities")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UESecurityCapabilities")
+	}
+	return nil
 }
 
 func (v *UESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -34517,12 +35072,12 @@ func (v *UESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_encryptionalgorithms, bsBitLen_encryptionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding encryptionAlgorithms: %w", err)
+		return runtime.WrapDecodePath(err, "EncryptionAlgorithms")
 	}
 	v.EncryptionAlgorithms = runtime.BitString{Bytes: bsBytes_encryptionalgorithms, BitLength: bsBitLen_encryptionalgorithms}
 	bsBytes_integrityprotectionalgorithms, bsBitLen_integrityprotectionalgorithms, err := per.DecodeBitStringAlignedExt(bb, 16, 16, true, true)
 	if err != nil {
-		return fmt.Errorf("decoding integrityProtectionAlgorithms: %w", err)
+		return runtime.WrapDecodePath(err, "IntegrityProtectionAlgorithms")
 	}
 	v.IntegrityProtectionAlgorithms = runtime.BitString{Bytes: bsBytes_integrityprotectionalgorithms, BitLength: bsBitLen_integrityprotectionalgorithms}
 	if opt_ieextensions {
@@ -34531,14 +35086,14 @@ func (v *UESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34569,7 +35124,7 @@ func (v *UESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34625,9 +35180,12 @@ func (v *UESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) err
 func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UESidelinkAggregateMaximumBitrate")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UESidelinkAggregateMaximumBitrate")
+	}
+	return nil
 }
 
 func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -34643,7 +35201,7 @@ func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	val_uesidelinkaggregatemaximumbitrate, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(10000000000), false)
 	if err != nil {
-		return fmt.Errorf("decoding uESidelinkAggregateMaximumBitRate: %w", err)
+		return runtime.WrapDecodePath(err, "UESidelinkAggregateMaximumBitRate")
 	}
 	v.UESidelinkAggregateMaximumBitRate = BitRate(val_uesidelinkaggregatemaximumbitrate)
 	if opt_ieextensions {
@@ -34652,14 +35210,14 @@ func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer)
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34690,7 +35248,7 @@ func (v *ULCPSecurityInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ULCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34749,9 +35307,12 @@ func (v *ULCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ULCPSecurityInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ULCPSecurityInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ULCPSecurityInformation")
+	}
+	return nil
 }
 
 func (v *ULCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -34767,12 +35328,12 @@ func (v *ULCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	bsBytes_ulnasmac, bsBitLen_ulnasmac, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 	if err != nil {
-		return fmt.Errorf("decoding ul-NAS-MAC: %w", err)
+		return runtime.WrapDecodePath(err, "UlNASMAC")
 	}
 	v.UlNASMAC = runtime.BitString{Bytes: bsBytes_ulnasmac, BitLength: bsBitLen_ulnasmac}
 	bsBytes_ulnascount, bsBitLen_ulnascount, err := per.DecodeBitStringAligned(bb, 5, 5, true)
 	if err != nil {
-		return fmt.Errorf("decoding ul-NAS-Count: %w", err)
+		return runtime.WrapDecodePath(err, "UlNASCount")
 	}
 	v.UlNASCount = runtime.BitString{Bytes: bsBytes_ulnascount, BitLength: bsBitLen_ulnascount}
 	if opt_ieextensions {
@@ -34781,14 +35342,14 @@ func (v *ULCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34819,7 +35380,7 @@ func (v *UserLocationInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *UserLocationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34878,9 +35439,12 @@ func (v *UserLocationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *UserLocationInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "UserLocationInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "UserLocationInformation")
+	}
+	return nil
 }
 
 func (v *UserLocationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -34895,10 +35459,10 @@ func (v *UserLocationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := v.EutranCgi.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding eutran-cgi: %w", err)
+		return runtime.WrapDecodePath(err, "EutranCgi")
 	}
 	if err := v.Tai.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding tai: %w", err)
+		return runtime.WrapDecodePath(err, "Tai")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -34906,14 +35470,14 @@ func (v *UserLocationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -34944,7 +35508,7 @@ func (v *V2XServicesAuthorized) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *V2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35013,9 +35577,12 @@ func (v *V2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *V2XServicesAuthorized) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "V2XServicesAuthorized")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "V2XServicesAuthorized")
+	}
+	return nil
 }
 
 func (v *V2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -35040,7 +35607,7 @@ func (v *V2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_vehicleue {
 		val_vehicleue, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding vehicleUE: %w", err)
+			return runtime.WrapDecodePath(err, "VehicleUE")
 		}
 		tmp_vehicleue := VehicleUE(val_vehicleue)
 		v.VehicleUE = &tmp_vehicleue
@@ -35048,7 +35615,7 @@ func (v *V2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_pedestrianue {
 		val_pedestrianue, err := per.DecodeEnumeratedAligned(bb, 2, true)
 		if err != nil {
-			return fmt.Errorf("decoding pedestrianUE: %w", err)
+			return runtime.WrapDecodePath(err, "PedestrianUE")
 		}
 		tmp_pedestrianue := PedestrianUE(val_pedestrianue)
 		v.PedestrianUE = &tmp_pedestrianue
@@ -35059,14 +35626,14 @@ func (v *V2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -35097,7 +35664,7 @@ func (v *WarningAreaList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35106,7 +35673,7 @@ func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 			return fmt.Errorf("WarningAreaList: known choice %d and unknown extension are both selected", v.Choice)
 		}
 		if v.UnknownExtension.Index < 0 {
-			return fmt.Errorf("WarningAreaList: extension index %d is known to this schema", v.UnknownExtension.Index)
+			return fmt.Errorf("WarningAreaList: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
 		if err := per.EncodeBoolean(bb, true); err != nil {
 			return err
@@ -35170,9 +35737,12 @@ func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *WarningAreaList) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "WarningAreaList")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "WarningAreaList")
+	}
+	return nil
 }
 
 func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -35205,14 +35775,14 @@ func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_cellidlist; i++ {
 				var elem EUTRANCGI
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding cellIDList element %d: %w", fragmentOffset_cellidlist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("CellIDList[%d]", fragmentOffset_cellidlist+i))
 				}
 				tmp_cellidlist = append(tmp_cellidlist, elem)
 			}
 			return nil
 		})
 		if errCollection_cellidlist != nil {
-			return fmt.Errorf("decoding cellIDList: %w", errCollection_cellidlist)
+			return runtime.WrapDecodePath(errCollection_cellidlist, "CellIDList")
 		}
 		v.CellIDList = tmp_cellidlist
 	case WarningAreaListChoiceTrackingAreaListforWarning:
@@ -35221,14 +35791,14 @@ func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_trackingarealistforwarning; i++ {
 				var elem TAI
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding trackingAreaListforWarning element %d: %w", fragmentOffset_trackingarealistforwarning+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("TrackingAreaListforWarning[%d]", fragmentOffset_trackingarealistforwarning+i))
 				}
 				tmp_trackingarealistforwarning = append(tmp_trackingarealistforwarning, elem)
 			}
 			return nil
 		})
 		if errCollection_trackingarealistforwarning != nil {
-			return fmt.Errorf("decoding trackingAreaListforWarning: %w", errCollection_trackingarealistforwarning)
+			return runtime.WrapDecodePath(errCollection_trackingarealistforwarning, "TrackingAreaListforWarning")
 		}
 		v.TrackingAreaListforWarning = tmp_trackingarealistforwarning
 	case WarningAreaListChoiceEmergencyAreaIDList:
@@ -35237,14 +35807,14 @@ func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_emergencyareaidlist; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 				if err != nil {
-					return fmt.Errorf("decoding emergencyAreaIDList element %d: %w", fragmentOffset_emergencyareaidlist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("EmergencyAreaIDList[%d]", fragmentOffset_emergencyareaidlist+i))
 				}
 				tmp_emergencyareaidlist = append(tmp_emergencyareaidlist, val)
 			}
 			return nil
 		})
 		if errCollection_emergencyareaidlist != nil {
-			return fmt.Errorf("decoding emergencyAreaIDList: %w", errCollection_emergencyareaidlist)
+			return runtime.WrapDecodePath(errCollection_emergencyareaidlist, "EmergencyAreaIDList")
 		}
 		v.EmergencyAreaIDList = tmp_emergencyareaidlist
 	}
@@ -35257,7 +35827,7 @@ func (v *WLANMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *WLANMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35344,9 +35914,12 @@ func (v *WLANMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *WLANMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "WLANMeasurementConfiguration")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "WLANMeasurementConfiguration")
+	}
+	return nil
 }
 
 func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -35374,7 +35947,7 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	val_wlanmeasconfig, err := per.DecodeEnumeratedAligned(bb, 1, true)
 	if err != nil {
-		return fmt.Errorf("decoding wlanMeasConfig: %w", err)
+		return runtime.WrapDecodePath(err, "WlanMeasConfig")
 	}
 	v.WlanMeasConfig = WLANMeasConfig(val_wlanmeasconfig)
 	if opt_wlanmeasconfignamelist {
@@ -35383,28 +35956,28 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_wlanmeasconfignamelist; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 1, 32, true)
 				if err != nil {
-					return fmt.Errorf("decoding wlanMeasConfigNameList element %d: %w", fragmentOffset_wlanmeasconfignamelist+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("WlanMeasConfigNameList[%d]", fragmentOffset_wlanmeasconfignamelist+i))
 				}
 				tmp_wlanmeasconfignamelist = append(tmp_wlanmeasconfignamelist, val)
 			}
 			return nil
 		})
 		if errCollection_wlanmeasconfignamelist != nil {
-			return fmt.Errorf("decoding wlanMeasConfigNameList: %w", errCollection_wlanmeasconfignamelist)
+			return runtime.WrapDecodePath(errCollection_wlanmeasconfignamelist, "WlanMeasConfigNameList")
 		}
 		v.WlanMeasConfigNameList = tmp_wlanmeasconfignamelist
 	}
 	if opt_wlanrssi {
 		val_wlanrssi, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding wlan-rssi: %w", err)
+			return runtime.WrapDecodePath(err, "WlanRssi")
 		}
 		v.WlanRssi = &val_wlanrssi
 	}
 	if opt_wlanrtt {
 		val_wlanrtt, err := per.DecodeEnumeratedAligned(bb, 1, true)
 		if err != nil {
-			return fmt.Errorf("decoding wlan-rtt: %w", err)
+			return runtime.WrapDecodePath(err, "WlanRtt")
 		}
 		v.WlanRtt = &val_wlanrtt
 	}
@@ -35414,14 +35987,14 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -35454,7 +36027,7 @@ func MarshalAPERWLANMeasConfigNameList(list WLANMeasConfigNameList) ([]byte, err
 	if err := MarshalAPERWLANMeasConfigNameListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERWLANMeasConfigNameListTo appends a WLANMeasConfigNameList list to bb.
@@ -35478,10 +36051,10 @@ func UnmarshalAPERWLANMeasConfigNameList(data []byte) (WLANMeasConfigNameList, e
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERWLANMeasConfigNameListFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "WLANMeasConfigNameList")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "WLANMeasConfigNameList")
 	}
 	return value, nil
 }
@@ -35501,14 +36074,14 @@ func unmarshalAPERWLANMeasConfigNameListInto(v *asn1cAPERWLANMeasConfigNameListL
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 32, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, val)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -35519,7 +36092,7 @@ func (v *WUSAssistanceInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *WUSAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35575,9 +36148,12 @@ func (v *WUSAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *WUSAssistanceInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "WUSAssistanceInformation")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "WUSAssistanceInformation")
+	}
+	return nil
 }
 
 func (v *WUSAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -35593,7 +36169,7 @@ func (v *WUSAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	val_pagingprobabilityinformation, err := per.DecodeEnumeratedAligned(bb, 21, true)
 	if err != nil {
-		return fmt.Errorf("decoding pagingProbabilityInformation: %w", err)
+		return runtime.WrapDecodePath(err, "PagingProbabilityInformation")
 	}
 	v.PagingProbabilityInformation = PagingProbabilityInformation(val_pagingprobabilityinformation)
 	if opt_ieextensions {
@@ -35602,14 +36178,14 @@ func (v *WUSAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -35640,7 +36216,7 @@ func (v *X2TNLConfigurationInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *X2TNLConfigurationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35703,9 +36279,12 @@ func (v *X2TNLConfigurationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *X2TNLConfigurationInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "X2TNLConfigurationInfo")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "X2TNLConfigurationInfo")
+	}
+	return nil
 }
 
 func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -35724,14 +36303,14 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		for i := int64(0); i < fragmentLength_enbx2transportlayeraddresses; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
-				return fmt.Errorf("decoding eNBX2TransportLayerAddresses element %d: %w", fragmentOffset_enbx2transportlayeraddresses+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ENBX2TransportLayerAddresses[%d]", fragmentOffset_enbx2transportlayeraddresses+i))
 			}
 			v.ENBX2TransportLayerAddresses = append(v.ENBX2TransportLayerAddresses, runtime.BitString{Bytes: elemBytes, BitLength: elemBitLength})
 		}
 		return nil
 	})
 	if errCollection_enbx2transportlayeraddresses != nil {
-		return fmt.Errorf("decoding eNBX2TransportLayerAddresses: %w", errCollection_enbx2transportlayeraddresses)
+		return runtime.WrapDecodePath(errCollection_enbx2transportlayeraddresses, "ENBX2TransportLayerAddresses")
 	}
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
@@ -35739,14 +36318,14 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -35779,7 +36358,7 @@ func MarshalAPERENBX2ExtTLAs(list ENBX2ExtTLAs) ([]byte, error) {
 	if err := MarshalAPERENBX2ExtTLAsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERENBX2ExtTLAsTo appends a ENBX2ExtTLAs list to bb.
@@ -35803,10 +36382,10 @@ func UnmarshalAPERENBX2ExtTLAs(data []byte) (ENBX2ExtTLAs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERENBX2ExtTLAsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBX2ExtTLAs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBX2ExtTLAs")
 	}
 	return value, nil
 }
@@ -35826,14 +36405,14 @@ func unmarshalAPERENBX2ExtTLAsInto(v *asn1cAPERENBX2ExtTLAsListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ENBX2ExtTLA
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -35844,7 +36423,7 @@ func (v *ENBX2ExtTLA) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35920,9 +36499,12 @@ func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
 func (v *ENBX2ExtTLA) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
-		return err
+		return runtime.WrapDecodePath(err, "ENBX2ExtTLA")
 	}
-	return per.ValidateFinalPadding(bb)
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENBX2ExtTLA")
+	}
+	return nil
 }
 
 func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -35947,7 +36529,7 @@ func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ipsectla {
 		bsBytes_ipsectla, bsBitLen_ipsectla, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 		if err != nil {
-			return fmt.Errorf("decoding iPsecTLA: %w", err)
+			return runtime.WrapDecodePath(err, "IPsecTLA")
 		}
 		tmp_ipsectla := runtime.BitString{Bytes: bsBytes_ipsectla, BitLength: bsBitLen_ipsectla}
 		v.IPsecTLA = &tmp_ipsectla
@@ -35958,14 +36540,14 @@ func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_gtptlaa; i++ {
 				elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 				if err != nil {
-					return fmt.Errorf("decoding gTPTLAa element %d: %w", fragmentOffset_gtptlaa+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("GTPTLAa[%d]", fragmentOffset_gtptlaa+i))
 				}
 				tmp_gtptlaa = append(tmp_gtptlaa, runtime.BitString{Bytes: elemBytes, BitLength: elemBitLength})
 			}
 			return nil
 		})
 		if errCollection_gtptlaa != nil {
-			return fmt.Errorf("decoding gTPTLAa: %w", errCollection_gtptlaa)
+			return runtime.WrapDecodePath(errCollection_gtptlaa, "GTPTLAa")
 		}
 		v.GTPTLAa = tmp_gtptlaa
 	}
@@ -35975,14 +36557,14 @@ func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
-					return fmt.Errorf("decoding iE-Extensions element %d: %w", fragmentOffset_ieextensions+i, err)
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
 				tmp_ieextensions = append(tmp_ieextensions, elem)
 			}
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return fmt.Errorf("decoding iE-Extensions: %w", errCollection_ieextensions)
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
@@ -36015,7 +36597,7 @@ func MarshalAPERENBX2GTPTLAs(list ENBX2GTPTLAs) ([]byte, error) {
 	if err := MarshalAPERENBX2GTPTLAsTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERENBX2GTPTLAsTo appends a ENBX2GTPTLAs list to bb.
@@ -36039,10 +36621,10 @@ func UnmarshalAPERENBX2GTPTLAs(data []byte) (ENBX2GTPTLAs, error) {
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERENBX2GTPTLAsFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBX2GTPTLAs")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBX2GTPTLAs")
 	}
 	return value, nil
 }
@@ -36062,14 +36644,14 @@ func unmarshalAPERENBX2GTPTLAsInto(v *asn1cAPERENBX2GTPTLAsListValue, bb *per.Bi
 		for i := int64(0); i < fragmentLength_value; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, runtime.BitString{Bytes: elemBytes, BitLength: elemBitLength})
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -36084,7 +36666,7 @@ func MarshalAPERENBIndirectX2TransportLayerAddresses(list ENBIndirectX2Transport
 	if err := MarshalAPERENBIndirectX2TransportLayerAddressesTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERENBIndirectX2TransportLayerAddressesTo appends a ENBIndirectX2TransportLayerAddresses list to bb.
@@ -36108,10 +36690,10 @@ func UnmarshalAPERENBIndirectX2TransportLayerAddresses(data []byte) (ENBIndirect
 	bb := per.NewBitBufferFromBytes(data)
 	value, err := UnmarshalAPERENBIndirectX2TransportLayerAddressesFrom(bb)
 	if err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBIndirectX2TransportLayerAddresses")
 	}
 	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, err
+		return nil, runtime.WrapDecodePath(err, "ENBIndirectX2TransportLayerAddresses")
 	}
 	return value, nil
 }
@@ -36131,14 +36713,14 @@ func unmarshalAPERENBIndirectX2TransportLayerAddressesInto(v *asn1cAPERENBIndire
 		for i := int64(0); i < fragmentLength_value; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, runtime.BitString{Bytes: elemBytes, BitLength: elemBitLength})
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }

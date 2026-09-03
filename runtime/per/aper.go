@@ -657,14 +657,25 @@ func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, u
 	return readKnownMultiplierString(bb, length, bitsPerChar)
 }
 
-// EncodeOpenTypeAligned wraps encoded bytes with an aligned length determinant (APER).
+// EncodeOpenTypeAligned wraps a complete encoding with an aligned length
+// determinant. ITU-T X.691 (02/2021), clause 11.2.
 func EncodeOpenTypeAligned(bb *BitBuffer, data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("%w: APER open type requires a complete encoding", ErrInvalidValue)
+	}
 	return encodeLengthDelimitedOctets(bb, data, true)
 }
 
-// DecodeOpenTypeAligned decodes an open type value (APER).
+// DecodeOpenTypeAligned decodes an open type's complete encoding (APER).
 func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
-	return decodeLengthDelimitedOctets(bb, true)
+	data, err := decodeLengthDelimitedOctets(bb, true)
+	if err != nil {
+		return nil, err
+	}
+	if len(data) == 0 {
+		return nil, fmt.Errorf("%w: APER open type has an empty complete encoding", ErrInvalidValue)
+	}
+	return data, nil
 }
 
 // EncodeChoiceIndexAligned encodes a CHOICE index (APER).

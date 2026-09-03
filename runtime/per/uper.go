@@ -588,15 +588,25 @@ func DecodeKnownMultiplierStringExt(bb *BitBuffer, bitsPerChar int, lb, ub int64
 	return readKnownMultiplierString(bb, length, bitsPerChar)
 }
 
-// EncodeOpenType wraps already-encoded bytes with an unconstrained length determinant.
-// Used for extension additions and open type fields.
+// EncodeOpenType wraps a complete encoding with an unconstrained length
+// determinant. ITU-T X.691 (02/2021), clause 11.2.
 func EncodeOpenType(bb *BitBuffer, data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("%w: UPER open type requires a complete encoding", ErrInvalidValue)
+	}
 	return encodeLengthDelimitedOctets(bb, data, false)
 }
 
-// DecodeOpenType decodes an open type value.
+// DecodeOpenType decodes an open type's complete encoding.
 func DecodeOpenType(bb *BitBuffer) ([]byte, error) {
-	return decodeLengthDelimitedOctets(bb, false)
+	data, err := decodeLengthDelimitedOctets(bb, false)
+	if err != nil {
+		return nil, err
+	}
+	if len(data) == 0 {
+		return nil, fmt.Errorf("%w: UPER open type has an empty complete encoding", ErrInvalidValue)
+	}
+	return data, nil
 }
 
 // EncodeChoiceIndex encodes a CHOICE index for root alternatives.

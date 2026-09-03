@@ -463,7 +463,7 @@ func TestVectorAdmittedItemDapsExtensionValue(t *testing.T) {
 	}
 }
 
-// TestVectorAdmittedItemMalformedDapsPath verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.3.7 and 9.3.8; malformed DAPS diagnostics retain the complete containing path.
+// TestVectorAdmittedItemMalformedDapsPath verifies ITU-T X.691 (02/2021), clauses 11.1.3.1, 11.1.4, and 11.2; 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.3.7 and 9.3.8; zero-length DAPS open types are rejected with the complete containing path and identifier.
 // Regression: go-asn1-v0.4.2.x2ap.malformed-daps-extension
 func TestVectorAdmittedItemMalformedDapsPath(t *testing.T) {
 	t.Parallel()
@@ -476,8 +476,8 @@ func TestVectorAdmittedItemMalformedDapsPath(t *testing.T) {
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
 	}
-	if !strings.Contains(err.Error(), "per: data truncated") {
-		t.Fatalf("decode error = %q, want substring %q", err, "per: data truncated")
+	if !strings.Contains(err.Error(), "extension 366") {
+		t.Fatalf("decode error = %q, want substring %q", err, "extension 366")
 	}
 	if !strings.Contains(err.Error(), "ERABsAdmittedItem.IEExtensions[0]") {
 		t.Fatalf("decode error = %q, want path %q", err, "ERABsAdmittedItem.IEExtensions[0]")
