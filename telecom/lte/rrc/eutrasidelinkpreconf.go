@@ -373,6 +373,16 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -384,7 +394,7 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -420,11 +430,13 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -435,7 +447,10 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigurationR12 from UPER format.
 func (v *SLPreconfigurationR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -471,6 +486,7 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -511,8 +527,10 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.PreconfigRelayR13 = &dec_preconfigrelayr13
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLPreconfigurationR12: extension group 0: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -569,6 +587,16 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -580,7 +608,7 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -600,11 +628,13 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -615,7 +645,10 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigGeneralR12 from UPER format.
 func (v *SLPreconfigGeneralR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -662,6 +695,7 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -681,8 +715,10 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				tmp_additionalspectrumemissionv1440 := AdditionalSpectrumEmissionV10l0(val_additionalspectrumemissionv1440)
 				v.AdditionalSpectrumEmissionV1440 = &tmp_additionalspectrumemissionv1440
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLPreconfigGeneralR12: extension group 0: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -742,6 +778,16 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -753,7 +799,7 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -773,11 +819,13 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -788,7 +836,10 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigSyncR12 from UPER format.
 func (v *SLPreconfigSyncR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -844,6 +895,7 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -862,8 +914,10 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.SyncTxPeriodicR13 = &val_synctxperiodicr13
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLPreconfigSyncR12: extension group 0: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -907,7 +961,14 @@ func MarshalUPERSLPreconfigCommPoolList4R12To(list SLPreconfigCommPoolList4R12, 
 // UnmarshalUPERSLPreconfigCommPoolList4R12 decodes a SLPreconfigCommPoolList4R12 list from UPER.
 func UnmarshalUPERSLPreconfigCommPoolList4R12(data []byte) (SLPreconfigCommPoolList4R12, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPreconfigCommPoolList4R12From(bb)
+	value, err := UnmarshalUPERSLPreconfigCommPoolList4R12From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPreconfigCommPoolList4R12From decodes a SLPreconfigCommPoolList4R12 list from bb.
@@ -967,7 +1028,14 @@ func MarshalUPERSLPreconfigCommRxPoolListR13To(list SLPreconfigCommRxPoolListR13
 // UnmarshalUPERSLPreconfigCommRxPoolListR13 decodes a SLPreconfigCommRxPoolListR13 list from UPER.
 func UnmarshalUPERSLPreconfigCommRxPoolListR13(data []byte) (SLPreconfigCommRxPoolListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPreconfigCommRxPoolListR13From(bb)
+	value, err := UnmarshalUPERSLPreconfigCommRxPoolListR13From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPreconfigCommRxPoolListR13From decodes a SLPreconfigCommRxPoolListR13 list from bb.
@@ -1027,7 +1095,14 @@ func MarshalUPERSLPreconfigCommTxPoolListR13To(list SLPreconfigCommTxPoolListR13
 // UnmarshalUPERSLPreconfigCommTxPoolListR13 decodes a SLPreconfigCommTxPoolListR13 list from UPER.
 func UnmarshalUPERSLPreconfigCommTxPoolListR13(data []byte) (SLPreconfigCommTxPoolListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPreconfigCommTxPoolListR13From(bb)
+	value, err := UnmarshalUPERSLPreconfigCommTxPoolListR13From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPreconfigCommTxPoolListR13From decodes a SLPreconfigCommTxPoolListR13 list from bb.
@@ -1106,6 +1181,16 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -1117,7 +1202,7 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -1144,11 +1229,13 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -1159,7 +1246,10 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigCommPoolR12 from UPER format.
 func (v *SLPreconfigCommPoolR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1214,6 +1304,7 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -1242,8 +1333,10 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.PriorityListR13 = tmp_prioritylistr13
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLPreconfigCommPoolR12: extension group 0: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -1287,7 +1380,14 @@ func MarshalUPERSLPreconfigDiscRxPoolListR13To(list SLPreconfigDiscRxPoolListR13
 // UnmarshalUPERSLPreconfigDiscRxPoolListR13 decodes a SLPreconfigDiscRxPoolListR13 list from UPER.
 func UnmarshalUPERSLPreconfigDiscRxPoolListR13(data []byte) (SLPreconfigDiscRxPoolListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPreconfigDiscRxPoolListR13From(bb)
+	value, err := UnmarshalUPERSLPreconfigDiscRxPoolListR13From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPreconfigDiscRxPoolListR13From decodes a SLPreconfigDiscRxPoolListR13 list from bb.
@@ -1347,7 +1447,14 @@ func MarshalUPERSLPreconfigDiscTxPoolListR13To(list SLPreconfigDiscTxPoolListR13
 // UnmarshalUPERSLPreconfigDiscTxPoolListR13 decodes a SLPreconfigDiscTxPoolListR13 list from UPER.
 func UnmarshalUPERSLPreconfigDiscTxPoolListR13(data []byte) (SLPreconfigDiscTxPoolListR13, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPreconfigDiscTxPoolListR13From(bb)
+	value, err := UnmarshalUPERSLPreconfigDiscTxPoolListR13From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPreconfigDiscTxPoolListR13From decodes a SLPreconfigDiscTxPoolListR13 list from bb.
@@ -1420,17 +1527,19 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -1441,7 +1550,10 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigDiscPoolR13 from UPER format.
 func (v *SLPreconfigDiscPoolR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigDiscPoolR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1525,7 +1637,10 @@ func (v *SLPreconfigRelayR13) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigRelayR13 from UPER format.
 func (v *SLPreconfigRelayR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigRelayR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1595,6 +1710,16 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -1612,7 +1737,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(2); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -1691,11 +1816,13 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(2); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -1706,7 +1833,10 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XPreconfigurationR14 from UPER format.
 func (v *SLV2XPreconfigurationR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1769,6 +1899,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -1840,6 +1971,9 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.V2xTxProfileListR15 = tmp_v2xtxprofilelistr15
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLV2XPreconfigurationR14: extension group 0: %w", err)
+			}
 		}
 		if int64(1) <= extCount && extPresent[1] {
 			extData, err := per.DecodeOpenType(bb)
@@ -1869,8 +2003,10 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.AnchorCarrierFreqListNRR16 = tmp_anchorcarrierfreqlistnrr16
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLV2XPreconfigurationR14: extension group 1: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(2); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -1920,7 +2056,10 @@ func (v *SLCBRPreconfigTxConfigListR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLCBRPreconfigTxConfigListR14 from UPER format.
 func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1986,7 +2125,14 @@ func MarshalUPERSLV2XPreconfigFreqListR14To(list SLV2XPreconfigFreqListR14, bb *
 // UnmarshalUPERSLV2XPreconfigFreqListR14 decodes a SLV2XPreconfigFreqListR14 list from UPER.
 func UnmarshalUPERSLV2XPreconfigFreqListR14(data []byte) (SLV2XPreconfigFreqListR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLV2XPreconfigFreqListR14From(bb)
+	value, err := UnmarshalUPERSLV2XPreconfigFreqListR14From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLV2XPreconfigFreqListR14From decodes a SLV2XPreconfigFreqListR14 list from bb.
@@ -2115,6 +2261,16 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -2126,7 +2282,7 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -2153,11 +2309,13 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2168,7 +2326,10 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XPreconfigFreqInfoR14 from UPER format.
 func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2291,6 +2452,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -2319,8 +2481,10 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.V2xFreqSelectionConfigListR15 = tmp_v2xfreqselectionconfiglistr15
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLV2XPreconfigFreqInfoR14: extension group 0: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -2364,7 +2528,14 @@ func MarshalUPERSLPreconfigV2XRxPoolListR14To(list SLPreconfigV2XRxPoolListR14, 
 // UnmarshalUPERSLPreconfigV2XRxPoolListR14 decodes a SLPreconfigV2XRxPoolListR14 list from UPER.
 func UnmarshalUPERSLPreconfigV2XRxPoolListR14(data []byte) (SLPreconfigV2XRxPoolListR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPreconfigV2XRxPoolListR14From(bb)
+	value, err := UnmarshalUPERSLPreconfigV2XRxPoolListR14From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPreconfigV2XRxPoolListR14From decodes a SLPreconfigV2XRxPoolListR14 list from bb.
@@ -2424,7 +2595,14 @@ func MarshalUPERSLPreconfigV2XTxPoolListR14To(list SLPreconfigV2XTxPoolListR14, 
 // UnmarshalUPERSLPreconfigV2XTxPoolListR14 decodes a SLPreconfigV2XTxPoolListR14 list from UPER.
 func UnmarshalUPERSLPreconfigV2XTxPoolListR14(data []byte) (SLPreconfigV2XTxPoolListR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPreconfigV2XTxPoolListR14From(bb)
+	value, err := UnmarshalUPERSLPreconfigV2XTxPoolListR14From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPreconfigV2XTxPoolListR14From decodes a SLPreconfigV2XTxPoolListR14 list from bb.
@@ -2573,6 +2751,16 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -2584,7 +2772,7 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -2626,11 +2814,13 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2641,7 +2831,10 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XPreconfigCommPoolR14 from UPER format.
 func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2794,6 +2987,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -2843,8 +3037,10 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.CbrPsschTxConfigListV1530 = tmp_cbrpsschtxconfiglistv1530
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLV2XPreconfigCommPoolR14: extension group 0: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -2898,6 +3094,16 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 		if v.ExtCount_ > extHighest {
 			extHighest = v.ExtCount_
 		}
+		for i, present := range v.ExtPresent_ {
+			if present && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
+		for i, data := range v.ExtData_ {
+			if data != nil && int64(i) > extHighest {
+				extHighest = int64(i)
+			}
+		}
 		if err := per.EncodeNormallySmallNonNegative(bb, extHighest); err != nil {
 			return err
 		}
@@ -2909,7 +3115,7 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
@@ -2929,11 +3135,13 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 		}
 		for i := int64(1); i <= extHighest; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenType(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenType(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2944,7 +3152,10 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPreconfigV2XSyncR14 from UPER format.
 func (v *SLPreconfigV2XSyncR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2988,6 +3199,7 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		v.ExtData_ = make([][]byte, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -3006,8 +3218,10 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.SlssTxDisabledR15 = &val_slsstxdisabledr15
 			}
+			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+				return fmt.Errorf("SLPreconfigV2XSyncR14: extension group 0: %w", err)
+			}
 		}
-		v.ExtData_ = make([][]byte, extCount+1)
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -3052,7 +3266,10 @@ func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLV2XSyncOffsetIndicatorsR14 from UPER format.
 func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3113,7 +3330,14 @@ func MarshalUPERSLCBRPPPPTxPreconfigListR14To(list SLCBRPPPPTxPreconfigListR14, 
 // UnmarshalUPERSLCBRPPPPTxPreconfigListR14 decodes a SLCBRPPPPTxPreconfigListR14 list from UPER.
 func UnmarshalUPERSLCBRPPPPTxPreconfigListR14(data []byte) (SLCBRPPPPTxPreconfigListR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLCBRPPPPTxPreconfigListR14From(bb)
+	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListR14From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLCBRPPPPTxPreconfigListR14From decodes a SLCBRPPPPTxPreconfigListR14 list from bb.
@@ -3178,7 +3402,10 @@ func (v *SLPPPPTxPreconfigIndexR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPPPPTxPreconfigIndexR14 from UPER format.
 func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3245,7 +3472,14 @@ func MarshalUPERSLCBRPPPPTxPreconfigListV1530To(list SLCBRPPPPTxPreconfigListV15
 // UnmarshalUPERSLCBRPPPPTxPreconfigListV1530 decodes a SLCBRPPPPTxPreconfigListV1530 list from UPER.
 func UnmarshalUPERSLCBRPPPPTxPreconfigListV1530(data []byte) (SLCBRPPPPTxPreconfigListV1530, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLCBRPPPPTxPreconfigListV1530From(bb)
+	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListV1530From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLCBRPPPPTxPreconfigListV1530From decodes a SLCBRPPPPTxPreconfigListV1530 list from bb.
@@ -3307,7 +3541,10 @@ func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SLPPPPTxPreconfigIndexV1530 from UPER format.
 func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3367,7 +3604,14 @@ func MarshalUPERSLV2XTxProfileListR15To(list SLV2XTxProfileListR15, bb *per.BitB
 // UnmarshalUPERSLV2XTxProfileListR15 decodes a SLV2XTxProfileListR15 list from UPER.
 func UnmarshalUPERSLV2XTxProfileListR15(data []byte) (SLV2XTxProfileListR15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLV2XTxProfileListR15From(bb)
+	value, err := UnmarshalUPERSLV2XTxProfileListR15From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLV2XTxProfileListR15From decodes a SLV2XTxProfileListR15 list from bb.
@@ -3439,7 +3683,10 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPERTo(bb *per.BitBuffe
 // UnmarshalUPER decodes SLPreconfigurationR12PreconfigCommV1310 from UPER format.
 func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3525,7 +3772,10 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPERTo(bb *per.BitBuffer)
 // UnmarshalUPER decodes SLPreconfigurationR12PreconfigDiscR13 from UPER format.
 func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3606,7 +3856,10 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPERTo(bb *per.BitBuffer) 
 // UnmarshalUPER decodes SLPreconfigGeneralR12RohcProfilesR12 from UPER format.
 func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3671,7 +3924,10 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPERTo(bb *per.BitBuffer)
 // UnmarshalUPER decodes SLPreconfigDiscPoolR13TxParametersR13 from UPER format.
 func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3721,7 +3977,14 @@ func MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14To(list 
 // UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 decodes a SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 list from UPER.
 func UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14(data []byte) (SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14From(bb)
+	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14From decodes a SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 list from bb.
@@ -3783,7 +4046,14 @@ func MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14To(list SL
 // UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 decodes a SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 list from UPER.
 func UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14(data []byte) (SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14From(bb)
+	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14From decodes a SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 list from bb.
@@ -3845,7 +4115,14 @@ func MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14To(list SLPPPPTxPre
 // UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14 decodes a SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 list from UPER.
 func UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14(data []byte) (SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14From(bb)
+	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14From decodes a SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 list from bb.
@@ -3907,7 +4184,14 @@ func MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15To(list SLPPPPTxPreco
 // UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 decodes a SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 list from UPER.
 func UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15(data []byte) (SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15From(bb)
+	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15From decodes a SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 list from bb.

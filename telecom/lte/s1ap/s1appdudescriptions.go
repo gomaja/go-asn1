@@ -25,9 +25,10 @@ const (
 // S1APPDU represents the ASN.1 CHOICE type S1AP-PDU.
 type S1APPDU struct {
 	Choice              int
-	InitiatingMessage   *InitiatingMessage   `json:"InitiatingMessage,omitempty"`
-	SuccessfulOutcome   *SuccessfulOutcome   `json:"SuccessfulOutcome,omitempty"`
-	UnsuccessfulOutcome *UnsuccessfulOutcome `json:"UnsuccessfulOutcome,omitempty"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	InitiatingMessage   *InitiatingMessage          `json:"InitiatingMessage,omitempty"`
+	SuccessfulOutcome   *SuccessfulOutcome          `json:"SuccessfulOutcome,omitempty"`
+	UnsuccessfulOutcome *UnsuccessfulOutcome        `json:"UnsuccessfulOutcome,omitempty"`
 }
 
 // NewS1APPDUInitiatingMessage creates a S1APPDU with the initiatingMessage alternative.
@@ -85,6 +86,21 @@ func (v *S1APPDU) MarshalAPER() ([]byte, error) {
 }
 
 func (v *S1APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.UnknownExtension != nil {
+		if v.Choice != 0 {
+			return fmt.Errorf("S1APPDU: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("S1APPDU: extension index %d is known to this schema", v.UnknownExtension.Index)
+		}
+		if err := per.EncodeBoolean(bb, true); err != nil {
+			return err
+		}
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index); err != nil {
+			return err
+		}
+		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
 	isExtension := v.Choice > 3
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -126,7 +142,10 @@ func (v *S1APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes S1APPDU from APER format.
 func (v *S1APPDU) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *S1APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -140,7 +159,12 @@ func (v *S1APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		return fmt.Errorf("S1APPDU: unsupported extension choice %d", int(extIdx)+3+1)
+		openData, err := per.DecodeOpenTypeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
+		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
@@ -195,7 +219,10 @@ func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes InitiatingMessage from APER format.
 func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -243,7 +270,10 @@ func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes SuccessfulOutcome from APER format.
 func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -291,7 +321,10 @@ func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UnsuccessfulOutcome from APER format.
 func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {

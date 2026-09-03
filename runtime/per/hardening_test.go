@@ -99,6 +99,36 @@ func TestBitBufferRejectsImpossibleReadsBeforeAllocation(t *testing.T) {
 	}
 }
 
+func TestAlignToOctetReadValidatesPadding(t *testing.T) {
+	valid := NewBitBufferFromBytes([]byte{0x80})
+	if _, err := valid.ReadBit(); err != nil {
+		t.Fatal(err)
+	}
+	if err := valid.AlignToOctetRead(); err != nil {
+		t.Fatalf("zero alignment padding rejected: %v", err)
+	}
+	if valid.BitsRemaining() != 0 {
+		t.Fatalf("bits remaining = %d, want 0", valid.BitsRemaining())
+	}
+
+	nonZero := NewBitBufferFromBytes([]byte{0x81})
+	if _, err := nonZero.ReadBit(); err != nil {
+		t.Fatal(err)
+	}
+	if err := nonZero.AlignToOctetRead(); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("non-zero alignment padding error = %v, want ErrInvalidValue", err)
+	}
+
+	truncated := NewBitBufferFromBytes([]byte{0x00})
+	truncated.bitLen = 4
+	if _, err := truncated.ReadBit(); err != nil {
+		t.Fatal(err)
+	}
+	if err := truncated.AlignToOctetRead(); !errors.Is(err, ErrTruncated) {
+		t.Fatalf("truncated alignment padding error = %v, want ErrTruncated", err)
+	}
+}
+
 func TestKnownMultiplierStringRejectsInvalidCharacterWidthBeforeMutation(t *testing.T) {
 	for _, tc := range []struct {
 		name   string

@@ -78,7 +78,10 @@ func (v *VarANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarANRMeasConfigNBR16 from UPER format.
 func (v *VarANRMeasConfigNBR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -150,7 +153,10 @@ func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarANRMeasReportNBR16 from UPER format.
 func (v *VarANRMeasReportNBR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -226,7 +232,10 @@ func (v *VarRLFReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarRLFReportNBR16 from UPER format.
 func (v *VarRLFReportNBR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -283,7 +292,14 @@ func MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list VarANRMeasReportNB
 // UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16 decodes a VarANRMeasReportNBR16MeasResultListR16 list from UPER.
 func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMeasReportNBR16MeasResultListR16, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
+	value, err := UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From decodes a VarANRMeasReportNBR16MeasResultListR16 list from bb.

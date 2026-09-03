@@ -521,8 +521,8 @@ func TestVectorErabSetupMalformedDapsFullPath(t *testing.T) {
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
 	}
-	if !strings.Contains(err.Error(), "per: data truncated") {
-		t.Fatalf("decode error = %q, want substring %q", err, "per: data truncated")
+	if !strings.Contains(err.Error(), "non-zero APER alignment padding") {
+		t.Fatalf("decode error = %q, want substring %q", err, "non-zero APER alignment padding")
 	}
 	if !strings.Contains(err.Error(), "ERABsToBeSetupItem.IEExtensions[0]") {
 		t.Fatalf("decode error = %q, want path %q", err, "ERABsToBeSetupItem.IEExtensions[0]")

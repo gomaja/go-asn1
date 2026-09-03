@@ -436,7 +436,10 @@ func (v *VarConditionalReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarConditionalReconfiguration from UPER format.
 func (v *VarConditionalReconfiguration) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarConditionalReconfiguration) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -488,7 +491,10 @@ func (v *VarConnEstFailReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarConnEstFailReportR11 from UPER format.
 func (v *VarConnEstFailReportR11) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarConnEstFailReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -533,7 +539,10 @@ func (v *VarLogMeasConfigR10) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarLogMeasConfigR10 from UPER format.
 func (v *VarLogMeasConfigR10) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarLogMeasConfigR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -602,7 +611,10 @@ func (v *VarLogMeasConfigR11) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarLogMeasConfigR11 from UPER format.
 func (v *VarLogMeasConfigR11) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarLogMeasConfigR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -697,7 +709,10 @@ func (v *VarLogMeasConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarLogMeasConfigR12 from UPER format.
 func (v *VarLogMeasConfigR12) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarLogMeasConfigR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -843,7 +858,10 @@ func (v *VarLogMeasConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarLogMeasConfigR15 from UPER format.
 func (v *VarLogMeasConfigR15) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarLogMeasConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1047,7 +1065,10 @@ func (v *VarLogMeasConfigR17) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarLogMeasConfigR17 from UPER format.
 func (v *VarLogMeasConfigR17) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarLogMeasConfigR17) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1214,7 +1235,10 @@ func (v *VarLogMeasReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarLogMeasReportR10 from UPER format.
 func (v *VarLogMeasReportR10) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarLogMeasReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1308,7 +1332,10 @@ func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarLogMeasReportR11 from UPER format.
 func (v *VarLogMeasReportR11) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1397,7 +1424,14 @@ func MarshalUPERLogMeasInfoList2R10To(list LogMeasInfoList2R10, bb *per.BitBuffe
 // UnmarshalUPERLogMeasInfoList2R10 decodes a LogMeasInfoList2R10 list from UPER.
 func UnmarshalUPERLogMeasInfoList2R10(data []byte) (LogMeasInfoList2R10, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERLogMeasInfoList2R10From(bb)
+	value, err := UnmarshalUPERLogMeasInfoList2R10From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERLogMeasInfoList2R10From decodes a LogMeasInfoList2R10 list from bb.
@@ -1604,7 +1638,10 @@ func (v *VarMeasConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarMeasConfig from UPER format.
 func (v *VarMeasConfig) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1872,7 +1909,10 @@ func (v *VarMeasIdleConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarMeasIdleConfigR15 from UPER format.
 func (v *VarMeasIdleConfigR15) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasIdleConfigR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -1954,7 +1994,10 @@ func (v *VarMeasIdleConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarMeasIdleConfigR16 from UPER format.
 func (v *VarMeasIdleConfigR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasIdleConfigR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2031,7 +2074,10 @@ func (v *VarMeasIdleReportR15) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarMeasIdleReportR15 from UPER format.
 func (v *VarMeasIdleReportR15) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasIdleReportR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2100,7 +2146,10 @@ func (v *VarMeasIdleReportR16) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarMeasIdleReportR16 from UPER format.
 func (v *VarMeasIdleReportR16) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2181,7 +2230,14 @@ func MarshalUPERVarMeasReportListTo(list VarMeasReportList, bb *per.BitBuffer) e
 // UnmarshalUPERVarMeasReportList decodes a VarMeasReportList list from UPER.
 func UnmarshalUPERVarMeasReportList(data []byte) (VarMeasReportList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERVarMeasReportListFrom(bb)
+	value, err := UnmarshalUPERVarMeasReportListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERVarMeasReportListFrom decodes a VarMeasReportList list from bb.
@@ -2241,7 +2297,14 @@ func MarshalUPERVarMeasReportListR12To(list VarMeasReportListR12, bb *per.BitBuf
 // UnmarshalUPERVarMeasReportListR12 decodes a VarMeasReportListR12 list from UPER.
 func UnmarshalUPERVarMeasReportListR12(data []byte) (VarMeasReportListR12, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERVarMeasReportListR12From(bb)
+	value, err := UnmarshalUPERVarMeasReportListR12From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERVarMeasReportListR12From decodes a VarMeasReportListR12 list from bb.
@@ -2347,7 +2410,10 @@ func (v *VarMeasReport) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarMeasReport from UPER format.
 func (v *VarMeasReport) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2471,7 +2537,14 @@ func MarshalUPERCellsTriggeredListTo(list CellsTriggeredList, bb *per.BitBuffer)
 // UnmarshalUPERCellsTriggeredList decodes a CellsTriggeredList list from UPER.
 func UnmarshalUPERCellsTriggeredList(data []byte) (CellsTriggeredList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERCellsTriggeredListFrom(bb)
+	value, err := UnmarshalUPERCellsTriggeredListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERCellsTriggeredListFrom decodes a CellsTriggeredList list from bb.
@@ -2531,7 +2604,14 @@ func MarshalUPERCSIRSTriggeredListR12To(list CSIRSTriggeredListR12, bb *per.BitB
 // UnmarshalUPERCSIRSTriggeredListR12 decodes a CSIRSTriggeredListR12 list from UPER.
 func UnmarshalUPERCSIRSTriggeredListR12(data []byte) (CSIRSTriggeredListR12, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERCSIRSTriggeredListR12From(bb)
+	value, err := UnmarshalUPERCSIRSTriggeredListR12From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERCSIRSTriggeredListR12From decodes a CSIRSTriggeredListR12 list from bb.
@@ -2591,7 +2671,14 @@ func MarshalUPERSSBIndexListR15To(list SSBIndexListR15, bb *per.BitBuffer) error
 // UnmarshalUPERSSBIndexListR15 decodes a SSBIndexListR15 list from UPER.
 func UnmarshalUPERSSBIndexListR15(data []byte) (SSBIndexListR15, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalUPERSSBIndexListR15From(bb)
+	value, err := UnmarshalUPERSSBIndexListR15From(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalUPERSSBIndexListR15From decodes a SSBIndexListR15 list from bb.
@@ -2646,7 +2733,10 @@ func (v *VarPendingRnaUpdateR15) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarPendingRnaUpdateR15 from UPER format.
 func (v *VarPendingRnaUpdateR15) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarPendingRnaUpdateR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2688,7 +2778,10 @@ func (v *VarRLFReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarRLFReportR10 from UPER format.
 func (v *VarRLFReportR10) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarRLFReportR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2731,7 +2824,10 @@ func (v *VarRLFReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarRLFReportR11 from UPER format.
 func (v *VarRLFReportR11) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarRLFReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2781,7 +2877,10 @@ func (v *VarShortINACTIVEMACInputR15) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarShortINACTIVEMACInputR15 from UPER format.
 func (v *VarShortINACTIVEMACInputR15) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarShortINACTIVEMACInputR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2829,7 +2928,10 @@ func (v *VarShortMACInput) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarShortMACInput from UPER format.
 func (v *VarShortMACInput) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarShortMACInput) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2880,7 +2982,10 @@ func (v *VarShortResumeMACInputR13) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarShortResumeMACInputR13 from UPER format.
 func (v *VarShortResumeMACInputR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarShortResumeMACInputR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -2956,7 +3061,10 @@ func (v *VarWLANMobilityConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarWLANMobilityConfig from UPER format.
 func (v *VarWLANMobilityConfig) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarWLANMobilityConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3036,7 +3144,10 @@ func (v *VarWLANStatusR13) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarWLANStatusR13 from UPER format.
 func (v *VarWLANStatusR13) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarWLANStatusR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3093,7 +3204,10 @@ func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes VarMeasConfigSpeedStatePars from UPER format.
 func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3137,7 +3251,10 @@ func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) erro
 // UnmarshalUPER decodes VarMeasConfigSpeedStateParsSetup from UPER format.
 func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3216,7 +3333,10 @@ func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes CellsTriggeredListElem from UPER format.
 func (v *CellsTriggeredListElem) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *CellsTriggeredListElem) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3306,7 +3426,10 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) 
 // UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdUTRA from UPER format.
 func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3357,7 +3480,10 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPERTo(bb *per.BitBuffer)
 // UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdGERAN from UPER format.
 func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -3409,7 +3535,10 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPERTo(bb *per.BitBuffer)
 // UnmarshalUPER decodes CellsTriggeredListElemPhysCellIdNRR15 from UPER format.
 func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {

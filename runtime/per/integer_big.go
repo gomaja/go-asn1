@@ -348,14 +348,18 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		}
 		offset = decoded
 	} else if rangeValue.Cmp(big.NewInt(255)) == 0 {
-		bb.AlignToOctetRead()
+		if err := bb.AlignToOctetRead(); err != nil {
+			return nil, err
+		}
 		decoded, err := bb.ReadBits(8)
 		if err != nil {
 			return nil, err
 		}
 		offset = new(big.Int).SetUint64(decoded)
 	} else if rangeValue.Cmp(big.NewInt(65536)) < 0 {
-		bb.AlignToOctetRead()
+		if err := bb.AlignToOctetRead(); err != nil {
+			return nil, err
+		}
 		decoded, err := bb.ReadBits(16)
 		if err != nil {
 			return nil, err
@@ -384,7 +388,9 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		if err != nil {
 			return nil, err
 		}
-		bb.AlignToOctetRead()
+		if err := bb.AlignToOctetRead(); err != nil {
+			return nil, err
+		}
 		data, err := bb.ReadBytes(int(length))
 		if err != nil {
 			return nil, err

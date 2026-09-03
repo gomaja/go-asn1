@@ -234,7 +234,9 @@ func encodeLengthFragmentDeterminant(bb *BitBuffer, remaining int64, aligned boo
 
 func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool) (length int64, more bool, multiplier int, err error) {
 	if aligned {
-		bb.AlignToOctetRead()
+		if err := bb.AlignToOctetRead(); err != nil {
+			return 0, false, 0, err
+		}
 	}
 	first, err := bb.ReadBits(8)
 	if err != nil {

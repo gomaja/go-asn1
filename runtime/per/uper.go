@@ -664,7 +664,9 @@ func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64
 	var result []byte
 	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
 		if aligned {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return err
+			}
 		}
 		if length > int64(bb.BitsRemaining()) {
 			return fmt.Errorf("%w: BIT STRING fragment requires %d bits with %d remaining", ErrTruncated, length, bb.BitsRemaining())
@@ -719,7 +721,9 @@ func decodeLengthDelimitedKnownMultiplierStringBounded(bb *BitBuffer, bitsPerCha
 	var result strings.Builder
 	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
 		if aligned {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return err
+			}
 		}
 		fragment, err := readKnownMultiplierString(bb, length, bitsPerChar)
 		if err != nil {

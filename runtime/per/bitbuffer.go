@@ -133,6 +133,34 @@ func (bb *BitBuffer) BitPos() int {
 	return bb.bitPos
 }
 
+// ValidateOpenTypePadding consumes the zero padding at the end of a complete
+// PER encoding carried in an open type. X.691 (02/2021), section 11.2 requires
+// the complete encoding to occupy an integral number of octets.
+func ValidateOpenTypePadding(bb *BitBuffer) error {
+	return validateTrailingPadding(bb, "open type")
+}
+
+// ValidateFinalPadding consumes the zero padding after a complete top-level
+// PER value and rejects appended data.
+func ValidateFinalPadding(bb *BitBuffer) error {
+	return validateTrailingPadding(bb, "top-level value")
+}
+
+func validateTrailingPadding(bb *BitBuffer, context string) error {
+	remaining := bb.BitsRemaining()
+	if remaining > 7 {
+		return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+	}
+	padding, err := bb.ReadBits(remaining)
+	if err != nil {
+		return err
+	}
+	if padding != 0 {
+		return fmt.Errorf("%w: %s has non-zero trailing padding", ErrInvalidValue, context)
+	}
+	return nil
+}
+
 // WriteBitsFromBytes writes exactly bitLen bits from the given byte slice (MSB first).
 func (bb *BitBuffer) WriteBitsFromBytes(data []byte, bitLen int) error {
 	required, err := octetsForBitLength(bitLen)
@@ -160,15 +188,20 @@ func (bb *BitBuffer) AlignToOctetWrite() {
 	}
 }
 
-// AlignToOctetRead advances the read position to the next octet boundary (APER).
-func (bb *BitBuffer) AlignToOctetRead() {
+// AlignToOctetRead consumes and validates zero-valued APER alignment padding.
+func (bb *BitBuffer) AlignToOctetRead() error {
 	rem := bb.bitPos % 8
-	if rem != 0 {
-		bb.bitPos += 8 - rem
+	if rem == 0 {
+		return nil
 	}
-	if bb.bitPos > bb.bitLen {
-		bb.bitPos = bb.bitLen
+	padding, err := bb.ReadBits(8 - rem)
+	if err != nil {
+		return fmt.Errorf("APER alignment padding: %w", err)
 	}
+	if padding != 0 {
+		return fmt.Errorf("%w: non-zero APER alignment padding", ErrInvalidValue)
+	}
+	return nil
 }
 
 // ReadBitsToBytes reads bitLen bits and returns them packed into bytes (MSB first).

@@ -633,6 +633,7 @@ const (
 // ResetType represents the ASN.1 CHOICE type ResetType.
 type ResetType struct {
 	Choice            int
+	UnknownExtension  *runtime.PERChoiceExtension            `json:"UnknownExtension,omitempty"`
 	S1Interface       *ResetAll                              `json:"S1Interface,omitempty"`
 	PartOfS1Interface UEAssociatedLogicalS1ConnectionListRes `json:"PartOfS1Interface,omitempty"`
 }
@@ -934,8 +935,9 @@ const (
 
 // InterSystemInformationTransferType represents the ASN.1 CHOICE type Inter-SystemInformationTransferType.
 type InterSystemInformationTransferType struct {
-	Choice      int
-	RIMTransfer *RIMTransfer `json:"RIMTransfer,omitempty"`
+	Choice           int
+	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	RIMTransfer      *RIMTransfer                `json:"RIMTransfer,omitempty"`
 }
 
 // NewInterSystemInformationTransferTypeRIMTransfer creates a InterSystemInformationTransferType with the rIMTransfer alternative.
@@ -1348,7 +1350,14 @@ func MarshalAPERERABIEContainerListTo(list ERABIEContainerList, bb *per.BitBuffe
 // UnmarshalAPERERABIEContainerList decodes a ERABIEContainerList list from APER.
 func UnmarshalAPERERABIEContainerList(data []byte) (ERABIEContainerList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABIEContainerListFrom(bb)
+	value, err := UnmarshalAPERERABIEContainerListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABIEContainerListFrom decodes a ERABIEContainerList list from bb.
@@ -1408,7 +1417,14 @@ func MarshalAPERERABIEContainerPairListTo(list ERABIEContainerPairList, bb *per.
 // UnmarshalAPERERABIEContainerPairList decodes a ERABIEContainerPairList list from APER.
 func UnmarshalAPERERABIEContainerPairList(data []byte) (ERABIEContainerPairList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABIEContainerPairListFrom(bb)
+	value, err := UnmarshalAPERERABIEContainerPairListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABIEContainerPairListFrom decodes a ERABIEContainerPairList list from bb.
@@ -1468,7 +1484,14 @@ func MarshalAPERProtocolErrorIEContainerListTo(list ProtocolErrorIEContainerList
 // UnmarshalAPERProtocolErrorIEContainerList decodes a ProtocolErrorIEContainerList list from APER.
 func UnmarshalAPERProtocolErrorIEContainerList(data []byte) (ProtocolErrorIEContainerList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolErrorIEContainerListFrom(bb)
+	value, err := UnmarshalAPERProtocolErrorIEContainerListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolErrorIEContainerListFrom decodes a ProtocolErrorIEContainerList list from bb.
@@ -1527,17 +1550,19 @@ func (v *HandoverRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -1548,7 +1573,10 @@ func (v *HandoverRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverRequired from APER format.
 func (v *HandoverRequired) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -1621,17 +1649,19 @@ func (v *HandoverCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -1642,7 +1672,10 @@ func (v *HandoverCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverCommand from APER format.
 func (v *HandoverCommand) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -1718,7 +1751,14 @@ func MarshalAPERERABSubjecttoDataForwardingListTo(list ERABSubjecttoDataForwardi
 // UnmarshalAPERERABSubjecttoDataForwardingList decodes a ERABSubjecttoDataForwardingList list from APER.
 func UnmarshalAPERERABSubjecttoDataForwardingList(data []byte) (ERABSubjecttoDataForwardingList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABSubjecttoDataForwardingListFrom(bb)
+	value, err := UnmarshalAPERERABSubjecttoDataForwardingListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABSubjecttoDataForwardingListFrom decodes a ERABSubjecttoDataForwardingList list from bb.
@@ -1818,17 +1858,19 @@ func (v *ERABDataForwardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -1839,7 +1881,10 @@ func (v *ERABDataForwardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABDataForwardingItem from APER format.
 func (v *ERABDataForwardingItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABDataForwardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -1973,17 +2018,19 @@ func (v *HandoverPreparationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -1994,7 +2041,10 @@ func (v *HandoverPreparationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverPreparationFailure from APER format.
 func (v *HandoverPreparationFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -2067,17 +2117,19 @@ func (v *HandoverRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2088,7 +2140,10 @@ func (v *HandoverRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverRequest from APER format.
 func (v *HandoverRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -2162,7 +2217,14 @@ func MarshalAPERERABToBeSetupListHOReqTo(list ERABToBeSetupListHOReq, bb *per.Bi
 // UnmarshalAPERERABToBeSetupListHOReq decodes a ERABToBeSetupListHOReq list from APER.
 func UnmarshalAPERERABToBeSetupListHOReq(data []byte) (ERABToBeSetupListHOReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeSetupListHOReqFrom(bb)
+	value, err := UnmarshalAPERERABToBeSetupListHOReqFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeSetupListHOReqFrom decodes a ERABToBeSetupListHOReq list from bb.
@@ -2239,17 +2301,19 @@ func (v *ERABToBeSetupItemHOReq) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2260,7 +2324,10 @@ func (v *ERABToBeSetupItemHOReq) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeSetupItemHOReq from APER format.
 func (v *ERABToBeSetupItemHOReq) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeSetupItemHOReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -2359,17 +2426,19 @@ func (v *HandoverRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2380,7 +2449,10 @@ func (v *HandoverRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverRequestAcknowledge from APER format.
 func (v *HandoverRequestAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -2454,7 +2526,14 @@ func MarshalAPERERABAdmittedListTo(list ERABAdmittedList, bb *per.BitBuffer) err
 // UnmarshalAPERERABAdmittedList decodes a ERABAdmittedList list from APER.
 func UnmarshalAPERERABAdmittedList(data []byte) (ERABAdmittedList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABAdmittedListFrom(bb)
+	value, err := UnmarshalAPERERABAdmittedListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABAdmittedListFrom decodes a ERABAdmittedList list from bb.
@@ -2560,17 +2639,19 @@ func (v *ERABAdmittedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2581,7 +2662,10 @@ func (v *ERABAdmittedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABAdmittedItem from APER format.
 func (v *ERABAdmittedItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -2726,7 +2810,14 @@ func MarshalAPERERABFailedtoSetupListHOReqAckTo(list ERABFailedtoSetupListHOReqA
 // UnmarshalAPERERABFailedtoSetupListHOReqAck decodes a ERABFailedtoSetupListHOReqAck list from APER.
 func UnmarshalAPERERABFailedtoSetupListHOReqAck(data []byte) (ERABFailedtoSetupListHOReqAck, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABFailedtoSetupListHOReqAckFrom(bb)
+	value, err := UnmarshalAPERERABFailedtoSetupListHOReqAckFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABFailedtoSetupListHOReqAckFrom decodes a ERABFailedtoSetupListHOReqAck list from bb.
@@ -2797,17 +2888,19 @@ func (v *ERABFailedToSetupItemHOReqAck) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2818,7 +2911,10 @@ func (v *ERABFailedToSetupItemHOReqAck) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABFailedToSetupItemHOReqAck from APER format.
 func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -2907,17 +3003,19 @@ func (v *HandoverFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -2928,7 +3026,10 @@ func (v *HandoverFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverFailure from APER format.
 func (v *HandoverFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3001,17 +3102,19 @@ func (v *HandoverNotify) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3022,7 +3125,10 @@ func (v *HandoverNotify) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverNotify from APER format.
 func (v *HandoverNotify) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverNotify) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3095,17 +3201,19 @@ func (v *PathSwitchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3116,7 +3224,10 @@ func (v *PathSwitchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PathSwitchRequest from APER format.
 func (v *PathSwitchRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PathSwitchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3190,7 +3301,14 @@ func MarshalAPERERABToBeSwitchedDLListTo(list ERABToBeSwitchedDLList, bb *per.Bi
 // UnmarshalAPERERABToBeSwitchedDLList decodes a ERABToBeSwitchedDLList list from APER.
 func UnmarshalAPERERABToBeSwitchedDLList(data []byte) (ERABToBeSwitchedDLList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeSwitchedDLListFrom(bb)
+	value, err := UnmarshalAPERERABToBeSwitchedDLListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeSwitchedDLListFrom decodes a ERABToBeSwitchedDLList list from bb.
@@ -3264,17 +3382,19 @@ func (v *ERABToBeSwitchedDLItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3285,7 +3405,10 @@ func (v *ERABToBeSwitchedDLItem) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeSwitchedDLItem from APER format.
 func (v *ERABToBeSwitchedDLItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeSwitchedDLItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3381,17 +3504,19 @@ func (v *PathSwitchRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3402,7 +3527,10 @@ func (v *PathSwitchRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PathSwitchRequestAcknowledge from APER format.
 func (v *PathSwitchRequestAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PathSwitchRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3476,7 +3604,14 @@ func MarshalAPERERABToBeSwitchedULListTo(list ERABToBeSwitchedULList, bb *per.Bi
 // UnmarshalAPERERABToBeSwitchedULList decodes a ERABToBeSwitchedULList list from APER.
 func UnmarshalAPERERABToBeSwitchedULList(data []byte) (ERABToBeSwitchedULList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeSwitchedULListFrom(bb)
+	value, err := UnmarshalAPERERABToBeSwitchedULListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeSwitchedULListFrom decodes a ERABToBeSwitchedULList list from bb.
@@ -3550,17 +3685,19 @@ func (v *ERABToBeSwitchedULItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3571,7 +3708,10 @@ func (v *ERABToBeSwitchedULItem) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeSwitchedULItem from APER format.
 func (v *ERABToBeSwitchedULItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3668,7 +3808,14 @@ func MarshalAPERERABToBeUpdatedListTo(list ERABToBeUpdatedList, bb *per.BitBuffe
 // UnmarshalAPERERABToBeUpdatedList decodes a ERABToBeUpdatedList list from APER.
 func UnmarshalAPERERABToBeUpdatedList(data []byte) (ERABToBeUpdatedList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeUpdatedListFrom(bb)
+	value, err := UnmarshalAPERERABToBeUpdatedListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeUpdatedListFrom decodes a ERABToBeUpdatedList list from bb.
@@ -3744,17 +3891,19 @@ func (v *ERABToBeUpdatedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3765,7 +3914,10 @@ func (v *ERABToBeUpdatedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeUpdatedItem from APER format.
 func (v *ERABToBeUpdatedItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeUpdatedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3862,17 +4014,19 @@ func (v *PathSwitchRequestFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3883,7 +4037,10 @@ func (v *PathSwitchRequestFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PathSwitchRequestFailure from APER format.
 func (v *PathSwitchRequestFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PathSwitchRequestFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -3956,17 +4113,19 @@ func (v *HandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -3977,7 +4136,10 @@ func (v *HandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverCancel from APER format.
 func (v *HandoverCancel) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4050,17 +4212,19 @@ func (v *HandoverCancelAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4071,7 +4235,10 @@ func (v *HandoverCancelAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverCancelAcknowledge from APER format.
 func (v *HandoverCancelAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverCancelAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4144,17 +4311,19 @@ func (v *HandoverSuccess) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4165,7 +4334,10 @@ func (v *HandoverSuccess) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes HandoverSuccess from APER format.
 func (v *HandoverSuccess) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4238,17 +4410,19 @@ func (v *ENBEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4259,7 +4433,10 @@ func (v *ENBEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ENBEarlyStatusTransfer from APER format.
 func (v *ENBEarlyStatusTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4332,17 +4509,19 @@ func (v *MMEEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4353,7 +4532,10 @@ func (v *MMEEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMEEarlyStatusTransfer from APER format.
 func (v *MMEEarlyStatusTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMEEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4426,17 +4608,19 @@ func (v *ERABSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4447,7 +4631,10 @@ func (v *ERABSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABSetupRequest from APER format.
 func (v *ERABSetupRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4521,7 +4708,14 @@ func MarshalAPERERABToBeSetupListBearerSUReqTo(list ERABToBeSetupListBearerSUReq
 // UnmarshalAPERERABToBeSetupListBearerSUReq decodes a ERABToBeSetupListBearerSUReq list from APER.
 func UnmarshalAPERERABToBeSetupListBearerSUReq(data []byte) (ERABToBeSetupListBearerSUReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeSetupListBearerSUReqFrom(bb)
+	value, err := UnmarshalAPERERABToBeSetupListBearerSUReqFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeSetupListBearerSUReqFrom decodes a ERABToBeSetupListBearerSUReq list from bb.
@@ -4601,17 +4795,19 @@ func (v *ERABToBeSetupItemBearerSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4622,7 +4818,10 @@ func (v *ERABToBeSetupItemBearerSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeSetupItemBearerSUReq from APER format.
 func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4726,17 +4925,19 @@ func (v *ERABSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4747,7 +4948,10 @@ func (v *ERABSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABSetupResponse from APER format.
 func (v *ERABSetupResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -4821,7 +5025,14 @@ func MarshalAPERERABSetupListBearerSUResTo(list ERABSetupListBearerSURes, bb *pe
 // UnmarshalAPERERABSetupListBearerSURes decodes a ERABSetupListBearerSURes list from APER.
 func UnmarshalAPERERABSetupListBearerSURes(data []byte) (ERABSetupListBearerSURes, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABSetupListBearerSUResFrom(bb)
+	value, err := UnmarshalAPERERABSetupListBearerSUResFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABSetupListBearerSUResFrom decodes a ERABSetupListBearerSURes list from bb.
@@ -4895,17 +5106,19 @@ func (v *ERABSetupItemBearerSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -4916,7 +5129,10 @@ func (v *ERABSetupItemBearerSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABSetupItemBearerSURes from APER format.
 func (v *ERABSetupItemBearerSURes) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABSetupItemBearerSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5012,17 +5228,19 @@ func (v *ERABModifyRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5033,7 +5251,10 @@ func (v *ERABModifyRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABModifyRequest from APER format.
 func (v *ERABModifyRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABModifyRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5109,7 +5330,14 @@ func MarshalAPERERABToBeModifiedListBearerModReqTo(list ERABToBeModifiedListBear
 // UnmarshalAPERERABToBeModifiedListBearerModReq decodes a ERABToBeModifiedListBearerModReq list from APER.
 func UnmarshalAPERERABToBeModifiedListBearerModReq(data []byte) (ERABToBeModifiedListBearerModReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeModifiedListBearerModReqFrom(bb)
+	value, err := UnmarshalAPERERABToBeModifiedListBearerModReqFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeModifiedListBearerModReqFrom decodes a ERABToBeModifiedListBearerModReq list from bb.
@@ -5183,17 +5411,19 @@ func (v *ERABToBeModifiedItemBearerModReq) MarshalAPERTo(bb *per.BitBuffer) erro
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5204,7 +5434,10 @@ func (v *ERABToBeModifiedItemBearerModReq) MarshalAPERTo(bb *per.BitBuffer) erro
 // UnmarshalAPER decodes ERABToBeModifiedItemBearerModReq from APER format.
 func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5298,17 +5531,19 @@ func (v *ERABModifyResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5319,7 +5554,10 @@ func (v *ERABModifyResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABModifyResponse from APER format.
 func (v *ERABModifyResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABModifyResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5393,7 +5631,14 @@ func MarshalAPERERABModifyListBearerModResTo(list ERABModifyListBearerModRes, bb
 // UnmarshalAPERERABModifyListBearerModRes decodes a ERABModifyListBearerModRes list from APER.
 func UnmarshalAPERERABModifyListBearerModRes(data []byte) (ERABModifyListBearerModRes, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABModifyListBearerModResFrom(bb)
+	value, err := UnmarshalAPERERABModifyListBearerModResFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABModifyListBearerModResFrom decodes a ERABModifyListBearerModRes list from bb.
@@ -5461,17 +5706,19 @@ func (v *ERABModifyItemBearerModRes) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5482,7 +5729,10 @@ func (v *ERABModifyItemBearerModRes) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABModifyItemBearerModRes from APER format.
 func (v *ERABModifyItemBearerModRes) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABModifyItemBearerModRes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5568,17 +5818,19 @@ func (v *ERABReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5589,7 +5841,10 @@ func (v *ERABReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABReleaseCommand from APER format.
 func (v *ERABReleaseCommand) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5662,17 +5917,19 @@ func (v *ERABReleaseResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5683,7 +5940,10 @@ func (v *ERABReleaseResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABReleaseResponse from APER format.
 func (v *ERABReleaseResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABReleaseResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5757,7 +6017,14 @@ func MarshalAPERERABReleaseListBearerRelCompTo(list ERABReleaseListBearerRelComp
 // UnmarshalAPERERABReleaseListBearerRelComp decodes a ERABReleaseListBearerRelComp list from APER.
 func UnmarshalAPERERABReleaseListBearerRelComp(data []byte) (ERABReleaseListBearerRelComp, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABReleaseListBearerRelCompFrom(bb)
+	value, err := UnmarshalAPERERABReleaseListBearerRelCompFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABReleaseListBearerRelCompFrom decodes a ERABReleaseListBearerRelComp list from bb.
@@ -5825,17 +6092,19 @@ func (v *ERABReleaseItemBearerRelComp) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5846,7 +6115,10 @@ func (v *ERABReleaseItemBearerRelComp) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABReleaseItemBearerRelComp from APER format.
 func (v *ERABReleaseItemBearerRelComp) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABReleaseItemBearerRelComp) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -5932,17 +6204,19 @@ func (v *ERABReleaseIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -5953,7 +6227,10 @@ func (v *ERABReleaseIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABReleaseIndication from APER format.
 func (v *ERABReleaseIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABReleaseIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6026,17 +6303,19 @@ func (v *InitialContextSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -6047,7 +6326,10 @@ func (v *InitialContextSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes InitialContextSetupRequest from APER format.
 func (v *InitialContextSetupRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *InitialContextSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6121,7 +6403,14 @@ func MarshalAPERERABToBeSetupListCtxtSUReqTo(list ERABToBeSetupListCtxtSUReq, bb
 // UnmarshalAPERERABToBeSetupListCtxtSUReq decodes a ERABToBeSetupListCtxtSUReq list from APER.
 func UnmarshalAPERERABToBeSetupListCtxtSUReq(data []byte) (ERABToBeSetupListCtxtSUReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeSetupListCtxtSUReqFrom(bb)
+	value, err := UnmarshalAPERERABToBeSetupListCtxtSUReqFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeSetupListCtxtSUReqFrom decodes a ERABToBeSetupListCtxtSUReq list from bb.
@@ -6206,17 +6495,19 @@ func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -6227,7 +6518,10 @@ func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABToBeSetupItemCtxtSUReq from APER format.
 func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6338,17 +6632,19 @@ func (v *InitialContextSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -6359,7 +6655,10 @@ func (v *InitialContextSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes InitialContextSetupResponse from APER format.
 func (v *InitialContextSetupResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *InitialContextSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6433,7 +6732,14 @@ func MarshalAPERERABSetupListCtxtSUResTo(list ERABSetupListCtxtSURes, bb *per.Bi
 // UnmarshalAPERERABSetupListCtxtSURes decodes a ERABSetupListCtxtSURes list from APER.
 func UnmarshalAPERERABSetupListCtxtSURes(data []byte) (ERABSetupListCtxtSURes, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABSetupListCtxtSUResFrom(bb)
+	value, err := UnmarshalAPERERABSetupListCtxtSUResFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABSetupListCtxtSUResFrom decodes a ERABSetupListCtxtSURes list from bb.
@@ -6507,17 +6813,19 @@ func (v *ERABSetupItemCtxtSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -6528,7 +6836,10 @@ func (v *ERABSetupItemCtxtSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABSetupItemCtxtSURes from APER format.
 func (v *ERABSetupItemCtxtSURes) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABSetupItemCtxtSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6624,17 +6935,19 @@ func (v *InitialContextSetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -6645,7 +6958,10 @@ func (v *InitialContextSetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes InitialContextSetupFailure from APER format.
 func (v *InitialContextSetupFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *InitialContextSetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6718,17 +7034,19 @@ func (v *Paging) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -6739,7 +7057,10 @@ func (v *Paging) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes Paging from APER format.
 func (v *Paging) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *Paging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6813,7 +7134,14 @@ func MarshalAPERTAIListTo(list TAIList, bb *per.BitBuffer) error {
 // UnmarshalAPERTAIList decodes a TAIList list from APER.
 func UnmarshalAPERTAIList(data []byte) (TAIList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERTAIListFrom(bb)
+	value, err := UnmarshalAPERTAIListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERTAIListFrom decodes a TAIList list from bb.
@@ -6881,17 +7209,19 @@ func (v *TAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -6902,7 +7232,10 @@ func (v *TAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes TAIItem from APER format.
 func (v *TAIItem) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *TAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -6986,17 +7319,19 @@ func (v *UEContextReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7007,7 +7342,10 @@ func (v *UEContextReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextReleaseRequest from APER format.
 func (v *UEContextReleaseRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7080,17 +7418,19 @@ func (v *UEContextReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7101,7 +7441,10 @@ func (v *UEContextReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextReleaseCommand from APER format.
 func (v *UEContextReleaseCommand) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7174,17 +7517,19 @@ func (v *UEContextReleaseComplete) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7195,7 +7540,10 @@ func (v *UEContextReleaseComplete) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextReleaseComplete from APER format.
 func (v *UEContextReleaseComplete) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextReleaseComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7268,17 +7616,19 @@ func (v *UEContextModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7289,7 +7639,10 @@ func (v *UEContextModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextModificationRequest from APER format.
 func (v *UEContextModificationRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7362,17 +7715,19 @@ func (v *UEContextModificationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7383,7 +7738,10 @@ func (v *UEContextModificationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextModificationResponse from APER format.
 func (v *UEContextModificationResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextModificationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7456,17 +7814,19 @@ func (v *UEContextModificationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7477,7 +7837,10 @@ func (v *UEContextModificationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextModificationFailure from APER format.
 func (v *UEContextModificationFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextModificationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7550,17 +7913,19 @@ func (v *UERadioCapabilityMatchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7571,7 +7936,10 @@ func (v *UERadioCapabilityMatchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UERadioCapabilityMatchRequest from APER format.
 func (v *UERadioCapabilityMatchRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UERadioCapabilityMatchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7644,17 +8012,19 @@ func (v *UERadioCapabilityMatchResponse) MarshalAPERTo(bb *per.BitBuffer) error 
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7665,7 +8035,10 @@ func (v *UERadioCapabilityMatchResponse) MarshalAPERTo(bb *per.BitBuffer) error 
 // UnmarshalAPER decodes UERadioCapabilityMatchResponse from APER format.
 func (v *UERadioCapabilityMatchResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UERadioCapabilityMatchResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7738,17 +8111,19 @@ func (v *DownlinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7759,7 +8134,10 @@ func (v *DownlinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes DownlinkNASTransport from APER format.
 func (v *DownlinkNASTransport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *DownlinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7832,17 +8210,19 @@ func (v *InitialUEMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7853,7 +8233,10 @@ func (v *InitialUEMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes InitialUEMessage from APER format.
 func (v *InitialUEMessage) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *InitialUEMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -7926,17 +8309,19 @@ func (v *UplinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -7947,7 +8332,10 @@ func (v *UplinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UplinkNASTransport from APER format.
 func (v *UplinkNASTransport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UplinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8020,17 +8408,19 @@ func (v *NASNonDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8041,7 +8431,10 @@ func (v *NASNonDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes NASNonDeliveryIndication from APER format.
 func (v *NASNonDeliveryIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *NASNonDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8114,17 +8507,19 @@ func (v *RerouteNASRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8135,7 +8530,10 @@ func (v *RerouteNASRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes RerouteNASRequest from APER format.
 func (v *RerouteNASRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *RerouteNASRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8208,17 +8606,19 @@ func (v *NASDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8229,7 +8629,10 @@ func (v *NASDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes NASDeliveryIndication from APER format.
 func (v *NASDeliveryIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *NASDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8302,17 +8705,19 @@ func (v *Reset) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8323,7 +8728,10 @@ func (v *Reset) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes Reset from APER format.
 func (v *Reset) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *Reset) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8377,6 +8785,21 @@ func (v *ResetType) MarshalAPER() ([]byte, error) {
 }
 
 func (v *ResetType) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.UnknownExtension != nil {
+		if v.Choice != 0 {
+			return fmt.Errorf("ResetType: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("ResetType: extension index %d is known to this schema", v.UnknownExtension.Index)
+		}
+		if err := per.EncodeBoolean(bb, true); err != nil {
+			return err
+		}
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index); err != nil {
+			return err
+		}
+		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -8415,7 +8838,10 @@ func (v *ResetType) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ResetType from APER format.
 func (v *ResetType) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ResetType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8429,7 +8855,12 @@ func (v *ResetType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		if err != nil {
 			return err
 		}
-		return fmt.Errorf("ResetType: unsupported extension choice %d", int(extIdx)+2+1)
+		openData, err := per.DecodeOpenTypeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
+		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
@@ -8496,7 +8927,14 @@ func MarshalAPERUEAssociatedLogicalS1ConnectionListResTo(list UEAssociatedLogica
 // UnmarshalAPERUEAssociatedLogicalS1ConnectionListRes decodes a UEAssociatedLogicalS1ConnectionListRes list from APER.
 func UnmarshalAPERUEAssociatedLogicalS1ConnectionListRes(data []byte) (UEAssociatedLogicalS1ConnectionListRes, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERUEAssociatedLogicalS1ConnectionListResFrom(bb)
+	value, err := UnmarshalAPERUEAssociatedLogicalS1ConnectionListResFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERUEAssociatedLogicalS1ConnectionListResFrom decodes a UEAssociatedLogicalS1ConnectionListRes list from bb.
@@ -8555,17 +8993,19 @@ func (v *ResetAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8576,7 +9016,10 @@ func (v *ResetAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ResetAcknowledge from APER format.
 func (v *ResetAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ResetAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8652,7 +9095,14 @@ func MarshalAPERUEAssociatedLogicalS1ConnectionListResAckTo(list UEAssociatedLog
 // UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAck decodes a UEAssociatedLogicalS1ConnectionListResAck list from APER.
 func UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAck(data []byte) (UEAssociatedLogicalS1ConnectionListResAck, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAckFrom(bb)
+	value, err := UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAckFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAckFrom decodes a UEAssociatedLogicalS1ConnectionListResAck list from bb.
@@ -8711,17 +9161,19 @@ func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8732,7 +9184,10 @@ func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ErrorIndication from APER format.
 func (v *ErrorIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8805,17 +9260,19 @@ func (v *S1SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8826,7 +9283,10 @@ func (v *S1SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes S1SetupRequest from APER format.
 func (v *S1SetupRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *S1SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8899,17 +9359,19 @@ func (v *S1SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -8920,7 +9382,10 @@ func (v *S1SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes S1SetupResponse from APER format.
 func (v *S1SetupResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *S1SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -8993,17 +9458,19 @@ func (v *S1SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9014,7 +9481,10 @@ func (v *S1SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes S1SetupFailure from APER format.
 func (v *S1SetupFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *S1SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9087,17 +9557,19 @@ func (v *ENBConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9108,7 +9580,10 @@ func (v *ENBConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ENBConfigurationUpdate from APER format.
 func (v *ENBConfigurationUpdate) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9181,17 +9656,19 @@ func (v *ENBConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9202,7 +9679,10 @@ func (v *ENBConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 // UnmarshalAPER decodes ENBConfigurationUpdateAcknowledge from APER format.
 func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9275,17 +9755,19 @@ func (v *ENBConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9296,7 +9778,10 @@ func (v *ENBConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ENBConfigurationUpdateFailure from APER format.
 func (v *ENBConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9369,17 +9854,19 @@ func (v *MMEConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9390,7 +9877,10 @@ func (v *MMEConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMEConfigurationUpdate from APER format.
 func (v *MMEConfigurationUpdate) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMEConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9463,17 +9953,19 @@ func (v *MMEConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9484,7 +9976,10 @@ func (v *MMEConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 // UnmarshalAPER decodes MMEConfigurationUpdateAcknowledge from APER format.
 func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9557,17 +10052,19 @@ func (v *MMEConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9578,7 +10075,10 @@ func (v *MMEConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMEConfigurationUpdateFailure from APER format.
 func (v *MMEConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMEConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9651,17 +10151,19 @@ func (v *DownlinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9672,7 +10174,10 @@ func (v *DownlinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes DownlinkS1cdma2000tunnelling from APER format.
 func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9745,17 +10250,19 @@ func (v *UplinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9766,7 +10273,10 @@ func (v *UplinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UplinkS1cdma2000tunnelling from APER format.
 func (v *UplinkS1cdma2000tunnelling) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UplinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9839,17 +10349,19 @@ func (v *UECapabilityInfoIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9860,7 +10372,10 @@ func (v *UECapabilityInfoIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UECapabilityInfoIndication from APER format.
 func (v *UECapabilityInfoIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UECapabilityInfoIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -9933,17 +10448,19 @@ func (v *ENBStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -9954,7 +10471,10 @@ func (v *ENBStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ENBStatusTransfer from APER format.
 func (v *ENBStatusTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10027,17 +10547,19 @@ func (v *MMEStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10048,7 +10570,10 @@ func (v *MMEStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMEStatusTransfer from APER format.
 func (v *MMEStatusTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMEStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10121,17 +10646,19 @@ func (v *TraceStart) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10142,7 +10669,10 @@ func (v *TraceStart) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes TraceStart from APER format.
 func (v *TraceStart) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10215,17 +10745,19 @@ func (v *TraceFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10236,7 +10768,10 @@ func (v *TraceFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes TraceFailureIndication from APER format.
 func (v *TraceFailureIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *TraceFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10309,17 +10844,19 @@ func (v *DeactivateTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10330,7 +10867,10 @@ func (v *DeactivateTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes DeactivateTrace from APER format.
 func (v *DeactivateTrace) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10403,17 +10943,19 @@ func (v *CellTrafficTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10424,7 +10966,10 @@ func (v *CellTrafficTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes CellTrafficTrace from APER format.
 func (v *CellTrafficTrace) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10497,17 +11042,19 @@ func (v *LocationReportingControl) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10518,7 +11065,10 @@ func (v *LocationReportingControl) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes LocationReportingControl from APER format.
 func (v *LocationReportingControl) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *LocationReportingControl) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10591,17 +11141,19 @@ func (v *LocationReportingFailureIndication) MarshalAPERTo(bb *per.BitBuffer) er
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10612,7 +11164,10 @@ func (v *LocationReportingFailureIndication) MarshalAPERTo(bb *per.BitBuffer) er
 // UnmarshalAPER decodes LocationReportingFailureIndication from APER format.
 func (v *LocationReportingFailureIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *LocationReportingFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10685,17 +11240,19 @@ func (v *LocationReport) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10706,7 +11263,10 @@ func (v *LocationReport) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes LocationReport from APER format.
 func (v *LocationReport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *LocationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10779,17 +11339,19 @@ func (v *OverloadStart) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10800,7 +11362,10 @@ func (v *OverloadStart) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes OverloadStart from APER format.
 func (v *OverloadStart) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *OverloadStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10873,17 +11438,19 @@ func (v *OverloadStop) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10894,7 +11461,10 @@ func (v *OverloadStop) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes OverloadStop from APER format.
 func (v *OverloadStop) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *OverloadStop) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -10967,17 +11537,19 @@ func (v *WriteReplaceWarningRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -10988,7 +11560,10 @@ func (v *WriteReplaceWarningRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes WriteReplaceWarningRequest from APER format.
 func (v *WriteReplaceWarningRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *WriteReplaceWarningRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11061,17 +11636,19 @@ func (v *WriteReplaceWarningResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11082,7 +11659,10 @@ func (v *WriteReplaceWarningResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes WriteReplaceWarningResponse from APER format.
 func (v *WriteReplaceWarningResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *WriteReplaceWarningResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11155,17 +11735,19 @@ func (v *ENBDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11176,7 +11758,10 @@ func (v *ENBDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ENBDirectInformationTransfer from APER format.
 func (v *ENBDirectInformationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11230,6 +11815,21 @@ func (v *InterSystemInformationTransferType) MarshalAPER() ([]byte, error) {
 }
 
 func (v *InterSystemInformationTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.UnknownExtension != nil {
+		if v.Choice != 0 {
+			return fmt.Errorf("InterSystemInformationTransferType: known choice %d and unknown extension are both selected", v.Choice)
+		}
+		if v.UnknownExtension.Index < 0 {
+			return fmt.Errorf("InterSystemInformationTransferType: extension index %d is known to this schema", v.UnknownExtension.Index)
+		}
+		if err := per.EncodeBoolean(bb, true); err != nil {
+			return err
+		}
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index); err != nil {
+			return err
+		}
+		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
 	isExtension := v.Choice > 1
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -11254,7 +11854,10 @@ func (v *InterSystemInformationTransferType) MarshalAPERTo(bb *per.BitBuffer) er
 // UnmarshalAPER decodes InterSystemInformationTransferType from APER format.
 func (v *InterSystemInformationTransferType) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *InterSystemInformationTransferType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11268,7 +11871,12 @@ func (v *InterSystemInformationTransferType) UnmarshalAPERFrom(bb *per.BitBuffer
 		if err != nil {
 			return err
 		}
-		return fmt.Errorf("InterSystemInformationTransferType: unsupported extension choice %d", int(extIdx)+1+1)
+		openData, err := per.DecodeOpenTypeAligned(bb)
+		if err != nil {
+			return err
+		}
+		v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
+		return nil
 	}
 	v.Choice = 1
 	switch v.Choice {
@@ -11311,17 +11919,19 @@ func (v *MMEDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11332,7 +11942,10 @@ func (v *MMEDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMEDirectInformationTransfer from APER format.
 func (v *MMEDirectInformationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMEDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11405,17 +12018,19 @@ func (v *ENBConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11426,7 +12041,10 @@ func (v *ENBConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ENBConfigurationTransfer from APER format.
 func (v *ENBConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11499,17 +12117,19 @@ func (v *MMEConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11520,7 +12140,10 @@ func (v *MMEConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMEConfigurationTransfer from APER format.
 func (v *MMEConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMEConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11593,17 +12216,19 @@ func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11614,7 +12239,10 @@ func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PrivateMessage from APER format.
 func (v *PrivateMessage) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11687,17 +12315,19 @@ func (v *KillRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11708,7 +12338,10 @@ func (v *KillRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes KillRequest from APER format.
 func (v *KillRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *KillRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11781,17 +12414,19 @@ func (v *KillResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11802,7 +12437,10 @@ func (v *KillResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes KillResponse from APER format.
 func (v *KillResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *KillResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11875,17 +12513,19 @@ func (v *PWSRestartIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11896,7 +12536,10 @@ func (v *PWSRestartIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PWSRestartIndication from APER format.
 func (v *PWSRestartIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PWSRestartIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -11969,17 +12612,19 @@ func (v *PWSFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -11990,7 +12635,10 @@ func (v *PWSFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PWSFailureIndication from APER format.
 func (v *PWSFailureIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PWSFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12063,17 +12711,19 @@ func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12084,7 +12734,10 @@ func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) err
 // UnmarshalAPER decodes DownlinkUEAssociatedLPPaTransport from APER format.
 func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12157,17 +12810,19 @@ func (v *UplinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12178,7 +12833,10 @@ func (v *UplinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error
 // UnmarshalAPER decodes UplinkUEAssociatedLPPaTransport from APER format.
 func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12251,17 +12909,19 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) 
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12272,7 +12932,10 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) 
 // UnmarshalAPER decodes DownlinkNonUEAssociatedLPPaTransport from APER format.
 func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12345,17 +13008,19 @@ func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) er
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12366,7 +13031,10 @@ func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) er
 // UnmarshalAPER decodes UplinkNonUEAssociatedLPPaTransport from APER format.
 func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12439,17 +13107,19 @@ func (v *ERABModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12460,7 +13130,10 @@ func (v *ERABModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABModificationIndication from APER format.
 func (v *ERABModificationIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12536,7 +13209,14 @@ func MarshalAPERERABToBeModifiedListBearerModIndTo(list ERABToBeModifiedListBear
 // UnmarshalAPERERABToBeModifiedListBearerModInd decodes a ERABToBeModifiedListBearerModInd list from APER.
 func UnmarshalAPERERABToBeModifiedListBearerModInd(data []byte) (ERABToBeModifiedListBearerModInd, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABToBeModifiedListBearerModIndFrom(bb)
+	value, err := UnmarshalAPERERABToBeModifiedListBearerModIndFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABToBeModifiedListBearerModIndFrom decodes a ERABToBeModifiedListBearerModInd list from bb.
@@ -12610,17 +13290,19 @@ func (v *ERABToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) erro
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12631,7 +13313,10 @@ func (v *ERABToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) erro
 // UnmarshalAPER decodes ERABToBeModifiedItemBearerModInd from APER format.
 func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12730,7 +13415,14 @@ func MarshalAPERERABNotToBeModifiedListBearerModIndTo(list ERABNotToBeModifiedLi
 // UnmarshalAPERERABNotToBeModifiedListBearerModInd decodes a ERABNotToBeModifiedListBearerModInd list from APER.
 func UnmarshalAPERERABNotToBeModifiedListBearerModInd(data []byte) (ERABNotToBeModifiedListBearerModInd, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABNotToBeModifiedListBearerModIndFrom(bb)
+	value, err := UnmarshalAPERERABNotToBeModifiedListBearerModIndFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABNotToBeModifiedListBearerModIndFrom decodes a ERABNotToBeModifiedListBearerModInd list from bb.
@@ -12804,17 +13496,19 @@ func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) e
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12825,7 +13519,10 @@ func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) e
 // UnmarshalAPER decodes ERABNotToBeModifiedItemBearerModInd from APER format.
 func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -12949,17 +13646,19 @@ func (v *CSGMembershipInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -12970,7 +13669,10 @@ func (v *CSGMembershipInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes CSGMembershipInfo from APER format.
 func (v *CSGMembershipInfo) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *CSGMembershipInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13085,17 +13787,19 @@ func (v *ERABModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13106,7 +13810,10 @@ func (v *ERABModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABModificationConfirm from APER format.
 func (v *ERABModificationConfirm) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13180,7 +13887,14 @@ func MarshalAPERERABModifyListBearerModConfTo(list ERABModifyListBearerModConf, 
 // UnmarshalAPERERABModifyListBearerModConf decodes a ERABModifyListBearerModConf list from APER.
 func UnmarshalAPERERABModifyListBearerModConf(data []byte) (ERABModifyListBearerModConf, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABModifyListBearerModConfFrom(bb)
+	value, err := UnmarshalAPERERABModifyListBearerModConfFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABModifyListBearerModConfFrom decodes a ERABModifyListBearerModConf list from bb.
@@ -13248,17 +13962,19 @@ func (v *ERABModifyItemBearerModConf) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13269,7 +13985,10 @@ func (v *ERABModifyItemBearerModConf) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ERABModifyItemBearerModConf from APER format.
 func (v *ERABModifyItemBearerModConf) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABModifyItemBearerModConf) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13355,17 +14074,19 @@ func (v *UEContextModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13376,7 +14097,10 @@ func (v *UEContextModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error
 // UnmarshalAPER decodes UEContextModificationIndication from APER format.
 func (v *UEContextModificationIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13449,17 +14173,19 @@ func (v *UEContextModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13470,7 +14196,10 @@ func (v *UEContextModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextModificationConfirm from APER format.
 func (v *UEContextModificationConfirm) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13543,17 +14272,19 @@ func (v *UEContextSuspendRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13564,7 +14295,10 @@ func (v *UEContextSuspendRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextSuspendRequest from APER format.
 func (v *UEContextSuspendRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextSuspendRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13637,17 +14371,19 @@ func (v *UEContextSuspendResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13658,7 +14394,10 @@ func (v *UEContextSuspendResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextSuspendResponse from APER format.
 func (v *UEContextSuspendResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextSuspendResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13731,17 +14470,19 @@ func (v *UEContextResumeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13752,7 +14493,10 @@ func (v *UEContextResumeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextResumeRequest from APER format.
 func (v *UEContextResumeRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextResumeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -13828,7 +14572,14 @@ func MarshalAPERERABFailedToResumeListResumeReqTo(list ERABFailedToResumeListRes
 // UnmarshalAPERERABFailedToResumeListResumeReq decodes a ERABFailedToResumeListResumeReq list from APER.
 func UnmarshalAPERERABFailedToResumeListResumeReq(data []byte) (ERABFailedToResumeListResumeReq, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABFailedToResumeListResumeReqFrom(bb)
+	value, err := UnmarshalAPERERABFailedToResumeListResumeReqFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABFailedToResumeListResumeReqFrom decodes a ERABFailedToResumeListResumeReq list from bb.
@@ -13899,17 +14650,19 @@ func (v *ERABFailedToResumeItemResumeReq) MarshalAPERTo(bb *per.BitBuffer) error
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -13920,7 +14673,10 @@ func (v *ERABFailedToResumeItemResumeReq) MarshalAPERTo(bb *per.BitBuffer) error
 // UnmarshalAPER decodes ERABFailedToResumeItemResumeReq from APER format.
 func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14009,17 +14765,19 @@ func (v *UEContextResumeResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14030,7 +14788,10 @@ func (v *UEContextResumeResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextResumeResponse from APER format.
 func (v *UEContextResumeResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextResumeResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14106,7 +14867,14 @@ func MarshalAPERERABFailedToResumeListResumeResTo(list ERABFailedToResumeListRes
 // UnmarshalAPERERABFailedToResumeListResumeRes decodes a ERABFailedToResumeListResumeRes list from APER.
 func UnmarshalAPERERABFailedToResumeListResumeRes(data []byte) (ERABFailedToResumeListResumeRes, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERERABFailedToResumeListResumeResFrom(bb)
+	value, err := UnmarshalAPERERABFailedToResumeListResumeResFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERERABFailedToResumeListResumeResFrom decodes a ERABFailedToResumeListResumeRes list from bb.
@@ -14177,17 +14945,19 @@ func (v *ERABFailedToResumeItemResumeRes) MarshalAPERTo(bb *per.BitBuffer) error
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14198,7 +14968,10 @@ func (v *ERABFailedToResumeItemResumeRes) MarshalAPERTo(bb *per.BitBuffer) error
 // UnmarshalAPER decodes ERABFailedToResumeItemResumeRes from APER format.
 func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14287,17 +15060,19 @@ func (v *UEContextResumeFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14308,7 +15083,10 @@ func (v *UEContextResumeFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEContextResumeFailure from APER format.
 func (v *UEContextResumeFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEContextResumeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14381,17 +15159,19 @@ func (v *ConnectionEstablishmentIndication) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14402,7 +15182,10 @@ func (v *ConnectionEstablishmentIndication) MarshalAPERTo(bb *per.BitBuffer) err
 // UnmarshalAPER decodes ConnectionEstablishmentIndication from APER format.
 func (v *ConnectionEstablishmentIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ConnectionEstablishmentIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14475,17 +15258,19 @@ func (v *RetrieveUEInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14496,7 +15281,10 @@ func (v *RetrieveUEInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes RetrieveUEInformation from APER format.
 func (v *RetrieveUEInformation) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *RetrieveUEInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14569,17 +15357,19 @@ func (v *UEInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14590,7 +15380,10 @@ func (v *UEInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes UEInformationTransfer from APER format.
 func (v *UEInformationTransfer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UEInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14663,17 +15456,19 @@ func (v *ENBCPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14684,7 +15479,10 @@ func (v *ENBCPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ENBCPRelocationIndication from APER format.
 func (v *ENBCPRelocationIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ENBCPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14757,17 +15555,19 @@ func (v *MMECPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14778,7 +15578,10 @@ func (v *MMECPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes MMECPRelocationIndication from APER format.
 func (v *MMECPRelocationIndication) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MMECPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14851,17 +15654,19 @@ func (v *SecondaryRATDataUsageReport) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14872,7 +15677,10 @@ func (v *SecondaryRATDataUsageReport) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes SecondaryRATDataUsageReport from APER format.
 func (v *SecondaryRATDataUsageReport) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -14945,17 +15753,19 @@ func (v *UERadioCapabilityIDMappingRequest) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -14966,7 +15776,10 @@ func (v *UERadioCapabilityIDMappingRequest) MarshalAPERTo(bb *per.BitBuffer) err
 // UnmarshalAPER decodes UERadioCapabilityIDMappingRequest from APER format.
 func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15039,17 +15852,19 @@ func (v *UERadioCapabilityIDMappingResponse) MarshalAPERTo(bb *per.BitBuffer) er
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -15060,7 +15875,10 @@ func (v *UERadioCapabilityIDMappingResponse) MarshalAPERTo(bb *per.BitBuffer) er
 // UnmarshalAPER decodes UERadioCapabilityIDMappingResponse from APER format.
 func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15133,17 +15951,19 @@ func (v *S1RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -15154,7 +15974,10 @@ func (v *S1RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes S1RemovalRequest from APER format.
 func (v *S1RemovalRequest) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *S1RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15227,17 +16050,19 @@ func (v *S1RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -15248,7 +16073,10 @@ func (v *S1RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes S1RemovalResponse from APER format.
 func (v *S1RemovalResponse) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *S1RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -15321,17 +16149,19 @@ func (v *S1RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			p := i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]
+			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
-			if i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i] {
-				if i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil {
-					if err := per.EncodeOpenTypeAligned(bb, v.ExtData_[i]); err != nil {
-						return err
-					}
+			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
+				var data []byte
+				if i < int64(len(v.ExtData_)) {
+					data = v.ExtData_[i]
+				}
+				if err := per.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
 				}
 			}
 		}
@@ -15342,7 +16172,10 @@ func (v *S1RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes S1RemovalFailure from APER format.
 func (v *S1RemovalFailure) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *S1RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {

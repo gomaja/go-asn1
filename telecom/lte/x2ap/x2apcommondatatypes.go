@@ -162,7 +162,10 @@ func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PrivateIEID from APER format.
 func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {

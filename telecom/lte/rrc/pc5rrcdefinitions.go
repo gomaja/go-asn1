@@ -72,7 +72,10 @@ func (v *SBCCHSLBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SBCCHSLBCHMessage from UPER format.
 func (v *SBCCHSLBCHMessage) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -102,7 +105,10 @@ func (v *SBCCHSLBCHMessageV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes SBCCHSLBCHMessageV2XR14 from UPER format.
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -147,7 +153,10 @@ func (v *MasterInformationBlockSL) MarshalUPERTo(bb *per.BitBuffer) error {
 // UnmarshalUPER decodes MasterInformationBlockSL from UPER format.
 func (v *MasterInformationBlockSL) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *per.BitBuffer) error {
@@ -217,7 +226,10 @@ func (v *MasterInformationBlockSLV2XR14) MarshalUPERTo(bb *per.BitBuffer) error 
 // UnmarshalUPER decodes MasterInformationBlockSLV2XR14 from UPER format.
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalUPERFrom(bb)
+	if err := v.UnmarshalUPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {

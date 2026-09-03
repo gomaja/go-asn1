@@ -100,7 +100,14 @@ func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *per.BitBuffe
 // UnmarshalAPERProtocolIEContainer decodes a ProtocolIEContainer list from APER.
 func UnmarshalAPERProtocolIEContainer(data []byte) (ProtocolIEContainer, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerFrom decodes a ProtocolIEContainer list from bb.
@@ -155,7 +162,10 @@ func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolIESingleContainer from APER format.
 func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -203,7 +213,10 @@ func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolIEField from APER format.
 func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -256,7 +269,14 @@ func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *per.
 // UnmarshalAPERProtocolIEContainerPair decodes a ProtocolIEContainerPair list from APER.
 func UnmarshalAPERProtocolIEContainerPair(data []byte) (ProtocolIEContainerPair, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerPairFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerPairFrom decodes a ProtocolIEContainerPair list from bb.
@@ -317,7 +337,10 @@ func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolIEFieldPair from APER format.
 func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -380,7 +403,14 @@ func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *per.
 // UnmarshalAPERProtocolIEContainerList decodes a ProtocolIEContainerList list from APER.
 func UnmarshalAPERProtocolIEContainerList(data []byte) (ProtocolIEContainerList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerListFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerListFrom decodes a ProtocolIEContainerList list from bb.
@@ -440,7 +470,14 @@ func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, 
 // UnmarshalAPERProtocolIEContainerPairList decodes a ProtocolIEContainerPairList list from APER.
 func UnmarshalAPERProtocolIEContainerPairList(data []byte) (ProtocolIEContainerPairList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerPairListFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerPairListFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerPairListFrom decodes a ProtocolIEContainerPairList list from bb.
@@ -500,7 +537,14 @@ func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb
 // UnmarshalAPERProtocolExtensionContainer decodes a ProtocolExtensionContainer list from APER.
 func UnmarshalAPERProtocolExtensionContainer(data []byte) (ProtocolExtensionContainer, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolExtensionContainerFrom(bb)
+	value, err := UnmarshalAPERProtocolExtensionContainerFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolExtensionContainerFrom decodes a ProtocolExtensionContainer list from bb.
@@ -555,7 +599,10 @@ func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolExtensionField from APER format.
 func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -608,7 +655,14 @@ func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *per.BitBuffer)
 // UnmarshalAPERPrivateIEContainer decodes a PrivateIEContainer list from APER.
 func UnmarshalAPERPrivateIEContainer(data []byte) (PrivateIEContainer, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERPrivateIEContainerFrom(bb)
+	value, err := UnmarshalAPERPrivateIEContainerFrom(bb)
+	if err != nil {
+		return nil, err
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, err
+	}
+	return value, nil
 }
 
 // UnmarshalAPERPrivateIEContainerFrom decodes a PrivateIEContainer list from bb.
@@ -663,7 +717,10 @@ func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PrivateIEField from APER format.
 func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return err
+	}
+	return per.ValidateFinalPadding(bb)
 }
 
 func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
