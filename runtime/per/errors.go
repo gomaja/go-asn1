@@ -9,4 +9,5 @@ var (
 	ErrInvalidValue        = errors.New("per: value out of range")
 	ErrConstraintViolation = errors.New("per: constraint violation")
 	ErrTruncated           = errors.New("per: data truncated")
+	ErrExtraData           = errors.New("per: trailing data after value")
 )

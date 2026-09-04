@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
 
@@ -446,7 +447,10 @@ func TestEncodeDecodeReal(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			encoded := EncodeReal(tc.value)
+			encoded, err := EncodeReal(runtime.NewRealFromFloat64(tc.value))
+			if err != nil {
+				t.Fatalf("encode error: %v", err)
+			}
 			decoded, consumed, err := DecodeReal(encoded)
 			if err != nil {
 				t.Fatalf("decode error: %v", err)
@@ -454,28 +458,39 @@ func TestEncodeDecodeReal(t *testing.T) {
 			if consumed != len(encoded) {
 				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
 			}
+			converted, err := decoded.Float64()
+			if err != nil {
+				t.Fatalf("float64 conversion: %v", err)
+			}
 			if math.IsInf(tc.value, 0) {
 				sign := 1
 				if math.Signbit(tc.value) {
 					sign = -1
 				}
-				if !math.IsInf(decoded, sign) {
-					t.Errorf("got %v, want %v", decoded, tc.value)
+				if !math.IsInf(converted, sign) {
+					t.Errorf("got %v, want %v", converted, tc.value)
 				}
-			} else if tc.value != decoded {
-				t.Errorf("got %v, want %v", decoded, tc.value)
+			} else if tc.value != converted {
+				t.Errorf("got %v, want %v", converted, tc.value)
 			}
 		})
 	}
 
 	// NaN test.
-	encoded := EncodeReal(math.NaN())
+	encoded, err := EncodeReal(runtime.NewRealFromFloat64(math.NaN()))
+	if err != nil {
+		t.Fatalf("NaN encode error: %v", err)
+	}
 	decoded, _, err := DecodeReal(encoded)
 	if err != nil {
 		t.Fatalf("NaN decode error: %v", err)
 	}
-	if !math.IsNaN(decoded) {
-		t.Errorf("expected NaN, got %v", decoded)
+	converted, err := decoded.Float64()
+	if err != nil {
+		t.Fatalf("NaN conversion error: %v", err)
+	}
+	if !math.IsNaN(converted) {
+		t.Errorf("expected NaN, got %v", converted)
 	}
 }
 

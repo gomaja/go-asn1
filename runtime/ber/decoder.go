@@ -9,6 +9,7 @@ import (
 	"time"
 	"unicode/utf8"
 
+	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
 
@@ -178,6 +179,23 @@ func ValidateDERTLV(data []byte) (int, error) {
 	end := headerLen + length
 	if end > len(data) {
 		return 0, ErrTruncated
+	}
+	if t.Class == tag.ClassUniversal && t.Number == tag.TagReal {
+		if t.Constructed {
+			return 0, fmt.Errorf("%w: DER REAL must be primitive", ErrInvalidTag)
+		}
+		value := data[headerLen:end]
+		decoded, err := decodeRealContents(value)
+		if err != nil {
+			return 0, err
+		}
+		canonical, err := EncodeRealValue(decoded)
+		if err != nil {
+			return 0, err
+		}
+		if !bytes.Equal(value, canonical) {
+			return 0, fmt.Errorf("%w: REAL is not in distinguished encoding", ErrInvalidValue)
+		}
 	}
 	if t.Constructed {
 		// SET and SET OF have the same universal tag but different DER
@@ -489,92 +507,25 @@ func DecodeEnumerated(data []byte) (int64, int, error) {
 	return v, total, nil
 }
 
-// DecodeReal decodes a REAL value from raw TLV bytes.
-func DecodeReal(data []byte) (float64, int, error) {
+// DecodeReal decodes an exact REAL value from raw TLV bytes per ITU-T X.690
+// (02/2021), clause 8.5. Decimal NR1, NR2, and NR3 forms follow clause 8.5.8
+// and ISO 6093:1985.
+func DecodeReal(data []byte) (runtime.Real, int, error) {
 	t, total, value, err := DecodeTLV(data)
 	if err != nil {
-		return 0, 0, err
+		return runtime.Real{}, 0, err
 	}
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagReal {
-		return 0, 0, fmt.Errorf("%w: expected REAL tag, got %s", ErrInvalidTag, t)
+		return runtime.Real{}, 0, fmt.Errorf("%w: expected REAL tag, got %s", ErrInvalidTag, t)
 	}
-	if len(value) == 0 {
-		return 0, total, nil // Zero.
+	if t.Constructed {
+		return runtime.Real{}, 0, fmt.Errorf("%w: REAL must be primitive", ErrInvalidTag)
 	}
-
-	info := value[0]
-	if info == 0x40 {
-		return math.Inf(1), total, nil
-	}
-	if info == 0x41 {
-		return math.Inf(-1), total, nil
-	}
-	if info == 0x42 {
-		return math.NaN(), total, nil
-	}
-	if info == 0x43 {
-		return math.Copysign(0, -1), total, nil
-	}
-
-	if info&0x80 == 0 {
-		return 0, 0, fmt.Errorf("%w: decimal/character REAL encoding not supported", ErrUnsupported)
-	}
-
-	// Binary encoding.
-	sign := (info >> 6) & 1
-	baseField := (info >> 4) & 3
-	scaleFactor := (info >> 2) & 3
-	expLen := int(info&3) + 1
-
-	var baseValue float64
-	switch baseField {
-	case 0:
-		baseValue = 2.0
-	case 1:
-		baseValue = 8.0
-	case 2:
-		baseValue = 16.0
-	default:
-		return 0, 0, fmt.Errorf("%w: REAL base field %d invalid", ErrInvalidValue, baseField)
-	}
-
-	offset := 1
-	if info&3 == 3 {
-		if offset >= len(value) {
-			return 0, 0, ErrTruncated
-		}
-		expLen = int(value[offset])
-		offset++
-	}
-
-	if offset+expLen > len(value) {
-		return 0, 0, ErrTruncated
-	}
-
-	// Decode exponent (signed).
-	expBytes := value[offset : offset+expLen]
-	exp, err := decodeIntBytes(expBytes)
+	decoded, err := decodeRealContents(value)
 	if err != nil {
-		return 0, 0, fmt.Errorf("decoding REAL exponent: %w", err)
+		return runtime.Real{}, 0, err
 	}
-	offset += expLen
-
-	// Decode mantissa (unsigned).
-	mantBytes := value[offset:]
-	if len(mantBytes) == 0 {
-		return 0, 0, fmt.Errorf("%w: REAL mantissa empty", ErrInvalidValue)
-	}
-	var mantissa uint64
-	for _, b := range mantBytes {
-		mantissa = (mantissa << 8) | uint64(b)
-	}
-
-	// Result = (-1)^sign * mantissa * 2^scaleFactor * base^exponent
-	result := float64(mantissa) * math.Pow(2, float64(scaleFactor)) * math.Pow(baseValue, float64(exp))
-	if sign == 1 {
-		result = -result
-	}
-	return result, total, nil
+	return decoded, total, nil
 }
 
 // DecodeString decodes a string type (UTF8, IA5, PrintableString, etc.) from raw TLV bytes.
@@ -864,73 +815,202 @@ func DecodeImplicitGeneralizedTimeValue(constructed bool, value []byte) (time.Ti
 	return parseGeneralizedTime(decoded)
 }
 
-// DecodeRealValue decodes a REAL from raw value bytes.
-func DecodeRealValue(value []byte) (float64, error) {
+// DecodeRealValue decodes X.690 (02/2021), clause 8.5 REAL contents octets.
+func DecodeRealValue(value []byte) (runtime.Real, error) {
+	return decodeRealContents(value)
+}
+
+func decodeRealContents(value []byte) (runtime.Real, error) {
 	if len(value) == 0 {
-		return 0.0, nil
+		return runtime.Real{}, nil
 	}
 	info := value[0]
-
-	// Special values.
-	if info == 0x40 {
-		return math.Inf(1), nil
+	if info&0xc0 == 0x40 {
+		if len(value) != 1 {
+			return runtime.Real{}, fmt.Errorf("%w: REAL special value must contain one octet", ErrInvalidValue)
+		}
+		var kind runtime.RealKind
+		switch info {
+		case 0x40:
+			kind = runtime.RealPlusInfinity
+		case 0x41:
+			kind = runtime.RealMinusInfinity
+		case 0x42:
+			kind = runtime.RealNotANumber
+		case 0x43:
+			kind = runtime.RealMinusZero
+		default:
+			return runtime.Real{}, fmt.Errorf("%w: reserved REAL special value 0x%02x", ErrInvalidValue, info)
+		}
+		return runtime.NewSpecialReal(kind)
 	}
-	if info == 0x41 {
-		return math.Inf(-1), nil
-	}
-	if info == 0x42 {
-		return math.NaN(), nil
-	}
-	if info == 0x43 {
-		return math.Copysign(0, -1), nil
-	}
-
 	if info&0x80 == 0 {
-		return 0, fmt.Errorf("%w: decimal/character REAL encoding not supported", ErrInvalidValue)
+		return decodeDecimalReal(info, value[1:])
 	}
 
-	// Binary encoding.
-	sign := 1.0
-	if info&0x40 != 0 {
-		sign = -1.0
-	}
-	base := 2.0
-	switch (info >> 4) & 0x03 {
+	baseField := (info >> 4) & 0x03
+	var baseScale int64
+	switch baseField {
+	case 0:
+		baseScale = 1
 	case 1:
-		base = 8.0
+		baseScale = 3
 	case 2:
-		base = 16.0
+		baseScale = 4
+	default:
+		return runtime.Real{}, fmt.Errorf("%w: reserved REAL binary base", ErrInvalidValue)
 	}
-	scaleFactor := int((info >> 2) & 0x03)
+	scaleFactor := int64((info >> 2) & 0x03)
 	expLen := int(info&0x03) + 1
-
 	offset := 1
 	if info&0x03 == 3 {
-		// Long exponent form: next byte gives actual exponent length.
 		if offset >= len(value) {
-			return 0, fmt.Errorf("%w: REAL exponent length truncated", ErrInvalidValue)
+			return runtime.Real{}, fmt.Errorf("%w: REAL exponent length truncated", ErrTruncated)
 		}
 		expLen = int(value[offset])
 		offset++
+		if expLen == 0 {
+			return runtime.Real{}, fmt.Errorf("%w: REAL exponent length is zero", ErrInvalidValue)
+		}
 	}
-
-	if offset+expLen > len(value) {
-		return 0, fmt.Errorf("%w: REAL exponent truncated", ErrInvalidValue)
+	if offset+expLen >= len(value) {
+		return runtime.Real{}, fmt.Errorf("%w: REAL exponent or mantissa truncated", ErrTruncated)
 	}
-	var exp int64
-	if value[offset]&0x80 != 0 {
-		exp = -1
+	exponentBytes := value[offset : offset+expLen]
+	if info&0x03 == 3 && len(exponentBytes) > 1 &&
+		(exponentBytes[0] == 0x00 && exponentBytes[1]&0x80 == 0 || exponentBytes[0] == 0xff && exponentBytes[1]&0x80 != 0) {
+		return runtime.Real{}, fmt.Errorf("%w: REAL long exponent violates the first-nine-bits rule", ErrInvalidValue)
 	}
-	for i := offset; i < offset+expLen; i++ {
-		exp = (exp << 8) | int64(value[i])
+	exponent, err := DecodeBigIntValue(exponentBytes)
+	if err != nil {
+		return runtime.Real{}, fmt.Errorf("decoding REAL exponent: %w", err)
 	}
 	offset += expLen
-
-	var mantissa uint64
-	for i := offset; i < len(value); i++ {
-		mantissa = (mantissa << 8) | uint64(value[i])
+	mantissa := new(big.Int).SetBytes(value[offset:])
+	if mantissa.Sign() == 0 {
+		return runtime.Real{}, fmt.Errorf("%w: REAL mantissa is zero", ErrInvalidValue)
 	}
-	return sign * float64(mantissa) * math.Pow(2, float64(scaleFactor)) * math.Pow(base, float64(exp)), nil
+	if info&0x40 != 0 {
+		mantissa.Neg(mantissa)
+	}
+	exponent.Mul(exponent, big.NewInt(baseScale))
+	exponent.Add(exponent, big.NewInt(scaleFactor))
+	decoded, err := runtime.NewReal(2, mantissa, exponent)
+	if err != nil {
+		return runtime.Real{}, fmt.Errorf("decoding REAL: %w", err)
+	}
+	return decoded, nil
+}
+
+func decodeDecimalReal(form byte, contents []byte) (runtime.Real, error) {
+	if form != 1 && form != 2 && form != 3 {
+		return runtime.Real{}, fmt.Errorf("%w: reserved REAL decimal form %d", ErrInvalidValue, form)
+	}
+	text := string(contents)
+	for len(text) > 0 && text[0] == ' ' {
+		text = text[1:]
+	}
+	if text == "" {
+		return runtime.Real{}, fmt.Errorf("%w: empty REAL decimal form", ErrInvalidValue)
+	}
+	sign := 1
+	if text[0] == '+' || text[0] == '-' {
+		if text[0] == '-' {
+			sign = -1
+		}
+		text = text[1:]
+	}
+	if text == "" {
+		return runtime.Real{}, fmt.Errorf("%w: REAL decimal form has no digits", ErrInvalidValue)
+	}
+
+	integerPart := text
+	fractionPart := ""
+	exponent := new(big.Int)
+	if form >= 2 {
+		mark := -1
+		for index, character := range []byte(text) {
+			if character == '.' || character == ',' {
+				if mark >= 0 {
+					return runtime.Real{}, fmt.Errorf("%w: REAL decimal form has multiple decimal marks", ErrInvalidValue)
+				}
+				mark = index
+			}
+		}
+		if mark < 0 {
+			return runtime.Real{}, fmt.Errorf("%w: REAL NR%d form has no decimal mark", ErrInvalidValue, form)
+		}
+		integerPart = text[:mark]
+		fractionAndExponent := text[mark+1:]
+		if form == 2 {
+			fractionPart = fractionAndExponent
+		} else {
+			exponentMark := -1
+			for index, character := range []byte(fractionAndExponent) {
+				if character == 'E' || character == 'e' {
+					if exponentMark >= 0 {
+						return runtime.Real{}, fmt.Errorf("%w: REAL NR3 form has multiple exponent marks", ErrInvalidValue)
+					}
+					exponentMark = index
+				}
+			}
+			if exponentMark < 0 {
+				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 form has no exponent", ErrInvalidValue)
+			}
+			fractionPart = fractionAndExponent[:exponentMark]
+			exponentText := fractionAndExponent[exponentMark+1:]
+			if exponentText == "" {
+				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 exponent is empty", ErrInvalidValue)
+			}
+			if exponentText[0] == '+' || exponentText[0] == '-' {
+				if len(exponentText) == 1 {
+					return runtime.Real{}, fmt.Errorf("%w: REAL NR3 exponent has no digits", ErrInvalidValue)
+				}
+				exponentText = exponentText[1:]
+			}
+			if !decimalDigits(exponentText) {
+				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 exponent contains a non-digit", ErrInvalidValue)
+			}
+			exponent.SetString(fractionAndExponent[exponentMark+1:], 10)
+		}
+	}
+	if !decimalDigits(integerPart) && integerPart != "" || !decimalDigits(fractionPart) && fractionPart != "" {
+		return runtime.Real{}, fmt.Errorf("%w: REAL decimal form contains a non-digit", ErrInvalidValue)
+	}
+	if integerPart == "" && fractionPart == "" {
+		return runtime.Real{}, fmt.Errorf("%w: REAL decimal form has no digits", ErrInvalidValue)
+	}
+	if form == 1 && !decimalDigits(integerPart) {
+		return runtime.Real{}, fmt.Errorf("%w: REAL NR1 form is not an integer", ErrInvalidValue)
+	}
+
+	digits := integerPart + fractionPart
+	mantissa := new(big.Int)
+	mantissa.SetString(digits, 10)
+	if mantissa.Sign() == 0 {
+		return runtime.Real{}, fmt.Errorf("%w: plus or minus zero requires its dedicated REAL encoding", ErrInvalidValue)
+	}
+	if sign < 0 {
+		mantissa.Neg(mantissa)
+	}
+	exponent.Sub(exponent, big.NewInt(int64(len(fractionPart))))
+	decoded, err := runtime.NewReal(10, mantissa, exponent)
+	if err != nil {
+		return runtime.Real{}, fmt.Errorf("decoding decimal REAL: %w", err)
+	}
+	return decoded, nil
+}
+
+func decimalDigits(value string) bool {
+	if value == "" {
+		return false
+	}
+	for _, character := range []byte(value) {
+		if character < '0' || character > '9' {
+			return false
+		}
+	}
+	return true
 }
 
 // DecodeOIDValue decodes an OID from raw value bytes.

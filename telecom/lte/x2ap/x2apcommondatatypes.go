@@ -134,7 +134,7 @@ func (v *PrivateIEID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -162,7 +162,13 @@ func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PrivateIEID from APER format.
 func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEID")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEID")
+	}
+	return nil
 }
 
 func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
@@ -176,13 +182,13 @@ func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case PrivateIEIDChoiceLocal:
 		val_local, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 		if err != nil {
-			return fmt.Errorf("decoding local: %w", err)
+			return runtime.WrapDecodePath(err, "Local")
 		}
 		v.Local = &val_local
 	case PrivateIEIDChoiceGlobal:
 		val_global, err := per.DecodeObjectIdentifierAligned(bb)
 		if err != nil {
-			return fmt.Errorf("decoding global: %w", err)
+			return runtime.WrapDecodePath(err, "Global")
 		}
 		v.Global = runtime.ObjectIdentifier(val_global)
 	}

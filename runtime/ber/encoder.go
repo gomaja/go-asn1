@@ -9,6 +9,7 @@ import (
 	"time"
 	"unicode/utf8"
 
+	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/tag"
 )
 
@@ -206,68 +207,56 @@ func EncodeEnumerated(v int64) []byte {
 	)
 }
 
-// EncodeReal encodes a REAL value per X.690 section 8.5.
-func EncodeReal(v float64) []byte {
-	t := tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}
+// EncodeReal encodes an exact REAL value per X.690 (02/2021), sections 8.5
+// and 11.3. Finite output is DER-canonical and therefore valid BER.
+func EncodeReal(value runtime.Real) ([]byte, error) {
+	contents, err := EncodeRealValue(value)
+	if err != nil {
+		return nil, err
+	}
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents), nil
+}
 
-	if v == 0 {
-		if math.Signbit(v) {
-			return EncodeTLV(t, []byte{0x43})
+// EncodeRealValue returns the canonical contents octets of an ASN.1 REAL.
+func EncodeRealValue(value runtime.Real) ([]byte, error) {
+	canonical, err := value.Canonical()
+	if err != nil {
+		return nil, err
+	}
+	switch canonical.Kind {
+	case runtime.RealPlusInfinity:
+		return []byte{0x40}, nil
+	case runtime.RealMinusInfinity:
+		return []byte{0x41}, nil
+	case runtime.RealNotANumber:
+		return []byte{0x42}, nil
+	case runtime.RealMinusZero:
+		return []byte{0x43}, nil
+	}
+	if canonical.Mantissa == nil {
+		return nil, nil
+	}
+
+	if canonical.Base == 10 {
+		exponent := canonical.Exponent.String()
+		if canonical.Exponent.Sign() == 0 {
+			exponent = "+0"
 		}
-		return EncodeTLV(t, nil)
-	}
-	if math.IsInf(v, 1) {
-		return EncodeTLV(t, []byte{0x40})
-	}
-	if math.IsInf(v, -1) {
-		return EncodeTLV(t, []byte{0x41})
-	}
-	if math.IsNaN(v) {
-		return EncodeTLV(t, []byte{0x42})
+		return []byte("\x03" + canonical.Mantissa.String() + ".E" + exponent), nil
 	}
 
-	// Binary encoding: info octet + exponent + mantissa.
-	bits := math.Float64bits(v)
-	sign := (bits >> 63) & 1
-	rawExp := (bits >> 52) & 0x7FF
-	mantissa := bits & 0x000FFFFFFFFFFFFF
-	var exp int64
-	if rawExp == 0 {
-		exp = 1 - 1023 - 52
-	} else {
-		exp = int64(rawExp) - 1023 - 52
-		mantissa |= 0x0010000000000000
-	}
-
-	// Remove trailing zeros from mantissa.
-	for mantissa > 0 && mantissa&1 == 0 {
-		mantissa >>= 1
-		exp++
-	}
-
-	// Encode mantissa bytes (unsigned, big-endian).
-	var mBytes []byte
-	m := mantissa
-	for m > 0 {
-		mBytes = append([]byte{byte(m & 0xFF)}, mBytes...)
-		m >>= 8
-	}
-	if len(mBytes) == 0 {
-		mBytes = []byte{0}
-	}
-
-	// Encode exponent bytes (signed, two's complement).
-	eBytes := encodeIntBytes(exp)
-
-	// Info octet: 1SBBFFEE
-	// S=sign, BB=base(00=2), FF=scale(00), EE=exponent length.
+	mantissa := new(big.Int).Set(canonical.Mantissa)
 	info := byte(0x80)
-	if sign == 1 {
+	if mantissa.Sign() < 0 {
 		info |= 0x40
+		mantissa.Abs(mantissa)
 	}
-	switch len(eBytes) {
+	exponent := EncodeBigIntValue(canonical.Exponent)
+	if len(exponent) > 255 {
+		return nil, fmt.Errorf("%w: REAL exponent requires %d octets, maximum is 255", ErrInvalidValue, len(exponent))
+	}
+	switch len(exponent) {
 	case 1:
-		// EE = 00
 	case 2:
 		info |= 0x01
 	case 3:
@@ -275,16 +264,13 @@ func EncodeReal(v float64) []byte {
 	default:
 		info |= 0x03
 	}
-
-	var value []byte
-	value = append(value, info)
-	if info&0x03 == 0x03 {
-		value = append(value, byte(len(eBytes)))
+	contents := []byte{info}
+	if len(exponent) > 3 {
+		contents = append(contents, byte(len(exponent)))
 	}
-	value = append(value, eBytes...)
-	value = append(value, mBytes...)
-
-	return EncodeTLV(t, value)
+	contents = append(contents, exponent...)
+	contents = append(contents, mantissa.Bytes()...)
+	return contents, nil
 }
 
 // EncodeUTF8String encodes a UTF8String.

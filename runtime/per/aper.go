@@ -84,14 +84,18 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 		return addNonNegativeOffset(lb, offset)
 	case rangeValue == 255:
 		// Exactly 256 values: 8-bit field, octet-aligned.
-		bb.AlignToOctetRead()
+		if err := bb.AlignToOctetRead(); err != nil {
+			return 0, err
+		}
 		offset, err := bb.ReadBits(8)
 		if err != nil {
 			return 0, err
 		}
 		return addNonNegativeOffset(lb, offset)
 	case rangeValue < 65536:
-		bb.AlignToOctetRead()
+		if err := bb.AlignToOctetRead(); err != nil {
+			return 0, err
+		}
 		offset, err := bb.ReadBits(16)
 		if err != nil {
 			return 0, err
@@ -108,7 +112,9 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 		if err != nil {
 			return 0, err
 		}
-		bb.AlignToOctetRead()
+		if err := bb.AlignToOctetRead(); err != nil {
+			return 0, err
+		}
 		data, err := bb.ReadBytes(int(n))
 		if err != nil {
 			return 0, err
@@ -133,7 +139,9 @@ func EncodeUnconstrainedLengthAligned(bb *BitBuffer, n int64) error {
 
 // DecodeUnconstrainedLengthAligned decodes an unconstrained length determinant (APER).
 func DecodeUnconstrainedLengthAligned(bb *BitBuffer) (int64, error) {
-	bb.AlignToOctetRead()
+	if err := bb.AlignToOctetRead(); err != nil {
+		return 0, err
+	}
 	return DecodeUnconstrainedLength(bb)
 }
 
@@ -400,7 +408,9 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		if lb > 16 {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return nil, 0, err
+			}
 		}
 		data, err := bb.ReadBitsToBytes(int(lb))
 		return data, int(lb), err
@@ -413,7 +423,9 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 			return nil, 0, err
 		}
 		if ub > 16 {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return nil, 0, err
+			}
 		}
 	} else {
 		data, decodedLength, err := decodeLengthDelimitedBitsBounded(bb, true, rootSizeMaximum(ub, constrained))
@@ -495,7 +507,9 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
 		if lb > 2 {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return nil, err
+			}
 		}
 		return bb.ReadBytes(int(lb))
 	}
@@ -507,7 +521,9 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 			return nil, err
 		}
 		if ub > 2 {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return nil, err
+			}
 		}
 	} else {
 		data, err := decodeLengthDelimitedOctetsBounded(bb, true, rootSizeMaximum(ub, constrained))
@@ -610,7 +626,9 @@ func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, u
 			return "", payloadErr
 		}
 		if payloadBits > 16 {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return "", err
+			}
 		}
 		length = lb
 	} else if constrained && ub < 65536 {
@@ -619,7 +637,9 @@ func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, u
 			return "", err
 		}
 		if ub > 2 {
-			bb.AlignToOctetRead()
+			if err := bb.AlignToOctetRead(); err != nil {
+				return "", err
+			}
 		}
 	} else {
 		value, decodedLength, err := decodeLengthDelimitedKnownMultiplierStringBounded(bb, bitsPerChar, true, rootSizeMaximum(ub, constrained))
@@ -637,14 +657,25 @@ func DecodeKnownMultiplierStringAlignedExt(bb *BitBuffer, bitsPerChar int, lb, u
 	return readKnownMultiplierString(bb, length, bitsPerChar)
 }
 
-// EncodeOpenTypeAligned wraps encoded bytes with an aligned length determinant (APER).
+// EncodeOpenTypeAligned wraps a complete encoding with an aligned length
+// determinant. ITU-T X.691 (02/2021), clause 11.2.
 func EncodeOpenTypeAligned(bb *BitBuffer, data []byte) error {
+	if len(data) == 0 {
+		return fmt.Errorf("%w: APER open type requires a complete encoding", ErrInvalidValue)
+	}
 	return encodeLengthDelimitedOctets(bb, data, true)
 }
 
-// DecodeOpenTypeAligned decodes an open type value (APER).
+// DecodeOpenTypeAligned decodes an open type's complete encoding (APER).
 func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
-	return decodeLengthDelimitedOctets(bb, true)
+	data, err := decodeLengthDelimitedOctets(bb, true)
+	if err != nil {
+		return nil, err
+	}
+	if len(data) == 0 {
+		return nil, fmt.Errorf("%w: APER open type has an empty complete encoding", ErrInvalidValue)
+	}
+	return data, nil
 }
 
 // EncodeChoiceIndexAligned encodes a CHOICE index (APER).

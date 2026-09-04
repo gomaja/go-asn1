@@ -78,7 +78,7 @@ func MarshalAPERProtocolIEContainer(list ProtocolIEContainer) ([]byte, error) {
 	if err := MarshalAPERProtocolIEContainerTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERProtocolIEContainerTo appends a ProtocolIEContainer list to bb.
@@ -100,7 +100,14 @@ func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *per.BitBuffe
 // UnmarshalAPERProtocolIEContainer decodes a ProtocolIEContainer list from APER.
 func UnmarshalAPERProtocolIEContainer(data []byte) (ProtocolIEContainer, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerFrom(bb)
+	if err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainer")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainer")
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerFrom decodes a ProtocolIEContainer list from bb.
@@ -118,14 +125,14 @@ func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListVal
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -136,7 +143,7 @@ func (v *ProtocolIESingleContainer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -155,24 +162,30 @@ func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolIESingleContainer from APER format.
 func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
+	}
+	return nil
 }
 
 func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ProtocolIESingleContainer{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
 	openData_value, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
@@ -184,7 +197,7 @@ func (v *ProtocolIEField) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -203,24 +216,30 @@ func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolIEField from APER format.
 func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEField")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEField")
+	}
+	return nil
 }
 
 func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ProtocolIEField{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
 	openData_value, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil
@@ -234,7 +253,7 @@ func MarshalAPERProtocolIEContainerPair(list ProtocolIEContainerPair) ([]byte, e
 	if err := MarshalAPERProtocolIEContainerPairTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERProtocolIEContainerPairTo appends a ProtocolIEContainerPair list to bb.
@@ -256,7 +275,14 @@ func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *per.
 // UnmarshalAPERProtocolIEContainerPair decodes a ProtocolIEContainerPair list from APER.
 func UnmarshalAPERProtocolIEContainerPair(data []byte) (ProtocolIEContainerPair, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerPairFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
+	if err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerPairFrom decodes a ProtocolIEContainerPair list from bb.
@@ -274,14 +300,14 @@ func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPai
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIEFieldPair
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -292,7 +318,7 @@ func (v *ProtocolIEFieldPair) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -317,34 +343,40 @@ func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolIEFieldPair from APER format.
 func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
+	}
+	return nil
 }
 
 func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ProtocolIEFieldPair{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
 	val_firstcriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding firstCriticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "FirstCriticality")
 	}
 	v.FirstCriticality = Criticality(val_firstcriticality)
 	openData_firstvalue, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding firstValue: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "FirstValue")
 	}
 	v.FirstValue = runtime.RawValue{Bytes: openData_firstvalue}
 	val_secondcriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding secondCriticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "SecondCriticality")
 	}
 	v.SecondCriticality = Criticality(val_secondcriticality)
 	openData_secondvalue, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding secondValue: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "SecondValue")
 	}
 	v.SecondValue = runtime.RawValue{Bytes: openData_secondvalue}
 	return nil
@@ -358,7 +390,7 @@ func MarshalAPERProtocolIEContainerList(list ProtocolIEContainerList) ([]byte, e
 	if err := MarshalAPERProtocolIEContainerListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERProtocolIEContainerListTo appends a ProtocolIEContainerList list to bb.
@@ -380,7 +412,14 @@ func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *per.
 // UnmarshalAPERProtocolIEContainerList decodes a ProtocolIEContainerList list from APER.
 func UnmarshalAPERProtocolIEContainerList(data []byte) (ProtocolIEContainerList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerListFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerListFrom(bb)
+	if err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerList")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerList")
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerListFrom decodes a ProtocolIEContainerList list from bb.
@@ -398,14 +437,14 @@ func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerLis
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -418,7 +457,7 @@ func MarshalAPERProtocolIEContainerPairList(list ProtocolIEContainerPairList) ([
 	if err := MarshalAPERProtocolIEContainerPairListTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERProtocolIEContainerPairListTo appends a ProtocolIEContainerPairList list to bb.
@@ -440,7 +479,14 @@ func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, 
 // UnmarshalAPERProtocolIEContainerPairList decodes a ProtocolIEContainerPairList list from APER.
 func UnmarshalAPERProtocolIEContainerPairList(data []byte) (ProtocolIEContainerPairList, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolIEContainerPairListFrom(bb)
+	value, err := UnmarshalAPERProtocolIEContainerPairListFrom(bb)
+	if err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolIEContainerPairListFrom decodes a ProtocolIEContainerPairList list from bb.
@@ -458,14 +504,14 @@ func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContaine
 		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
 			elem, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
 			if err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i_value, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i_value))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -478,7 +524,7 @@ func MarshalAPERProtocolExtensionContainer(list ProtocolExtensionContainer) ([]b
 	if err := MarshalAPERProtocolExtensionContainerTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERProtocolExtensionContainerTo appends a ProtocolExtensionContainer list to bb.
@@ -500,7 +546,14 @@ func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb
 // UnmarshalAPERProtocolExtensionContainer decodes a ProtocolExtensionContainer list from APER.
 func UnmarshalAPERProtocolExtensionContainer(data []byte) (ProtocolExtensionContainer, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERProtocolExtensionContainerFrom(bb)
+	value, err := UnmarshalAPERProtocolExtensionContainerFrom(bb)
+	if err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
+	}
+	return value, nil
 }
 
 // UnmarshalAPERProtocolExtensionContainerFrom decodes a ProtocolExtensionContainer list from bb.
@@ -518,14 +571,14 @@ func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionCo
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolExtensionField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -536,7 +589,7 @@ func (v *ProtocolExtensionField) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -555,24 +608,30 @@ func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes ProtocolExtensionField from APER format.
 func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
+	}
+	return nil
 }
 
 func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = ProtocolExtensionField{}
 	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolExtensionID(val_id)
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
 	openData_extensionvalue, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding extensionValue: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("extension %v: %w", v.Id, err), "ExtensionValue")
 	}
 	v.ExtensionValue = runtime.RawValue{Bytes: openData_extensionvalue}
 	return nil
@@ -586,7 +645,7 @@ func MarshalAPERPrivateIEContainer(list PrivateIEContainer) ([]byte, error) {
 	if err := MarshalAPERPrivateIEContainerTo(list, bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 // MarshalAPERPrivateIEContainerTo appends a PrivateIEContainer list to bb.
@@ -608,7 +667,14 @@ func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *per.BitBuffer)
 // UnmarshalAPERPrivateIEContainer decodes a PrivateIEContainer list from APER.
 func UnmarshalAPERPrivateIEContainer(data []byte) (PrivateIEContainer, error) {
 	bb := per.NewBitBufferFromBytes(data)
-	return UnmarshalAPERPrivateIEContainerFrom(bb)
+	value, err := UnmarshalAPERPrivateIEContainerFrom(bb)
+	if err != nil {
+		return nil, runtime.WrapDecodePath(err, "PrivateIEContainer")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return nil, runtime.WrapDecodePath(err, "PrivateIEContainer")
+	}
+	return value, nil
 }
 
 // UnmarshalAPERPrivateIEContainerFrom decodes a PrivateIEContainer list from bb.
@@ -626,14 +692,14 @@ func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem PrivateIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
-				return fmt.Errorf("decoding value element %d: %w", fragmentOffset_value+i, err)
+				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
 			v.Value = append(v.Value, elem)
 		}
 		return nil
 	})
 	if errCollection_value != nil {
-		return fmt.Errorf("decoding value: %w", errCollection_value)
+		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	return nil
 }
@@ -644,7 +710,7 @@ func (v *PrivateIEField) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.Bytes(), nil
+	return bb.CompleteBytes(), nil
 }
 
 func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -663,22 +729,28 @@ func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 // UnmarshalAPER decodes PrivateIEField from APER format.
 func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
 	bb := per.NewBitBufferFromBytes(data)
-	return v.UnmarshalAPERFrom(bb)
+	if err := v.UnmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEField")
+	}
+	if err := per.ValidateFinalPadding(bb); err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEField")
+	}
+	return nil
 }
 
 func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	*v = PrivateIEField{}
 	if err := v.Id.UnmarshalAPERFrom(bb); err != nil {
-		return fmt.Errorf("decoding id: %w", err)
+		return runtime.WrapDecodePath(err, "Id")
 	}
 	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return fmt.Errorf("decoding criticality: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
 	openData_value, err := per.DecodeOpenTypeAligned(bb)
 	if err != nil {
-		return fmt.Errorf("decoding value: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
 	v.Value = runtime.RawValue{Bytes: openData_value}
 	return nil

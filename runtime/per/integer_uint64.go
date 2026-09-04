@@ -131,17 +131,21 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 	case rangeValue < 255:
 		offset, err = bb.ReadBits(bits.Len64(rangeValue))
 	case rangeValue == 255:
-		bb.AlignToOctetRead()
-		offset, err = bb.ReadBits(8)
+		if err = bb.AlignToOctetRead(); err == nil {
+			offset, err = bb.ReadBits(8)
+		}
 	case rangeValue < 65536:
-		bb.AlignToOctetRead()
-		offset, err = bb.ReadBits(16)
+		if err = bb.AlignToOctetRead(); err == nil {
+			offset, err = bb.ReadBits(16)
+		}
 	default:
 		maximumLength := (bits.Len64(rangeValue) + 7) / 8
 		var length int64
 		length, err = DecodeConstrainedWholeNumber(bb, 1, int64(maximumLength))
 		if err == nil {
-			bb.AlignToOctetRead()
+			err = bb.AlignToOctetRead()
+		}
+		if err == nil {
 			var data []byte
 			data, err = bb.ReadBytes(int(length))
 			if err == nil {

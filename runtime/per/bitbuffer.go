@@ -118,6 +118,16 @@ func (bb *BitBuffer) Bytes() []byte {
 	return bb.data
 }
 
+// CompleteBytes returns a complete PER encoding. X.691 (02/2021), clauses
+// 11.1.3.1 and 11.1.4 require a zero-bit outermost encoding to be represented
+// by one zero octet.
+func (bb *BitBuffer) CompleteBytes() []byte {
+	if bb.bitPos == 0 && len(bb.data) == 0 {
+		return []byte{0}
+	}
+	return bb.data
+}
+
 // BitsWritten returns the total number of bits written.
 func (bb *BitBuffer) BitsWritten() int {
 	return bb.bitPos
@@ -131,6 +141,46 @@ func (bb *BitBuffer) BitsRemaining() int {
 // BitPos returns the current bit position.
 func (bb *BitBuffer) BitPos() int {
 	return bb.bitPos
+}
+
+// ValidateOpenTypePadding consumes the zero padding at the end of a complete
+// PER encoding carried in an open type. X.691 (02/2021), section 11.2 requires
+// the complete encoding to occupy an integral number of octets.
+func ValidateOpenTypePadding(bb *BitBuffer) error {
+	return validateTrailingPadding(bb, "open type")
+}
+
+// ValidateFinalPadding consumes the zero padding after a complete top-level
+// PER value and rejects appended data.
+func ValidateFinalPadding(bb *BitBuffer) error {
+	return validateTrailingPadding(bb, "top-level value")
+}
+
+func validateTrailingPadding(bb *BitBuffer, context string) error {
+	remaining := bb.BitsRemaining()
+	if bb.BitPos() == 0 {
+		switch {
+		case remaining == 0:
+			return fmt.Errorf("%w: %s complete encoding is empty", ErrTruncated, context)
+		case remaining < 8:
+			return fmt.Errorf("%w: %s zero-bit complete encoding has %d bits", ErrTruncated, context, remaining)
+		case remaining > 8:
+			return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+		}
+	}
+	if remaining > 7 {
+		if bb.BitPos() != 0 {
+			return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+		}
+	}
+	padding, err := bb.ReadBits(remaining)
+	if err != nil {
+		return err
+	}
+	if padding != 0 {
+		return fmt.Errorf("%w: %s has non-zero trailing padding", ErrInvalidValue, context)
+	}
+	return nil
 }
 
 // WriteBitsFromBytes writes exactly bitLen bits from the given byte slice (MSB first).
@@ -160,15 +210,20 @@ func (bb *BitBuffer) AlignToOctetWrite() {
 	}
 }
 
-// AlignToOctetRead advances the read position to the next octet boundary (APER).
-func (bb *BitBuffer) AlignToOctetRead() {
+// AlignToOctetRead consumes and validates zero-valued APER alignment padding.
+func (bb *BitBuffer) AlignToOctetRead() error {
 	rem := bb.bitPos % 8
-	if rem != 0 {
-		bb.bitPos += 8 - rem
+	if rem == 0 {
+		return nil
 	}
-	if bb.bitPos > bb.bitLen {
-		bb.bitPos = bb.bitLen
+	padding, err := bb.ReadBits(8 - rem)
+	if err != nil {
+		return fmt.Errorf("APER alignment padding: %w", err)
 	}
+	if padding != 0 {
+		return fmt.Errorf("%w: non-zero APER alignment padding", ErrInvalidValue)
+	}
+	return nil
 }
 
 // ReadBitsToBytes reads bitLen bits and returns them packed into bytes (MSB first).
