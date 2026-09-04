@@ -958,10 +958,11 @@ func decodeDecimalReal(form byte, contents []byte) (runtime.Real, error) {
 				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 form has no exponent", ErrInvalidValue)
 			}
 			fractionPart = fractionAndExponent[:exponentMark]
-			exponentText := fractionAndExponent[exponentMark+1:]
-			if exponentText == "" {
+			encodedExponent := fractionAndExponent[exponentMark+1:]
+			if encodedExponent == "" {
 				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 exponent is empty", ErrInvalidValue)
 			}
+			exponentText := encodedExponent
 			if exponentText[0] == '+' || exponentText[0] == '-' {
 				if len(exponentText) == 1 {
 					return runtime.Real{}, fmt.Errorf("%w: REAL NR3 exponent has no digits", ErrInvalidValue)
@@ -971,7 +972,10 @@ func decodeDecimalReal(form byte, contents []byte) (runtime.Real, error) {
 			if !decimalDigits(exponentText) {
 				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 exponent contains a non-digit", ErrInvalidValue)
 			}
-			exponent.SetString(fractionAndExponent[exponentMark+1:], 10)
+			exponent.SetString(encodedExponent, 10)
+			if exponent.Sign() == 0 && encodedExponent[0] != '+' {
+				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 zero exponent requires a plus sign", ErrInvalidValue)
+			}
 		}
 	}
 	if !decimalDigits(integerPart) && integerPart != "" || !decimalDigits(fractionPart) && fractionPart != "" {
