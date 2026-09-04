@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"math/big"
+	"strings"
 	"testing"
 
 	"github.com/gomaja/go-asn1/runtime"
@@ -23,6 +24,8 @@ func TestDecodeRealDecimalForms(t *testing.T) {
 		{name: "NR2 comma", contents: "\x02-12,50", base: 10, mantissa: "-125", exponent: "-1"},
 		{name: "NR3", contents: "\x03-12.50E+3", base: 10, mantissa: "-125", exponent: "2"},
 		{name: "NR3 lowercase", contents: "\x03+001.250e-2", base: 10, mantissa: "125", exponent: "-4"},
+		{name: "NR3 zero exponent", contents: "\x031.E+0", base: 10, mantissa: "1", exponent: "0"},
+		{name: "NR3 zero exponent multiple digits", contents: "\x031.e+00", base: 10, mantissa: "1", exponent: "0"},
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
@@ -40,6 +43,31 @@ func TestDecodeRealDecimalForms(t *testing.T) {
 				t.Fatal(err)
 			}
 			assertReal(t, implicit, runtime.RealFinite, test.base, test.mantissa, test.exponent)
+		})
+	}
+}
+
+func TestDecodeRealRejectsNR3ZeroExponentWithoutPlusSign(t *testing.T) {
+	tests := []struct {
+		name string
+		text string
+	}{
+		{name: "missing sign", text: "1.E0"},
+		{name: "missing sign multiple digits", text: "1.e00"},
+		{name: "minus sign", text: "1.E-0"},
+		{name: "minus sign multiple digits", text: "1.e-00"},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			contents := append([]byte{0x03}, []byte(test.text)...)
+			if _, err := DecodeRealValue(contents); !errors.Is(err, ErrInvalidValue) {
+				t.Fatalf("DecodeRealValue(%q) error = %v, want ErrInvalidValue", test.text, err)
+			}
+
+			wire := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
+			if _, _, err := DecodeReal(wire); !errors.Is(err, ErrInvalidValue) {
+				t.Fatalf("DecodeReal(%q) error = %v, want ErrInvalidValue", test.text, err)
+			}
 		})
 	}
 }
@@ -234,6 +262,25 @@ func FuzzDecodeRealValueNoPanic(f *testing.F) {
 		}
 		if _, consumed, err := DecodeReal(wire); err != nil || consumed != len(wire) {
 			t.Fatalf("canonical re-decode = consumed %d error %v", consumed, err)
+		}
+	})
+}
+
+func FuzzDecodeRealRejectsNR3ZeroExponentWithoutPlusSign(f *testing.F) {
+	f.Add(uint8(1), false, false)
+	f.Add(uint8(2), true, true)
+	f.Fuzz(func(t *testing.T, width uint8, negative, lowercase bool) {
+		zeros := strings.Repeat("0", int(width%64)+1)
+		exponentMark := "E"
+		if lowercase {
+			exponentMark = "e"
+		}
+		if negative {
+			zeros = "-" + zeros
+		}
+		contents := append([]byte{0x03}, []byte("1."+exponentMark+zeros)...)
+		if _, err := DecodeRealValue(contents); !errors.Is(err, ErrInvalidValue) {
+			t.Fatalf("DecodeRealValue(%q) error = %v, want ErrInvalidValue", contents[1:], err)
 		}
 	})
 }
