@@ -347,6 +347,9 @@ const (
 // TBCDSTRING5 represents the ASN.1 type TBCD-STRING (OCTET_STRING).
 type TBCDSTRING5 = []byte
 
+// DiameterIdentity4 represents the ASN.1 type DiameterIdentity (OCTET_STRING).
+type DiameterIdentity4 = []byte
+
 // AddressString5 represents the ASN.1 type AddressString (OCTET_STRING).
 type AddressString5 = []byte
 
@@ -457,6 +460,12 @@ func (v AccessNetworkProtocolId5) String() string {
 
 // AlertingPattern5 represents the ASN.1 type AlertingPattern (OCTET_STRING).
 type AlertingPattern5 = []byte
+
+// GSNAddress5 represents the ASN.1 type GSN-Address (OCTET_STRING).
+type GSNAddress5 = []byte
+
+// Time4 represents the ASN.1 type Time (OCTET_STRING).
+type Time4 = []byte
 
 // IMSI5 represents the ASN.1 type IMSI (OCTET_STRING).
 type IMSI5 = TBCDSTRING5
@@ -596,6 +605,8 @@ const (
 	AdditionalNetworkResource5GsmSCF AdditionalNetworkResource5 = 3
 	AdditionalNetworkResource5Nplr   AdditionalNetworkResource5 = 4
 	AdditionalNetworkResource5Auc    AdditionalNetworkResource5 = 5
+	AdditionalNetworkResource5Ue     AdditionalNetworkResource5 = 6
+	AdditionalNetworkResource5Mme    AdditionalNetworkResource5 = 7
 )
 
 func (v AdditionalNetworkResource5) String() string {
@@ -612,6 +623,10 @@ func (v AdditionalNetworkResource5) String() string {
 		return "nplr"
 	case AdditionalNetworkResource5Auc:
 		return "auc"
+	case AdditionalNetworkResource5Ue:
+		return "ue"
+	case AdditionalNetworkResource5Mme:
+		return "mme"
 	default:
 		return "unknown"
 	}
@@ -700,6 +715,15 @@ type LCSServiceTypeID5 = int64
 
 // PLMNId5 represents the ASN.1 type PLMN-Id (OCTET_STRING).
 type PLMNId5 = []byte
+
+// EUTRANCGI4 represents the ASN.1 type E-UTRAN-CGI (OCTET_STRING).
+type EUTRANCGI4 = []byte
+
+// TAId4 represents the ASN.1 type TA-Id (OCTET_STRING).
+type TAId4 = []byte
+
+// RAIdentity5 represents the ASN.1 type RAIdentity (OCTET_STRING).
+type RAIdentity5 = []byte
 
 // CellGlobalIdOrServiceAreaIdOrLAI5 choice constants.
 const (
@@ -1454,6 +1478,9 @@ func (v *SubscriberId5) UnmarshalBER(data []byte) error {
 
 // MarshalBERHLRList5 encodes a HLRList5 list to BER.
 func MarshalBERHLRList5(list HLRList5) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("HLRList5 length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1463,6 +1490,9 @@ func MarshalBERHLRList5(list HLRList5) ([]byte, error) {
 
 // MarshalDERHLRList5 encodes a HLRList5 list to DER.
 func MarshalDERHLRList5(list HLRList5) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("HLRList5 length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1492,6 +1522,12 @@ func UnmarshalBERHLRList5(data []byte) (HLRList5, error) {
 		}
 		result = append(result, HLRId5(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("HLRList5 length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("HLRList5 length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }

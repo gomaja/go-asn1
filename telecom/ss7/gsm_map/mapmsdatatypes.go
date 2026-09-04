@@ -5971,6 +5971,9 @@ func (v *ADDInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERPagingArea encodes a PagingArea list to BER.
 func MarshalBERPagingArea(list PagingArea) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("PagingArea length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -5984,6 +5987,9 @@ func MarshalBERPagingArea(list PagingArea) ([]byte, error) {
 
 // MarshalDERPagingArea encodes a PagingArea list to DER.
 func MarshalDERPagingArea(list PagingArea) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("PagingArea length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -6021,6 +6027,12 @@ func UnmarshalBERPagingArea(data []byte) (PagingArea, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("PagingArea length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("PagingArea length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
@@ -7904,6 +7916,9 @@ func (v *AuthenticationSetList) UnmarshalBER(data []byte) error {
 
 // MarshalBERTripletList encodes a TripletList list to BER.
 func MarshalBERTripletList(list TripletList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("TripletList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -7917,6 +7932,9 @@ func MarshalBERTripletList(list TripletList) ([]byte, error) {
 
 // MarshalDERTripletList encodes a TripletList list to DER.
 func MarshalDERTripletList(list TripletList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("TripletList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -7954,12 +7972,21 @@ func UnmarshalBERTripletList(data []byte) (TripletList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("TripletList length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("TripletList length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERQuintupletList encodes a QuintupletList list to BER.
 func MarshalBERQuintupletList(list QuintupletList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("QuintupletList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -7973,6 +8000,9 @@ func MarshalBERQuintupletList(list QuintupletList) ([]byte, error) {
 
 // MarshalDERQuintupletList encodes a QuintupletList list to DER.
 func MarshalDERQuintupletList(list QuintupletList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("QuintupletList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -8010,6 +8040,12 @@ func UnmarshalBERQuintupletList(data []byte) (QuintupletList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("QuintupletList length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("QuintupletList length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
@@ -11294,6 +11330,9 @@ func (v *UpdateGprsLocationRes) UnmarshalBER(data []byte) error {
 
 // MarshalBEREPLMNList encodes a EPLMNList list to BER.
 func MarshalBEREPLMNList(list EPLMNList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("EPLMNList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -11303,6 +11342,9 @@ func MarshalBEREPLMNList(list EPLMNList) ([]byte, error) {
 
 // MarshalDEREPLMNList encodes a EPLMNList list to DER.
 func MarshalDEREPLMNList(list EPLMNList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("EPLMNList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -11332,12 +11374,21 @@ func UnmarshalBEREPLMNList(data []byte) (EPLMNList, error) {
 		}
 		result = append(result, PLMNId(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("EPLMNList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("EPLMNList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERAdjacentPLMNList encodes a AdjacentPLMNList list to BER.
 func MarshalBERAdjacentPLMNList(list AdjacentPLMNList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("AdjacentPLMNList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -11347,6 +11398,9 @@ func MarshalBERAdjacentPLMNList(list AdjacentPLMNList) ([]byte, error) {
 
 // MarshalDERAdjacentPLMNList encodes a AdjacentPLMNList list to DER.
 func MarshalDERAdjacentPLMNList(list AdjacentPLMNList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("AdjacentPLMNList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -11376,6 +11430,12 @@ func UnmarshalBERAdjacentPLMNList(data []byte) (AdjacentPLMNList, error) {
 		}
 		result = append(result, PLMNId(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("AdjacentPLMNList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("AdjacentPLMNList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -13918,6 +13978,9 @@ func (v *PrepareHOArg) UnmarshalBER(data []byte) error {
 
 // MarshalBERBSSMAPServiceHandoverList encodes a BSSMAPServiceHandoverList list to BER.
 func MarshalBERBSSMAPServiceHandoverList(list BSSMAPServiceHandoverList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("BSSMAPServiceHandoverList length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -13931,6 +13994,9 @@ func MarshalBERBSSMAPServiceHandoverList(list BSSMAPServiceHandoverList) ([]byte
 
 // MarshalDERBSSMAPServiceHandoverList encodes a BSSMAPServiceHandoverList list to DER.
 func MarshalDERBSSMAPServiceHandoverList(list BSSMAPServiceHandoverList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("BSSMAPServiceHandoverList length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -13968,6 +14034,12 @@ func UnmarshalBERBSSMAPServiceHandoverList(data []byte) (BSSMAPServiceHandoverLi
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 7 {
+			return nil, fmt.Errorf("BSSMAPServiceHandoverList length %d violates SIZE (1..7)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 7 {
+		return nil, fmt.Errorf("BSSMAPServiceHandoverList length %d violates SIZE (1..7)", len(result))
 	}
 	return result, nil
 }
@@ -14061,6 +14133,9 @@ func (v *BSSMAPServiceHandoverInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERRadioResourceList encodes a RadioResourceList list to BER.
 func MarshalBERRadioResourceList(list RadioResourceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("RadioResourceList length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -14074,6 +14149,9 @@ func MarshalBERRadioResourceList(list RadioResourceList) ([]byte, error) {
 
 // MarshalDERRadioResourceList encodes a RadioResourceList list to DER.
 func MarshalDERRadioResourceList(list RadioResourceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("RadioResourceList length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -14111,6 +14189,12 @@ func UnmarshalBERRadioResourceList(data []byte) (RadioResourceList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 7 {
+			return nil, fmt.Errorf("RadioResourceList length %d violates SIZE (1..7)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 7 {
+		return nil, fmt.Errorf("RadioResourceList length %d violates SIZE (1..7)", len(result))
 	}
 	return result, nil
 }
@@ -17284,6 +17368,9 @@ func (v *SendEndSignalRes) UnmarshalBER(data []byte) error {
 
 // MarshalBERRelocationNumberList encodes a RelocationNumberList list to BER.
 func MarshalBERRelocationNumberList(list RelocationNumberList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("RelocationNumberList length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -17297,6 +17384,9 @@ func MarshalBERRelocationNumberList(list RelocationNumberList) ([]byte, error) {
 
 // MarshalDERRelocationNumberList encodes a RelocationNumberList list to DER.
 func MarshalDERRelocationNumberList(list RelocationNumberList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("RelocationNumberList length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -17334,6 +17424,12 @@ func UnmarshalBERRelocationNumberList(data []byte) (RelocationNumberList, error)
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 7 {
+			return nil, fmt.Errorf("RelocationNumberList length %d violates SIZE (1..7)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 7 {
+		return nil, fmt.Errorf("RelocationNumberList length %d violates SIZE (1..7)", len(result))
 	}
 	return result, nil
 }
@@ -18181,6 +18277,9 @@ func (v *SendAuthenticationInfoRes) UnmarshalBER(data []byte) error {
 
 // MarshalBEREPSAuthenticationSetList encodes a EPSAuthenticationSetList list to BER.
 func MarshalBEREPSAuthenticationSetList(list EPSAuthenticationSetList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("EPSAuthenticationSetList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -18194,6 +18293,9 @@ func MarshalBEREPSAuthenticationSetList(list EPSAuthenticationSetList) ([]byte, 
 
 // MarshalDEREPSAuthenticationSetList encodes a EPSAuthenticationSetList list to DER.
 func MarshalDEREPSAuthenticationSetList(list EPSAuthenticationSetList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("EPSAuthenticationSetList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -18231,6 +18333,12 @@ func UnmarshalBEREPSAuthenticationSetList(data []byte) (EPSAuthenticationSetList
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("EPSAuthenticationSetList length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("EPSAuthenticationSetList length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
@@ -21260,6 +21368,9 @@ func (v *InsertSubscriberDataArg) UnmarshalBER(data []byte) error {
 
 // MarshalBEREDRXCycleLengthList encodes a EDRXCycleLengthList list to BER.
 func MarshalBEREDRXCycleLengthList(list EDRXCycleLengthList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("EDRXCycleLengthList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -21273,6 +21384,9 @@ func MarshalBEREDRXCycleLengthList(list EDRXCycleLengthList) ([]byte, error) {
 
 // MarshalDEREDRXCycleLengthList encodes a EDRXCycleLengthList list to DER.
 func MarshalDEREDRXCycleLengthList(list EDRXCycleLengthList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("EDRXCycleLengthList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -21310,6 +21424,12 @@ func UnmarshalBEREDRXCycleLengthList(data []byte) (EDRXCycleLengthList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("EDRXCycleLengthList length %d violates SIZE (1..8)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 8 {
+		return nil, fmt.Errorf("EDRXCycleLengthList length %d violates SIZE (1..8)", len(result))
 	}
 	return result, nil
 }
@@ -21443,6 +21563,9 @@ func (v *EDRXCycleLength) UnmarshalBER(data []byte) error {
 
 // MarshalBERResetIdList encodes a ResetIdList list to BER.
 func MarshalBERResetIdList(list ResetIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("ResetIdList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -21452,6 +21575,9 @@ func MarshalBERResetIdList(list ResetIdList) ([]byte, error) {
 
 // MarshalDERResetIdList encodes a ResetIdList list to DER.
 func MarshalDERResetIdList(list ResetIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("ResetIdList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -21481,12 +21607,21 @@ func UnmarshalBERResetIdList(data []byte) (ResetIdList, error) {
 		}
 		result = append(result, ResetId(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("ResetIdList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("ResetIdList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERIMSIGroupIdList encodes a IMSIGroupIdList list to BER.
 func MarshalBERIMSIGroupIdList(list IMSIGroupIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("IMSIGroupIdList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -21500,6 +21635,9 @@ func MarshalBERIMSIGroupIdList(list IMSIGroupIdList) ([]byte, error) {
 
 // MarshalDERIMSIGroupIdList encodes a IMSIGroupIdList list to DER.
 func MarshalDERIMSIGroupIdList(list IMSIGroupIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("IMSIGroupIdList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -21537,6 +21675,12 @@ func UnmarshalBERIMSIGroupIdList(data []byte) (IMSIGroupIdList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("IMSIGroupIdList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("IMSIGroupIdList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -21702,6 +21846,9 @@ func (v *IMSIGroupId) UnmarshalBER(data []byte) error {
 
 // MarshalBERCSGSubscriptionDataList encodes a CSGSubscriptionDataList list to BER.
 func MarshalBERCSGSubscriptionDataList(list CSGSubscriptionDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("CSGSubscriptionDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -21715,6 +21862,9 @@ func MarshalBERCSGSubscriptionDataList(list CSGSubscriptionDataList) ([]byte, er
 
 // MarshalDERCSGSubscriptionDataList encodes a CSGSubscriptionDataList list to DER.
 func MarshalDERCSGSubscriptionDataList(list CSGSubscriptionDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("CSGSubscriptionDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -21752,6 +21902,12 @@ func UnmarshalBERCSGSubscriptionDataList(data []byte) (CSGSubscriptionDataList, 
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("CSGSubscriptionDataList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("CSGSubscriptionDataList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -21985,6 +22141,9 @@ func (v *CSGSubscriptionData) UnmarshalBER(data []byte) error {
 
 // MarshalBERVPLMNCSGSubscriptionDataList encodes a VPLMNCSGSubscriptionDataList list to BER.
 func MarshalBERVPLMNCSGSubscriptionDataList(list VPLMNCSGSubscriptionDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("VPLMNCSGSubscriptionDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -21998,6 +22157,9 @@ func MarshalBERVPLMNCSGSubscriptionDataList(list VPLMNCSGSubscriptionDataList) (
 
 // MarshalDERVPLMNCSGSubscriptionDataList encodes a VPLMNCSGSubscriptionDataList list to DER.
 func MarshalDERVPLMNCSGSubscriptionDataList(list VPLMNCSGSubscriptionDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("VPLMNCSGSubscriptionDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -22035,12 +22197,21 @@ func UnmarshalBERVPLMNCSGSubscriptionDataList(data []byte) (VPLMNCSGSubscription
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("VPLMNCSGSubscriptionDataList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("VPLMNCSGSubscriptionDataList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERLIPAAllowedAPNList encodes a LIPAAllowedAPNList list to BER.
 func MarshalBERLIPAAllowedAPNList(list LIPAAllowedAPNList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("LIPAAllowedAPNList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -22050,6 +22221,9 @@ func MarshalBERLIPAAllowedAPNList(list LIPAAllowedAPNList) ([]byte, error) {
 
 // MarshalDERLIPAAllowedAPNList encodes a LIPAAllowedAPNList list to DER.
 func MarshalDERLIPAAllowedAPNList(list LIPAAllowedAPNList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("LIPAAllowedAPNList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -22079,6 +22253,12 @@ func UnmarshalBERLIPAAllowedAPNList(data []byte) (LIPAAllowedAPNList, error) {
 		}
 		result = append(result, APN(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("LIPAAllowedAPNList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("LIPAAllowedAPNList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -22748,6 +22928,9 @@ func (v *APNConfigurationProfile) UnmarshalBER(data []byte) error {
 
 // MarshalBEREPSDataList encodes a EPSDataList list to BER.
 func MarshalBEREPSDataList(list EPSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("EPSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -22761,6 +22944,9 @@ func MarshalBEREPSDataList(list EPSDataList) ([]byte, error) {
 
 // MarshalDEREPSDataList encodes a EPSDataList list to DER.
 func MarshalDEREPSDataList(list EPSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("EPSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -22798,6 +22984,12 @@ func UnmarshalBEREPSDataList(data []byte) (EPSDataList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("EPSDataList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("EPSDataList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -24231,6 +24423,9 @@ func (v *AMBR) UnmarshalBER(data []byte) error {
 
 // MarshalBERSpecificAPNInfoList encodes a SpecificAPNInfoList list to BER.
 func MarshalBERSpecificAPNInfoList(list SpecificAPNInfoList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("SpecificAPNInfoList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -24244,6 +24439,9 @@ func MarshalBERSpecificAPNInfoList(list SpecificAPNInfoList) ([]byte, error) {
 
 // MarshalDERSpecificAPNInfoList encodes a SpecificAPNInfoList list to DER.
 func MarshalDERSpecificAPNInfoList(list SpecificAPNInfoList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("SpecificAPNInfoList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -24281,6 +24479,12 @@ func UnmarshalBERSpecificAPNInfoList(data []byte) (SpecificAPNInfoList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("SpecificAPNInfoList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("SpecificAPNInfoList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -25104,6 +25308,9 @@ func (v *WLANOffloadability) UnmarshalBER(data []byte) error {
 
 // MarshalBERAdjacentAccessRestrictionDataList encodes a AdjacentAccessRestrictionDataList list to BER.
 func MarshalBERAdjacentAccessRestrictionDataList(list AdjacentAccessRestrictionDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("AdjacentAccessRestrictionDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -25117,6 +25324,9 @@ func MarshalBERAdjacentAccessRestrictionDataList(list AdjacentAccessRestrictionD
 
 // MarshalDERAdjacentAccessRestrictionDataList encodes a AdjacentAccessRestrictionDataList list to DER.
 func MarshalDERAdjacentAccessRestrictionDataList(list AdjacentAccessRestrictionDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("AdjacentAccessRestrictionDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -25154,6 +25364,12 @@ func UnmarshalBERAdjacentAccessRestrictionDataList(data []byte) (AdjacentAccessR
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("AdjacentAccessRestrictionDataList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("AdjacentAccessRestrictionDataList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -25634,6 +25850,9 @@ func (v *LCSInformation) UnmarshalBER(data []byte) error {
 
 // MarshalBERGMLCList encodes a GMLCList list to BER.
 func MarshalBERGMLCList(list GMLCList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("GMLCList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -25643,6 +25862,9 @@ func MarshalBERGMLCList(list GMLCList) ([]byte, error) {
 
 // MarshalDERGMLCList encodes a GMLCList list to DER.
 func MarshalDERGMLCList(list GMLCList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("GMLCList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -25672,12 +25894,21 @@ func UnmarshalBERGMLCList(data []byte) (GMLCList, error) {
 		}
 		result = append(result, ISDNAddressString(val))
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("GMLCList length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("GMLCList length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERGPRSDataList encodes a GPRSDataList list to BER.
 func MarshalBERGPRSDataList(list GPRSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("GPRSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -25691,6 +25922,9 @@ func MarshalBERGPRSDataList(list GPRSDataList) ([]byte, error) {
 
 // MarshalDERGPRSDataList encodes a GPRSDataList list to DER.
 func MarshalDERGPRSDataList(list GPRSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("GPRSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -25728,6 +25962,12 @@ func UnmarshalBERGPRSDataList(data []byte) (GPRSDataList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("GPRSDataList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("GPRSDataList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -27445,6 +27685,9 @@ func (v *GPRSCSI) UnmarshalBER(data []byte) error {
 
 // MarshalBERGPRSCamelTDPDataList encodes a GPRSCamelTDPDataList list to BER.
 func MarshalBERGPRSCamelTDPDataList(list GPRSCamelTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("GPRSCamelTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -27458,6 +27701,9 @@ func MarshalBERGPRSCamelTDPDataList(list GPRSCamelTDPDataList) ([]byte, error) {
 
 // MarshalDERGPRSCamelTDPDataList encodes a GPRSCamelTDPDataList list to DER.
 func MarshalDERGPRSCamelTDPDataList(list GPRSCamelTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("GPRSCamelTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -27495,6 +27741,12 @@ func UnmarshalBERGPRSCamelTDPDataList(data []byte) (GPRSCamelTDPDataList, error)
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("GPRSCamelTDPDataList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("GPRSCamelTDPDataList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -27746,6 +27998,9 @@ func (v *GPRSCamelTDPData) UnmarshalBER(data []byte) error {
 
 // MarshalBERLSADataList encodes a LSADataList list to BER.
 func MarshalBERLSADataList(list LSADataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("LSADataList length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -27759,6 +28014,9 @@ func MarshalBERLSADataList(list LSADataList) ([]byte, error) {
 
 // MarshalDERLSADataList encodes a LSADataList list to DER.
 func MarshalDERLSADataList(list LSADataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("LSADataList length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -27796,6 +28054,12 @@ func UnmarshalBERLSADataList(data []byte) (LSADataList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 20 {
+			return nil, fmt.Errorf("LSADataList length %d violates SIZE (1..20)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 20 {
+		return nil, fmt.Errorf("LSADataList length %d violates SIZE (1..20)", len(result))
 	}
 	return result, nil
 }
@@ -28885,6 +29149,9 @@ func (v *SubscriberData) UnmarshalBER(data []byte) error {
 
 // MarshalBERBearerServiceList encodes a BearerServiceList list to BER.
 func MarshalBERBearerServiceList(list BearerServiceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("BearerServiceList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -28894,6 +29161,9 @@ func MarshalBERBearerServiceList(list BearerServiceList) ([]byte, error) {
 
 // MarshalDERBearerServiceList encodes a BearerServiceList list to DER.
 func MarshalDERBearerServiceList(list BearerServiceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("BearerServiceList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -28923,12 +29193,21 @@ func UnmarshalBERBearerServiceList(data []byte) (BearerServiceList, error) {
 		}
 		result = append(result, ExtBearerServiceCode(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("BearerServiceList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("BearerServiceList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERTeleserviceList encodes a TeleserviceList list to BER.
 func MarshalBERTeleserviceList(list TeleserviceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("TeleserviceList length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -28938,6 +29217,9 @@ func MarshalBERTeleserviceList(list TeleserviceList) ([]byte, error) {
 
 // MarshalDERTeleserviceList encodes a TeleserviceList list to DER.
 func MarshalDERTeleserviceList(list TeleserviceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("TeleserviceList length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -28967,6 +29249,12 @@ func UnmarshalBERTeleserviceList(data []byte) (TeleserviceList, error) {
 		}
 		result = append(result, ExtTeleserviceCode(val))
 		offset += n
+		if len(result) > 20 {
+			return nil, fmt.Errorf("TeleserviceList length %d violates SIZE (1..20)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 20 {
+		return nil, fmt.Errorf("TeleserviceList length %d violates SIZE (1..20)", len(result))
 	}
 	return result, nil
 }
@@ -29102,6 +29390,9 @@ func (v *ODBData) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtSSInfoList encodes a ExtSSInfoList list to BER.
 func MarshalBERExtSSInfoList(list ExtSSInfoList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 30 {
+		return nil, fmt.Errorf("ExtSSInfoList length %d violates SIZE (1..30)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -29115,6 +29406,9 @@ func MarshalBERExtSSInfoList(list ExtSSInfoList) ([]byte, error) {
 
 // MarshalDERExtSSInfoList encodes a ExtSSInfoList list to DER.
 func MarshalDERExtSSInfoList(list ExtSSInfoList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 30 {
+		return nil, fmt.Errorf("ExtSSInfoList length %d violates SIZE (1..30)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -29152,6 +29446,12 @@ func UnmarshalBERExtSSInfoList(data []byte) (ExtSSInfoList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 30 {
+			return nil, fmt.Errorf("ExtSSInfoList length %d violates SIZE (1..30)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 30 {
+		return nil, fmt.Errorf("ExtSSInfoList length %d violates SIZE (1..30)", len(result))
 	}
 	return result, nil
 }
@@ -29573,6 +29873,9 @@ func (v *ExtForwInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtForwFeatureList encodes a ExtForwFeatureList list to BER.
 func MarshalBERExtForwFeatureList(list ExtForwFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtForwFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -29586,6 +29889,9 @@ func MarshalBERExtForwFeatureList(list ExtForwFeatureList) ([]byte, error) {
 
 // MarshalDERExtForwFeatureList encodes a ExtForwFeatureList list to DER.
 func MarshalDERExtForwFeatureList(list ExtForwFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtForwFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -29623,6 +29929,12 @@ func UnmarshalBERExtForwFeatureList(data []byte) (ExtForwFeatureList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("ExtForwFeatureList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("ExtForwFeatureList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
@@ -30122,6 +30434,9 @@ func (v *ExtCallBarInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtCallBarFeatureList encodes a ExtCallBarFeatureList list to BER.
 func MarshalBERExtCallBarFeatureList(list ExtCallBarFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtCallBarFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -30135,6 +30450,9 @@ func MarshalBERExtCallBarFeatureList(list ExtCallBarFeatureList) ([]byte, error)
 
 // MarshalDERExtCallBarFeatureList encodes a ExtCallBarFeatureList list to DER.
 func MarshalDERExtCallBarFeatureList(list ExtCallBarFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtCallBarFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -30172,6 +30490,12 @@ func UnmarshalBERExtCallBarFeatureList(data []byte) (ExtCallBarFeatureList, erro
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("ExtCallBarFeatureList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("ExtCallBarFeatureList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
@@ -30514,6 +30838,9 @@ func (v *CUGInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERCUGSubscriptionList encodes a CUGSubscriptionList list to BER.
 func MarshalBERCUGSubscriptionList(list CUGSubscriptionList) ([]byte, error) {
+	if len(list) > 10 {
+		return nil, fmt.Errorf("CUGSubscriptionList length %d violates SIZE (0..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -30527,6 +30854,9 @@ func MarshalBERCUGSubscriptionList(list CUGSubscriptionList) ([]byte, error) {
 
 // MarshalDERCUGSubscriptionList encodes a CUGSubscriptionList list to DER.
 func MarshalDERCUGSubscriptionList(list CUGSubscriptionList) ([]byte, error) {
+	if len(list) > 10 {
+		return nil, fmt.Errorf("CUGSubscriptionList length %d violates SIZE (0..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -30564,6 +30894,12 @@ func UnmarshalBERCUGSubscriptionList(data []byte) (CUGSubscriptionList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("CUGSubscriptionList length %d violates SIZE (0..10)", len(result))
+		}
+	}
+	if len(result) > 10 {
+		return nil, fmt.Errorf("CUGSubscriptionList length %d violates SIZE (0..10)", len(result))
 	}
 	return result, nil
 }
@@ -30758,6 +31094,9 @@ func (v *CUGSubscription) UnmarshalBER(data []byte) error {
 
 // MarshalBERCUGFeatureList encodes a CUGFeatureList list to BER.
 func MarshalBERCUGFeatureList(list CUGFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("CUGFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -30771,6 +31110,9 @@ func MarshalBERCUGFeatureList(list CUGFeatureList) ([]byte, error) {
 
 // MarshalDERCUGFeatureList encodes a CUGFeatureList list to DER.
 func MarshalDERCUGFeatureList(list CUGFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("CUGFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -30808,12 +31150,21 @@ func UnmarshalBERCUGFeatureList(data []byte) (CUGFeatureList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("CUGFeatureList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("CUGFeatureList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERExtBasicServiceGroupList encodes a ExtBasicServiceGroupList list to BER.
 func MarshalBERExtBasicServiceGroupList(list ExtBasicServiceGroupList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtBasicServiceGroupList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -30827,6 +31178,9 @@ func MarshalBERExtBasicServiceGroupList(list ExtBasicServiceGroupList) ([]byte, 
 
 // MarshalDERExtBasicServiceGroupList encodes a ExtBasicServiceGroupList list to DER.
 func MarshalDERExtBasicServiceGroupList(list ExtBasicServiceGroupList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtBasicServiceGroupList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -30864,6 +31218,12 @@ func UnmarshalBERExtBasicServiceGroupList(data []byte) (ExtBasicServiceGroupList
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("ExtBasicServiceGroupList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("ExtBasicServiceGroupList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
@@ -31257,6 +31617,9 @@ func (v *ExtSSData) UnmarshalBER(data []byte) error {
 
 // MarshalBERLCSPrivacyExceptionList encodes a LCSPrivacyExceptionList list to BER.
 func MarshalBERLCSPrivacyExceptionList(list LCSPrivacyExceptionList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("LCSPrivacyExceptionList length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -31270,6 +31633,9 @@ func MarshalBERLCSPrivacyExceptionList(list LCSPrivacyExceptionList) ([]byte, er
 
 // MarshalDERLCSPrivacyExceptionList encodes a LCSPrivacyExceptionList list to DER.
 func MarshalDERLCSPrivacyExceptionList(list LCSPrivacyExceptionList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("LCSPrivacyExceptionList length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -31307,6 +31673,12 @@ func UnmarshalBERLCSPrivacyExceptionList(data []byte) (LCSPrivacyExceptionList, 
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 4 {
+			return nil, fmt.Errorf("LCSPrivacyExceptionList length %d violates SIZE (1..4)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 4 {
+		return nil, fmt.Errorf("LCSPrivacyExceptionList length %d violates SIZE (1..4)", len(result))
 	}
 	return result, nil
 }
@@ -31734,6 +32106,9 @@ func (v *LCSPrivacyClass) UnmarshalBER(data []byte) error {
 
 // MarshalBERExternalClientList encodes a ExternalClientList list to BER.
 func MarshalBERExternalClientList(list ExternalClientList) ([]byte, error) {
+	if len(list) > 5 {
+		return nil, fmt.Errorf("ExternalClientList length %d violates SIZE (0..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -31747,6 +32122,9 @@ func MarshalBERExternalClientList(list ExternalClientList) ([]byte, error) {
 
 // MarshalDERExternalClientList encodes a ExternalClientList list to DER.
 func MarshalDERExternalClientList(list ExternalClientList) ([]byte, error) {
+	if len(list) > 5 {
+		return nil, fmt.Errorf("ExternalClientList length %d violates SIZE (0..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -31784,12 +32162,21 @@ func UnmarshalBERExternalClientList(data []byte) (ExternalClientList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("ExternalClientList length %d violates SIZE (0..5)", len(result))
+		}
+	}
+	if len(result) > 5 {
+		return nil, fmt.Errorf("ExternalClientList length %d violates SIZE (0..5)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERPLMNClientList encodes a PLMNClientList list to BER.
 func MarshalBERPLMNClientList(list PLMNClientList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("PLMNClientList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeEnumerated(int64(elem))...)
@@ -31799,6 +32186,9 @@ func MarshalBERPLMNClientList(list PLMNClientList) ([]byte, error) {
 
 // MarshalDERPLMNClientList encodes a PLMNClientList list to DER.
 func MarshalDERPLMNClientList(list PLMNClientList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("PLMNClientList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeEnumerated(int64(elem))...)
@@ -31828,12 +32218,21 @@ func UnmarshalBERPLMNClientList(data []byte) (PLMNClientList, error) {
 		}
 		result = append(result, LCSClientInternalID(val))
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("PLMNClientList length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("PLMNClientList length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERExtExternalClientList encodes a ExtExternalClientList list to BER.
 func MarshalBERExtExternalClientList(list ExtExternalClientList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 35 {
+		return nil, fmt.Errorf("ExtExternalClientList length %d violates SIZE (1..35)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -31847,6 +32246,9 @@ func MarshalBERExtExternalClientList(list ExtExternalClientList) ([]byte, error)
 
 // MarshalDERExtExternalClientList encodes a ExtExternalClientList list to DER.
 func MarshalDERExtExternalClientList(list ExtExternalClientList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 35 {
+		return nil, fmt.Errorf("ExtExternalClientList length %d violates SIZE (1..35)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -31884,6 +32286,12 @@ func UnmarshalBERExtExternalClientList(data []byte) (ExtExternalClientList, erro
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 35 {
+			return nil, fmt.Errorf("ExtExternalClientList length %d violates SIZE (1..35)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 35 {
+		return nil, fmt.Errorf("ExtExternalClientList length %d violates SIZE (1..35)", len(result))
 	}
 	return result, nil
 }
@@ -32098,6 +32506,9 @@ func (v *ExternalClient) UnmarshalBER(data []byte) error {
 
 // MarshalBERServiceTypeList encodes a ServiceTypeList list to BER.
 func MarshalBERServiceTypeList(list ServiceTypeList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ServiceTypeList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -32111,6 +32522,9 @@ func MarshalBERServiceTypeList(list ServiceTypeList) ([]byte, error) {
 
 // MarshalDERServiceTypeList encodes a ServiceTypeList list to DER.
 func MarshalDERServiceTypeList(list ServiceTypeList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ServiceTypeList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -32148,6 +32562,12 @@ func UnmarshalBERServiceTypeList(data []byte) (ServiceTypeList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("ServiceTypeList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("ServiceTypeList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
@@ -32353,6 +32773,9 @@ func (v *ServiceType) UnmarshalBER(data []byte) error {
 
 // MarshalBERMOLRList encodes a MOLRList list to BER.
 func MarshalBERMOLRList(list MOLRList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("MOLRList length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -32366,6 +32789,9 @@ func MarshalBERMOLRList(list MOLRList) ([]byte, error) {
 
 // MarshalDERMOLRList encodes a MOLRList list to DER.
 func MarshalDERMOLRList(list MOLRList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("MOLRList length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -32403,6 +32829,12 @@ func UnmarshalBERMOLRList(data []byte) (MOLRList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 3 {
+			return nil, fmt.Errorf("MOLRList length %d violates SIZE (1..3)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 3 {
+		return nil, fmt.Errorf("MOLRList length %d violates SIZE (1..3)", len(result))
 	}
 	return result, nil
 }
@@ -32542,6 +32974,9 @@ func (v *MOLRClass) UnmarshalBER(data []byte) error {
 
 // MarshalBERZoneCodeList encodes a ZoneCodeList list to BER.
 func MarshalBERZoneCodeList(list ZoneCodeList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("ZoneCodeList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -32551,6 +32986,9 @@ func MarshalBERZoneCodeList(list ZoneCodeList) ([]byte, error) {
 
 // MarshalDERZoneCodeList encodes a ZoneCodeList list to DER.
 func MarshalDERZoneCodeList(list ZoneCodeList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("ZoneCodeList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -32580,6 +33018,12 @@ func UnmarshalBERZoneCodeList(data []byte) (ZoneCodeList, error) {
 		}
 		result = append(result, ZoneCode(val))
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("ZoneCodeList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("ZoneCodeList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -34600,6 +35044,9 @@ func (v *EPSSubscriptionDataWithdraw) UnmarshalBER(data []byte) error {
 
 // MarshalBERContextIdList encodes a ContextIdList list to BER.
 func MarshalBERContextIdList(list ContextIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("ContextIdList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeInteger(int64(elem))...)
@@ -34609,6 +35056,9 @@ func MarshalBERContextIdList(list ContextIdList) ([]byte, error) {
 
 // MarshalDERContextIdList encodes a ContextIdList list to DER.
 func MarshalDERContextIdList(list ContextIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("ContextIdList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeInteger(int64(elem))...)
@@ -34638,6 +35088,12 @@ func UnmarshalBERContextIdList(data []byte) (ContextIdList, error) {
 		}
 		result = append(result, ContextId(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("ContextIdList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("ContextIdList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -34723,6 +35179,9 @@ func (v *LSAInformationWithdraw) UnmarshalBER(data []byte) error {
 
 // MarshalBERLSAIdentityList encodes a LSAIdentityList list to BER.
 func MarshalBERLSAIdentityList(list LSAIdentityList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("LSAIdentityList length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -34732,6 +35191,9 @@ func MarshalBERLSAIdentityList(list LSAIdentityList) ([]byte, error) {
 
 // MarshalDERLSAIdentityList encodes a LSAIdentityList list to DER.
 func MarshalDERLSAIdentityList(list LSAIdentityList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("LSAIdentityList length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -34761,12 +35223,21 @@ func UnmarshalBERLSAIdentityList(data []byte) (LSAIdentityList, error) {
 		}
 		result = append(result, LSAIdentity(val))
 		offset += n
+		if len(result) > 20 {
+			return nil, fmt.Errorf("LSAIdentityList length %d violates SIZE (1..20)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 20 {
+		return nil, fmt.Errorf("LSAIdentityList length %d violates SIZE (1..20)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERBasicServiceList encodes a BasicServiceList list to BER.
 func MarshalBERBasicServiceList(list BasicServiceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 70 {
+		return nil, fmt.Errorf("BasicServiceList length %d violates SIZE (1..70)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -34780,6 +35251,9 @@ func MarshalBERBasicServiceList(list BasicServiceList) ([]byte, error) {
 
 // MarshalDERBasicServiceList encodes a BasicServiceList list to DER.
 func MarshalDERBasicServiceList(list BasicServiceList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 70 {
+		return nil, fmt.Errorf("BasicServiceList length %d violates SIZE (1..70)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -34817,6 +35291,12 @@ func UnmarshalBERBasicServiceList(data []byte) (BasicServiceList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 70 {
+			return nil, fmt.Errorf("BasicServiceList length %d violates SIZE (1..70)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 70 {
+		return nil, fmt.Errorf("BasicServiceList length %d violates SIZE (1..70)", len(result))
 	}
 	return result, nil
 }
@@ -35606,6 +36086,9 @@ func (v *VlrCamelSubscriptionInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERMTSmsCAMELTDPCriteriaList encodes a MTSmsCAMELTDPCriteriaList list to BER.
 func MarshalBERMTSmsCAMELTDPCriteriaList(list MTSmsCAMELTDPCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("MTSmsCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -35619,6 +36102,9 @@ func MarshalBERMTSmsCAMELTDPCriteriaList(list MTSmsCAMELTDPCriteriaList) ([]byte
 
 // MarshalDERMTSmsCAMELTDPCriteriaList encodes a MTSmsCAMELTDPCriteriaList list to DER.
 func MarshalDERMTSmsCAMELTDPCriteriaList(list MTSmsCAMELTDPCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("MTSmsCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -35656,6 +36142,12 @@ func UnmarshalBERMTSmsCAMELTDPCriteriaList(data []byte) (MTSmsCAMELTDPCriteriaLi
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("MTSmsCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("MTSmsCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -35797,6 +36289,9 @@ func (v *MTSmsCAMELTDPCriteria) UnmarshalBER(data []byte) error {
 
 // MarshalBERTPDUTypeCriterion encodes a TPDUTypeCriterion list to BER.
 func MarshalBERTPDUTypeCriterion(list TPDUTypeCriterion) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("TPDUTypeCriterion length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeEnumerated(int64(elem))...)
@@ -35806,6 +36301,9 @@ func MarshalBERTPDUTypeCriterion(list TPDUTypeCriterion) ([]byte, error) {
 
 // MarshalDERTPDUTypeCriterion encodes a TPDUTypeCriterion list to DER.
 func MarshalDERTPDUTypeCriterion(list TPDUTypeCriterion) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("TPDUTypeCriterion length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeEnumerated(int64(elem))...)
@@ -35835,6 +36333,12 @@ func UnmarshalBERTPDUTypeCriterion(data []byte) (TPDUTypeCriterion, error) {
 		}
 		result = append(result, MTSMSTPDUType(val))
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("TPDUTypeCriterion length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("TPDUTypeCriterion length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
@@ -36124,6 +36628,9 @@ func (v *DCSI) UnmarshalBER(data []byte) error {
 
 // MarshalBERDPAnalysedInfoCriteriaList encodes a DPAnalysedInfoCriteriaList list to BER.
 func MarshalBERDPAnalysedInfoCriteriaList(list DPAnalysedInfoCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("DPAnalysedInfoCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -36137,6 +36644,9 @@ func MarshalBERDPAnalysedInfoCriteriaList(list DPAnalysedInfoCriteriaList) ([]by
 
 // MarshalDERDPAnalysedInfoCriteriaList encodes a DPAnalysedInfoCriteriaList list to DER.
 func MarshalDERDPAnalysedInfoCriteriaList(list DPAnalysedInfoCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("DPAnalysedInfoCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -36174,6 +36684,12 @@ func UnmarshalBERDPAnalysedInfoCriteriaList(data []byte) (DPAnalysedInfoCriteria
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("DPAnalysedInfoCriteriaList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("DPAnalysedInfoCriteriaList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -36671,6 +37187,9 @@ func (v *SSCamelData) UnmarshalBER(data []byte) error {
 
 // MarshalBERSSEventList encodes a SSEventList list to BER.
 func MarshalBERSSEventList(list SSEventList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("SSEventList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -36680,6 +37199,9 @@ func MarshalBERSSEventList(list SSEventList) ([]byte, error) {
 
 // MarshalDERSSEventList encodes a SSEventList list to DER.
 func MarshalDERSSEventList(list SSEventList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("SSEventList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -36709,6 +37231,12 @@ func UnmarshalBERSSEventList(data []byte) (SSEventList, error) {
 		}
 		result = append(result, SSCode(val))
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("SSEventList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("SSEventList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -36956,6 +37484,9 @@ func (v *OCSI) UnmarshalBER(data []byte) error {
 
 // MarshalBEROBcsmCamelTDPDataList encodes a OBcsmCamelTDPDataList list to BER.
 func MarshalBEROBcsmCamelTDPDataList(list OBcsmCamelTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("OBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -36969,6 +37500,9 @@ func MarshalBEROBcsmCamelTDPDataList(list OBcsmCamelTDPDataList) ([]byte, error)
 
 // MarshalDEROBcsmCamelTDPDataList encodes a OBcsmCamelTDPDataList list to DER.
 func MarshalDEROBcsmCamelTDPDataList(list OBcsmCamelTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("OBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -37006,6 +37540,12 @@ func UnmarshalBEROBcsmCamelTDPDataList(data []byte) (OBcsmCamelTDPDataList, erro
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("OBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("OBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -37213,6 +37753,9 @@ func (v *OBcsmCamelTDPData) UnmarshalBER(data []byte) error {
 
 // MarshalBEROBcsmCamelTDPCriteriaList encodes a OBcsmCamelTDPCriteriaList list to BER.
 func MarshalBEROBcsmCamelTDPCriteriaList(list OBcsmCamelTDPCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("OBcsmCamelTDPCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -37226,6 +37769,9 @@ func MarshalBEROBcsmCamelTDPCriteriaList(list OBcsmCamelTDPCriteriaList) ([]byte
 
 // MarshalDEROBcsmCamelTDPCriteriaList encodes a OBcsmCamelTDPCriteriaList list to DER.
 func MarshalDEROBcsmCamelTDPCriteriaList(list OBcsmCamelTDPCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("OBcsmCamelTDPCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -37263,12 +37809,21 @@ func UnmarshalBEROBcsmCamelTDPCriteriaList(data []byte) (OBcsmCamelTDPCriteriaLi
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("OBcsmCamelTDPCriteriaList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("OBcsmCamelTDPCriteriaList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERTBCSMCAMELTDPCriteriaList encodes a TBCSMCAMELTDPCriteriaList list to BER.
 func MarshalBERTBCSMCAMELTDPCriteriaList(list TBCSMCAMELTDPCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("TBCSMCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -37282,6 +37837,9 @@ func MarshalBERTBCSMCAMELTDPCriteriaList(list TBCSMCAMELTDPCriteriaList) ([]byte
 
 // MarshalDERTBCSMCAMELTDPCriteriaList encodes a TBCSMCAMELTDPCriteriaList list to DER.
 func MarshalDERTBCSMCAMELTDPCriteriaList(list TBCSMCAMELTDPCriteriaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("TBCSMCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -37319,6 +37877,12 @@ func UnmarshalBERTBCSMCAMELTDPCriteriaList(data []byte) (TBCSMCAMELTDPCriteriaLi
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("TBCSMCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("TBCSMCAMELTDPCriteriaList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -38070,6 +38634,9 @@ func (v *DestinationNumberCriteria) UnmarshalBER(data []byte) error {
 
 // MarshalBERDestinationNumberList encodes a DestinationNumberList list to BER.
 func MarshalBERDestinationNumberList(list DestinationNumberList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("DestinationNumberList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -38079,6 +38646,9 @@ func MarshalBERDestinationNumberList(list DestinationNumberList) ([]byte, error)
 
 // MarshalDERDestinationNumberList encodes a DestinationNumberList list to DER.
 func MarshalDERDestinationNumberList(list DestinationNumberList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("DestinationNumberList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -38108,12 +38678,21 @@ func UnmarshalBERDestinationNumberList(data []byte) (DestinationNumberList, erro
 		}
 		result = append(result, ISDNAddressString(val))
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("DestinationNumberList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("DestinationNumberList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERDestinationNumberLengthList encodes a DestinationNumberLengthList list to BER.
 func MarshalBERDestinationNumberLengthList(list DestinationNumberLengthList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("DestinationNumberLengthList length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeInteger(int64(elem))...)
@@ -38123,6 +38702,9 @@ func MarshalBERDestinationNumberLengthList(list DestinationNumberLengthList) ([]
 
 // MarshalDERDestinationNumberLengthList encodes a DestinationNumberLengthList list to DER.
 func MarshalDERDestinationNumberLengthList(list DestinationNumberLengthList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("DestinationNumberLengthList length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeInteger(int64(elem))...)
@@ -38152,12 +38734,21 @@ func UnmarshalBERDestinationNumberLengthList(data []byte) (DestinationNumberLeng
 		}
 		result = append(result, val)
 		offset += n
+		if len(result) > 3 {
+			return nil, fmt.Errorf("DestinationNumberLengthList length %d violates SIZE (1..3)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 3 {
+		return nil, fmt.Errorf("DestinationNumberLengthList length %d violates SIZE (1..3)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERBasicServiceCriteria encodes a BasicServiceCriteria list to BER.
 func MarshalBERBasicServiceCriteria(list BasicServiceCriteria) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("BasicServiceCriteria length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -38171,6 +38762,9 @@ func MarshalBERBasicServiceCriteria(list BasicServiceCriteria) ([]byte, error) {
 
 // MarshalDERBasicServiceCriteria encodes a BasicServiceCriteria list to DER.
 func MarshalDERBasicServiceCriteria(list BasicServiceCriteria) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("BasicServiceCriteria length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -38208,12 +38802,21 @@ func UnmarshalBERBasicServiceCriteria(data []byte) (BasicServiceCriteria, error)
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("BasicServiceCriteria length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("BasicServiceCriteria length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBEROCauseValueCriteria encodes a OCauseValueCriteria list to BER.
 func MarshalBEROCauseValueCriteria(list OCauseValueCriteria) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("OCauseValueCriteria length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -38223,6 +38826,9 @@ func MarshalBEROCauseValueCriteria(list OCauseValueCriteria) ([]byte, error) {
 
 // MarshalDEROCauseValueCriteria encodes a OCauseValueCriteria list to DER.
 func MarshalDEROCauseValueCriteria(list OCauseValueCriteria) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("OCauseValueCriteria length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -38252,12 +38858,21 @@ func UnmarshalBEROCauseValueCriteria(data []byte) (OCauseValueCriteria, error) {
 		}
 		result = append(result, CauseValue(val))
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("OCauseValueCriteria length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("OCauseValueCriteria length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERTCauseValueCriteria encodes a TCauseValueCriteria list to BER.
 func MarshalBERTCauseValueCriteria(list TCauseValueCriteria) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("TCauseValueCriteria length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -38267,6 +38882,9 @@ func MarshalBERTCauseValueCriteria(list TCauseValueCriteria) ([]byte, error) {
 
 // MarshalDERTCauseValueCriteria encodes a TCauseValueCriteria list to DER.
 func MarshalDERTCauseValueCriteria(list TCauseValueCriteria) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("TCauseValueCriteria length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -38296,6 +38914,12 @@ func UnmarshalBERTCauseValueCriteria(data []byte) (TCauseValueCriteria, error) {
 		}
 		result = append(result, CauseValue(val))
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("TCauseValueCriteria length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("TCauseValueCriteria length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
@@ -38585,6 +39209,9 @@ func (v *SMSCSI) UnmarshalBER(data []byte) error {
 
 // MarshalBERSMSCAMELTDPDataList encodes a SMSCAMELTDPDataList list to BER.
 func MarshalBERSMSCAMELTDPDataList(list SMSCAMELTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("SMSCAMELTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -38598,6 +39225,9 @@ func MarshalBERSMSCAMELTDPDataList(list SMSCAMELTDPDataList) ([]byte, error) {
 
 // MarshalDERSMSCAMELTDPDataList encodes a SMSCAMELTDPDataList list to DER.
 func MarshalDERSMSCAMELTDPDataList(list SMSCAMELTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("SMSCAMELTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -38635,6 +39265,12 @@ func UnmarshalBERSMSCAMELTDPDataList(data []byte) (SMSCAMELTDPDataList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("SMSCAMELTDPDataList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("SMSCAMELTDPDataList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -39406,6 +40042,9 @@ func (v *MGCSI) UnmarshalBER(data []byte) error {
 
 // MarshalBERMobilityTriggers encodes a MobilityTriggers list to BER.
 func MarshalBERMobilityTriggers(list MobilityTriggers) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("MobilityTriggers length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -39415,6 +40054,9 @@ func MarshalBERMobilityTriggers(list MobilityTriggers) ([]byte, error) {
 
 // MarshalDERMobilityTriggers encodes a MobilityTriggers list to DER.
 func MarshalDERMobilityTriggers(list MobilityTriggers) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("MobilityTriggers length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -39444,6 +40086,12 @@ func UnmarshalBERMobilityTriggers(data []byte) (MobilityTriggers, error) {
 		}
 		result = append(result, MMCode(val))
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("MobilityTriggers length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("MobilityTriggers length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -39691,6 +40339,9 @@ func (v *TCSI) UnmarshalBER(data []byte) error {
 
 // MarshalBERTBcsmCamelTDPDataList encodes a TBcsmCamelTDPDataList list to BER.
 func MarshalBERTBcsmCamelTDPDataList(list TBcsmCamelTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("TBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -39704,6 +40355,9 @@ func MarshalBERTBcsmCamelTDPDataList(list TBcsmCamelTDPDataList) ([]byte, error)
 
 // MarshalDERTBcsmCamelTDPDataList encodes a TBcsmCamelTDPDataList list to DER.
 func MarshalDERTBcsmCamelTDPDataList(list TBcsmCamelTDPDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("TBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -39741,6 +40395,12 @@ func UnmarshalBERTBcsmCamelTDPDataList(data []byte) (TBcsmCamelTDPDataList, erro
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("TBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("TBcsmCamelTDPDataList length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -41765,6 +42425,9 @@ func (v *RestoreDataRes) UnmarshalBER(data []byte) error {
 
 // MarshalBERVBSDataList encodes a VBSDataList list to BER.
 func MarshalBERVBSDataList(list VBSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("VBSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -41778,6 +42441,9 @@ func MarshalBERVBSDataList(list VBSDataList) ([]byte, error) {
 
 // MarshalDERVBSDataList encodes a VBSDataList list to DER.
 func MarshalDERVBSDataList(list VBSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("VBSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -41815,12 +42481,21 @@ func UnmarshalBERVBSDataList(data []byte) (VBSDataList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("VBSDataList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("VBSDataList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERVGCSDataList encodes a VGCSDataList list to BER.
 func MarshalBERVGCSDataList(list VGCSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("VGCSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -41834,6 +42509,9 @@ func MarshalBERVGCSDataList(list VGCSDataList) ([]byte, error) {
 
 // MarshalDERVGCSDataList encodes a VGCSDataList list to DER.
 func MarshalDERVGCSDataList(list VGCSDataList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("VGCSDataList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -41871,6 +42549,12 @@ func UnmarshalBERVGCSDataList(data []byte) (VGCSDataList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("VGCSDataList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("VGCSDataList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -46773,6 +47457,9 @@ func (v *PSSubscriberState) UnmarshalBER(data []byte) error {
 
 // MarshalBERPDPContextInfoList encodes a PDPContextInfoList list to BER.
 func MarshalBERPDPContextInfoList(list PDPContextInfoList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("PDPContextInfoList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -46786,6 +47473,9 @@ func MarshalBERPDPContextInfoList(list PDPContextInfoList) ([]byte, error) {
 
 // MarshalDERPDPContextInfoList encodes a PDPContextInfoList list to DER.
 func MarshalDERPDPContextInfoList(list PDPContextInfoList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("PDPContextInfoList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -46823,6 +47513,12 @@ func UnmarshalBERPDPContextInfoList(data []byte) (PDPContextInfoList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("PDPContextInfoList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("PDPContextInfoList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -49478,6 +50174,9 @@ func (v *CallWaitingData) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtCwFeatureList encodes a ExtCwFeatureList list to BER.
 func MarshalBERExtCwFeatureList(list ExtCwFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtCwFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -49491,6 +50190,9 @@ func MarshalBERExtCwFeatureList(list ExtCwFeatureList) ([]byte, error) {
 
 // MarshalDERExtCwFeatureList encodes a ExtCwFeatureList list to DER.
 func MarshalDERExtCwFeatureList(list ExtCwFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("ExtCwFeatureList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -49528,6 +50230,12 @@ func UnmarshalBERExtCwFeatureList(data []byte) (ExtCwFeatureList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("ExtCwFeatureList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("ExtCwFeatureList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
@@ -50861,6 +51569,9 @@ func (v *RequestedSubscriptionInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERMSISDNBSList encodes a MSISDNBSList list to BER.
 func MarshalBERMSISDNBSList(list MSISDNBSList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("MSISDNBSList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -50874,6 +51585,9 @@ func MarshalBERMSISDNBSList(list MSISDNBSList) ([]byte, error) {
 
 // MarshalDERMSISDNBSList encodes a MSISDNBSList list to DER.
 func MarshalDERMSISDNBSList(list MSISDNBSList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("MSISDNBSList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -50911,6 +51625,12 @@ func UnmarshalBERMSISDNBSList(data []byte) (MSISDNBSList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("MSISDNBSList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("MSISDNBSList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }

@@ -719,8 +719,14 @@ type PLMNId3 = []byte
 // CommonDataTypesEUTRANCGI represents the ASN.1 type E-UTRAN-CGI (OCTET_STRING).
 type CommonDataTypesEUTRANCGI = []byte
 
+// CommonDataTypesNRCGI represents the ASN.1 type NR-CGI (OCTET_STRING).
+type CommonDataTypesNRCGI = []byte
+
 // CommonDataTypesTAId represents the ASN.1 type TA-Id (OCTET_STRING).
 type CommonDataTypesTAId = []byte
+
+// CommonDataTypesNRTAId represents the ASN.1 type NR-TA-Id (OCTET_STRING).
+type CommonDataTypesNRTAId = []byte
 
 // CommonDataTypesRAIdentity represents the ASN.1 type RAIdentity (OCTET_STRING).
 type CommonDataTypesRAIdentity = []byte
@@ -1484,6 +1490,9 @@ func (v *SubscriberId3) UnmarshalBER(data []byte) error {
 
 // MarshalBERHLRList3 encodes a HLRList3 list to BER.
 func MarshalBERHLRList3(list HLRList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("HLRList3 length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1493,6 +1502,9 @@ func MarshalBERHLRList3(list HLRList3) ([]byte, error) {
 
 // MarshalDERHLRList3 encodes a HLRList3 list to DER.
 func MarshalDERHLRList3(list HLRList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("HLRList3 length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1522,6 +1534,12 @@ func UnmarshalBERHLRList3(data []byte) (HLRList3, error) {
 		}
 		result = append(result, HLRId3(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("HLRList3 length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("HLRList3 length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }

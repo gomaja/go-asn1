@@ -76,7 +76,7 @@ type IsdArgExt struct {
 	ServInfoList       ServiceListWithInfo `asn1:"tag:3,context,implicit,optional" json:"ServInfoList,omitempty"`
 	ServInfoListIndef_ bool                `asn1:"-" json:"-"`
 	ExtRoutingCategory *ExtRoutingCategory `asn1:"tag:5,context,implicit,optional" json:"ExtRoutingCategory,omitempty"`
-	OwnMSISDN          *ISDNAddressString4 `asn1:"tag:6,context,implicit,optional" json:"OwnMSISDN,omitempty"`
+	OwnMSISDN          *ISDNAddressString5 `asn1:"tag:6,context,implicit,optional" json:"OwnMSISDN,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
@@ -100,7 +100,7 @@ type UlResExt struct {
 }
 
 // EmoInCategoryKey represents the ASN.1 type EmoInCategoryKey (OCTET_STRING).
-type EmoInCategoryKey = TBCDSTRING4
+type EmoInCategoryKey = TBCDSTRING5
 
 // SSDataEmoInExt represents the ASN.1 type SS-DataEmoInExt (SEQUENCE).
 type SSDataEmoInExt struct {
@@ -183,7 +183,7 @@ func (v ExtensionsExtraProtocolId) String() string {
 // ExtensionsExtraSignalInfo represents the ASN.1 type ExtraSignalInfo (SEQUENCE).
 type ExtensionsExtraSignalInfo struct {
 	ProtocolId ExtensionsExtraProtocolId `asn1:""`
-	SignalInfo SignalInfo4               `asn1:""`
+	SignalInfo SignalInfo5               `asn1:""`
 }
 
 // CUGCallInfo represents the ASN.1 type CUG-CallInfo (OCTET_STRING).
@@ -191,7 +191,7 @@ type CUGCallInfo = []byte
 
 // NokiaCUGData represents the ASN.1 type Nokia-CUG-Data (SEQUENCE).
 type NokiaCUGData struct {
-	CugInterlock          *CUGInterlock4 `asn1:"tag:0,context,implicit,optional" json:"CugInterlock,omitempty"`
+	CugInterlock          *CUGInterlock5 `asn1:"tag:0,context,implicit,optional" json:"CugInterlock,omitempty"`
 	CugOutgoingAccess     *bool          `asn1:"tag:1,context,implicit,optional" json:"CugOutgoingAccess,omitempty"`
 	CugOutgoingAccessRaw_ byte           `asn1:"-" json:"-"`
 	CugCallInfo           *CUGCallInfo   `asn1:"tag:2,context,implicit,optional" json:"CugCallInfo,omitempty"`
@@ -203,31 +203,31 @@ type NokiaCUGData struct {
 // SriResExtension represents the ASN.1 type SriResExtension (SEQUENCE).
 type SriResExtension struct {
 	InTriggerKey        *InTriggerKey       `asn1:"tag:0,context,implicit,optional" json:"InTriggerKey,omitempty"`
-	VlrNumber           *ISDNAddressString4 `asn1:"tag:1,context,implicit,optional" json:"VlrNumber,omitempty"`
+	VlrNumber           *ISDNAddressString5 `asn1:"tag:1,context,implicit,optional" json:"VlrNumber,omitempty"`
 	ActiveSs            *ActiveSSList       `asn1:"tag:2,context,implicit,optional" json:"ActiveSs,omitempty"`
-	TraceReference      *TraceReference4    `asn1:"tag:3,context,implicit,optional" json:"TraceReference,omitempty"`
-	TraceType           *TraceType4         `asn1:"tag:4,context,implicit,optional" json:"TraceType,omitempty"`
-	OmcId               *AddressString4     `asn1:"tag:5,context,implicit,optional" json:"OmcId,omitempty"`
+	TraceReference      *TraceReference5    `asn1:"tag:3,context,implicit,optional" json:"TraceReference,omitempty"`
+	TraceType           *TraceType5         `asn1:"tag:4,context,implicit,optional" json:"TraceType,omitempty"`
+	OmcId               *AddressString5     `asn1:"tag:5,context,implicit,optional" json:"OmcId,omitempty"`
 	HotBilling          *bool               `asn1:"tag:6,context,implicit,optional" json:"HotBilling,omitempty"`
 	HotBillingRaw_      byte                `asn1:"-" json:"-"`
 	CfoIsDone           *bool               `asn1:"tag:7,context,implicit,optional" json:"CfoIsDone,omitempty"`
 	CfoIsDoneRaw_       byte                `asn1:"-" json:"-"`
 	CfInCug             *bool               `asn1:"tag:8,context,implicit,optional" json:"CfInCug,omitempty"`
 	CfInCugRaw_         byte                `asn1:"-" json:"-"`
-	BasicService        *BasicServiceCode4  `asn1:"tag:9,context,explicit,optional" json:"BasicService,omitempty"`
-	Category            *Category5          `asn1:"tag:10,context,implicit,optional" json:"Category,omitempty"`
+	BasicService        *BasicServiceCode5  `asn1:"tag:9,context,explicit,optional" json:"BasicService,omitempty"`
+	Category            *Category6          `asn1:"tag:10,context,implicit,optional" json:"Category,omitempty"`
 	RoutingCategory     *RoutingCategory    `asn1:"tag:11,context,implicit,optional" json:"RoutingCategory,omitempty"`
 	PnpIndex            *PnpIndex           `asn1:"tag:12,context,implicit,optional" json:"PnpIndex,omitempty"`
 	NokiaCUG            *NokiaCUGData       `asn1:"tag:13,context,implicit,optional" json:"NokiaCUG,omitempty"`
 	NoBarrings          *struct{}           `asn1:"tag:14,context,implicit,optional" json:"NoBarrings,omitempty"`
-	OdbData             *ODBData4           `asn1:"tag:15,context,implicit,optional" json:"OdbData,omitempty"`
+	OdbData             *ODBData5           `asn1:"tag:15,context,implicit,optional" json:"OdbData,omitempty"`
 	FraudData           *FraudData          `asn1:"tag:16,context,implicit,optional" json:"FraudData,omitempty"`
 	ExtRoutingCategory  *ExtRoutingCategory `asn1:"tag:17,context,implicit,optional" json:"ExtRoutingCategory,omitempty"`
 	LeaId               *LeaId              `asn1:"tag:18,context,implicit,optional" json:"LeaId,omitempty"`
 	OlcmInfoTable       OlcmInfoTable       `asn1:"tag:19,context,implicit,optional" json:"OlcmInfoTable,omitempty"`
 	OlcmInfoTableIndef_ bool                `asn1:"-" json:"-"`
 	CallingCategory     *CallingCategory    `asn1:"tag:20,context,implicit,optional" json:"CallingCategory,omitempty"`
-	CommonMSISDN        *ISDNAddressString4 `asn1:"tag:21,context,implicit,optional" json:"CommonMSISDN,omitempty"`
+	CommonMSISDN        *ISDNAddressString5 `asn1:"tag:21,context,implicit,optional" json:"CommonMSISDN,omitempty"`
 	RgData              *RgData             `asn1:"tag:22,context,implicit,optional" json:"RgData,omitempty"`
 	OlcmTraceReference  *OlcmTraceReference `asn1:"tag:23,context,implicit,optional" json:"OlcmTraceReference,omitempty"`
 	ExtCount_           int64               `asn1:"-" json:"-"`
@@ -242,7 +242,7 @@ type RgData struct {
 	MemberListIndef_    bool                `asn1:"-" json:"-"`
 	AlertingMethod      *AlertingMethod     `asn1:"tag:2,context,implicit,optional" json:"AlertingMethod,omitempty"`
 	UserType            *UserType           `asn1:"tag:3,context,implicit,optional" json:"UserType,omitempty"`
-	DivertedToNbr       *ISDNAddressString4 `asn1:"tag:4,context,implicit,optional" json:"DivertedToNbr,omitempty"`
+	DivertedToNbr       *ISDNAddressString5 `asn1:"tag:4,context,implicit,optional" json:"DivertedToNbr,omitempty"`
 	MemberOfSuppression *struct{}           `asn1:"tag:5,context,implicit,optional" json:"MemberOfSuppression,omitempty"`
 	Ringbacktone        *struct{}           `asn1:"tag:6,context,implicit,optional" json:"Ringbacktone,omitempty"`
 	ExtCount_           int64               `asn1:"-" json:"-"`
@@ -254,7 +254,7 @@ type RgData struct {
 type NoAnswerTimer = []byte
 
 // MemberList represents the ASN.1 type MemberList (SEQUENCE_OF).
-type MemberList = []ISDNAddressString4
+type MemberList = []ISDNAddressString5
 
 // AlertingMethod represents the ASN.1 type AlertingMethod (OCTET_STRING).
 type AlertingMethod = []byte
@@ -305,8 +305,8 @@ type CanLocArgExt struct {
 
 // ATMargExt represents the ASN.1 type ATMargExt (SEQUENCE).
 type ATMargExt struct {
-	TraceReference      *TraceReference4    `asn1:"tag:0,context,implicit,optional" json:"TraceReference,omitempty"`
-	TraceType           *TraceType4         `asn1:"tag:1,context,implicit,optional" json:"TraceType,omitempty"`
+	TraceReference      *TraceReference5    `asn1:"tag:0,context,implicit,optional" json:"TraceReference,omitempty"`
+	TraceType           *TraceType5         `asn1:"tag:1,context,implicit,optional" json:"TraceType,omitempty"`
 	LeaId               *LeaId              `asn1:"tag:2,context,implicit,optional" json:"LeaId,omitempty"`
 	OlcmInfoTable       OlcmInfoTable       `asn1:"tag:3,context,implicit,optional" json:"OlcmInfoTable,omitempty"`
 	OlcmInfoTableIndef_ bool                `asn1:"-" json:"-"`
@@ -324,8 +324,8 @@ type OlcmInfoTable = []OlcmInfo
 
 // OlcmInfo represents the ASN.1 type OlcmInfo (SEQUENCE).
 type OlcmInfo struct {
-	TraceReference     TraceReference4     `asn1:"tag:0,context,implicit"`
-	TraceType          TraceType4          `asn1:"tag:1,context,implicit"`
+	TraceReference     TraceReference5     `asn1:"tag:0,context,implicit"`
+	TraceType          TraceType5          `asn1:"tag:1,context,implicit"`
 	LeaId              *LeaId              `asn1:"tag:2,context,implicit,optional" json:"LeaId,omitempty"`
 	OlcmTraceReference *OlcmTraceReference `asn1:"tag:3,context,implicit,optional" json:"OlcmTraceReference,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -346,7 +346,7 @@ type ATMresExt struct {
 
 // DTMargExt represents the ASN.1 type DTMargExt (SEQUENCE).
 type DTMargExt struct {
-	TraceType          *TraceType4         `asn1:"tag:0,context,implicit,optional" json:"TraceType,omitempty"`
+	TraceType          *TraceType5         `asn1:"tag:0,context,implicit,optional" json:"TraceType,omitempty"`
 	LeaId              *LeaId              `asn1:"tag:1,context,implicit,optional" json:"LeaId,omitempty"`
 	OlcmTraceReference *OlcmTraceReference `asn1:"tag:2,context,implicit,optional" json:"OlcmTraceReference,omitempty"`
 	ExtCount_          int64               `asn1:"-" json:"-"`
@@ -445,7 +445,7 @@ type LocupType = []byte
 // MKey represents the ASN.1 type MKey (SEQUENCE).
 type MKey struct {
 	MKeyVer      *MKeyVer              `asn1:"tag:0,context,implicit,optional" json:"MKeyVer,omitempty"`
-	MmScfAddress *ISDNAddressString4   `asn1:"tag:1,context,implicit,optional" json:"MmScfAddress,omitempty"`
+	MmScfAddress *ISDNAddressString5   `asn1:"tag:1,context,implicit,optional" json:"MmScfAddress,omitempty"`
 	MmTdpName    *MmTdpName            `asn1:"tag:2,context,implicit,optional" json:"MmTdpName,omitempty"`
 	ServiceKey   *ExtensionsServiceKey `asn1:"tag:3,context,implicit,optional" json:"ServiceKey,omitempty"`
 	LocupType    *LocupType            `asn1:"tag:4,context,implicit,optional" json:"LocupType,omitempty"`
@@ -459,7 +459,7 @@ type SmsTdpName = []byte
 
 // SMSKey represents the ASN.1 type SMSKey (SEQUENCE).
 type SMSKey struct {
-	MmSCPAddress *ISDNAddressString4   `asn1:"tag:0,context,implicit,optional" json:"MmSCPAddress,omitempty"`
+	MmSCPAddress *ISDNAddressString5   `asn1:"tag:0,context,implicit,optional" json:"MmSCPAddress,omitempty"`
 	SmsTdpName   *SmsTdpName           `asn1:"tag:1,context,implicit,optional" json:"SmsTdpName,omitempty"`
 	ServiceKey   *ExtensionsServiceKey `asn1:"tag:2,context,implicit,optional" json:"ServiceKey,omitempty"`
 	MmsFlag      *struct{}             `asn1:"tag:3,context,implicit,optional" json:"MmsFlag,omitempty"`
@@ -490,7 +490,7 @@ func (v NumberPorted) String() string {
 // USSDExtension represents the ASN.1 type USSD-Extension (SEQUENCE).
 type USSDExtension struct {
 	RoutingCategory *RoutingCategory                         `asn1:"tag:0,context,implicit,optional" json:"RoutingCategory,omitempty"`
-	CellId          *CellGlobalIdOrServiceAreaIdFixedLength4 `asn1:"tag:1,context,implicit,optional" json:"CellId,omitempty"`
+	CellId          *CellGlobalIdOrServiceAreaIdFixedLength5 `asn1:"tag:1,context,implicit,optional" json:"CellId,omitempty"`
 	SaiPresent      *struct{}                                `asn1:"tag:2,context,implicit,optional" json:"SaiPresent,omitempty"`
 	ExtCount_       int64                                    `asn1:"-" json:"-"`
 	ExtPresent_     []bool                                   `asn1:"-" json:"-"`
@@ -539,7 +539,7 @@ type IPPortNb = int64
 type AbsentSubscriberExt struct {
 	OlcmInfoTable       OlcmInfoTable `asn1:"tag:0,context,implicit,optional" json:"OlcmInfoTable,omitempty"`
 	OlcmInfoTableIndef_ bool          `asn1:"-" json:"-"`
-	Imsi                *IMSI4        `asn1:"tag:1,context,implicit,optional" json:"Imsi,omitempty"`
+	Imsi                *IMSI5        `asn1:"tag:1,context,implicit,optional" json:"Imsi,omitempty"`
 	ExtCount_           int64         `asn1:"-" json:"-"`
 	ExtPresent_         []bool        `asn1:"-" json:"-"`
 	ExtData_            [][]byte      `asn1:"-" json:"-"`
@@ -549,7 +549,7 @@ type AbsentSubscriberExt struct {
 type ErrOlcmInfoTableExt struct {
 	OlcmInfoTable       OlcmInfoTable `asn1:"tag:0,context,implicit,optional" json:"OlcmInfoTable,omitempty"`
 	OlcmInfoTableIndef_ bool          `asn1:"-" json:"-"`
-	Imsi                *IMSI4        `asn1:"tag:1,context,implicit,optional" json:"Imsi,omitempty"`
+	Imsi                *IMSI5        `asn1:"tag:1,context,implicit,optional" json:"Imsi,omitempty"`
 	ExtCount_           int64         `asn1:"-" json:"-"`
 	ExtPresent_         []bool        `asn1:"-" json:"-"`
 	ExtData_            [][]byte      `asn1:"-" json:"-"`
@@ -589,7 +589,7 @@ type CfuSMSCounter = []byte
 // MOForwardSMArgExt represents the ASN.1 type MO-ForwardSM-ArgExt (SEQUENCE).
 type MOForwardSMArgExt struct {
 	LocationAreaCode *LocationAreaCode                        `asn1:"tag:0,context,implicit,optional" json:"LocationAreaCode,omitempty"`
-	CellId           *CellGlobalIdOrServiceAreaIdFixedLength4 `asn1:"tag:1,context,implicit,optional" json:"CellId,omitempty"`
+	CellId           *CellGlobalIdOrServiceAreaIdFixedLength5 `asn1:"tag:1,context,implicit,optional" json:"CellId,omitempty"`
 	ExtCount_        int64                                    `asn1:"-" json:"-"`
 	ExtPresent_      []bool                                   `asn1:"-" json:"-"`
 	ExtData_         [][]byte                                 `asn1:"-" json:"-"`
@@ -600,7 +600,7 @@ type LocationAreaCode = []byte
 
 // UdlArgExt represents the ASN.1 type UdlArgExt (SEQUENCE).
 type UdlArgExt struct {
-	Lai         *LAIFixedLength4 `asn1:"tag:0,context,implicit,optional" json:"Lai,omitempty"`
+	Lai         *LAIFixedLength5 `asn1:"tag:0,context,implicit,optional" json:"Lai,omitempty"`
 	SendImmResp *struct{}        `asn1:"tag:1,context,implicit,optional" json:"SendImmResp,omitempty"`
 	ExtCount_   int64            `asn1:"-" json:"-"`
 	ExtPresent_ []bool           `asn1:"-" json:"-"`
@@ -617,7 +617,7 @@ type RoamNotAllowedExt struct {
 
 // AnyTimeModArgExt represents the ASN.1 type AnyTimeModArgExt (SEQUENCE).
 type AnyTimeModArgExt struct {
-	SenderMSISDN *ISDNAddressString4 `asn1:"tag:0,context,implicit,optional" json:"SenderMSISDN,omitempty"`
+	SenderMSISDN *ISDNAddressString5 `asn1:"tag:0,context,implicit,optional" json:"SenderMSISDN,omitempty"`
 	ExtCount_    int64               `asn1:"-" json:"-"`
 	ExtPresent_  []bool              `asn1:"-" json:"-"`
 	ExtData_     [][]byte            `asn1:"-" json:"-"`
@@ -625,7 +625,7 @@ type AnyTimeModArgExt struct {
 
 // CosInfo represents the ASN.1 type CosInfo (SEQUENCE).
 type CosInfo struct {
-	SsCode               *SSCode5       `asn1:",optional" json:"SsCode,omitempty"`
+	SsCode               *SSCode6       `asn1:",optional" json:"SsCode,omitempty"`
 	CosFeatureList       COSFeatureList `asn1:""`
 	CosFeatureListIndef_ bool           `asn1:"-" json:"-"`
 }
@@ -635,8 +635,8 @@ type COSFeatureList = []COSFeature
 
 // COSFeature represents the ASN.1 type COS-Feature (SEQUENCE).
 type COSFeature struct {
-	BasicServiceCode *BasicServiceCode4 `asn1:",optional" json:"BasicServiceCode,omitempty"`
-	SsStatus         SSStatus5          `asn1:"tag:4,context,implicit"`
+	BasicServiceCode *BasicServiceCode5 `asn1:",optional" json:"BasicServiceCode,omitempty"`
+	SsStatus         SSStatus6          `asn1:"tag:4,context,implicit"`
 	CustomerGroupID  *CustomerGroupID   `asn1:"tag:5,context,implicit,optional" json:"CustomerGroupID,omitempty"`
 	SubGroupID       *SubGroupID        `asn1:"tag:6,context,implicit,optional" json:"SubGroupID,omitempty"`
 	ClassOfServiceID *ClassOfServiceID  `asn1:"tag:7,context,implicit,optional" json:"ClassOfServiceID,omitempty"`
@@ -693,8 +693,8 @@ type AllowedServiceData = runtime.BitString
 
 // AnyTimePOBarringArg represents the ASN.1 type AnyTimePO-BarringArg (SEQUENCE).
 type AnyTimePOBarringArg struct {
-	SubscriberIdentity SubscriberIdentity4 `asn1:"tag:0,context,explicit"`
-	GsmSCFAddress      ISDNAddressString4  `asn1:"tag:3,context,implicit"`
+	SubscriberIdentity SubscriberIdentity5 `asn1:"tag:0,context,explicit"`
+	GsmSCFAddress      ISDNAddressString5  `asn1:"tag:3,context,implicit"`
 	GprsBarring        GprsBarring         `asn1:""`
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
@@ -1020,7 +1020,7 @@ func (v *IsdArgExt) UnmarshalBER(data []byte) error {
 				if decodedTag_ownmsisdn.Class != tag.ClassContextSpecific || decodedTag_ownmsisdn.Number != 6 {
 					return fmt.Errorf("decoding ownMSISDN: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ownmsisdn)
 				}
-				tmp_ownmsisdn := ISDNAddressString4(rawVal_ownmsisdn)
+				tmp_ownmsisdn := ISDNAddressString5(rawVal_ownmsisdn)
 				v.OwnMSISDN = &tmp_ownmsisdn
 				offset += n_ownmsisdn
 			}
@@ -1393,6 +1393,9 @@ func (v *SSDataEmoInExt) UnmarshalBER(data []byte) error {
 
 // MarshalBERChargingAreaList encodes a ChargingAreaList list to BER.
 func MarshalBERChargingAreaList(list ChargingAreaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("ChargingAreaList length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeInteger(int64(elem))...)
@@ -1402,6 +1405,9 @@ func MarshalBERChargingAreaList(list ChargingAreaList) ([]byte, error) {
 
 // MarshalDERChargingAreaList encodes a ChargingAreaList list to DER.
 func MarshalDERChargingAreaList(list ChargingAreaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("ChargingAreaList length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeInteger(int64(elem))...)
@@ -1431,6 +1437,12 @@ func UnmarshalBERChargingAreaList(data []byte) (ChargingAreaList, error) {
 		}
 		result = append(result, ChargingArea(val))
 		offset += n
+		if len(result) > 3 {
+			return nil, fmt.Errorf("ChargingAreaList length %d violates SIZE (1..3)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 3 {
+		return nil, fmt.Errorf("ChargingAreaList length %d violates SIZE (1..3)", len(result))
 	}
 	return result, nil
 }
@@ -2137,7 +2149,7 @@ func (v *ExtensionsExtraSignalInfo) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding signalInfo: %w", err)
 	}
-	v.SignalInfo = SignalInfo4(val_signalinfo)
+	v.SignalInfo = SignalInfo5(val_signalinfo)
 	offset += n
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ExtensionsExtraSignalInfo", Cause: ber.ErrExtraData}
@@ -2259,7 +2271,7 @@ func (v *NokiaCUGData) UnmarshalBER(data []byte) error {
 				if decodedTag_cuginterlock.Class != tag.ClassContextSpecific || decodedTag_cuginterlock.Number != 0 {
 					return fmt.Errorf("decoding cug-Interlock: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cuginterlock)
 				}
-				tmp_cuginterlock := CUGInterlock4(rawVal_cuginterlock)
+				tmp_cuginterlock := CUGInterlock5(rawVal_cuginterlock)
 				v.CugInterlock = &tmp_cuginterlock
 				offset += n_cuginterlock
 			}
@@ -2892,7 +2904,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 				if decodedTag_vlrnumber.Class != tag.ClassContextSpecific || decodedTag_vlrnumber.Number != 1 {
 					return fmt.Errorf("decoding vlrNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_vlrnumber)
 				}
-				tmp_vlrnumber := ISDNAddressString4(rawVal_vlrnumber)
+				tmp_vlrnumber := ISDNAddressString5(rawVal_vlrnumber)
 				v.VlrNumber = &tmp_vlrnumber
 				offset += n_vlrnumber
 			}
@@ -2928,7 +2940,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 				if decodedTag_tracereference.Class != tag.ClassContextSpecific || decodedTag_tracereference.Number != 3 {
 					return fmt.Errorf("decoding traceReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tracereference)
 				}
-				tmp_tracereference := TraceReference4(rawVal_tracereference)
+				tmp_tracereference := TraceReference5(rawVal_tracereference)
 				v.TraceReference = &tmp_tracereference
 				offset += n_tracereference
 			}
@@ -2950,7 +2962,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding traceType: %w", intErr)
 				}
-				tmp_tracetype := TraceType4(decVal_tracetype)
+				tmp_tracetype := TraceType5(decVal_tracetype)
 				v.TraceType = &tmp_tracetype
 				offset += n_tracetype
 			}
@@ -2968,7 +2980,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 				if decodedTag_omcid.Class != tag.ClassContextSpecific || decodedTag_omcid.Number != 5 {
 					return fmt.Errorf("decoding omc-Id: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_omcid)
 				}
-				tmp_omcid := AddressString4(rawVal_omcid)
+				tmp_omcid := AddressString5(rawVal_omcid)
 				v.OmcId = &tmp_omcid
 				offset += n_omcid
 			}
@@ -3059,7 +3071,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding basicService: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_basicservice)
 				}
 				// Decode inner value from explicit tag wrapper
-				var dec_basicservice BasicServiceCode4
+				var dec_basicservice BasicServiceCode5
 				if unmErr := dec_basicservice.UnmarshalBER(innerData_basicservice); unmErr != nil {
 					return fmt.Errorf("decoding basicService: %w", unmErr)
 				}
@@ -3080,7 +3092,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 				if decodedTag_category.Class != tag.ClassContextSpecific || decodedTag_category.Number != 10 {
 					return fmt.Errorf("decoding category: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_category)
 				}
-				tmp_category := Category5(rawVal_category)
+				tmp_category := Category6(rawVal_category)
 				v.Category = &tmp_category
 				offset += n_category
 			}
@@ -3177,7 +3189,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding odb-Data: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_odbdata)
 				}
 				reconstructed_odbdata := ber.EncodeSequence(rawVal_odbdata)
-				var dec_odbdata ODBData4
+				var dec_odbdata ODBData5
 				if unmErr := dec_odbdata.UnmarshalBER(reconstructed_odbdata); unmErr != nil {
 					return fmt.Errorf("decoding odb-Data: %w", unmErr)
 				}
@@ -3311,7 +3323,7 @@ func (v *SriResExtension) UnmarshalBER(data []byte) error {
 				if decodedTag_commonmsisdn.Class != tag.ClassContextSpecific || decodedTag_commonmsisdn.Number != 21 {
 					return fmt.Errorf("decoding commonMSISDN: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_commonmsisdn)
 				}
-				tmp_commonmsisdn := ISDNAddressString4(rawVal_commonmsisdn)
+				tmp_commonmsisdn := ISDNAddressString5(rawVal_commonmsisdn)
 				v.CommonMSISDN = &tmp_commonmsisdn
 				offset += n_commonmsisdn
 			}
@@ -3652,7 +3664,7 @@ func (v *RgData) UnmarshalBER(data []byte) error {
 				if decodedTag_divertedtonbr.Class != tag.ClassContextSpecific || decodedTag_divertedtonbr.Number != 4 {
 					return fmt.Errorf("decoding divertedToNbr: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_divertedtonbr)
 				}
-				tmp_divertedtonbr := ISDNAddressString4(rawVal_divertedtonbr)
+				tmp_divertedtonbr := ISDNAddressString5(rawVal_divertedtonbr)
 				v.DivertedToNbr = &tmp_divertedtonbr
 				offset += n_divertedtonbr
 			}
@@ -3716,6 +3728,9 @@ func (v *RgData) UnmarshalBER(data []byte) error {
 
 // MarshalBERMemberList encodes a MemberList list to BER.
 func MarshalBERMemberList(list MemberList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("MemberList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -3725,6 +3740,9 @@ func MarshalBERMemberList(list MemberList) ([]byte, error) {
 
 // MarshalDERMemberList encodes a MemberList list to DER.
 func MarshalDERMemberList(list MemberList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("MemberList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -3752,8 +3770,14 @@ func UnmarshalBERMemberList(data []byte) (MemberList, error) {
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, ISDNAddressString4(val))
+		result = append(result, ISDNAddressString5(val))
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("MemberList length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("MemberList length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
@@ -4346,7 +4370,7 @@ func (v *ATMargExt) UnmarshalBER(data []byte) error {
 				if decodedTag_tracereference.Class != tag.ClassContextSpecific || decodedTag_tracereference.Number != 0 {
 					return fmt.Errorf("decoding traceReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tracereference)
 				}
-				tmp_tracereference := TraceReference4(rawVal_tracereference)
+				tmp_tracereference := TraceReference5(rawVal_tracereference)
 				v.TraceReference = &tmp_tracereference
 				offset += n_tracereference
 			}
@@ -4368,7 +4392,7 @@ func (v *ATMargExt) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding traceType: %w", intErr)
 				}
-				tmp_tracetype := TraceType4(decVal_tracetype)
+				tmp_tracetype := TraceType5(decVal_tracetype)
 				v.TraceType = &tmp_tracetype
 				offset += n_tracetype
 			}
@@ -4461,6 +4485,9 @@ func (v *ATMargExt) UnmarshalBER(data []byte) error {
 
 // MarshalBEROlcmInfoTable encodes a OlcmInfoTable list to BER.
 func MarshalBEROlcmInfoTable(list OlcmInfoTable) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("OlcmInfoTable length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -4474,6 +4501,9 @@ func MarshalBEROlcmInfoTable(list OlcmInfoTable) ([]byte, error) {
 
 // MarshalDEROlcmInfoTable encodes a OlcmInfoTable list to DER.
 func MarshalDEROlcmInfoTable(list OlcmInfoTable) ([]byte, error) {
+	if len(list) < 1 || len(list) > 7 {
+		return nil, fmt.Errorf("OlcmInfoTable length %d violates SIZE (1..7)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -4511,6 +4541,12 @@ func UnmarshalBEROlcmInfoTable(data []byte) (OlcmInfoTable, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 7 {
+			return nil, fmt.Errorf("OlcmInfoTable length %d violates SIZE (1..7)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 7 {
+		return nil, fmt.Errorf("OlcmInfoTable length %d violates SIZE (1..7)", len(result))
 	}
 	return result, nil
 }
@@ -4638,7 +4674,7 @@ func (v *OlcmInfo) UnmarshalBER(data []byte) error {
 	if decodedTag_tracereference.Class != tag.ClassContextSpecific || decodedTag_tracereference.Number != 0 {
 		return fmt.Errorf("decoding traceReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tracereference)
 	}
-	v.TraceReference = TraceReference4(rawVal_tracereference)
+	v.TraceReference = TraceReference5(rawVal_tracereference)
 	offset += n_tracereference
 	// Decode traceType
 	if offset >= len(content) {
@@ -4660,7 +4696,7 @@ func (v *OlcmInfo) UnmarshalBER(data []byte) error {
 	if intErr != nil {
 		return fmt.Errorf("decoding traceType: %w", intErr)
 	}
-	v.TraceType = TraceType4(decVal_tracetype)
+	v.TraceType = TraceType5(decVal_tracetype)
 	offset += n_tracetype
 	// Decode leaId
 	if offset < len(content) {
@@ -4944,7 +4980,7 @@ func (v *DTMargExt) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding traceType: %w", intErr)
 				}
-				tmp_tracetype := TraceType4(decVal_tracetype)
+				tmp_tracetype := TraceType5(decVal_tracetype)
 				v.TraceType = &tmp_tracetype
 				offset += n_tracetype
 			}
@@ -5613,6 +5649,9 @@ func (v *ServiceWithInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERServiceListWithInfo encodes a ServiceListWithInfo list to BER.
 func MarshalBERServiceListWithInfo(list ServiceListWithInfo) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("ServiceListWithInfo length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -5626,6 +5665,9 @@ func MarshalBERServiceListWithInfo(list ServiceListWithInfo) ([]byte, error) {
 
 // MarshalDERServiceListWithInfo encodes a ServiceListWithInfo list to DER.
 func MarshalDERServiceListWithInfo(list ServiceListWithInfo) ([]byte, error) {
+	if len(list) < 1 || len(list) > 20 {
+		return nil, fmt.Errorf("ServiceListWithInfo length %d violates SIZE (1..20)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -5663,6 +5705,12 @@ func UnmarshalBERServiceListWithInfo(data []byte) (ServiceListWithInfo, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 20 {
+			return nil, fmt.Errorf("ServiceListWithInfo length %d violates SIZE (1..20)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 20 {
+		return nil, fmt.Errorf("ServiceListWithInfo length %d violates SIZE (1..20)", len(result))
 	}
 	return result, nil
 }
@@ -5964,7 +6012,7 @@ func (v *MKey) UnmarshalBER(data []byte) error {
 				if decodedTag_mmscfaddress.Class != tag.ClassContextSpecific || decodedTag_mmscfaddress.Number != 1 {
 					return fmt.Errorf("decoding mmScfAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mmscfaddress)
 				}
-				tmp_mmscfaddress := ISDNAddressString4(rawVal_mmscfaddress)
+				tmp_mmscfaddress := ISDNAddressString5(rawVal_mmscfaddress)
 				v.MmScfAddress = &tmp_mmscfaddress
 				offset += n_mmscfaddress
 			}
@@ -6171,7 +6219,7 @@ func (v *SMSKey) UnmarshalBER(data []byte) error {
 				if decodedTag_mmscpaddress.Class != tag.ClassContextSpecific || decodedTag_mmscpaddress.Number != 0 {
 					return fmt.Errorf("decoding mmSCPAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mmscpaddress)
 				}
-				tmp_mmscpaddress := ISDNAddressString4(rawVal_mmscpaddress)
+				tmp_mmscpaddress := ISDNAddressString5(rawVal_mmscpaddress)
 				v.MmSCPAddress = &tmp_mmscpaddress
 				offset += n_mmscpaddress
 			}
@@ -6388,7 +6436,7 @@ func (v *USSDExtension) UnmarshalBER(data []byte) error {
 				if decodedTag_cellid.Class != tag.ClassContextSpecific || decodedTag_cellid.Number != 1 {
 					return fmt.Errorf("decoding cellId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cellid)
 				}
-				tmp_cellid := CellGlobalIdOrServiceAreaIdFixedLength4(rawVal_cellid)
+				tmp_cellid := CellGlobalIdOrServiceAreaIdFixedLength5(rawVal_cellid)
 				v.CellId = &tmp_cellid
 				offset += n_cellid
 			}
@@ -6757,6 +6805,9 @@ func (v *HOExt) UnmarshalBER(data []byte) error {
 
 // MarshalBERCodecListExt encodes a CodecListExt list to BER.
 func MarshalBERCodecListExt(list CodecListExt) ([]byte, error) {
+	if len(list) > 8 {
+		return nil, fmt.Errorf("CodecListExt length %d violates SIZE (0..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -6766,6 +6817,9 @@ func MarshalBERCodecListExt(list CodecListExt) ([]byte, error) {
 
 // MarshalDERCodecListExt encodes a CodecListExt list to DER.
 func MarshalDERCodecListExt(list CodecListExt) ([]byte, error) {
+	if len(list) > 8 {
+		return nil, fmt.Errorf("CodecListExt length %d violates SIZE (0..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -6795,6 +6849,12 @@ func UnmarshalBERCodecListExt(data []byte) (CodecListExt, error) {
 		}
 		result = append(result, CodecExt(val))
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("CodecListExt length %d violates SIZE (0..8)", len(result))
+		}
+	}
+	if len(result) > 8 {
+		return nil, fmt.Errorf("CodecListExt length %d violates SIZE (0..8)", len(result))
 	}
 	return result, nil
 }
@@ -7065,7 +7125,7 @@ func (v *AbsentSubscriberExt) UnmarshalBER(data []byte) error {
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 1 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := IMSI4(rawVal_imsi)
+				tmp_imsi := IMSI5(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -7230,7 +7290,7 @@ func (v *ErrOlcmInfoTableExt) UnmarshalBER(data []byte) error {
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 1 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := IMSI4(rawVal_imsi)
+				tmp_imsi := IMSI5(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -7832,7 +7892,7 @@ func (v *MOForwardSMArgExt) UnmarshalBER(data []byte) error {
 				if decodedTag_cellid.Class != tag.ClassContextSpecific || decodedTag_cellid.Number != 1 {
 					return fmt.Errorf("decoding cellId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cellid)
 				}
-				tmp_cellid := CellGlobalIdOrServiceAreaIdFixedLength4(rawVal_cellid)
+				tmp_cellid := CellGlobalIdOrServiceAreaIdFixedLength5(rawVal_cellid)
 				v.CellId = &tmp_cellid
 				offset += n_cellid
 			}
@@ -7953,7 +8013,7 @@ func (v *UdlArgExt) UnmarshalBER(data []byte) error {
 				if decodedTag_lai.Class != tag.ClassContextSpecific || decodedTag_lai.Number != 0 {
 					return fmt.Errorf("decoding lai: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lai)
 				}
-				tmp_lai := LAIFixedLength4(rawVal_lai)
+				tmp_lai := LAIFixedLength5(rawVal_lai)
 				v.Lai = &tmp_lai
 				offset += n_lai
 			}
@@ -8179,7 +8239,7 @@ func (v *AnyTimeModArgExt) UnmarshalBER(data []byte) error {
 				if decodedTag_sendermsisdn.Class != tag.ClassContextSpecific || decodedTag_sendermsisdn.Number != 0 {
 					return fmt.Errorf("decoding senderMSISDN: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sendermsisdn)
 				}
-				tmp_sendermsisdn := ISDNAddressString4(rawVal_sendermsisdn)
+				tmp_sendermsisdn := ISDNAddressString5(rawVal_sendermsisdn)
 				v.SenderMSISDN = &tmp_sendermsisdn
 				offset += n_sendermsisdn
 			}
@@ -8255,7 +8315,7 @@ func (v *CosInfo) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding ss-Code: %w", err)
 				}
-				tmp_sscode := SSCode5(val_sscode)
+				tmp_sscode := SSCode6(val_sscode)
 				v.SsCode = &tmp_sscode
 				offset += n
 			}
@@ -8292,6 +8352,9 @@ func (v *CosInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERCOSFeatureList encodes a COSFeatureList list to BER.
 func MarshalBERCOSFeatureList(list COSFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 13 {
+		return nil, fmt.Errorf("COSFeatureList length %d violates SIZE (1..13)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -8305,6 +8368,9 @@ func MarshalBERCOSFeatureList(list COSFeatureList) ([]byte, error) {
 
 // MarshalDERCOSFeatureList encodes a COSFeatureList list to DER.
 func MarshalDERCOSFeatureList(list COSFeatureList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 13 {
+		return nil, fmt.Errorf("COSFeatureList length %d violates SIZE (1..13)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -8342,6 +8408,12 @@ func UnmarshalBERCOSFeatureList(data []byte) (COSFeatureList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 13 {
+			return nil, fmt.Errorf("COSFeatureList length %d violates SIZE (1..13)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 13 {
+		return nil, fmt.Errorf("COSFeatureList length %d violates SIZE (1..13)", len(result))
 	}
 	return result, nil
 }
@@ -8460,12 +8532,12 @@ func (v *COSFeature) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) {
-				// Decode nested CHOICE (BasicServiceCode4)
+				// Decode nested CHOICE (BasicServiceCode5)
 				_, n_basicservicecode, _, tlvErr_basicservicecode := ber.DecodeTLV(content[offset:])
 				if tlvErr_basicservicecode != nil {
 					return fmt.Errorf("decoding basicServiceCode: %w", tlvErr_basicservicecode)
 				}
-				var dec_basicservicecode BasicServiceCode4
+				var dec_basicservicecode BasicServiceCode5
 				if unmErr := dec_basicservicecode.UnmarshalBER(content[offset : offset+n_basicservicecode]); unmErr != nil {
 					return fmt.Errorf("decoding basicServiceCode: %w", unmErr)
 				}
@@ -8490,7 +8562,7 @@ func (v *COSFeature) UnmarshalBER(data []byte) error {
 	if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 		return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 	}
-	v.SsStatus = SSStatus5(rawVal_ssstatus)
+	v.SsStatus = SSStatus6(rawVal_ssstatus)
 	offset += n_ssstatus
 	// Decode customerGroupID
 	if offset < len(content) {
@@ -8653,6 +8725,9 @@ func (v *AccessTypeExt) UnmarshalBER(data []byte) error {
 
 // MarshalBERAccessSubscriptionListExt encodes a AccessSubscriptionListExt list to BER.
 func MarshalBERAccessSubscriptionListExt(list AccessSubscriptionListExt) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("AccessSubscriptionListExt length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeEnumerated(int64(elem))...)
@@ -8662,6 +8737,9 @@ func MarshalBERAccessSubscriptionListExt(list AccessSubscriptionListExt) ([]byte
 
 // MarshalDERAccessSubscriptionListExt encodes a AccessSubscriptionListExt list to DER.
 func MarshalDERAccessSubscriptionListExt(list AccessSubscriptionListExt) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("AccessSubscriptionListExt length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeEnumerated(int64(elem))...)
@@ -8691,6 +8769,12 @@ func UnmarshalBERAccessSubscriptionListExt(data []byte) (AccessSubscriptionListE
 		}
 		result = append(result, Access(val))
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("AccessSubscriptionListExt length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("AccessSubscriptionListExt length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }
@@ -8805,7 +8889,7 @@ func (v *AnyTimePOBarringArg) UnmarshalBER(data []byte) error {
 	if decodedTag_gsmscfaddress.Class != tag.ClassContextSpecific || decodedTag_gsmscfaddress.Number != 3 {
 		return fmt.Errorf("decoding gsmSCF-Address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_gsmscfaddress)
 	}
-	v.GsmSCFAddress = ISDNAddressString4(rawVal_gsmscfaddress)
+	v.GsmSCFAddress = ISDNAddressString5(rawVal_gsmscfaddress)
 	offset += n_gsmscfaddress
 	// Decode gprs-Barring
 	if offset >= len(content) {

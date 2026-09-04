@@ -725,6 +725,12 @@ type TAId3 = []byte
 // RAIdentity4 represents the ASN.1 type RAIdentity (OCTET_STRING).
 type RAIdentity4 = []byte
 
+// NetworkNodeDiameterAddress3 represents the ASN.1 type NetworkNodeDiameterAddress (SEQUENCE).
+type NetworkNodeDiameterAddress3 struct {
+	DiameterName  DiameterIdentity3 `asn1:"tag:0,context,implicit"`
+	DiameterRealm DiameterIdentity3 `asn1:"tag:1,context,implicit"`
+}
+
 // CellGlobalIdOrServiceAreaIdOrLAI4 choice constants.
 const (
 	CellGlobalIdOrServiceAreaIdOrLAI4ChoiceCellGlobalIdOrServiceAreaIdFixedLength = 1
@@ -1478,6 +1484,9 @@ func (v *SubscriberId4) UnmarshalBER(data []byte) error {
 
 // MarshalBERHLRList4 encodes a HLRList4 list to BER.
 func MarshalBERHLRList4(list HLRList4) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("HLRList4 length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1487,6 +1496,9 @@ func MarshalBERHLRList4(list HLRList4) ([]byte, error) {
 
 // MarshalDERHLRList4 encodes a HLRList4 list to DER.
 func MarshalDERHLRList4(list HLRList4) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("HLRList4 length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1516,6 +1528,12 @@ func UnmarshalBERHLRList4(data []byte) (HLRList4, error) {
 		}
 		result = append(result, HLRId4(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("HLRList4 length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("HLRList4 length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -1879,6 +1897,103 @@ func (v *LCSClientExternalID4) UnmarshalBER(data []byte) error {
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
+	return nil
+}
+
+// MarshalBER encodes NetworkNodeDiameterAddress3 to BER format.
+func (v *NetworkNodeDiameterAddress3) MarshalBER() ([]byte, error) {
+	var children []byte
+	enc_diametername := ber.EncodeOctetString([]byte(v.DiameterName))
+	retagged_enc_diametername, tagErr_enc_diametername := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_diametername)
+	if tagErr_enc_diametername != nil {
+		return nil, fmt.Errorf("encoding diameter-Name: %w", tagErr_enc_diametername)
+	}
+	enc_diametername = retagged_enc_diametername
+	children = append(children, enc_diametername...)
+	enc_diameterrealm := ber.EncodeOctetString([]byte(v.DiameterRealm))
+	retagged_enc_diameterrealm, tagErr_enc_diameterrealm := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_diameterrealm)
+	if tagErr_enc_diameterrealm != nil {
+		return nil, fmt.Errorf("encoding diameter-Realm: %w", tagErr_enc_diameterrealm)
+	}
+	enc_diameterrealm = retagged_enc_diameterrealm
+	children = append(children, enc_diameterrealm...)
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDER encodes NetworkNodeDiameterAddress3 to DER format.
+func (v *NetworkNodeDiameterAddress3) MarshalDER() ([]byte, error) {
+	var children []byte
+	enc_diametername := ber.EncodeOctetString([]byte(v.DiameterName))
+	retagged_enc_diametername, tagErr_enc_diametername := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_diametername)
+	if tagErr_enc_diametername != nil {
+		return nil, fmt.Errorf("encoding diameter-Name: %w", tagErr_enc_diametername)
+	}
+	enc_diametername = retagged_enc_diametername
+	children = append(children, enc_diametername...)
+	enc_diameterrealm := ber.EncodeOctetString([]byte(v.DiameterRealm))
+	retagged_enc_diameterrealm, tagErr_enc_diameterrealm := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_diameterrealm)
+	if tagErr_enc_diameterrealm != nil {
+		return nil, fmt.Errorf("encoding diameter-Realm: %w", tagErr_enc_diameterrealm)
+	}
+	enc_diameterrealm = retagged_enc_diameterrealm
+	children = append(children, enc_diameterrealm...)
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding NetworkNodeDiameterAddress3 as DER: %w", err)
+	}
+	return encoded, nil
+}
+
+// UnmarshalBER decodes NetworkNodeDiameterAddress3 from BER/DER format.
+func (v *NetworkNodeDiameterAddress3) UnmarshalBER(data []byte) error {
+	*v = NetworkNodeDiameterAddress3{}
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return fmt.Errorf("decoding NetworkNodeDiameterAddress3 SEQUENCE: %w", err)
+	}
+	if total != len(data) {
+		return &ber.DecodeError{Offset: total, TypeName: "NetworkNodeDiameterAddress3", Cause: ber.ErrExtraData}
+	}
+	offset := 0
+	// Decode diameter-Name
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field diameter-Name")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 0 {
+			return fmt.Errorf("expected tag [%s %d] for diameter-Name, got %s", "CONTEXT", 0, reqTag_)
+		}
+	}
+	decodedTag_diametername, n_diametername, rawVal_diametername, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding diameter-Name: %w", err)
+	}
+	if decodedTag_diametername.Class != tag.ClassContextSpecific || decodedTag_diametername.Number != 0 {
+		return fmt.Errorf("decoding diameter-Name: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diametername)
+	}
+	v.DiameterName = DiameterIdentity3(rawVal_diametername)
+	offset += n_diametername
+	// Decode diameter-Realm
+	if offset >= len(content) {
+		return fmt.Errorf("missing required field diameter-Realm")
+	}
+	if reqTag_, reqErr_ := ber.PeekTag(content[offset:]); reqErr_ == nil {
+		if reqTag_.Class != tag.ClassContextSpecific || reqTag_.Number != 1 {
+			return fmt.Errorf("expected tag [%s %d] for diameter-Realm, got %s", "CONTEXT", 1, reqTag_)
+		}
+	}
+	decodedTag_diameterrealm, n_diameterrealm, rawVal_diameterrealm, err := ber.DecodeTLV(content[offset:])
+	if err != nil {
+		return fmt.Errorf("decoding diameter-Realm: %w", err)
+	}
+	if decodedTag_diameterrealm.Class != tag.ClassContextSpecific || decodedTag_diameterrealm.Number != 1 {
+		return fmt.Errorf("decoding diameter-Realm: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_diameterrealm)
+	}
+	v.DiameterRealm = DiameterIdentity3(rawVal_diameterrealm)
+	offset += n_diameterrealm
+	if offset != len(content) {
+		return &ber.DecodeError{Offset: offset, TypeName: "NetworkNodeDiameterAddress3", Cause: ber.ErrExtraData}
+	}
 	return nil
 }
 

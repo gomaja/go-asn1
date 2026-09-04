@@ -19,11 +19,11 @@ var (
 
 // EnhancedCheckIMEIArg represents the ASN.1 type EnhancedCheckIMEI-Arg (SEQUENCE).
 type EnhancedCheckIMEIArg struct {
-	Imei                   IMEI4                    `asn1:""`
-	RequestedEquipmentInfo *RequestedEquipmentInfo4 `asn1:",optional" json:"RequestedEquipmentInfo,omitempty"`
-	Imsi                   *IMSI4                   `asn1:"tag:1,private,implicit,optional" json:"Imsi,omitempty"`
+	Imei                   IMEI5                    `asn1:""`
+	RequestedEquipmentInfo *RequestedEquipmentInfo5 `asn1:",optional" json:"RequestedEquipmentInfo,omitempty"`
+	Imsi                   *IMSI5                   `asn1:"tag:1,private,implicit,optional" json:"Imsi,omitempty"`
 	LocationInformation    []byte                   `asn1:"tag:3,private,implicit,optional" json:"LocationInformation,omitempty"`
-	ExtensionContainer     *ExtensionContainer4     `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer     *ExtensionContainer5     `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_              int64                    `asn1:"-" json:"-"`
 	ExtPresent_            []bool                   `asn1:"-" json:"-"`
 	ExtData_               [][]byte                 `asn1:"-" json:"-"`
@@ -211,12 +211,12 @@ func NewPrivateFeatureDataOickInfo(v OickInfo) PrivateFeatureData {
 
 // OickInfo represents the ASN.1 type OickInfo (SEQUENCE).
 type OickInfo struct {
-	SsStatus      ExtSSStatus4  `asn1:""`
+	SsStatus      ExtSSStatus5  `asn1:""`
 	InCategoryKey INCategoryKey `asn1:""`
 }
 
 // INCategoryKey represents the ASN.1 type INCategoryKey (OCTET_STRING).
-type INCategoryKey = TBCDSTRING4
+type INCategoryKey = TBCDSTRING5
 
 // SubscriptionTypeInfo represents the ASN.1 type SubscriptionTypeInfo (SEQUENCE).
 type SubscriptionTypeInfo struct {
@@ -302,11 +302,11 @@ const (
 // PrivateFeatureUlArgData represents the ASN.1 CHOICE type PrivateFeatureUlArgData.
 type PrivateFeatureUlArgData struct {
 	Choice int
-	Adc    *IMEI4 `json:"Adc,omitempty"`
+	Adc    *IMEI5 `json:"Adc,omitempty"`
 }
 
 // NewPrivateFeatureUlArgDataAdc creates a PrivateFeatureUlArgData with the adc alternative.
-func NewPrivateFeatureUlArgDataAdc(v IMEI4) PrivateFeatureUlArgData {
+func NewPrivateFeatureUlArgDataAdc(v IMEI5) PrivateFeatureUlArgData {
 	return PrivateFeatureUlArgData{
 		Choice: PrivateFeatureUlArgDataChoiceAdc,
 		Adc:    &v,
@@ -332,7 +332,7 @@ func (v ExtraProtocolId) String() string {
 // ExtraSignalInfo represents the ASN.1 type ExtraSignalInfo (SEQUENCE).
 type ExtraSignalInfo struct {
 	ProtocolId ExtraProtocolId `asn1:""`
-	SignalInfo SignalInfo4     `asn1:""`
+	SignalInfo SignalInfo5     `asn1:""`
 }
 
 // SaiArgType represents the ASN.1 type SaiArgType (SEQUENCE).
@@ -343,7 +343,7 @@ type SaiArgType struct {
 
 // SaiResType represents the ASN.1 type SaiResType (SEQUENCE).
 type SaiResType struct {
-	MsIsdn *ISDNAddressString4 `asn1:"tag:1,context,implicit,optional" json:"MsIsdn,omitempty"`
+	MsIsdn *ISDNAddressString5 `asn1:"tag:1,context,implicit,optional" json:"MsIsdn,omitempty"`
 }
 
 // AtiArgType represents the ASN.1 type AtiArgType (SEQUENCE).
@@ -493,7 +493,7 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding imei: %w", err)
 	}
-	v.Imei = IMEI4(val_imei)
+	v.Imei = IMEI5(val_imei)
 	offset += n
 	// Decode requestedEquipmentInfo
 	if offset < len(content) {
@@ -522,7 +522,7 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte) error {
 				if decodedTag_imsi.Class != tag.ClassPrivate || decodedTag_imsi.Number != 1 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := IMSI4(rawVal_imsi)
+				tmp_imsi := IMSI5(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -551,12 +551,12 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer4)
+				// Decode nested SEQUENCE (ExtensionContainer5)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer4
+				var dec_extensioncontainer ExtensionContainer5
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -1142,6 +1142,9 @@ func (v *ExtensionType) UnmarshalBER(data []byte) error {
 
 // MarshalBERIsdArgType encodes a IsdArgType list to BER.
 func MarshalBERIsdArgType(list IsdArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("IsdArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -1155,6 +1158,9 @@ func MarshalBERIsdArgType(list IsdArgType) ([]byte, error) {
 
 // MarshalDERIsdArgType encodes a IsdArgType list to DER.
 func MarshalDERIsdArgType(list IsdArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("IsdArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -1192,6 +1198,12 @@ func UnmarshalBERIsdArgType(data []byte) (IsdArgType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("IsdArgType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("IsdArgType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -1501,7 +1513,7 @@ func (v *OickInfo) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding ss-Status: %w", err)
 	}
-	v.SsStatus = ExtSSStatus4(val_ssstatus)
+	v.SsStatus = ExtSSStatus5(val_ssstatus)
 	offset += n
 	// Decode inCategoryKey
 	if offset >= len(content) {
@@ -1568,6 +1580,9 @@ func (v *SubscriptionTypeInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERIsdResType encodes a IsdResType list to BER.
 func MarshalBERIsdResType(list IsdResType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("IsdResType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -1581,6 +1596,9 @@ func MarshalBERIsdResType(list IsdResType) ([]byte, error) {
 
 // MarshalDERIsdResType encodes a IsdResType list to DER.
 func MarshalDERIsdResType(list IsdResType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("IsdResType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -1618,6 +1636,12 @@ func UnmarshalBERIsdResType(data []byte) (IsdResType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("IsdResType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("IsdResType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -1719,6 +1743,9 @@ func (v *IsdResData) UnmarshalBER(data []byte) error {
 
 // MarshalBERDsdArgType encodes a DsdArgType list to BER.
 func MarshalBERDsdArgType(list DsdArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("DsdArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -1732,6 +1759,9 @@ func MarshalBERDsdArgType(list DsdArgType) ([]byte, error) {
 
 // MarshalDERDsdArgType encodes a DsdArgType list to DER.
 func MarshalDERDsdArgType(list DsdArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("DsdArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -1769,6 +1799,12 @@ func UnmarshalBERDsdArgType(data []byte) (DsdArgType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("DsdArgType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("DsdArgType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -1822,6 +1858,9 @@ func (v *DsdArgData) UnmarshalBER(data []byte) error {
 
 // MarshalBERSRIArgType encodes a SRIArgType list to BER.
 func MarshalBERSRIArgType(list SRIArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("SRIArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -1835,6 +1874,9 @@ func MarshalBERSRIArgType(list SRIArgType) ([]byte, error) {
 
 // MarshalDERSRIArgType encodes a SRIArgType list to DER.
 func MarshalDERSRIArgType(list SRIArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("SRIArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -1872,6 +1914,12 @@ func UnmarshalBERSRIArgType(data []byte) (SRIArgType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("SRIArgType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("SRIArgType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -2019,6 +2067,9 @@ func (v *SriArgData) UnmarshalBER(data []byte) error {
 
 // MarshalBERSRIResType encodes a SRIResType list to BER.
 func MarshalBERSRIResType(list SRIResType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("SRIResType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -2032,6 +2083,9 @@ func MarshalBERSRIResType(list SRIResType) ([]byte, error) {
 
 // MarshalDERSRIResType encodes a SRIResType list to DER.
 func MarshalDERSRIResType(list SRIResType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("SRIResType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -2069,6 +2123,12 @@ func UnmarshalBERSRIResType(data []byte) (SRIResType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("SRIResType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("SRIResType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -2242,6 +2302,9 @@ func (v *SriResData) UnmarshalBER(data []byte) error {
 
 // MarshalBERPrnArgType encodes a PrnArgType list to BER.
 func MarshalBERPrnArgType(list PrnArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("PrnArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -2255,6 +2318,9 @@ func MarshalBERPrnArgType(list PrnArgType) ([]byte, error) {
 
 // MarshalDERPrnArgType encodes a PrnArgType list to DER.
 func MarshalDERPrnArgType(list PrnArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("PrnArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -2292,6 +2358,12 @@ func UnmarshalBERPrnArgType(data []byte) (PrnArgType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("PrnArgType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("PrnArgType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -2439,6 +2511,9 @@ func (v *PrnArgData) UnmarshalBER(data []byte) error {
 
 // MarshalBERUlArgType encodes a UlArgType list to BER.
 func MarshalBERUlArgType(list UlArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("UlArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -2452,6 +2527,9 @@ func MarshalBERUlArgType(list UlArgType) ([]byte, error) {
 
 // MarshalDERUlArgType encodes a UlArgType list to DER.
 func MarshalDERUlArgType(list UlArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("UlArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -2489,6 +2567,12 @@ func UnmarshalBERUlArgType(data []byte) (UlArgType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("UlArgType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("UlArgType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
@@ -2678,7 +2762,7 @@ func (v *PrivateFeatureUlArgData) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding adc: %w", tlvErr)
 		}
-		tmp := IMEI4(rawVal)
+		tmp := IMEI5(rawVal)
 		v.Adc = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for PrivateFeatureUlArgData CHOICE", peekTag)
@@ -2747,7 +2831,7 @@ func (v *ExtraSignalInfo) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding signalInfo: %w", err)
 	}
-	v.SignalInfo = SignalInfo4(val_signalinfo)
+	v.SignalInfo = SignalInfo5(val_signalinfo)
 	offset += n
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ExtraSignalInfo", Cause: ber.ErrExtraData}
@@ -2921,7 +3005,7 @@ func (v *SaiResType) UnmarshalBER(data []byte) error {
 				if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 1 {
 					return fmt.Errorf("decoding msIsdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 				}
-				tmp_msisdn := ISDNAddressString4(rawVal_msisdn)
+				tmp_msisdn := ISDNAddressString5(rawVal_msisdn)
 				v.MsIsdn = &tmp_msisdn
 				offset += n_msisdn
 			}
@@ -3227,6 +3311,9 @@ func (v *RequestedInfoType) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtAtiArgType encodes a ExtAtiArgType list to BER.
 func MarshalBERExtAtiArgType(list ExtAtiArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("ExtAtiArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -3240,6 +3327,9 @@ func MarshalBERExtAtiArgType(list ExtAtiArgType) ([]byte, error) {
 
 // MarshalDERExtAtiArgType encodes a ExtAtiArgType list to DER.
 func MarshalDERExtAtiArgType(list ExtAtiArgType) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("ExtAtiArgType length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -3277,6 +3367,12 @@ func UnmarshalBERExtAtiArgType(data []byte) (ExtAtiArgType, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("ExtAtiArgType length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("ExtAtiArgType length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }

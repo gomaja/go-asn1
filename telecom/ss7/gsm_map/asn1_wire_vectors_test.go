@@ -339,6 +339,117 @@ func TestVectorForwardSmRawAsMt(t *testing.T) {
 	}
 }
 
+// TestVectorReportSmDeliveryStatusFailedServingNodes verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.6; ReportSM-DeliveryStatusArg failedSMServingNodes and both SMServingNodeAddress alternatives.
+// Regression: go-asn1-v0.4.2.gsm-map.release-19-failed-serving-nodes
+func TestVectorReportSmDeliveryStatusFailedServingNodes(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "302a04029121040291430a0102b21d80029165a117800c736d73662e6578616d706c6581076578616d706c65")
+	var decoded ReportSMDeliveryStatusArg
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[0].Choice", "1")
+	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[0].NetworkNodeNumber", "\"kWU=\"")
+	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[1].Choice", "2")
+	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[1].DiameterAddress.DiameterName", "\"c21zZi5leGFtcGxl\"")
+	asn1VectorAssertPath(t, decoded, "FailedSMServingNodes[1].DiameterAddress.DiameterRealm", "\"ZXhhbXBsZQ==\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorReportSmDeliveryStatusRegisteredServingNodesMax verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.6; ReportSM-DeliveryStatusRes registeredSMServingNodes at maxNumOfSMServingNodeAddresses 5.
+// Regression: go-asn1-v0.4.2.gsm-map.release-19-registered-serving-nodes
+// Regression: go-asn1-v0.4.2.gsm-map.sm-serving-node-list-upper-bound
+func TestVectorReportSmDeliveryStatusRegisteredServingNodesMax(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3011a00f800191800192800193800194800195")
+	var decoded ReportSMDeliveryStatusRes
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "RegisteredSMServingNodes[0].NetworkNodeNumber", "\"kQ==\"")
+	asn1VectorAssertPath(t, decoded, "RegisteredSMServingNodes[4].NetworkNodeNumber", "\"lQ==\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorSmServingNodeListEmpty verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.6; SMServingNodeAddressList requires at least one element.
+// Regression: go-asn1-v0.4.2.gsm-map.sm-serving-node-list-lower-bound
+func TestVectorSmServingNodeListEmpty(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3002a000")
+	var decoded ReportSMDeliveryStatusRes
+	err := decoded.UnmarshalBER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "SIZE (1..5)") {
+		t.Fatalf("decode error = %q, want substring %q", err, "SIZE (1..5)")
+	}
+}
+
+// TestVectorSmServingNodeListOverMaximum verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.6; SMServingNodeAddressList rejects more than maxNumOfSMServingNodeAddresses 5.
+// Regression: go-asn1-v0.4.2.gsm-map.sm-serving-node-list-over-maximum
+func TestVectorSmServingNodeListOverMaximum(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3014a012800191800192800193800194800195800196")
+	var decoded ReportSMDeliveryStatusRes
+	err := decoded.UnmarshalBER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "SIZE (1..5)") {
+		t.Fatalf("decode error = %q, want substring %q", err, "SIZE (1..5)")
+	}
+}
+
+// TestVectorSmServingNodeDiameterAddressMissingRealm verifies 3GPP TS 29.002 V19.1.0 (2026-02), sections 17.7.6 and 17.7.8; NetworkNodeDiameterAddress requires both diameterName and diameterRealm.
+// Regression: go-asn1-v0.4.2.gsm-map.sm-serving-node-diameter-address-malformed
+func TestVectorSmServingNodeDiameterAddressMissingRealm(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "301d04029121040291430a0102b210a10e800c736d73662e6578616d706c65")
+	var decoded ReportSMDeliveryStatusArg
+	err := decoded.UnmarshalBER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "diameter-Realm") {
+		t.Fatalf("decode error = %q, want substring %q", err, "diameter-Realm")
+	}
+}
+
+// TestVectorReportSmDeliveryStatusUnknownExtension verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.6; unknown ReportSM-DeliveryStatusRes extension additions remain byte-exact.
+// Regression: go-asn1-v0.4.2.gsm-map.report-status-extension-preservation
+func TestVectorReportSmDeliveryStatusUnknownExtension(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3003810100")
+	var decoded ReportSMDeliveryStatusRes
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "ExtData_[0]", "\"gQEA\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
 func FuzzBERSendRoutingInfoArg(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("3015800791795210325476830100860791795213111111"))
 	f.Fuzz(func(t *testing.T, input []byte) {
@@ -393,6 +504,26 @@ func FuzzBERMTForwardSMArg(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("300785008500040100"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded MTForwardSMArg
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERReportSMDeliveryStatusArg(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("302a04029121040291430a0102b21d80029165a117800c736d73662e6578616d706c6581076578616d706c65"))
+	f.Add(asn1VectorHexForFuzz("301d04029121040291430a0102b210a10e800c736d73662e6578616d706c65"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded ReportSMDeliveryStatusArg
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERReportSMDeliveryStatusRes(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("3011a00f800191800192800193800194800195"))
+	f.Add(asn1VectorHexForFuzz("3002a000"))
+	f.Add(asn1VectorHexForFuzz("3014a012800191800192800193800194800195800196"))
+	f.Add(asn1VectorHexForFuzz("3003810100"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded ReportSMDeliveryStatusRes
 		_ = decoded.UnmarshalBER(input)
 	})
 }

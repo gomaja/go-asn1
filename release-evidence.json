@@ -1,22 +1,22 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
-  "target_base_commit": "1a22097f349013c619003a702a94c15e10218c98",
+  "compiler_commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
+  "target_base_commit": "545b112789083acf821b4b008b860b15b29c3ebb",
   "inputs": {
-    "sha256": "ada50cc9e90cc4104a45d1b416b49c154022d1985471d3d131f96d7752be928d",
+    "sha256": "0620c78815c37168758b2eb880734c8fef79d944bc731b0789c877688fe62349",
     "files": [
       {
         "path": "conformance/corpus.yaml",
         "mode": "0644",
-        "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-        "size_bytes": 121901
+        "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+        "size_bytes": 124189
       },
       {
         "path": "conformance/source.lock.json",
         "mode": "0644",
-        "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-        "size_bytes": 134604
+        "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+        "size_bytes": 139720
       }
     ]
   },
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
+          "commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
           "dirty": false
         },
         "frontend": {
@@ -39,18 +39,18 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-          "size_bytes": 121901
+          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+          "size_bytes": 124189
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-          "size_bytes": 134604
+          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+          "size_bytes": 139720
         },
         "source_plan": {
           "path": "gsm-map/source-plan.json",
-          "sha256": "adf324668af673c4943988d634398a2c2d527d3db5ae531907e7749dde6a5bdb",
-          "size_bytes": 1219481
+          "sha256": "207f24b23f74f9b18282f313be7267542ec61738fbabffe7aa43081e4a2116cb",
+          "size_bytes": 1489488
         },
         "sources": [
           {
@@ -264,6 +264,150 @@
             "sha256": "a961243d6b09f1284587e7f422d3dcde35bc11199f78927a1186542d28f88449"
           },
           {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-ApplicationContexts.asn",
+            "mode": "0644",
+            "sha256": "e044fb2f4876170b1de2199c25c3e94c0e92573a48d325b8f6f9feddeb1c8354"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-BS-Code.asn",
+            "mode": "0644",
+            "sha256": "1990ae8219c6db63ae424103dc2df11f777655d7ea86c990f4e838d95ecf5e7b"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-CH-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "9b49c9c546512ec4cf1318ba34d6b6c5bab7abb46832f7c0f4c06fdacc93151f"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-CallHandlingOperations.asn",
+            "mode": "0644",
+            "sha256": "c61f10b3a81b1206acd7d36318c56a7cb3e0a212a4de53d2f5f705bf7cde4a1d"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-CommonDataTypes.asn",
+            "mode": "0644",
+            "sha256": "036460ae4bd3805ecea39fae3c9f81e4aebec1384f65cd0c034ae883da28cffc"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-DialogueInformation.asn",
+            "mode": "0644",
+            "sha256": "1bf9a68e837a0bb2ef54acc6bb87539a953ec362be6bab01516825dd9d8e29a6"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-ER-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "24e3e0e5811551477eb8b6eaa6d42beee8835a1c3a48dcd2bd0c424a22d1bef5"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-Errors.asn",
+            "mode": "0644",
+            "sha256": "fbe39b6070e3fb7e2a3a6f55b319b24491a8b413321507ddd7145b1a7b4a3346"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-ExtensionDataTypes.asn",
+            "mode": "0644",
+            "sha256": "24e5cca23c49cdd2870f24c9da89c4c3de4cadc88be2a852127c46f641198362"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-GR-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "b190fc5fb42c6a9a73d0d4c3af434b65cd2e47f2b100f19903b67eab1f56962f"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-Group-Call-Operations.asn",
+            "mode": "0644",
+            "sha256": "2047261424cb7e0de50d6507e142ce3c4439a628ad5a273efc8e4ddefe1087f6"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-LCS-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "b4af5e6b6b8952da886d7d4734842210fc05f812c1f0321312c9be22c6e77b72"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-LocationServiceOperations.asn",
+            "mode": "0644",
+            "sha256": "280414f331b25e83c672dc7ce1773e9e4f1585f1d0f3f374bd98637e11ad6b0a"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-MS-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "12db45b48c9371eb3dbf94ab8e20f9b41bf19003baf8d922d340261302ea8f74"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-MobileServiceOperations.asn",
+            "mode": "0644",
+            "sha256": "1ff741e4cfa8e39efd9585cd08d7c5196d14b483dc2776ebc4e8c6e07babc496"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-OM-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "d2831377bdd93c2baea25cf93fff3432c8a9be1380019d21f7e11bd1cfe9253a"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-OperationAndMaintenanceOperations.asn",
+            "mode": "0644",
+            "sha256": "7f706f72645f72d54c8add36cc083c7d20ccbc42f5bdbae5e3cfaf765e369845"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-Protocol.asn",
+            "mode": "0644",
+            "sha256": "9c78dd5c72f64ca63e641198ef5222bd716704535670cef491300878b60c36c4"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-SM-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "2293b763abbc18e87a8595da324ab9a1f27d7a042513ea846b3b95667ef18736"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-SS-Code.asn",
+            "mode": "0644",
+            "sha256": "95f3cd15835881073dca9a3d8c5a295ff5832b0dca7b5d0e2c408a2ae779564a"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-SS-DataTypes.asn",
+            "mode": "0644",
+            "sha256": "f8ae1748c98747f8cc2c9489250966a81f2b947b805121fac3eb643c74d8bbaa"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-ShortMessageServiceOperations.asn",
+            "mode": "0644",
+            "sha256": "6c8edebb3afbfa8e662db4adfd2da590323343c6df8c82f686761e779ed297bb"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-SupplementaryServiceOperations.asn",
+            "mode": "0644",
+            "sha256": "b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f"
+          },
+          {
+            "collection": "map-29002-v22",
+            "path": "modules/MAP-TS-Code.asn",
+            "mode": "0644",
+            "sha256": "66b31cd0f5c057857b0c009e7300dd9c506dd4d84561c14222986c0cebd58458"
+          },
+          {
             "collection": "wireshark-asn1",
             "path": "gsm_map/Ericsson.asn",
             "mode": "0644",
@@ -277,39 +421,15 @@
           },
           {
             "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-ApplicationContexts.asn",
-            "mode": "0644",
-            "sha256": "73dc08b980edf95ecca33375653f456b1d0b96aa319dd59c07b0842ecbcb75b6"
-          },
-          {
-            "collection": "wireshark-asn1",
             "path": "gsm_map/MAP-BS-Code.asn",
             "mode": "0644",
             "sha256": "859f1b84f8f4e9c639e205597fbfa986b38e6441232838661cbb08da7b39c9ba"
           },
           {
             "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-CH-DataTypes.asn",
-            "mode": "0644",
-            "sha256": "c13ea2c8df146396f6a5c48f821b18d1b501da947c5282b8414aaf8f97b61bb6"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-CallHandlingOperations.asn",
-            "mode": "0644",
-            "sha256": "51abad1a92018aa77c23320a94d208d9e1c0610c191b903a699b0f588b9e4270"
-          },
-          {
-            "collection": "wireshark-asn1",
             "path": "gsm_map/MAP-CommonDataTypes.asn",
             "mode": "0644",
             "sha256": "a98749ffd0400b3d86c5e62470ee1fa168c08200a1762271674e82c9643ee4ec"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-DialogueInformation.asn",
-            "mode": "0644",
-            "sha256": "18af27f1eeb1f73351506008a8516a2147d4f7decb864e53f7108a7b27628da8"
           },
           {
             "collection": "wireshark-asn1",
@@ -331,27 +451,9 @@
           },
           {
             "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-GR-DataTypes.asn",
-            "mode": "0644",
-            "sha256": "ac96e553073a495d49b15865882f0dac38176a1d6e8673f7887b2e943175e57a"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-Group-Call-Operations.asn",
-            "mode": "0644",
-            "sha256": "65a5a0a8c2d5a0f4baa1a353c885741f80f7e7ed0264a88271f7204eb593bb23"
-          },
-          {
-            "collection": "wireshark-asn1",
             "path": "gsm_map/MAP-LCS-DataTypes.asn",
             "mode": "0644",
             "sha256": "532435258e3070a834b8b1188b51dbd9c4e0ed2843574cb725ac050e8ef6ca7f"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-LocationServiceOperations.asn",
-            "mode": "0644",
-            "sha256": "dbe07c0c52a19dfeb15da699074cf4178581c6052d5284702e2bc1754b30f0f3"
           },
           {
             "collection": "wireshark-asn1",
@@ -361,27 +463,9 @@
           },
           {
             "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-MobileServiceOperations.asn",
-            "mode": "0644",
-            "sha256": "0c567f2a5807e2dc9195fab6674187b0d6a556726c05adddbbee83b4aaadedf2"
-          },
-          {
-            "collection": "wireshark-asn1",
             "path": "gsm_map/MAP-OM-DataTypes.asn",
             "mode": "0644",
             "sha256": "1fe1d041cf18ac41460adfa79bc14e3daace66e8ffca5789a332907768b3b9aa"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-OperationAndMaintenanceOperations.asn",
-            "mode": "0644",
-            "sha256": "b8fa5b49534155852fa693bfd15403ba272a2fabf6917a0f6579a8bbb1928422"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-Protocol.asn",
-            "mode": "0644",
-            "sha256": "d252927979080885d66e2089cd7d521d67ce718aaa55119db390a40d95c888c9"
           },
           {
             "collection": "wireshark-asn1",
@@ -400,18 +484,6 @@
             "path": "gsm_map/MAP-SS-DataTypes.asn",
             "mode": "0644",
             "sha256": "1343e226dff90fe63f02b33a84635c37fda3ae13fbb2c306065314897c021f5c"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-ShortMessageServiceOperations.asn",
-            "mode": "0644",
-            "sha256": "66de898f951e8979364a947ee5d539463ea20af89ee385c890e2f027f57ca4b7"
-          },
-          {
-            "collection": "wireshark-asn1",
-            "path": "gsm_map/MAP-SupplementaryServiceOperations.asn",
-            "mode": "0644",
-            "sha256": "d2086fd2dc07fe262125e493762d1d6d4075e0c448d935bc0e9e823365c3b01c"
           },
           {
             "collection": "wireshark-asn1",
@@ -479,7 +551,7 @@
           },
           {
             "module": "MAP-ApplicationContexts",
-            "path": "wireshark-asn1/gsm_map/MAP-ApplicationContexts.asn"
+            "path": "map-29002-v22/modules/MAP-ApplicationContexts.asn"
           },
           {
             "module": "MAP-BS-Code",
@@ -499,6 +571,10 @@
           },
           {
             "module": "MAP-BS-Code",
+            "path": "map-29002-v22/modules/MAP-BS-Code.asn"
+          },
+          {
+            "module": "MAP-BS-Code",
             "path": "wireshark-asn1/gsm_map/MAP-BS-Code.asn"
           },
           {
@@ -507,11 +583,11 @@
           },
           {
             "module": "MAP-CH-DataTypes",
-            "path": "wireshark-asn1/gsm_map/MAP-CH-DataTypes.asn"
+            "path": "map-29002-v22/modules/MAP-CH-DataTypes.asn"
           },
           {
             "module": "MAP-CallHandlingOperations",
-            "path": "wireshark-asn1/gsm_map/MAP-CallHandlingOperations.asn"
+            "path": "map-29002-v22/modules/MAP-CallHandlingOperations.asn"
           },
           {
             "module": "MAP-CommonDataTypes",
@@ -531,11 +607,15 @@
           },
           {
             "module": "MAP-CommonDataTypes",
+            "path": "map-29002-v22/modules/MAP-CommonDataTypes.asn"
+          },
+          {
+            "module": "MAP-CommonDataTypes",
             "path": "wireshark-asn1/gsm_map/MAP-CommonDataTypes.asn"
           },
           {
             "module": "MAP-DialogueInformation",
-            "path": "wireshark-asn1/gsm_map/MAP-DialogueInformation.asn"
+            "path": "map-29002-v22/modules/MAP-DialogueInformation.asn"
           },
           {
             "module": "MAP-ER-DataTypes",
@@ -551,7 +631,15 @@
           },
           {
             "module": "MAP-ER-DataTypes",
+            "path": "map-29002-v22/modules/MAP-ER-DataTypes.asn"
+          },
+          {
+            "module": "MAP-ER-DataTypes",
             "path": "wireshark-asn1/gsm_map/MAP-ER-DataTypes.asn"
+          },
+          {
+            "module": "MAP-Errors",
+            "path": "map-29002-v22/modules/MAP-Errors.asn"
           },
           {
             "module": "MAP-Errors",
@@ -575,15 +663,23 @@
           },
           {
             "module": "MAP-ExtensionDataTypes",
+            "path": "map-29002-v22/modules/MAP-ExtensionDataTypes.asn"
+          },
+          {
+            "module": "MAP-ExtensionDataTypes",
             "path": "wireshark-asn1/gsm_map/MAP-ExtensionDataTypes.asn"
           },
           {
             "module": "MAP-GR-DataTypes",
-            "path": "wireshark-asn1/gsm_map/MAP-GR-DataTypes.asn"
+            "path": "map-29002-v22/modules/MAP-GR-DataTypes.asn"
           },
           {
             "module": "MAP-Group-Call-Operations",
-            "path": "wireshark-asn1/gsm_map/MAP-Group-Call-Operations.asn"
+            "path": "map-29002-v22/modules/MAP-Group-Call-Operations.asn"
+          },
+          {
+            "module": "MAP-LCS-DataTypes",
+            "path": "map-29002-v22/modules/MAP-LCS-DataTypes.asn"
           },
           {
             "module": "MAP-LCS-DataTypes",
@@ -591,7 +687,7 @@
           },
           {
             "module": "MAP-LocationServiceOperations",
-            "path": "wireshark-asn1/gsm_map/MAP-LocationServiceOperations.asn"
+            "path": "map-29002-v22/modules/MAP-LocationServiceOperations.asn"
           },
           {
             "module": "MAP-MS-DataTypes",
@@ -607,11 +703,15 @@
           },
           {
             "module": "MAP-MS-DataTypes",
+            "path": "map-29002-v22/modules/MAP-MS-DataTypes.asn"
+          },
+          {
+            "module": "MAP-MS-DataTypes",
             "path": "wireshark-asn1/gsm_map/MAP-MS-DataTypes.asn"
           },
           {
             "module": "MAP-MobileServiceOperations",
-            "path": "wireshark-asn1/gsm_map/MAP-MobileServiceOperations.asn"
+            "path": "map-29002-v22/modules/MAP-MobileServiceOperations.asn"
           },
           {
             "module": "MAP-OM-DataTypes",
@@ -627,19 +727,27 @@
           },
           {
             "module": "MAP-OM-DataTypes",
+            "path": "map-29002-v22/modules/MAP-OM-DataTypes.asn"
+          },
+          {
+            "module": "MAP-OM-DataTypes",
             "path": "wireshark-asn1/gsm_map/MAP-OM-DataTypes.asn"
           },
           {
             "module": "MAP-OperationAndMaintenanceOperations",
-            "path": "wireshark-asn1/gsm_map/MAP-OperationAndMaintenanceOperations.asn"
+            "path": "map-29002-v22/modules/MAP-OperationAndMaintenanceOperations.asn"
           },
           {
             "module": "MAP-Protocol",
-            "path": "wireshark-asn1/gsm_map/MAP-Protocol.asn"
+            "path": "map-29002-v22/modules/MAP-Protocol.asn"
           },
           {
             "module": "MAP-SM-DataTypes",
             "path": "map-29002-v15/MAP-SM-DataTypes.asn"
+          },
+          {
+            "module": "MAP-SM-DataTypes",
+            "path": "map-29002-v22/modules/MAP-SM-DataTypes.asn"
           },
           {
             "module": "MAP-SM-DataTypes",
@@ -663,6 +771,10 @@
           },
           {
             "module": "MAP-SS-Code",
+            "path": "map-29002-v22/modules/MAP-SS-Code.asn"
+          },
+          {
+            "module": "MAP-SS-Code",
             "path": "wireshark-asn1/gsm_map/MAP-SS-Code.asn"
           },
           {
@@ -683,15 +795,19 @@
           },
           {
             "module": "MAP-SS-DataTypes",
+            "path": "map-29002-v22/modules/MAP-SS-DataTypes.asn"
+          },
+          {
+            "module": "MAP-SS-DataTypes",
             "path": "wireshark-asn1/gsm_map/MAP-SS-DataTypes.asn"
           },
           {
             "module": "MAP-ShortMessageServiceOperations",
-            "path": "wireshark-asn1/gsm_map/MAP-ShortMessageServiceOperations.asn"
+            "path": "map-29002-v22/modules/MAP-ShortMessageServiceOperations.asn"
           },
           {
             "module": "MAP-SupplementaryServiceOperations",
-            "path": "wireshark-asn1/gsm_map/MAP-SupplementaryServiceOperations.asn"
+            "path": "map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn"
           },
           {
             "module": "MAP-TS-Code",
@@ -708,6 +824,10 @@
           {
             "module": "MAP-TS-Code",
             "path": "map-29002-v15/MAP-TS-Code.asn"
+          },
+          {
+            "module": "MAP-TS-Code",
+            "path": "map-29002-v22/modules/MAP-TS-Code.asn"
           },
           {
             "module": "MAP-TS-Code",
@@ -1030,8 +1150,8 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "fe507a9d07e239aa792bebbf00ac7354d86769b7511e1c4c159ea5896882b7b4",
-          "size_bytes": 7232431
+          "sha256": "d5440b464d44a451f776ded17760b193e8de3d436b3f60b5f073cfe3aa3ebab9",
+          "size_bytes": 8942159
         },
         "outputs": [
           {
@@ -1041,18 +1161,18 @@
           },
           {
             "path": "gsm_map/asn1_wire_vectors_test.go",
-            "sha256": "2fc496db5f4023046d9ab5e063018372acc292ff7d8d67a409a0893207df2562",
-            "size_bytes": 14013
+            "sha256": "3258dfce3abfe7982da1667e01018b40dcd0f509434209f9e1e175f580f4f850",
+            "size_bytes": 19711
           },
           {
             "path": "gsm_map/dummymap.go",
-            "sha256": "e62f2f62052af639c448fcdd61ac70e83ea99c5160180757325ad8167eaf50ac",
-            "size_bytes": 452697
+            "sha256": "89f6cc1dfa1f6a89ac1d791f5f50ed620f02a4ad89a4afa806f0efa407a42759",
+            "size_bytes": 455341
           },
           {
             "path": "gsm_map/ericssonmap.go",
-            "sha256": "6063d7bbe65c3d154296c368a4d389e0e0fef4a8bf2985f741e32e0d7549d830",
-            "size_bytes": 128768
+            "sha256": "04439dc473eecbc4e4dc9a516f24b26470976c248eeb392bfc168c4b9f7315ab",
+            "size_bytes": 132680
           },
           {
             "path": "gsm_map/mapapplicationcontexts.go",
@@ -1085,6 +1205,11 @@
             "size_bytes": 6091
           },
           {
+            "path": "gsm_map/mapbscode_6.go",
+            "sha256": "a05bb826277b25a286d50d74167a4a4d9204d60adb68859637474d115d341992",
+            "size_bytes": 6091
+          },
+          {
             "path": "gsm_map/mapcallhandlingoperations.go",
             "sha256": "2be190c47f6585c8ca96ae5bbd1444ffc7d95601949d0ee615162cf9a0fe8941",
             "size_bytes": 328
@@ -1101,28 +1226,33 @@
           },
           {
             "path": "gsm_map/mapcommondatatypes.go",
-            "sha256": "d045777e45a444f5f0ccbe6f57ecd8b379b24aa7ffc3066fd0ec5ddac05926e9",
-            "size_bytes": 93088
+            "sha256": "28bc7d055d057b611a63b85ce45c280ecad550c0aa95a3d213bef58c8d7e02ac",
+            "size_bytes": 93564
           },
           {
             "path": "gsm_map/mapcommondatatypes_2.go",
-            "sha256": "681cd11bc5445aa8a30eed7927633ee20e5fd7af9a6ca2cf8a03e6f2052c14b4",
-            "size_bytes": 99666
+            "sha256": "8a4aefc3ce24bae5c7ed55324a84b76bbc5d9752b51ea83638e327ec03ab9906",
+            "size_bytes": 100202
           },
           {
             "path": "gsm_map/mapcommondatatypes_3.go",
-            "sha256": "c92bd46facfd0c3ec18c1291b1bf7292298d053188f6d2c973caa3c3b3fae2a6",
-            "size_bytes": 94188
+            "sha256": "b44731359677b960769c7b55334306312883f3a22ec8b84a35b21c541d10fc16",
+            "size_bytes": 94890
           },
           {
             "path": "gsm_map/mapcommondatatypes_4.go",
-            "sha256": "c73527c32a066defa130e8df2c71a59a24aa9e18781a38376537a112ab80c0db",
-            "size_bytes": 88930
+            "sha256": "8cf3a91e4ec99140774cbd4e09ccee64f60678dd840e552198fe7950f1b70f1e",
+            "size_bytes": 94262
           },
           {
             "path": "gsm_map/mapcommondatatypes_5.go",
-            "sha256": "f2a4afcc349d02666ac79c6672f82749874f8f844fcb7ab25a61a64197773bdd",
-            "size_bytes": 88145
+            "sha256": "3c45f97a5d27b54d8151fb8dfcb20b97a5f7e04ea07397be8fce6a67b02450f3",
+            "size_bytes": 89410
+          },
+          {
+            "path": "gsm_map/mapcommondatatypes_6.go",
+            "sha256": "672e262bb35bc0f39c8340d649b42c480462f737a5f2d6b70b30a234df432c97",
+            "size_bytes": 88625
           },
           {
             "path": "gsm_map/mapdialogueinformation.go",
@@ -1141,12 +1271,17 @@
           },
           {
             "path": "gsm_map/maperdatatypes_3.go",
-            "sha256": "ac52e059d09822a3bbd48b71c8721b291e376c8bf87f671aeae171ce62145ee9",
-            "size_bytes": 240554
+            "sha256": "e60fcdefa98b81e8f4f3adfd59099c13cfa9e9b3bce27df7927533660d07a075",
+            "size_bytes": 245016
           },
           {
             "path": "gsm_map/maperdatatypes_4.go",
-            "sha256": "0f599c143a3f73c52f2f161e140f799c5125184034b765053570cddc8ebb3955",
+            "sha256": "45b241abf7319216adb5d6f538aef62140342528836189172a7b54c088da6cd4",
+            "size_bytes": 240547
+          },
+          {
+            "path": "gsm_map/maperdatatypes_5.go",
+            "sha256": "53a6dac3b765a69ff8a122bac529314934a93bcd95590b7a6bcb5a89c3ad0149",
             "size_bytes": 234631
           },
           {
@@ -1155,29 +1290,39 @@
             "size_bytes": 312
           },
           {
+            "path": "gsm_map/maperrors_2.go",
+            "sha256": "c947aac9a25994a5a532b9b2ae5763d74818f0b330cbbbde7e90023c4dc8dba5",
+            "size_bytes": 312
+          },
+          {
             "path": "gsm_map/mapextensiondatatypes.go",
-            "sha256": "ef806382fd0dbf50e5ff7179764ef2508c1295e9ccbaa4407d7d26239e9386e0",
-            "size_bytes": 27129
+            "sha256": "b641aa8699ce7e2f713336450f2dab76df10c221653ebc503282b91447d1ffe3",
+            "size_bytes": 27657
           },
           {
             "path": "gsm_map/mapextensiondatatypes_2.go",
-            "sha256": "233288d00be93d266b06ede35d41e326e5ba06236c9e481e5ef68db88f74f40d",
-            "size_bytes": 29055
+            "sha256": "7868ba740c57427e595c8280c085ccd369a660cbabbea4c8ccdb3ee663ff0269",
+            "size_bytes": 29655
           },
           {
             "path": "gsm_map/mapextensiondatatypes_3.go",
-            "sha256": "dcdf76a112658ce091086a313205211351e91ddf9e1372c03bf3d84e1c7ff67d",
-            "size_bytes": 27236
+            "sha256": "da21761e3c3bc91ca4dd758b0e0391734a19cdbae8bea66dd6022103928035df",
+            "size_bytes": 27768
           },
           {
             "path": "gsm_map/mapextensiondatatypes_4.go",
-            "sha256": "eaaef42b5fed84548af17e2e0d8804fa0d1ba55d7576a09ee21e190c27385676",
-            "size_bytes": 27236
+            "sha256": "87feb37845292d65b46effb4ff04dc0951838269d0f9dec0fec9a0bc6c77deec",
+            "size_bytes": 27768
           },
           {
             "path": "gsm_map/mapextensiondatatypes_5.go",
-            "sha256": "244fc14f968fa8a281499704713a5990387af078788685f7f3087f04c0a09307",
-            "size_bytes": 27236
+            "sha256": "924e366ca39c3bb1d0dca5c428c17c53fad00ec9ab32f29b71d2d96fe98775f9",
+            "size_bytes": 27768
+          },
+          {
+            "path": "gsm_map/mapextensiondatatypes_6.go",
+            "sha256": "18ecd7c401c857ff3bb0898066527283878658c6b61e2cd209d4b9c0f6ca6eea",
+            "size_bytes": 27768
           },
           {
             "path": "gsm_map/mapgrdatatypes.go",
@@ -1191,8 +1336,13 @@
           },
           {
             "path": "gsm_map/maplcsdatatypes.go",
-            "sha256": "7708cf4ea4f21a18c3c02aa22ae86e23be55a01104f7fce60cf857216a1bdf02",
-            "size_bytes": 360239
+            "sha256": "0d95c437c819efac1917dfc7f0b42e54d7bcfc39a9edd25b59ccf196e69cd2b3",
+            "size_bytes": 361199
+          },
+          {
+            "path": "gsm_map/maplcsdatatypes_2.go",
+            "sha256": "51b64d09be7129aa9f947090ffb98dc5a56b33943fed910d9679bf206b55627a",
+            "size_bytes": 364403
           },
           {
             "path": "gsm_map/maplocationserviceoperations.go",
@@ -1206,28 +1356,33 @@
           },
           {
             "path": "gsm_map/mapmsdatatypes.go",
-            "sha256": "e000930b80d1baa9b23c8ecd15e20c3f843971013347bca4d3c6d5f338bb60a5",
-            "size_bytes": 2737714
+            "sha256": "4cca178713e8729a73a1703765d875be69f26193330bc778d65c517dde748ca2",
+            "size_bytes": 2768548
           },
           {
             "path": "gsm_map/mapmsdatatypes_2.go",
-            "sha256": "3609b15c43b9341472805a99a899308e5cf0b5b27c9e2c6ff8841d3256708923",
-            "size_bytes": 1883599
+            "sha256": "0b947ed9644bce864ffbc311b0c7013079d03b553e316723fa4b272fc21ae775",
+            "size_bytes": 1908097
           },
           {
             "path": "gsm_map/mapmsdatatypes_3.go",
-            "sha256": "922078cb836cf33c620a3f6f78e46e0572731c34c78e50ce513d94fb278258e6",
-            "size_bytes": 2572209
+            "sha256": "73a43d81fd97998359164325e5f5d531a0c5749c83aa93fa81d0bf7dee47b700",
+            "size_bytes": 2599410
           },
           {
             "path": "gsm_map/mapmsdatatypes_4.go",
-            "sha256": "bed011b5648e7530389be28e96809d7be7e0d7ca6acb00972942dfb199fb2a21",
-            "size_bytes": 2431251
+            "sha256": "6424e907e81a184532808091032fa486f196e16becb01ab6d41ca749399c388e",
+            "size_bytes": 2778064
+          },
+          {
+            "path": "gsm_map/mapmsdatatypes_5.go",
+            "sha256": "411dd79f52072ba3543add1e2bb79cec9257720f8a3326ba41b8ebf528af7ef2",
+            "size_bytes": 2458645
           },
           {
             "path": "gsm_map/mapomdatatypes.go",
-            "sha256": "32679aa85eb45b866b7629ac95323a31893122c75fed83a1c473485ce16e3c5a",
-            "size_bytes": 253702
+            "sha256": "5950ddaaf4ddf4b9158b577e73fc8b64ebf6e3e4c70b0f916455ec9271152cec",
+            "size_bytes": 256738
           },
           {
             "path": "gsm_map/mapomdatatypes_2.go",
@@ -1236,13 +1391,18 @@
           },
           {
             "path": "gsm_map/mapomdatatypes_3.go",
-            "sha256": "6045ef5826ac6447aff56cb2342b7560b5d0e3b1e6af2b359baef29cb9dd318b",
-            "size_bytes": 250312
+            "sha256": "009353f13d6f55df48b044a2227ce8099bd5fd0ad2328b87fec6b8bb89569230",
+            "size_bytes": 252672
           },
           {
             "path": "gsm_map/mapomdatatypes_4.go",
-            "sha256": "229d8384d5ee93e71127636d5ca051418bf5e99d305876d156e3489fa7e681fd",
-            "size_bytes": 195860
+            "sha256": "dc6072429b85bcfb647e4166b09b935fdbb683ad79ab21dc7bf7a055279be3b8",
+            "size_bytes": 257804
+          },
+          {
+            "path": "gsm_map/mapomdatatypes_5.go",
+            "sha256": "856b96ffa6baef8d7c49f4345616991bebbbd879782278b8e9b689a2fab38c14",
+            "size_bytes": 198388
           },
           {
             "path": "gsm_map/mapoperationandmaintenanceoperations.go",
@@ -1261,13 +1421,18 @@
           },
           {
             "path": "gsm_map/mapsmdatatypes.go",
-            "sha256": "d34754866e8d5d033723d977254ed0757b4c006666cf9307c11dbd2a3343701a",
-            "size_bytes": 276202
+            "sha256": "7f90efe645380e266155db9e3cefc383fa4aef22019588502887756a6b881089",
+            "size_bytes": 292005
           },
           {
             "path": "gsm_map/mapsmdatatypes_2.go",
-            "sha256": "192808359d41fd4b2701bf041a37f9aa179e5c85722256bfe15b9d7799f06baa",
-            "size_bytes": 212055
+            "sha256": "047c3571001fdec66500e623f0c44bf95cbaa055e28ae3b4fb937bb1989d2635",
+            "size_bytes": 212873
+          },
+          {
+            "path": "gsm_map/mapsmdatatypes_3.go",
+            "sha256": "196317faa52d6476c33aa1e7610bd95abebf76b2f2ac4a9055510e9be7babcee",
+            "size_bytes": 278890
           },
           {
             "path": "gsm_map/mapsscode.go",
@@ -1295,29 +1460,39 @@
             "size_bytes": 6750
           },
           {
+            "path": "gsm_map/mapsscode_6.go",
+            "sha256": "dd9471ef4cc428cf0acf914f16616b831a295b55ac7a8ac82d47b19e3c70f0b3",
+            "size_bytes": 6750
+          },
+          {
             "path": "gsm_map/mapssdatatypes.go",
-            "sha256": "f75ad224c7af60491ab74c28a4329e058d12910d0b0f563fc0f1730ea180463b",
-            "size_bytes": 191018
+            "sha256": "454289149130a6c803bc6c36d9bd0b4acf319fd52c11793936616a214aac51cb",
+            "size_bytes": 194598
           },
           {
             "path": "gsm_map/mapssdatatypes_2.go",
-            "sha256": "9a68d7290bbfd364adc5991b5a34efea02c93ed90c5a8560bdd4bdd76661faf6",
-            "size_bytes": 194260
+            "sha256": "e3e70993de8040e210c65d8f11d37bb36d3b660463df0490989f49c958fd7f08",
+            "size_bytes": 197896
           },
           {
             "path": "gsm_map/mapssdatatypes_3.go",
-            "sha256": "584b0af5004476a39b99ea6d57b43331a826c4889892e8de6081e2acdd33f040",
-            "size_bytes": 191863
+            "sha256": "d738b392542472b0e2ed6177072332ad58851fceb15cf12fcf3b87431a907abd",
+            "size_bytes": 195471
           },
           {
             "path": "gsm_map/mapssdatatypes_4.go",
-            "sha256": "df04a505c9c5b22442a807a183e8ae2aafffd584920b593f16f22e6bec9e959f",
-            "size_bytes": 191863
+            "sha256": "7134105776a76f1882280fcfab29a3969e51f05d834cb1d897cb55bb3ec7902b",
+            "size_bytes": 195471
           },
           {
             "path": "gsm_map/mapssdatatypes_5.go",
-            "sha256": "92a3e81e16a12059b594a9a7b709f4a1117fe9f79444f94038949641fbc88ca2",
-            "size_bytes": 191863
+            "sha256": "63be4900792dbaebbb13c5b0540f4934f34fc5ba262922c40a1132779d6e0921",
+            "size_bytes": 195471
+          },
+          {
+            "path": "gsm_map/mapssdatatypes_6.go",
+            "sha256": "e2cd65b0d83470ddfc3fcf09080d099a491f5263c7ade2afe5e5a51aef205b41",
+            "size_bytes": 195471
           },
           {
             "path": "gsm_map/mapsupplementaryserviceoperations.go",
@@ -1350,14 +1525,19 @@
             "size_bytes": 4005
           },
           {
+            "path": "gsm_map/maptscode_6.go",
+            "sha256": "b313b462348cd132f4690558075eaa5d2dd3d7f10a0427dd34fdaa031799aaa8",
+            "size_bytes": 4005
+          },
+          {
             "path": "gsm_map/mobiledomaindefinitions.go",
             "sha256": "268daf591e0cc2f3d852c00bae975367154c82cb62c55003af0dde61cddcf1af",
             "size_bytes": 1587
           },
           {
             "path": "gsm_map/nokiamapextensions.go",
-            "sha256": "deacfbe889e27e845cdb29bdab07f9dfe2b3eb7b53d35286b0e276f997482f0b",
-            "size_bytes": 368338
+            "sha256": "5d3ebe93fac8afed4a5539d79cdd761a7cf38a052c0cbb97a296b9a573bca38a",
+            "size_bytes": 371825
           },
           {
             "path": "gsm_map/remoteoperationsgenericrospdus.go",
@@ -1376,8 +1556,8 @@
           },
           {
             "path": "gsm_map/ssdatatypes.go",
-            "sha256": "2df1a194fbb79370478c26bf4bcd65b4f4ed776ef98bb0ddaae503d3fefa0947",
-            "size_bytes": 707687
+            "sha256": "0efc10341fa78913ada7431c589a98dcb10cceef7097b217d93f9581a3e96bc8",
+            "size_bytes": 712007
           },
           {
             "path": "gsm_map/sserrors.go",
@@ -1394,7 +1574,7 @@
           {
             "authority": "3gpp",
             "document": "3GPP TS 29.002 V19.1.0 (Release 19), clauses 17.3 through 17.7",
-            "status": "current release-19 publication verified 2026-09-01; the formal ASN.1 modules are byte-identical to selected V18.0.0 modules, with declared historical and vendor dependencies retained for wire compatibility"
+            "status": "current release-19 publication verified 2026-09-04; generated from the authenticated official module-version-22 artifact, with declared historical and vendor dependencies retained for wire compatibility"
           },
           {
             "authority": "itu-t",
@@ -1435,6 +1615,7 @@
               "$WORK/gsm-map/generated/gsm_map/mapbscode_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapbscode_4.go",
               "$WORK/gsm-map/generated/gsm_map/mapbscode_5.go",
+              "$WORK/gsm-map/generated/gsm_map/mapbscode_6.go",
               "$WORK/gsm-map/generated/gsm_map/mapcallhandlingoperations.go",
               "$WORK/gsm-map/generated/gsm_map/mapchdatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/mapchdatatypes_2.go",
@@ -1443,51 +1624,62 @@
               "$WORK/gsm-map/generated/gsm_map/mapcommondatatypes_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapcommondatatypes_4.go",
               "$WORK/gsm-map/generated/gsm_map/mapcommondatatypes_5.go",
+              "$WORK/gsm-map/generated/gsm_map/mapcommondatatypes_6.go",
               "$WORK/gsm-map/generated/gsm_map/mapdialogueinformation.go",
               "$WORK/gsm-map/generated/gsm_map/maperdatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/maperdatatypes_2.go",
               "$WORK/gsm-map/generated/gsm_map/maperdatatypes_3.go",
               "$WORK/gsm-map/generated/gsm_map/maperdatatypes_4.go",
+              "$WORK/gsm-map/generated/gsm_map/maperdatatypes_5.go",
               "$WORK/gsm-map/generated/gsm_map/maperrors.go",
+              "$WORK/gsm-map/generated/gsm_map/maperrors_2.go",
               "$WORK/gsm-map/generated/gsm_map/mapextensiondatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/mapextensiondatatypes_2.go",
               "$WORK/gsm-map/generated/gsm_map/mapextensiondatatypes_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapextensiondatatypes_4.go",
               "$WORK/gsm-map/generated/gsm_map/mapextensiondatatypes_5.go",
+              "$WORK/gsm-map/generated/gsm_map/mapextensiondatatypes_6.go",
               "$WORK/gsm-map/generated/gsm_map/mapgrdatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/mapgroupcalloperations.go",
               "$WORK/gsm-map/generated/gsm_map/maplcsdatatypes.go",
+              "$WORK/gsm-map/generated/gsm_map/maplcsdatatypes_2.go",
               "$WORK/gsm-map/generated/gsm_map/maplocationserviceoperations.go",
               "$WORK/gsm-map/generated/gsm_map/mapmobileserviceoperations.go",
               "$WORK/gsm-map/generated/gsm_map/mapmsdatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/mapmsdatatypes_2.go",
               "$WORK/gsm-map/generated/gsm_map/mapmsdatatypes_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapmsdatatypes_4.go",
+              "$WORK/gsm-map/generated/gsm_map/mapmsdatatypes_5.go",
               "$WORK/gsm-map/generated/gsm_map/mapomdatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/mapomdatatypes_2.go",
               "$WORK/gsm-map/generated/gsm_map/mapomdatatypes_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapomdatatypes_4.go",
+              "$WORK/gsm-map/generated/gsm_map/mapomdatatypes_5.go",
               "$WORK/gsm-map/generated/gsm_map/mapoperationandmaintenanceoperations.go",
               "$WORK/gsm-map/generated/gsm_map/mapprotocol.go",
               "$WORK/gsm-map/generated/gsm_map/mapshortmessageserviceoperations.go",
               "$WORK/gsm-map/generated/gsm_map/mapsmdatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/mapsmdatatypes_2.go",
+              "$WORK/gsm-map/generated/gsm_map/mapsmdatatypes_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapsscode.go",
               "$WORK/gsm-map/generated/gsm_map/mapsscode_2.go",
               "$WORK/gsm-map/generated/gsm_map/mapsscode_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapsscode_4.go",
               "$WORK/gsm-map/generated/gsm_map/mapsscode_5.go",
+              "$WORK/gsm-map/generated/gsm_map/mapsscode_6.go",
               "$WORK/gsm-map/generated/gsm_map/mapssdatatypes.go",
               "$WORK/gsm-map/generated/gsm_map/mapssdatatypes_2.go",
               "$WORK/gsm-map/generated/gsm_map/mapssdatatypes_3.go",
               "$WORK/gsm-map/generated/gsm_map/mapssdatatypes_4.go",
               "$WORK/gsm-map/generated/gsm_map/mapssdatatypes_5.go",
+              "$WORK/gsm-map/generated/gsm_map/mapssdatatypes_6.go",
               "$WORK/gsm-map/generated/gsm_map/mapsupplementaryserviceoperations.go",
               "$WORK/gsm-map/generated/gsm_map/maptscode.go",
               "$WORK/gsm-map/generated/gsm_map/maptscode_2.go",
               "$WORK/gsm-map/generated/gsm_map/maptscode_3.go",
               "$WORK/gsm-map/generated/gsm_map/maptscode_4.go",
               "$WORK/gsm-map/generated/gsm_map/maptscode_5.go",
+              "$WORK/gsm-map/generated/gsm_map/maptscode_6.go",
               "$WORK/gsm-map/generated/gsm_map/mobiledomaindefinitions.go",
               "$WORK/gsm-map/generated/gsm_map/nokiamapextensions.go",
               "$WORK/gsm-map/generated/gsm_map/remoteoperationsgenericrospdus.go",
@@ -1615,7 +1807,7 @@
             ],
             "dir": "$COMPILER",
             "exit_code": 0,
-            "stdout": "[proc] module Remote-Operations-Generic-ROS-PDUs (oid: [2, 4, 6, 0]): 17 ASN.1 assignments found\n[proc] module Remote-Operations-Information-Objects (oid: [2, 4, 5, 0]): 9 ASN.1 assignments found\n[proc] module Remote-Operations-Useful-Definitions (oid: [2, 4, 7, 0]): 16 ASN.1 assignments found\n[proc] module MobileDomainDefinitions (oid: [0, 4, 0, 0, 0, 1]): 12 ASN.1 assignments found\n[proc] module MAP-ApplicationContexts (oid: [0, 4, 0, 0, 1, 3, 2, 21]): 46 ASN.1 assignments found\n[proc] module MAP-SS-Code-A2c1f3b42d087636f (oid: [0, 4, 0, 0, 1, 3, 15, 21]): 74 ASN.1 assignments found\n[proc] module MAP-BS-Code-A278a228516dc9da3 (oid: [0, 4, 0, 0, 1, 3, 20, 21]): 55 ASN.1 assignments found\n[proc] module MAP-TS-Code-A416b765ca408f1ea (oid: [0, 4, 0, 0, 1, 3, 19, 21]): 35 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A7840f977cfea7889 (oid: [0, 4, 0, 0, 1, 3, 21, 21]): 10 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A34bb1c2fed0fe3c5 (oid: [0, 4, 0, 0, 1, 3, 18, 21]): 164 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-A47b4c8b047368827 (oid: [0, 4, 0, 0, 1, 3, 14, 21]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-Ab7df7b975905bc4d (oid: [0, 4, 0, 0, 1, 3, 17, 21]): 61 ASN.1 assignments found\n[proc] module MAP-SM-DataTypes-Ab08d4733af98a0c0 (oid: [0, 4, 0, 0, 1, 3, 16, 21]): 34 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-A16b6f926dc7482ca (oid: [0, 4, 0, 0, 1, 3, 12, 21]): 57 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ac227f8b311f747bf (oid: [0, 4, 0, 0, 1, 3, 11, 21]): 435 ASN.1 assignments found\n[proc] module MAP-CH-DataTypes-A2803812ae5f06492 (oid: [0, 4, 0, 0, 1, 3, 13, 21]): 49 ASN.1 assignments found\n[proc] module MAP-LCS-DataTypes (oid: [0, 4, 0, 0, 1, 3, 25, 21]): 81 ASN.1 assignments found\n[proc] module MAP-GR-DataTypes (oid: [0, 4, 0, 0, 1, 3, 23, 21]): 17 ASN.1 assignments found\n[proc] module MAP-DialogueInformation (oid: [0, 4, 0, 0, 1, 3, 3, 21]): 14 ASN.1 assignments found\n[proc] module MAP-Errors (oid: [0, 4, 0, 0, 1, 3, 10, 21]): 57 ASN.1 assignments found\n[proc] module MAP-LocationServiceOperations (oid: [0, 4, 0, 0, 1, 3, 24, 21]): 4 ASN.1 assignments found\n[proc] module MAP-Group-Call-Operations (oid: [0, 4, 0, 0, 1, 3, 22, 21]): 6 ASN.1 assignments found\n[proc] module MAP-ShortMessageServiceOperations (oid: [0, 4, 0, 0, 1, 3, 9, 21]): 9 ASN.1 assignments found\n[proc] module MAP-SupplementaryServiceOperations (oid: [0, 4, 0, 0, 1, 3, 8, 21]): 14 ASN.1 assignments found\n[proc] module MAP-CallHandlingOperations (oid: [0, 4, 0, 0, 1, 3, 7, 21]): 10 ASN.1 assignments found\n[proc] module MAP-OperationAndMaintenanceOperations (oid: [0, 4, 0, 0, 1, 3, 6, 21]): 4 ASN.1 assignments found\n[proc] module MAP-MobileServiceOperations (oid: [0, 4, 0, 0, 1, 3, 5, 21]): 30 ASN.1 assignments found\n[proc] module MAP-Protocol (oid: [0, 4, 0, 0, 1, 3, 4, 21]): 2 ASN.1 assignments found\n[proc] module MAP-BS-Code-A4fe67593d14b8880 (oid: [0, 4, 0, 0, 1, 3, 20, 11]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A748fe196ec573a24 (oid: [0, 4, 0, 0, 1, 3, 21, 11]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code-A439e62899359a6c3 (oid: [0, 4, 0, 0, 1, 3, 15, 11]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code-A26b4d94db73a8170 (oid: [0, 4, 0, 0, 1, 3, 19, 11]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A5b5879d94b0b71fc (oid: [0, 4, 0, 0, 1, 3, 18, 11]): 155 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-A20e7074ecdad50a6 (oid: [0, 4, 0, 0, 1, 3, 14, 11]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-A10c7172e5cc80feb (oid: [0, 4, 0, 0, 1, 3, 17, 11]): 60 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-Afbb47916d611ae71 (oid: [0, 4, 0, 0, 1, 3, 12, 11]): 26 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ad225de837b5dd1b0 (oid: [0, 4, 0, 0, 1, 3, 11, 11]): 339 ASN.1 assignments found\n[proc] module MAP-CH-DataTypes-A847dec0e1819723a (oid: [0, 4, 0, 0, 1, 3, 13, 11]): 49 ASN.1 assignments found\n[proc] module MAP-BS-Code-A47e1d40869604e85 (oid: [0, 4, 0, 0, 1, 3, 20, 15]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A3cfc5eb3da0a23f7 (oid: [0, 4, 0, 0, 1, 3, 21, 15]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code-A21dbd27bc79a55c3 (oid: [0, 4, 0, 0, 1, 3, 15, 15]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code-A1124baca02df51ac (oid: [0, 4, 0, 0, 1, 3, 19, 15]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A468dee498ab83454 (oid: [0, 4, 0, 0, 1, 3, 18, 15]): 162 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-Ab41459136530e7d1 (oid: [0, 4, 0, 0, 1, 3, 14, 15]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-Ab73e6884da3c740c (oid: [0, 4, 0, 0, 1, 3, 17, 15]): 61 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-Af9f76975db4d9729 (oid: [0, 4, 0, 0, 1, 3, 12, 15]): 56 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ad7e0caf3f2bd65c6 (oid: [0, 4, 0, 0, 1, 3, 11, 15]): 413 ASN.1 assignments found\n[proc] module MAP-SM-DataTypes-A3ca040f59577d244 (oid: [0, 4, 0, 0, 1, 3, 16, 15]): 33 ASN.1 assignments found\nIMPORTS directive: invalid OID value, ignoring it\nIMPORTS directive: invalid OID value, ignoring it\n[proc] module DummyMAP (oid: [0, 4, 0, 0, 1, 3, 4, 5]): 73 ASN.1 assignments found\n[proc] module SS-DataTypes (oid: [0, 4, 0, 0, 2, 3, 2, 17]): 145 ASN.1 assignments found\n[proc] module SS-Errors (oid: [0, 4, 0, 0, 2, 3, 1, 17]): 11 ASN.1 assignments found\n[proc] module SS-Operations (oid: [0, 4, 0, 0, 2, 3, 0, 17]): 32 ASN.1 assignments found\n[proc] module MAP-BS-Code-Aeec057477b971da6 (oid: [0, 4, 0, 0, 1, 3, 20, 13]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A0e3dc5b4d2912dac (oid: [0, 4, 0, 0, 1, 3, 21, 13]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code-A124f3b7961d45694 (oid: [0, 4, 0, 0, 1, 3, 15, 13]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code-A8a3fdb9829e9f2cb (oid: [0, 4, 0, 0, 1, 3, 19, 13]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A65c39dff42b64092 (oid: [0, 4, 0, 0, 1, 3, 18, 13]): 161 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-Ab20924605a744855 (oid: [0, 4, 0, 0, 1, 3, 14, 13]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-A14b7da6b59f4272d (oid: [0, 4, 0, 0, 1, 3, 17, 13]): 61 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-Afb459233a33d6ffb (oid: [0, 4, 0, 0, 1, 3, 12, 13]): 49 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ab94c9ca39b889172 (oid: [0, 4, 0, 0, 1, 3, 11, 13]): 400 ASN.1 assignments found\n[proc] module EricssonMAP (oid: [0, 4, 0, 0, 1, 3, 4, 13]): 35 ASN.1 assignments found\n[proc] module MAP-SS-Code-A69eb254b5c4756a5 (oid: [0, 4, 0, 0, 1, 3, 15, 10]): 74 ASN.1 assignments found\n[proc] module MAP-BS-Code-A9c2de1ef1d2e24a2 (oid: [0, 4, 0, 0, 1, 3, 20, 10]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-Ac78f5d44193db520 (oid: [0, 4, 0, 0, 1, 3, 21, 10]): 10 ASN.1 assignments found\n[proc] module MAP-TS-Code-Ac1ab81d67bdf1bcd (oid: [0, 4, 0, 0, 1, 3, 19, 10]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-Ae3866727d9b0de4f (oid: [0, 4, 0, 0, 1, 3, 18, 10]): 155 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-A35efb482850649be (oid: [0, 4, 0, 0, 1, 3, 14, 10]): 46 ASN.1 assignments found\n[proc] module NokiaMAP-Extensions (oid: []): 107 ASN.1 assignments found\n--- compilation cycle ---\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Reject, unprocessed CONSTRAINED BY constraint\n--- compilation cycle ---\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.linkedId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.linkedId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.opcode, unprocessed table constraint exception\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.argument, unprocessed table constraint exception\nWNG: Remote-Operations-Generic-ROS-PDUs.Invoke, untagged OPEN / ANY in SEQUENCE with argument\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.opcode, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.result.opcode, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.result.result, unprocessed table constraint exception\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.errcode, unprocessed table constraint exception\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.errcode, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.parameter, unprocessed table constraint exception\nWNG: Remote-Operations-Generic-ROS-PDUs.ReturnError, untagged OPEN / ANY in SEQUENCE with parameter\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError, unprocessed CONSTRAINED BY constraint\nWNG: MAP-ExtensionDataTypes-A7840f977cfea7889.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: MAP-ExtensionDataTypes-A748fe196ec573a24.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: MAP-ExtensionDataTypes-A3cfc5eb3da0a23f7.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: DummyMAP.ReturnResult.resultretres, untagged OPEN / ANY in SEQUENCE with returnparameter\nWNG: DummyMAP.ReturnError, untagged OPEN / ANY in SEQUENCE with parameter\nWNG: MAP-ExtensionDataTypes-A0e3dc5b4d2912dac.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: MAP-ExtensionDataTypes-Ac78f5d44193db520.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\n--- compilation cycle ---\nINF: Remote-Operations-Generic-ROS-PDUs.ROS, unprocessed CONSTRAINED BY constraint\nWNG: DummyMAP.Invoke, untagged OPEN / ANY in SEQUENCE with invokeparameter\n--- verifications ---\n[proc] ASN.1 modules processed: ['Remote-Operations-Generic-ROS-PDUs', 'Remote-Operations-Information-Objects', 'Remote-Operations-Useful-Definitions', 'MobileDomainDefinitions', 'MAP-ApplicationContexts', 'MAP-SS-Code-A2c1f3b42d087636f', 'MAP-BS-Code-A278a228516dc9da3', 'MAP-TS-Code-A416b765ca408f1ea', 'MAP-ExtensionDataTypes-A7840f977cfea7889', 'MAP-CommonDataTypes-A34bb1c2fed0fe3c5', 'MAP-SS-DataTypes-A47b4c8b047368827', 'MAP-ER-DataTypes-Ab7df7b975905bc4d', 'MAP-SM-DataTypes-Ab08d4733af98a0c0', 'MAP-OM-DataTypes-A16b6f926dc7482ca', 'MAP-MS-DataTypes-Ac227f8b311f747bf', 'MAP-CH-DataTypes-A2803812ae5f06492', 'MAP-LCS-DataTypes', 'MAP-GR-DataTypes', 'MAP-DialogueInformation', 'MAP-Errors', 'MAP-LocationServiceOperations', 'MAP-Group-Call-Operations', 'MAP-ShortMessageServiceOperations', 'MAP-SupplementaryServiceOperations', 'MAP-CallHandlingOperations', 'MAP-OperationAndMaintenanceOperations', 'MAP-MobileServiceOperations', 'MAP-Protocol', 'MAP-BS-Code-A4fe67593d14b8880', 'MAP-ExtensionDataTypes-A748fe196ec573a24', 'MAP-SS-Code-A439e62899359a6c3', 'MAP-TS-Code-A26b4d94db73a8170', 'MAP-CommonDataTypes-A5b5879d94b0b71fc', 'MAP-SS-DataTypes-A20e7074ecdad50a6', 'MAP-ER-DataTypes-A10c7172e5cc80feb', 'MAP-OM-DataTypes-Afbb47916d611ae71', 'MAP-MS-DataTypes-Ad225de837b5dd1b0', 'MAP-CH-DataTypes-A847dec0e1819723a', 'MAP-BS-Code-A47e1d40869604e85', 'MAP-ExtensionDataTypes-A3cfc5eb3da0a23f7', 'MAP-SS-Code-A21dbd27bc79a55c3', 'MAP-TS-Code-A1124baca02df51ac', 'MAP-CommonDataTypes-A468dee498ab83454', 'MAP-SS-DataTypes-Ab41459136530e7d1', 'MAP-ER-DataTypes-Ab73e6884da3c740c', 'MAP-OM-DataTypes-Af9f76975db4d9729', 'MAP-MS-DataTypes-Ad7e0caf3f2bd65c6', 'MAP-SM-DataTypes-A3ca040f59577d244', 'DummyMAP', 'SS-DataTypes', 'SS-Errors', 'SS-Operations', 'MAP-BS-Code-Aeec057477b971da6', 'MAP-ExtensionDataTypes-A0e3dc5b4d2912dac', 'MAP-SS-Code-A124f3b7961d45694', 'MAP-TS-Code-A8a3fdb9829e9f2cb', 'MAP-CommonDataTypes-A65c39dff42b64092', 'MAP-SS-DataTypes-Ab20924605a744855', 'MAP-ER-DataTypes-A14b7da6b59f4272d', 'MAP-OM-DataTypes-Afb459233a33d6ffb', 'MAP-MS-DataTypes-Ab94c9ca39b889172', 'EricssonMAP', 'MAP-SS-Code-A69eb254b5c4756a5', 'MAP-BS-Code-A9c2de1ef1d2e24a2', 'MAP-ExtensionDataTypes-Ac78f5d44193db520', 'MAP-TS-Code-Ac1ab81d67bdf1bcd', 'MAP-CommonDataTypes-Ae3866727d9b0de4f', 'MAP-SS-DataTypes-A35efb482850649be', 'NokiaMAP-Extensions']\n[proc] ASN.1 objects compiled: 2962 types, 15 sets, 1785 values\n[proc] done\n",
+            "stdout": "[proc] module Remote-Operations-Generic-ROS-PDUs (oid: [2, 4, 6, 0]): 17 ASN.1 assignments found\n[proc] module Remote-Operations-Information-Objects (oid: [2, 4, 5, 0]): 9 ASN.1 assignments found\n[proc] module Remote-Operations-Useful-Definitions (oid: [2, 4, 7, 0]): 16 ASN.1 assignments found\n[proc] module MobileDomainDefinitions (oid: [0, 4, 0, 0, 0, 1]): 12 ASN.1 assignments found\n[proc] module MAP-ApplicationContexts (oid: [0, 4, 0, 0, 1, 3, 2, 22]): 46 ASN.1 assignments found\n[proc] module MAP-BS-Code (oid: [0, 4, 0, 0, 1, 3, 20, 22]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes (oid: [0, 4, 0, 0, 1, 3, 21, 22]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code (oid: [0, 4, 0, 0, 1, 3, 15, 22]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code (oid: [0, 4, 0, 0, 1, 3, 19, 22]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes (oid: [0, 4, 0, 0, 1, 3, 18, 22]): 164 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes (oid: [0, 4, 0, 0, 1, 3, 14, 22]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes (oid: [0, 4, 0, 0, 1, 3, 17, 22]): 61 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes (oid: [0, 4, 0, 0, 1, 3, 12, 22]): 57 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes (oid: [0, 4, 0, 0, 1, 3, 11, 22]): 435 ASN.1 assignments found\n[proc] module MAP-CH-DataTypes (oid: [0, 4, 0, 0, 1, 3, 13, 22]): 49 ASN.1 assignments found\n[proc] module MAP-Errors (oid: [0, 4, 0, 0, 1, 3, 10, 22]): 57 ASN.1 assignments found\n[proc] module MAP-CallHandlingOperations (oid: [0, 4, 0, 0, 1, 3, 7, 22]): 10 ASN.1 assignments found\n[proc] module MAP-DialogueInformation (oid: [0, 4, 0, 0, 1, 3, 3, 22]): 14 ASN.1 assignments found\n[proc] module MAP-GR-DataTypes (oid: [0, 4, 0, 0, 1, 3, 23, 22]): 17 ASN.1 assignments found\n[proc] module MAP-Group-Call-Operations (oid: [0, 4, 0, 0, 1, 3, 22, 22]): 6 ASN.1 assignments found\n[proc] module MAP-SM-DataTypes (oid: [0, 4, 0, 0, 1, 3, 16, 22]): 37 ASN.1 assignments found\n[proc] module MAP-LCS-DataTypes (oid: [0, 4, 0, 0, 1, 3, 25, 22]): 81 ASN.1 assignments found\n[proc] module MAP-LocationServiceOperations (oid: [0, 4, 0, 0, 1, 3, 24, 22]): 4 ASN.1 assignments found\n[proc] module MAP-MobileServiceOperations (oid: [0, 4, 0, 0, 1, 3, 5, 22]): 30 ASN.1 assignments found\n[proc] module MAP-OperationAndMaintenanceOperations (oid: [0, 4, 0, 0, 1, 3, 6, 22]): 4 ASN.1 assignments found\n[proc] module MAP-ShortMessageServiceOperations (oid: [0, 4, 0, 0, 1, 3, 9, 22]): 9 ASN.1 assignments found\n[proc] module MAP-SupplementaryServiceOperations (oid: [0, 4, 0, 0, 1, 3, 8, 22]): 14 ASN.1 assignments found\n[proc] module MAP-Protocol (oid: [0, 4, 0, 0, 1, 3, 4, 22]): 2 ASN.1 assignments found\n[proc] module MAP-BS-Code-A4fe67593d14b8880 (oid: [0, 4, 0, 0, 1, 3, 20, 11]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A748fe196ec573a24 (oid: [0, 4, 0, 0, 1, 3, 21, 11]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code-A439e62899359a6c3 (oid: [0, 4, 0, 0, 1, 3, 15, 11]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code-A26b4d94db73a8170 (oid: [0, 4, 0, 0, 1, 3, 19, 11]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A5b5879d94b0b71fc (oid: [0, 4, 0, 0, 1, 3, 18, 11]): 155 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-A20e7074ecdad50a6 (oid: [0, 4, 0, 0, 1, 3, 14, 11]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-A10c7172e5cc80feb (oid: [0, 4, 0, 0, 1, 3, 17, 11]): 60 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-Afbb47916d611ae71 (oid: [0, 4, 0, 0, 1, 3, 12, 11]): 26 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ad225de837b5dd1b0 (oid: [0, 4, 0, 0, 1, 3, 11, 11]): 339 ASN.1 assignments found\n[proc] module MAP-CH-DataTypes-A847dec0e1819723a (oid: [0, 4, 0, 0, 1, 3, 13, 11]): 49 ASN.1 assignments found\n[proc] module MAP-BS-Code-A278a228516dc9da3 (oid: [0, 4, 0, 0, 1, 3, 20, 21]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A7840f977cfea7889 (oid: [0, 4, 0, 0, 1, 3, 21, 21]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code-A2c1f3b42d087636f (oid: [0, 4, 0, 0, 1, 3, 15, 21]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code-A416b765ca408f1ea (oid: [0, 4, 0, 0, 1, 3, 19, 21]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A34bb1c2fed0fe3c5 (oid: [0, 4, 0, 0, 1, 3, 18, 21]): 164 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-A47b4c8b047368827 (oid: [0, 4, 0, 0, 1, 3, 14, 21]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-Ab7df7b975905bc4d (oid: [0, 4, 0, 0, 1, 3, 17, 21]): 61 ASN.1 assignments found\n[proc] module MAP-Errors-Af75d67afe79c7e51 (oid: [0, 4, 0, 0, 1, 3, 10, 21]): 57 ASN.1 assignments found\n[proc] module MAP-BS-Code-A47e1d40869604e85 (oid: [0, 4, 0, 0, 1, 3, 20, 15]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A3cfc5eb3da0a23f7 (oid: [0, 4, 0, 0, 1, 3, 21, 15]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code-A21dbd27bc79a55c3 (oid: [0, 4, 0, 0, 1, 3, 15, 15]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code-A1124baca02df51ac (oid: [0, 4, 0, 0, 1, 3, 19, 15]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A468dee498ab83454 (oid: [0, 4, 0, 0, 1, 3, 18, 15]): 162 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-Ab41459136530e7d1 (oid: [0, 4, 0, 0, 1, 3, 14, 15]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-Ab73e6884da3c740c (oid: [0, 4, 0, 0, 1, 3, 17, 15]): 61 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-Af9f76975db4d9729 (oid: [0, 4, 0, 0, 1, 3, 12, 15]): 56 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ad7e0caf3f2bd65c6 (oid: [0, 4, 0, 0, 1, 3, 11, 15]): 413 ASN.1 assignments found\n[proc] module MAP-SM-DataTypes-A3ca040f59577d244 (oid: [0, 4, 0, 0, 1, 3, 16, 15]): 33 ASN.1 assignments found\nIMPORTS directive: invalid OID value, ignoring it\nIMPORTS directive: invalid OID value, ignoring it\n[proc] module DummyMAP (oid: [0, 4, 0, 0, 1, 3, 4, 5]): 73 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-A16b6f926dc7482ca (oid: [0, 4, 0, 0, 1, 3, 12, 21]): 57 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ac227f8b311f747bf (oid: [0, 4, 0, 0, 1, 3, 11, 21]): 435 ASN.1 assignments found\n[proc] module MAP-SM-DataTypes-Ab08d4733af98a0c0 (oid: [0, 4, 0, 0, 1, 3, 16, 21]): 34 ASN.1 assignments found\n[proc] module MAP-LCS-DataTypes-Ad0f3fa58503a0b5e (oid: [0, 4, 0, 0, 1, 3, 25, 21]): 81 ASN.1 assignments found\n[proc] module SS-DataTypes (oid: [0, 4, 0, 0, 2, 3, 2, 17]): 145 ASN.1 assignments found\n[proc] module SS-Errors (oid: [0, 4, 0, 0, 2, 3, 1, 17]): 11 ASN.1 assignments found\n[proc] module SS-Operations (oid: [0, 4, 0, 0, 2, 3, 0, 17]): 32 ASN.1 assignments found\n[proc] module MAP-BS-Code-Aeec057477b971da6 (oid: [0, 4, 0, 0, 1, 3, 20, 13]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-A0e3dc5b4d2912dac (oid: [0, 4, 0, 0, 1, 3, 21, 13]): 10 ASN.1 assignments found\n[proc] module MAP-SS-Code-A124f3b7961d45694 (oid: [0, 4, 0, 0, 1, 3, 15, 13]): 74 ASN.1 assignments found\n[proc] module MAP-TS-Code-A8a3fdb9829e9f2cb (oid: [0, 4, 0, 0, 1, 3, 19, 13]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-A65c39dff42b64092 (oid: [0, 4, 0, 0, 1, 3, 18, 13]): 161 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-Ab20924605a744855 (oid: [0, 4, 0, 0, 1, 3, 14, 13]): 46 ASN.1 assignments found\n[proc] module MAP-ER-DataTypes-A14b7da6b59f4272d (oid: [0, 4, 0, 0, 1, 3, 17, 13]): 61 ASN.1 assignments found\n[proc] module MAP-OM-DataTypes-Afb459233a33d6ffb (oid: [0, 4, 0, 0, 1, 3, 12, 13]): 49 ASN.1 assignments found\n[proc] module MAP-MS-DataTypes-Ab94c9ca39b889172 (oid: [0, 4, 0, 0, 1, 3, 11, 13]): 400 ASN.1 assignments found\n[proc] module EricssonMAP (oid: [0, 4, 0, 0, 1, 3, 4, 13]): 35 ASN.1 assignments found\n[proc] module MAP-SS-Code-A69eb254b5c4756a5 (oid: [0, 4, 0, 0, 1, 3, 15, 10]): 74 ASN.1 assignments found\n[proc] module MAP-BS-Code-A9c2de1ef1d2e24a2 (oid: [0, 4, 0, 0, 1, 3, 20, 10]): 55 ASN.1 assignments found\n[proc] module MAP-ExtensionDataTypes-Ac78f5d44193db520 (oid: [0, 4, 0, 0, 1, 3, 21, 10]): 10 ASN.1 assignments found\n[proc] module MAP-TS-Code-Ac1ab81d67bdf1bcd (oid: [0, 4, 0, 0, 1, 3, 19, 10]): 35 ASN.1 assignments found\n[proc] module MAP-CommonDataTypes-Ae3866727d9b0de4f (oid: [0, 4, 0, 0, 1, 3, 18, 10]): 155 ASN.1 assignments found\n[proc] module MAP-SS-DataTypes-A35efb482850649be (oid: [0, 4, 0, 0, 1, 3, 14, 10]): 46 ASN.1 assignments found\n[proc] module NokiaMAP-Extensions (oid: []): 107 ASN.1 assignments found\n--- compilation cycle ---\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Reject, unprocessed CONSTRAINED BY constraint\n--- compilation cycle ---\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.linkedId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.linkedId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.opcode, unprocessed table constraint exception\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.argument, unprocessed table constraint exception\nWNG: Remote-Operations-Generic-ROS-PDUs.Invoke, untagged OPEN / ANY in SEQUENCE with argument\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.Invoke.opcode, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.result.opcode, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult.result.result, unprocessed table constraint exception\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnResult, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.invokeId, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.errcode, unprocessed table constraint exception\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.errcode, unprocessed CONSTRAINED BY constraint\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError.parameter, unprocessed table constraint exception\nWNG: Remote-Operations-Generic-ROS-PDUs.ReturnError, untagged OPEN / ANY in SEQUENCE with parameter\nINF: Remote-Operations-Generic-ROS-PDUs.ReturnError, unprocessed CONSTRAINED BY constraint\nWNG: MAP-ExtensionDataTypes.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: MAP-ExtensionDataTypes-A748fe196ec573a24.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: MAP-ExtensionDataTypes-A7840f977cfea7889.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: MAP-ExtensionDataTypes-A3cfc5eb3da0a23f7.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: DummyMAP.ReturnResult.resultretres, untagged OPEN / ANY in SEQUENCE with returnparameter\nWNG: DummyMAP.ReturnError, untagged OPEN / ANY in SEQUENCE with parameter\nWNG: MAP-ExtensionDataTypes-A0e3dc5b4d2912dac.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\nWNG: MAP-ExtensionDataTypes-Ac78f5d44193db520.PrivateExtension, untagged OPEN / ANY in SEQUENCE with extType\n--- compilation cycle ---\nINF: Remote-Operations-Generic-ROS-PDUs.ROS, unprocessed CONSTRAINED BY constraint\nWNG: DummyMAP.Invoke, untagged OPEN / ANY in SEQUENCE with invokeparameter\n--- verifications ---\n[proc] ASN.1 modules processed: ['Remote-Operations-Generic-ROS-PDUs', 'Remote-Operations-Information-Objects', 'Remote-Operations-Useful-Definitions', 'MobileDomainDefinitions', 'MAP-ApplicationContexts', 'MAP-BS-Code', 'MAP-ExtensionDataTypes', 'MAP-SS-Code', 'MAP-TS-Code', 'MAP-CommonDataTypes', 'MAP-SS-DataTypes', 'MAP-ER-DataTypes', 'MAP-OM-DataTypes', 'MAP-MS-DataTypes', 'MAP-CH-DataTypes', 'MAP-Errors', 'MAP-CallHandlingOperations', 'MAP-DialogueInformation', 'MAP-GR-DataTypes', 'MAP-Group-Call-Operations', 'MAP-SM-DataTypes', 'MAP-LCS-DataTypes', 'MAP-LocationServiceOperations', 'MAP-MobileServiceOperations', 'MAP-OperationAndMaintenanceOperations', 'MAP-ShortMessageServiceOperations', 'MAP-SupplementaryServiceOperations', 'MAP-Protocol', 'MAP-BS-Code-A4fe67593d14b8880', 'MAP-ExtensionDataTypes-A748fe196ec573a24', 'MAP-SS-Code-A439e62899359a6c3', 'MAP-TS-Code-A26b4d94db73a8170', 'MAP-CommonDataTypes-A5b5879d94b0b71fc', 'MAP-SS-DataTypes-A20e7074ecdad50a6', 'MAP-ER-DataTypes-A10c7172e5cc80feb', 'MAP-OM-DataTypes-Afbb47916d611ae71', 'MAP-MS-DataTypes-Ad225de837b5dd1b0', 'MAP-CH-DataTypes-A847dec0e1819723a', 'MAP-BS-Code-A278a228516dc9da3', 'MAP-ExtensionDataTypes-A7840f977cfea7889', 'MAP-SS-Code-A2c1f3b42d087636f', 'MAP-TS-Code-A416b765ca408f1ea', 'MAP-CommonDataTypes-A34bb1c2fed0fe3c5', 'MAP-SS-DataTypes-A47b4c8b047368827', 'MAP-ER-DataTypes-Ab7df7b975905bc4d', 'MAP-Errors-Af75d67afe79c7e51', 'MAP-BS-Code-A47e1d40869604e85', 'MAP-ExtensionDataTypes-A3cfc5eb3da0a23f7', 'MAP-SS-Code-A21dbd27bc79a55c3', 'MAP-TS-Code-A1124baca02df51ac', 'MAP-CommonDataTypes-A468dee498ab83454', 'MAP-SS-DataTypes-Ab41459136530e7d1', 'MAP-ER-DataTypes-Ab73e6884da3c740c', 'MAP-OM-DataTypes-Af9f76975db4d9729', 'MAP-MS-DataTypes-Ad7e0caf3f2bd65c6', 'MAP-SM-DataTypes-A3ca040f59577d244', 'DummyMAP', 'MAP-OM-DataTypes-A16b6f926dc7482ca', 'MAP-MS-DataTypes-Ac227f8b311f747bf', 'MAP-SM-DataTypes-Ab08d4733af98a0c0', 'MAP-LCS-DataTypes-Ad0f3fa58503a0b5e', 'SS-DataTypes', 'SS-Errors', 'SS-Operations', 'MAP-BS-Code-Aeec057477b971da6', 'MAP-ExtensionDataTypes-A0e3dc5b4d2912dac', 'MAP-SS-Code-A124f3b7961d45694', 'MAP-TS-Code-A8a3fdb9829e9f2cb', 'MAP-CommonDataTypes-A65c39dff42b64092', 'MAP-SS-DataTypes-Ab20924605a744855', 'MAP-ER-DataTypes-A14b7da6b59f4272d', 'MAP-OM-DataTypes-Afb459233a33d6ffb', 'MAP-MS-DataTypes-Ab94c9ca39b889172', 'EricssonMAP', 'MAP-SS-Code-A69eb254b5c4756a5', 'MAP-BS-Code-A9c2de1ef1d2e24a2', 'MAP-ExtensionDataTypes-Ac78f5d44193db520', 'MAP-TS-Code-Ac1ab81d67bdf1bcd', 'MAP-CommonDataTypes-Ae3866727d9b0de4f', 'MAP-SS-DataTypes-A35efb482850649be', 'NokiaMAP-Extensions']\n[proc] ASN.1 objects compiled: 3676 types, 16 sets, 2170 values\n[proc] done\n",
             "stderr": "IR written to $WORK/gsm-map/schema.json\n"
           }
         ],
@@ -1677,7 +1869,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
+          "commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
           "dirty": false
         },
         "frontend": {
@@ -1686,17 +1878,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-          "size_bytes": 121901
+          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+          "size_bytes": 124189
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-          "size_bytes": 134604
+          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+          "size_bytes": 139720
         },
         "source_plan": {
           "path": "lte-rrc/source-plan.json",
-          "sha256": "f7f2f1a75731030085acc2256f431216139439b9e5ee80dbe3bd372ec042ea3e",
+          "sha256": "4d91b17cf7e2ef57ccd3bc993742bd7a814c60d3e86b2bab05b3c99f0b79632e",
           "size_bytes": 584617
         },
         "sources": [
@@ -1795,7 +1987,7 @@
         ],
         "ir": {
           "path": "lte-rrc/resolved-schema.json",
-          "sha256": "3ea8c02239e93bfc3119fb68f2f659b5898e139902d2df546b11e4ba32b0570a",
+          "sha256": "f757435dd9fd94d518fda335303fa1a604f93e90558acea5969142ed7598eca7",
           "size_bytes": 5596445
         },
         "outputs": [
@@ -2076,7 +2268,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
+          "commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
           "dirty": false
         },
         "frontend": {
@@ -2085,17 +2277,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-          "size_bytes": 121901
+          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+          "size_bytes": 124189
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-          "size_bytes": 134604
+          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+          "size_bytes": 139720
         },
         "source_plan": {
           "path": "s1ap/source-plan.json",
-          "sha256": "d6ac3d7c5c4ffcce1f62aa4cd3fedc4c94df66cf8b2a9d24b59bc9b857007f58",
+          "sha256": "60b4086aa0ca6cc03e98bdd37d3cad7b5f71659e3913f65460b0c1abf6dfe5a1",
           "size_bytes": 376279
         },
         "sources": [
@@ -2184,7 +2376,7 @@
         ],
         "ir": {
           "path": "s1ap/resolved-schema.json",
-          "sha256": "6652b3293b2cb9b4fd0c0dae5c2b4528663b107c7a09b41bbf2553308c7e87a8",
+          "sha256": "246818b13128b59813fe2f5652135469adffaa32679fe6b09c5aa5be4614febf",
           "size_bytes": 2208837
         },
         "outputs": [
@@ -2465,7 +2657,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
+          "commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
           "dirty": false
         },
         "frontend": {
@@ -2474,17 +2666,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-          "size_bytes": 121901
+          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+          "size_bytes": 124189
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-          "size_bytes": 134604
+          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+          "size_bytes": 139720
         },
         "source_plan": {
           "path": "sgp22/source-plan.json",
-          "sha256": "5087436ff09a1c3232429236ee9b5d0714eaf107e4b202a3a321f5f63a44788b",
+          "sha256": "9325029fdc8daec7898b72d566d246ce8cc76ac3363134eaa7e814088cff9ff2",
           "size_bytes": 68687
         },
         "sources": [
@@ -2567,7 +2759,7 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "2c5c0c9c9e6d2b0ef22526fbdba49cde050e65b8e2410f3f82ff009c86726356",
+          "sha256": "4cada079ea097d9146d997906e7f2a5b501bdfbc8a6ffc65dfac44c6256a8904",
           "size_bytes": 403623
         },
         "outputs": [
@@ -2583,13 +2775,13 @@
           },
           {
             "path": "sgp22/pkix1explicit88.go",
-            "sha256": "363ef7e0e029769d85b50037be2c09e9e9bf7381b9b24c33ef81d3834dc9b4e2",
-            "size_bytes": 267821
+            "sha256": "1b9eeea8c81e081db4e0656b1d711637994db49ab9ebc1cc02f8fa3f2cb40d13",
+            "size_bytes": 272233
           },
           {
             "path": "sgp22/pkix1implicit88.go",
-            "sha256": "1c5170c4d2fceeb63d98595e41728ad82b001c9a0d26f3a28dda71921f0ba690",
-            "size_bytes": 145378
+            "sha256": "dd0c4166671c32cf9122318db587b7fe75eab9898a127428135d0555046936d7",
+            "size_bytes": 148913
           },
           {
             "path": "sgp22/rspdefinitions.go",
@@ -2826,7 +3018,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
+          "commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
           "dirty": false
         },
         "frontend": {
@@ -2835,17 +3027,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-          "size_bytes": 121901
+          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+          "size_bytes": 124189
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-          "size_bytes": 134604
+          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+          "size_bytes": 139720
         },
         "source_plan": {
           "path": "sgp32/source-plan.json",
-          "sha256": "1e34491d3614da454b048c75c84cb6e8ebff532be70fa6fb39d6fbe2b53ac442",
+          "sha256": "3b1e1e92b8a66fa70bde3120415094071ce99e3ddb288a5b17e971911c95b8c2",
           "size_bytes": 97863
         },
         "sources": [
@@ -2946,7 +3138,7 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "33aa09c0bbc5f0cdbb9f90eefe575d69e46b1e2f414dd7f0dd7834b7b1bc2644",
+          "sha256": "bd0ff0c4f570eb08ce9939e2464fbcbe3449242b633fe133eaaa67aaa30f1ec9",
           "size_bytes": 639153
         },
         "outputs": [
@@ -2962,13 +3154,13 @@
           },
           {
             "path": "sgp32/pkix1explicit88.go",
-            "sha256": "0094fc28af61a1610d5a8de777f9ee0a5b15c1cb14e768d139d1f0d11a8c3ba1",
-            "size_bytes": 267821
+            "sha256": "4e472033707dadd8695dd71ba0a069c08d1e02361547b224c91d856f108a5b38",
+            "size_bytes": 272233
           },
           {
             "path": "sgp32/pkix1implicit88.go",
-            "sha256": "6a7ed1ebac3f250238529a56d4b591d5355a12b5d08281f70a97e13e8e678f58",
-            "size_bytes": 145378
+            "sha256": "6cb9d269c183fd468eec2879caefc990617c8b9379b72995e19835270ad0c35d",
+            "size_bytes": 148913
           },
           {
             "path": "sgp32/rspdefinitions.go",
@@ -3211,7 +3403,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
+          "commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
           "dirty": false
         },
         "frontend": {
@@ -3220,17 +3412,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-          "size_bytes": 121901
+          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+          "size_bytes": 124189
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-          "size_bytes": 134604
+          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+          "size_bytes": 139720
         },
         "source_plan": {
           "path": "tcap/source-plan.json",
-          "sha256": "bcbe12da4f1e992b210e7a08fd51c6e64eca2a14194280db6a88351b4a6da86a",
+          "sha256": "959a13db159cda4e22d8b2e45fad925b34057af029b4035ff44d89038cca14c1",
           "size_bytes": 25040
         },
         "sources": [
@@ -3309,14 +3501,14 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "133dce4611959badd288078c93b80e541d4786fc166f255170817fc52e2f26b9",
+          "sha256": "37192c1844063f984e29aff8544a6e4ca852c70c735135464dd380f102da39e7",
           "size_bytes": 249883
         },
         "outputs": [
           {
             "path": "tcap/asn1_wire_vectors_test.go",
-            "sha256": "b8314cde3d84d419274f1a5ada521c6321024e4492dc871618a7474a42246501",
-            "size_bytes": 6740
+            "sha256": "593571b8ca2089019a5adf8e614c8c4966c161f566b7340afb8c87c4d46fd707",
+            "size_bytes": 10948
           },
           {
             "path": "tcap/dialoguepdus.go",
@@ -3340,8 +3532,8 @@
           },
           {
             "path": "tcap/tcapmessages.go",
-            "sha256": "cf0d74de6277bee4ca9c436d88a31151629e58c99163fb42db6560ed230e4baf",
-            "size_bytes": 64010
+            "sha256": "1c5a120164a86105d4b28fac0f6d245d69e36ba0d4b7ad85617d0c8ab36f7566",
+            "size_bytes": 64350
           },
           {
             "path": "tcap/unidialoguepdus.go",
@@ -3572,7 +3764,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "cc58d208ec0415a8072e4ccc339420612ce52413",
+          "commit": "beb4e651fbac41393ba36219e195dac54a03b3ca",
           "dirty": false
         },
         "frontend": {
@@ -3581,17 +3773,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "42685e30596cb11f6a6eb312b489230a768fb012a26b5d0a2a14897f50a923e0",
-          "size_bytes": 121901
+          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
+          "size_bytes": 124189
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "060e3b2e45fa958e46ae431344cbed9dc95d7b9e39c94ed3d2c963fc9f87c9e1",
-          "size_bytes": 134604
+          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
+          "size_bytes": 139720
         },
         "source_plan": {
           "path": "x2ap/source-plan.json",
-          "sha256": "f76145359a0f6e01a0167d80be07b8170d4ca00943a64880041795be4ecf3272",
+          "sha256": "f12d555a31b040ff9dceb6fb34ef63deec596c47a25fc7fd19b75de450caeb70",
           "size_bytes": 476621
         },
         "sources": [
@@ -3660,7 +3852,7 @@
         ],
         "ir": {
           "path": "x2ap/resolved-schema.json",
-          "sha256": "70e6d920fbbe10a713b331c37c24a810bb9196104bd446133ad9c0f691c862de",
+          "sha256": "c3db3470cfe2d6da103e177715f03bc4d680f9a75f99327a54d2c63bb30437e2",
           "size_bytes": 2925245
         },
         "outputs": [
@@ -3934,7 +4126,7 @@
     }
   ],
   "outputs": {
-    "sha256": "d70fd6faedc078ba7519161e55897e97f187a2828e539f01708ef6ce8ee00f6e",
+    "sha256": "44968e33519a1e012f326792ca5e67ab5f342bcf67f788c13af32197d4bf2f6e",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -4161,14 +4353,14 @@
       {
         "path": "telecom/esim/sgp22/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "363ef7e0e029769d85b50037be2c09e9e9bf7381b9b24c33ef81d3834dc9b4e2",
-        "size_bytes": 267821
+        "sha256": "1b9eeea8c81e081db4e0656b1d711637994db49ab9ebc1cc02f8fa3f2cb40d13",
+        "size_bytes": 272233
       },
       {
         "path": "telecom/esim/sgp22/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "1c5170c4d2fceeb63d98595e41728ad82b001c9a0d26f3a28dda71921f0ba690",
-        "size_bytes": 145378
+        "sha256": "dd0c4166671c32cf9122318db587b7fe75eab9898a127428135d0555046936d7",
+        "size_bytes": 148913
       },
       {
         "path": "telecom/esim/sgp22/rspdefinitions.go",
@@ -4191,14 +4383,14 @@
       {
         "path": "telecom/esim/sgp32/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "0094fc28af61a1610d5a8de777f9ee0a5b15c1cb14e768d139d1f0d11a8c3ba1",
-        "size_bytes": 267821
+        "sha256": "4e472033707dadd8695dd71ba0a069c08d1e02361547b224c91d856f108a5b38",
+        "size_bytes": 272233
       },
       {
         "path": "telecom/esim/sgp32/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "6a7ed1ebac3f250238529a56d4b591d5355a12b5d08281f70a97e13e8e678f58",
-        "size_bytes": 145378
+        "sha256": "6cb9d269c183fd468eec2879caefc990617c8b9379b72995e19835270ad0c35d",
+        "size_bytes": 148913
       },
       {
         "path": "telecom/esim/sgp32/rspdefinitions.go",
@@ -4413,20 +4605,20 @@
       {
         "path": "telecom/ss7/gsm_map/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "2fc496db5f4023046d9ab5e063018372acc292ff7d8d67a409a0893207df2562",
-        "size_bytes": 14013
+        "sha256": "3258dfce3abfe7982da1667e01018b40dcd0f509434209f9e1e175f580f4f850",
+        "size_bytes": 19711
       },
       {
         "path": "telecom/ss7/gsm_map/dummymap.go",
         "mode": "0644",
-        "sha256": "e62f2f62052af639c448fcdd61ac70e83ea99c5160180757325ad8167eaf50ac",
-        "size_bytes": 452697
+        "sha256": "89f6cc1dfa1f6a89ac1d791f5f50ed620f02a4ad89a4afa806f0efa407a42759",
+        "size_bytes": 455341
       },
       {
         "path": "telecom/ss7/gsm_map/ericssonmap.go",
         "mode": "0644",
-        "sha256": "6063d7bbe65c3d154296c368a4d389e0e0fef4a8bf2985f741e32e0d7549d830",
-        "size_bytes": 128768
+        "sha256": "04439dc473eecbc4e4dc9a516f24b26470976c248eeb392bfc168c4b9f7315ab",
+        "size_bytes": 132680
       },
       {
         "path": "telecom/ss7/gsm_map/mapapplicationcontexts.go",
@@ -4465,6 +4657,12 @@
         "size_bytes": 6091
       },
       {
+        "path": "telecom/ss7/gsm_map/mapbscode_6.go",
+        "mode": "0644",
+        "sha256": "a05bb826277b25a286d50d74167a4a4d9204d60adb68859637474d115d341992",
+        "size_bytes": 6091
+      },
+      {
         "path": "telecom/ss7/gsm_map/mapcallhandlingoperations.go",
         "mode": "0644",
         "sha256": "2be190c47f6585c8ca96ae5bbd1444ffc7d95601949d0ee615162cf9a0fe8941",
@@ -4485,32 +4683,38 @@
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes.go",
         "mode": "0644",
-        "sha256": "d045777e45a444f5f0ccbe6f57ecd8b379b24aa7ffc3066fd0ec5ddac05926e9",
-        "size_bytes": 93088
+        "sha256": "28bc7d055d057b611a63b85ce45c280ecad550c0aa95a3d213bef58c8d7e02ac",
+        "size_bytes": 93564
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_2.go",
         "mode": "0644",
-        "sha256": "681cd11bc5445aa8a30eed7927633ee20e5fd7af9a6ca2cf8a03e6f2052c14b4",
-        "size_bytes": 99666
+        "sha256": "8a4aefc3ce24bae5c7ed55324a84b76bbc5d9752b51ea83638e327ec03ab9906",
+        "size_bytes": 100202
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_3.go",
         "mode": "0644",
-        "sha256": "c92bd46facfd0c3ec18c1291b1bf7292298d053188f6d2c973caa3c3b3fae2a6",
-        "size_bytes": 94188
+        "sha256": "b44731359677b960769c7b55334306312883f3a22ec8b84a35b21c541d10fc16",
+        "size_bytes": 94890
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_4.go",
         "mode": "0644",
-        "sha256": "c73527c32a066defa130e8df2c71a59a24aa9e18781a38376537a112ab80c0db",
-        "size_bytes": 88930
+        "sha256": "8cf3a91e4ec99140774cbd4e09ccee64f60678dd840e552198fe7950f1b70f1e",
+        "size_bytes": 94262
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_5.go",
         "mode": "0644",
-        "sha256": "f2a4afcc349d02666ac79c6672f82749874f8f844fcb7ab25a61a64197773bdd",
-        "size_bytes": 88145
+        "sha256": "3c45f97a5d27b54d8151fb8dfcb20b97a5f7e04ea07397be8fce6a67b02450f3",
+        "size_bytes": 89410
+      },
+      {
+        "path": "telecom/ss7/gsm_map/mapcommondatatypes_6.go",
+        "mode": "0644",
+        "sha256": "672e262bb35bc0f39c8340d649b42c480462f737a5f2d6b70b30a234df432c97",
+        "size_bytes": 88625
       },
       {
         "path": "telecom/ss7/gsm_map/mapdialogueinformation.go",
@@ -4533,13 +4737,19 @@
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_3.go",
         "mode": "0644",
-        "sha256": "ac52e059d09822a3bbd48b71c8721b291e376c8bf87f671aeae171ce62145ee9",
-        "size_bytes": 240554
+        "sha256": "e60fcdefa98b81e8f4f3adfd59099c13cfa9e9b3bce27df7927533660d07a075",
+        "size_bytes": 245016
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_4.go",
         "mode": "0644",
-        "sha256": "0f599c143a3f73c52f2f161e140f799c5125184034b765053570cddc8ebb3955",
+        "sha256": "45b241abf7319216adb5d6f538aef62140342528836189172a7b54c088da6cd4",
+        "size_bytes": 240547
+      },
+      {
+        "path": "telecom/ss7/gsm_map/maperdatatypes_5.go",
+        "mode": "0644",
+        "sha256": "53a6dac3b765a69ff8a122bac529314934a93bcd95590b7a6bcb5a89c3ad0149",
         "size_bytes": 234631
       },
       {
@@ -4549,34 +4759,46 @@
         "size_bytes": 312
       },
       {
+        "path": "telecom/ss7/gsm_map/maperrors_2.go",
+        "mode": "0644",
+        "sha256": "c947aac9a25994a5a532b9b2ae5763d74818f0b330cbbbde7e90023c4dc8dba5",
+        "size_bytes": 312
+      },
+      {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes.go",
         "mode": "0644",
-        "sha256": "ef806382fd0dbf50e5ff7179764ef2508c1295e9ccbaa4407d7d26239e9386e0",
-        "size_bytes": 27129
+        "sha256": "b641aa8699ce7e2f713336450f2dab76df10c221653ebc503282b91447d1ffe3",
+        "size_bytes": 27657
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_2.go",
         "mode": "0644",
-        "sha256": "233288d00be93d266b06ede35d41e326e5ba06236c9e481e5ef68db88f74f40d",
-        "size_bytes": 29055
+        "sha256": "7868ba740c57427e595c8280c085ccd369a660cbabbea4c8ccdb3ee663ff0269",
+        "size_bytes": 29655
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_3.go",
         "mode": "0644",
-        "sha256": "dcdf76a112658ce091086a313205211351e91ddf9e1372c03bf3d84e1c7ff67d",
-        "size_bytes": 27236
+        "sha256": "da21761e3c3bc91ca4dd758b0e0391734a19cdbae8bea66dd6022103928035df",
+        "size_bytes": 27768
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_4.go",
         "mode": "0644",
-        "sha256": "eaaef42b5fed84548af17e2e0d8804fa0d1ba55d7576a09ee21e190c27385676",
-        "size_bytes": 27236
+        "sha256": "87feb37845292d65b46effb4ff04dc0951838269d0f9dec0fec9a0bc6c77deec",
+        "size_bytes": 27768
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_5.go",
         "mode": "0644",
-        "sha256": "244fc14f968fa8a281499704713a5990387af078788685f7f3087f04c0a09307",
-        "size_bytes": 27236
+        "sha256": "924e366ca39c3bb1d0dca5c428c17c53fad00ec9ab32f29b71d2d96fe98775f9",
+        "size_bytes": 27768
+      },
+      {
+        "path": "telecom/ss7/gsm_map/mapextensiondatatypes_6.go",
+        "mode": "0644",
+        "sha256": "18ecd7c401c857ff3bb0898066527283878658c6b61e2cd209d4b9c0f6ca6eea",
+        "size_bytes": 27768
       },
       {
         "path": "telecom/ss7/gsm_map/mapgrdatatypes.go",
@@ -4593,8 +4815,14 @@
       {
         "path": "telecom/ss7/gsm_map/maplcsdatatypes.go",
         "mode": "0644",
-        "sha256": "7708cf4ea4f21a18c3c02aa22ae86e23be55a01104f7fce60cf857216a1bdf02",
-        "size_bytes": 360239
+        "sha256": "0d95c437c819efac1917dfc7f0b42e54d7bcfc39a9edd25b59ccf196e69cd2b3",
+        "size_bytes": 361199
+      },
+      {
+        "path": "telecom/ss7/gsm_map/maplcsdatatypes_2.go",
+        "mode": "0644",
+        "sha256": "51b64d09be7129aa9f947090ffb98dc5a56b33943fed910d9679bf206b55627a",
+        "size_bytes": 364403
       },
       {
         "path": "telecom/ss7/gsm_map/maplocationserviceoperations.go",
@@ -4611,32 +4839,38 @@
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes.go",
         "mode": "0644",
-        "sha256": "e000930b80d1baa9b23c8ecd15e20c3f843971013347bca4d3c6d5f338bb60a5",
-        "size_bytes": 2737714
+        "sha256": "4cca178713e8729a73a1703765d875be69f26193330bc778d65c517dde748ca2",
+        "size_bytes": 2768548
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_2.go",
         "mode": "0644",
-        "sha256": "3609b15c43b9341472805a99a899308e5cf0b5b27c9e2c6ff8841d3256708923",
-        "size_bytes": 1883599
+        "sha256": "0b947ed9644bce864ffbc311b0c7013079d03b553e316723fa4b272fc21ae775",
+        "size_bytes": 1908097
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_3.go",
         "mode": "0644",
-        "sha256": "922078cb836cf33c620a3f6f78e46e0572731c34c78e50ce513d94fb278258e6",
-        "size_bytes": 2572209
+        "sha256": "73a43d81fd97998359164325e5f5d531a0c5749c83aa93fa81d0bf7dee47b700",
+        "size_bytes": 2599410
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_4.go",
         "mode": "0644",
-        "sha256": "bed011b5648e7530389be28e96809d7be7e0d7ca6acb00972942dfb199fb2a21",
-        "size_bytes": 2431251
+        "sha256": "6424e907e81a184532808091032fa486f196e16becb01ab6d41ca749399c388e",
+        "size_bytes": 2778064
+      },
+      {
+        "path": "telecom/ss7/gsm_map/mapmsdatatypes_5.go",
+        "mode": "0644",
+        "sha256": "411dd79f52072ba3543add1e2bb79cec9257720f8a3326ba41b8ebf528af7ef2",
+        "size_bytes": 2458645
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes.go",
         "mode": "0644",
-        "sha256": "32679aa85eb45b866b7629ac95323a31893122c75fed83a1c473485ce16e3c5a",
-        "size_bytes": 253702
+        "sha256": "5950ddaaf4ddf4b9158b577e73fc8b64ebf6e3e4c70b0f916455ec9271152cec",
+        "size_bytes": 256738
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_2.go",
@@ -4647,14 +4881,20 @@
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_3.go",
         "mode": "0644",
-        "sha256": "6045ef5826ac6447aff56cb2342b7560b5d0e3b1e6af2b359baef29cb9dd318b",
-        "size_bytes": 250312
+        "sha256": "009353f13d6f55df48b044a2227ce8099bd5fd0ad2328b87fec6b8bb89569230",
+        "size_bytes": 252672
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_4.go",
         "mode": "0644",
-        "sha256": "229d8384d5ee93e71127636d5ca051418bf5e99d305876d156e3489fa7e681fd",
-        "size_bytes": 195860
+        "sha256": "dc6072429b85bcfb647e4166b09b935fdbb683ad79ab21dc7bf7a055279be3b8",
+        "size_bytes": 257804
+      },
+      {
+        "path": "telecom/ss7/gsm_map/mapomdatatypes_5.go",
+        "mode": "0644",
+        "sha256": "856b96ffa6baef8d7c49f4345616991bebbbd879782278b8e9b689a2fab38c14",
+        "size_bytes": 198388
       },
       {
         "path": "telecom/ss7/gsm_map/mapoperationandmaintenanceoperations.go",
@@ -4677,14 +4917,20 @@
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes.go",
         "mode": "0644",
-        "sha256": "d34754866e8d5d033723d977254ed0757b4c006666cf9307c11dbd2a3343701a",
-        "size_bytes": 276202
+        "sha256": "7f90efe645380e266155db9e3cefc383fa4aef22019588502887756a6b881089",
+        "size_bytes": 292005
       },
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes_2.go",
         "mode": "0644",
-        "sha256": "192808359d41fd4b2701bf041a37f9aa179e5c85722256bfe15b9d7799f06baa",
-        "size_bytes": 212055
+        "sha256": "047c3571001fdec66500e623f0c44bf95cbaa055e28ae3b4fb937bb1989d2635",
+        "size_bytes": 212873
+      },
+      {
+        "path": "telecom/ss7/gsm_map/mapsmdatatypes_3.go",
+        "mode": "0644",
+        "sha256": "196317faa52d6476c33aa1e7610bd95abebf76b2f2ac4a9055510e9be7babcee",
+        "size_bytes": 278890
       },
       {
         "path": "telecom/ss7/gsm_map/mapsscode.go",
@@ -4717,34 +4963,46 @@
         "size_bytes": 6750
       },
       {
+        "path": "telecom/ss7/gsm_map/mapsscode_6.go",
+        "mode": "0644",
+        "sha256": "dd9471ef4cc428cf0acf914f16616b831a295b55ac7a8ac82d47b19e3c70f0b3",
+        "size_bytes": 6750
+      },
+      {
         "path": "telecom/ss7/gsm_map/mapssdatatypes.go",
         "mode": "0644",
-        "sha256": "f75ad224c7af60491ab74c28a4329e058d12910d0b0f563fc0f1730ea180463b",
-        "size_bytes": 191018
+        "sha256": "454289149130a6c803bc6c36d9bd0b4acf319fd52c11793936616a214aac51cb",
+        "size_bytes": 194598
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_2.go",
         "mode": "0644",
-        "sha256": "9a68d7290bbfd364adc5991b5a34efea02c93ed90c5a8560bdd4bdd76661faf6",
-        "size_bytes": 194260
+        "sha256": "e3e70993de8040e210c65d8f11d37bb36d3b660463df0490989f49c958fd7f08",
+        "size_bytes": 197896
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_3.go",
         "mode": "0644",
-        "sha256": "584b0af5004476a39b99ea6d57b43331a826c4889892e8de6081e2acdd33f040",
-        "size_bytes": 191863
+        "sha256": "d738b392542472b0e2ed6177072332ad58851fceb15cf12fcf3b87431a907abd",
+        "size_bytes": 195471
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_4.go",
         "mode": "0644",
-        "sha256": "df04a505c9c5b22442a807a183e8ae2aafffd584920b593f16f22e6bec9e959f",
-        "size_bytes": 191863
+        "sha256": "7134105776a76f1882280fcfab29a3969e51f05d834cb1d897cb55bb3ec7902b",
+        "size_bytes": 195471
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_5.go",
         "mode": "0644",
-        "sha256": "92a3e81e16a12059b594a9a7b709f4a1117fe9f79444f94038949641fbc88ca2",
-        "size_bytes": 191863
+        "sha256": "63be4900792dbaebbb13c5b0540f4934f34fc5ba262922c40a1132779d6e0921",
+        "size_bytes": 195471
+      },
+      {
+        "path": "telecom/ss7/gsm_map/mapssdatatypes_6.go",
+        "mode": "0644",
+        "sha256": "e2cd65b0d83470ddfc3fcf09080d099a491f5263c7ade2afe5e5a51aef205b41",
+        "size_bytes": 195471
       },
       {
         "path": "telecom/ss7/gsm_map/mapsupplementaryserviceoperations.go",
@@ -4783,6 +5041,12 @@
         "size_bytes": 4005
       },
       {
+        "path": "telecom/ss7/gsm_map/maptscode_6.go",
+        "mode": "0644",
+        "sha256": "b313b462348cd132f4690558075eaa5d2dd3d7f10a0427dd34fdaa031799aaa8",
+        "size_bytes": 4005
+      },
+      {
         "path": "telecom/ss7/gsm_map/mobiledomaindefinitions.go",
         "mode": "0644",
         "sha256": "268daf591e0cc2f3d852c00bae975367154c82cb62c55003af0dde61cddcf1af",
@@ -4791,8 +5055,8 @@
       {
         "path": "telecom/ss7/gsm_map/nokiamapextensions.go",
         "mode": "0644",
-        "sha256": "deacfbe889e27e845cdb29bdab07f9dfe2b3eb7b53d35286b0e276f997482f0b",
-        "size_bytes": 368338
+        "sha256": "5d3ebe93fac8afed4a5539d79cdd761a7cf38a052c0cbb97a296b9a573bca38a",
+        "size_bytes": 371825
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsgenericrospdus.go",
@@ -4815,8 +5079,8 @@
       {
         "path": "telecom/ss7/gsm_map/ssdatatypes.go",
         "mode": "0644",
-        "sha256": "2df1a194fbb79370478c26bf4bcd65b4f4ed776ef98bb0ddaae503d3fefa0947",
-        "size_bytes": 707687
+        "sha256": "0efc10341fa78913ada7431c589a98dcb10cceef7097b217d93f9581a3e96bc8",
+        "size_bytes": 712007
       },
       {
         "path": "telecom/ss7/gsm_map/sserrors.go",
@@ -4833,8 +5097,8 @@
       {
         "path": "telecom/ss7/tcap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "b8314cde3d84d419274f1a5ada521c6321024e4492dc871618a7474a42246501",
-        "size_bytes": 6740
+        "sha256": "593571b8ca2089019a5adf8e614c8c4966c161f566b7340afb8c87c4d46fd707",
+        "size_bytes": 10948
       },
       {
         "path": "telecom/ss7/tcap/dialoguepdus.go",
@@ -4863,14 +5127,8 @@
       {
         "path": "telecom/ss7/tcap/tcapmessages.go",
         "mode": "0644",
-        "sha256": "cf0d74de6277bee4ca9c436d88a31151629e58c99163fb42db6560ed230e4baf",
-        "size_bytes": 64010
-      },
-      {
-        "path": "telecom/ss7/tcap/tcapmessages_test.go",
-        "mode": "0644",
-        "sha256": "3edfb871307d2d56a526b42d699e32d38808b7b0db48dbd7895fb4244c8a0c42",
-        "size_bytes": 8160
+        "sha256": "1c5a120164a86105d4b28fac0f6d245d69e36ba0d4b7ad85617d0c8ab36f7566",
+        "size_bytes": 64350
       },
       {
         "path": "telecom/ss7/tcap/unidialoguepdus.go",
@@ -4973,6 +5231,7 @@
         "$STAGE/telecom/ss7/gsm_map/mapbscode_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapbscode_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapbscode_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapbscode_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapcallhandlingoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapchdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapchdatatypes_2.go",
@@ -4981,51 +5240,62 @@
         "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapdialogueinformation.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes_4.go",
+        "$STAGE/telecom/ss7/gsm_map/maperdatatypes_5.go",
         "$STAGE/telecom/ss7/gsm_map/maperrors.go",
+        "$STAGE/telecom/ss7/gsm_map/maperrors_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapgrdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapgroupcalloperations.go",
         "$STAGE/telecom/ss7/gsm_map/maplcsdatatypes.go",
+        "$STAGE/telecom/ss7/gsm_map/maplcsdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/maplocationserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapmobileserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_4.go",
+        "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_5.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_4.go",
+        "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_5.go",
         "$STAGE/telecom/ss7/gsm_map/mapoperationandmaintenanceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapprotocol.go",
         "$STAGE/telecom/ss7/gsm_map/mapshortmessageserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapsmdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapsmdatatypes_2.go",
+        "$STAGE/telecom/ss7/gsm_map/mapsmdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapsscode_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapsupplementaryserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_2.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_3.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_4.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_5.go",
+        "$STAGE/telecom/ss7/gsm_map/maptscode_6.go",
         "$STAGE/telecom/ss7/gsm_map/mobiledomaindefinitions.go",
         "$STAGE/telecom/ss7/gsm_map/nokiamapextensions.go",
         "$STAGE/telecom/ss7/gsm_map/remoteoperationsgenericrospdus.go",
@@ -5040,7 +5310,6 @@
         "$STAGE/telecom/ss7/tcap/remoteoperationsinformationobjects.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsusefuldefinitions.go",
         "$STAGE/telecom/ss7/tcap/tcapmessages.go",
-        "$STAGE/telecom/ss7/tcap/tcapmessages_test.go",
         "$STAGE/telecom/ss7/tcap/unidialoguepdus.go"
       ],
       "dir": "$STAGE",
@@ -5149,6 +5418,7 @@
         "$STAGE/telecom/ss7/gsm_map/mapbscode_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapbscode_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapbscode_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapbscode_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapcallhandlingoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapchdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapchdatatypes_2.go",
@@ -5157,51 +5427,62 @@
         "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapcommondatatypes_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapdialogueinformation.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/maperdatatypes_4.go",
+        "$STAGE/telecom/ss7/gsm_map/maperdatatypes_5.go",
         "$STAGE/telecom/ss7/gsm_map/maperrors.go",
+        "$STAGE/telecom/ss7/gsm_map/maperrors_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapextensiondatatypes_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapgrdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapgroupcalloperations.go",
         "$STAGE/telecom/ss7/gsm_map/maplcsdatatypes.go",
+        "$STAGE/telecom/ss7/gsm_map/maplcsdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/maplocationserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapmobileserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_4.go",
+        "$STAGE/telecom/ss7/gsm_map/mapmsdatatypes_5.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_4.go",
+        "$STAGE/telecom/ss7/gsm_map/mapomdatatypes_5.go",
         "$STAGE/telecom/ss7/gsm_map/mapoperationandmaintenanceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapprotocol.go",
         "$STAGE/telecom/ss7/gsm_map/mapshortmessageserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/mapsmdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapsmdatatypes_2.go",
+        "$STAGE/telecom/ss7/gsm_map/mapsmdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapsscode_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapsscode_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_2.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_3.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_4.go",
         "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_5.go",
+        "$STAGE/telecom/ss7/gsm_map/mapssdatatypes_6.go",
         "$STAGE/telecom/ss7/gsm_map/mapsupplementaryserviceoperations.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_2.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_3.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_4.go",
         "$STAGE/telecom/ss7/gsm_map/maptscode_5.go",
+        "$STAGE/telecom/ss7/gsm_map/maptscode_6.go",
         "$STAGE/telecom/ss7/gsm_map/mobiledomaindefinitions.go",
         "$STAGE/telecom/ss7/gsm_map/nokiamapextensions.go",
         "$STAGE/telecom/ss7/gsm_map/remoteoperationsgenericrospdus.go",
@@ -5216,7 +5497,6 @@
         "$STAGE/telecom/ss7/tcap/remoteoperationsinformationobjects.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsusefuldefinitions.go",
         "$STAGE/telecom/ss7/tcap/tcapmessages.go",
-        "$STAGE/telecom/ss7/tcap/tcapmessages_test.go",
         "$STAGE/telecom/ss7/tcap/unidialoguepdus.go"
       ],
       "dir": "$STAGE",

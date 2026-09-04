@@ -147,6 +147,7 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 }
 
 // TestVectorComponentPortionReturnResult verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, ComponentPortion and returnResultLast.
+// Regression: go-asn1-v0.5.0.tcap.component-portion-application-tag
 func TestVectorComponentPortionReturnResult(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "6c0fa20d02017f300802012d0403deadbe")
@@ -167,6 +168,7 @@ func TestVectorComponentPortionReturnResult(t *testing.T) {
 }
 
 // TestVectorEndReturnResult verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, End and ComponentPortion.
+// Regression: go-asn1-v0.5.0.tcap.return-result-structured
 func TestVectorEndReturnResult(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "64144901016c0fa20d02017f300802012d0403deadbe")
@@ -188,6 +190,7 @@ func TestVectorEndReturnResult(t *testing.T) {
 }
 
 // TestVectorBeginIndefiniteComponentPortion verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin and ComponentPortion; ITU-T X.690 (02/2021), section 8.1.3.6, indefinite form.
+// Regression: go-asn1-v0.5.0.tcap.indefinite-component-round-trip
 func TestVectorBeginIndefiniteComponentPortion(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "620f4801016c80a10602010002012d0000")
@@ -208,8 +211,101 @@ func TestVectorBeginIndefiniteComponentPortion(t *testing.T) {
 	}
 }
 
+// TestVectorBeginDialogueExplicitExternal verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin dialoguePortion [APPLICATION 11] EXPLICIT EXTERNAL.
+// Regression: go-asn1-v0.5.0.tcap.begin-dialogue-explicit-external
+func TestVectorBeginDialogueExplicitExternal(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "30144801016b0f280d06070011860501010180026000")
+	var decoded Begin
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "Otid", "\"AQ==\"")
+	asn1VectorAssertPath(t, decoded, "DialoguePortion.Bytes", "\"KA0GBwARhgUBAQGAAmAA\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorAbortReasonPAbortApplicationTag verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason p-abortCause [APPLICATION 10].
+// Regression: go-asn1-v0.5.0.tcap.abort-reason-p-abort-application-tag
+func TestVectorAbortReasonPAbortApplicationTag(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "4a0102")
+	var decoded AbortReason
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "Choice", "1")
+	asn1VectorAssertPath(t, decoded, "PAbortCause", "2")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorAbortReasonUAbortApplicationTag verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason u-abortCause [APPLICATION 11] EXPLICIT EXTERNAL.
+// Regression: go-asn1-v0.5.0.tcap.abort-reason-u-abort-application-tag
+func TestVectorAbortReasonUAbortApplicationTag(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "6b0f280d06070011860501010180026000")
+	var decoded AbortReason
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "Choice", "2")
+	asn1VectorAssertPath(t, decoded, "UAbortCause.Bytes", "\"KA0GBwARhgUBAQGAAmAA\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorComponentPortionEmptyRejected verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, ComponentPortion SIZE (1..MAX).
+// Regression: go-asn1-v0.5.0.tcap.component-portion-size-lower-bound
+func TestVectorComponentPortionEmptyRejected(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "6c00")
+	_, err := UnmarshalBERComponentPortion(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "SIZE (1..MAX)") {
+		t.Fatalf("decode error = %q, want substring %q", err, "SIZE (1..MAX)")
+	}
+}
+
+// TestVectorComponentPortionUniversalSequenceRejected verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, ComponentPortion [APPLICATION 12].
+// Regression: go-asn1-v0.5.0.tcap.component-portion-universal-tag-rejected
+func TestVectorComponentPortionUniversalSequenceRejected(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "3000")
+	_, err := UnmarshalBERComponentPortion(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "expected tag [APPLICATION 12]") {
+		t.Fatalf("decode error = %q, want substring %q", err, "expected tag [APPLICATION 12]")
+	}
+}
+
 func FuzzBERComponentPortion(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("6c0fa20d02017f300802012d0403deadbe"))
+	f.Add(asn1VectorHexForFuzz("6c00"))
+	f.Add(asn1VectorHexForFuzz("3000"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		_, _ = UnmarshalBERComponentPortion(input)
 	})
@@ -220,6 +316,23 @@ func FuzzBERTCMessage(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("620f4801016c80a10602010002012d0000"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded TCMessage
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERBegin(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("30144801016b0f280d06070011860501010180026000"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded Begin
+		_ = decoded.UnmarshalBER(input)
+	})
+}
+
+func FuzzBERAbortReason(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("4a0102"))
+	f.Add(asn1VectorHexForFuzz("6b0f280d06070011860501010180026000"))
+	f.Fuzz(func(t *testing.T, input []byte) {
+		var decoded AbortReason
 		_ = decoded.UnmarshalBER(input)
 	})
 }

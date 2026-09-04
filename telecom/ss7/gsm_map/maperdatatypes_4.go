@@ -115,6 +115,7 @@ type ExtensibleCallBarredParam4 struct {
 	CallBarringCause              *CallBarringCause4   `asn1:",optional" json:"CallBarringCause,omitempty"`
 	ExtensionContainer            *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	UnauthorisedMessageOriginator *struct{}            `asn1:"tag:1,context,implicit,optional" json:"UnauthorisedMessageOriginator,omitempty"`
+	AnonymousCallRejection        *struct{}            `asn1:"tag:2,context,implicit,optional" json:"AnonymousCallRejection,omitempty"`
 	ExtCount_                     int64                `asn1:"-" json:"-"`
 	ExtPresent_                   []bool               `asn1:"-" json:"-"`
 	ExtData_                      [][]byte             `asn1:"-" json:"-"`
@@ -235,6 +236,7 @@ type AbsentSubscriberSMParam4 struct {
 	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM4 `asn1:",optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
 	ExtensionContainer                     *ExtensionContainer4           `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	AdditionalAbsentSubscriberDiagnosticSM *AbsentSubscriberDiagnosticSM4 `asn1:"tag:0,context,implicit,optional" json:"AdditionalAbsentSubscriberDiagnosticSM,omitempty"`
+	Imsi                                   *IMSI4                         `asn1:"tag:1,context,implicit,optional" json:"Imsi,omitempty"`
 	ExtCount_                              int64                          `asn1:"-" json:"-"`
 	ExtPresent_                            []bool                         `asn1:"-" json:"-"`
 	ExtData_                               [][]byte                       `asn1:"-" json:"-"`
@@ -309,10 +311,11 @@ type DataMissingParam4 struct {
 
 // UnexpectedDataParam4 represents the ASN.1 type UnexpectedDataParam (SEQUENCE).
 type UnexpectedDataParam4 struct {
-	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64                `asn1:"-" json:"-"`
-	ExtPresent_        []bool               `asn1:"-" json:"-"`
-	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	ExtensionContainer   *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	UnexpectedSubscriber *struct{}            `asn1:"tag:0,context,implicit,optional" json:"UnexpectedSubscriber,omitempty"`
+	ExtCount_            int64                `asn1:"-" json:"-"`
+	ExtPresent_          []bool               `asn1:"-" json:"-"`
+	ExtData_             [][]byte             `asn1:"-" json:"-"`
 }
 
 // FacilityNotSupParam4 represents the ASN.1 type FacilityNotSupParam (SEQUENCE).
@@ -1007,6 +1010,15 @@ func (v *ExtensibleCallBarredParam4) MarshalBER() ([]byte, error) {
 		enc_unauthorisedmessageoriginator = retagged_enc_unauthorisedmessageoriginator
 		children = append(children, enc_unauthorisedmessageoriginator...)
 	}
+	if v.AnonymousCallRejection != nil {
+		enc_anonymouscallrejection := ber.EncodeNull()
+		retagged_enc_anonymouscallrejection, tagErr_enc_anonymouscallrejection := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_anonymouscallrejection)
+		if tagErr_enc_anonymouscallrejection != nil {
+			return nil, fmt.Errorf("encoding anonymousCallRejection: %w", tagErr_enc_anonymouscallrejection)
+		}
+		enc_anonymouscallrejection = retagged_enc_anonymouscallrejection
+		children = append(children, enc_anonymouscallrejection...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -1042,6 +1054,15 @@ func (v *ExtensibleCallBarredParam4) MarshalDER() ([]byte, error) {
 		}
 		enc_unauthorisedmessageoriginator = retagged_enc_unauthorisedmessageoriginator
 		children = append(children, enc_unauthorisedmessageoriginator...)
+	}
+	if v.AnonymousCallRejection != nil {
+		enc_anonymouscallrejection := ber.EncodeNull()
+		retagged_enc_anonymouscallrejection, tagErr_enc_anonymouscallrejection := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_anonymouscallrejection)
+		if tagErr_enc_anonymouscallrejection != nil {
+			return nil, fmt.Errorf("encoding anonymousCallRejection: %w", tagErr_enc_anonymouscallrejection)
+		}
+		enc_anonymouscallrejection = retagged_enc_anonymouscallrejection
+		children = append(children, enc_anonymouscallrejection...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
@@ -1118,6 +1139,26 @@ func (v *ExtensibleCallBarredParam4) UnmarshalBER(data []byte) error {
 				}
 				v.UnauthorisedMessageOriginator = &struct{}{}
 				offset += n_unauthorisedmessageoriginator
+			}
+		}
+	}
+	// Decode anonymousCallRejection
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 {
+				decodedTag_anonymouscallrejection, n_anonymouscallrejection, rawVal_anonymouscallrejection, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding anonymousCallRejection: %w", err)
+				}
+				if decodedTag_anonymouscallrejection.Class != tag.ClassContextSpecific || decodedTag_anonymouscallrejection.Number != 2 || decodedTag_anonymouscallrejection.Constructed != false {
+					return fmt.Errorf("decoding anonymousCallRejection: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_anonymouscallrejection)
+				}
+				if len(rawVal_anonymouscallrejection) != 0 {
+					return fmt.Errorf("decoding anonymousCallRejection: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_anonymouscallrejection))
+				}
+				v.AnonymousCallRejection = &struct{}{}
+				offset += n_anonymouscallrejection
 			}
 		}
 	}
@@ -1568,6 +1609,15 @@ func (v *AbsentSubscriberSMParam4) MarshalBER() ([]byte, error) {
 		enc_additionalabsentsubscriberdiagnosticsm = retagged_enc_additionalabsentsubscriberdiagnosticsm
 		children = append(children, enc_additionalabsentsubscriberdiagnosticsm...)
 	}
+	if v.Imsi != nil {
+		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_imsi)
+		if tagErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
+		}
+		enc_imsi = retagged_enc_imsi
+		children = append(children, enc_imsi...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -1603,6 +1653,15 @@ func (v *AbsentSubscriberSMParam4) MarshalDER() ([]byte, error) {
 		}
 		enc_additionalabsentsubscriberdiagnosticsm = retagged_enc_additionalabsentsubscriberdiagnosticsm
 		children = append(children, enc_additionalabsentsubscriberdiagnosticsm...)
+	}
+	if v.Imsi != nil {
+		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_imsi)
+		if tagErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
+		}
+		enc_imsi = retagged_enc_imsi
+		children = append(children, enc_imsi...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
@@ -1681,6 +1740,24 @@ func (v *AbsentSubscriberSMParam4) UnmarshalBER(data []byte) error {
 				tmp_additionalabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM4(decVal_additionalabsentsubscriberdiagnosticsm)
 				v.AdditionalAbsentSubscriberDiagnosticSM = &tmp_additionalabsentsubscriberdiagnosticsm
 				offset += n_additionalabsentsubscriberdiagnosticsm
+			}
+		}
+	}
+	// Decode imsi
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
+				decodedTag_imsi, n_imsi, rawVal_imsi, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding imsi: %w", err)
+				}
+				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 1 {
+					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
+				}
+				tmp_imsi := IMSI4(rawVal_imsi)
+				v.Imsi = &tmp_imsi
+				offset += n_imsi
 			}
 		}
 	}
@@ -2087,6 +2164,15 @@ func (v *UnexpectedDataParam4) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_extensioncontainer...)
 	}
+	if v.UnexpectedSubscriber != nil {
+		enc_unexpectedsubscriber := ber.EncodeNull()
+		retagged_enc_unexpectedsubscriber, tagErr_enc_unexpectedsubscriber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_unexpectedsubscriber)
+		if tagErr_enc_unexpectedsubscriber != nil {
+			return nil, fmt.Errorf("encoding unexpectedSubscriber: %w", tagErr_enc_unexpectedsubscriber)
+		}
+		enc_unexpectedsubscriber = retagged_enc_unexpectedsubscriber
+		children = append(children, enc_unexpectedsubscriber...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -2109,6 +2195,15 @@ func (v *UnexpectedDataParam4) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("encoding extensionContainer: %w", err)
 		}
 		children = append(children, enc_extensioncontainer...)
+	}
+	if v.UnexpectedSubscriber != nil {
+		enc_unexpectedsubscriber := ber.EncodeNull()
+		retagged_enc_unexpectedsubscriber, tagErr_enc_unexpectedsubscriber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_unexpectedsubscriber)
+		if tagErr_enc_unexpectedsubscriber != nil {
+			return nil, fmt.Errorf("encoding unexpectedSubscriber: %w", tagErr_enc_unexpectedsubscriber)
+		}
+		enc_unexpectedsubscriber = retagged_enc_unexpectedsubscriber
+		children = append(children, enc_unexpectedsubscriber...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
@@ -2150,6 +2245,26 @@ func (v *UnexpectedDataParam4) UnmarshalBER(data []byte) error {
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
 				offset += n_extensioncontainer
+			}
+		}
+	}
+	// Decode unexpectedSubscriber
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
+				decodedTag_unexpectedsubscriber, n_unexpectedsubscriber, rawVal_unexpectedsubscriber, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding unexpectedSubscriber: %w", err)
+				}
+				if decodedTag_unexpectedsubscriber.Class != tag.ClassContextSpecific || decodedTag_unexpectedsubscriber.Number != 0 || decodedTag_unexpectedsubscriber.Constructed != false {
+					return fmt.Errorf("decoding unexpectedSubscriber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_unexpectedsubscriber)
+				}
+				if len(rawVal_unexpectedsubscriber) != 0 {
+					return fmt.Errorf("decoding unexpectedSubscriber: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_unexpectedsubscriber))
+				}
+				v.UnexpectedSubscriber = &struct{}{}
+				offset += n_unexpectedsubscriber
 			}
 		}
 	}

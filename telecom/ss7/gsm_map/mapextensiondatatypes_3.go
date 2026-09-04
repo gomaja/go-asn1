@@ -403,6 +403,9 @@ func (v *SLRArgExtensionContainer3) UnmarshalBER(data []byte) error {
 
 // MarshalBERPrivateExtensionList3 encodes a PrivateExtensionList3 list to BER.
 func MarshalBERPrivateExtensionList3(list PrivateExtensionList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("PrivateExtensionList3 length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -416,6 +419,9 @@ func MarshalBERPrivateExtensionList3(list PrivateExtensionList3) ([]byte, error)
 
 // MarshalDERPrivateExtensionList3 encodes a PrivateExtensionList3 list to DER.
 func MarshalDERPrivateExtensionList3(list PrivateExtensionList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 10 {
+		return nil, fmt.Errorf("PrivateExtensionList3 length %d violates SIZE (1..10)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -453,6 +459,12 @@ func UnmarshalBERPrivateExtensionList3(data []byte) (PrivateExtensionList3, erro
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 10 {
+			return nil, fmt.Errorf("PrivateExtensionList3 length %d violates SIZE (1..10)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 10 {
+		return nil, fmt.Errorf("PrivateExtensionList3 length %d violates SIZE (1..10)", len(result))
 	}
 	return result, nil
 }

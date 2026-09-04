@@ -892,6 +892,9 @@ func (v *PrivateKeyUsagePeriod) UnmarshalBER(data []byte) error {
 
 // MarshalBERCertificatePolicies encodes a CertificatePolicies list to BER.
 func MarshalBERCertificatePolicies(list CertificatePolicies) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("CertificatePolicies length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -905,6 +908,9 @@ func MarshalBERCertificatePolicies(list CertificatePolicies) ([]byte, error) {
 
 // MarshalDERCertificatePolicies encodes a CertificatePolicies list to DER.
 func MarshalDERCertificatePolicies(list CertificatePolicies) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("CertificatePolicies length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -942,6 +948,9 @@ func UnmarshalBERCertificatePolicies(data []byte) (CertificatePolicies, error) {
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("CertificatePolicies length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -1407,6 +1416,9 @@ func (v *DisplayText) UnmarshalBER(data []byte) error {
 
 // MarshalBERPolicyMappings encodes a PolicyMappings list to BER.
 func MarshalBERPolicyMappings(list PolicyMappings) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("PolicyMappings length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -1420,6 +1432,9 @@ func MarshalBERPolicyMappings(list PolicyMappings) ([]byte, error) {
 
 // MarshalDERPolicyMappings encodes a PolicyMappings list to DER.
 func MarshalDERPolicyMappings(list PolicyMappings) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("PolicyMappings length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -1458,11 +1473,17 @@ func UnmarshalBERPolicyMappings(data []byte) (PolicyMappings, error) {
 		result = append(result, elem)
 		offset += n
 	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("PolicyMappings length %d violates SIZE (1..MAX)", len(result))
+	}
 	return result, nil
 }
 
 // MarshalBERGeneralNames encodes a GeneralNames list to BER.
 func MarshalBERGeneralNames(list GeneralNames) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("GeneralNames length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -1476,6 +1497,9 @@ func MarshalBERGeneralNames(list GeneralNames) ([]byte, error) {
 
 // MarshalDERGeneralNames encodes a GeneralNames list to DER.
 func MarshalDERGeneralNames(list GeneralNames) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("GeneralNames length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -1513,6 +1537,9 @@ func UnmarshalBERGeneralNames(data []byte) (GeneralNames, error) {
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("GeneralNames length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -2024,6 +2051,9 @@ func (v *EDIPartyName) UnmarshalBER(data []byte) error {
 
 // MarshalBERSubjectDirectoryAttributes encodes a SubjectDirectoryAttributes list to BER.
 func MarshalBERSubjectDirectoryAttributes(list SubjectDirectoryAttributes) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("SubjectDirectoryAttributes length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -2037,6 +2067,9 @@ func MarshalBERSubjectDirectoryAttributes(list SubjectDirectoryAttributes) ([]by
 
 // MarshalDERSubjectDirectoryAttributes encodes a SubjectDirectoryAttributes list to DER.
 func MarshalDERSubjectDirectoryAttributes(list SubjectDirectoryAttributes) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("SubjectDirectoryAttributes length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -2074,6 +2107,9 @@ func UnmarshalBERSubjectDirectoryAttributes(data []byte) (SubjectDirectoryAttrib
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("SubjectDirectoryAttributes length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -2320,6 +2356,9 @@ func (v *NameConstraints) UnmarshalBER(data []byte) error {
 
 // MarshalBERGeneralSubtrees encodes a GeneralSubtrees list to BER.
 func MarshalBERGeneralSubtrees(list GeneralSubtrees) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("GeneralSubtrees length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -2333,6 +2372,9 @@ func MarshalBERGeneralSubtrees(list GeneralSubtrees) ([]byte, error) {
 
 // MarshalDERGeneralSubtrees encodes a GeneralSubtrees list to DER.
 func MarshalDERGeneralSubtrees(list GeneralSubtrees) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("GeneralSubtrees length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -2370,6 +2412,9 @@ func UnmarshalBERGeneralSubtrees(data []byte) (GeneralSubtrees, error) {
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("GeneralSubtrees length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -2621,6 +2666,9 @@ func (v *PolicyConstraints) UnmarshalBER(data []byte) error {
 
 // MarshalBERCRLDistributionPoints encodes a CRLDistributionPoints list to BER.
 func MarshalBERCRLDistributionPoints(list CRLDistributionPoints) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("CRLDistributionPoints length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -2634,6 +2682,9 @@ func MarshalBERCRLDistributionPoints(list CRLDistributionPoints) ([]byte, error)
 
 // MarshalDERCRLDistributionPoints encodes a CRLDistributionPoints list to DER.
 func MarshalDERCRLDistributionPoints(list CRLDistributionPoints) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("CRLDistributionPoints length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -2671,6 +2722,9 @@ func UnmarshalBERCRLDistributionPoints(data []byte) (CRLDistributionPoints, erro
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("CRLDistributionPoints length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -2972,6 +3026,9 @@ func (v *DistributionPointName) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtKeyUsageSyntax encodes a ExtKeyUsageSyntax list to BER.
 func MarshalBERExtKeyUsageSyntax(list ExtKeyUsageSyntax) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("ExtKeyUsageSyntax length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(elem))
@@ -2985,6 +3042,9 @@ func MarshalBERExtKeyUsageSyntax(list ExtKeyUsageSyntax) ([]byte, error) {
 
 // MarshalDERExtKeyUsageSyntax encodes a ExtKeyUsageSyntax list to DER.
 func MarshalDERExtKeyUsageSyntax(list ExtKeyUsageSyntax) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("ExtKeyUsageSyntax length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, oidErr := ber.EncodeObjectIdentifierChecked([]uint64(elem))
@@ -3019,11 +3079,17 @@ func UnmarshalBERExtKeyUsageSyntax(data []byte) (ExtKeyUsageSyntax, error) {
 		result = append(result, KeyPurposeId(val))
 		offset += n
 	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("ExtKeyUsageSyntax length %d violates SIZE (1..MAX)", len(result))
+	}
 	return result, nil
 }
 
 // MarshalBERAuthorityInfoAccessSyntax encodes a AuthorityInfoAccessSyntax list to BER.
 func MarshalBERAuthorityInfoAccessSyntax(list AuthorityInfoAccessSyntax) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("AuthorityInfoAccessSyntax length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -3037,6 +3103,9 @@ func MarshalBERAuthorityInfoAccessSyntax(list AuthorityInfoAccessSyntax) ([]byte
 
 // MarshalDERAuthorityInfoAccessSyntax encodes a AuthorityInfoAccessSyntax list to DER.
 func MarshalDERAuthorityInfoAccessSyntax(list AuthorityInfoAccessSyntax) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("AuthorityInfoAccessSyntax length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -3074,6 +3143,9 @@ func UnmarshalBERAuthorityInfoAccessSyntax(data []byte) (AuthorityInfoAccessSynt
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("AuthorityInfoAccessSyntax length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -3156,6 +3228,9 @@ func (v *AccessDescription) UnmarshalBER(data []byte) error {
 
 // MarshalBERSubjectInfoAccessSyntax encodes a SubjectInfoAccessSyntax list to BER.
 func MarshalBERSubjectInfoAccessSyntax(list SubjectInfoAccessSyntax) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("SubjectInfoAccessSyntax length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -3169,6 +3244,9 @@ func MarshalBERSubjectInfoAccessSyntax(list SubjectInfoAccessSyntax) ([]byte, er
 
 // MarshalDERSubjectInfoAccessSyntax encodes a SubjectInfoAccessSyntax list to DER.
 func MarshalDERSubjectInfoAccessSyntax(list SubjectInfoAccessSyntax) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("SubjectInfoAccessSyntax length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -3206,6 +3284,9 @@ func UnmarshalBERSubjectInfoAccessSyntax(data []byte) (SubjectInfoAccessSyntax, 
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("SubjectInfoAccessSyntax length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -3511,6 +3592,9 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte) error {
 
 // MarshalBERPolicyInformationPolicyQualifiers encodes a PolicyInformationPolicyQualifiers list to BER.
 func MarshalBERPolicyInformationPolicyQualifiers(list PolicyInformationPolicyQualifiers) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("PolicyInformationPolicyQualifiers length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -3524,6 +3608,9 @@ func MarshalBERPolicyInformationPolicyQualifiers(list PolicyInformationPolicyQua
 
 // MarshalDERPolicyInformationPolicyQualifiers encodes a PolicyInformationPolicyQualifiers list to DER.
 func MarshalDERPolicyInformationPolicyQualifiers(list PolicyInformationPolicyQualifiers) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("PolicyInformationPolicyQualifiers length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -3561,6 +3648,9 @@ func UnmarshalBERPolicyInformationPolicyQualifiers(data []byte) (PolicyInformati
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("PolicyInformationPolicyQualifiers length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }

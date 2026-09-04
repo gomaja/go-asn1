@@ -2798,6 +2798,9 @@ func UnmarshalBERRDNSequence(data []byte) (RDNSequence, error) {
 
 // MarshalBERRelativeDistinguishedName encodes a RelativeDistinguishedName list to BER.
 func MarshalBERRelativeDistinguishedName(list RelativeDistinguishedName) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("RelativeDistinguishedName length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -2811,6 +2814,9 @@ func MarshalBERRelativeDistinguishedName(list RelativeDistinguishedName) ([]byte
 
 // MarshalDERRelativeDistinguishedName encodes a RelativeDistinguishedName list to DER.
 func MarshalDERRelativeDistinguishedName(list RelativeDistinguishedName) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("RelativeDistinguishedName length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -2854,6 +2860,9 @@ func UnmarshalBERRelativeDistinguishedName(data []byte) (RelativeDistinguishedNa
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("RelativeDistinguishedName length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -3623,6 +3632,9 @@ func (v *SubjectPublicKeyInfo) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtensions encodes a Extensions list to BER.
 func MarshalBERExtensions(list Extensions) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("Extensions length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -3636,6 +3648,9 @@ func MarshalBERExtensions(list Extensions) ([]byte, error) {
 
 // MarshalDERExtensions encodes a Extensions list to DER.
 func MarshalDERExtensions(list Extensions) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("Extensions length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -3673,6 +3688,9 @@ func UnmarshalBERExtensions(data []byte) (Extensions, error) {
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("Extensions length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }
@@ -5222,6 +5240,9 @@ func (v *PersonalName) UnmarshalBER(data []byte) error {
 
 // MarshalBEROrganizationalUnitNames encodes a OrganizationalUnitNames list to BER.
 func MarshalBEROrganizationalUnitNames(list OrganizationalUnitNames) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("OrganizationalUnitNames length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, stringErr := ber.EncodeStringTagChecked(19, string(elem))
@@ -5235,6 +5256,9 @@ func MarshalBEROrganizationalUnitNames(list OrganizationalUnitNames) ([]byte, er
 
 // MarshalDEROrganizationalUnitNames encodes a OrganizationalUnitNames list to DER.
 func MarshalDEROrganizationalUnitNames(list OrganizationalUnitNames) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("OrganizationalUnitNames length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, stringErr := ber.EncodeStringTagChecked(19, string(elem))
@@ -5268,12 +5292,21 @@ func UnmarshalBEROrganizationalUnitNames(data []byte) (OrganizationalUnitNames, 
 		}
 		result = append(result, OrganizationalUnitName(val))
 		offset += n
+		if len(result) > 4 {
+			return nil, fmt.Errorf("OrganizationalUnitNames length %d violates SIZE (1..4)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 4 {
+		return nil, fmt.Errorf("OrganizationalUnitNames length %d violates SIZE (1..4)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERBuiltInDomainDefinedAttributes encodes a BuiltInDomainDefinedAttributes list to BER.
 func MarshalBERBuiltInDomainDefinedAttributes(list BuiltInDomainDefinedAttributes) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("BuiltInDomainDefinedAttributes length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -5287,6 +5320,9 @@ func MarshalBERBuiltInDomainDefinedAttributes(list BuiltInDomainDefinedAttribute
 
 // MarshalDERBuiltInDomainDefinedAttributes encodes a BuiltInDomainDefinedAttributes list to DER.
 func MarshalDERBuiltInDomainDefinedAttributes(list BuiltInDomainDefinedAttributes) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("BuiltInDomainDefinedAttributes length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -5324,6 +5360,12 @@ func UnmarshalBERBuiltInDomainDefinedAttributes(data []byte) (BuiltInDomainDefin
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 4 {
+			return nil, fmt.Errorf("BuiltInDomainDefinedAttributes length %d violates SIZE (1..4)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 4 {
+		return nil, fmt.Errorf("BuiltInDomainDefinedAttributes length %d violates SIZE (1..4)", len(result))
 	}
 	return result, nil
 }
@@ -5403,6 +5445,9 @@ func (v *BuiltInDomainDefinedAttribute) UnmarshalBER(data []byte) error {
 
 // MarshalBERExtensionAttributes encodes a ExtensionAttributes list to BER.
 func MarshalBERExtensionAttributes(list ExtensionAttributes) ([]byte, error) {
+	if len(list) < 1 || len(list) > 256 {
+		return nil, fmt.Errorf("ExtensionAttributes length %d violates SIZE (1..256)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -5416,6 +5461,9 @@ func MarshalBERExtensionAttributes(list ExtensionAttributes) ([]byte, error) {
 
 // MarshalDERExtensionAttributes encodes a ExtensionAttributes list to DER.
 func MarshalDERExtensionAttributes(list ExtensionAttributes) ([]byte, error) {
+	if len(list) < 1 || len(list) > 256 {
+		return nil, fmt.Errorf("ExtensionAttributes length %d violates SIZE (1..256)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -5459,6 +5507,12 @@ func UnmarshalBERExtensionAttributes(data []byte) (ExtensionAttributes, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 256 {
+			return nil, fmt.Errorf("ExtensionAttributes length %d violates SIZE (1..256)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 256 {
+		return nil, fmt.Errorf("ExtensionAttributes length %d violates SIZE (1..256)", len(result))
 	}
 	return result, nil
 }
@@ -5775,6 +5829,9 @@ func (v *TeletexPersonalName) UnmarshalBER(data []byte) error {
 
 // MarshalBERTeletexOrganizationalUnitNames encodes a TeletexOrganizationalUnitNames list to BER.
 func MarshalBERTeletexOrganizationalUnitNames(list TeletexOrganizationalUnitNames) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("TeletexOrganizationalUnitNames length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, stringErr := ber.EncodeStringTagChecked(20, string(elem))
@@ -5788,6 +5845,9 @@ func MarshalBERTeletexOrganizationalUnitNames(list TeletexOrganizationalUnitName
 
 // MarshalDERTeletexOrganizationalUnitNames encodes a TeletexOrganizationalUnitNames list to DER.
 func MarshalDERTeletexOrganizationalUnitNames(list TeletexOrganizationalUnitNames) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("TeletexOrganizationalUnitNames length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, stringErr := ber.EncodeStringTagChecked(20, string(elem))
@@ -5821,6 +5881,12 @@ func UnmarshalBERTeletexOrganizationalUnitNames(data []byte) (TeletexOrganizatio
 		}
 		result = append(result, TeletexOrganizationalUnitName(val))
 		offset += n
+		if len(result) > 4 {
+			return nil, fmt.Errorf("TeletexOrganizationalUnitNames length %d violates SIZE (1..4)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 4 {
+		return nil, fmt.Errorf("TeletexOrganizationalUnitNames length %d violates SIZE (1..4)", len(result))
 	}
 	return result, nil
 }
@@ -6477,6 +6543,9 @@ func (v *PresentationAddress) UnmarshalBER(data []byte) error {
 
 // MarshalBERTeletexDomainDefinedAttributes encodes a TeletexDomainDefinedAttributes list to BER.
 func MarshalBERTeletexDomainDefinedAttributes(list TeletexDomainDefinedAttributes) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("TeletexDomainDefinedAttributes length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -6490,6 +6559,9 @@ func MarshalBERTeletexDomainDefinedAttributes(list TeletexDomainDefinedAttribute
 
 // MarshalDERTeletexDomainDefinedAttributes encodes a TeletexDomainDefinedAttributes list to DER.
 func MarshalDERTeletexDomainDefinedAttributes(list TeletexDomainDefinedAttributes) ([]byte, error) {
+	if len(list) < 1 || len(list) > 4 {
+		return nil, fmt.Errorf("TeletexDomainDefinedAttributes length %d violates SIZE (1..4)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -6527,6 +6599,12 @@ func UnmarshalBERTeletexDomainDefinedAttributes(data []byte) (TeletexDomainDefin
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 4 {
+			return nil, fmt.Errorf("TeletexDomainDefinedAttributes length %d violates SIZE (1..4)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 4 {
+		return nil, fmt.Errorf("TeletexDomainDefinedAttributes length %d violates SIZE (1..4)", len(result))
 	}
 	return result, nil
 }
@@ -6832,6 +6910,9 @@ func UnmarshalBERTBSCertListRevokedCertificates(data []byte) (TBSCertListRevoked
 
 // MarshalBERUnformattedPostalAddressPrintableAddress encodes a UnformattedPostalAddressPrintableAddress list to BER.
 func MarshalBERUnformattedPostalAddressPrintableAddress(list UnformattedPostalAddressPrintableAddress) ([]byte, error) {
+	if len(list) < 1 || len(list) > 6 {
+		return nil, fmt.Errorf("UnformattedPostalAddressPrintableAddress length %d violates SIZE (1..6)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, stringErr := ber.EncodeStringTagChecked(19, elem)
@@ -6845,6 +6926,9 @@ func MarshalBERUnformattedPostalAddressPrintableAddress(list UnformattedPostalAd
 
 // MarshalDERUnformattedPostalAddressPrintableAddress encodes a UnformattedPostalAddressPrintableAddress list to DER.
 func MarshalDERUnformattedPostalAddressPrintableAddress(list UnformattedPostalAddressPrintableAddress) ([]byte, error) {
+	if len(list) < 1 || len(list) > 6 {
+		return nil, fmt.Errorf("UnformattedPostalAddressPrintableAddress length %d violates SIZE (1..6)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		encodedElem, stringErr := ber.EncodeStringTagChecked(19, elem)
@@ -6878,6 +6962,12 @@ func UnmarshalBERUnformattedPostalAddressPrintableAddress(data []byte) (Unformat
 		}
 		result = append(result, val)
 		offset += n
+		if len(result) > 6 {
+			return nil, fmt.Errorf("UnformattedPostalAddressPrintableAddress length %d violates SIZE (1..6)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 6 {
+		return nil, fmt.Errorf("UnformattedPostalAddressPrintableAddress length %d violates SIZE (1..6)", len(result))
 	}
 	return result, nil
 }
@@ -7004,6 +7094,9 @@ func (v *ExtendedNetworkAddressE1634Address) UnmarshalBER(data []byte) error {
 
 // MarshalBERPresentationAddressNAddresses encodes a PresentationAddressNAddresses list to BER.
 func MarshalBERPresentationAddressNAddresses(list PresentationAddressNAddresses) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("PresentationAddressNAddresses length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString(elem)...)
@@ -7013,6 +7106,9 @@ func MarshalBERPresentationAddressNAddresses(list PresentationAddressNAddresses)
 
 // MarshalDERPresentationAddressNAddresses encodes a PresentationAddressNAddresses list to DER.
 func MarshalDERPresentationAddressNAddresses(list PresentationAddressNAddresses) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("PresentationAddressNAddresses length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString(elem)...)
@@ -7048,6 +7144,9 @@ func UnmarshalBERPresentationAddressNAddresses(data []byte) (PresentationAddress
 		}
 		result = append(result, val)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("PresentationAddressNAddresses length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }

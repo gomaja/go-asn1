@@ -1454,6 +1454,9 @@ func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte) error {
 
 // MarshalBERCommonDataTypesHLRList encodes a CommonDataTypesHLRList list to BER.
 func MarshalBERCommonDataTypesHLRList(list CommonDataTypesHLRList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("CommonDataTypesHLRList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1463,6 +1466,9 @@ func MarshalBERCommonDataTypesHLRList(list CommonDataTypesHLRList) ([]byte, erro
 
 // MarshalDERCommonDataTypesHLRList encodes a CommonDataTypesHLRList list to DER.
 func MarshalDERCommonDataTypesHLRList(list CommonDataTypesHLRList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 50 {
+		return nil, fmt.Errorf("CommonDataTypesHLRList length %d violates SIZE (1..50)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1492,6 +1498,12 @@ func UnmarshalBERCommonDataTypesHLRList(data []byte) (CommonDataTypesHLRList, er
 		}
 		result = append(result, CommonDataTypesHLRId(val))
 		offset += n
+		if len(result) > 50 {
+			return nil, fmt.Errorf("CommonDataTypesHLRList length %d violates SIZE (1..50)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 50 {
+		return nil, fmt.Errorf("CommonDataTypesHLRList length %d violates SIZE (1..50)", len(result))
 	}
 	return result, nil
 }
