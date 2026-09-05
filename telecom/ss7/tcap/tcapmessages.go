@@ -1212,6 +1212,9 @@ func (v *Abort) UnmarshalBER(data []byte) error {
 
 // MarshalBERComponentPortion encodes a ComponentPortion list to BER.
 func MarshalBERComponentPortion(list ComponentPortion) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("ComponentPortion length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -1225,6 +1228,9 @@ func MarshalBERComponentPortion(list ComponentPortion) ([]byte, error) {
 
 // MarshalDERComponentPortion encodes a ComponentPortion list to DER.
 func MarshalDERComponentPortion(list ComponentPortion) ([]byte, error) {
+	if len(list) < 1 {
+		return nil, fmt.Errorf("ComponentPortion length %d violates SIZE (1..MAX)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -1270,6 +1276,9 @@ func UnmarshalBERComponentPortion(data []byte) (ComponentPortion, error) {
 		}
 		result = append(result, elem)
 		offset += n
+	}
+	if len(result) < 1 {
+		return nil, fmt.Errorf("ComponentPortion length %d violates SIZE (1..MAX)", len(result))
 	}
 	return result, nil
 }

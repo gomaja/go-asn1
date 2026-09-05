@@ -1999,6 +1999,9 @@ func (v *MDTConfiguration) UnmarshalBER(data []byte) error {
 
 // MarshalBERMDTAllowedPLMNIdList encodes a MDTAllowedPLMNIdList list to BER.
 func MarshalBERMDTAllowedPLMNIdList(list MDTAllowedPLMNIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("MDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2008,6 +2011,9 @@ func MarshalBERMDTAllowedPLMNIdList(list MDTAllowedPLMNIdList) ([]byte, error) {
 
 // MarshalDERMDTAllowedPLMNIdList encodes a MDTAllowedPLMNIdList list to DER.
 func MarshalDERMDTAllowedPLMNIdList(list MDTAllowedPLMNIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("MDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2037,6 +2043,12 @@ func UnmarshalBERMDTAllowedPLMNIdList(data []byte) (MDTAllowedPLMNIdList, error)
 		}
 		result = append(result, PLMNId(val))
 		offset += n
+		if len(result) > 16 {
+			return nil, fmt.Errorf("MDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 16 {
+		return nil, fmt.Errorf("MDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(result))
 	}
 	return result, nil
 }
@@ -2458,6 +2470,9 @@ func (v *AreaScope) UnmarshalBER(data []byte) error {
 
 // MarshalBERCGIList encodes a CGIList list to BER.
 func MarshalBERCGIList(list CGIList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("CGIList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2467,6 +2482,9 @@ func MarshalBERCGIList(list CGIList) ([]byte, error) {
 
 // MarshalDERCGIList encodes a CGIList list to DER.
 func MarshalDERCGIList(list CGIList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("CGIList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2496,12 +2514,21 @@ func UnmarshalBERCGIList(data []byte) (CGIList, error) {
 		}
 		result = append(result, GlobalCellId(val))
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("CGIList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("CGIList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBEREUTRANCGIList encodes a EUTRANCGIList list to BER.
 func MarshalBEREUTRANCGIList(list EUTRANCGIList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("EUTRANCGIList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2511,6 +2538,9 @@ func MarshalBEREUTRANCGIList(list EUTRANCGIList) ([]byte, error) {
 
 // MarshalDEREUTRANCGIList encodes a EUTRANCGIList list to DER.
 func MarshalDEREUTRANCGIList(list EUTRANCGIList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("EUTRANCGIList length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2540,12 +2570,21 @@ func UnmarshalBEREUTRANCGIList(data []byte) (EUTRANCGIList, error) {
 		}
 		result = append(result, EUTRANCGI(val))
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("EUTRANCGIList length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("EUTRANCGIList length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERRoutingAreaIdList encodes a RoutingAreaIdList list to BER.
 func MarshalBERRoutingAreaIdList(list RoutingAreaIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("RoutingAreaIdList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2555,6 +2594,9 @@ func MarshalBERRoutingAreaIdList(list RoutingAreaIdList) ([]byte, error) {
 
 // MarshalDERRoutingAreaIdList encodes a RoutingAreaIdList list to DER.
 func MarshalDERRoutingAreaIdList(list RoutingAreaIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("RoutingAreaIdList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2584,12 +2626,21 @@ func UnmarshalBERRoutingAreaIdList(data []byte) (RoutingAreaIdList, error) {
 		}
 		result = append(result, RAIdentity(val))
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("RoutingAreaIdList length %d violates SIZE (1..8)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 8 {
+		return nil, fmt.Errorf("RoutingAreaIdList length %d violates SIZE (1..8)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERLocationAreaIdList encodes a LocationAreaIdList list to BER.
 func MarshalBERLocationAreaIdList(list LocationAreaIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("LocationAreaIdList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2599,6 +2650,9 @@ func MarshalBERLocationAreaIdList(list LocationAreaIdList) ([]byte, error) {
 
 // MarshalDERLocationAreaIdList encodes a LocationAreaIdList list to DER.
 func MarshalDERLocationAreaIdList(list LocationAreaIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("LocationAreaIdList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2628,12 +2682,21 @@ func UnmarshalBERLocationAreaIdList(data []byte) (LocationAreaIdList, error) {
 		}
 		result = append(result, LAIFixedLength(val))
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("LocationAreaIdList length %d violates SIZE (1..8)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 8 {
+		return nil, fmt.Errorf("LocationAreaIdList length %d violates SIZE (1..8)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERTrackingAreaIdList encodes a TrackingAreaIdList list to BER.
 func MarshalBERTrackingAreaIdList(list TrackingAreaIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("TrackingAreaIdList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2643,6 +2706,9 @@ func MarshalBERTrackingAreaIdList(list TrackingAreaIdList) ([]byte, error) {
 
 // MarshalDERTrackingAreaIdList encodes a TrackingAreaIdList list to DER.
 func MarshalDERTrackingAreaIdList(list TrackingAreaIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("TrackingAreaIdList length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2672,6 +2738,12 @@ func UnmarshalBERTrackingAreaIdList(data []byte) (TrackingAreaIdList, error) {
 		}
 		result = append(result, TAId(val))
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("TrackingAreaIdList length %d violates SIZE (1..8)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 8 {
+		return nil, fmt.Errorf("TrackingAreaIdList length %d violates SIZE (1..8)", len(result))
 	}
 	return result, nil
 }

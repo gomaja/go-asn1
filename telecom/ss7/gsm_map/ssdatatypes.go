@@ -59,18 +59,18 @@ type SSUserData = string
 
 // NotifySSArg represents the ASN.1 type NotifySS-Arg (SEQUENCE).
 type NotifySSArg struct {
-	SsCode                  *SSCode              `asn1:"tag:1,context,implicit,optional" json:"SsCode,omitempty"`
-	SsStatus                *SSStatus            `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
+	SsCode                  *SSCode3             `asn1:"tag:1,context,implicit,optional" json:"SsCode,omitempty"`
+	SsStatus                *SSStatus3           `asn1:"tag:4,context,implicit,optional" json:"SsStatus,omitempty"`
 	SsNotification          *SSNotification      `asn1:"tag:5,context,implicit,optional" json:"SsNotification,omitempty"`
 	CallIsWaitingIndicator  *struct{}            `asn1:"tag:14,context,implicit,optional" json:"CallIsWaitingIndicator,omitempty"`
 	CallOnHoldIndicator     *CallOnHoldIndicator `asn1:"tag:15,context,implicit,optional" json:"CallOnHoldIndicator,omitempty"`
 	MptyIndicator           *struct{}            `asn1:"tag:16,context,implicit,optional" json:"MptyIndicator,omitempty"`
-	CugIndex                *CUGIndex            `asn1:"tag:17,context,implicit,optional" json:"CugIndex,omitempty"`
+	CugIndex                *CUGIndex4           `asn1:"tag:17,context,implicit,optional" json:"CugIndex,omitempty"`
 	ClirSuppressionRejected *struct{}            `asn1:"tag:18,context,implicit,optional" json:"ClirSuppressionRejected,omitempty"`
 	EctIndicator            *ECTIndicator        `asn1:"tag:19,context,implicit,optional" json:"EctIndicator,omitempty"`
 	NameIndicator           *NameIndicator       `asn1:"tag:20,context,implicit,optional" json:"NameIndicator,omitempty"`
-	CcbsFeature             *CCBSFeature         `asn1:"tag:21,context,implicit,optional" json:"CcbsFeature,omitempty"`
-	AlertingPattern         *AlertingPattern     `asn1:"tag:22,context,implicit,optional" json:"AlertingPattern,omitempty"`
+	CcbsFeature             *CCBSFeature3        `asn1:"tag:21,context,implicit,optional" json:"CcbsFeature,omitempty"`
+	AlertingPattern         *AlertingPattern3    `asn1:"tag:22,context,implicit,optional" json:"AlertingPattern,omitempty"`
 	MulticallIndicator      *MulticallIndicator  `asn1:"tag:23,context,implicit,optional" json:"MulticallIndicator,omitempty"`
 	ExtCount_               int64                `asn1:"-" json:"-"`
 	ExtPresent_             []bool               `asn1:"-" json:"-"`
@@ -98,7 +98,7 @@ func (v MulticallIndicator) String() string {
 
 // ForwardChargeAdviceArg represents the ASN.1 type ForwardChargeAdviceArg (SEQUENCE).
 type ForwardChargeAdviceArg struct {
-	SsCode              SSCode              `asn1:"tag:0,context,implicit"`
+	SsCode              SSCode3             `asn1:"tag:0,context,implicit"`
 	ChargingInformation ChargingInformation `asn1:"tag:1,context,implicit"`
 	ExtCount_           int64               `asn1:"-" json:"-"`
 	ExtPresent_         []bool              `asn1:"-" json:"-"`
@@ -164,12 +164,12 @@ func (v CallOnHoldIndicator) String() string {
 
 // ForwardCUGInfoArg represents the ASN.1 type ForwardCUG-InfoArg (SEQUENCE).
 type ForwardCUGInfoArg struct {
-	CugIndex        *CUGIndex `asn1:"tag:0,context,implicit,optional" json:"CugIndex,omitempty"`
-	SuppressPrefCUG *struct{} `asn1:"tag:1,context,implicit,optional" json:"SuppressPrefCUG,omitempty"`
-	SuppressOA      *struct{} `asn1:"tag:2,context,implicit,optional" json:"SuppressOA,omitempty"`
-	ExtCount_       int64     `asn1:"-" json:"-"`
-	ExtPresent_     []bool    `asn1:"-" json:"-"`
-	ExtData_        [][]byte  `asn1:"-" json:"-"`
+	CugIndex        *CUGIndex4 `asn1:"tag:0,context,implicit,optional" json:"CugIndex,omitempty"`
+	SuppressPrefCUG *struct{}  `asn1:"tag:1,context,implicit,optional" json:"SuppressPrefCUG,omitempty"`
+	SuppressOA      *struct{}  `asn1:"tag:2,context,implicit,optional" json:"SuppressOA,omitempty"`
+	ExtCount_       int64      `asn1:"-" json:"-"`
+	ExtPresent_     []bool     `asn1:"-" json:"-"`
+	ExtData_        [][]byte   `asn1:"-" json:"-"`
 }
 
 // ECTIndicator represents the ASN.1 type ECT-Indicator (SEQUENCE).
@@ -259,12 +259,12 @@ func NewNameNamePresentationRestricted(v NameSet) Name {
 
 // NameSet represents the ASN.1 type NameSet (SEQUENCE).
 type NameSet struct {
-	DataCodingScheme   USSDDataCodingScheme `asn1:"tag:0,context,implicit"`
-	LengthInCharacters *big.Int             `asn1:"tag:1,context,implicit"`
-	NameString         USSDString           `asn1:"tag:2,context,implicit"`
-	ExtCount_          int64                `asn1:"-" json:"-"`
-	ExtPresent_        []bool               `asn1:"-" json:"-"`
-	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	DataCodingScheme   USSDDataCodingScheme3 `asn1:"tag:0,context,implicit"`
+	LengthInCharacters *big.Int              `asn1:"tag:1,context,implicit"`
+	NameString         USSDString3           `asn1:"tag:2,context,implicit"`
+	ExtCount_          int64                 `asn1:"-" json:"-"`
+	ExtPresent_        []bool                `asn1:"-" json:"-"`
+	ExtData_           [][]byte              `asn1:"-" json:"-"`
 }
 
 // RDN choice constants.
@@ -318,11 +318,11 @@ func NewRDNPresentationRestrictedAddress(v RemotePartyNumber) RDN {
 
 // RemotePartyNumber represents the ASN.1 type RemotePartyNumber (SEQUENCE).
 type RemotePartyNumber struct {
-	PartyNumber           ISDNAddressString     `asn1:"tag:0,context,implicit"`
-	PartyNumberSubaddress *ISDNSubaddressString `asn1:"tag:1,context,implicit,optional" json:"PartyNumberSubaddress,omitempty"`
-	ExtCount_             int64                 `asn1:"-" json:"-"`
-	ExtPresent_           []bool                `asn1:"-" json:"-"`
-	ExtData_              [][]byte              `asn1:"-" json:"-"`
+	PartyNumber           ISDNAddressString3     `asn1:"tag:0,context,implicit"`
+	PartyNumberSubaddress *ISDNSubaddressString3 `asn1:"tag:1,context,implicit,optional" json:"PartyNumberSubaddress,omitempty"`
+	ExtCount_             int64                  `asn1:"-" json:"-"`
+	ExtPresent_           []bool                 `asn1:"-" json:"-"`
+	ExtData_              [][]byte               `asn1:"-" json:"-"`
 }
 
 // AccessRegisterCCEntryArg represents the ASN.1 type AccessRegisterCCEntryArg (SEQUENCE).
@@ -334,11 +334,11 @@ type AccessRegisterCCEntryArg struct {
 
 // CallDeflectionArg represents the ASN.1 type CallDeflectionArg (SEQUENCE).
 type CallDeflectionArg struct {
-	DeflectedToNumber     AddressString         `asn1:"tag:0,context,implicit"`
-	DeflectedToSubaddress *ISDNSubaddressString `asn1:"tag:1,context,implicit,optional" json:"DeflectedToSubaddress,omitempty"`
-	ExtCount_             int64                 `asn1:"-" json:"-"`
-	ExtPresent_           []bool                `asn1:"-" json:"-"`
-	ExtData_              [][]byte              `asn1:"-" json:"-"`
+	DeflectedToNumber     AddressString3         `asn1:"tag:0,context,implicit"`
+	DeflectedToSubaddress *ISDNSubaddressString3 `asn1:"tag:1,context,implicit,optional" json:"DeflectedToSubaddress,omitempty"`
+	ExtCount_             int64                  `asn1:"-" json:"-"`
+	ExtPresent_           []bool                 `asn1:"-" json:"-"`
+	ExtData_              [][]byte               `asn1:"-" json:"-"`
 }
 
 // UserUserServiceArg represents the ASN.1 type UserUserServiceArg (SEQUENCE).
@@ -375,18 +375,18 @@ func (v UUSService) String() string {
 
 // LocationNotificationArg represents the ASN.1 type LocationNotificationArg (SEQUENCE).
 type LocationNotificationArg struct {
-	NotificationType    NotificationToMSUser `asn1:"tag:0,context,implicit"`
-	LocationType        LocationType         `asn1:"tag:1,context,implicit"`
-	LcsClientExternalID *LCSClientExternalID `asn1:"tag:2,context,implicit,optional" json:"LcsClientExternalID,omitempty"`
-	LcsClientName       *LCSClientName       `asn1:"tag:3,context,implicit,optional" json:"LcsClientName,omitempty"`
-	LcsRequestorID      *LCSRequestorID      `asn1:"tag:4,context,implicit,optional" json:"LcsRequestorID,omitempty"`
-	LcsCodeword         *LCSCodeword         `asn1:"tag:5,context,implicit,optional" json:"LcsCodeword,omitempty"`
-	LcsServiceTypeID    *LCSServiceTypeID    `asn1:"tag:6,context,implicit,optional" json:"LcsServiceTypeID,omitempty"`
-	DeferredLocationExt *DeferredLocationExt `asn1:"tag:7,context,implicit,optional" json:"DeferredLocationExt,omitempty"`
-	RangingSlExt        *RangingSlExt        `asn1:"tag:8,context,implicit,optional" json:"RangingSlExt,omitempty"`
-	ExtCount_           int64                `asn1:"-" json:"-"`
-	ExtPresent_         []bool               `asn1:"-" json:"-"`
-	ExtData_            [][]byte             `asn1:"-" json:"-"`
+	NotificationType    NotificationToMSUser4 `asn1:"tag:0,context,implicit"`
+	LocationType        LCSLocationType       `asn1:"tag:1,context,implicit"`
+	LcsClientExternalID *LCSClientExternalID3 `asn1:"tag:2,context,implicit,optional" json:"LcsClientExternalID,omitempty"`
+	LcsClientName       *LCSLCSClientName     `asn1:"tag:3,context,implicit,optional" json:"LcsClientName,omitempty"`
+	LcsRequestorID      *LCSLCSRequestorID    `asn1:"tag:4,context,implicit,optional" json:"LcsRequestorID,omitempty"`
+	LcsCodeword         *LCSLCSCodeword       `asn1:"tag:5,context,implicit,optional" json:"LcsCodeword,omitempty"`
+	LcsServiceTypeID    *LCSServiceTypeID3    `asn1:"tag:6,context,implicit,optional" json:"LcsServiceTypeID,omitempty"`
+	DeferredLocationExt *DeferredLocationExt  `asn1:"tag:7,context,implicit,optional" json:"DeferredLocationExt,omitempty"`
+	RangingSlExt        *RangingSlExt         `asn1:"tag:8,context,implicit,optional" json:"RangingSlExt,omitempty"`
+	ExtCount_           int64                 `asn1:"-" json:"-"`
+	ExtPresent_         []bool                `asn1:"-" json:"-"`
+	ExtData_            [][]byte              `asn1:"-" json:"-"`
 }
 
 // DeferredLocationExt represents the ASN.1 type DeferredLocationExt (BIT_STRING).
@@ -428,22 +428,22 @@ func (v VerificationResponse) String() string {
 type LCSMOLRArg struct {
 	MolrType                              MOLRType                        `asn1:"tag:0,context,implicit"`
 	LocationMethod                        *LocationMethod                 `asn1:"tag:1,context,implicit,optional" json:"LocationMethod,omitempty"`
-	LcsQoS                                *LCSQoS                         `asn1:"tag:2,context,implicit,optional" json:"LcsQoS,omitempty"`
-	LcsClientExternalID                   *LCSClientExternalID            `asn1:"tag:3,context,implicit,optional" json:"LcsClientExternalID,omitempty"`
-	MlcNumber                             *ISDNAddressString              `asn1:"tag:4,context,implicit,optional" json:"MlcNumber,omitempty"`
+	LcsQoS                                *LCSLCSQoS                      `asn1:"tag:2,context,implicit,optional" json:"LcsQoS,omitempty"`
+	LcsClientExternalID                   *LCSClientExternalID3           `asn1:"tag:3,context,implicit,optional" json:"LcsClientExternalID,omitempty"`
+	MlcNumber                             *ISDNAddressString3             `asn1:"tag:4,context,implicit,optional" json:"MlcNumber,omitempty"`
 	GpsAssistanceData                     *GPSAssistanceData              `asn1:"tag:5,context,implicit,optional" json:"GpsAssistanceData,omitempty"`
-	SupportedGADShapes                    *SupportedGADShapes             `asn1:"tag:6,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
-	LcsServiceTypeID                      *LCSServiceTypeID               `asn1:"tag:7,context,implicit,optional" json:"LcsServiceTypeID,omitempty"`
-	AgeOfLocationInfo                     *AgeOfLocationInformation       `asn1:"tag:8,context,implicit,optional" json:"AgeOfLocationInfo,omitempty"`
-	LocationType                          *LocationType                   `asn1:"tag:9,context,implicit,optional" json:"LocationType,omitempty"`
+	SupportedGADShapes                    *LCSSupportedGADShapes          `asn1:"tag:6,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
+	LcsServiceTypeID                      *LCSServiceTypeID3              `asn1:"tag:7,context,implicit,optional" json:"LcsServiceTypeID,omitempty"`
+	AgeOfLocationInfo                     *AgeOfLocationInformation3      `asn1:"tag:8,context,implicit,optional" json:"AgeOfLocationInfo,omitempty"`
+	LocationType                          *LCSLocationType                `asn1:"tag:9,context,implicit,optional" json:"LocationType,omitempty"`
 	PseudonymIndicator                    *struct{}                       `asn1:"tag:10,context,implicit,optional" json:"PseudonymIndicator,omitempty"`
-	HGmlcAddress                          *GSNAddress                     `asn1:"tag:11,context,implicit,optional" json:"HGmlcAddress,omitempty"`
-	LocationEstimate                      *ExtGeographicalInformation     `asn1:"tag:12,context,implicit,optional" json:"LocationEstimate,omitempty"`
-	VelocityEstimate                      *VelocityEstimate               `asn1:"tag:13,context,implicit,optional" json:"VelocityEstimate,omitempty"`
-	ReferenceNumber                       *LCSReferenceNumber             `asn1:"tag:14,context,implicit,optional" json:"ReferenceNumber,omitempty"`
-	PeriodicLDRInfo                       *PeriodicLDRInfo                `asn1:"tag:15,context,implicit,optional" json:"PeriodicLDRInfo,omitempty"`
+	HGmlcAddress                          *CommonDataTypesGSNAddress      `asn1:"tag:11,context,implicit,optional" json:"HGmlcAddress,omitempty"`
+	LocationEstimate                      *LCSExtGeographicalInformation  `asn1:"tag:12,context,implicit,optional" json:"LocationEstimate,omitempty"`
+	VelocityEstimate                      *LCSVelocityEstimate            `asn1:"tag:13,context,implicit,optional" json:"VelocityEstimate,omitempty"`
+	ReferenceNumber                       *LCSLCSReferenceNumber          `asn1:"tag:14,context,implicit,optional" json:"ReferenceNumber,omitempty"`
+	PeriodicLDRInfo                       *LCSPeriodicLDRInfo             `asn1:"tag:15,context,implicit,optional" json:"PeriodicLDRInfo,omitempty"`
 	LocationUpdateRequest                 *struct{}                       `asn1:"tag:16,context,implicit,optional" json:"LocationUpdateRequest,omitempty"`
-	SequenceNumber                        *SequenceNumber                 `asn1:"tag:17,context,implicit,optional" json:"SequenceNumber,omitempty"`
+	SequenceNumber                        *LCSSequenceNumber              `asn1:"tag:17,context,implicit,optional" json:"SequenceNumber,omitempty"`
 	TerminationCause                      *DataTypesTerminationCause      `asn1:"tag:18,context,implicit,optional" json:"TerminationCause,omitempty"`
 	MoLrShortCircuit                      *struct{}                       `asn1:"tag:19,context,implicit,optional" json:"MoLrShortCircuit,omitempty"`
 	GanssAssistanceData                   *GANSSAssistanceData            `asn1:"tag:20,context,implicit,optional" json:"GanssAssistanceData,omitempty"`
@@ -578,18 +578,18 @@ type PositioningProtocolPDU = []byte
 
 // LCSMOLRRes represents the ASN.1 type LCS-MOLRRes (SEQUENCE).
 type LCSMOLRRes struct {
-	LocationEstimate            *ExtGeographicalInformation `asn1:"tag:0,context,implicit,optional" json:"LocationEstimate,omitempty"`
-	DecipheringKeys             *DecipheringKeys            `asn1:"tag:1,context,implicit,optional" json:"DecipheringKeys,omitempty"`
-	AddLocationEstimate         *AddGeographicalInformation `asn1:"tag:2,context,implicit,optional" json:"AddLocationEstimate,omitempty"`
-	VelocityEstimate            *VelocityEstimate           `asn1:"tag:3,context,implicit,optional" json:"VelocityEstimate,omitempty"`
-	ReferenceNumber             *LCSReferenceNumber         `asn1:"tag:4,context,implicit,optional" json:"ReferenceNumber,omitempty"`
-	HGmlcAddress                *GSNAddress                 `asn1:"tag:5,context,implicit,optional" json:"HGmlcAddress,omitempty"`
-	MoLrShortCircuit            *struct{}                   `asn1:"tag:6,context,implicit,optional" json:"MoLrShortCircuit,omitempty"`
-	ReportingPLMNList           *ReportingPLMNList          `asn1:"tag:7,context,implicit,optional" json:"ReportingPLMNList,omitempty"`
-	TimestampOfLocationEstimate *DateTime                   `asn1:"tag:8,context,implicit,optional" json:"TimestampOfLocationEstimate,omitempty"`
-	ExtCount_                   int64                       `asn1:"-" json:"-"`
-	ExtPresent_                 []bool                      `asn1:"-" json:"-"`
-	ExtData_                    [][]byte                    `asn1:"-" json:"-"`
+	LocationEstimate            *LCSExtGeographicalInformation `asn1:"tag:0,context,implicit,optional" json:"LocationEstimate,omitempty"`
+	DecipheringKeys             *DecipheringKeys               `asn1:"tag:1,context,implicit,optional" json:"DecipheringKeys,omitempty"`
+	AddLocationEstimate         *LCSAddGeographicalInformation `asn1:"tag:2,context,implicit,optional" json:"AddLocationEstimate,omitempty"`
+	VelocityEstimate            *LCSVelocityEstimate           `asn1:"tag:3,context,implicit,optional" json:"VelocityEstimate,omitempty"`
+	ReferenceNumber             *LCSLCSReferenceNumber         `asn1:"tag:4,context,implicit,optional" json:"ReferenceNumber,omitempty"`
+	HGmlcAddress                *CommonDataTypesGSNAddress     `asn1:"tag:5,context,implicit,optional" json:"HGmlcAddress,omitempty"`
+	MoLrShortCircuit            *struct{}                      `asn1:"tag:6,context,implicit,optional" json:"MoLrShortCircuit,omitempty"`
+	ReportingPLMNList           *LCSReportingPLMNList          `asn1:"tag:7,context,implicit,optional" json:"ReportingPLMNList,omitempty"`
+	TimestampOfLocationEstimate *DateTime                      `asn1:"tag:8,context,implicit,optional" json:"TimestampOfLocationEstimate,omitempty"`
+	ExtCount_                   int64                          `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
+	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
 }
 
 // DecipheringKeys represents the ASN.1 type DecipheringKeys (OCTET_STRING).
@@ -597,13 +597,13 @@ type DecipheringKeys = []byte
 
 // LCSAreaEventRequestArg represents the ASN.1 type LCS-AreaEventRequestArg (SEQUENCE).
 type LCSAreaEventRequestArg struct {
-	ReferenceNumber           LCSReferenceNumber        `asn1:"tag:0,context,implicit"`
-	HGmlcAddress              GSNAddress                `asn1:"tag:1,context,implicit"`
-	DeferredLocationEventType DeferredLocationEventType `asn1:"tag:3,context,implicit"`
-	AreaEventInfo             AreaEventInfo             `asn1:"tag:4,context,implicit"`
-	ExtCount_                 int64                     `asn1:"-" json:"-"`
-	ExtPresent_               []bool                    `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
+	ReferenceNumber           LCSLCSReferenceNumber        `asn1:"tag:0,context,implicit"`
+	HGmlcAddress              CommonDataTypesGSNAddress    `asn1:"tag:1,context,implicit"`
+	DeferredLocationEventType LCSDeferredLocationEventType `asn1:"tag:3,context,implicit"`
+	AreaEventInfo             LCSAreaEventInfo             `asn1:"tag:4,context,implicit"`
+	ExtCount_                 int64                        `asn1:"-" json:"-"`
+	ExtPresent_               []bool                       `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                     `asn1:"-" json:"-"`
 }
 
 // SLMOLRType represents the ASN.1 ENUMERATED type SLMOLR-Type.
@@ -624,22 +624,22 @@ func (v SLMOLRType) String() string {
 
 // LCSSLMOLRArg represents the ASN.1 type LCS-SLMOLRArg (SEQUENCE).
 type LCSSLMOLRArg struct {
-	SlmolrType                     SLMOLRType              `asn1:"tag:0,context,implicit"`
-	LcsQoS                         *LCSQoS                 `asn1:"tag:1,context,implicit,optional" json:"LcsQoS,omitempty"`
-	LcsClientExternalID            *LCSClientExternalID    `asn1:"tag:2,context,implicit,optional" json:"LcsClientExternalID,omitempty"`
-	MlcNumber                      *ISDNAddressString      `asn1:"tag:3,context,implicit,optional" json:"MlcNumber,omitempty"`
-	SupportedGADShapes             *SupportedGADShapes     `asn1:"tag:4,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
-	LcsServiceTypeID               *LCSServiceTypeID       `asn1:"tag:5,context,implicit,optional" json:"LcsServiceTypeID,omitempty"`
-	PseudonymIndicator             *struct{}               `asn1:"tag:7,context,implicit,optional" json:"PseudonymIndicator,omitempty"`
-	HGmlcAddress                   *GSNAddress             `asn1:"tag:8,context,implicit,optional" json:"HGmlcAddress,omitempty"`
-	CalculationAssistIndicator     *bool                   `asn1:"tag:9,context,implicit,optional" json:"CalculationAssistIndicator,omitempty"`
-	CalculationAssistIndicatorRaw_ byte                    `asn1:"-" json:"-"`
-	PreferredRangingResult         *PreferredRangingResult `asn1:"tag:10,context,implicit,optional" json:"PreferredRangingResult,omitempty"`
-	RelatedUEInfo                  RelatedUEInfo           `asn1:"tag:11,context,implicit,optional" json:"RelatedUEInfo,omitempty"`
-	RelatedUEInfoIndef_            bool                    `asn1:"-" json:"-"`
-	ExtCount_                      int64                   `asn1:"-" json:"-"`
-	ExtPresent_                    []bool                  `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                `asn1:"-" json:"-"`
+	SlmolrType                     SLMOLRType                 `asn1:"tag:0,context,implicit"`
+	LcsQoS                         *LCSLCSQoS                 `asn1:"tag:1,context,implicit,optional" json:"LcsQoS,omitempty"`
+	LcsClientExternalID            *LCSClientExternalID3      `asn1:"tag:2,context,implicit,optional" json:"LcsClientExternalID,omitempty"`
+	MlcNumber                      *ISDNAddressString3        `asn1:"tag:3,context,implicit,optional" json:"MlcNumber,omitempty"`
+	SupportedGADShapes             *LCSSupportedGADShapes     `asn1:"tag:4,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
+	LcsServiceTypeID               *LCSServiceTypeID3         `asn1:"tag:5,context,implicit,optional" json:"LcsServiceTypeID,omitempty"`
+	PseudonymIndicator             *struct{}                  `asn1:"tag:7,context,implicit,optional" json:"PseudonymIndicator,omitempty"`
+	HGmlcAddress                   *CommonDataTypesGSNAddress `asn1:"tag:8,context,implicit,optional" json:"HGmlcAddress,omitempty"`
+	CalculationAssistIndicator     *bool                      `asn1:"tag:9,context,implicit,optional" json:"CalculationAssistIndicator,omitempty"`
+	CalculationAssistIndicatorRaw_ byte                       `asn1:"-" json:"-"`
+	PreferredRangingResult         *PreferredRangingResult    `asn1:"tag:10,context,implicit,optional" json:"PreferredRangingResult,omitempty"`
+	RelatedUEInfo                  RelatedUEInfo              `asn1:"tag:11,context,implicit,optional" json:"RelatedUEInfo,omitempty"`
+	RelatedUEInfoIndef_            bool                       `asn1:"-" json:"-"`
+	ExtCount_                      int64                      `asn1:"-" json:"-"`
+	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
+	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
 }
 
 // PreferredRangingResult represents the ASN.1 type PreferredRangingResult (SEQUENCE).
@@ -701,15 +701,15 @@ func (v RangingRole) String() string {
 
 // LCSSLMOLRRes represents the ASN.1 type LCS-SLMOLRRes (SEQUENCE).
 type LCSSLMOLRRes struct {
-	AbsoluteLocation     *ExtGeographicalInformation `asn1:"tag:0,context,implicit,optional" json:"AbsoluteLocation,omitempty"`
-	AbsoluteVelocity     *VelocityEstimate           `asn1:"tag:1,context,implicit,optional" json:"AbsoluteVelocity,omitempty"`
-	RelativeResult       RelativeResult              `asn1:"tag:2,context,implicit,optional" json:"RelativeResult,omitempty"`
-	RelativeResultIndef_ bool                        `asn1:"-" json:"-"`
-	UeOnlyRSLPosAllowed  *Duration                   `asn1:"tag:4,context,implicit,optional" json:"UeOnlyRSLPosAllowed,omitempty"`
-	Timestamp            *DateTime                   `asn1:"tag:5,context,implicit,optional" json:"Timestamp,omitempty"`
-	ExtCount_            int64                       `asn1:"-" json:"-"`
-	ExtPresent_          []bool                      `asn1:"-" json:"-"`
-	ExtData_             [][]byte                    `asn1:"-" json:"-"`
+	AbsoluteLocation     *LCSExtGeographicalInformation `asn1:"tag:0,context,implicit,optional" json:"AbsoluteLocation,omitempty"`
+	AbsoluteVelocity     *LCSVelocityEstimate           `asn1:"tag:1,context,implicit,optional" json:"AbsoluteVelocity,omitempty"`
+	RelativeResult       RelativeResult                 `asn1:"tag:2,context,implicit,optional" json:"RelativeResult,omitempty"`
+	RelativeResultIndef_ bool                           `asn1:"-" json:"-"`
+	UeOnlyRSLPosAllowed  *Duration                      `asn1:"tag:4,context,implicit,optional" json:"UeOnlyRSLPosAllowed,omitempty"`
+	Timestamp            *DateTime                      `asn1:"tag:5,context,implicit,optional" json:"Timestamp,omitempty"`
+	ExtCount_            int64                          `asn1:"-" json:"-"`
+	ExtPresent_          []bool                         `asn1:"-" json:"-"`
+	ExtData_             [][]byte                       `asn1:"-" json:"-"`
 }
 
 // RelativeResult represents the ASN.1 type RelativeResult (SEQUENCE_OF).
@@ -721,7 +721,7 @@ type SingleRelativeResult struct {
 	RelatedUEInfoIndef_ bool                         `asn1:"-" json:"-"`
 	RelativeLocation    *RelativeLocationCoordinates `asn1:"tag:1,context,implicit,optional" json:"RelativeLocation,omitempty"`
 	RangeDirection      *RangeDirection              `asn1:"tag:2,context,implicit,optional" json:"RangeDirection,omitempty"`
-	RelativeVelocity    *VelocityEstimate            `asn1:"tag:3,context,implicit,optional" json:"RelativeVelocity,omitempty"`
+	RelativeVelocity    *LCSVelocityEstimate         `asn1:"tag:3,context,implicit,optional" json:"RelativeVelocity,omitempty"`
 	ExtCount_           int64                        `asn1:"-" json:"-"`
 	ExtPresent_         []bool                       `asn1:"-" json:"-"`
 	ExtData_            [][]byte                     `asn1:"-" json:"-"`
@@ -830,34 +830,34 @@ type ElevationResult = int64
 
 // LCSAreaEventReportArg represents the ASN.1 type LCS-AreaEventReportArg (SEQUENCE).
 type LCSAreaEventReportArg struct {
-	ReferenceNumber LCSReferenceNumber `asn1:"tag:0,context,implicit"`
-	HGmlcAddress    GSNAddress         `asn1:"tag:1,context,implicit"`
-	ExtCount_       int64              `asn1:"-" json:"-"`
-	ExtPresent_     []bool             `asn1:"-" json:"-"`
-	ExtData_        [][]byte           `asn1:"-" json:"-"`
+	ReferenceNumber LCSLCSReferenceNumber     `asn1:"tag:0,context,implicit"`
+	HGmlcAddress    CommonDataTypesGSNAddress `asn1:"tag:1,context,implicit"`
+	ExtCount_       int64                     `asn1:"-" json:"-"`
+	ExtPresent_     []bool                    `asn1:"-" json:"-"`
+	ExtData_        [][]byte                  `asn1:"-" json:"-"`
 }
 
 // LCSAreaEventCancellationArg represents the ASN.1 type LCS-AreaEventCancellationArg (SEQUENCE).
 type LCSAreaEventCancellationArg struct {
-	ReferenceNumber LCSReferenceNumber `asn1:"tag:0,context,implicit"`
-	HGmlcAddress    GSNAddress         `asn1:"tag:1,context,implicit"`
-	ExtCount_       int64              `asn1:"-" json:"-"`
-	ExtPresent_     []bool             `asn1:"-" json:"-"`
-	ExtData_        [][]byte           `asn1:"-" json:"-"`
+	ReferenceNumber LCSLCSReferenceNumber     `asn1:"tag:0,context,implicit"`
+	HGmlcAddress    CommonDataTypesGSNAddress `asn1:"tag:1,context,implicit"`
+	ExtCount_       int64                     `asn1:"-" json:"-"`
+	ExtPresent_     []bool                    `asn1:"-" json:"-"`
+	ExtData_        [][]byte                  `asn1:"-" json:"-"`
 }
 
 // LCSPeriodicLocationRequestArg represents the ASN.1 type LCS-PeriodicLocationRequestArg (SEQUENCE).
 type LCSPeriodicLocationRequestArg struct {
-	ReferenceNumber     LCSReferenceNumber  `asn1:"tag:0,context,implicit"`
-	PeriodicLDRInfo     PeriodicLDRInfo     `asn1:"tag:1,context,implicit"`
-	LcsClientExternalID LCSClientExternalID `asn1:"tag:2,context,implicit"`
-	QoS                 *LCSQoS             `asn1:"tag:3,context,implicit,optional" json:"QoS,omitempty"`
-	HGmlcAddress        *GSNAddress         `asn1:"tag:4,context,implicit,optional" json:"HGmlcAddress,omitempty"`
-	MoLrShortCircuit    *struct{}           `asn1:"tag:5,context,implicit,optional" json:"MoLrShortCircuit,omitempty"`
-	ReportingPLMNList   *ReportingPLMNList  `asn1:"tag:6,context,implicit,optional" json:"ReportingPLMNList,omitempty"`
-	ExtCount_           int64               `asn1:"-" json:"-"`
-	ExtPresent_         []bool              `asn1:"-" json:"-"`
-	ExtData_            [][]byte            `asn1:"-" json:"-"`
+	ReferenceNumber     LCSLCSReferenceNumber      `asn1:"tag:0,context,implicit"`
+	PeriodicLDRInfo     LCSPeriodicLDRInfo         `asn1:"tag:1,context,implicit"`
+	LcsClientExternalID LCSClientExternalID3       `asn1:"tag:2,context,implicit"`
+	QoS                 *LCSLCSQoS                 `asn1:"tag:3,context,implicit,optional" json:"QoS,omitempty"`
+	HGmlcAddress        *CommonDataTypesGSNAddress `asn1:"tag:4,context,implicit,optional" json:"HGmlcAddress,omitempty"`
+	MoLrShortCircuit    *struct{}                  `asn1:"tag:5,context,implicit,optional" json:"MoLrShortCircuit,omitempty"`
+	ReportingPLMNList   *LCSReportingPLMNList      `asn1:"tag:6,context,implicit,optional" json:"ReportingPLMNList,omitempty"`
+	ExtCount_           int64                      `asn1:"-" json:"-"`
+	ExtPresent_         []bool                     `asn1:"-" json:"-"`
+	ExtData_            [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LCSPeriodicLocationRequestRes represents the ASN.1 type LCS-PeriodicLocationRequestRes (SEQUENCE).
@@ -870,13 +870,13 @@ type LCSPeriodicLocationRequestRes struct {
 
 // LCSLocationUpdateArg represents the ASN.1 type LCS-LocationUpdateArg (SEQUENCE).
 type LCSLocationUpdateArg struct {
-	ReferenceNumber     *LCSReferenceNumber         `asn1:"tag:0,context,implicit,optional" json:"ReferenceNumber,omitempty"`
-	AddLocationEstimate *AddGeographicalInformation `asn1:"tag:1,context,implicit,optional" json:"AddLocationEstimate,omitempty"`
-	VelocityEstimate    *VelocityEstimate           `asn1:"tag:2,context,implicit,optional" json:"VelocityEstimate,omitempty"`
-	SequenceNumber      *SequenceNumber             `asn1:"tag:3,context,implicit,optional" json:"SequenceNumber,omitempty"`
-	ExtCount_           int64                       `asn1:"-" json:"-"`
-	ExtPresent_         []bool                      `asn1:"-" json:"-"`
-	ExtData_            [][]byte                    `asn1:"-" json:"-"`
+	ReferenceNumber     *LCSLCSReferenceNumber         `asn1:"tag:0,context,implicit,optional" json:"ReferenceNumber,omitempty"`
+	AddLocationEstimate *LCSAddGeographicalInformation `asn1:"tag:1,context,implicit,optional" json:"AddLocationEstimate,omitempty"`
+	VelocityEstimate    *LCSVelocityEstimate           `asn1:"tag:2,context,implicit,optional" json:"VelocityEstimate,omitempty"`
+	SequenceNumber      *LCSSequenceNumber             `asn1:"tag:3,context,implicit,optional" json:"SequenceNumber,omitempty"`
+	ExtCount_           int64                          `asn1:"-" json:"-"`
+	ExtPresent_         []bool                         `asn1:"-" json:"-"`
+	ExtData_            [][]byte                       `asn1:"-" json:"-"`
 }
 
 // LCSLocationUpdateRes represents the ASN.1 type LCS-LocationUpdateRes (SEQUENCE).
@@ -889,25 +889,25 @@ type LCSLocationUpdateRes struct {
 
 // LCSPeriodicLocationCancellationArg represents the ASN.1 type LCS-PeriodicLocationCancellationArg (SEQUENCE).
 type LCSPeriodicLocationCancellationArg struct {
-	ReferenceNumber LCSReferenceNumber `asn1:"tag:0,context,implicit"`
-	HGmlcAddress    *GSNAddress        `asn1:"tag:1,context,implicit,optional" json:"HGmlcAddress,omitempty"`
-	ExtCount_       int64              `asn1:"-" json:"-"`
-	ExtPresent_     []bool             `asn1:"-" json:"-"`
-	ExtData_        [][]byte           `asn1:"-" json:"-"`
+	ReferenceNumber LCSLCSReferenceNumber      `asn1:"tag:0,context,implicit"`
+	HGmlcAddress    *CommonDataTypesGSNAddress `asn1:"tag:1,context,implicit,optional" json:"HGmlcAddress,omitempty"`
+	ExtCount_       int64                      `asn1:"-" json:"-"`
+	ExtPresent_     []bool                     `asn1:"-" json:"-"`
+	ExtData_        [][]byte                   `asn1:"-" json:"-"`
 }
 
 // LCSPeriodicTriggeredInvokeArg represents the ASN.1 type LCS-PeriodicTriggeredInvokeArg (SEQUENCE).
 type LCSPeriodicTriggeredInvokeArg struct {
-	ReferenceNumber                       LCSReferenceNumber               `asn1:"tag:0,context,implicit"`
-	HGmlcAddress                          GSNAddress                       `asn1:"tag:1,context,implicit"`
-	QoS                                   *LCSQoS                          `asn1:"tag:2,context,implicit,optional" json:"QoS,omitempty"`
-	ReportingPLMNList                     *ReportingPLMNList               `asn1:"tag:3,context,implicit,optional" json:"ReportingPLMNList,omitempty"`
+	ReferenceNumber                       LCSLCSReferenceNumber            `asn1:"tag:0,context,implicit"`
+	HGmlcAddress                          CommonDataTypesGSNAddress        `asn1:"tag:1,context,implicit"`
+	QoS                                   *LCSLCSQoS                       `asn1:"tag:2,context,implicit,optional" json:"QoS,omitempty"`
+	ReportingPLMNList                     *LCSReportingPLMNList            `asn1:"tag:3,context,implicit,optional" json:"ReportingPLMNList,omitempty"`
 	PeriodicLocation                      *PeriodicLocation                `asn1:"tag:4,context,implicit,optional" json:"PeriodicLocation,omitempty"`
 	AreaEventReporting                    *AreaEventReporting              `asn1:"tag:5,context,implicit,optional" json:"AreaEventReporting,omitempty"`
 	MotionEventReporting                  *MotionEventReporting            `asn1:"tag:6,context,implicit,optional" json:"MotionEventReporting,omitempty"`
 	ReferenceNumberExt                    *LCSReferenceNumberExt           `asn1:"tag:7,context,implicit,optional" json:"ReferenceNumberExt,omitempty"`
 	HGmlcCallBackUri                      *string                          `asn1:"tag:8,context,implicit,optional" json:"HGmlcCallBackUri,omitempty"`
-	SupportedGADShapes                    *SupportedGADShapes              `asn1:"tag:9,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
+	SupportedGADShapes                    *LCSSupportedGADShapes           `asn1:"tag:9,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
 	DeferredRoutingIdentifier             []byte                           `asn1:"tag:10,context,implicit,optional" json:"DeferredRoutingIdentifier,omitempty"`
 	ReportingAccessTypes                  *ReportingAccessTypes            `asn1:"tag:11,context,implicit,optional" json:"ReportingAccessTypes,omitempty"`
 	MultiplePositioningProtocolPDUs       MultiplePositioningProtocolPDUs  `asn1:"tag:12,context,implicit,optional" json:"MultiplePositioningProtocolPDUs,omitempty"`
@@ -917,7 +917,7 @@ type LCSPeriodicTriggeredInvokeArg struct {
 	EventReportAllowedArea                DataTypesAreaList                `asn1:"tag:15,context,implicit,optional" json:"EventReportAllowedArea,omitempty"`
 	EventReportAllowedAreaIndef_          bool                             `asn1:"-" json:"-"`
 	ReportingInd                          *ReportingInd                    `asn1:"tag:16,context,implicit,optional" json:"ReportingInd,omitempty"`
-	MappedQoS                             *LCSQoS                          `asn1:"tag:17,context,implicit,optional" json:"MappedQoS,omitempty"`
+	MappedQoS                             *LCSLCSQoS                       `asn1:"tag:17,context,implicit,optional" json:"MappedQoS,omitempty"`
 	UserPlaneReportAFAddr                 *LCSUserPlaneReportAFAddr        `asn1:"tag:18,context,implicit,optional" json:"UserPlaneReportAFAddr,omitempty"`
 	CumulativeReportCriteria              *LCSCumulativeReportCriteria     `asn1:"tag:19,context,implicit,optional" json:"CumulativeReportCriteria,omitempty"`
 	ExtCount_                             int64                            `asn1:"-" json:"-"`
@@ -927,26 +927,26 @@ type LCSPeriodicTriggeredInvokeArg struct {
 
 // PeriodicLocation represents the ASN.1 type PeriodicLocation (SEQUENCE).
 type PeriodicLocation struct {
-	PeriodicLDRInfo PeriodicLDRInfo `asn1:"tag:0,context,implicit"`
-	ExtCount_       int64           `asn1:"-" json:"-"`
-	ExtPresent_     []bool          `asn1:"-" json:"-"`
-	ExtData_        [][]byte        `asn1:"-" json:"-"`
+	PeriodicLDRInfo LCSPeriodicLDRInfo `asn1:"tag:0,context,implicit"`
+	ExtCount_       int64              `asn1:"-" json:"-"`
+	ExtPresent_     []bool             `asn1:"-" json:"-"`
+	ExtData_        [][]byte           `asn1:"-" json:"-"`
 }
 
 // AreaEventReporting represents the ASN.1 type AreaEventReporting (SEQUENCE).
 type AreaEventReporting struct {
-	DeferredLocationEventType DeferredLocationEventType `asn1:"tag:0,context,implicit"`
-	AreaList                  DataTypesAreaList         `asn1:"tag:1,context,implicit"`
-	AreaListIndef_            bool                      `asn1:"-" json:"-"`
-	OccurrenceInfo            *DataTypesOccurrenceInfo  `asn1:"tag:2,context,implicit,optional" json:"OccurrenceInfo,omitempty"`
-	IntervalTime              *IntervalTime             `asn1:"tag:3,context,implicit,optional" json:"IntervalTime,omitempty"`
-	MaximumInterval           *MaximumInterval          `asn1:"tag:4,context,implicit,optional" json:"MaximumInterval,omitempty"`
-	SamplingInterval          *SamplingInterval         `asn1:"tag:5,context,implicit,optional" json:"SamplingInterval,omitempty"`
-	Duration                  *Duration                 `asn1:"tag:6,context,implicit,optional" json:"Duration,omitempty"`
-	LocationInfo              *DataTypesLocationInfo    `asn1:"tag:7,context,implicit,optional" json:"LocationInfo,omitempty"`
-	ExtCount_                 int64                     `asn1:"-" json:"-"`
-	ExtPresent_               []bool                    `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                  `asn1:"-" json:"-"`
+	DeferredLocationEventType LCSDeferredLocationEventType `asn1:"tag:0,context,implicit"`
+	AreaList                  DataTypesAreaList            `asn1:"tag:1,context,implicit"`
+	AreaListIndef_            bool                         `asn1:"-" json:"-"`
+	OccurrenceInfo            *DataTypesOccurrenceInfo     `asn1:"tag:2,context,implicit,optional" json:"OccurrenceInfo,omitempty"`
+	IntervalTime              *LCSIntervalTime             `asn1:"tag:3,context,implicit,optional" json:"IntervalTime,omitempty"`
+	MaximumInterval           *MaximumInterval             `asn1:"tag:4,context,implicit,optional" json:"MaximumInterval,omitempty"`
+	SamplingInterval          *SamplingInterval            `asn1:"tag:5,context,implicit,optional" json:"SamplingInterval,omitempty"`
+	Duration                  *Duration                    `asn1:"tag:6,context,implicit,optional" json:"Duration,omitempty"`
+	LocationInfo              *DataTypesLocationInfo       `asn1:"tag:7,context,implicit,optional" json:"LocationInfo,omitempty"`
+	ExtCount_                 int64                        `asn1:"-" json:"-"`
+	ExtPresent_               []bool                       `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                     `asn1:"-" json:"-"`
 }
 
 // DataTypesAreaList represents the ASN.1 type AreaList (SEQUENCE_OF).
@@ -1028,7 +1028,7 @@ type DataTypesLocationInfo = runtime.BitString
 type MotionEventReporting struct {
 	LinearDistance   LinearDistance           `asn1:"tag:0,context,implicit"`
 	OccurrenceInfo   *DataTypesOccurrenceInfo `asn1:"tag:1,context,implicit,optional" json:"OccurrenceInfo,omitempty"`
-	IntervalTime     *IntervalTime            `asn1:"tag:2,context,implicit,optional" json:"IntervalTime,omitempty"`
+	IntervalTime     *LCSIntervalTime         `asn1:"tag:2,context,implicit,optional" json:"IntervalTime,omitempty"`
 	MaximumInterval  *MaximumInterval         `asn1:"tag:3,context,implicit,optional" json:"MaximumInterval,omitempty"`
 	SamplingInterval *SamplingInterval        `asn1:"tag:4,context,implicit,optional" json:"SamplingInterval,omitempty"`
 	Duration         *Duration                `asn1:"tag:5,context,implicit,optional" json:"Duration,omitempty"`
@@ -1079,8 +1079,8 @@ type LCSEventReportArg struct {
 	ReferenceNumberExt                    LCSReferenceNumberExt           `asn1:"tag:1,context,implicit"`
 	HGmlcCallBackUri                      string                          `asn1:"tag:2,context,implicit"`
 	LocationInfo                          *DataTypesLocationInfo          `asn1:"tag:3,context,implicit,optional" json:"LocationInfo,omitempty"`
-	SupportedGADShapes                    *SupportedGADShapes             `asn1:"tag:4,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
-	LcsQoS                                *LCSQoS                         `asn1:"tag:5,context,implicit,optional" json:"LcsQoS,omitempty"`
+	SupportedGADShapes                    *LCSSupportedGADShapes          `asn1:"tag:4,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
+	LcsQoS                                *LCSLCSQoS                      `asn1:"tag:5,context,implicit,optional" json:"LcsQoS,omitempty"`
 	MultiplePositioningProtocolPDUs       MultiplePositioningProtocolPDUs `asn1:"tag:6,context,implicit,optional" json:"MultiplePositioningProtocolPDUs,omitempty"`
 	MultiplePositioningProtocolPDUsIndef_ bool                            `asn1:"-" json:"-"`
 	TerminationCause                      *DataTypesTerminationCause      `asn1:"tag:7,context,implicit,optional" json:"TerminationCause,omitempty"`
@@ -1201,13 +1201,13 @@ type LCSCancelDeferredLocationArg struct {
 
 // LCSLocationPrivacySettingArg represents the ASN.1 type LCS-LocationPrivacySettingArg (SEQUENCE).
 type LCSLocationPrivacySettingArg struct {
-	LocationPrivacyIndication LCSLocationPrivacyIndication `asn1:"tag:0,context,implicit"`
-	ValidTimePeriod           *LCSValidTimePeriod          `asn1:"tag:1,context,implicit,optional" json:"ValidTimePeriod,omitempty"`
-	EventReportExpectedArea   *ExtGeographicalInformation  `asn1:"tag:2,context,implicit,optional" json:"EventReportExpectedArea,omitempty"`
-	AreaUsageInd              *ReportingInd                `asn1:"tag:3,context,implicit,optional" json:"AreaUsageInd,omitempty"`
-	ExtCount_                 int64                        `asn1:"-" json:"-"`
-	ExtPresent_               []bool                       `asn1:"-" json:"-"`
-	ExtData_                  [][]byte                     `asn1:"-" json:"-"`
+	LocationPrivacyIndication LCSLocationPrivacyIndication   `asn1:"tag:0,context,implicit"`
+	ValidTimePeriod           *LCSValidTimePeriod            `asn1:"tag:1,context,implicit,optional" json:"ValidTimePeriod,omitempty"`
+	EventReportExpectedArea   *LCSExtGeographicalInformation `asn1:"tag:2,context,implicit,optional" json:"EventReportExpectedArea,omitempty"`
+	AreaUsageInd              *ReportingInd                  `asn1:"tag:3,context,implicit,optional" json:"AreaUsageInd,omitempty"`
+	ExtCount_                 int64                          `asn1:"-" json:"-"`
+	ExtPresent_               []bool                         `asn1:"-" json:"-"`
+	ExtData_                  [][]byte                       `asn1:"-" json:"-"`
 }
 
 // LCSLocationPrivacyIndication represents the ASN.1 ENUMERATED type LCS-LocationPrivacyIndication.
@@ -1249,13 +1249,13 @@ type DateTime = []byte
 
 // LCSPruAssociationArg represents the ASN.1 type LCS-PruAssociationArg (SEQUENCE).
 type LCSPruAssociationArg struct {
-	AssociationType         LCSAssociationType          `asn1:"tag:0,context,implicit"`
-	PositioningCapabilities []byte                      `asn1:"tag:1,context,implicit"`
-	LocationOfPru           *ExtGeographicalInformation `asn1:"tag:2,context,implicit,optional" json:"LocationOfPru,omitempty"`
-	StateOfPru              *LCSStateOfPru              `asn1:"tag:3,context,implicit,optional" json:"StateOfPru,omitempty"`
-	ExtCount_               int64                       `asn1:"-" json:"-"`
-	ExtPresent_             []bool                      `asn1:"-" json:"-"`
-	ExtData_                [][]byte                    `asn1:"-" json:"-"`
+	AssociationType         LCSAssociationType             `asn1:"tag:0,context,implicit"`
+	PositioningCapabilities []byte                         `asn1:"tag:1,context,implicit"`
+	LocationOfPru           *LCSExtGeographicalInformation `asn1:"tag:2,context,implicit,optional" json:"LocationOfPru,omitempty"`
+	StateOfPru              *LCSStateOfPru                 `asn1:"tag:3,context,implicit,optional" json:"StateOfPru,omitempty"`
+	ExtCount_               int64                          `asn1:"-" json:"-"`
+	ExtPresent_             []bool                         `asn1:"-" json:"-"`
+	ExtData_                [][]byte                       `asn1:"-" json:"-"`
 }
 
 // LCSAssociationType represents the ASN.1 ENUMERATED type LCS-AssociationType.
@@ -1339,15 +1339,15 @@ func (v SLMTLRType) String() string {
 
 // LCSSLMTLRArg represents the ASN.1 type LCS-SLMTLRArg (SEQUENCE).
 type LCSSLMTLRArg struct {
-	SlmtlrType          SLMTLRType          `asn1:"tag:0,context,implicit"`
-	SupportedGADShapes  *SupportedGADShapes `asn1:"tag:1,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
-	RelatedUEInfo       RelatedUEInfo       `asn1:"tag:2,context,implicit,optional" json:"RelatedUEInfo,omitempty"`
-	RelatedUEInfoIndef_ bool                `asn1:"-" json:"-"`
-	LocatedUEselect     *LocatedUEselect    `asn1:"tag:3,context,implicit,optional" json:"LocatedUEselect,omitempty"`
-	CoordinateID        *CoordinateID       `asn1:"tag:4,context,implicit,optional" json:"CoordinateID,omitempty"`
-	ExtCount_           int64               `asn1:"-" json:"-"`
-	ExtPresent_         []bool              `asn1:"-" json:"-"`
-	ExtData_            [][]byte            `asn1:"-" json:"-"`
+	SlmtlrType          SLMTLRType             `asn1:"tag:0,context,implicit"`
+	SupportedGADShapes  *LCSSupportedGADShapes `asn1:"tag:1,context,implicit,optional" json:"SupportedGADShapes,omitempty"`
+	RelatedUEInfo       RelatedUEInfo          `asn1:"tag:2,context,implicit,optional" json:"RelatedUEInfo,omitempty"`
+	RelatedUEInfoIndef_ bool                   `asn1:"-" json:"-"`
+	LocatedUEselect     *LocatedUEselect       `asn1:"tag:3,context,implicit,optional" json:"LocatedUEselect,omitempty"`
+	CoordinateID        *CoordinateID          `asn1:"tag:4,context,implicit,optional" json:"CoordinateID,omitempty"`
+	ExtCount_           int64                  `asn1:"-" json:"-"`
+	ExtPresent_         []bool                 `asn1:"-" json:"-"`
+	ExtData_            [][]byte               `asn1:"-" json:"-"`
 }
 
 // LocatedUEselect represents the ASN.1 ENUMERATED type LocatedUEselect.
@@ -1751,7 +1751,7 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 				if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 1 {
 					return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 				}
-				tmp_sscode := SSCode(rawVal_sscode)
+				tmp_sscode := SSCode3(rawVal_sscode)
 				v.SsCode = &tmp_sscode
 				offset += n_sscode
 			}
@@ -1769,7 +1769,7 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 				if decodedTag_ssstatus.Class != tag.ClassContextSpecific || decodedTag_ssstatus.Number != 4 {
 					return fmt.Errorf("decoding ss-Status: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ssstatus)
 				}
-				tmp_ssstatus := SSStatus(rawVal_ssstatus)
+				tmp_ssstatus := SSStatus3(rawVal_ssstatus)
 				v.SsStatus = &tmp_ssstatus
 				offset += n_ssstatus
 			}
@@ -1871,7 +1871,7 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding cug-Index: %w", intErr)
 				}
-				tmp_cugindex := CUGIndex(decVal_cugindex)
+				tmp_cugindex := CUGIndex4(decVal_cugindex)
 				v.CugIndex = &tmp_cugindex
 				offset += n_cugindex
 			}
@@ -1954,7 +1954,7 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding ccbs-Feature: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ccbsfeature)
 				}
 				reconstructed_ccbsfeature := ber.EncodeSequence(rawVal_ccbsfeature)
-				var dec_ccbsfeature CCBSFeature
+				var dec_ccbsfeature CCBSFeature3
 				if unmErr := dec_ccbsfeature.UnmarshalBER(reconstructed_ccbsfeature); unmErr != nil {
 					return fmt.Errorf("decoding ccbs-Feature: %w", unmErr)
 				}
@@ -1975,7 +1975,7 @@ func (v *NotifySSArg) UnmarshalBER(data []byte) error {
 				if decodedTag_alertingpattern.Class != tag.ClassContextSpecific || decodedTag_alertingpattern.Number != 22 {
 					return fmt.Errorf("decoding alertingPattern: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_alertingpattern)
 				}
-				tmp_alertingpattern := AlertingPattern(rawVal_alertingpattern)
+				tmp_alertingpattern := AlertingPattern3(rawVal_alertingpattern)
 				v.AlertingPattern = &tmp_alertingpattern
 				offset += n_alertingpattern
 			}
@@ -2112,7 +2112,7 @@ func (v *ForwardChargeAdviceArg) UnmarshalBER(data []byte) error {
 	if decodedTag_sscode.Class != tag.ClassContextSpecific || decodedTag_sscode.Number != 0 {
 		return fmt.Errorf("decoding ss-Code: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sscode)
 	}
-	v.SsCode = SSCode(rawVal_sscode)
+	v.SsCode = SSCode3(rawVal_sscode)
 	offset += n_sscode
 	// Decode chargingInformation
 	if offset >= len(content) {
@@ -2603,7 +2603,7 @@ func (v *ForwardCUGInfoArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding cug-Index: %w", intErr)
 				}
-				tmp_cugindex := CUGIndex(decVal_cugindex)
+				tmp_cugindex := CUGIndex4(decVal_cugindex)
 				v.CugIndex = &tmp_cugindex
 				offset += n_cugindex
 			}
@@ -3172,7 +3172,7 @@ func (v *NameSet) UnmarshalBER(data []byte) error {
 	if decodedTag_datacodingscheme.Class != tag.ClassContextSpecific || decodedTag_datacodingscheme.Number != 0 {
 		return fmt.Errorf("decoding dataCodingScheme: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_datacodingscheme)
 	}
-	v.DataCodingScheme = USSDDataCodingScheme(rawVal_datacodingscheme)
+	v.DataCodingScheme = USSDDataCodingScheme3(rawVal_datacodingscheme)
 	offset += n_datacodingscheme
 	// Decode lengthInCharacters
 	if offset >= len(content) {
@@ -3212,7 +3212,7 @@ func (v *NameSet) UnmarshalBER(data []byte) error {
 	if decodedTag_namestring.Class != tag.ClassContextSpecific || decodedTag_namestring.Number != 2 {
 		return fmt.Errorf("decoding nameString: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_namestring)
 	}
-	v.NameString = USSDString(rawVal_namestring)
+	v.NameString = USSDString3(rawVal_namestring)
 	offset += n_namestring
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -3491,7 +3491,7 @@ func (v *RemotePartyNumber) UnmarshalBER(data []byte) error {
 	if decodedTag_partynumber.Class != tag.ClassContextSpecific || decodedTag_partynumber.Number != 0 {
 		return fmt.Errorf("decoding partyNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_partynumber)
 	}
-	v.PartyNumber = ISDNAddressString(rawVal_partynumber)
+	v.PartyNumber = ISDNAddressString3(rawVal_partynumber)
 	offset += n_partynumber
 	// Decode partyNumberSubaddress
 	if offset < len(content) {
@@ -3505,7 +3505,7 @@ func (v *RemotePartyNumber) UnmarshalBER(data []byte) error {
 				if decodedTag_partynumbersubaddress.Class != tag.ClassContextSpecific || decodedTag_partynumbersubaddress.Number != 1 {
 					return fmt.Errorf("decoding partyNumberSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_partynumbersubaddress)
 				}
-				tmp_partynumbersubaddress := ISDNSubaddressString(rawVal_partynumbersubaddress)
+				tmp_partynumbersubaddress := ISDNSubaddressString3(rawVal_partynumbersubaddress)
 				v.PartyNumberSubaddress = &tmp_partynumbersubaddress
 				offset += n_partynumbersubaddress
 			}
@@ -3677,7 +3677,7 @@ func (v *CallDeflectionArg) UnmarshalBER(data []byte) error {
 	if decodedTag_deflectedtonumber.Class != tag.ClassContextSpecific || decodedTag_deflectedtonumber.Number != 0 {
 		return fmt.Errorf("decoding deflectedToNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deflectedtonumber)
 	}
-	v.DeflectedToNumber = AddressString(rawVal_deflectedtonumber)
+	v.DeflectedToNumber = AddressString3(rawVal_deflectedtonumber)
 	offset += n_deflectedtonumber
 	// Decode deflectedToSubaddress
 	if offset < len(content) {
@@ -3691,7 +3691,7 @@ func (v *CallDeflectionArg) UnmarshalBER(data []byte) error {
 				if decodedTag_deflectedtosubaddress.Class != tag.ClassContextSpecific || decodedTag_deflectedtosubaddress.Number != 1 {
 					return fmt.Errorf("decoding deflectedToSubaddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_deflectedtosubaddress)
 				}
-				tmp_deflectedtosubaddress := ISDNSubaddressString(rawVal_deflectedtosubaddress)
+				tmp_deflectedtosubaddress := ISDNSubaddressString3(rawVal_deflectedtosubaddress)
 				v.DeflectedToSubaddress = &tmp_deflectedtosubaddress
 				offset += n_deflectedtosubaddress
 			}
@@ -4099,7 +4099,7 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 	if intErr != nil {
 		return fmt.Errorf("decoding notificationType: %w", intErr)
 	}
-	v.NotificationType = NotificationToMSUser(decVal_notificationtype)
+	v.NotificationType = NotificationToMSUser4(decVal_notificationtype)
 	offset += n_notificationtype
 	// Decode locationType
 	if offset >= len(content) {
@@ -4135,7 +4135,7 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcsClientExternalID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientexternalid)
 				}
 				reconstructed_lcsclientexternalid := ber.EncodeSequence(rawVal_lcsclientexternalid)
-				var dec_lcsclientexternalid LCSClientExternalID
+				var dec_lcsclientexternalid LCSClientExternalID3
 				if unmErr := dec_lcsclientexternalid.UnmarshalBER(reconstructed_lcsclientexternalid); unmErr != nil {
 					return fmt.Errorf("decoding lcsClientExternalID: %w", unmErr)
 				}
@@ -4157,7 +4157,7 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcsClientName: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientname)
 				}
 				reconstructed_lcsclientname := ber.EncodeSequence(rawVal_lcsclientname)
-				var dec_lcsclientname LCSClientName
+				var dec_lcsclientname LCSLCSClientName
 				if unmErr := dec_lcsclientname.UnmarshalBER(reconstructed_lcsclientname); unmErr != nil {
 					return fmt.Errorf("decoding lcsClientName: %w", unmErr)
 				}
@@ -4179,7 +4179,7 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcsRequestorID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsrequestorid)
 				}
 				reconstructed_lcsrequestorid := ber.EncodeSequence(rawVal_lcsrequestorid)
-				var dec_lcsrequestorid LCSRequestorID
+				var dec_lcsrequestorid LCSLCSRequestorID
 				if unmErr := dec_lcsrequestorid.UnmarshalBER(reconstructed_lcsrequestorid); unmErr != nil {
 					return fmt.Errorf("decoding lcsRequestorID: %w", unmErr)
 				}
@@ -4201,7 +4201,7 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcsCodeword: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcscodeword)
 				}
 				reconstructed_lcscodeword := ber.EncodeSequence(rawVal_lcscodeword)
-				var dec_lcscodeword LCSCodeword
+				var dec_lcscodeword LCSLCSCodeword
 				if unmErr := dec_lcscodeword.UnmarshalBER(reconstructed_lcscodeword); unmErr != nil {
 					return fmt.Errorf("decoding lcsCodeword: %w", unmErr)
 				}
@@ -4226,7 +4226,7 @@ func (v *LocationNotificationArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding lcsServiceTypeID: %w", intErr)
 				}
-				tmp_lcsservicetypeid := LCSServiceTypeID(decVal_lcsservicetypeid)
+				tmp_lcsservicetypeid := LCSServiceTypeID3(decVal_lcsservicetypeid)
 				v.LcsServiceTypeID = &tmp_lcsservicetypeid
 				offset += n_lcsservicetypeid
 			}
@@ -5044,7 +5044,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcs-QoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsqos)
 				}
 				reconstructed_lcsqos := ber.EncodeSequence(rawVal_lcsqos)
-				var dec_lcsqos LCSQoS
+				var dec_lcsqos LCSLCSQoS
 				if unmErr := dec_lcsqos.UnmarshalBER(reconstructed_lcsqos); unmErr != nil {
 					return fmt.Errorf("decoding lcs-QoS: %w", unmErr)
 				}
@@ -5066,7 +5066,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcsClientExternalID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientexternalid)
 				}
 				reconstructed_lcsclientexternalid := ber.EncodeSequence(rawVal_lcsclientexternalid)
-				var dec_lcsclientexternalid LCSClientExternalID
+				var dec_lcsclientexternalid LCSClientExternalID3
 				if unmErr := dec_lcsclientexternalid.UnmarshalBER(reconstructed_lcsclientexternalid); unmErr != nil {
 					return fmt.Errorf("decoding lcsClientExternalID: %w", unmErr)
 				}
@@ -5087,7 +5087,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if decodedTag_mlcnumber.Class != tag.ClassContextSpecific || decodedTag_mlcnumber.Number != 4 {
 					return fmt.Errorf("decoding mlc-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mlcnumber)
 				}
-				tmp_mlcnumber := ISDNAddressString(rawVal_mlcnumber)
+				tmp_mlcnumber := ISDNAddressString3(rawVal_mlcnumber)
 				v.MlcNumber = &tmp_mlcnumber
 				offset += n_mlcnumber
 			}
@@ -5149,7 +5149,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding lcsServiceTypeID: %w", intErr)
 				}
-				tmp_lcsservicetypeid := LCSServiceTypeID(decVal_lcsservicetypeid)
+				tmp_lcsservicetypeid := LCSServiceTypeID3(decVal_lcsservicetypeid)
 				v.LcsServiceTypeID = &tmp_lcsservicetypeid
 				offset += n_lcsservicetypeid
 			}
@@ -5171,7 +5171,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding ageOfLocationInfo: %w", intErr)
 				}
-				tmp_ageoflocationinfo := AgeOfLocationInformation(decVal_ageoflocationinfo)
+				tmp_ageoflocationinfo := AgeOfLocationInformation3(decVal_ageoflocationinfo)
 				v.AgeOfLocationInfo = &tmp_ageoflocationinfo
 				offset += n_ageoflocationinfo
 			}
@@ -5190,7 +5190,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding locationType: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationtype)
 				}
 				reconstructed_locationtype := ber.EncodeSequence(rawVal_locationtype)
-				var dec_locationtype LocationType
+				var dec_locationtype LCSLocationType
 				if unmErr := dec_locationtype.UnmarshalBER(reconstructed_locationtype); unmErr != nil {
 					return fmt.Errorf("decoding locationType: %w", unmErr)
 				}
@@ -5231,7 +5231,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 11 {
 					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
-				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
 				offset += n_hgmlcaddress
 			}
@@ -5249,7 +5249,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if decodedTag_locationestimate.Class != tag.ClassContextSpecific || decodedTag_locationestimate.Number != 12 {
 					return fmt.Errorf("decoding locationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationestimate)
 				}
-				tmp_locationestimate := ExtGeographicalInformation(rawVal_locationestimate)
+				tmp_locationestimate := LCSExtGeographicalInformation(rawVal_locationestimate)
 				v.LocationEstimate = &tmp_locationestimate
 				offset += n_locationestimate
 			}
@@ -5267,7 +5267,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if decodedTag_velocityestimate.Class != tag.ClassContextSpecific || decodedTag_velocityestimate.Number != 13 {
 					return fmt.Errorf("decoding velocityEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_velocityestimate)
 				}
-				tmp_velocityestimate := VelocityEstimate(rawVal_velocityestimate)
+				tmp_velocityestimate := LCSVelocityEstimate(rawVal_velocityestimate)
 				v.VelocityEstimate = &tmp_velocityestimate
 				offset += n_velocityestimate
 			}
@@ -5285,7 +5285,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 14 {
 					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 				}
-				tmp_referencenumber := LCSReferenceNumber(rawVal_referencenumber)
+				tmp_referencenumber := LCSLCSReferenceNumber(rawVal_referencenumber)
 				v.ReferenceNumber = &tmp_referencenumber
 				offset += n_referencenumber
 			}
@@ -5304,7 +5304,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding periodicLDRInfo: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_periodicldrinfo)
 				}
 				reconstructed_periodicldrinfo := ber.EncodeSequence(rawVal_periodicldrinfo)
-				var dec_periodicldrinfo PeriodicLDRInfo
+				var dec_periodicldrinfo LCSPeriodicLDRInfo
 				if unmErr := dec_periodicldrinfo.UnmarshalBER(reconstructed_periodicldrinfo); unmErr != nil {
 					return fmt.Errorf("decoding periodicLDRInfo: %w", unmErr)
 				}
@@ -5349,7 +5349,7 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding sequenceNumber: %w", intErr)
 				}
-				tmp_sequencenumber := SequenceNumber(decVal_sequencenumber)
+				tmp_sequencenumber := LCSSequenceNumber(decVal_sequencenumber)
 				v.SequenceNumber = &tmp_sequencenumber
 				offset += n_sequencenumber
 			}
@@ -5502,6 +5502,9 @@ func (v *LCSMOLRArg) UnmarshalBER(data []byte) error {
 
 // MarshalBERMultiplePositioningProtocolPDUs encodes a MultiplePositioningProtocolPDUs list to BER.
 func MarshalBERMultiplePositioningProtocolPDUs(list MultiplePositioningProtocolPDUs) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("MultiplePositioningProtocolPDUs length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -5511,6 +5514,9 @@ func MarshalBERMultiplePositioningProtocolPDUs(list MultiplePositioningProtocolP
 
 // MarshalDERMultiplePositioningProtocolPDUs encodes a MultiplePositioningProtocolPDUs list to DER.
 func MarshalDERMultiplePositioningProtocolPDUs(list MultiplePositioningProtocolPDUs) ([]byte, error) {
+	if len(list) < 1 || len(list) > 3 {
+		return nil, fmt.Errorf("MultiplePositioningProtocolPDUs length %d violates SIZE (1..3)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -5540,6 +5546,12 @@ func UnmarshalBERMultiplePositioningProtocolPDUs(data []byte) (MultiplePositioni
 		}
 		result = append(result, PositioningProtocolPDU(val))
 		offset += n
+		if len(result) > 3 {
+			return nil, fmt.Errorf("MultiplePositioningProtocolPDUs length %d violates SIZE (1..3)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 3 {
+		return nil, fmt.Errorf("MultiplePositioningProtocolPDUs length %d violates SIZE (1..3)", len(result))
 	}
 	return result, nil
 }
@@ -5767,7 +5779,7 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 				if decodedTag_locationestimate.Class != tag.ClassContextSpecific || decodedTag_locationestimate.Number != 0 {
 					return fmt.Errorf("decoding locationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationestimate)
 				}
-				tmp_locationestimate := ExtGeographicalInformation(rawVal_locationestimate)
+				tmp_locationestimate := LCSExtGeographicalInformation(rawVal_locationestimate)
 				v.LocationEstimate = &tmp_locationestimate
 				offset += n_locationestimate
 			}
@@ -5803,7 +5815,7 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 				if decodedTag_addlocationestimate.Class != tag.ClassContextSpecific || decodedTag_addlocationestimate.Number != 2 {
 					return fmt.Errorf("decoding add-LocationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_addlocationestimate)
 				}
-				tmp_addlocationestimate := AddGeographicalInformation(rawVal_addlocationestimate)
+				tmp_addlocationestimate := LCSAddGeographicalInformation(rawVal_addlocationestimate)
 				v.AddLocationEstimate = &tmp_addlocationestimate
 				offset += n_addlocationestimate
 			}
@@ -5821,7 +5833,7 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 				if decodedTag_velocityestimate.Class != tag.ClassContextSpecific || decodedTag_velocityestimate.Number != 3 {
 					return fmt.Errorf("decoding velocityEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_velocityestimate)
 				}
-				tmp_velocityestimate := VelocityEstimate(rawVal_velocityestimate)
+				tmp_velocityestimate := LCSVelocityEstimate(rawVal_velocityestimate)
 				v.VelocityEstimate = &tmp_velocityestimate
 				offset += n_velocityestimate
 			}
@@ -5839,7 +5851,7 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 4 {
 					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 				}
-				tmp_referencenumber := LCSReferenceNumber(rawVal_referencenumber)
+				tmp_referencenumber := LCSLCSReferenceNumber(rawVal_referencenumber)
 				v.ReferenceNumber = &tmp_referencenumber
 				offset += n_referencenumber
 			}
@@ -5857,7 +5869,7 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 5 {
 					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
-				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
 				offset += n_hgmlcaddress
 			}
@@ -5896,7 +5908,7 @@ func (v *LCSMOLRRes) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding reportingPLMNList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingplmnlist)
 				}
 				reconstructed_reportingplmnlist := ber.EncodeSequence(rawVal_reportingplmnlist)
-				var dec_reportingplmnlist ReportingPLMNList
+				var dec_reportingplmnlist LCSReportingPLMNList
 				if unmErr := dec_reportingplmnlist.UnmarshalBER(reconstructed_reportingplmnlist); unmErr != nil {
 					return fmt.Errorf("decoding reportingPLMNList: %w", unmErr)
 				}
@@ -6060,7 +6072,7 @@ func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
 	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
 		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
-	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
+	v.ReferenceNumber = LCSLCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
 	// Decode h-gmlc-address
 	if offset >= len(content) {
@@ -6078,7 +6090,7 @@ func (v *LCSAreaEventRequestArg) UnmarshalBER(data []byte) error {
 	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
 		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
-	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
+	v.HGmlcAddress = CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
 	// Decode deferredLocationEventType
 	if offset >= len(content) {
@@ -6449,7 +6461,7 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcs-QoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsqos)
 				}
 				reconstructed_lcsqos := ber.EncodeSequence(rawVal_lcsqos)
-				var dec_lcsqos LCSQoS
+				var dec_lcsqos LCSLCSQoS
 				if unmErr := dec_lcsqos.UnmarshalBER(reconstructed_lcsqos); unmErr != nil {
 					return fmt.Errorf("decoding lcs-QoS: %w", unmErr)
 				}
@@ -6471,7 +6483,7 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcsClientExternalID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsclientexternalid)
 				}
 				reconstructed_lcsclientexternalid := ber.EncodeSequence(rawVal_lcsclientexternalid)
-				var dec_lcsclientexternalid LCSClientExternalID
+				var dec_lcsclientexternalid LCSClientExternalID3
 				if unmErr := dec_lcsclientexternalid.UnmarshalBER(reconstructed_lcsclientexternalid); unmErr != nil {
 					return fmt.Errorf("decoding lcsClientExternalID: %w", unmErr)
 				}
@@ -6492,7 +6504,7 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 				if decodedTag_mlcnumber.Class != tag.ClassContextSpecific || decodedTag_mlcnumber.Number != 3 {
 					return fmt.Errorf("decoding mlc-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mlcnumber)
 				}
-				tmp_mlcnumber := ISDNAddressString(rawVal_mlcnumber)
+				tmp_mlcnumber := ISDNAddressString3(rawVal_mlcnumber)
 				v.MlcNumber = &tmp_mlcnumber
 				offset += n_mlcnumber
 			}
@@ -6536,7 +6548,7 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding lcsServiceTypeID: %w", intErr)
 				}
-				tmp_lcsservicetypeid := LCSServiceTypeID(decVal_lcsservicetypeid)
+				tmp_lcsservicetypeid := LCSServiceTypeID3(decVal_lcsservicetypeid)
 				v.LcsServiceTypeID = &tmp_lcsservicetypeid
 				offset += n_lcsservicetypeid
 			}
@@ -6574,7 +6586,7 @@ func (v *LCSSLMOLRArg) UnmarshalBER(data []byte) error {
 				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 8 {
 					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
-				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
 				offset += n_hgmlcaddress
 			}
@@ -6967,6 +6979,9 @@ func (v *PreferredRangingResult) UnmarshalBER(data []byte) error {
 
 // MarshalBERRelatedUEInfo encodes a RelatedUEInfo list to BER.
 func MarshalBERRelatedUEInfo(list RelatedUEInfo) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("RelatedUEInfo length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -6980,6 +6995,9 @@ func MarshalBERRelatedUEInfo(list RelatedUEInfo) ([]byte, error) {
 
 // MarshalDERRelatedUEInfo encodes a RelatedUEInfo list to DER.
 func MarshalDERRelatedUEInfo(list RelatedUEInfo) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("RelatedUEInfo length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -7017,6 +7035,12 @@ func UnmarshalBERRelatedUEInfo(data []byte) (RelatedUEInfo, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 16 {
+			return nil, fmt.Errorf("RelatedUEInfo length %d violates SIZE (1..16)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 16 {
+		return nil, fmt.Errorf("RelatedUEInfo length %d violates SIZE (1..16)", len(result))
 	}
 	return result, nil
 }
@@ -7312,7 +7336,7 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 				if decodedTag_absolutelocation.Class != tag.ClassContextSpecific || decodedTag_absolutelocation.Number != 0 {
 					return fmt.Errorf("decoding absoluteLocation: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absolutelocation)
 				}
-				tmp_absolutelocation := ExtGeographicalInformation(rawVal_absolutelocation)
+				tmp_absolutelocation := LCSExtGeographicalInformation(rawVal_absolutelocation)
 				v.AbsoluteLocation = &tmp_absolutelocation
 				offset += n_absolutelocation
 			}
@@ -7330,7 +7354,7 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 				if decodedTag_absolutevelocity.Class != tag.ClassContextSpecific || decodedTag_absolutevelocity.Number != 1 {
 					return fmt.Errorf("decoding absoluteVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_absolutevelocity)
 				}
-				tmp_absolutevelocity := VelocityEstimate(rawVal_absolutevelocity)
+				tmp_absolutevelocity := LCSVelocityEstimate(rawVal_absolutevelocity)
 				v.AbsoluteVelocity = &tmp_absolutevelocity
 				offset += n_absolutevelocity
 			}
@@ -7423,6 +7447,9 @@ func (v *LCSSLMOLRRes) UnmarshalBER(data []byte) error {
 
 // MarshalBERRelativeResult encodes a RelativeResult list to BER.
 func MarshalBERRelativeResult(list RelativeResult) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("RelativeResult length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -7436,6 +7463,9 @@ func MarshalBERRelativeResult(list RelativeResult) ([]byte, error) {
 
 // MarshalDERRelativeResult encodes a RelativeResult list to DER.
 func MarshalDERRelativeResult(list RelativeResult) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("RelativeResult length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -7473,6 +7503,12 @@ func UnmarshalBERRelativeResult(data []byte) (RelativeResult, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 16 {
+			return nil, fmt.Errorf("RelativeResult length %d violates SIZE (1..16)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 16 {
+		return nil, fmt.Errorf("RelativeResult length %d violates SIZE (1..16)", len(result))
 	}
 	return result, nil
 }
@@ -7704,7 +7740,7 @@ func (v *SingleRelativeResult) UnmarshalBER(data []byte) error {
 				if decodedTag_relativevelocity.Class != tag.ClassContextSpecific || decodedTag_relativevelocity.Number != 3 {
 					return fmt.Errorf("decoding relativeVelocity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_relativevelocity)
 				}
-				tmp_relativevelocity := VelocityEstimate(rawVal_relativevelocity)
+				tmp_relativevelocity := LCSVelocityEstimate(rawVal_relativevelocity)
 				v.RelativeVelocity = &tmp_relativevelocity
 				offset += n_relativevelocity
 			}
@@ -9304,7 +9340,7 @@ func (v *LCSAreaEventReportArg) UnmarshalBER(data []byte) error {
 	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
 		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
-	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
+	v.ReferenceNumber = LCSLCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
 	// Decode h-gmlc-address
 	if offset >= len(content) {
@@ -9322,7 +9358,7 @@ func (v *LCSAreaEventReportArg) UnmarshalBER(data []byte) error {
 	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
 		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
-	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
+	v.HGmlcAddress = CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -9427,7 +9463,7 @@ func (v *LCSAreaEventCancellationArg) UnmarshalBER(data []byte) error {
 	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
 		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
-	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
+	v.ReferenceNumber = LCSLCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
 	// Decode h-gmlc-address
 	if offset >= len(content) {
@@ -9445,7 +9481,7 @@ func (v *LCSAreaEventCancellationArg) UnmarshalBER(data []byte) error {
 	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
 		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
-	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
+	v.HGmlcAddress = CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -9660,7 +9696,7 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
 		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
-	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
+	v.ReferenceNumber = LCSLCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
 	// Decode periodicLDRInfo
 	if offset >= len(content) {
@@ -9717,7 +9753,7 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding qoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qos)
 				}
 				reconstructed_qos := ber.EncodeSequence(rawVal_qos)
-				var dec_qos LCSQoS
+				var dec_qos LCSLCSQoS
 				if unmErr := dec_qos.UnmarshalBER(reconstructed_qos); unmErr != nil {
 					return fmt.Errorf("decoding qoS: %w", unmErr)
 				}
@@ -9738,7 +9774,7 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 4 {
 					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
-				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
 				offset += n_hgmlcaddress
 			}
@@ -9777,7 +9813,7 @@ func (v *LCSPeriodicLocationRequestArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding reportingPLMNList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingplmnlist)
 				}
 				reconstructed_reportingplmnlist := ber.EncodeSequence(rawVal_reportingplmnlist)
-				var dec_reportingplmnlist ReportingPLMNList
+				var dec_reportingplmnlist LCSReportingPLMNList
 				if unmErr := dec_reportingplmnlist.UnmarshalBER(reconstructed_reportingplmnlist); unmErr != nil {
 					return fmt.Errorf("decoding reportingPLMNList: %w", unmErr)
 				}
@@ -10026,7 +10062,7 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 				if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
 					return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 				}
-				tmp_referencenumber := LCSReferenceNumber(rawVal_referencenumber)
+				tmp_referencenumber := LCSLCSReferenceNumber(rawVal_referencenumber)
 				v.ReferenceNumber = &tmp_referencenumber
 				offset += n_referencenumber
 			}
@@ -10044,7 +10080,7 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 				if decodedTag_addlocationestimate.Class != tag.ClassContextSpecific || decodedTag_addlocationestimate.Number != 1 {
 					return fmt.Errorf("decoding add-LocationEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_addlocationestimate)
 				}
-				tmp_addlocationestimate := AddGeographicalInformation(rawVal_addlocationestimate)
+				tmp_addlocationestimate := LCSAddGeographicalInformation(rawVal_addlocationestimate)
 				v.AddLocationEstimate = &tmp_addlocationestimate
 				offset += n_addlocationestimate
 			}
@@ -10062,7 +10098,7 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 				if decodedTag_velocityestimate.Class != tag.ClassContextSpecific || decodedTag_velocityestimate.Number != 2 {
 					return fmt.Errorf("decoding velocityEstimate: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_velocityestimate)
 				}
-				tmp_velocityestimate := VelocityEstimate(rawVal_velocityestimate)
+				tmp_velocityestimate := LCSVelocityEstimate(rawVal_velocityestimate)
 				v.VelocityEstimate = &tmp_velocityestimate
 				offset += n_velocityestimate
 			}
@@ -10084,7 +10120,7 @@ func (v *LCSLocationUpdateArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding sequenceNumber: %w", intErr)
 				}
-				tmp_sequencenumber := SequenceNumber(decVal_sequencenumber)
+				tmp_sequencenumber := LCSSequenceNumber(decVal_sequencenumber)
 				v.SequenceNumber = &tmp_sequencenumber
 				offset += n_sequencenumber
 			}
@@ -10296,7 +10332,7 @@ func (v *LCSPeriodicLocationCancellationArg) UnmarshalBER(data []byte) error {
 	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
 		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
-	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
+	v.ReferenceNumber = LCSLCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
 	// Decode h-gmlc-address
 	if offset < len(content) {
@@ -10310,7 +10346,7 @@ func (v *LCSPeriodicLocationCancellationArg) UnmarshalBER(data []byte) error {
 				if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
 					return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 				}
-				tmp_hgmlcaddress := GSNAddress(rawVal_hgmlcaddress)
+				tmp_hgmlcaddress := CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 				v.HGmlcAddress = &tmp_hgmlcaddress
 				offset += n_hgmlcaddress
 			}
@@ -10833,7 +10869,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 	if decodedTag_referencenumber.Class != tag.ClassContextSpecific || decodedTag_referencenumber.Number != 0 {
 		return fmt.Errorf("decoding referenceNumber: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_referencenumber)
 	}
-	v.ReferenceNumber = LCSReferenceNumber(rawVal_referencenumber)
+	v.ReferenceNumber = LCSLCSReferenceNumber(rawVal_referencenumber)
 	offset += n_referencenumber
 	// Decode h-gmlc-address
 	if offset >= len(content) {
@@ -10851,7 +10887,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 	if decodedTag_hgmlcaddress.Class != tag.ClassContextSpecific || decodedTag_hgmlcaddress.Number != 1 {
 		return fmt.Errorf("decoding h-gmlc-address: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hgmlcaddress)
 	}
-	v.HGmlcAddress = GSNAddress(rawVal_hgmlcaddress)
+	v.HGmlcAddress = CommonDataTypesGSNAddress(rawVal_hgmlcaddress)
 	offset += n_hgmlcaddress
 	// Decode qoS
 	if offset < len(content) {
@@ -10866,7 +10902,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding qoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_qos)
 				}
 				reconstructed_qos := ber.EncodeSequence(rawVal_qos)
-				var dec_qos LCSQoS
+				var dec_qos LCSLCSQoS
 				if unmErr := dec_qos.UnmarshalBER(reconstructed_qos); unmErr != nil {
 					return fmt.Errorf("decoding qoS: %w", unmErr)
 				}
@@ -10888,7 +10924,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding reportingPLMNList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_reportingplmnlist)
 				}
 				reconstructed_reportingplmnlist := ber.EncodeSequence(rawVal_reportingplmnlist)
-				var dec_reportingplmnlist ReportingPLMNList
+				var dec_reportingplmnlist LCSReportingPLMNList
 				if unmErr := dec_reportingplmnlist.UnmarshalBER(reconstructed_reportingplmnlist); unmErr != nil {
 					return fmt.Errorf("decoding reportingPLMNList: %w", unmErr)
 				}
@@ -11197,7 +11233,7 @@ func (v *LCSPeriodicTriggeredInvokeArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding mappedQoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mappedqos)
 				}
 				reconstructed_mappedqos := ber.EncodeSequence(rawVal_mappedqos)
-				var dec_mappedqos LCSQoS
+				var dec_mappedqos LCSLCSQoS
 				if unmErr := dec_mappedqos.UnmarshalBER(reconstructed_mappedqos); unmErr != nil {
 					return fmt.Errorf("decoding mappedQoS: %w", unmErr)
 				}
@@ -11650,7 +11686,7 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding intervalTime: %w", intErr)
 				}
-				tmp_intervaltime := IntervalTime(decVal_intervaltime)
+				tmp_intervaltime := LCSIntervalTime(decVal_intervaltime)
 				v.IntervalTime = &tmp_intervaltime
 				offset += n_intervaltime
 			}
@@ -11762,6 +11798,9 @@ func (v *AreaEventReporting) UnmarshalBER(data []byte) error {
 
 // MarshalBERDataTypesAreaList encodes a DataTypesAreaList list to BER.
 func MarshalBERDataTypesAreaList(list DataTypesAreaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 250 {
+		return nil, fmt.Errorf("DataTypesAreaList length %d violates SIZE (1..250)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -11775,6 +11814,9 @@ func MarshalBERDataTypesAreaList(list DataTypesAreaList) ([]byte, error) {
 
 // MarshalDERDataTypesAreaList encodes a DataTypesAreaList list to DER.
 func MarshalDERDataTypesAreaList(list DataTypesAreaList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 250 {
+		return nil, fmt.Errorf("DataTypesAreaList length %d violates SIZE (1..250)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -11812,6 +11854,12 @@ func UnmarshalBERDataTypesAreaList(data []byte) (DataTypesAreaList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 250 {
+			return nil, fmt.Errorf("DataTypesAreaList length %d violates SIZE (1..250)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 250 {
+		return nil, fmt.Errorf("DataTypesAreaList length %d violates SIZE (1..250)", len(result))
 	}
 	return result, nil
 }
@@ -12204,7 +12252,7 @@ func (v *MotionEventReporting) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding intervalTime: %w", intErr)
 				}
-				tmp_intervaltime := IntervalTime(decVal_intervaltime)
+				tmp_intervaltime := LCSIntervalTime(decVal_intervaltime)
 				v.IntervalTime = &tmp_intervaltime
 				offset += n_intervaltime
 			}
@@ -12712,7 +12760,7 @@ func (v *LCSEventReportArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding lcs-QoS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_lcsqos)
 				}
 				reconstructed_lcsqos := ber.EncodeSequence(rawVal_lcsqos)
-				var dec_lcsqos LCSQoS
+				var dec_lcsqos LCSLCSQoS
 				if unmErr := dec_lcsqos.UnmarshalBER(reconstructed_lcsqos); unmErr != nil {
 					return fmt.Errorf("decoding lcs-QoS: %w", unmErr)
 				}
@@ -13144,6 +13192,9 @@ func (v *LCSUserPlaneReportAFAddr) UnmarshalBER(data []byte) error {
 
 // MarshalBERIpv4Addrs encodes a Ipv4Addrs list to BER.
 func MarshalBERIpv4Addrs(list Ipv4Addrs) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("Ipv4Addrs length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -13153,6 +13204,9 @@ func MarshalBERIpv4Addrs(list Ipv4Addrs) ([]byte, error) {
 
 // MarshalDERIpv4Addrs encodes a Ipv4Addrs list to DER.
 func MarshalDERIpv4Addrs(list Ipv4Addrs) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("Ipv4Addrs length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -13182,12 +13236,21 @@ func UnmarshalBERIpv4Addrs(data []byte) (Ipv4Addrs, error) {
 		}
 		result = append(result, Ipv4Addr(val))
 		offset += n
+		if len(result) > 16 {
+			return nil, fmt.Errorf("Ipv4Addrs length %d violates SIZE (1..16)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 16 {
+		return nil, fmt.Errorf("Ipv4Addrs length %d violates SIZE (1..16)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERIpv6Addrs encodes a Ipv6Addrs list to BER.
 func MarshalBERIpv6Addrs(list Ipv6Addrs) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("Ipv6Addrs length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -13197,6 +13260,9 @@ func MarshalBERIpv6Addrs(list Ipv6Addrs) ([]byte, error) {
 
 // MarshalDERIpv6Addrs encodes a Ipv6Addrs list to DER.
 func MarshalDERIpv6Addrs(list Ipv6Addrs) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("Ipv6Addrs length %d violates SIZE (1..16)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -13226,6 +13292,12 @@ func UnmarshalBERIpv6Addrs(data []byte) (Ipv6Addrs, error) {
 		}
 		result = append(result, Ipv6Addr(val))
 		offset += n
+		if len(result) > 16 {
+			return nil, fmt.Errorf("Ipv6Addrs length %d violates SIZE (1..16)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 16 {
+		return nil, fmt.Errorf("Ipv6Addrs length %d violates SIZE (1..16)", len(result))
 	}
 	return result, nil
 }
@@ -13784,7 +13856,7 @@ func (v *LCSLocationPrivacySettingArg) UnmarshalBER(data []byte) error {
 				if decodedTag_eventreportexpectedarea.Class != tag.ClassContextSpecific || decodedTag_eventreportexpectedarea.Number != 2 {
 					return fmt.Errorf("decoding eventReportExpectedArea: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventreportexpectedarea)
 				}
-				tmp_eventreportexpectedarea := ExtGeographicalInformation(rawVal_eventreportexpectedarea)
+				tmp_eventreportexpectedarea := LCSExtGeographicalInformation(rawVal_eventreportexpectedarea)
 				v.EventReportExpectedArea = &tmp_eventreportexpectedarea
 				offset += n_eventreportexpectedarea
 			}
@@ -14118,7 +14190,7 @@ func (v *LCSPruAssociationArg) UnmarshalBER(data []byte) error {
 				if decodedTag_locationofpru.Class != tag.ClassContextSpecific || decodedTag_locationofpru.Number != 2 {
 					return fmt.Errorf("decoding locationOfPru: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationofpru)
 				}
-				tmp_locationofpru := ExtGeographicalInformation(rawVal_locationofpru)
+				tmp_locationofpru := LCSExtGeographicalInformation(rawVal_locationofpru)
 				v.LocationOfPru = &tmp_locationofpru
 				offset += n_locationofpru
 			}
@@ -14902,6 +14974,9 @@ func (v *LCSSLMTLRRes) UnmarshalBER(data []byte) error {
 
 // MarshalBERRangingSLPPList encodes a RangingSLPPList list to BER.
 func MarshalBERRangingSLPPList(list RangingSLPPList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 63 {
+		return nil, fmt.Errorf("RangingSLPPList length %d violates SIZE (1..63)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalBER()
@@ -14915,6 +14990,9 @@ func MarshalBERRangingSLPPList(list RangingSLPPList) ([]byte, error) {
 
 // MarshalDERRangingSLPPList encodes a RangingSLPPList list to DER.
 func MarshalDERRangingSLPPList(list RangingSLPPList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 63 {
+		return nil, fmt.Errorf("RangingSLPPList length %d violates SIZE (1..63)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		enc, err := elem.MarshalDER()
@@ -14952,6 +15030,12 @@ func UnmarshalBERRangingSLPPList(data []byte) (RangingSLPPList, error) {
 		}
 		result = append(result, elem)
 		offset += n
+		if len(result) > 63 {
+			return nil, fmt.Errorf("RangingSLPPList length %d violates SIZE (1..63)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 63 {
+		return nil, fmt.Errorf("RangingSLPPList length %d violates SIZE (1..63)", len(result))
 	}
 	return result, nil
 }

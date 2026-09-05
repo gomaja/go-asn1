@@ -28,17 +28,17 @@ const (
 
 // SMRoutingInfoForSMArg represents the ASN.1 type RoutingInfoForSM-Arg (SEQUENCE).
 type SMRoutingInfoForSMArg struct {
-	Msisdn                  ISDNAddressString3       `asn1:"tag:0,context,implicit"`
+	Msisdn                  ISDNAddressString4       `asn1:"tag:0,context,implicit"`
 	SmRPPRI                 bool                     `asn1:"tag:1,context,implicit"`
 	SmRPPRIRaw_             byte                     `asn1:"-" json:"-"`
-	ServiceCentreAddress    AddressString3           `asn1:"tag:2,context,implicit"`
-	ExtensionContainer      *ExtensionContainer3     `asn1:"tag:6,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ServiceCentreAddress    AddressString4           `asn1:"tag:2,context,implicit"`
+	ExtensionContainer      *ExtensionContainer4     `asn1:"tag:6,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	GprsSupportIndicator    *struct{}                `asn1:"tag:7,context,implicit,optional" json:"GprsSupportIndicator,omitempty"`
 	SmRPMTI                 *SMSMRPMTI               `asn1:"tag:8,context,implicit,optional" json:"SmRPMTI,omitempty"`
 	SmRPSMEA                *SMSMRPSMEA              `asn1:"tag:9,context,implicit,optional" json:"SmRPSMEA,omitempty"`
 	SmDeliveryNotIntended   *SMSMDeliveryNotIntended `asn1:"tag:10,context,implicit,optional" json:"SmDeliveryNotIntended,omitempty"`
 	IpSmGwGuidanceIndicator *struct{}                `asn1:"tag:11,context,implicit,optional" json:"IpSmGwGuidanceIndicator,omitempty"`
-	Imsi                    *IMSI3                   `asn1:"tag:12,context,implicit,optional" json:"Imsi,omitempty"`
+	Imsi                    *IMSI4                   `asn1:"tag:12,context,implicit,optional" json:"Imsi,omitempty"`
 	T4TriggerIndicator      *struct{}                `asn1:"tag:14,context,implicit,optional" json:"T4TriggerIndicator,omitempty"`
 	SingleAttemptDelivery   *struct{}                `asn1:"tag:13,context,implicit,optional" json:"SingleAttemptDelivery,omitempty"`
 	CorrelationID           *SMCorrelationID         `asn1:"tag:15,context,implicit,optional" json:"CorrelationID,omitempty"`
@@ -74,9 +74,9 @@ type SMSMRPSMEA = []byte
 
 // SMRoutingInfoForSMRes represents the ASN.1 type RoutingInfoForSM-Res (SEQUENCE).
 type SMRoutingInfoForSMRes struct {
-	Imsi                 IMSI3                  `asn1:""`
+	Imsi                 IMSI4                  `asn1:""`
 	LocationInfoWithLMSI SMLocationInfoWithLMSI `asn1:"tag:0,context,implicit"`
-	ExtensionContainer   *ExtensionContainer3   `asn1:"tag:4,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer   *ExtensionContainer4   `asn1:"tag:4,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	IpSmGwGuidance       *SMIPSMGWGuidance      `asn1:"tag:5,context,implicit,optional" json:"IpSmGwGuidance,omitempty"`
 	ExtCount_            int64                  `asn1:"-" json:"-"`
 	ExtPresent_          []bool                 `asn1:"-" json:"-"`
@@ -87,7 +87,7 @@ type SMRoutingInfoForSMRes struct {
 type SMIPSMGWGuidance struct {
 	MinimumDeliveryTimeValue     SMSMDeliveryTimerValue `asn1:""`
 	RecommendedDeliveryTimeValue SMSMDeliveryTimerValue `asn1:""`
-	ExtensionContainer           *ExtensionContainer3   `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer           *ExtensionContainer4   `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_                    int64                  `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                 `asn1:"-" json:"-"`
 	ExtData_                     [][]byte               `asn1:"-" json:"-"`
@@ -95,19 +95,19 @@ type SMIPSMGWGuidance struct {
 
 // SMLocationInfoWithLMSI represents the ASN.1 type LocationInfoWithLMSI (SEQUENCE).
 type SMLocationInfoWithLMSI struct {
-	NetworkNodeNumber                    ISDNAddressString3                         `asn1:"tag:1,context,implicit"`
-	Lmsi                                 *LMSI3                                     `asn1:",optional" json:"Lmsi,omitempty"`
-	ExtensionContainer                   *ExtensionContainer3                       `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	GprsNodeIndicator                    *struct{}                                  `asn1:"tag:5,context,implicit,optional" json:"GprsNodeIndicator,omitempty"`
-	AdditionalNumber                     *SMAdditionalNumber                        `asn1:"tag:6,context,explicit,optional" json:"AdditionalNumber,omitempty"`
-	NetworkNodeDiameterAddress           *CommonDataTypesNetworkNodeDiameterAddress `asn1:"tag:7,context,implicit,optional" json:"NetworkNodeDiameterAddress,omitempty"`
-	AdditionalNetworkNodeDiameterAddress *CommonDataTypesNetworkNodeDiameterAddress `asn1:"tag:8,context,implicit,optional" json:"AdditionalNetworkNodeDiameterAddress,omitempty"`
-	ThirdNumber                          *SMAdditionalNumber                        `asn1:"tag:9,context,explicit,optional" json:"ThirdNumber,omitempty"`
-	ThirdNetworkNodeDiameterAddress      *CommonDataTypesNetworkNodeDiameterAddress `asn1:"tag:10,context,implicit,optional" json:"ThirdNetworkNodeDiameterAddress,omitempty"`
-	ImsNodeIndicator                     *struct{}                                  `asn1:"tag:11,context,implicit,optional" json:"ImsNodeIndicator,omitempty"`
-	ExtCount_                            int64                                      `asn1:"-" json:"-"`
-	ExtPresent_                          []bool                                     `asn1:"-" json:"-"`
-	ExtData_                             [][]byte                                   `asn1:"-" json:"-"`
+	NetworkNodeNumber                    ISDNAddressString4           `asn1:"tag:1,context,implicit"`
+	Lmsi                                 *LMSI4                       `asn1:",optional" json:"Lmsi,omitempty"`
+	ExtensionContainer                   *ExtensionContainer4         `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	GprsNodeIndicator                    *struct{}                    `asn1:"tag:5,context,implicit,optional" json:"GprsNodeIndicator,omitempty"`
+	AdditionalNumber                     *SMAdditionalNumber          `asn1:"tag:6,context,explicit,optional" json:"AdditionalNumber,omitempty"`
+	NetworkNodeDiameterAddress           *NetworkNodeDiameterAddress3 `asn1:"tag:7,context,implicit,optional" json:"NetworkNodeDiameterAddress,omitempty"`
+	AdditionalNetworkNodeDiameterAddress *NetworkNodeDiameterAddress3 `asn1:"tag:8,context,implicit,optional" json:"AdditionalNetworkNodeDiameterAddress,omitempty"`
+	ThirdNumber                          *SMAdditionalNumber          `asn1:"tag:9,context,explicit,optional" json:"ThirdNumber,omitempty"`
+	ThirdNetworkNodeDiameterAddress      *NetworkNodeDiameterAddress3 `asn1:"tag:10,context,implicit,optional" json:"ThirdNetworkNodeDiameterAddress,omitempty"`
+	ImsNodeIndicator                     *struct{}                    `asn1:"tag:11,context,implicit,optional" json:"ImsNodeIndicator,omitempty"`
+	ExtCount_                            int64                        `asn1:"-" json:"-"`
+	ExtPresent_                          []bool                       `asn1:"-" json:"-"`
+	ExtData_                             [][]byte                     `asn1:"-" json:"-"`
 }
 
 // SMAdditionalNumber choice constants.
@@ -119,12 +119,12 @@ const (
 // SMAdditionalNumber represents the ASN.1 CHOICE type Additional-Number.
 type SMAdditionalNumber struct {
 	Choice     int
-	MscNumber  *ISDNAddressString3 `json:"MscNumber,omitempty"`
-	SgsnNumber *ISDNAddressString3 `json:"SgsnNumber,omitempty"`
+	MscNumber  *ISDNAddressString4 `json:"MscNumber,omitempty"`
+	SgsnNumber *ISDNAddressString4 `json:"SgsnNumber,omitempty"`
 }
 
 // NewSMAdditionalNumberMscNumber creates a SMAdditionalNumber with the msc-Number alternative.
-func NewSMAdditionalNumberMscNumber(v ISDNAddressString3) SMAdditionalNumber {
+func NewSMAdditionalNumberMscNumber(v ISDNAddressString4) SMAdditionalNumber {
 	return SMAdditionalNumber{
 		Choice:    SMAdditionalNumberChoiceMscNumber,
 		MscNumber: &v,
@@ -132,7 +132,7 @@ func NewSMAdditionalNumberMscNumber(v ISDNAddressString3) SMAdditionalNumber {
 }
 
 // NewSMAdditionalNumberSgsnNumber creates a SMAdditionalNumber with the sgsn-Number alternative.
-func NewSMAdditionalNumberSgsnNumber(v ISDNAddressString3) SMAdditionalNumber {
+func NewSMAdditionalNumberSgsnNumber(v ISDNAddressString4) SMAdditionalNumber {
 	return SMAdditionalNumber{
 		Choice:     SMAdditionalNumberChoiceSgsnNumber,
 		SgsnNumber: &v,
@@ -143,9 +143,9 @@ func NewSMAdditionalNumberSgsnNumber(v ISDNAddressString3) SMAdditionalNumber {
 type SMMOForwardSMArg struct {
 	SmRPDA             SMSMRPDA             `asn1:""`
 	SmRPOA             SMSMRPOA             `asn1:""`
-	SmRPUI             SignalInfo3          `asn1:""`
-	ExtensionContainer *ExtensionContainer3 `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	Imsi               *IMSI3               `asn1:",optional" json:"Imsi,omitempty"`
+	SmRPUI             SignalInfo4          `asn1:""`
+	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	Imsi               *IMSI4               `asn1:",optional" json:"Imsi,omitempty"`
 	CorrelationID      *SMCorrelationID     `asn1:"tag:0,context,implicit,optional" json:"CorrelationID,omitempty"`
 	SmDeliveryOutcome  *SMSMDeliveryOutcome `asn1:"tag:1,context,implicit,optional" json:"SmDeliveryOutcome,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
@@ -155,8 +155,8 @@ type SMMOForwardSMArg struct {
 
 // SMMOForwardSMRes represents the ASN.1 type MO-ForwardSM-Res (SEQUENCE).
 type SMMOForwardSMRes struct {
-	SmRPUI             *SignalInfo3         `asn1:",optional" json:"SmRPUI,omitempty"`
-	ExtensionContainer *ExtensionContainer3 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	SmRPUI             *SignalInfo4         `asn1:",optional" json:"SmRPUI,omitempty"`
+	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
@@ -166,11 +166,11 @@ type SMMOForwardSMRes struct {
 type SMMTForwardSMArg struct {
 	SmRPDA                 SMSMRPDA                `asn1:""`
 	SmRPOA                 SMSMRPOA                `asn1:""`
-	SmRPUI                 SignalInfo3             `asn1:""`
+	SmRPUI                 SignalInfo4             `asn1:""`
 	MoreMessagesToSend     *struct{}               `asn1:",optional" json:"MoreMessagesToSend,omitempty"`
-	ExtensionContainer     *ExtensionContainer3    `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer     *ExtensionContainer4    `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	SmDeliveryTimer        *SMSMDeliveryTimerValue `asn1:",optional" json:"SmDeliveryTimer,omitempty"`
-	SmDeliveryStartTime    *CommonDataTypesTime    `asn1:",optional" json:"SmDeliveryStartTime,omitempty"`
+	SmDeliveryStartTime    *Time3                  `asn1:",optional" json:"SmDeliveryStartTime,omitempty"`
 	SmsOverIPOnlyIndicator *struct{}               `asn1:"tag:0,context,implicit,optional" json:"SmsOverIPOnlyIndicator,omitempty"`
 	CorrelationID          *SMCorrelationID        `asn1:"tag:1,context,implicit,optional" json:"CorrelationID,omitempty"`
 	ExtCount_              int64                   `asn1:"-" json:"-"`
@@ -180,7 +180,7 @@ type SMMTForwardSMArg struct {
 
 // SMCorrelationID represents the ASN.1 type CorrelationID (SEQUENCE).
 type SMCorrelationID struct {
-	HlrId   *HLRId3   `asn1:"tag:0,context,implicit,optional" json:"HlrId,omitempty"`
+	HlrId   *HLRId4   `asn1:"tag:0,context,implicit,optional" json:"HlrId,omitempty"`
 	SipUriA *SMSIPURI `asn1:"tag:1,context,implicit,optional" json:"SipUriA,omitempty"`
 	SipUriB SMSIPURI  `asn1:"tag:2,context,implicit"`
 }
@@ -190,8 +190,8 @@ type SMSIPURI = []byte
 
 // SMMTForwardSMRes represents the ASN.1 type MT-ForwardSM-Res (SEQUENCE).
 type SMMTForwardSMRes struct {
-	SmRPUI             *SignalInfo3         `asn1:",optional" json:"SmRPUI,omitempty"`
-	ExtensionContainer *ExtensionContainer3 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	SmRPUI             *SignalInfo4         `asn1:",optional" json:"SmRPUI,omitempty"`
+	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
@@ -208,14 +208,14 @@ const (
 // SMSMRPDA represents the ASN.1 CHOICE type SM-RP-DA.
 type SMSMRPDA struct {
 	Choice                 int
-	Imsi                   *IMSI3          `json:"Imsi,omitempty"`
-	Lmsi                   *LMSI3          `json:"Lmsi,omitempty"`
-	ServiceCentreAddressDA *AddressString3 `json:"ServiceCentreAddressDA,omitempty"`
+	Imsi                   *IMSI4          `json:"Imsi,omitempty"`
+	Lmsi                   *LMSI4          `json:"Lmsi,omitempty"`
+	ServiceCentreAddressDA *AddressString4 `json:"ServiceCentreAddressDA,omitempty"`
 	NoSMRPDA               *struct{}       `json:"NoSMRPDA,omitempty"`
 }
 
 // NewSMSMRPDAImsi creates a SMSMRPDA with the imsi alternative.
-func NewSMSMRPDAImsi(v IMSI3) SMSMRPDA {
+func NewSMSMRPDAImsi(v IMSI4) SMSMRPDA {
 	return SMSMRPDA{
 		Choice: SMSMRPDAChoiceImsi,
 		Imsi:   &v,
@@ -223,7 +223,7 @@ func NewSMSMRPDAImsi(v IMSI3) SMSMRPDA {
 }
 
 // NewSMSMRPDALmsi creates a SMSMRPDA with the lmsi alternative.
-func NewSMSMRPDALmsi(v LMSI3) SMSMRPDA {
+func NewSMSMRPDALmsi(v LMSI4) SMSMRPDA {
 	return SMSMRPDA{
 		Choice: SMSMRPDAChoiceLmsi,
 		Lmsi:   &v,
@@ -231,7 +231,7 @@ func NewSMSMRPDALmsi(v LMSI3) SMSMRPDA {
 }
 
 // NewSMSMRPDAServiceCentreAddressDA creates a SMSMRPDA with the serviceCentreAddressDA alternative.
-func NewSMSMRPDAServiceCentreAddressDA(v AddressString3) SMSMRPDA {
+func NewSMSMRPDAServiceCentreAddressDA(v AddressString4) SMSMRPDA {
 	return SMSMRPDA{
 		Choice:                 SMSMRPDAChoiceServiceCentreAddressDA,
 		ServiceCentreAddressDA: &v,
@@ -256,13 +256,13 @@ const (
 // SMSMRPOA represents the ASN.1 CHOICE type SM-RP-OA.
 type SMSMRPOA struct {
 	Choice                 int
-	Msisdn                 *ISDNAddressString3 `json:"Msisdn,omitempty"`
-	ServiceCentreAddressOA *AddressString3     `json:"ServiceCentreAddressOA,omitempty"`
+	Msisdn                 *ISDNAddressString4 `json:"Msisdn,omitempty"`
+	ServiceCentreAddressOA *AddressString4     `json:"ServiceCentreAddressOA,omitempty"`
 	NoSMRPOA               *struct{}           `json:"NoSMRPOA,omitempty"`
 }
 
 // NewSMSMRPOAMsisdn creates a SMSMRPOA with the msisdn alternative.
-func NewSMSMRPOAMsisdn(v ISDNAddressString3) SMSMRPOA {
+func NewSMSMRPOAMsisdn(v ISDNAddressString4) SMSMRPOA {
 	return SMSMRPOA{
 		Choice: SMSMRPOAChoiceMsisdn,
 		Msisdn: &v,
@@ -270,7 +270,7 @@ func NewSMSMRPOAMsisdn(v ISDNAddressString3) SMSMRPOA {
 }
 
 // NewSMSMRPOAServiceCentreAddressOA creates a SMSMRPOA with the serviceCentreAddressOA alternative.
-func NewSMSMRPOAServiceCentreAddressOA(v AddressString3) SMSMRPOA {
+func NewSMSMRPOAServiceCentreAddressOA(v AddressString4) SMSMRPOA {
 	return SMSMRPOA{
 		Choice:                 SMSMRPOAChoiceServiceCentreAddressOA,
 		ServiceCentreAddressOA: &v,
@@ -290,19 +290,19 @@ type SMSMDeliveryTimerValue = int64
 
 // SMReportSMDeliveryStatusArg represents the ASN.1 type ReportSM-DeliveryStatusArg (SEQUENCE).
 type SMReportSMDeliveryStatusArg struct {
-	Msisdn                                 ISDNAddressString3             `asn1:""`
-	ServiceCentreAddress                   AddressString3                 `asn1:""`
+	Msisdn                                 ISDNAddressString4             `asn1:""`
+	ServiceCentreAddress                   AddressString4                 `asn1:""`
 	SmDeliveryOutcome                      SMSMDeliveryOutcome            `asn1:""`
-	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM3 `asn1:"tag:0,context,implicit,optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
-	ExtensionContainer                     *ExtensionContainer3           `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM4 `asn1:"tag:0,context,implicit,optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
+	ExtensionContainer                     *ExtensionContainer4           `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	GprsSupportIndicator                   *struct{}                      `asn1:"tag:2,context,implicit,optional" json:"GprsSupportIndicator,omitempty"`
 	DeliveryOutcomeIndicator               *struct{}                      `asn1:"tag:3,context,implicit,optional" json:"DeliveryOutcomeIndicator,omitempty"`
 	AdditionalSMDeliveryOutcome            *SMSMDeliveryOutcome           `asn1:"tag:4,context,implicit,optional" json:"AdditionalSMDeliveryOutcome,omitempty"`
-	AdditionalAbsentSubscriberDiagnosticSM *AbsentSubscriberDiagnosticSM3 `asn1:"tag:5,context,implicit,optional" json:"AdditionalAbsentSubscriberDiagnosticSM,omitempty"`
+	AdditionalAbsentSubscriberDiagnosticSM *AbsentSubscriberDiagnosticSM4 `asn1:"tag:5,context,implicit,optional" json:"AdditionalAbsentSubscriberDiagnosticSM,omitempty"`
 	IpSmGwIndicator                        *struct{}                      `asn1:"tag:6,context,implicit,optional" json:"IpSmGwIndicator,omitempty"`
 	IpSmGwSmDeliveryOutcome                *SMSMDeliveryOutcome           `asn1:"tag:7,context,implicit,optional" json:"IpSmGwSmDeliveryOutcome,omitempty"`
-	IpSmGwAbsentSubscriberDiagnosticSM     *AbsentSubscriberDiagnosticSM3 `asn1:"tag:8,context,implicit,optional" json:"IpSmGwAbsentSubscriberDiagnosticSM,omitempty"`
-	Imsi                                   *IMSI3                         `asn1:"tag:9,context,implicit,optional" json:"Imsi,omitempty"`
+	IpSmGwAbsentSubscriberDiagnosticSM     *AbsentSubscriberDiagnosticSM4 `asn1:"tag:8,context,implicit,optional" json:"IpSmGwAbsentSubscriberDiagnosticSM,omitempty"`
+	Imsi                                   *IMSI4                         `asn1:"tag:9,context,implicit,optional" json:"Imsi,omitempty"`
 	SingleAttemptDelivery                  *struct{}                      `asn1:"tag:10,context,implicit,optional" json:"SingleAttemptDelivery,omitempty"`
 	CorrelationID                          *SMCorrelationID               `asn1:"tag:11,context,implicit,optional" json:"CorrelationID,omitempty"`
 	ExtCount_                              int64                          `asn1:"-" json:"-"`
@@ -334,8 +334,8 @@ func (v SMSMDeliveryOutcome) String() string {
 
 // SMReportSMDeliveryStatusRes represents the ASN.1 type ReportSM-DeliveryStatusRes (SEQUENCE).
 type SMReportSMDeliveryStatusRes struct {
-	StoredMSISDN       *ISDNAddressString3  `asn1:",optional" json:"StoredMSISDN,omitempty"`
-	ExtensionContainer *ExtensionContainer3 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	StoredMSISDN       *ISDNAddressString4  `asn1:",optional" json:"StoredMSISDN,omitempty"`
+	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
@@ -343,9 +343,9 @@ type SMReportSMDeliveryStatusRes struct {
 
 // SMAlertServiceCentreArg represents the ASN.1 type AlertServiceCentreArg (SEQUENCE).
 type SMAlertServiceCentreArg struct {
-	Msisdn               ISDNAddressString3 `asn1:""`
-	ServiceCentreAddress AddressString3     `asn1:""`
-	Imsi                 *IMSI3             `asn1:",optional" json:"Imsi,omitempty"`
+	Msisdn               ISDNAddressString4 `asn1:""`
+	ServiceCentreAddress AddressString4     `asn1:""`
+	Imsi                 *IMSI4             `asn1:",optional" json:"Imsi,omitempty"`
 	CorrelationID        *SMCorrelationID   `asn1:",optional" json:"CorrelationID,omitempty"`
 	ExtCount_            int64              `asn1:"-" json:"-"`
 	ExtPresent_          []bool             `asn1:"-" json:"-"`
@@ -354,11 +354,11 @@ type SMAlertServiceCentreArg struct {
 
 // SMInformServiceCentreArg represents the ASN.1 type InformServiceCentreArg (SEQUENCE).
 type SMInformServiceCentreArg struct {
-	StoredMSISDN                           *ISDNAddressString3            `asn1:",optional" json:"StoredMSISDN,omitempty"`
+	StoredMSISDN                           *ISDNAddressString4            `asn1:",optional" json:"StoredMSISDN,omitempty"`
 	MwStatus                               *SMMWStatus                    `asn1:",optional" json:"MwStatus,omitempty"`
-	ExtensionContainer                     *ExtensionContainer3           `asn1:",optional" json:"ExtensionContainer,omitempty"`
-	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM3 `asn1:",optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
-	AdditionalAbsentSubscriberDiagnosticSM *AbsentSubscriberDiagnosticSM3 `asn1:"tag:0,context,implicit,optional" json:"AdditionalAbsentSubscriberDiagnosticSM,omitempty"`
+	ExtensionContainer                     *ExtensionContainer4           `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	AbsentSubscriberDiagnosticSM           *AbsentSubscriberDiagnosticSM4 `asn1:",optional" json:"AbsentSubscriberDiagnosticSM,omitempty"`
+	AdditionalAbsentSubscriberDiagnosticSM *AbsentSubscriberDiagnosticSM4 `asn1:"tag:0,context,implicit,optional" json:"AdditionalAbsentSubscriberDiagnosticSM,omitempty"`
 	ExtCount_                              int64                          `asn1:"-" json:"-"`
 	ExtPresent_                            []bool                         `asn1:"-" json:"-"`
 	ExtData_                               [][]byte                       `asn1:"-" json:"-"`
@@ -369,10 +369,10 @@ type SMMWStatus = runtime.BitString
 
 // SMReadyForSMArg represents the ASN.1 type ReadyForSM-Arg (SEQUENCE).
 type SMReadyForSMArg struct {
-	Imsi                           IMSI3                `asn1:"tag:0,context,implicit"`
+	Imsi                           IMSI4                `asn1:"tag:0,context,implicit"`
 	AlertReason                    SMAlertReason        `asn1:""`
 	AlertReasonIndicator           *struct{}            `asn1:",optional" json:"AlertReasonIndicator,omitempty"`
-	ExtensionContainer             *ExtensionContainer3 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer             *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	AdditionalAlertReasonIndicator *struct{}            `asn1:"tag:1,context,implicit,optional" json:"AdditionalAlertReasonIndicator,omitempty"`
 	ExtCount_                      int64                `asn1:"-" json:"-"`
 	ExtPresent_                    []bool               `asn1:"-" json:"-"`
@@ -381,7 +381,7 @@ type SMReadyForSMArg struct {
 
 // SMReadyForSMRes represents the ASN.1 type ReadyForSM-Res (SEQUENCE).
 type SMReadyForSMRes struct {
-	ExtensionContainer *ExtensionContainer3 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
@@ -408,10 +408,10 @@ func (v SMAlertReason) String() string {
 
 // SMMTForwardSMVGCSArg represents the ASN.1 type MT-ForwardSM-VGCS-Arg (SEQUENCE).
 type SMMTForwardSMVGCSArg struct {
-	AsciCallReference  ASCICallReference3   `asn1:""`
+	AsciCallReference  ASCICallReference4   `asn1:""`
 	SmRPOA             SMSMRPOA             `asn1:""`
-	SmRPUI             SignalInfo3          `asn1:""`
-	ExtensionContainer *ExtensionContainer3 `asn1:",optional" json:"ExtensionContainer,omitempty"`
+	SmRPUI             SignalInfo4          `asn1:""`
+	ExtensionContainer *ExtensionContainer4 `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
@@ -419,11 +419,11 @@ type SMMTForwardSMVGCSArg struct {
 
 // SMMTForwardSMVGCSRes represents the ASN.1 type MT-ForwardSM-VGCS-Res (SEQUENCE).
 type SMMTForwardSMVGCSRes struct {
-	SmRPUI                         *SignalInfo3               `asn1:"tag:0,context,implicit,optional" json:"SmRPUI,omitempty"`
+	SmRPUI                         *SignalInfo4               `asn1:"tag:0,context,implicit,optional" json:"SmRPUI,omitempty"`
 	DispatcherList                 SMDispatcherList           `asn1:"tag:1,context,implicit,optional" json:"DispatcherList,omitempty"`
 	DispatcherListIndef_           bool                       `asn1:"-" json:"-"`
 	OngoingCall                    *struct{}                  `asn1:",optional" json:"OngoingCall,omitempty"`
-	ExtensionContainer             *ExtensionContainer3       `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer             *ExtensionContainer4       `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	AdditionalDispatcherList       SMAdditionalDispatcherList `asn1:"tag:3,context,implicit,optional" json:"AdditionalDispatcherList,omitempty"`
 	AdditionalDispatcherListIndef_ bool                       `asn1:"-" json:"-"`
 	ExtCount_                      int64                      `asn1:"-" json:"-"`
@@ -432,10 +432,10 @@ type SMMTForwardSMVGCSRes struct {
 }
 
 // SMDispatcherList represents the ASN.1 type DispatcherList (SEQUENCE_OF).
-type SMDispatcherList = []ISDNAddressString3
+type SMDispatcherList = []ISDNAddressString4
 
 // SMAdditionalDispatcherList represents the ASN.1 type AdditionalDispatcherList (SEQUENCE_OF).
-type SMAdditionalDispatcherList = []ISDNAddressString3
+type SMAdditionalDispatcherList = []ISDNAddressString4
 
 // MarshalBER encodes SMRoutingInfoForSMArg to BER format.
 func (v *SMRoutingInfoForSMArg) MarshalBER() ([]byte, error) {
@@ -735,7 +735,7 @@ func (v *SMRoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 	if decodedTag_msisdn.Class != tag.ClassContextSpecific || decodedTag_msisdn.Number != 0 {
 		return fmt.Errorf("decoding msisdn: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_msisdn)
 	}
-	v.Msisdn = ISDNAddressString3(rawVal_msisdn)
+	v.Msisdn = ISDNAddressString4(rawVal_msisdn)
 	offset += n_msisdn
 	// Decode sm-RP-PRI
 	if offset >= len(content) {
@@ -778,7 +778,7 @@ func (v *SMRoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 	if decodedTag_servicecentreaddress.Class != tag.ClassContextSpecific || decodedTag_servicecentreaddress.Number != 2 {
 		return fmt.Errorf("decoding serviceCentreAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_servicecentreaddress)
 	}
-	v.ServiceCentreAddress = AddressString3(rawVal_servicecentreaddress)
+	v.ServiceCentreAddress = AddressString4(rawVal_servicecentreaddress)
 	offset += n_servicecentreaddress
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -793,7 +793,7 @@ func (v *SMRoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -916,7 +916,7 @@ func (v *SMRoutingInfoForSMArg) UnmarshalBER(data []byte) error {
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 12 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := IMSI3(rawVal_imsi)
+				tmp_imsi := IMSI4(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -1123,7 +1123,7 @@ func (v *SMRoutingInfoForSMRes) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding imsi: %w", err)
 	}
-	v.Imsi = IMSI3(val_imsi)
+	v.Imsi = IMSI4(val_imsi)
 	offset += n
 	// Decode locationInfoWithLMSI
 	if offset >= len(content) {
@@ -1159,7 +1159,7 @@ func (v *SMRoutingInfoForSMRes) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -1296,12 +1296,12 @@ func (v *SMIPSMGWGuidance) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -1561,7 +1561,7 @@ func (v *SMLocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 	if decodedTag_networknodenumber.Class != tag.ClassContextSpecific || decodedTag_networknodenumber.Number != 1 {
 		return fmt.Errorf("decoding networkNode-Number: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networknodenumber)
 	}
-	v.NetworkNodeNumber = ISDNAddressString3(rawVal_networknodenumber)
+	v.NetworkNodeNumber = ISDNAddressString4(rawVal_networknodenumber)
 	offset += n_networknodenumber
 	// Decode lmsi
 	if offset < len(content) {
@@ -1572,7 +1572,7 @@ func (v *SMLocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding lmsi: %w", err)
 				}
-				tmp_lmsi := LMSI3(val_lmsi)
+				tmp_lmsi := LMSI4(val_lmsi)
 				v.Lmsi = &tmp_lmsi
 				offset += n
 			}
@@ -1583,12 +1583,12 @@ func (v *SMLocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -1652,7 +1652,7 @@ func (v *SMLocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding networkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networknodediameteraddress)
 				}
 				reconstructed_networknodediameteraddress := ber.EncodeSequence(rawVal_networknodediameteraddress)
-				var dec_networknodediameteraddress CommonDataTypesNetworkNodeDiameterAddress
+				var dec_networknodediameteraddress NetworkNodeDiameterAddress3
 				if unmErr := dec_networknodediameteraddress.UnmarshalBER(reconstructed_networknodediameteraddress); unmErr != nil {
 					return fmt.Errorf("decoding networkNodeDiameterAddress: %w", unmErr)
 				}
@@ -1674,7 +1674,7 @@ func (v *SMLocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding additionalNetworkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnetworknodediameteraddress)
 				}
 				reconstructed_additionalnetworknodediameteraddress := ber.EncodeSequence(rawVal_additionalnetworknodediameteraddress)
-				var dec_additionalnetworknodediameteraddress CommonDataTypesNetworkNodeDiameterAddress
+				var dec_additionalnetworknodediameteraddress NetworkNodeDiameterAddress3
 				if unmErr := dec_additionalnetworknodediameteraddress.UnmarshalBER(reconstructed_additionalnetworknodediameteraddress); unmErr != nil {
 					return fmt.Errorf("decoding additionalNetworkNodeDiameterAddress: %w", unmErr)
 				}
@@ -1718,7 +1718,7 @@ func (v *SMLocationInfoWithLMSI) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding thirdNetworkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_thirdnetworknodediameteraddress)
 				}
 				reconstructed_thirdnetworknodediameteraddress := ber.EncodeSequence(rawVal_thirdnetworknodediameteraddress)
-				var dec_thirdnetworknodediameteraddress CommonDataTypesNetworkNodeDiameterAddress
+				var dec_thirdnetworknodediameteraddress NetworkNodeDiameterAddress3
 				if unmErr := dec_thirdnetworknodediameteraddress.UnmarshalBER(reconstructed_thirdnetworknodediameteraddress); unmErr != nil {
 					return fmt.Errorf("decoding thirdNetworkNodeDiameterAddress: %w", unmErr)
 				}
@@ -1831,7 +1831,7 @@ func (v *SMAdditionalNumber) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding msc-Number: %w", tlvErr)
 		}
-		tmp := ISDNAddressString3(rawVal)
+		tmp := ISDNAddressString4(rawVal)
 		v.MscNumber = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = SMAdditionalNumberChoiceSgsnNumber
@@ -1839,7 +1839,7 @@ func (v *SMAdditionalNumber) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding sgsn-Number: %w", tlvErr)
 		}
-		tmp := ISDNAddressString3(rawVal)
+		tmp := ISDNAddressString4(rawVal)
 		v.SgsnNumber = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for SMAdditionalNumber CHOICE", peekTag)
@@ -2012,19 +2012,19 @@ func (v *SMMOForwardSMArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sm-RP-UI: %w", err)
 	}
-	v.SmRPUI = SignalInfo3(val_smrpui)
+	v.SmRPUI = SignalInfo4(val_smrpui)
 	offset += n
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -2042,7 +2042,7 @@ func (v *SMMOForwardSMArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding imsi: %w", err)
 				}
-				tmp_imsi := IMSI3(val_imsi)
+				tmp_imsi := IMSI4(val_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n
 			}
@@ -2182,7 +2182,7 @@ func (v *SMMOForwardSMRes) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding sm-RP-UI: %w", err)
 				}
-				tmp_smrpui := SignalInfo3(val_smrpui)
+				tmp_smrpui := SignalInfo4(val_smrpui)
 				v.SmRPUI = &tmp_smrpui
 				offset += n
 			}
@@ -2193,12 +2193,12 @@ func (v *SMMOForwardSMRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -2404,7 +2404,7 @@ func (v *SMMTForwardSMArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sm-RP-UI: %w", err)
 	}
-	v.SmRPUI = SignalInfo3(val_smrpui)
+	v.SmRPUI = SignalInfo4(val_smrpui)
 	offset += n
 	// Decode moreMessagesToSend
 	if offset < len(content) {
@@ -2425,12 +2425,12 @@ func (v *SMMTForwardSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -2463,7 +2463,7 @@ func (v *SMMTForwardSMArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding smDeliveryStartTime: %w", err)
 				}
-				tmp_smdeliverystarttime := CommonDataTypesTime(val_smdeliverystarttime)
+				tmp_smdeliverystarttime := Time3(val_smdeliverystarttime)
 				v.SmDeliveryStartTime = &tmp_smdeliverystarttime
 				offset += n
 			}
@@ -2616,7 +2616,7 @@ func (v *SMCorrelationID) UnmarshalBER(data []byte) error {
 				if decodedTag_hlrid.Class != tag.ClassContextSpecific || decodedTag_hlrid.Number != 0 {
 					return fmt.Errorf("decoding hlr-id: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_hlrid)
 				}
-				tmp_hlrid := HLRId3(rawVal_hlrid)
+				tmp_hlrid := HLRId4(rawVal_hlrid)
 				v.HlrId = &tmp_hlrid
 				offset += n_hlrid
 			}
@@ -2738,7 +2738,7 @@ func (v *SMMTForwardSMRes) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding sm-RP-UI: %w", err)
 				}
-				tmp_smrpui := SignalInfo3(val_smrpui)
+				tmp_smrpui := SignalInfo4(val_smrpui)
 				v.SmRPUI = &tmp_smrpui
 				offset += n
 			}
@@ -2749,12 +2749,12 @@ func (v *SMMTForwardSMRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -2866,7 +2866,7 @@ func (v *SMSMRPDA) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding imsi: %w", tlvErr)
 		}
-		tmp := IMSI3(rawVal)
+		tmp := IMSI4(rawVal)
 		v.Imsi = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
 		v.Choice = SMSMRPDAChoiceLmsi
@@ -2874,7 +2874,7 @@ func (v *SMSMRPDA) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding lmsi: %w", tlvErr)
 		}
-		tmp := LMSI3(rawVal)
+		tmp := LMSI4(rawVal)
 		v.Lmsi = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
 		v.Choice = SMSMRPDAChoiceServiceCentreAddressDA
@@ -2882,7 +2882,7 @@ func (v *SMSMRPDA) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding serviceCentreAddressDA: %w", tlvErr)
 		}
-		tmp := AddressString3(rawVal)
+		tmp := AddressString4(rawVal)
 		v.ServiceCentreAddressDA = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 && peekTag.Constructed == false {
 		v.Choice = SMSMRPDAChoiceNoSMRPDA
@@ -2976,7 +2976,7 @@ func (v *SMSMRPOA) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding msisdn: %w", tlvErr)
 		}
-		tmp := ISDNAddressString3(rawVal)
+		tmp := ISDNAddressString4(rawVal)
 		v.Msisdn = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4 {
 		v.Choice = SMSMRPOAChoiceServiceCentreAddressOA
@@ -2984,7 +2984,7 @@ func (v *SMSMRPOA) UnmarshalBER(data []byte) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding serviceCentreAddressOA: %w", tlvErr)
 		}
-		tmp := AddressString3(rawVal)
+		tmp := AddressString4(rawVal)
 		v.ServiceCentreAddressOA = &tmp
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5 && peekTag.Constructed == false {
 		v.Choice = SMSMRPOAChoiceNoSMRPOA
@@ -3293,7 +3293,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding msisdn: %w", err)
 	}
-	v.Msisdn = ISDNAddressString3(val_msisdn)
+	v.Msisdn = ISDNAddressString4(val_msisdn)
 	offset += n
 	// Decode serviceCentreAddress
 	if offset >= len(content) {
@@ -3303,7 +3303,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding serviceCentreAddress: %w", err)
 	}
-	v.ServiceCentreAddress = AddressString3(val_servicecentreaddress)
+	v.ServiceCentreAddress = AddressString4(val_servicecentreaddress)
 	offset += n
 	// Decode sm-DeliveryOutcome
 	if offset >= len(content) {
@@ -3331,7 +3331,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding absentSubscriberDiagnosticSM: %w", intErr)
 				}
-				tmp_absentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM3(decVal_absentsubscriberdiagnosticsm)
+				tmp_absentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM4(decVal_absentsubscriberdiagnosticsm)
 				v.AbsentSubscriberDiagnosticSM = &tmp_absentsubscriberdiagnosticsm
 				offset += n_absentsubscriberdiagnosticsm
 			}
@@ -3350,7 +3350,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -3437,7 +3437,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w", intErr)
 				}
-				tmp_additionalabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM3(decVal_additionalabsentsubscriberdiagnosticsm)
+				tmp_additionalabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM4(decVal_additionalabsentsubscriberdiagnosticsm)
 				v.AdditionalAbsentSubscriberDiagnosticSM = &tmp_additionalabsentsubscriberdiagnosticsm
 				offset += n_additionalabsentsubscriberdiagnosticsm
 			}
@@ -3501,7 +3501,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding ip-sm-gw-absentSubscriberDiagnosticSM: %w", intErr)
 				}
-				tmp_ipsmgwabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM3(decVal_ipsmgwabsentsubscriberdiagnosticsm)
+				tmp_ipsmgwabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM4(decVal_ipsmgwabsentsubscriberdiagnosticsm)
 				v.IpSmGwAbsentSubscriberDiagnosticSM = &tmp_ipsmgwabsentsubscriberdiagnosticsm
 				offset += n_ipsmgwabsentsubscriberdiagnosticsm
 			}
@@ -3519,7 +3519,7 @@ func (v *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte) error {
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 9 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := IMSI3(rawVal_imsi)
+				tmp_imsi := IMSI4(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -3657,7 +3657,7 @@ func (v *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding storedMSISDN: %w", err)
 				}
-				tmp_storedmsisdn := ISDNAddressString3(val_storedmsisdn)
+				tmp_storedmsisdn := ISDNAddressString4(val_storedmsisdn)
 				v.StoredMSISDN = &tmp_storedmsisdn
 				offset += n
 			}
@@ -3668,12 +3668,12 @@ func (v *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -3779,7 +3779,7 @@ func (v *SMAlertServiceCentreArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding msisdn: %w", err)
 	}
-	v.Msisdn = ISDNAddressString3(val_msisdn)
+	v.Msisdn = ISDNAddressString4(val_msisdn)
 	offset += n
 	// Decode serviceCentreAddress
 	if offset >= len(content) {
@@ -3789,7 +3789,7 @@ func (v *SMAlertServiceCentreArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding serviceCentreAddress: %w", err)
 	}
-	v.ServiceCentreAddress = AddressString3(val_servicecentreaddress)
+	v.ServiceCentreAddress = AddressString4(val_servicecentreaddress)
 	offset += n
 	// Decode imsi
 	if offset < len(content) {
@@ -3800,7 +3800,7 @@ func (v *SMAlertServiceCentreArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding imsi: %w", err)
 				}
-				tmp_imsi := IMSI3(val_imsi)
+				tmp_imsi := IMSI4(val_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n
 			}
@@ -3949,7 +3949,7 @@ func (v *SMInformServiceCentreArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding storedMSISDN: %w", err)
 				}
-				tmp_storedmsisdn := ISDNAddressString3(val_storedmsisdn)
+				tmp_storedmsisdn := ISDNAddressString4(val_storedmsisdn)
 				v.StoredMSISDN = &tmp_storedmsisdn
 				offset += n
 			}
@@ -3975,12 +3975,12 @@ func (v *SMInformServiceCentreArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -3998,7 +3998,7 @@ func (v *SMInformServiceCentreArg) UnmarshalBER(data []byte) error {
 				if err != nil {
 					return fmt.Errorf("decoding absentSubscriberDiagnosticSM: %w", err)
 				}
-				tmp_absentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM3(val_absentsubscriberdiagnosticsm)
+				tmp_absentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM4(val_absentsubscriberdiagnosticsm)
 				v.AbsentSubscriberDiagnosticSM = &tmp_absentsubscriberdiagnosticsm
 				offset += n
 			}
@@ -4020,7 +4020,7 @@ func (v *SMInformServiceCentreArg) UnmarshalBER(data []byte) error {
 				if intErr != nil {
 					return fmt.Errorf("decoding additionalAbsentSubscriberDiagnosticSM: %w", intErr)
 				}
-				tmp_additionalabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM3(decVal_additionalabsentsubscriberdiagnosticsm)
+				tmp_additionalabsentsubscriberdiagnosticsm := AbsentSubscriberDiagnosticSM4(decVal_additionalabsentsubscriberdiagnosticsm)
 				v.AdditionalAbsentSubscriberDiagnosticSM = &tmp_additionalabsentsubscriberdiagnosticsm
 				offset += n_additionalabsentsubscriberdiagnosticsm
 			}
@@ -4159,7 +4159,7 @@ func (v *SMReadyForSMArg) UnmarshalBER(data []byte) error {
 	if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 		return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 	}
-	v.Imsi = IMSI3(rawVal_imsi)
+	v.Imsi = IMSI4(rawVal_imsi)
 	offset += n_imsi
 	// Decode alertReason
 	if offset >= len(content) {
@@ -4190,12 +4190,12 @@ func (v *SMReadyForSMArg) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -4302,12 +4302,12 @@ func (v *SMReadyForSMRes) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -4415,7 +4415,7 @@ func (v *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding asciCallReference: %w", err)
 	}
-	v.AsciCallReference = ASCICallReference3(val_ascicallreference)
+	v.AsciCallReference = ASCICallReference4(val_ascicallreference)
 	offset += n
 	// Decode sm-RP-OA
 	if offset >= len(content) {
@@ -4438,19 +4438,19 @@ func (v *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte) error {
 	if err != nil {
 		return fmt.Errorf("decoding sm-RP-UI: %w", err)
 	}
-	v.SmRPUI = SignalInfo3(val_smrpui)
+	v.SmRPUI = SignalInfo4(val_smrpui)
 	offset += n
 	// Decode extensionContainer
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassUniversal && peekTag.Number == 16 {
-				// Decode nested SEQUENCE (ExtensionContainer3)
+				// Decode nested SEQUENCE (ExtensionContainer4)
 				_, n_extensioncontainer, _, tlvErr_extensioncontainer := ber.DecodeTLV(content[offset:])
 				if tlvErr_extensioncontainer != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", tlvErr_extensioncontainer)
 				}
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(content[offset : offset+n_extensioncontainer]); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -4646,7 +4646,7 @@ func (v *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
 				if decodedTag_smrpui.Class != tag.ClassContextSpecific || decodedTag_smrpui.Number != 0 {
 					return fmt.Errorf("decoding sm-RP-UI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smrpui)
 				}
-				tmp_smrpui := SignalInfo3(rawVal_smrpui)
+				tmp_smrpui := SignalInfo4(rawVal_smrpui)
 				v.SmRPUI = &tmp_smrpui
 				offset += n_smrpui
 			}
@@ -4708,7 +4708,7 @@ func (v *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer3
+				var dec_extensioncontainer ExtensionContainer4
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -4764,6 +4764,9 @@ func (v *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte) error {
 
 // MarshalBERSMDispatcherList encodes a SMDispatcherList list to BER.
 func MarshalBERSMDispatcherList(list SMDispatcherList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("SMDispatcherList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -4773,6 +4776,9 @@ func MarshalBERSMDispatcherList(list SMDispatcherList) ([]byte, error) {
 
 // MarshalDERSMDispatcherList encodes a SMDispatcherList list to DER.
 func MarshalDERSMDispatcherList(list SMDispatcherList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 5 {
+		return nil, fmt.Errorf("SMDispatcherList length %d violates SIZE (1..5)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -4800,14 +4806,23 @@ func UnmarshalBERSMDispatcherList(data []byte) (SMDispatcherList, error) {
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, ISDNAddressString3(val))
+		result = append(result, ISDNAddressString4(val))
 		offset += n
+		if len(result) > 5 {
+			return nil, fmt.Errorf("SMDispatcherList length %d violates SIZE (1..5)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 5 {
+		return nil, fmt.Errorf("SMDispatcherList length %d violates SIZE (1..5)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERSMAdditionalDispatcherList encodes a SMAdditionalDispatcherList list to BER.
 func MarshalBERSMAdditionalDispatcherList(list SMAdditionalDispatcherList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 15 {
+		return nil, fmt.Errorf("SMAdditionalDispatcherList length %d violates SIZE (1..15)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -4817,6 +4832,9 @@ func MarshalBERSMAdditionalDispatcherList(list SMAdditionalDispatcherList) ([]by
 
 // MarshalDERSMAdditionalDispatcherList encodes a SMAdditionalDispatcherList list to DER.
 func MarshalDERSMAdditionalDispatcherList(list SMAdditionalDispatcherList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 15 {
+		return nil, fmt.Errorf("SMAdditionalDispatcherList length %d violates SIZE (1..15)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -4844,8 +4862,14 @@ func UnmarshalBERSMAdditionalDispatcherList(data []byte) (SMAdditionalDispatcher
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, ISDNAddressString3(val))
+		result = append(result, ISDNAddressString4(val))
 		offset += n
+		if len(result) > 15 {
+			return nil, fmt.Errorf("SMAdditionalDispatcherList length %d violates SIZE (1..15)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 15 {
+		return nil, fmt.Errorf("SMAdditionalDispatcherList length %d violates SIZE (1..15)", len(result))
 	}
 	return result, nil
 }

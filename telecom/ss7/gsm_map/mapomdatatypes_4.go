@@ -19,40 +19,157 @@ var (
 
 // ActivateTraceModeArg4 represents the ASN.1 type ActivateTraceModeArg (SEQUENCE).
 type ActivateTraceModeArg4 struct {
-	Imsi                  *IMSI4               `asn1:"tag:0,context,implicit,optional" json:"Imsi,omitempty"`
-	TraceReference        TraceReference4      `asn1:"tag:1,context,implicit"`
-	TraceType             TraceType4           `asn1:"tag:2,context,implicit"`
-	OmcId                 *AddressString4      `asn1:"tag:3,context,implicit,optional" json:"OmcId,omitempty"`
-	ExtensionContainer    *ExtensionContainer4 `asn1:"tag:4,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	TraceReference2       *TraceReference24    `asn1:"tag:5,context,implicit,optional" json:"TraceReference2,omitempty"`
-	TraceDepthList        *TraceDepthList4     `asn1:"tag:6,context,implicit,optional" json:"TraceDepthList,omitempty"`
-	TraceNETypeList       *TraceNETypeList4    `asn1:"tag:7,context,implicit,optional" json:"TraceNETypeList,omitempty"`
-	TraceInterfaceList    *TraceInterfaceList4 `asn1:"tag:8,context,implicit,optional" json:"TraceInterfaceList,omitempty"`
-	TraceEventList        *TraceEventList4     `asn1:"tag:9,context,implicit,optional" json:"TraceEventList,omitempty"`
-	TraceCollectionEntity *GSNAddress4         `asn1:"tag:10,context,implicit,optional" json:"TraceCollectionEntity,omitempty"`
-	MdtConfiguration      *MDTConfiguration3   `asn1:"tag:11,context,implicit,optional" json:"MdtConfiguration,omitempty"`
-	ExtCount_             int64                `asn1:"-" json:"-"`
-	ExtPresent_           []bool               `asn1:"-" json:"-"`
-	ExtData_              [][]byte             `asn1:"-" json:"-"`
+	Imsi                  *IMSI3                     `asn1:"tag:0,context,implicit,optional" json:"Imsi,omitempty"`
+	TraceReference        TraceReference4            `asn1:"tag:1,context,implicit"`
+	TraceType             TraceType4                 `asn1:"tag:2,context,implicit"`
+	OmcId                 *AddressString3            `asn1:"tag:3,context,implicit,optional" json:"OmcId,omitempty"`
+	ExtensionContainer    *ExtensionContainer3       `asn1:"tag:4,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	TraceReference2       *TraceReference24          `asn1:"tag:5,context,implicit,optional" json:"TraceReference2,omitempty"`
+	TraceDepthList        *TraceDepthList4           `asn1:"tag:6,context,implicit,optional" json:"TraceDepthList,omitempty"`
+	TraceNETypeList       *TraceNETypeList4          `asn1:"tag:7,context,implicit,optional" json:"TraceNETypeList,omitempty"`
+	TraceInterfaceList    *TraceInterfaceList4       `asn1:"tag:8,context,implicit,optional" json:"TraceInterfaceList,omitempty"`
+	TraceEventList        *TraceEventList4           `asn1:"tag:9,context,implicit,optional" json:"TraceEventList,omitempty"`
+	TraceCollectionEntity *CommonDataTypesGSNAddress `asn1:"tag:10,context,implicit,optional" json:"TraceCollectionEntity,omitempty"`
+	MdtConfiguration      *MDTConfiguration3         `asn1:"tag:11,context,implicit,optional" json:"MdtConfiguration,omitempty"`
+	ExtCount_             int64                      `asn1:"-" json:"-"`
+	ExtPresent_           []bool                     `asn1:"-" json:"-"`
+	ExtData_              [][]byte                   `asn1:"-" json:"-"`
 }
 
 // MDTConfiguration3 represents the ASN.1 type MDT-Configuration (SEQUENCE).
 type MDTConfiguration3 struct {
-	JobType            JobType3             `asn1:""`
-	AreaScope          *AreaScope3          `asn1:",optional" json:"AreaScope,omitempty"`
-	ListOfMeasurements *ListOfMeasurements3 `asn1:",optional" json:"ListOfMeasurements,omitempty"`
-	ReportingTrigger   *ReportingTrigger3   `asn1:"tag:0,context,implicit,optional" json:"ReportingTrigger,omitempty"`
-	ReportInterval     *ReportInterval3     `asn1:",optional" json:"ReportInterval,omitempty"`
-	ReportAmount       *ReportAmount3       `asn1:"tag:1,context,implicit,optional" json:"ReportAmount,omitempty"`
-	EventThresholdRSRP *EventThresholdRSRP3 `asn1:",optional" json:"EventThresholdRSRP,omitempty"`
-	EventThresholdRSRQ *EventThresholdRSRQ3 `asn1:"tag:2,context,implicit,optional" json:"EventThresholdRSRQ,omitempty"`
-	LoggingInterval    *LoggingInterval3    `asn1:"tag:3,context,implicit,optional" json:"LoggingInterval,omitempty"`
-	LoggingDuration    *LoggingDuration3    `asn1:"tag:4,context,implicit,optional" json:"LoggingDuration,omitempty"`
-	ExtensionContainer *ExtensionContainer4 `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_          int64                `asn1:"-" json:"-"`
-	ExtPresent_        []bool               `asn1:"-" json:"-"`
-	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	JobType                  JobType3               `asn1:""`
+	AreaScope                *AreaScope3            `asn1:",optional" json:"AreaScope,omitempty"`
+	ListOfMeasurements       *ListOfMeasurements3   `asn1:",optional" json:"ListOfMeasurements,omitempty"`
+	ReportingTrigger         *ReportingTrigger3     `asn1:"tag:0,context,implicit,optional" json:"ReportingTrigger,omitempty"`
+	ReportInterval           *ReportInterval3       `asn1:",optional" json:"ReportInterval,omitempty"`
+	ReportAmount             *ReportAmount3         `asn1:"tag:1,context,implicit,optional" json:"ReportAmount,omitempty"`
+	EventThresholdRSRP       *EventThresholdRSRP3   `asn1:",optional" json:"EventThresholdRSRP,omitempty"`
+	EventThresholdRSRQ       *EventThresholdRSRQ3   `asn1:"tag:2,context,implicit,optional" json:"EventThresholdRSRQ,omitempty"`
+	LoggingInterval          *LoggingInterval3      `asn1:"tag:3,context,implicit,optional" json:"LoggingInterval,omitempty"`
+	LoggingDuration          *LoggingDuration3      `asn1:"tag:4,context,implicit,optional" json:"LoggingDuration,omitempty"`
+	ExtensionContainer       *ExtensionContainer3   `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	MeasurementPeriodUMTS    *PeriodUMTS3           `asn1:"tag:6,context,implicit,optional" json:"MeasurementPeriodUMTS,omitempty"`
+	MeasurementPeriodLTE     *PeriodLTE3            `asn1:"tag:7,context,implicit,optional" json:"MeasurementPeriodLTE,omitempty"`
+	CollectionPeriodRRMUMTS  *PeriodUMTS3           `asn1:"tag:8,context,implicit,optional" json:"CollectionPeriodRRMUMTS,omitempty"`
+	CollectionPeriodRRMLTE   *PeriodLTE3            `asn1:"tag:9,context,implicit,optional" json:"CollectionPeriodRRMLTE,omitempty"`
+	PositioningMethod        *PositioningMethod3    `asn1:"tag:10,context,implicit,optional" json:"PositioningMethod,omitempty"`
+	MeasurementQuantity      *MeasurementQuantity3  `asn1:"tag:11,context,implicit,optional" json:"MeasurementQuantity,omitempty"`
+	EventThreshold1F         *EventThreshold1F3     `asn1:"tag:12,context,implicit,optional" json:"EventThreshold1F,omitempty"`
+	EventThreshold1I         *EventThreshold1I3     `asn1:"tag:13,context,implicit,optional" json:"EventThreshold1I,omitempty"`
+	MdtAllowedPLMNList       OMMDTAllowedPLMNIdList `asn1:"tag:14,context,implicit,optional" json:"MdtAllowedPLMNList,omitempty"`
+	MdtAllowedPLMNListIndef_ bool                   `asn1:"-" json:"-"`
+	ExtCount_                int64                  `asn1:"-" json:"-"`
+	ExtPresent_              []bool                 `asn1:"-" json:"-"`
+	ExtData_                 [][]byte               `asn1:"-" json:"-"`
 }
+
+// OMMDTAllowedPLMNIdList represents the ASN.1 type MDT-Allowed-PLMNId-List (SEQUENCE_OF).
+type OMMDTAllowedPLMNIdList = []PLMNId3
+
+// PeriodUMTS3 represents the ASN.1 ENUMERATED type PeriodUMTS.
+type PeriodUMTS3 int64
+
+const (
+	PeriodUMTS3D250ms   PeriodUMTS3 = 0
+	PeriodUMTS3D500ms   PeriodUMTS3 = 1
+	PeriodUMTS3D1000ms  PeriodUMTS3 = 2
+	PeriodUMTS3D2000ms  PeriodUMTS3 = 3
+	PeriodUMTS3D3000ms  PeriodUMTS3 = 4
+	PeriodUMTS3D4000ms  PeriodUMTS3 = 5
+	PeriodUMTS3D6000ms  PeriodUMTS3 = 6
+	PeriodUMTS3D8000ms  PeriodUMTS3 = 7
+	PeriodUMTS3D12000ms PeriodUMTS3 = 8
+	PeriodUMTS3D16000ms PeriodUMTS3 = 9
+	PeriodUMTS3D20000ms PeriodUMTS3 = 10
+	PeriodUMTS3D24000ms PeriodUMTS3 = 11
+	PeriodUMTS3D28000ms PeriodUMTS3 = 12
+	PeriodUMTS3D32000ms PeriodUMTS3 = 13
+	PeriodUMTS3D64000ms PeriodUMTS3 = 14
+)
+
+func (v PeriodUMTS3) String() string {
+	switch v {
+	case PeriodUMTS3D250ms:
+		return "d250ms"
+	case PeriodUMTS3D500ms:
+		return "d500ms"
+	case PeriodUMTS3D1000ms:
+		return "d1000ms"
+	case PeriodUMTS3D2000ms:
+		return "d2000ms"
+	case PeriodUMTS3D3000ms:
+		return "d3000ms"
+	case PeriodUMTS3D4000ms:
+		return "d4000ms"
+	case PeriodUMTS3D6000ms:
+		return "d6000ms"
+	case PeriodUMTS3D8000ms:
+		return "d8000ms"
+	case PeriodUMTS3D12000ms:
+		return "d12000ms"
+	case PeriodUMTS3D16000ms:
+		return "d16000ms"
+	case PeriodUMTS3D20000ms:
+		return "d20000ms"
+	case PeriodUMTS3D24000ms:
+		return "d24000ms"
+	case PeriodUMTS3D28000ms:
+		return "d28000ms"
+	case PeriodUMTS3D32000ms:
+		return "d32000ms"
+	case PeriodUMTS3D64000ms:
+		return "d64000ms"
+	default:
+		return "unknown"
+	}
+}
+
+// PeriodLTE3 represents the ASN.1 ENUMERATED type PeriodLTE.
+type PeriodLTE3 int64
+
+const (
+	PeriodLTE3D1024ms  PeriodLTE3 = 0
+	PeriodLTE3D1280ms  PeriodLTE3 = 1
+	PeriodLTE3D2048ms  PeriodLTE3 = 2
+	PeriodLTE3D2560ms  PeriodLTE3 = 3
+	PeriodLTE3D5120ms  PeriodLTE3 = 4
+	PeriodLTE3D10240ms PeriodLTE3 = 5
+	PeriodLTE3D1min    PeriodLTE3 = 6
+)
+
+func (v PeriodLTE3) String() string {
+	switch v {
+	case PeriodLTE3D1024ms:
+		return "d1024ms"
+	case PeriodLTE3D1280ms:
+		return "d1280ms"
+	case PeriodLTE3D2048ms:
+		return "d2048ms"
+	case PeriodLTE3D2560ms:
+		return "d2560ms"
+	case PeriodLTE3D5120ms:
+		return "d5120ms"
+	case PeriodLTE3D10240ms:
+		return "d10240ms"
+	case PeriodLTE3D1min:
+		return "d1min"
+	default:
+		return "unknown"
+	}
+}
+
+// PositioningMethod3 represents the ASN.1 type PositioningMethod (OCTET_STRING).
+type PositioningMethod3 = []byte
+
+// MeasurementQuantity3 represents the ASN.1 type MeasurementQuantity (OCTET_STRING).
+type MeasurementQuantity3 = []byte
+
+// EventThreshold1F3 represents the ASN.1 type EventThreshold1F (INTEGER).
+type EventThreshold1F3 = int64
+
+// EventThreshold1I3 represents the ASN.1 type EventThreshold1I (INTEGER).
+type EventThreshold1I3 = int64
 
 // JobType3 represents the ASN.1 ENUMERATED type JobType.
 type JobType3 int64
@@ -91,26 +208,26 @@ type AreaScope3 struct {
 	LocationAreaIdListIndef_ bool                 `asn1:"-" json:"-"`
 	TrackingAreaIdList       TrackingAreaIdList3  `asn1:"tag:4,context,implicit,optional" json:"TrackingAreaIdList,omitempty"`
 	TrackingAreaIdListIndef_ bool                 `asn1:"-" json:"-"`
-	ExtensionContainer       *ExtensionContainer4 `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer       *ExtensionContainer3 `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_                int64                `asn1:"-" json:"-"`
 	ExtPresent_              []bool               `asn1:"-" json:"-"`
 	ExtData_                 [][]byte             `asn1:"-" json:"-"`
 }
 
 // CGIList3 represents the ASN.1 type CGI-List (SEQUENCE_OF).
-type CGIList3 = []GlobalCellId4
+type CGIList3 = []GlobalCellId3
 
 // EUTRANCGIList3 represents the ASN.1 type E-UTRAN-CGI-List (SEQUENCE_OF).
-type EUTRANCGIList3 = []EUTRANCGI3
+type EUTRANCGIList3 = []CommonDataTypesEUTRANCGI
 
 // RoutingAreaIdList3 represents the ASN.1 type RoutingAreaId-List (SEQUENCE_OF).
-type RoutingAreaIdList3 = []RAIdentity4
+type RoutingAreaIdList3 = []CommonDataTypesRAIdentity
 
 // LocationAreaIdList3 represents the ASN.1 type LocationAreaId-List (SEQUENCE_OF).
-type LocationAreaIdList3 = []LAIFixedLength4
+type LocationAreaIdList3 = []LAIFixedLength3
 
 // TrackingAreaIdList3 represents the ASN.1 type TrackingAreaId-List (SEQUENCE_OF).
-type TrackingAreaIdList3 = []TAId3
+type TrackingAreaIdList3 = []CommonDataTypesTAId
 
 // ListOfMeasurements3 represents the ASN.1 type ListOfMeasurements (OCTET_STRING).
 type ListOfMeasurements3 = []byte
@@ -340,19 +457,29 @@ type TraceType4 = int64
 
 // TraceDepthList4 represents the ASN.1 type TraceDepthList (SEQUENCE).
 type TraceDepthList4 struct {
-	MscSTraceDepth *TraceDepth4 `asn1:"tag:0,context,implicit,optional" json:"MscSTraceDepth,omitempty"`
-	MgwTraceDepth  *TraceDepth4 `asn1:"tag:1,context,implicit,optional" json:"MgwTraceDepth,omitempty"`
-	SgsnTraceDepth *TraceDepth4 `asn1:"tag:2,context,implicit,optional" json:"SgsnTraceDepth,omitempty"`
-	GgsnTraceDepth *TraceDepth4 `asn1:"tag:3,context,implicit,optional" json:"GgsnTraceDepth,omitempty"`
-	RncTraceDepth  *TraceDepth4 `asn1:"tag:4,context,implicit,optional" json:"RncTraceDepth,omitempty"`
-	BmscTraceDepth *TraceDepth4 `asn1:"tag:5,context,implicit,optional" json:"BmscTraceDepth,omitempty"`
-	MmeTraceDepth  *TraceDepth4 `asn1:"tag:6,context,implicit,optional" json:"MmeTraceDepth,omitempty"`
-	SgwTraceDepth  *TraceDepth4 `asn1:"tag:7,context,implicit,optional" json:"SgwTraceDepth,omitempty"`
-	PgwTraceDepth  *TraceDepth4 `asn1:"tag:8,context,implicit,optional" json:"PgwTraceDepth,omitempty"`
-	ENBTraceDepth  *TraceDepth4 `asn1:"tag:9,context,implicit,optional" json:"ENBTraceDepth,omitempty"`
-	ExtCount_      int64        `asn1:"-" json:"-"`
-	ExtPresent_    []bool       `asn1:"-" json:"-"`
-	ExtData_       [][]byte     `asn1:"-" json:"-"`
+	MscSTraceDepth          *TraceDepth4          `asn1:"tag:0,context,implicit,optional" json:"MscSTraceDepth,omitempty"`
+	MgwTraceDepth           *TraceDepth4          `asn1:"tag:1,context,implicit,optional" json:"MgwTraceDepth,omitempty"`
+	SgsnTraceDepth          *TraceDepth4          `asn1:"tag:2,context,implicit,optional" json:"SgsnTraceDepth,omitempty"`
+	GgsnTraceDepth          *TraceDepth4          `asn1:"tag:3,context,implicit,optional" json:"GgsnTraceDepth,omitempty"`
+	RncTraceDepth           *TraceDepth4          `asn1:"tag:4,context,implicit,optional" json:"RncTraceDepth,omitempty"`
+	BmscTraceDepth          *TraceDepth4          `asn1:"tag:5,context,implicit,optional" json:"BmscTraceDepth,omitempty"`
+	MmeTraceDepth           *TraceDepth4          `asn1:"tag:6,context,implicit,optional" json:"MmeTraceDepth,omitempty"`
+	SgwTraceDepth           *TraceDepth4          `asn1:"tag:7,context,implicit,optional" json:"SgwTraceDepth,omitempty"`
+	PgwTraceDepth           *TraceDepth4          `asn1:"tag:8,context,implicit,optional" json:"PgwTraceDepth,omitempty"`
+	ENBTraceDepth           *TraceDepth4          `asn1:"tag:9,context,implicit,optional" json:"ENBTraceDepth,omitempty"`
+	MscSTraceDepthExtension *TraceDepthExtension3 `asn1:"tag:10,context,implicit,optional" json:"MscSTraceDepthExtension,omitempty"`
+	MgwTraceDepthExtension  *TraceDepthExtension3 `asn1:"tag:11,context,implicit,optional" json:"MgwTraceDepthExtension,omitempty"`
+	SgsnTraceDepthExtension *TraceDepthExtension3 `asn1:"tag:12,context,implicit,optional" json:"SgsnTraceDepthExtension,omitempty"`
+	GgsnTraceDepthExtension *TraceDepthExtension3 `asn1:"tag:13,context,implicit,optional" json:"GgsnTraceDepthExtension,omitempty"`
+	RncTraceDepthExtension  *TraceDepthExtension3 `asn1:"tag:14,context,implicit,optional" json:"RncTraceDepthExtension,omitempty"`
+	BmscTraceDepthExtension *TraceDepthExtension3 `asn1:"tag:15,context,implicit,optional" json:"BmscTraceDepthExtension,omitempty"`
+	MmeTraceDepthExtension  *TraceDepthExtension3 `asn1:"tag:16,context,implicit,optional" json:"MmeTraceDepthExtension,omitempty"`
+	SgwTraceDepthExtension  *TraceDepthExtension3 `asn1:"tag:17,context,implicit,optional" json:"SgwTraceDepthExtension,omitempty"`
+	PgwTraceDepthExtension  *TraceDepthExtension3 `asn1:"tag:18,context,implicit,optional" json:"PgwTraceDepthExtension,omitempty"`
+	ENBTraceDepthExtension  *TraceDepthExtension3 `asn1:"tag:19,context,implicit,optional" json:"ENBTraceDepthExtension,omitempty"`
+	ExtCount_               int64                 `asn1:"-" json:"-"`
+	ExtPresent_             []bool                `asn1:"-" json:"-"`
+	ExtData_                [][]byte              `asn1:"-" json:"-"`
 }
 
 // TraceDepth4 represents the ASN.1 ENUMERATED type TraceDepth.
@@ -372,6 +499,28 @@ func (v TraceDepth4) String() string {
 		return "medium"
 	case TraceDepth4Maximum:
 		return "maximum"
+	default:
+		return "unknown"
+	}
+}
+
+// TraceDepthExtension3 represents the ASN.1 ENUMERATED type TraceDepthExtension.
+type TraceDepthExtension3 int64
+
+const (
+	TraceDepthExtension3MinimumWithoutVendorSpecificExtension TraceDepthExtension3 = 0
+	TraceDepthExtension3MediumWithoutVendorSpecificExtension  TraceDepthExtension3 = 1
+	TraceDepthExtension3MaximumWithoutVendorSpecificExtension TraceDepthExtension3 = 2
+)
+
+func (v TraceDepthExtension3) String() string {
+	switch v {
+	case TraceDepthExtension3MinimumWithoutVendorSpecificExtension:
+		return "minimumWithoutVendorSpecificExtension"
+	case TraceDepthExtension3MediumWithoutVendorSpecificExtension:
+		return "mediumWithoutVendorSpecificExtension"
+	case TraceDepthExtension3MaximumWithoutVendorSpecificExtension:
+		return "maximumWithoutVendorSpecificExtension"
 	default:
 		return "unknown"
 	}
@@ -480,6 +629,9 @@ type TracePropagationList4 struct {
 	MgwTraceDepth                  *TraceDepth4                     `asn1:"tag:9,context,implicit,optional" json:"MgwTraceDepth,omitempty"`
 	MgwInterfaceList               *MGWInterfaceList4               `asn1:"tag:10,context,implicit,optional" json:"MgwInterfaceList,omitempty"`
 	MgwEventList                   *MGWEventList4                   `asn1:"tag:11,context,implicit,optional" json:"MgwEventList,omitempty"`
+	RncTraceDepthExtension         *TraceDepthExtension3            `asn1:"tag:12,context,implicit,optional" json:"RncTraceDepthExtension,omitempty"`
+	MscSTraceDepthExtension        *TraceDepthExtension3            `asn1:"tag:13,context,implicit,optional" json:"MscSTraceDepthExtension,omitempty"`
+	MgwTraceDepthExtension         *TraceDepthExtension3            `asn1:"tag:14,context,implicit,optional" json:"MgwTraceDepthExtension,omitempty"`
 	ExtCount_                      int64                            `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                           `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                         `asn1:"-" json:"-"`
@@ -487,7 +639,7 @@ type TracePropagationList4 struct {
 
 // ActivateTraceModeRes4 represents the ASN.1 type ActivateTraceModeRes (SEQUENCE).
 type ActivateTraceModeRes4 struct {
-	ExtensionContainer    *ExtensionContainer4 `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer    *ExtensionContainer3 `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	TraceSupportIndicator *struct{}            `asn1:"tag:1,context,implicit,optional" json:"TraceSupportIndicator,omitempty"`
 	ExtCount_             int64                `asn1:"-" json:"-"`
 	ExtPresent_           []bool               `asn1:"-" json:"-"`
@@ -496,9 +648,9 @@ type ActivateTraceModeRes4 struct {
 
 // DeactivateTraceModeArg4 represents the ASN.1 type DeactivateTraceModeArg (SEQUENCE).
 type DeactivateTraceModeArg4 struct {
-	Imsi               *IMSI4               `asn1:"tag:0,context,implicit,optional" json:"Imsi,omitempty"`
+	Imsi               *IMSI3               `asn1:"tag:0,context,implicit,optional" json:"Imsi,omitempty"`
 	TraceReference     TraceReference4      `asn1:"tag:1,context,implicit"`
-	ExtensionContainer *ExtensionContainer4 `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer *ExtensionContainer3 `asn1:"tag:2,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	TraceReference2    *TraceReference24    `asn1:"tag:3,context,implicit,optional" json:"TraceReference2,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
@@ -507,7 +659,7 @@ type DeactivateTraceModeArg4 struct {
 
 // DeactivateTraceModeRes4 represents the ASN.1 type DeactivateTraceModeRes (SEQUENCE).
 type DeactivateTraceModeRes4 struct {
-	ExtensionContainer *ExtensionContainer4 `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtensionContainer *ExtensionContainer3 `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                `asn1:"-" json:"-"`
 	ExtPresent_        []bool               `asn1:"-" json:"-"`
 	ExtData_           [][]byte             `asn1:"-" json:"-"`
@@ -806,7 +958,7 @@ func (v *ActivateTraceModeArg4) UnmarshalBER(data []byte) error {
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := IMSI4(rawVal_imsi)
+				tmp_imsi := IMSI3(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -864,7 +1016,7 @@ func (v *ActivateTraceModeArg4) UnmarshalBER(data []byte) error {
 				if decodedTag_omcid.Class != tag.ClassContextSpecific || decodedTag_omcid.Number != 3 {
 					return fmt.Errorf("decoding omc-Id: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_omcid)
 				}
-				tmp_omcid := AddressString4(rawVal_omcid)
+				tmp_omcid := AddressString3(rawVal_omcid)
 				v.OmcId = &tmp_omcid
 				offset += n_omcid
 			}
@@ -883,7 +1035,7 @@ func (v *ActivateTraceModeArg4) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer4
+				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -1010,7 +1162,7 @@ func (v *ActivateTraceModeArg4) UnmarshalBER(data []byte) error {
 				if decodedTag_tracecollectionentity.Class != tag.ClassContextSpecific || decodedTag_tracecollectionentity.Number != 10 {
 					return fmt.Errorf("decoding traceCollectionEntity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tracecollectionentity)
 				}
-				tmp_tracecollectionentity := GSNAddress4(rawVal_tracecollectionentity)
+				tmp_tracecollectionentity := CommonDataTypesGSNAddress(rawVal_tracecollectionentity)
 				v.TraceCollectionEntity = &tmp_tracecollectionentity
 				offset += n_tracecollectionentity
 			}
@@ -1135,6 +1287,99 @@ func (v *MDTConfiguration3) MarshalBER() ([]byte, error) {
 		enc_extensioncontainer = retagged_enc_extensioncontainer
 		children = append(children, enc_extensioncontainer...)
 	}
+	if v.MeasurementPeriodUMTS != nil {
+		enc_measurementperiodumts := ber.EncodeEnumerated(int64(*v.MeasurementPeriodUMTS))
+		retagged_enc_measurementperiodumts, tagErr_enc_measurementperiodumts := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_measurementperiodumts)
+		if tagErr_enc_measurementperiodumts != nil {
+			return nil, fmt.Errorf("encoding measurementPeriodUMTS: %w", tagErr_enc_measurementperiodumts)
+		}
+		enc_measurementperiodumts = retagged_enc_measurementperiodumts
+		children = append(children, enc_measurementperiodumts...)
+	}
+	if v.MeasurementPeriodLTE != nil {
+		enc_measurementperiodlte := ber.EncodeEnumerated(int64(*v.MeasurementPeriodLTE))
+		retagged_enc_measurementperiodlte, tagErr_enc_measurementperiodlte := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_measurementperiodlte)
+		if tagErr_enc_measurementperiodlte != nil {
+			return nil, fmt.Errorf("encoding measurementPeriodLTE: %w", tagErr_enc_measurementperiodlte)
+		}
+		enc_measurementperiodlte = retagged_enc_measurementperiodlte
+		children = append(children, enc_measurementperiodlte...)
+	}
+	if v.CollectionPeriodRRMUMTS != nil {
+		enc_collectionperiodrrmumts := ber.EncodeEnumerated(int64(*v.CollectionPeriodRRMUMTS))
+		retagged_enc_collectionperiodrrmumts, tagErr_enc_collectionperiodrrmumts := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_collectionperiodrrmumts)
+		if tagErr_enc_collectionperiodrrmumts != nil {
+			return nil, fmt.Errorf("encoding collectionPeriodRRM-UMTS: %w", tagErr_enc_collectionperiodrrmumts)
+		}
+		enc_collectionperiodrrmumts = retagged_enc_collectionperiodrrmumts
+		children = append(children, enc_collectionperiodrrmumts...)
+	}
+	if v.CollectionPeriodRRMLTE != nil {
+		enc_collectionperiodrrmlte := ber.EncodeEnumerated(int64(*v.CollectionPeriodRRMLTE))
+		retagged_enc_collectionperiodrrmlte, tagErr_enc_collectionperiodrrmlte := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_collectionperiodrrmlte)
+		if tagErr_enc_collectionperiodrrmlte != nil {
+			return nil, fmt.Errorf("encoding collectionPeriodRRM-LTE: %w", tagErr_enc_collectionperiodrrmlte)
+		}
+		enc_collectionperiodrrmlte = retagged_enc_collectionperiodrrmlte
+		children = append(children, enc_collectionperiodrrmlte...)
+	}
+	if v.PositioningMethod != nil {
+		enc_positioningmethod := ber.EncodeOctetString([]byte(*v.PositioningMethod))
+		retagged_enc_positioningmethod, tagErr_enc_positioningmethod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_positioningmethod)
+		if tagErr_enc_positioningmethod != nil {
+			return nil, fmt.Errorf("encoding positioningMethod: %w", tagErr_enc_positioningmethod)
+		}
+		enc_positioningmethod = retagged_enc_positioningmethod
+		children = append(children, enc_positioningmethod...)
+	}
+	if v.MeasurementQuantity != nil {
+		enc_measurementquantity := ber.EncodeOctetString([]byte(*v.MeasurementQuantity))
+		retagged_enc_measurementquantity, tagErr_enc_measurementquantity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_measurementquantity)
+		if tagErr_enc_measurementquantity != nil {
+			return nil, fmt.Errorf("encoding measurementQuantity: %w", tagErr_enc_measurementquantity)
+		}
+		enc_measurementquantity = retagged_enc_measurementquantity
+		children = append(children, enc_measurementquantity...)
+	}
+	if v.EventThreshold1F != nil {
+		enc_eventthreshold1f := ber.EncodeInteger(int64(*v.EventThreshold1F))
+		retagged_enc_eventthreshold1f, tagErr_enc_eventthreshold1f := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_eventthreshold1f)
+		if tagErr_enc_eventthreshold1f != nil {
+			return nil, fmt.Errorf("encoding eventThreshold1F: %w", tagErr_enc_eventthreshold1f)
+		}
+		enc_eventthreshold1f = retagged_enc_eventthreshold1f
+		children = append(children, enc_eventthreshold1f...)
+	}
+	if v.EventThreshold1I != nil {
+		enc_eventthreshold1i := ber.EncodeInteger(int64(*v.EventThreshold1I))
+		retagged_enc_eventthreshold1i, tagErr_enc_eventthreshold1i := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_eventthreshold1i)
+		if tagErr_enc_eventthreshold1i != nil {
+			return nil, fmt.Errorf("encoding eventThreshold1I: %w", tagErr_enc_eventthreshold1i)
+		}
+		enc_eventthreshold1i = retagged_enc_eventthreshold1i
+		children = append(children, enc_eventthreshold1i...)
+	}
+	if v.MdtAllowedPLMNList != nil {
+		enc_mdtallowedplmnlist, err := MarshalBEROMMDTAllowedPLMNIdList(v.MdtAllowedPLMNList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding mdt-Allowed-PLMN-List: %w", err)
+		}
+		if v.MdtAllowedPLMNListIndef_ {
+			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
+			_, _, seqContent_, tlvErr_ := ber.DecodeTLV(enc_mdtallowedplmnlist)
+			if tlvErr_ != nil {
+				return nil, tlvErr_
+			}
+			enc_mdtallowedplmnlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 14}, seqContent_)
+		} else {
+			retagged_enc_mdtallowedplmnlist, tagErr_enc_mdtallowedplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_mdtallowedplmnlist)
+			if tagErr_enc_mdtallowedplmnlist != nil {
+				return nil, fmt.Errorf("encoding mdt-Allowed-PLMN-List: %w", tagErr_enc_mdtallowedplmnlist)
+			}
+			enc_mdtallowedplmnlist = retagged_enc_mdtallowedplmnlist
+		}
+		children = append(children, enc_mdtallowedplmnlist...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -1228,6 +1473,90 @@ func (v *MDTConfiguration3) MarshalDER() ([]byte, error) {
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
 		children = append(children, enc_extensioncontainer...)
+	}
+	if v.MeasurementPeriodUMTS != nil {
+		enc_measurementperiodumts := ber.EncodeEnumerated(int64(*v.MeasurementPeriodUMTS))
+		retagged_enc_measurementperiodumts, tagErr_enc_measurementperiodumts := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 6, enc_measurementperiodumts)
+		if tagErr_enc_measurementperiodumts != nil {
+			return nil, fmt.Errorf("encoding measurementPeriodUMTS: %w", tagErr_enc_measurementperiodumts)
+		}
+		enc_measurementperiodumts = retagged_enc_measurementperiodumts
+		children = append(children, enc_measurementperiodumts...)
+	}
+	if v.MeasurementPeriodLTE != nil {
+		enc_measurementperiodlte := ber.EncodeEnumerated(int64(*v.MeasurementPeriodLTE))
+		retagged_enc_measurementperiodlte, tagErr_enc_measurementperiodlte := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_measurementperiodlte)
+		if tagErr_enc_measurementperiodlte != nil {
+			return nil, fmt.Errorf("encoding measurementPeriodLTE: %w", tagErr_enc_measurementperiodlte)
+		}
+		enc_measurementperiodlte = retagged_enc_measurementperiodlte
+		children = append(children, enc_measurementperiodlte...)
+	}
+	if v.CollectionPeriodRRMUMTS != nil {
+		enc_collectionperiodrrmumts := ber.EncodeEnumerated(int64(*v.CollectionPeriodRRMUMTS))
+		retagged_enc_collectionperiodrrmumts, tagErr_enc_collectionperiodrrmumts := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 8, enc_collectionperiodrrmumts)
+		if tagErr_enc_collectionperiodrrmumts != nil {
+			return nil, fmt.Errorf("encoding collectionPeriodRRM-UMTS: %w", tagErr_enc_collectionperiodrrmumts)
+		}
+		enc_collectionperiodrrmumts = retagged_enc_collectionperiodrrmumts
+		children = append(children, enc_collectionperiodrrmumts...)
+	}
+	if v.CollectionPeriodRRMLTE != nil {
+		enc_collectionperiodrrmlte := ber.EncodeEnumerated(int64(*v.CollectionPeriodRRMLTE))
+		retagged_enc_collectionperiodrrmlte, tagErr_enc_collectionperiodrrmlte := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_collectionperiodrrmlte)
+		if tagErr_enc_collectionperiodrrmlte != nil {
+			return nil, fmt.Errorf("encoding collectionPeriodRRM-LTE: %w", tagErr_enc_collectionperiodrrmlte)
+		}
+		enc_collectionperiodrrmlte = retagged_enc_collectionperiodrrmlte
+		children = append(children, enc_collectionperiodrrmlte...)
+	}
+	if v.PositioningMethod != nil {
+		enc_positioningmethod := ber.EncodeOctetString([]byte(*v.PositioningMethod))
+		retagged_enc_positioningmethod, tagErr_enc_positioningmethod := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_positioningmethod)
+		if tagErr_enc_positioningmethod != nil {
+			return nil, fmt.Errorf("encoding positioningMethod: %w", tagErr_enc_positioningmethod)
+		}
+		enc_positioningmethod = retagged_enc_positioningmethod
+		children = append(children, enc_positioningmethod...)
+	}
+	if v.MeasurementQuantity != nil {
+		enc_measurementquantity := ber.EncodeOctetString([]byte(*v.MeasurementQuantity))
+		retagged_enc_measurementquantity, tagErr_enc_measurementquantity := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_measurementquantity)
+		if tagErr_enc_measurementquantity != nil {
+			return nil, fmt.Errorf("encoding measurementQuantity: %w", tagErr_enc_measurementquantity)
+		}
+		enc_measurementquantity = retagged_enc_measurementquantity
+		children = append(children, enc_measurementquantity...)
+	}
+	if v.EventThreshold1F != nil {
+		enc_eventthreshold1f := ber.EncodeInteger(int64(*v.EventThreshold1F))
+		retagged_enc_eventthreshold1f, tagErr_enc_eventthreshold1f := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_eventthreshold1f)
+		if tagErr_enc_eventthreshold1f != nil {
+			return nil, fmt.Errorf("encoding eventThreshold1F: %w", tagErr_enc_eventthreshold1f)
+		}
+		enc_eventthreshold1f = retagged_enc_eventthreshold1f
+		children = append(children, enc_eventthreshold1f...)
+	}
+	if v.EventThreshold1I != nil {
+		enc_eventthreshold1i := ber.EncodeInteger(int64(*v.EventThreshold1I))
+		retagged_enc_eventthreshold1i, tagErr_enc_eventthreshold1i := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_eventthreshold1i)
+		if tagErr_enc_eventthreshold1i != nil {
+			return nil, fmt.Errorf("encoding eventThreshold1I: %w", tagErr_enc_eventthreshold1i)
+		}
+		enc_eventthreshold1i = retagged_enc_eventthreshold1i
+		children = append(children, enc_eventthreshold1i...)
+	}
+	if v.MdtAllowedPLMNList != nil {
+		enc_mdtallowedplmnlist, err := MarshalDEROMMDTAllowedPLMNIdList(v.MdtAllowedPLMNList)
+		if err != nil {
+			return nil, fmt.Errorf("encoding mdt-Allowed-PLMN-List: %w", err)
+		}
+		retagged_enc_mdtallowedplmnlist, tagErr_enc_mdtallowedplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_mdtallowedplmnlist)
+		if tagErr_enc_mdtallowedplmnlist != nil {
+			return nil, fmt.Errorf("encoding mdt-Allowed-PLMN-List: %w", tagErr_enc_mdtallowedplmnlist)
+		}
+		enc_mdtallowedplmnlist = retagged_enc_mdtallowedplmnlist
+		children = append(children, enc_mdtallowedplmnlist...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
@@ -1446,12 +1775,209 @@ func (v *MDTConfiguration3) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer4
+				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
 				offset += n_extensioncontainer
+			}
+		}
+	}
+	// Decode measurementPeriodUMTS
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6 {
+				decodedTag_measurementperiodumts, n_measurementperiodumts, rawVal_measurementperiodumts, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding measurementPeriodUMTS: %w", err)
+				}
+				if decodedTag_measurementperiodumts.Class != tag.ClassContextSpecific || decodedTag_measurementperiodumts.Number != 6 || decodedTag_measurementperiodumts.Constructed != false {
+					return fmt.Errorf("decoding measurementPeriodUMTS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_measurementperiodumts)
+				}
+				decVal_measurementperiodumts, intErr := ber.DecodeEnumeratedValue(rawVal_measurementperiodumts)
+				if intErr != nil {
+					return fmt.Errorf("decoding measurementPeriodUMTS: %w", intErr)
+				}
+				tmp_measurementperiodumts := PeriodUMTS3(decVal_measurementperiodumts)
+				v.MeasurementPeriodUMTS = &tmp_measurementperiodumts
+				offset += n_measurementperiodumts
+			}
+		}
+	}
+	// Decode measurementPeriodLTE
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7 {
+				decodedTag_measurementperiodlte, n_measurementperiodlte, rawVal_measurementperiodlte, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding measurementPeriodLTE: %w", err)
+				}
+				if decodedTag_measurementperiodlte.Class != tag.ClassContextSpecific || decodedTag_measurementperiodlte.Number != 7 || decodedTag_measurementperiodlte.Constructed != false {
+					return fmt.Errorf("decoding measurementPeriodLTE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_measurementperiodlte)
+				}
+				decVal_measurementperiodlte, intErr := ber.DecodeEnumeratedValue(rawVal_measurementperiodlte)
+				if intErr != nil {
+					return fmt.Errorf("decoding measurementPeriodLTE: %w", intErr)
+				}
+				tmp_measurementperiodlte := PeriodLTE3(decVal_measurementperiodlte)
+				v.MeasurementPeriodLTE = &tmp_measurementperiodlte
+				offset += n_measurementperiodlte
+			}
+		}
+	}
+	// Decode collectionPeriodRRM-UMTS
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8 {
+				decodedTag_collectionperiodrrmumts, n_collectionperiodrrmumts, rawVal_collectionperiodrrmumts, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding collectionPeriodRRM-UMTS: %w", err)
+				}
+				if decodedTag_collectionperiodrrmumts.Class != tag.ClassContextSpecific || decodedTag_collectionperiodrrmumts.Number != 8 || decodedTag_collectionperiodrrmumts.Constructed != false {
+					return fmt.Errorf("decoding collectionPeriodRRM-UMTS: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_collectionperiodrrmumts)
+				}
+				decVal_collectionperiodrrmumts, intErr := ber.DecodeEnumeratedValue(rawVal_collectionperiodrrmumts)
+				if intErr != nil {
+					return fmt.Errorf("decoding collectionPeriodRRM-UMTS: %w", intErr)
+				}
+				tmp_collectionperiodrrmumts := PeriodUMTS3(decVal_collectionperiodrrmumts)
+				v.CollectionPeriodRRMUMTS = &tmp_collectionperiodrrmumts
+				offset += n_collectionperiodrrmumts
+			}
+		}
+	}
+	// Decode collectionPeriodRRM-LTE
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9 {
+				decodedTag_collectionperiodrrmlte, n_collectionperiodrrmlte, rawVal_collectionperiodrrmlte, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding collectionPeriodRRM-LTE: %w", err)
+				}
+				if decodedTag_collectionperiodrrmlte.Class != tag.ClassContextSpecific || decodedTag_collectionperiodrrmlte.Number != 9 || decodedTag_collectionperiodrrmlte.Constructed != false {
+					return fmt.Errorf("decoding collectionPeriodRRM-LTE: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_collectionperiodrrmlte)
+				}
+				decVal_collectionperiodrrmlte, intErr := ber.DecodeEnumeratedValue(rawVal_collectionperiodrrmlte)
+				if intErr != nil {
+					return fmt.Errorf("decoding collectionPeriodRRM-LTE: %w", intErr)
+				}
+				tmp_collectionperiodrrmlte := PeriodLTE3(decVal_collectionperiodrrmlte)
+				v.CollectionPeriodRRMLTE = &tmp_collectionperiodrrmlte
+				offset += n_collectionperiodrrmlte
+			}
+		}
+	}
+	// Decode positioningMethod
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
+				decodedTag_positioningmethod, n_positioningmethod, rawVal_positioningmethod, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding positioningMethod: %w", err)
+				}
+				if decodedTag_positioningmethod.Class != tag.ClassContextSpecific || decodedTag_positioningmethod.Number != 10 {
+					return fmt.Errorf("decoding positioningMethod: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_positioningmethod)
+				}
+				tmp_positioningmethod := PositioningMethod3(rawVal_positioningmethod)
+				v.PositioningMethod = &tmp_positioningmethod
+				offset += n_positioningmethod
+			}
+		}
+	}
+	// Decode measurementQuantity
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
+				decodedTag_measurementquantity, n_measurementquantity, rawVal_measurementquantity, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding measurementQuantity: %w", err)
+				}
+				if decodedTag_measurementquantity.Class != tag.ClassContextSpecific || decodedTag_measurementquantity.Number != 11 {
+					return fmt.Errorf("decoding measurementQuantity: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_measurementquantity)
+				}
+				tmp_measurementquantity := MeasurementQuantity3(rawVal_measurementquantity)
+				v.MeasurementQuantity = &tmp_measurementquantity
+				offset += n_measurementquantity
+			}
+		}
+	}
+	// Decode eventThreshold1F
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
+				decodedTag_eventthreshold1f, n_eventthreshold1f, rawVal_eventthreshold1f, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding eventThreshold1F: %w", err)
+				}
+				if decodedTag_eventthreshold1f.Class != tag.ClassContextSpecific || decodedTag_eventthreshold1f.Number != 12 || decodedTag_eventthreshold1f.Constructed != false {
+					return fmt.Errorf("decoding eventThreshold1F: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventthreshold1f)
+				}
+				decVal_eventthreshold1f, intErr := ber.DecodeIntegerValue(rawVal_eventthreshold1f)
+				if intErr != nil {
+					return fmt.Errorf("decoding eventThreshold1F: %w", intErr)
+				}
+				tmp_eventthreshold1f := EventThreshold1F3(decVal_eventthreshold1f)
+				v.EventThreshold1F = &tmp_eventthreshold1f
+				offset += n_eventthreshold1f
+			}
+		}
+	}
+	// Decode eventThreshold1I
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
+				decodedTag_eventthreshold1i, n_eventthreshold1i, rawVal_eventthreshold1i, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding eventThreshold1I: %w", err)
+				}
+				if decodedTag_eventthreshold1i.Class != tag.ClassContextSpecific || decodedTag_eventthreshold1i.Number != 13 || decodedTag_eventthreshold1i.Constructed != false {
+					return fmt.Errorf("decoding eventThreshold1I: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eventthreshold1i)
+				}
+				decVal_eventthreshold1i, intErr := ber.DecodeIntegerValue(rawVal_eventthreshold1i)
+				if intErr != nil {
+					return fmt.Errorf("decoding eventThreshold1I: %w", intErr)
+				}
+				tmp_eventthreshold1i := EventThreshold1I3(decVal_eventthreshold1i)
+				v.EventThreshold1I = &tmp_eventthreshold1i
+				offset += n_eventthreshold1i
+			}
+		}
+	}
+	// Decode mdt-Allowed-PLMN-List
+	v.MdtAllowedPLMNListIndef_ = false
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
+				decodedTag_mdtallowedplmnlist, n_mdtallowedplmnlist, rawVal_mdtallowedplmnlist, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding mdt-Allowed-PLMN-List: %w", err)
+				}
+				if decodedTag_mdtallowedplmnlist.Class != tag.ClassContextSpecific || decodedTag_mdtallowedplmnlist.Number != 14 || decodedTag_mdtallowedplmnlist.Constructed != true {
+					return fmt.Errorf("decoding mdt-Allowed-PLMN-List: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mdtallowedplmnlist)
+				}
+				reconstructed_mdtallowedplmnlist := ber.EncodeSequence(rawVal_mdtallowedplmnlist)
+				dec_mdtallowedplmnlist, unmErr := UnmarshalBEROMMDTAllowedPLMNIdList(reconstructed_mdtallowedplmnlist)
+				if unmErr != nil {
+					return fmt.Errorf("decoding mdt-Allowed-PLMN-List: %w", unmErr)
+				}
+				v.MdtAllowedPLMNList = dec_mdtallowedplmnlist
+				{
+					_, tagSz_, _ := ber.DecodeTag(content[offset:])
+					if offset+tagSz_ < len(content) && content[offset+tagSz_] == 0x80 {
+						v.MdtAllowedPLMNListIndef_ = true
+					}
+				}
+				offset += n_mdtallowedplmnlist
 			}
 		}
 	}
@@ -1469,6 +1995,62 @@ func (v *MDTConfiguration3) UnmarshalBER(data []byte) error {
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
+}
+
+// MarshalBEROMMDTAllowedPLMNIdList encodes a OMMDTAllowedPLMNIdList list to BER.
+func MarshalBEROMMDTAllowedPLMNIdList(list OMMDTAllowedPLMNIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("OMMDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(list))
+	}
+	var children []byte
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	}
+	return ber.EncodeSequence(children), nil
+}
+
+// MarshalDEROMMDTAllowedPLMNIdList encodes a OMMDTAllowedPLMNIdList list to DER.
+func MarshalDEROMMDTAllowedPLMNIdList(list OMMDTAllowedPLMNIdList) ([]byte, error) {
+	if len(list) < 1 || len(list) > 16 {
+		return nil, fmt.Errorf("OMMDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(list))
+	}
+	var children []byte
+	for _, elem := range list {
+		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+	}
+	encoded := ber.EncodeSequence(children)
+	if err := ber.ValidateDERElement(encoded); err != nil {
+		return nil, fmt.Errorf("encoding OMMDTAllowedPLMNIdList as DER: %w", err)
+	}
+	return encoded, nil
+}
+
+// UnmarshalBEROMMDTAllowedPLMNIdList decodes a OMMDTAllowedPLMNIdList list from BER.
+func UnmarshalBEROMMDTAllowedPLMNIdList(data []byte) (OMMDTAllowedPLMNIdList, error) {
+	content, total, err := ber.DecodeSequenceContent(data)
+	if err != nil {
+		return nil, fmt.Errorf("decoding OMMDTAllowedPLMNIdList: %w", err)
+	}
+	if total != len(data) {
+		return nil, &ber.DecodeError{Offset: total, TypeName: "OMMDTAllowedPLMNIdList", Cause: ber.ErrExtraData}
+	}
+	var result OMMDTAllowedPLMNIdList
+	offset := 0
+	for offset < len(content) {
+		val, n, osErr := ber.DecodeOctetString(content[offset:])
+		if osErr != nil {
+			return nil, fmt.Errorf("decoding element: %w", osErr)
+		}
+		result = append(result, PLMNId3(val))
+		offset += n
+		if len(result) > 16 {
+			return nil, fmt.Errorf("OMMDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 16 {
+		return nil, fmt.Errorf("OMMDTAllowedPLMNIdList length %d violates SIZE (1..16)", len(result))
+	}
+	return result, nil
 }
 
 // MarshalBER encodes AreaScope3 to BER format.
@@ -1861,7 +2443,7 @@ func (v *AreaScope3) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer4
+				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -1888,6 +2470,9 @@ func (v *AreaScope3) UnmarshalBER(data []byte) error {
 
 // MarshalBERCGIList3 encodes a CGIList3 list to BER.
 func MarshalBERCGIList3(list CGIList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("CGIList3 length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1897,6 +2482,9 @@ func MarshalBERCGIList3(list CGIList3) ([]byte, error) {
 
 // MarshalDERCGIList3 encodes a CGIList3 list to DER.
 func MarshalDERCGIList3(list CGIList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("CGIList3 length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1924,14 +2512,23 @@ func UnmarshalBERCGIList3(data []byte) (CGIList3, error) {
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, GlobalCellId4(val))
+		result = append(result, GlobalCellId3(val))
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("CGIList3 length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("CGIList3 length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBEREUTRANCGIList3 encodes a EUTRANCGIList3 list to BER.
 func MarshalBEREUTRANCGIList3(list EUTRANCGIList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("EUTRANCGIList3 length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1941,6 +2538,9 @@ func MarshalBEREUTRANCGIList3(list EUTRANCGIList3) ([]byte, error) {
 
 // MarshalDEREUTRANCGIList3 encodes a EUTRANCGIList3 list to DER.
 func MarshalDEREUTRANCGIList3(list EUTRANCGIList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 32 {
+		return nil, fmt.Errorf("EUTRANCGIList3 length %d violates SIZE (1..32)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1968,14 +2568,23 @@ func UnmarshalBEREUTRANCGIList3(data []byte) (EUTRANCGIList3, error) {
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, EUTRANCGI3(val))
+		result = append(result, CommonDataTypesEUTRANCGI(val))
 		offset += n
+		if len(result) > 32 {
+			return nil, fmt.Errorf("EUTRANCGIList3 length %d violates SIZE (1..32)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 32 {
+		return nil, fmt.Errorf("EUTRANCGIList3 length %d violates SIZE (1..32)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERRoutingAreaIdList3 encodes a RoutingAreaIdList3 list to BER.
 func MarshalBERRoutingAreaIdList3(list RoutingAreaIdList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("RoutingAreaIdList3 length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -1985,6 +2594,9 @@ func MarshalBERRoutingAreaIdList3(list RoutingAreaIdList3) ([]byte, error) {
 
 // MarshalDERRoutingAreaIdList3 encodes a RoutingAreaIdList3 list to DER.
 func MarshalDERRoutingAreaIdList3(list RoutingAreaIdList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("RoutingAreaIdList3 length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2012,14 +2624,23 @@ func UnmarshalBERRoutingAreaIdList3(data []byte) (RoutingAreaIdList3, error) {
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, RAIdentity4(val))
+		result = append(result, CommonDataTypesRAIdentity(val))
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("RoutingAreaIdList3 length %d violates SIZE (1..8)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 8 {
+		return nil, fmt.Errorf("RoutingAreaIdList3 length %d violates SIZE (1..8)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERLocationAreaIdList3 encodes a LocationAreaIdList3 list to BER.
 func MarshalBERLocationAreaIdList3(list LocationAreaIdList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("LocationAreaIdList3 length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2029,6 +2650,9 @@ func MarshalBERLocationAreaIdList3(list LocationAreaIdList3) ([]byte, error) {
 
 // MarshalDERLocationAreaIdList3 encodes a LocationAreaIdList3 list to DER.
 func MarshalDERLocationAreaIdList3(list LocationAreaIdList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("LocationAreaIdList3 length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2056,14 +2680,23 @@ func UnmarshalBERLocationAreaIdList3(data []byte) (LocationAreaIdList3, error) {
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, LAIFixedLength4(val))
+		result = append(result, LAIFixedLength3(val))
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("LocationAreaIdList3 length %d violates SIZE (1..8)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 8 {
+		return nil, fmt.Errorf("LocationAreaIdList3 length %d violates SIZE (1..8)", len(result))
 	}
 	return result, nil
 }
 
 // MarshalBERTrackingAreaIdList3 encodes a TrackingAreaIdList3 list to BER.
 func MarshalBERTrackingAreaIdList3(list TrackingAreaIdList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("TrackingAreaIdList3 length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2073,6 +2706,9 @@ func MarshalBERTrackingAreaIdList3(list TrackingAreaIdList3) ([]byte, error) {
 
 // MarshalDERTrackingAreaIdList3 encodes a TrackingAreaIdList3 list to DER.
 func MarshalDERTrackingAreaIdList3(list TrackingAreaIdList3) ([]byte, error) {
+	if len(list) < 1 || len(list) > 8 {
+		return nil, fmt.Errorf("TrackingAreaIdList3 length %d violates SIZE (1..8)", len(list))
+	}
 	var children []byte
 	for _, elem := range list {
 		children = append(children, ber.EncodeOctetString([]byte(elem))...)
@@ -2100,8 +2736,14 @@ func UnmarshalBERTrackingAreaIdList3(data []byte) (TrackingAreaIdList3, error) {
 		if osErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", osErr)
 		}
-		result = append(result, TAId3(val))
+		result = append(result, CommonDataTypesTAId(val))
 		offset += n
+		if len(result) > 8 {
+			return nil, fmt.Errorf("TrackingAreaIdList3 length %d violates SIZE (1..8)", len(result))
+		}
+	}
+	if len(result) < 1 || len(result) > 8 {
+		return nil, fmt.Errorf("TrackingAreaIdList3 length %d violates SIZE (1..8)", len(result))
 	}
 	return result, nil
 }
@@ -2198,6 +2840,96 @@ func (v *TraceDepthList4) MarshalBER() ([]byte, error) {
 		}
 		enc_enbtracedepth = retagged_enc_enbtracedepth
 		children = append(children, enc_enbtracedepth...)
+	}
+	if v.MscSTraceDepthExtension != nil {
+		enc_mscstracedepthextension := ber.EncodeEnumerated(int64(*v.MscSTraceDepthExtension))
+		retagged_enc_mscstracedepthextension, tagErr_enc_mscstracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_mscstracedepthextension)
+		if tagErr_enc_mscstracedepthextension != nil {
+			return nil, fmt.Errorf("encoding msc-s-TraceDepthExtension: %w", tagErr_enc_mscstracedepthextension)
+		}
+		enc_mscstracedepthextension = retagged_enc_mscstracedepthextension
+		children = append(children, enc_mscstracedepthextension...)
+	}
+	if v.MgwTraceDepthExtension != nil {
+		enc_mgwtracedepthextension := ber.EncodeEnumerated(int64(*v.MgwTraceDepthExtension))
+		retagged_enc_mgwtracedepthextension, tagErr_enc_mgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_mgwtracedepthextension)
+		if tagErr_enc_mgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding mgw-TraceDepthExtension: %w", tagErr_enc_mgwtracedepthextension)
+		}
+		enc_mgwtracedepthextension = retagged_enc_mgwtracedepthextension
+		children = append(children, enc_mgwtracedepthextension...)
+	}
+	if v.SgsnTraceDepthExtension != nil {
+		enc_sgsntracedepthextension := ber.EncodeEnumerated(int64(*v.SgsnTraceDepthExtension))
+		retagged_enc_sgsntracedepthextension, tagErr_enc_sgsntracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_sgsntracedepthextension)
+		if tagErr_enc_sgsntracedepthextension != nil {
+			return nil, fmt.Errorf("encoding sgsn-TraceDepthExtension: %w", tagErr_enc_sgsntracedepthextension)
+		}
+		enc_sgsntracedepthextension = retagged_enc_sgsntracedepthextension
+		children = append(children, enc_sgsntracedepthextension...)
+	}
+	if v.GgsnTraceDepthExtension != nil {
+		enc_ggsntracedepthextension := ber.EncodeEnumerated(int64(*v.GgsnTraceDepthExtension))
+		retagged_enc_ggsntracedepthextension, tagErr_enc_ggsntracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_ggsntracedepthextension)
+		if tagErr_enc_ggsntracedepthextension != nil {
+			return nil, fmt.Errorf("encoding ggsn-TraceDepthExtension: %w", tagErr_enc_ggsntracedepthextension)
+		}
+		enc_ggsntracedepthextension = retagged_enc_ggsntracedepthextension
+		children = append(children, enc_ggsntracedepthextension...)
+	}
+	if v.RncTraceDepthExtension != nil {
+		enc_rnctracedepthextension := ber.EncodeEnumerated(int64(*v.RncTraceDepthExtension))
+		retagged_enc_rnctracedepthextension, tagErr_enc_rnctracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_rnctracedepthextension)
+		if tagErr_enc_rnctracedepthextension != nil {
+			return nil, fmt.Errorf("encoding rnc-TraceDepthExtension: %w", tagErr_enc_rnctracedepthextension)
+		}
+		enc_rnctracedepthextension = retagged_enc_rnctracedepthextension
+		children = append(children, enc_rnctracedepthextension...)
+	}
+	if v.BmscTraceDepthExtension != nil {
+		enc_bmsctracedepthextension := ber.EncodeEnumerated(int64(*v.BmscTraceDepthExtension))
+		retagged_enc_bmsctracedepthextension, tagErr_enc_bmsctracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_bmsctracedepthextension)
+		if tagErr_enc_bmsctracedepthextension != nil {
+			return nil, fmt.Errorf("encoding bmsc-TraceDepthExtension: %w", tagErr_enc_bmsctracedepthextension)
+		}
+		enc_bmsctracedepthextension = retagged_enc_bmsctracedepthextension
+		children = append(children, enc_bmsctracedepthextension...)
+	}
+	if v.MmeTraceDepthExtension != nil {
+		enc_mmetracedepthextension := ber.EncodeEnumerated(int64(*v.MmeTraceDepthExtension))
+		retagged_enc_mmetracedepthextension, tagErr_enc_mmetracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_mmetracedepthextension)
+		if tagErr_enc_mmetracedepthextension != nil {
+			return nil, fmt.Errorf("encoding mme-TraceDepthExtension: %w", tagErr_enc_mmetracedepthextension)
+		}
+		enc_mmetracedepthextension = retagged_enc_mmetracedepthextension
+		children = append(children, enc_mmetracedepthextension...)
+	}
+	if v.SgwTraceDepthExtension != nil {
+		enc_sgwtracedepthextension := ber.EncodeEnumerated(int64(*v.SgwTraceDepthExtension))
+		retagged_enc_sgwtracedepthextension, tagErr_enc_sgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_sgwtracedepthextension)
+		if tagErr_enc_sgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding sgw-TraceDepthExtension: %w", tagErr_enc_sgwtracedepthextension)
+		}
+		enc_sgwtracedepthextension = retagged_enc_sgwtracedepthextension
+		children = append(children, enc_sgwtracedepthextension...)
+	}
+	if v.PgwTraceDepthExtension != nil {
+		enc_pgwtracedepthextension := ber.EncodeEnumerated(int64(*v.PgwTraceDepthExtension))
+		retagged_enc_pgwtracedepthextension, tagErr_enc_pgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_pgwtracedepthextension)
+		if tagErr_enc_pgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding pgw-TraceDepthExtension: %w", tagErr_enc_pgwtracedepthextension)
+		}
+		enc_pgwtracedepthextension = retagged_enc_pgwtracedepthextension
+		children = append(children, enc_pgwtracedepthextension...)
+	}
+	if v.ENBTraceDepthExtension != nil {
+		enc_enbtracedepthextension := ber.EncodeEnumerated(int64(*v.ENBTraceDepthExtension))
+		retagged_enc_enbtracedepthextension, tagErr_enc_enbtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_enbtracedepthextension)
+		if tagErr_enc_enbtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding eNB-TraceDepthExtension: %w", tagErr_enc_enbtracedepthextension)
+		}
+		enc_enbtracedepthextension = retagged_enc_enbtracedepthextension
+		children = append(children, enc_enbtracedepthextension...)
 	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
@@ -2304,6 +3036,96 @@ func (v *TraceDepthList4) MarshalDER() ([]byte, error) {
 		}
 		enc_enbtracedepth = retagged_enc_enbtracedepth
 		children = append(children, enc_enbtracedepth...)
+	}
+	if v.MscSTraceDepthExtension != nil {
+		enc_mscstracedepthextension := ber.EncodeEnumerated(int64(*v.MscSTraceDepthExtension))
+		retagged_enc_mscstracedepthextension, tagErr_enc_mscstracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 10, enc_mscstracedepthextension)
+		if tagErr_enc_mscstracedepthextension != nil {
+			return nil, fmt.Errorf("encoding msc-s-TraceDepthExtension: %w", tagErr_enc_mscstracedepthextension)
+		}
+		enc_mscstracedepthextension = retagged_enc_mscstracedepthextension
+		children = append(children, enc_mscstracedepthextension...)
+	}
+	if v.MgwTraceDepthExtension != nil {
+		enc_mgwtracedepthextension := ber.EncodeEnumerated(int64(*v.MgwTraceDepthExtension))
+		retagged_enc_mgwtracedepthextension, tagErr_enc_mgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 11, enc_mgwtracedepthextension)
+		if tagErr_enc_mgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding mgw-TraceDepthExtension: %w", tagErr_enc_mgwtracedepthextension)
+		}
+		enc_mgwtracedepthextension = retagged_enc_mgwtracedepthextension
+		children = append(children, enc_mgwtracedepthextension...)
+	}
+	if v.SgsnTraceDepthExtension != nil {
+		enc_sgsntracedepthextension := ber.EncodeEnumerated(int64(*v.SgsnTraceDepthExtension))
+		retagged_enc_sgsntracedepthextension, tagErr_enc_sgsntracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_sgsntracedepthextension)
+		if tagErr_enc_sgsntracedepthextension != nil {
+			return nil, fmt.Errorf("encoding sgsn-TraceDepthExtension: %w", tagErr_enc_sgsntracedepthextension)
+		}
+		enc_sgsntracedepthextension = retagged_enc_sgsntracedepthextension
+		children = append(children, enc_sgsntracedepthextension...)
+	}
+	if v.GgsnTraceDepthExtension != nil {
+		enc_ggsntracedepthextension := ber.EncodeEnumerated(int64(*v.GgsnTraceDepthExtension))
+		retagged_enc_ggsntracedepthextension, tagErr_enc_ggsntracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_ggsntracedepthextension)
+		if tagErr_enc_ggsntracedepthextension != nil {
+			return nil, fmt.Errorf("encoding ggsn-TraceDepthExtension: %w", tagErr_enc_ggsntracedepthextension)
+		}
+		enc_ggsntracedepthextension = retagged_enc_ggsntracedepthextension
+		children = append(children, enc_ggsntracedepthextension...)
+	}
+	if v.RncTraceDepthExtension != nil {
+		enc_rnctracedepthextension := ber.EncodeEnumerated(int64(*v.RncTraceDepthExtension))
+		retagged_enc_rnctracedepthextension, tagErr_enc_rnctracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_rnctracedepthextension)
+		if tagErr_enc_rnctracedepthextension != nil {
+			return nil, fmt.Errorf("encoding rnc-TraceDepthExtension: %w", tagErr_enc_rnctracedepthextension)
+		}
+		enc_rnctracedepthextension = retagged_enc_rnctracedepthextension
+		children = append(children, enc_rnctracedepthextension...)
+	}
+	if v.BmscTraceDepthExtension != nil {
+		enc_bmsctracedepthextension := ber.EncodeEnumerated(int64(*v.BmscTraceDepthExtension))
+		retagged_enc_bmsctracedepthextension, tagErr_enc_bmsctracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 15, enc_bmsctracedepthextension)
+		if tagErr_enc_bmsctracedepthextension != nil {
+			return nil, fmt.Errorf("encoding bmsc-TraceDepthExtension: %w", tagErr_enc_bmsctracedepthextension)
+		}
+		enc_bmsctracedepthextension = retagged_enc_bmsctracedepthextension
+		children = append(children, enc_bmsctracedepthextension...)
+	}
+	if v.MmeTraceDepthExtension != nil {
+		enc_mmetracedepthextension := ber.EncodeEnumerated(int64(*v.MmeTraceDepthExtension))
+		retagged_enc_mmetracedepthextension, tagErr_enc_mmetracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_mmetracedepthextension)
+		if tagErr_enc_mmetracedepthextension != nil {
+			return nil, fmt.Errorf("encoding mme-TraceDepthExtension: %w", tagErr_enc_mmetracedepthextension)
+		}
+		enc_mmetracedepthextension = retagged_enc_mmetracedepthextension
+		children = append(children, enc_mmetracedepthextension...)
+	}
+	if v.SgwTraceDepthExtension != nil {
+		enc_sgwtracedepthextension := ber.EncodeEnumerated(int64(*v.SgwTraceDepthExtension))
+		retagged_enc_sgwtracedepthextension, tagErr_enc_sgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_sgwtracedepthextension)
+		if tagErr_enc_sgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding sgw-TraceDepthExtension: %w", tagErr_enc_sgwtracedepthextension)
+		}
+		enc_sgwtracedepthextension = retagged_enc_sgwtracedepthextension
+		children = append(children, enc_sgwtracedepthextension...)
+	}
+	if v.PgwTraceDepthExtension != nil {
+		enc_pgwtracedepthextension := ber.EncodeEnumerated(int64(*v.PgwTraceDepthExtension))
+		retagged_enc_pgwtracedepthextension, tagErr_enc_pgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_pgwtracedepthextension)
+		if tagErr_enc_pgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding pgw-TraceDepthExtension: %w", tagErr_enc_pgwtracedepthextension)
+		}
+		enc_pgwtracedepthextension = retagged_enc_pgwtracedepthextension
+		children = append(children, enc_pgwtracedepthextension...)
+	}
+	if v.ENBTraceDepthExtension != nil {
+		enc_enbtracedepthextension := ber.EncodeEnumerated(int64(*v.ENBTraceDepthExtension))
+		retagged_enc_enbtracedepthextension, tagErr_enc_enbtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_enbtracedepthextension)
+		if tagErr_enc_enbtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding eNB-TraceDepthExtension: %w", tagErr_enc_enbtracedepthextension)
+		}
+		enc_enbtracedepthextension = retagged_enc_enbtracedepthextension
+		children = append(children, enc_enbtracedepthextension...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
@@ -2546,6 +3368,226 @@ func (v *TraceDepthList4) UnmarshalBER(data []byte) error {
 				tmp_enbtracedepth := TraceDepth4(decVal_enbtracedepth)
 				v.ENBTraceDepth = &tmp_enbtracedepth
 				offset += n_enbtracedepth
+			}
+		}
+	}
+	// Decode msc-s-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10 {
+				decodedTag_mscstracedepthextension, n_mscstracedepthextension, rawVal_mscstracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding msc-s-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_mscstracedepthextension.Class != tag.ClassContextSpecific || decodedTag_mscstracedepthextension.Number != 10 || decodedTag_mscstracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding msc-s-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mscstracedepthextension)
+				}
+				decVal_mscstracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_mscstracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding msc-s-TraceDepthExtension: %w", intErr)
+				}
+				tmp_mscstracedepthextension := TraceDepthExtension3(decVal_mscstracedepthextension)
+				v.MscSTraceDepthExtension = &tmp_mscstracedepthextension
+				offset += n_mscstracedepthextension
+			}
+		}
+	}
+	// Decode mgw-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11 {
+				decodedTag_mgwtracedepthextension, n_mgwtracedepthextension, rawVal_mgwtracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding mgw-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_mgwtracedepthextension.Class != tag.ClassContextSpecific || decodedTag_mgwtracedepthextension.Number != 11 || decodedTag_mgwtracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding mgw-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mgwtracedepthextension)
+				}
+				decVal_mgwtracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_mgwtracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding mgw-TraceDepthExtension: %w", intErr)
+				}
+				tmp_mgwtracedepthextension := TraceDepthExtension3(decVal_mgwtracedepthextension)
+				v.MgwTraceDepthExtension = &tmp_mgwtracedepthextension
+				offset += n_mgwtracedepthextension
+			}
+		}
+	}
+	// Decode sgsn-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
+				decodedTag_sgsntracedepthextension, n_sgsntracedepthextension, rawVal_sgsntracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding sgsn-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_sgsntracedepthextension.Class != tag.ClassContextSpecific || decodedTag_sgsntracedepthextension.Number != 12 || decodedTag_sgsntracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding sgsn-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgsntracedepthextension)
+				}
+				decVal_sgsntracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_sgsntracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding sgsn-TraceDepthExtension: %w", intErr)
+				}
+				tmp_sgsntracedepthextension := TraceDepthExtension3(decVal_sgsntracedepthextension)
+				v.SgsnTraceDepthExtension = &tmp_sgsntracedepthextension
+				offset += n_sgsntracedepthextension
+			}
+		}
+	}
+	// Decode ggsn-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
+				decodedTag_ggsntracedepthextension, n_ggsntracedepthextension, rawVal_ggsntracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding ggsn-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_ggsntracedepthextension.Class != tag.ClassContextSpecific || decodedTag_ggsntracedepthextension.Number != 13 || decodedTag_ggsntracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding ggsn-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ggsntracedepthextension)
+				}
+				decVal_ggsntracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_ggsntracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding ggsn-TraceDepthExtension: %w", intErr)
+				}
+				tmp_ggsntracedepthextension := TraceDepthExtension3(decVal_ggsntracedepthextension)
+				v.GgsnTraceDepthExtension = &tmp_ggsntracedepthextension
+				offset += n_ggsntracedepthextension
+			}
+		}
+	}
+	// Decode rnc-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
+				decodedTag_rnctracedepthextension, n_rnctracedepthextension, rawVal_rnctracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding rnc-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_rnctracedepthextension.Class != tag.ClassContextSpecific || decodedTag_rnctracedepthextension.Number != 14 || decodedTag_rnctracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding rnc-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rnctracedepthextension)
+				}
+				decVal_rnctracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_rnctracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding rnc-TraceDepthExtension: %w", intErr)
+				}
+				tmp_rnctracedepthextension := TraceDepthExtension3(decVal_rnctracedepthextension)
+				v.RncTraceDepthExtension = &tmp_rnctracedepthextension
+				offset += n_rnctracedepthextension
+			}
+		}
+	}
+	// Decode bmsc-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15 {
+				decodedTag_bmsctracedepthextension, n_bmsctracedepthextension, rawVal_bmsctracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding bmsc-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_bmsctracedepthextension.Class != tag.ClassContextSpecific || decodedTag_bmsctracedepthextension.Number != 15 || decodedTag_bmsctracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding bmsc-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_bmsctracedepthextension)
+				}
+				decVal_bmsctracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_bmsctracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding bmsc-TraceDepthExtension: %w", intErr)
+				}
+				tmp_bmsctracedepthextension := TraceDepthExtension3(decVal_bmsctracedepthextension)
+				v.BmscTraceDepthExtension = &tmp_bmsctracedepthextension
+				offset += n_bmsctracedepthextension
+			}
+		}
+	}
+	// Decode mme-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16 {
+				decodedTag_mmetracedepthextension, n_mmetracedepthextension, rawVal_mmetracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding mme-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_mmetracedepthextension.Class != tag.ClassContextSpecific || decodedTag_mmetracedepthextension.Number != 16 || decodedTag_mmetracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding mme-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mmetracedepthextension)
+				}
+				decVal_mmetracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_mmetracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding mme-TraceDepthExtension: %w", intErr)
+				}
+				tmp_mmetracedepthextension := TraceDepthExtension3(decVal_mmetracedepthextension)
+				v.MmeTraceDepthExtension = &tmp_mmetracedepthextension
+				offset += n_mmetracedepthextension
+			}
+		}
+	}
+	// Decode sgw-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
+				decodedTag_sgwtracedepthextension, n_sgwtracedepthextension, rawVal_sgwtracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding sgw-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_sgwtracedepthextension.Class != tag.ClassContextSpecific || decodedTag_sgwtracedepthextension.Number != 17 || decodedTag_sgwtracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding sgw-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_sgwtracedepthextension)
+				}
+				decVal_sgwtracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_sgwtracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding sgw-TraceDepthExtension: %w", intErr)
+				}
+				tmp_sgwtracedepthextension := TraceDepthExtension3(decVal_sgwtracedepthextension)
+				v.SgwTraceDepthExtension = &tmp_sgwtracedepthextension
+				offset += n_sgwtracedepthextension
+			}
+		}
+	}
+	// Decode pgw-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
+				decodedTag_pgwtracedepthextension, n_pgwtracedepthextension, rawVal_pgwtracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding pgw-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_pgwtracedepthextension.Class != tag.ClassContextSpecific || decodedTag_pgwtracedepthextension.Number != 18 || decodedTag_pgwtracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding pgw-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pgwtracedepthextension)
+				}
+				decVal_pgwtracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_pgwtracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding pgw-TraceDepthExtension: %w", intErr)
+				}
+				tmp_pgwtracedepthextension := TraceDepthExtension3(decVal_pgwtracedepthextension)
+				v.PgwTraceDepthExtension = &tmp_pgwtracedepthextension
+				offset += n_pgwtracedepthextension
+			}
+		}
+	}
+	// Decode eNB-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19 {
+				decodedTag_enbtracedepthextension, n_enbtracedepthextension, rawVal_enbtracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding eNB-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_enbtracedepthextension.Class != tag.ClassContextSpecific || decodedTag_enbtracedepthextension.Number != 19 || decodedTag_enbtracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding eNB-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_enbtracedepthextension)
+				}
+				decVal_enbtracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_enbtracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding eNB-TraceDepthExtension: %w", intErr)
+				}
+				tmp_enbtracedepthextension := TraceDepthExtension3(decVal_enbtracedepthextension)
+				v.ENBTraceDepthExtension = &tmp_enbtracedepthextension
+				offset += n_enbtracedepthextension
 			}
 		}
 	}
@@ -3514,6 +4556,33 @@ func (v *TracePropagationList4) MarshalBER() ([]byte, error) {
 		enc_mgweventlist = retagged_enc_mgweventlist
 		children = append(children, enc_mgweventlist...)
 	}
+	if v.RncTraceDepthExtension != nil {
+		enc_rnctracedepthextension := ber.EncodeEnumerated(int64(*v.RncTraceDepthExtension))
+		retagged_enc_rnctracedepthextension, tagErr_enc_rnctracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_rnctracedepthextension)
+		if tagErr_enc_rnctracedepthextension != nil {
+			return nil, fmt.Errorf("encoding rnc-TraceDepthExtension: %w", tagErr_enc_rnctracedepthextension)
+		}
+		enc_rnctracedepthextension = retagged_enc_rnctracedepthextension
+		children = append(children, enc_rnctracedepthextension...)
+	}
+	if v.MscSTraceDepthExtension != nil {
+		enc_mscstracedepthextension := ber.EncodeEnumerated(int64(*v.MscSTraceDepthExtension))
+		retagged_enc_mscstracedepthextension, tagErr_enc_mscstracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_mscstracedepthextension)
+		if tagErr_enc_mscstracedepthextension != nil {
+			return nil, fmt.Errorf("encoding msc-s-TraceDepthExtension: %w", tagErr_enc_mscstracedepthextension)
+		}
+		enc_mscstracedepthextension = retagged_enc_mscstracedepthextension
+		children = append(children, enc_mscstracedepthextension...)
+	}
+	if v.MgwTraceDepthExtension != nil {
+		enc_mgwtracedepthextension := ber.EncodeEnumerated(int64(*v.MgwTraceDepthExtension))
+		retagged_enc_mgwtracedepthextension, tagErr_enc_mgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_mgwtracedepthextension)
+		if tagErr_enc_mgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding mgw-TraceDepthExtension: %w", tagErr_enc_mgwtracedepthextension)
+		}
+		enc_mgwtracedepthextension = retagged_enc_mgwtracedepthextension
+		children = append(children, enc_mgwtracedepthextension...)
+	}
 	for i, ext := range v.ExtData_ {
 		_, n, _, extErr := ber.DecodeTLV(ext)
 		if extErr != nil {
@@ -3637,6 +4706,33 @@ func (v *TracePropagationList4) MarshalDER() ([]byte, error) {
 		}
 		enc_mgweventlist = retagged_enc_mgweventlist
 		children = append(children, enc_mgweventlist...)
+	}
+	if v.RncTraceDepthExtension != nil {
+		enc_rnctracedepthextension := ber.EncodeEnumerated(int64(*v.RncTraceDepthExtension))
+		retagged_enc_rnctracedepthextension, tagErr_enc_rnctracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_rnctracedepthextension)
+		if tagErr_enc_rnctracedepthextension != nil {
+			return nil, fmt.Errorf("encoding rnc-TraceDepthExtension: %w", tagErr_enc_rnctracedepthextension)
+		}
+		enc_rnctracedepthextension = retagged_enc_rnctracedepthextension
+		children = append(children, enc_rnctracedepthextension...)
+	}
+	if v.MscSTraceDepthExtension != nil {
+		enc_mscstracedepthextension := ber.EncodeEnumerated(int64(*v.MscSTraceDepthExtension))
+		retagged_enc_mscstracedepthextension, tagErr_enc_mscstracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 13, enc_mscstracedepthextension)
+		if tagErr_enc_mscstracedepthextension != nil {
+			return nil, fmt.Errorf("encoding msc-s-TraceDepthExtension: %w", tagErr_enc_mscstracedepthextension)
+		}
+		enc_mscstracedepthextension = retagged_enc_mscstracedepthextension
+		children = append(children, enc_mscstracedepthextension...)
+	}
+	if v.MgwTraceDepthExtension != nil {
+		enc_mgwtracedepthextension := ber.EncodeEnumerated(int64(*v.MgwTraceDepthExtension))
+		retagged_enc_mgwtracedepthextension, tagErr_enc_mgwtracedepthextension := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_mgwtracedepthextension)
+		if tagErr_enc_mgwtracedepthextension != nil {
+			return nil, fmt.Errorf("encoding mgw-TraceDepthExtension: %w", tagErr_enc_mgwtracedepthextension)
+		}
+		enc_mgwtracedepthextension = retagged_enc_mgwtracedepthextension
+		children = append(children, enc_mgwtracedepthextension...)
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDERElement(ext); err != nil {
@@ -3914,6 +5010,72 @@ func (v *TracePropagationList4) UnmarshalBER(data []byte) error {
 			}
 		}
 	}
+	// Decode rnc-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12 {
+				decodedTag_rnctracedepthextension, n_rnctracedepthextension, rawVal_rnctracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding rnc-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_rnctracedepthextension.Class != tag.ClassContextSpecific || decodedTag_rnctracedepthextension.Number != 12 || decodedTag_rnctracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding rnc-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_rnctracedepthextension)
+				}
+				decVal_rnctracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_rnctracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding rnc-TraceDepthExtension: %w", intErr)
+				}
+				tmp_rnctracedepthextension := TraceDepthExtension3(decVal_rnctracedepthextension)
+				v.RncTraceDepthExtension = &tmp_rnctracedepthextension
+				offset += n_rnctracedepthextension
+			}
+		}
+	}
+	// Decode msc-s-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13 {
+				decodedTag_mscstracedepthextension, n_mscstracedepthextension, rawVal_mscstracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding msc-s-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_mscstracedepthextension.Class != tag.ClassContextSpecific || decodedTag_mscstracedepthextension.Number != 13 || decodedTag_mscstracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding msc-s-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mscstracedepthextension)
+				}
+				decVal_mscstracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_mscstracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding msc-s-TraceDepthExtension: %w", intErr)
+				}
+				tmp_mscstracedepthextension := TraceDepthExtension3(decVal_mscstracedepthextension)
+				v.MscSTraceDepthExtension = &tmp_mscstracedepthextension
+				offset += n_mscstracedepthextension
+			}
+		}
+	}
+	// Decode mgw-TraceDepthExtension
+	if offset < len(content) {
+		peekTag, peekErr := ber.PeekTag(content[offset:])
+		if peekErr == nil {
+			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14 {
+				decodedTag_mgwtracedepthextension, n_mgwtracedepthextension, rawVal_mgwtracedepthextension, err := ber.DecodeTLV(content[offset:])
+				if err != nil {
+					return fmt.Errorf("decoding mgw-TraceDepthExtension: %w", err)
+				}
+				if decodedTag_mgwtracedepthextension.Class != tag.ClassContextSpecific || decodedTag_mgwtracedepthextension.Number != 14 || decodedTag_mgwtracedepthextension.Constructed != false {
+					return fmt.Errorf("decoding mgw-TraceDepthExtension: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mgwtracedepthextension)
+				}
+				decVal_mgwtracedepthextension, intErr := ber.DecodeEnumeratedValue(rawVal_mgwtracedepthextension)
+				if intErr != nil {
+					return fmt.Errorf("decoding mgw-TraceDepthExtension: %w", intErr)
+				}
+				tmp_mgwtracedepthextension := TraceDepthExtension3(decVal_mgwtracedepthextension)
+				v.MgwTraceDepthExtension = &tmp_mgwtracedepthextension
+				offset += n_mgwtracedepthextension
+			}
+		}
+	}
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
@@ -4028,7 +5190,7 @@ func (v *ActivateTraceModeRes4) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer4
+				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -4202,7 +5364,7 @@ func (v *DeactivateTraceModeArg4) UnmarshalBER(data []byte) error {
 				if decodedTag_imsi.Class != tag.ClassContextSpecific || decodedTag_imsi.Number != 0 {
 					return fmt.Errorf("decoding imsi: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_imsi)
 				}
-				tmp_imsi := IMSI4(rawVal_imsi)
+				tmp_imsi := IMSI3(rawVal_imsi)
 				v.Imsi = &tmp_imsi
 				offset += n_imsi
 			}
@@ -4239,7 +5401,7 @@ func (v *DeactivateTraceModeArg4) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer4
+				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
@@ -4362,7 +5524,7 @@ func (v *DeactivateTraceModeRes4) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
 				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
-				var dec_extensioncontainer ExtensionContainer4
+				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
