@@ -282,4 +282,5 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 
 ## License
 
-MIT
+Licensed under the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) for the
+attribution of the third-party specifications from which the packages are generated.
