@@ -1,22 +1,22 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
-  "target_base_commit": "366de494fcb788dd0a0d740ba984816ade486f6a",
+  "compiler_commit": "50120762f71e0278cd8054151521606a774ffa94",
+  "target_base_commit": "bf831999083889d232eadadcc3d4470aebb222b9",
   "inputs": {
-    "sha256": "f0b7a3e852bfe44dfb6ac66613f8751b437f6cf928eed5689ebca733f39b4368",
+    "sha256": "f550293ecd58e5109feeb727fdb6dc8f442cc6fb8e0d4b3772eb8c8f51e24c37",
     "files": [
       {
         "path": "conformance/corpus.yaml",
         "mode": "0644",
-        "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-        "size_bytes": 126896
+        "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+        "size_bytes": 131014
       },
       {
         "path": "conformance/source.lock.json",
         "mode": "0644",
-        "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-        "size_bytes": 140737
+        "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+        "size_bytes": 141948
       }
     ]
   },
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -39,17 +39,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "gsm-map/source-plan.json",
-          "sha256": "7790389aa9867863031fc11469b533ce942d29fc80d7f678e3ce04d709dfb58a",
+          "sha256": "ca28317cf26491033a1e231e9698ef808826a9293ad22d1937a5106391843357",
           "size_bytes": 1489488
         },
         "sources": [
@@ -1150,7 +1150,7 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "bfe5e65d686ff9aba778772deb8009270d6b626b9e43d29185136d8c8ba71ac5",
+          "sha256": "74c0b87db68db4612c52c3aab08e83ed88741c1584c61570f88e81fd71dac645",
           "size_bytes": 8942159
         },
         "outputs": [
@@ -1861,15 +1861,15 @@
       }
     },
     {
-      "id": "lte-rrc",
-      "output": "telecom/lte/rrc",
+      "id": "lppa",
+      "output": "telecom/lte/lppa",
       "conformance": {
-        "entry_id": "lte-rrc",
+        "entry_id": "lppa",
         "status": "supported",
-        "encoding": "uper",
+        "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -1878,17 +1878,462 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
+        },
+        "source_plan": {
+          "path": "lppa/source-plan.json",
+          "sha256": "e4b56255e74b90b04284afb497393a45d8ca2fc7fd0d00deb46f3c41927896f2",
+          "size_bytes": 75872
+        },
+        "sources": [
+          {
+            "collection": "lppa-36455-v19",
+            "path": "modules/LPPA-CommonDataTypes.asn",
+            "mode": "0644",
+            "sha256": "6a24d8d9d4da59ad51f977886ef0309ca9ba140bead6d80b6cf2f76172029089"
+          },
+          {
+            "collection": "lppa-36455-v19",
+            "path": "modules/LPPA-Constants.asn",
+            "mode": "0644",
+            "sha256": "af719fbc4c9112a009f4544065ef7f1839287c00a831724b588d38f76e0c8f67"
+          },
+          {
+            "collection": "lppa-36455-v19",
+            "path": "modules/LPPA-Containers.asn",
+            "mode": "0644",
+            "sha256": "fe2bd9f4b4159c2f1ac7f148d3774e5f22f942050e5bcd9ae0ad0e3260f3e02f"
+          },
+          {
+            "collection": "lppa-36455-v19",
+            "path": "modules/LPPA-IEs.asn",
+            "mode": "0644",
+            "sha256": "ccde99dc39cee3c27a7e5d5b5e5130b212b5f0f6ecb4f716c0bfd7c69d4ffc88"
+          },
+          {
+            "collection": "lppa-36455-v19",
+            "path": "modules/LPPA-PDU-Contents.asn",
+            "mode": "0644",
+            "sha256": "63cc06c175926a13c9cdaa3457c33f22934cbace8b052adf7203dcfdf990952d"
+          },
+          {
+            "collection": "lppa-36455-v19",
+            "path": "modules/LPPA-PDU-Descriptions.asn",
+            "mode": "0644",
+            "sha256": "fef21d90ac0858ed29ba93f4aabbe473a75f48384267538e70e10525b6d64e4a"
+          }
+        ],
+        "module_closure": [
+          {
+            "module": "LPPA-CommonDataTypes",
+            "path": "lppa-36455-v19/modules/LPPA-CommonDataTypes.asn"
+          },
+          {
+            "module": "LPPA-Constants",
+            "path": "lppa-36455-v19/modules/LPPA-Constants.asn"
+          },
+          {
+            "module": "LPPA-Containers",
+            "path": "lppa-36455-v19/modules/LPPA-Containers.asn"
+          },
+          {
+            "module": "LPPA-IEs",
+            "path": "lppa-36455-v19/modules/LPPA-IEs.asn"
+          },
+          {
+            "module": "LPPA-PDU-Contents",
+            "path": "lppa-36455-v19/modules/LPPA-PDU-Contents.asn"
+          },
+          {
+            "module": "LPPA-PDU-Descriptions",
+            "path": "lppa-36455-v19/modules/LPPA-PDU-Descriptions.asn"
+          }
+        ],
+        "ir": {
+          "path": "lppa/resolved-schema.json",
+          "sha256": "7ecc0d43b132049117d1f3708cf81b773d6eb2330a85978070817a9f6a00b858",
+          "size_bytes": 461726
+        },
+        "outputs": [
+          {
+            "path": "lppa/asn1_wire_vectors_test.go",
+            "sha256": "c306e29c0f66e46b55c72a4baf891268ec1f7a0a14b18efb9c30351f9246c038",
+            "size_bytes": 7578
+          },
+          {
+            "path": "lppa/dispatch.go",
+            "sha256": "25650613b7a7a0b160bba21b76788482f6b3ba011e80b18409e3081f30055504",
+            "size_bytes": 42300
+          },
+          {
+            "path": "lppa/doc.go",
+            "sha256": "695f09ead375ead385c02c659917168bd6b9481d66d0359414ddef8ca61f8f80",
+            "size_bytes": 758
+          },
+          {
+            "path": "lppa/lppacommondatatypes.go",
+            "sha256": "104871a1d1436fcde5474fc1bd77c73dd075747fd635b3b7ae51357d7a3bb411",
+            "size_bytes": 5259
+          },
+          {
+            "path": "lppa/lppaconstants.go",
+            "sha256": "382a7a2ed3928cee22eb774215a09558a21cc61e7053bad2a61f4aa383138912",
+            "size_bytes": 6731
+          },
+          {
+            "path": "lppa/lppacontainers.go",
+            "sha256": "4ab6bb3897c68249402709a895ad753ca46a256711662ba73a82ad4c73bfdd34",
+            "size_bytes": 34639
+          },
+          {
+            "path": "lppa/lppaies.go",
+            "sha256": "ec3b227d5293c5902c153eace76dcdb38460d1250947828d87e2dc7111de3b7b",
+            "size_bytes": 430303
+          },
+          {
+            "path": "lppa/lppapducontents.go",
+            "sha256": "b027b794f5e1bebe7c094919a9ddcd323f2dca7b42c361797708ad0d468bf11a",
+            "size_bytes": 80706
+          },
+          {
+            "path": "lppa/lppapdudescriptions.go",
+            "sha256": "3e7d53986c3d3c4e33de6fe0a1c2cd76891bb1db72eb621dffabf24dec406897",
+            "size_bytes": 14542
+          },
+          {
+            "path": "lppa/per_helpers.go",
+            "sha256": "100b3379b61091841ea3882ba8ce31aeb54400825794cbb2604829ef0e54393b",
+            "size_bytes": 102
+          }
+        ],
+        "standards": [
+          {
+            "authority": "3gpp",
+            "document": "3GPP TS 36.455 V19.0.0 (Release 19), clause 9.3",
+            "status": "current Release 19 publication verified 2026-09-27"
+          },
+          {
+            "authority": "itu-t",
+            "document": "ITU-T X.691 (02/2021), Aligned Packed Encoding Rules",
+            "status": "in force verified 2026-09-27"
+          }
+        ],
+        "validation": [
+          {
+            "name": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/decoder",
+            "args": null,
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0,
+            "stdout": "{\"decoded\":{\"Value\":{\"ProtocolIEs\":[{\"Id\":2,\"Criticality\":0,\"Value\":\"00\"}]},\"ProtocolIEs\":[{\"Path\":\"ECIDMeasurementInitiationRequest.ProtocolIEs[0]\",\"ObjectSet\":\"E-CIDMeasurementInitiationRequest-IEs\",\"Field\":{\"Id\":2,\"Criticality\":0,\"Value\":\"00\"},\"Value\":1,\"Children\":null,\"Extensions\":null}],\"ProtocolExtensions\":null},\"reencoded_hex\":\"0002000000080000010002000100\",\"consumed_bits\":112,\"input_bits\":112}\n"
+          },
+          {
+            "name": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/decoder",
+            "args": null,
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0,
+            "stdout": "{\"decoded\":{\"Choice\":1,\"InitiatingMessage\":{\"ProcedureCode\":2,\"Criticality\":0,\"LppatransactionID\":0,\"Value\":\"0000010002000100\"}},\"reencoded_hex\":\"0002000000080000010002000100\",\"consumed_bits\":112,\"input_bits\":112}\n"
+          },
+          {
+            "name": "/Users/marwanjadid/go/bin/golangci-lint",
+            "args": [
+              "run",
+              "--allow-serial-runners",
+              "./..."
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0,
+            "stdout": "0 issues.\n"
+          },
+          {
+            "name": "/Users/marwanjadid/go/bin/gopls",
+            "args": [
+              "check",
+              "$WORK/lppa/generated/lppa/asn1_wire_vectors_test.go",
+              "$WORK/lppa/generated/lppa/dispatch.go",
+              "$WORK/lppa/generated/lppa/doc.go",
+              "$WORK/lppa/generated/lppa/lppacommondatatypes.go",
+              "$WORK/lppa/generated/lppa/lppaconstants.go",
+              "$WORK/lppa/generated/lppa/lppacontainers.go",
+              "$WORK/lppa/generated/lppa/lppaies.go",
+              "$WORK/lppa/generated/lppa/lppapducontents.go",
+              "$WORK/lppa/generated/lppa/lppapdudescriptions.go",
+              "$WORK/lppa/generated/lppa/per_helpers.go"
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "/Users/marwanjadid/go/bin/staticcheck",
+            "args": [
+              "./..."
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "/opt/homebrew/bin/tshark",
+            "args": [
+              "-r",
+              "$WORK/lppa/wire-captures/capture-000.pcap",
+              "-T",
+              "json",
+              "-x"
+            ],
+            "dir": "",
+            "exit_code": 0,
+            "stdout": "[\n  {\n    \"_index\": \"packets-1970-01-01\",\n    \"_score\": null,\n    \"_source\": {\n      \"layers\": {\n        \"frame_raw\": [\n          \"000c00046c707061000000000002000000080000010002000100\",\n          0,\n          26,\n          0,\n          1,\n          0\n        ],\n        \"frame\": {\n          \"frame.encap_type\": \"155\",\n          \"frame.time\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.time_utc\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.time_epoch\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.offset_shift\": \"0.000000000\",\n          \"frame.time_relative\": \"0.000000000\",\n          \"frame.number\": \"1\",\n          \"frame.len\": \"26\",\n          \"frame.cap_len\": \"26\",\n          \"frame.marked\": \"0\",\n          \"frame.ignored\": \"0\",\n          \"frame.protocols\": \"exported_pdu:lppa\",\n          \"frame.encoding\": \"0\"\n        },\n        \"exported_pdu_raw\": [\n          \"000c00046c70706100000000\",\n          0,\n          12,\n          0,\n          1,\n          0\n        ],\n        \"exported_pdu\": {\n          \"exported_pdu.tag_raw\": [\n            \"000c00046c707061\",\n            0,\n            8,\n            0,\n            5,\n            0\n          ],\n          \"exported_pdu.tag\": \"12\",\n          \"exported_pdu.tag_tree\": {\n            \"exported_pdu.tag_len_raw\": [\n              \"0004\",\n              2,\n              2,\n              0,\n              5,\n              0\n            ],\n            \"exported_pdu.tag_len\": \"4\",\n            \"exported_pdu.prot_name_raw\": [\n              \"6c707061\",\n              4,\n              4,\n              0,\n              43,\n              0\n            ],\n            \"exported_pdu.prot_name\": \"lppa\"\n          },\n          \"exported_pdu.tag_raw\": [\n            \"00000000\",\n            8,\n            4,\n            0,\n            5,\n            0\n          ],\n          \"exported_pdu.tag\": \"0\",\n          \"exported_pdu.tag_tree\": {\n            \"exported_pdu.tag_len_raw\": [\n              \"0000\",\n              10,\n              2,\n              0,\n              5,\n              0\n            ],\n            \"exported_pdu.tag_len\": \"0\"\n          },\n          \"exported_pdu.exported_pdu_raw\": [\n            \"0002000000080000010002000100\",\n            12,\n            14,\n            0,\n            30,\n            0\n          ],\n          \"exported_pdu.exported_pdu\": \"00:02:00:00:00:08:00:00:01:00:02:00:01:00\"\n        },\n        \"lppa_raw\": [\n          \"0002000000080000010002000100\",\n          12,\n          14,\n          0,\n          1,\n          0\n        ],\n        \"lppa\": \"LTE Positioning Protocol A (LPPa)\",\n        \"per.extension_bit_raw\": [\n          \"0\",\n          12,\n          1,\n          1,\n          2,\n          0\n        ],\n        \"per.extension_bit\": \"0\",\n        \"per.choice_index_raw\": [\n          \"00\",\n          12,\n          1,\n          0,\n          7,\n          0\n        ],\n        \"per.choice_index\": \"0\",\n        \"lppa.LPPA_PDU_raw\": [\n          \"0002000000080000010002000100\",\n          12,\n          14,\n          0,\n          7,\n          0\n        ],\n        \"lppa.LPPA_PDU\": \"0\",\n        \"lppa.LPPA_PDU_tree\": {\n          \"lppa.initiatingMessage_element_raw\": [\n            \"0002000000080000010002000100\",\n            12,\n            14,\n            0,\n            0,\n            0\n          ],\n          \"lppa.initiatingMessage_element\": {\n            \"lppa.procedureCode_raw\": [\n              \"02\",\n              13,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"lppa.procedureCode\": \"2\",\n            \"per.enum_index_raw\": [\n              \"00\",\n              14,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"per.enum_index\": \"0\",\n            \"lppa.criticality_raw\": [\n              \"00\",\n              14,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"lppa.criticality\": \"0\",\n            \"lppa.lppatransactionID_raw\": [\n              \"0000\",\n              15,\n              2,\n              0,\n              7,\n              0\n            ],\n            \"lppa.lppatransactionID\": \"0\",\n            \"per.open_type_length_raw\": [\n              \"08\",\n              17,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"per.open_type_length\": \"8\",\n            \"lppa.initiatingMessagevalue_element_raw\": [\n              \"0000010002000100\",\n              18,\n              8,\n              0,\n              0,\n              0\n            ],\n            \"lppa.initiatingMessagevalue_element\": {\n              \"lppa.E_CIDMeasurementInitiationRequest_element_raw\": [\n                \"0000010002000100\",\n                18,\n                8,\n                0,\n                0,\n                0\n              ],\n              \"lppa.E_CIDMeasurementInitiationRequest_element\": {\n                \"per.extension_bit_raw\": [\n                  \"0\",\n                  18,\n                  1,\n                  1,\n                  2,\n                  0\n                ],\n                \"per.extension_bit\": \"0\",\n                \"per.sequence_of_length_raw\": [\n                  \"0001\",\n                  19,\n                  2,\n                  0,\n                  7,\n                  0\n                ],\n                \"per.sequence_of_length\": \"1\",\n                \"lppa.protocolIEs_raw\": [\n                  \"0002000100\",\n                  21,\n                  5,\n                  0,\n                  7,\n                  0\n                ],\n                \"lppa.protocolIEs\": \"1\",\n                \"lppa.protocolIEs_tree\": {\n                  \"Item 0: id-E-SMLC-UE-Measurement-ID\": {\n                    \"lppa.ProtocolIE_Field_element_raw\": [\n                      \"0002000100\",\n                      21,\n                      5,\n                      0,\n                      0,\n                      0\n                    ],\n                    \"lppa.ProtocolIE_Field_element\": {\n                      \"lppa.id_raw\": [\n                        \"0002\",\n                        21,\n                        2,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"lppa.id\": \"2\",\n                      \"per.enum_index_raw\": [\n                        \"00\",\n                        23,\n                        1,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"per.enum_index\": \"0\",\n                      \"lppa.criticality_raw\": [\n                        \"00\",\n                        23,\n                        1,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"lppa.criticality\": \"0\",\n                      \"per.open_type_length_raw\": [\n                        \"01\",\n                        24,\n                        1,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"per.open_type_length\": \"1\",\n                      \"lppa.ie_field_value_element_raw\": [\n                        \"00\",\n                        25,\n                        1,\n                        0,\n                        0,\n                        0\n                      ],\n                      \"lppa.ie_field_value_element\": {\n                        \"per.extension_present_bit_raw\": [\n                          \"0\",\n                          25,\n                          1,\n                          1,\n                          2,\n                          0\n                        ],\n                        \"per.extension_present_bit\": \"0\",\n                        \"lppa.Measurement_ID_raw\": [\n                          \"00\",\n                          25,\n                          1,\n                          0,\n                          7,\n                          0\n                        ],\n                        \"lppa.Measurement_ID\": \"1\"\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n]\n"
+          },
+          {
+            "name": "/opt/homebrew/bin/tshark",
+            "args": [
+              "-r",
+              "$WORK/lppa/wire-captures/capture-001.pcap",
+              "-T",
+              "json",
+              "-x"
+            ],
+            "dir": "",
+            "exit_code": 0,
+            "stdout": "[\n  {\n    \"_index\": \"packets-1970-01-01\",\n    \"_score\": null,\n    \"_source\": {\n      \"layers\": {\n        \"frame_raw\": [\n          \"000c00046c707061000000000002000000080000010002000100\",\n          0,\n          26,\n          0,\n          1,\n          0\n        ],\n        \"frame\": {\n          \"frame.encap_type\": \"155\",\n          \"frame.time\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.time_utc\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.time_epoch\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.offset_shift\": \"0.000000000\",\n          \"frame.time_relative\": \"0.000000000\",\n          \"frame.number\": \"1\",\n          \"frame.len\": \"26\",\n          \"frame.cap_len\": \"26\",\n          \"frame.marked\": \"0\",\n          \"frame.ignored\": \"0\",\n          \"frame.protocols\": \"exported_pdu:lppa\",\n          \"frame.encoding\": \"0\"\n        },\n        \"exported_pdu_raw\": [\n          \"000c00046c70706100000000\",\n          0,\n          12,\n          0,\n          1,\n          0\n        ],\n        \"exported_pdu\": {\n          \"exported_pdu.tag_raw\": [\n            \"000c00046c707061\",\n            0,\n            8,\n            0,\n            5,\n            0\n          ],\n          \"exported_pdu.tag\": \"12\",\n          \"exported_pdu.tag_tree\": {\n            \"exported_pdu.tag_len_raw\": [\n              \"0004\",\n              2,\n              2,\n              0,\n              5,\n              0\n            ],\n            \"exported_pdu.tag_len\": \"4\",\n            \"exported_pdu.prot_name_raw\": [\n              \"6c707061\",\n              4,\n              4,\n              0,\n              43,\n              0\n            ],\n            \"exported_pdu.prot_name\": \"lppa\"\n          },\n          \"exported_pdu.tag_raw\": [\n            \"00000000\",\n            8,\n            4,\n            0,\n            5,\n            0\n          ],\n          \"exported_pdu.tag\": \"0\",\n          \"exported_pdu.tag_tree\": {\n            \"exported_pdu.tag_len_raw\": [\n              \"0000\",\n              10,\n              2,\n              0,\n              5,\n              0\n            ],\n            \"exported_pdu.tag_len\": \"0\"\n          },\n          \"exported_pdu.exported_pdu_raw\": [\n            \"0002000000080000010002000100\",\n            12,\n            14,\n            0,\n            30,\n            0\n          ],\n          \"exported_pdu.exported_pdu\": \"00:02:00:00:00:08:00:00:01:00:02:00:01:00\"\n        },\n        \"lppa_raw\": [\n          \"0002000000080000010002000100\",\n          12,\n          14,\n          0,\n          1,\n          0\n        ],\n        \"lppa\": \"LTE Positioning Protocol A (LPPa)\",\n        \"per.extension_bit_raw\": [\n          \"0\",\n          12,\n          1,\n          1,\n          2,\n          0\n        ],\n        \"per.extension_bit\": \"0\",\n        \"per.choice_index_raw\": [\n          \"00\",\n          12,\n          1,\n          0,\n          7,\n          0\n        ],\n        \"per.choice_index\": \"0\",\n        \"lppa.LPPA_PDU_raw\": [\n          \"0002000000080000010002000100\",\n          12,\n          14,\n          0,\n          7,\n          0\n        ],\n        \"lppa.LPPA_PDU\": \"0\",\n        \"lppa.LPPA_PDU_tree\": {\n          \"lppa.initiatingMessage_element_raw\": [\n            \"0002000000080000010002000100\",\n            12,\n            14,\n            0,\n            0,\n            0\n          ],\n          \"lppa.initiatingMessage_element\": {\n            \"lppa.procedureCode_raw\": [\n              \"02\",\n              13,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"lppa.procedureCode\": \"2\",\n            \"per.enum_index_raw\": [\n              \"00\",\n              14,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"per.enum_index\": \"0\",\n            \"lppa.criticality_raw\": [\n              \"00\",\n              14,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"lppa.criticality\": \"0\",\n            \"lppa.lppatransactionID_raw\": [\n              \"0000\",\n              15,\n              2,\n              0,\n              7,\n              0\n            ],\n            \"lppa.lppatransactionID\": \"0\",\n            \"per.open_type_length_raw\": [\n              \"08\",\n              17,\n              1,\n              0,\n              7,\n              0\n            ],\n            \"per.open_type_length\": \"8\",\n            \"lppa.initiatingMessagevalue_element_raw\": [\n              \"0000010002000100\",\n              18,\n              8,\n              0,\n              0,\n              0\n            ],\n            \"lppa.initiatingMessagevalue_element\": {\n              \"lppa.E_CIDMeasurementInitiationRequest_element_raw\": [\n                \"0000010002000100\",\n                18,\n                8,\n                0,\n                0,\n                0\n              ],\n              \"lppa.E_CIDMeasurementInitiationRequest_element\": {\n                \"per.extension_bit_raw\": [\n                  \"0\",\n                  18,\n                  1,\n                  1,\n                  2,\n                  0\n                ],\n                \"per.extension_bit\": \"0\",\n                \"per.sequence_of_length_raw\": [\n                  \"0001\",\n                  19,\n                  2,\n                  0,\n                  7,\n                  0\n                ],\n                \"per.sequence_of_length\": \"1\",\n                \"lppa.protocolIEs_raw\": [\n                  \"0002000100\",\n                  21,\n                  5,\n                  0,\n                  7,\n                  0\n                ],\n                \"lppa.protocolIEs\": \"1\",\n                \"lppa.protocolIEs_tree\": {\n                  \"Item 0: id-E-SMLC-UE-Measurement-ID\": {\n                    \"lppa.ProtocolIE_Field_element_raw\": [\n                      \"0002000100\",\n                      21,\n                      5,\n                      0,\n                      0,\n                      0\n                    ],\n                    \"lppa.ProtocolIE_Field_element\": {\n                      \"lppa.id_raw\": [\n                        \"0002\",\n                        21,\n                        2,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"lppa.id\": \"2\",\n                      \"per.enum_index_raw\": [\n                        \"00\",\n                        23,\n                        1,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"per.enum_index\": \"0\",\n                      \"lppa.criticality_raw\": [\n                        \"00\",\n                        23,\n                        1,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"lppa.criticality\": \"0\",\n                      \"per.open_type_length_raw\": [\n                        \"01\",\n                        24,\n                        1,\n                        0,\n                        7,\n                        0\n                      ],\n                      \"per.open_type_length\": \"1\",\n                      \"lppa.ie_field_value_element_raw\": [\n                        \"00\",\n                        25,\n                        1,\n                        0,\n                        0,\n                        0\n                      ],\n                      \"lppa.ie_field_value_element\": {\n                        \"per.extension_present_bit_raw\": [\n                          \"0\",\n                          25,\n                          1,\n                          1,\n                          2,\n                          0\n                        ],\n                        \"per.extension_present_bit\": \"0\",\n                        \"lppa.Measurement_ID_raw\": [\n                          \"00\",\n                          25,\n                          1,\n                          0,\n                          7,\n                          0\n                        ],\n                        \"lppa.Measurement_ID\": \"1\"\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n]\n"
+          },
+          {
+            "name": "/opt/homebrew/bin/tshark",
+            "args": [
+              "-v"
+            ],
+            "dir": "",
+            "exit_code": 0,
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+          },
+          {
+            "name": "go",
+            "args": [
+              "build",
+              "-trimpath",
+              "-buildvcs=false",
+              "-o",
+              "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/decoder",
+              "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/main.go"
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "go",
+            "args": [
+              "build",
+              "-trimpath",
+              "-buildvcs=false",
+              "-o",
+              "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/decoder",
+              "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/main.go"
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "go",
+            "args": [
+              "build",
+              "./..."
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "go",
+            "args": [
+              "run",
+              "./cmd/asn1c",
+              "-from-ir",
+              "$WORK/lppa/resolved-schema.json",
+              "-o",
+              "$WORK/lppa/generated",
+              "-encoding",
+              "aper",
+              "-import-base",
+              "github.com/gomaja/go-asn1/telecom/lte/lppa",
+              "-module-path",
+              "github.com/gomaja/go-asn1",
+              "-flat",
+              "lppa"
+            ],
+            "dir": "$COMPILER",
+            "exit_code": 0,
+            "stdout": "Generated Go code in $WORK/lppa/generated\n"
+          },
+          {
+            "name": "go",
+            "args": [
+              "test",
+              "./...",
+              "-count=1"
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0,
+            "stdout": "ok  \tgithub.com/gomaja/go-asn1/telecom/lte/lppa/lppa\t\u003cduration\u003e\n"
+          },
+          {
+            "name": "go",
+            "args": [
+              "vet",
+              "./..."
+            ],
+            "dir": "$WORK/lppa/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "python3",
+            "args": [
+              "extractor/extract.py",
+              "--source-plan",
+              "$WORK/lppa/source-plan.json",
+              "--source-base",
+              "$COMPILER",
+              "--manifest",
+              "$COMPILER/conformance/corpus.yaml",
+              "--source-lock",
+              "$COMPILER/conformance/source.lock.json",
+              "--entry",
+              "lppa",
+              "-o",
+              "$WORK/lppa/schema.json"
+            ],
+            "dir": "$COMPILER",
+            "exit_code": 0,
+            "stdout": "[proc] module LPPA-CommonDataTypes (oid: [0, 4, 0, 0, 21, 3, 6, 1, 3]): 11 ASN.1 assignments found\n[proc] module LPPA-Constants (oid: [0, 4, 0, 0, 21, 3, 6, 1, 4]): 58 ASN.1 assignments found\n[proc] module LPPA-Containers (oid: [0, 4, 0, 0, 21, 3, 6, 1, 5]): 16 ASN.1 assignments found\n[proc] module LPPA-IEs (oid: [0, 4, 0, 0, 21, 3, 6, 1, 2]): 149 ASN.1 assignments found\n[proc] module LPPA-PDU-Contents (oid: [0, 4, 0, 0, 21, 3, 6, 1, 1]): 39 ASN.1 assignments found\n[proc] module LPPA-PDU-Descriptions (oid: [0, 4, 0, 0, 21, 3, 6, 1, 0]): 20 ASN.1 assignments found\n--- compilation cycle ---\n--- compilation cycle ---\n--- compilation cycle ---\n--- compilation cycle ---\n--- verifications ---\n[proc] ASN.1 modules processed: ['LPPA-CommonDataTypes', 'LPPA-Constants', 'LPPA-Containers', 'LPPA-IEs', 'LPPA-PDU-Contents', 'LPPA-PDU-Descriptions']\n[proc] ASN.1 objects compiled: 167 types, 49 sets, 71 values\n[proc] done\n",
+            "stderr": "IR written to $WORK/lppa/schema.json\n"
+          }
+        ],
+        "wire": [
+          {
+            "protocol": "lppa",
+            "capture": "$COMPILER/training_data/wire/lppa/ecid-dispatch/envelope/lppa/capture.pcap",
+            "capture_artifact": {
+              "path": "$COMPILER/training_data/wire/lppa/ecid-dispatch/envelope/lppa/capture.pcap",
+              "sha256": "4107b3aa492c63ef257f77b6b496af45c0c4681d3e8d08e14804bf1d178e4899",
+              "size_bytes": 66
+            },
+            "packets": 1,
+            "matched": 1,
+            "generated_commands": [
+              {
+                "name": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/decoder",
+                "args": null,
+                "dir": "$WORK/lppa/generated",
+                "exit_code": 0,
+                "stdout": "{\"decoded\":{\"Value\":{\"ProtocolIEs\":[{\"Id\":2,\"Criticality\":0,\"Value\":\"00\"}]},\"ProtocolIEs\":[{\"Path\":\"ECIDMeasurementInitiationRequest.ProtocolIEs[0]\",\"ObjectSet\":\"E-CIDMeasurementInitiationRequest-IEs\",\"Field\":{\"Id\":2,\"Criticality\":0,\"Value\":\"00\"},\"Value\":1,\"Children\":null,\"Extensions\":null}],\"ProtocolExtensions\":null},\"reencoded_hex\":\"0002000000080000010002000100\",\"consumed_bits\":112,\"input_bits\":112}\n"
+              },
+              {
+                "name": "go",
+                "args": [
+                  "build",
+                  "-trimpath",
+                  "-buildvcs=false",
+                  "-o",
+                  "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/decoder",
+                  "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/main.go"
+                ],
+                "dir": "$WORK/lppa/generated",
+                "exit_code": 0
+              }
+            ],
+            "generated_artifacts": [
+              {
+                "path": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/main.go",
+                "sha256": "17ca0d22a8e604789d212b9df82cdce20abc2fc0677710d092b7ebacf3c99c63",
+                "size_bytes": 1256
+              },
+              {
+                "path": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-dispatch/output.json",
+                "sha256": "01e5d58f606181c8f754b37c662da0c954232b105fe8a5a4ffac12c3ea6d6df7",
+                "size_bytes": 405
+              }
+            ]
+          },
+          {
+            "protocol": "lppa",
+            "capture": "$COMPILER/training_data/wire/lppa/ecid-measurement-id/envelope/lppa/capture.pcap",
+            "capture_artifact": {
+              "path": "$COMPILER/training_data/wire/lppa/ecid-measurement-id/envelope/lppa/capture.pcap",
+              "sha256": "4107b3aa492c63ef257f77b6b496af45c0c4681d3e8d08e14804bf1d178e4899",
+              "size_bytes": 66
+            },
+            "packets": 1,
+            "matched": 1,
+            "generated_commands": [
+              {
+                "name": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/decoder",
+                "args": null,
+                "dir": "$WORK/lppa/generated",
+                "exit_code": 0,
+                "stdout": "{\"decoded\":{\"Choice\":1,\"InitiatingMessage\":{\"ProcedureCode\":2,\"Criticality\":0,\"LppatransactionID\":0,\"Value\":\"0000010002000100\"}},\"reencoded_hex\":\"0002000000080000010002000100\",\"consumed_bits\":112,\"input_bits\":112}\n"
+              },
+              {
+                "name": "go",
+                "args": [
+                  "build",
+                  "-trimpath",
+                  "-buildvcs=false",
+                  "-o",
+                  "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/decoder",
+                  "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/main.go"
+                ],
+                "dir": "$WORK/lppa/generated",
+                "exit_code": 0
+              }
+            ],
+            "generated_artifacts": [
+              {
+                "path": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/main.go",
+                "sha256": "99465fed704c30fc1dbbf059d39c6087aed51fa4302a4879c38cbff094d83d63",
+                "size_bytes": 1203
+              },
+              {
+                "path": "$WORK/lppa/generated-provider/lppa/ecid-measurement-id-header/output.json",
+                "sha256": "da64180e687ac5425283d451f2c5a13770cfc2282722321a36971112183ae1af",
+                "size_bytes": 214
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "lte-rrc",
+      "output": "telecom/lte/rrc",
+      "conformance": {
+        "entry_id": "lte-rrc",
+        "status": "supported",
+        "encoding": "uper",
+        "version": 1,
+        "compiler": {
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "dirty": false
+        },
+        "frontend": {
+          "name": "pycrate",
+          "version": "0.7.11"
+        },
+        "manifest": {
+          "path": "conformance/corpus.yaml",
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
+        },
+        "source_lock": {
+          "path": "conformance/source.lock.json",
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "lte-rrc/source-plan.json",
-          "sha256": "87ef3a45f3af120771c874e6c36b94814bef63db19f7c974fcb57a8a5710ae2a",
+          "sha256": "74477f1b036b15c83fc549b08bcf7871be2b756fd6be286521cf9ac1667cf113",
           "size_bytes": 584617
         },
         "sources": [
@@ -1987,7 +2432,7 @@
         ],
         "ir": {
           "path": "lte-rrc/resolved-schema.json",
-          "sha256": "cec0e5277c7783022a248954fa9d00ab7cb0b8edd345e214c031b7275cd0da6f",
+          "sha256": "593567d9d4a0c7c6d5a70b28b09be2c2a2cd29b532b81fbd0c28c6de8ae1aac8",
           "size_bytes": 5596445
         },
         "outputs": [
@@ -2274,7 +2719,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -2283,17 +2728,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "rrc/source-plan.json",
-          "sha256": "bdf371bfe61290e20e15d554c7ab7a09a89d860e4cc59c9706b5b021f825261d",
+          "sha256": "75265ff40ef4445ea1158435c86d1a64b9cac92558c149d7b4a45952d70f22de",
           "size_bytes": 929329
         },
         "sources": [
@@ -2352,7 +2797,7 @@
         ],
         "ir": {
           "path": "rrc/resolved-schema.json",
-          "sha256": "925a4ee3d0fa9bc100a4ecbd239639bee0f8100f10a619e4b882f584caa0ff34",
+          "sha256": "7c20783bb9cf6010f553e2db47d60ee6b9cf68012d5175ff2957e4b869a911ef",
           "size_bytes": 10933060
         },
         "outputs": [
@@ -2623,7 +3068,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -2632,17 +3077,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "s1ap/source-plan.json",
-          "sha256": "9767211f26c991fbc630f6408e6bb1fc8585baa1b09b59c75f2a9648c22ce6b6",
+          "sha256": "0d45abc37a0653d6b8041b619bc9f479e1a0ada76da40c17a7005ef3f170d5da",
           "size_bytes": 376279
         },
         "sources": [
@@ -2731,7 +3176,7 @@
         ],
         "ir": {
           "path": "s1ap/resolved-schema.json",
-          "sha256": "616b33292293d3e3c2a38936ae1a922784ba4c547512a5f1709d4d529f2a7c2b",
+          "sha256": "f1c41667abd9807de213dffec1e7c1d13a17587709772ec069ec89f66a478de6",
           "size_bytes": 2208837
         },
         "outputs": [
@@ -3018,7 +3463,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -3027,17 +3472,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "sgp22/source-plan.json",
-          "sha256": "43ad01ad218c3c513126fbd6413e21b4f4a38867cf880a52bd94cbedbb8fa142",
+          "sha256": "04eb035e105e1cc25a5799d00bccbf253a6e496f84191d05318abccbfe8746ec",
           "size_bytes": 68687
         },
         "sources": [
@@ -3120,7 +3565,7 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "0f51985bb9958d72e8efa868edfecb1f76409e458734499c8b90a2912108830b",
+          "sha256": "7931d135641dbbdc2b5be5ed66219dda160969a6c6d49005500c9ca7691d02ce",
           "size_bytes": 403623
         },
         "outputs": [
@@ -3379,7 +3824,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -3388,17 +3833,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "sgp32/source-plan.json",
-          "sha256": "391c7e04e158ced4ff4a1e84bbf19a9776ad077b867abc73dcfd8419780cdd19",
+          "sha256": "105dad776a8a8564312b37cb62594085d1f89770ffb7af122031b09fb72f7971",
           "size_bytes": 97863
         },
         "sources": [
@@ -3499,7 +3944,7 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "2fdc977e0a9bf347ff7ad818e88c740fcd141da576556d26e219ae898161a8be",
+          "sha256": "4b023c3f2f7becaa0c0a5b074d3a4d1df6126d9541b855cfd3a5e24bc617d98a",
           "size_bytes": 639153
         },
         "outputs": [
@@ -3764,7 +4209,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -3773,17 +4218,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "tcap/source-plan.json",
-          "sha256": "58cf0869629b1ab5bae0a65a458b52c9ac232712441f28e30e696b6e26b02363",
+          "sha256": "0999280bde5f6ca22af189db431a049d06dccd8ecd8af500d93c616c6b3d9732",
           "size_bytes": 25040
         },
         "sources": [
@@ -3862,7 +4307,7 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "54e1c5c414d413db4d13f727a09a3f741f0db8d2804450d7b572152470e61319",
+          "sha256": "71ef8a4c90b02287089ae97fc798b5f93e34ac1acc5ec4c305aa97f59ed0642c",
           "size_bytes": 249883
         },
         "outputs": [
@@ -4125,7 +4570,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "commit": "50120762f71e0278cd8054151521606a774ffa94",
           "dirty": false
         },
         "frontend": {
@@ -4134,17 +4579,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
-          "size_bytes": 126896
+          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
+          "size_bytes": 131014
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
-          "size_bytes": 140737
+          "sha256": "d1a4383c5459a7e682ed3f5d6bfaf55d4dd211892a0d08c76ed124e88c529e27",
+          "size_bytes": 141948
         },
         "source_plan": {
           "path": "x2ap/source-plan.json",
-          "sha256": "f1913ae635d8bd80d308097d42f0c9d153fb952a4d5ebc04c4ff39b8457af305",
+          "sha256": "a3051317387314f12f6a6ec1d7f0f35e45ae500a3412cdb0b323ab69a4a7e913",
           "size_bytes": 476621
         },
         "sources": [
@@ -4213,7 +4658,7 @@
         ],
         "ir": {
           "path": "x2ap/resolved-schema.json",
-          "sha256": "8895375bebedd07aefbd0d3781acaccd10253e93eda6ce080a8a4f458ac72d15",
+          "sha256": "8801cd9414cc9cf1d430646a21085fbe0051903a04c25b250bd07466b59471be",
           "size_bytes": 2925245
         },
         "outputs": [
@@ -4493,7 +4938,7 @@
     }
   ],
   "outputs": {
-    "sha256": "fb2935fae6b93d92e8c09b127416e3ac3e4c50f0f975f1cdd64c1cf2e7536013",
+    "sha256": "e8ad5631b5bf43a7376db8b770a4b0394e13b025ea8e30c87efce1f2a6e973c6",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -4848,6 +5293,66 @@
         "mode": "0644",
         "sha256": "3789f7fa810d3b38b13f9386f2f9fda6cae7b83d7874a87c8c150997d2bb81e6",
         "size_bytes": 8019
+      },
+      {
+        "path": "telecom/lte/lppa/asn1_wire_vectors_test.go",
+        "mode": "0644",
+        "sha256": "c306e29c0f66e46b55c72a4baf891268ec1f7a0a14b18efb9c30351f9246c038",
+        "size_bytes": 7578
+      },
+      {
+        "path": "telecom/lte/lppa/dispatch.go",
+        "mode": "0644",
+        "sha256": "25650613b7a7a0b160bba21b76788482f6b3ba011e80b18409e3081f30055504",
+        "size_bytes": 42300
+      },
+      {
+        "path": "telecom/lte/lppa/doc.go",
+        "mode": "0644",
+        "sha256": "695f09ead375ead385c02c659917168bd6b9481d66d0359414ddef8ca61f8f80",
+        "size_bytes": 758
+      },
+      {
+        "path": "telecom/lte/lppa/lppacommondatatypes.go",
+        "mode": "0644",
+        "sha256": "104871a1d1436fcde5474fc1bd77c73dd075747fd635b3b7ae51357d7a3bb411",
+        "size_bytes": 5259
+      },
+      {
+        "path": "telecom/lte/lppa/lppaconstants.go",
+        "mode": "0644",
+        "sha256": "382a7a2ed3928cee22eb774215a09558a21cc61e7053bad2a61f4aa383138912",
+        "size_bytes": 6731
+      },
+      {
+        "path": "telecom/lte/lppa/lppacontainers.go",
+        "mode": "0644",
+        "sha256": "4ab6bb3897c68249402709a895ad753ca46a256711662ba73a82ad4c73bfdd34",
+        "size_bytes": 34639
+      },
+      {
+        "path": "telecom/lte/lppa/lppaies.go",
+        "mode": "0644",
+        "sha256": "ec3b227d5293c5902c153eace76dcdb38460d1250947828d87e2dc7111de3b7b",
+        "size_bytes": 430303
+      },
+      {
+        "path": "telecom/lte/lppa/lppapducontents.go",
+        "mode": "0644",
+        "sha256": "b027b794f5e1bebe7c094919a9ddcd323f2dca7b42c361797708ad0d468bf11a",
+        "size_bytes": 80706
+      },
+      {
+        "path": "telecom/lte/lppa/lppapdudescriptions.go",
+        "mode": "0644",
+        "sha256": "3e7d53986c3d3c4e33de6fe0a1c2cd76891bb1db72eb621dffabf24dec406897",
+        "size_bytes": 14542
+      },
+      {
+        "path": "telecom/lte/lppa/per_helpers.go",
+        "mode": "0644",
+        "sha256": "100b3379b61091841ea3882ba8ce31aeb54400825794cbb2604829ef0e54393b",
+        "size_bytes": 102
       },
       {
         "path": "telecom/lte/rrc/asn1_wire_vectors_test.go",
@@ -5707,6 +6212,16 @@
         "$STAGE/telecom/esim/sgp32/rspdefinitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions_test.go",
+        "$STAGE/telecom/lte/lppa/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/lppa/dispatch.go",
+        "$STAGE/telecom/lte/lppa/doc.go",
+        "$STAGE/telecom/lte/lppa/lppacommondatatypes.go",
+        "$STAGE/telecom/lte/lppa/lppaconstants.go",
+        "$STAGE/telecom/lte/lppa/lppacontainers.go",
+        "$STAGE/telecom/lte/lppa/lppaies.go",
+        "$STAGE/telecom/lte/lppa/lppapducontents.go",
+        "$STAGE/telecom/lte/lppa/lppapdudescriptions.go",
+        "$STAGE/telecom/lte/lppa/per_helpers.go",
         "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/rrc/doc.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
@@ -5917,6 +6432,16 @@
         "$STAGE/telecom/esim/sgp32/rspdefinitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions_test.go",
+        "$STAGE/telecom/lte/lppa/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/lppa/dispatch.go",
+        "$STAGE/telecom/lte/lppa/doc.go",
+        "$STAGE/telecom/lte/lppa/lppacommondatatypes.go",
+        "$STAGE/telecom/lte/lppa/lppaconstants.go",
+        "$STAGE/telecom/lte/lppa/lppacontainers.go",
+        "$STAGE/telecom/lte/lppa/lppaies.go",
+        "$STAGE/telecom/lte/lppa/lppapducontents.go",
+        "$STAGE/telecom/lte/lppa/lppapdudescriptions.go",
+        "$STAGE/telecom/lte/lppa/per_helpers.go",
         "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/rrc/doc.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
@@ -6081,7 +6606,7 @@
       ],
       "dir": "$STAGE",
       "exit_code": 0,
-      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/umts/rrc\t\u003cduration\u003e\n"
+      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/lppa\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/umts/rrc\t\u003cduration\u003e\n"
     },
     {
       "name": "go",
@@ -6092,7 +6617,7 @@
       ],
       "dir": "$STAGE",
       "exit_code": 0,
-      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/umts/rrc\t\u003cduration\u003e\n"
+      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/lppa\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/umts/rrc\t\u003cduration\u003e\n"
     },
     {
       "name": "go",
