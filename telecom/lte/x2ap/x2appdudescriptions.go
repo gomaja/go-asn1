@@ -25,6 +25,8 @@ const (
 // X2APPDU represents the ASN.1 CHOICE type X2AP-PDU.
 type X2APPDU struct {
 	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	InitiatingMessage   *InitiatingMessage          `json:"InitiatingMessage,omitempty"`
 	SuccessfulOutcome   *SuccessfulOutcome          `json:"SuccessfulOutcome,omitempty"`
@@ -57,23 +59,26 @@ func NewX2APPDUUnsuccessfulOutcome(v UnsuccessfulOutcome) X2APPDU {
 
 // InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
 type InitiatingMessage struct {
-	ProcedureCode ProcedureCode    `asn1:"tag:0,context,implicit"`
-	Criticality   Criticality      `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	ProcedureCode ProcedureCode       `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality         `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
 type SuccessfulOutcome struct {
-	ProcedureCode ProcedureCode    `asn1:"tag:0,context,implicit"`
-	Criticality   Criticality      `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	ProcedureCode ProcedureCode       `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality         `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
 type UnsuccessfulOutcome struct {
-	ProcedureCode ProcedureCode    `asn1:"tag:0,context,implicit"`
-	Criticality   Criticality      `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	ProcedureCode ProcedureCode       `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality         `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MarshalAPER encodes X2APPDU to APER format.
@@ -82,7 +87,7 @@ func (v *X2APPDU) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *X2APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -145,9 +150,11 @@ func (v *X2APPDU) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "X2APPDU")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "X2APPDU")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -203,7 +210,7 @@ func (v *InitiatingMessage) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -225,9 +232,11 @@ func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -257,7 +266,7 @@ func (v *SuccessfulOutcome) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -279,9 +288,11 @@ func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -311,7 +322,7 @@ func (v *UnsuccessfulOutcome) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -333,9 +344,11 @@ func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 

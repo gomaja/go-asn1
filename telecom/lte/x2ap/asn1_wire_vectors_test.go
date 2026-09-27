@@ -159,10 +159,10 @@ func TestVectorHandoverRequestUeHistoryRecursive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value[0].Choice", "1")
-	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value[0].EUTRANCell.GlobalCellID.PLMNIdentity", "\"IfNU\"")
-	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value[0].EUTRANCell.CellType.CellSize", "0")
-	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value[0].EUTRANCell.TimeUEStayedInCell", "5")
+	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value.Value[0].Choice", "1")
+	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value.Value[0].EUTRANCell.GlobalCellID.PLMNIdentity", "\"IfNU\"")
+	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value.Value[0].EUTRANCell.CellType.CellSize", "0")
+	asn1VectorAssertPath(t, recursive, "ProtocolIEs[5].Value.Value[0].EUTRANCell.TimeUEStayedInCell", "5")
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -181,16 +181,16 @@ func TestVectorHandoverRequestUeHistoryIe15(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	decodedPointer, ok := dispatched.(*UEHistoryInformation)
+	decodedPointer, ok := dispatched.(*UEHistoryInformationComplete)
 	if !ok {
 		t.Fatalf("dispatch type = %T, want typed pointer", dispatched)
 	}
 	decoded := *decodedPointer
-	asn1VectorAssertPath(t, decoded, "[0].Choice", "1")
-	asn1VectorAssertPath(t, decoded, "[0].EUTRANCell.GlobalCellID.PLMNIdentity", "\"IfNU\"")
-	asn1VectorAssertPath(t, decoded, "[0].EUTRANCell.GlobalCellID.EUTRANcellIdentifier.BitLength", "28")
-	asn1VectorAssertPath(t, decoded, "[0].EUTRANCell.CellType.CellSize", "0")
-	asn1VectorAssertPath(t, decoded, "[0].EUTRANCell.TimeUEStayedInCell", "5")
+	asn1VectorAssertPath(t, decoded.Value, "[0].Choice", "1")
+	asn1VectorAssertPath(t, decoded.Value, "[0].EUTRANCell.GlobalCellID.PLMNIdentity", "\"IfNU\"")
+	asn1VectorAssertPath(t, decoded.Value, "[0].EUTRANCell.GlobalCellID.EUTRANcellIdentifier.BitLength", "28")
+	asn1VectorAssertPath(t, decoded.Value, "[0].EUTRANCell.CellType.CellSize", "0")
+	asn1VectorAssertPath(t, decoded.Value, "[0].EUTRANCell.TimeUEStayedInCell", "5")
 	wire, err := MarshalAPERUEHistoryInformation(decoded)
 	if err != nil {
 		t.Fatal(err)
@@ -272,15 +272,15 @@ func TestVectorHandoverRequestNineVisitedCells(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	decodedPointer, ok := dispatched.(*UEHistoryInformation)
+	decodedPointer, ok := dispatched.(*UEHistoryInformationComplete)
 	if !ok {
 		t.Fatalf("dispatch type = %T, want typed pointer", dispatched)
 	}
 	decoded := *decodedPointer
-	asn1VectorAssertPath(t, decoded, "[0].EUTRANCell.TimeUEStayedInCell", "5")
-	asn1VectorAssertPath(t, decoded, "[1].EUTRANCell.TimeUEStayedInCell", "2")
-	asn1VectorAssertPath(t, decoded, "[3].EUTRANCell.TimeUEStayedInCell", "18")
-	asn1VectorAssertPath(t, decoded, "[8].EUTRANCell.TimeUEStayedInCell", "98")
+	asn1VectorAssertPath(t, decoded.Value, "[0].EUTRANCell.TimeUEStayedInCell", "5")
+	asn1VectorAssertPath(t, decoded.Value, "[1].EUTRANCell.TimeUEStayedInCell", "2")
+	asn1VectorAssertPath(t, decoded.Value, "[3].EUTRANCell.TimeUEStayedInCell", "18")
+	asn1VectorAssertPath(t, decoded.Value, "[8].EUTRANCell.TimeUEStayedInCell", "98")
 	wire, err := MarshalAPERUEHistoryInformation(decoded)
 	if err != nil {
 		t.Fatal(err)
@@ -344,7 +344,7 @@ func TestVectorNrraReportRecursive(t *testing.T) {
 	}
 	asn1VectorAssertPath(t, recursive, "[0].ObjectSet", "\"AccessAndMobilityIndication-IEs\"")
 	asn1VectorAssertPath(t, recursive, "[0].Field.Id", "414")
-	asn1VectorAssertPath(t, recursive, "[0].Value[0].NRRAReport", "\"BAAAAAAA\"")
+	asn1VectorAssertPath(t, recursive, "[0].Value.Value[0].NRRAReport", "\"BAAAAAAA\"")
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)

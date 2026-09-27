@@ -68,7 +68,7 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 |---------|------|-----------|----------|--------|
 | `umts/ranap` | RANAP | Iu (RNC ↔ CN) | APER | planned |
 | `umts/rnsap` | RNSAP | Iur (RNC ↔ RNC) | APER | planned |
-| `umts/rrc` | UMTS-RRC | Uu (UE ↔ Node B) | UPER | planned |
+| `umts/rrc` | UMTS-RRC | Uu (UE ↔ Node B) | UPER | **[compiled]** |
 | `umts/hnbap` | HNBAP | Iuh (HNB ↔ HNB-GW) | APER | planned |
 | `umts/rua` | RUA | Iuh (HNB ↔ HNB-GW) | APER | planned |
 | `umts/nbap` | NBAP | Iub (Node B ↔ RNC) | APER | planned |

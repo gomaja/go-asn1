@@ -76,14 +76,17 @@ func (v *Code) MarshalDER() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Code as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBER decodes Code from BER/DER format.
-func (v *Code) UnmarshalBER(data []byte) error {
+func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
 	*v = Code{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Code CHOICE")
@@ -94,7 +97,7 @@ func (v *Code) UnmarshalBER(data []byte) error {
 		return fmt.Errorf("peeking tag for Code: %w", peekErr)
 	}
 
-	_, total, _, tlvErr := ber.DecodeTLV(choiceData)
+	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
 		return fmt.Errorf("decoding Code CHOICE: %w", tlvErr)
 	}
@@ -104,14 +107,14 @@ func (v *Code) UnmarshalBER(data []byte) error {
 
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 2 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceLocal
-		decVal, _, intErr := ber.DecodeBigInt(choiceData)
+		decVal, _, intErr := ber.DecodeBigInt(choiceData, opts...)
 		if intErr != nil {
 			return fmt.Errorf("decoding local: %w", intErr)
 		}
 		v.Local = decVal
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 6 && peekTag.Constructed == false {
 		v.Choice = CodeChoiceGlobal
-		decVal, _, oidErr := ber.DecodeObjectIdentifier(choiceData)
+		decVal, _, oidErr := ber.DecodeObjectIdentifier(choiceData, opts...)
 		if oidErr != nil {
 			return fmt.Errorf("decoding global: %w", oidErr)
 		}

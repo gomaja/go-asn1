@@ -55,22 +55,25 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 		children = append(children, enc_newlmfroutingid...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.ValidateDERElement(ext); err != nil {
+		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		children = append(children, ext...)
 	}
 	encoded := ber.EncodeSequence(children)
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PruAssociationRejParam as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBER decodes PruAssociationRejParam from BER/DER format.
-func (v *PruAssociationRejParam) UnmarshalBER(data []byte) error {
+func (v *PruAssociationRejParam) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
 	*v = PruAssociationRejParam{}
-	content, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PruAssociationRejParam SEQUENCE: %w", err)
 	}
@@ -83,7 +86,7 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				decodedTag_newlmfroutingid, n_newlmfroutingid, innerData_newlmfroutingid, err := ber.DecodeTLV(content[offset:])
+				decodedTag_newlmfroutingid, n_newlmfroutingid, innerData_newlmfroutingid, err := ber.DecodeTLV(content[offset:], opts...)
 				if err != nil {
 					return fmt.Errorf("decoding newLmfRoutingId: %w", err)
 				}
@@ -91,7 +94,7 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding newLmfRoutingId: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newlmfroutingid)
 				}
 				// Decode inner value from explicit tag wrapper
-				val_newlmfroutingid, _, err := ber.DecodeOctetString(innerData_newlmfroutingid)
+				val_newlmfroutingid, _, err := ber.DecodeOctetString(innerData_newlmfroutingid, opts...)
 				if err != nil {
 					return fmt.Errorf("decoding newLmfRoutingId: %w", err)
 				}
@@ -105,7 +108,7 @@ func (v *PruAssociationRejParam) UnmarshalBER(data []byte) error {
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "PruAssociationRejParam", Cause: extErr_}
 		}

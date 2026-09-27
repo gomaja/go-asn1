@@ -176,18 +176,16 @@ func EncodeUnconstrainedWholeNumber(bb *BitBuffer, v int64) error {
 
 // DecodeUnconstrainedWholeNumber decodes an unconstrained signed integer.
 func DecodeUnconstrainedWholeNumber(bb *BitBuffer) (int64, error) {
-	length, err := DecodeUnconstrainedLength(bb)
+	// X.691 (02/2021) §11.8 permits values outside int64. Decode through
+	// the arbitrary-precision path before applying this API's range limit.
+	value, err := decodeBigTwosComplement(bb, false)
 	if err != nil {
 		return 0, err
 	}
-	if length == 0 {
-		return 0, nil
+	if !value.IsInt64() {
+		return 0, fmt.Errorf("%w: unconstrained INTEGER %s exceeds int64", ErrInvalidValue, value)
 	}
-	data, err := bb.ReadBytes(int(length))
-	if err != nil {
-		return 0, err
-	}
-	return twosComplementToInt64(data), nil
+	return value.Int64(), nil
 }
 
 // EncodeUnconstrainedLength encodes a length determinant with no constraints.
@@ -959,19 +957,4 @@ func minimalSignedNegBytes(v int64) []byte {
 		}
 	}
 	return nil
-}
-
-func twosComplementToInt64(data []byte) int64 {
-	if len(data) == 0 {
-		return 0
-	}
-	// Sign extend.
-	var val int64
-	if data[0]&0x80 != 0 {
-		val = -1
-	}
-	for _, b := range data {
-		val = (val << 8) | int64(b)
-	}
-	return val
 }

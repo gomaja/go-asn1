@@ -20,6 +20,7 @@ type VarANRMeasConfigNBR16 struct {
 	AnrQualityThresholdR16  NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
 	AnrCarrierListR16       ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
 	AnrCarrierListR16Indef_ bool                `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarANRMeasReportNBR16 represents the ASN.1 type VarANR-MeasReport-NB-r16 (SEQUENCE).
@@ -31,6 +32,7 @@ type VarANRMeasReportNBR16 struct {
 	RelativeTimeStampR16      int64                                  `asn1:"tag:3,context,implicit"`
 	MeasResultListR16         VarANRMeasReportNBR16MeasResultListR16 `asn1:"tag:4,context,implicit"`
 	MeasResultListR16Indef_   bool                                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // VarRLFReportNBR16 represents the ASN.1 type VarRLF-Report-NB-r16 (SEQUENCE).
@@ -38,6 +40,7 @@ type VarRLFReportNBR16 struct {
 	RlfReportR16              RLFReportNBR16       `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR16       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
 	PlmnIdentityListR16Indef_ bool                 `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // VarShortMACInputNBR13 represents the ASN.1 type VarShortMAC-Input-NB-r13 (SEQUENCE).
@@ -55,7 +58,7 @@ func (v *VarANRMeasConfigNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -81,9 +84,11 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasConfigNBR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasConfigNBR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -117,7 +122,7 @@ func (v *VarANRMeasReportNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -159,9 +164,11 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -215,7 +222,7 @@ func (v *VarRLFReportNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarRLFReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -241,9 +248,11 @@ func (v *VarRLFReportNBR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportNBR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportNBR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -273,13 +282,38 @@ type asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue struct {
 	Value VarANRMeasReportNBR16MeasResultListR16
 }
 
-// MarshalUPERVarANRMeasReportNBR16MeasResultListR16 encodes a VarANRMeasReportNBR16MeasResultListR16 list to UPER.
-func MarshalUPERVarANRMeasReportNBR16MeasResultListR16(list VarANRMeasReportNBR16MeasResultListR16) ([]byte, error) {
+// VarANRMeasReportNBR16MeasResultListR16Complete carries a complete VarANRMeasReportNBR16MeasResultListR16 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type VarANRMeasReportNBR16MeasResultListR16Complete struct {
+	Value       VarANRMeasReportNBR16MeasResultListR16
+	PERPadding_ per.CompletePadding
+}
+
+func (v *VarANRMeasReportNBR16MeasResultListR16Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list, bb); err != nil {
+	if err := MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *VarANRMeasReportNBR16MeasResultListR16Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERVarANRMeasReportNBR16MeasResultListR16 encodes a VarANRMeasReportNBR16MeasResultListR16 list to UPER.
+func MarshalUPERVarANRMeasReportNBR16MeasResultListR16(list VarANRMeasReportNBR16MeasResultListR16Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERVarANRMeasReportNBR16MeasResultListR16To appends a VarANRMeasReportNBR16MeasResultListR16 list to bb.
@@ -299,14 +333,10 @@ func MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list VarANRMeasReportNB
 }
 
 // UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16 decodes a VarANRMeasReportNBR16MeasResultListR16 list from UPER.
-func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMeasReportNBR16MeasResultListR16, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
+func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMeasReportNBR16MeasResultListR16Complete, error) {
+	var value VarANRMeasReportNBR16MeasResultListR16Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }

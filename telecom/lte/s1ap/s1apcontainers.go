@@ -20,16 +20,18 @@ type ProtocolIEContainer = []ProtocolIEField
 
 // ProtocolIESingleContainer represents the ASN.1 type ProtocolIE-SingleContainer (SEQUENCE).
 type ProtocolIESingleContainer struct {
-	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
-	Criticality Criticality      `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEField represents the ASN.1 type ProtocolIE-Field (SEQUENCE).
 type ProtocolIEField struct {
-	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
-	Criticality Criticality      `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEContainerPair represents the ASN.1 type ProtocolIE-ContainerPair (SEQUENCE_OF).
@@ -37,11 +39,12 @@ type ProtocolIEContainerPair = []ProtocolIEFieldPair
 
 // ProtocolIEFieldPair represents the ASN.1 type ProtocolIE-FieldPair (SEQUENCE).
 type ProtocolIEFieldPair struct {
-	Id                ProtocolIEID     `asn1:"tag:0,context,implicit"`
-	FirstCriticality  Criticality      `asn1:"tag:1,context,implicit"`
-	FirstValue        runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	SecondCriticality Criticality      `asn1:"tag:3,context,implicit"`
-	SecondValue       runtime.RawValue `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
+	Id                ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	FirstCriticality  Criticality         `asn1:"tag:1,context,implicit"`
+	FirstValue        runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	SecondCriticality Criticality         `asn1:"tag:3,context,implicit"`
+	SecondValue       runtime.RawValue    `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEContainerList represents the ASN.1 type ProtocolIE-ContainerList (SEQUENCE_OF).
@@ -58,6 +61,7 @@ type ProtocolExtensionField struct {
 	Id             ProtocolExtensionID `asn1:"tag:0,context,implicit"`
 	Criticality    Criticality         `asn1:"tag:1,context,implicit"`
 	ExtensionValue runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_    per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // PrivateIEContainer represents the ASN.1 type PrivateIE-Container (SEQUENCE_OF).
@@ -65,20 +69,46 @@ type PrivateIEContainer = []PrivateIEField
 
 // PrivateIEField represents the ASN.1 type PrivateIE-Field (SEQUENCE).
 type PrivateIEField struct {
-	Id          PrivateIEID      `asn1:"tag:0,context,explicit"`
-	Criticality Criticality      `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	Id          PrivateIEID         `asn1:"tag:0,context,explicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 type asn1cAPERProtocolIEContainerListValue struct{ Value ProtocolIEContainer }
 
-// MarshalAPERProtocolIEContainer encodes a ProtocolIEContainer list to APER.
-func MarshalAPERProtocolIEContainer(list ProtocolIEContainer) ([]byte, error) {
+// ProtocolIEContainerComplete carries a complete ProtocolIEContainer encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ProtocolIEContainerComplete struct {
+	Value       ProtocolIEContainer
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ProtocolIEContainerComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERProtocolIEContainerTo(list, bb); err != nil {
+	if err := MarshalAPERProtocolIEContainerTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ProtocolIEContainerComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERProtocolIEContainerFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERProtocolIEContainer encodes a ProtocolIEContainer list to APER.
+func MarshalAPERProtocolIEContainer(list ProtocolIEContainerComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERProtocolIEContainerTo appends a ProtocolIEContainer list to bb.
@@ -98,14 +128,10 @@ func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *per.BitBuffe
 }
 
 // UnmarshalAPERProtocolIEContainer decodes a ProtocolIEContainer list from APER.
-func UnmarshalAPERProtocolIEContainer(data []byte) (ProtocolIEContainer, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERProtocolIEContainerFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainer")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainer")
+func UnmarshalAPERProtocolIEContainer(data []byte) (ProtocolIEContainerComplete, error) {
+	var value ProtocolIEContainerComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -143,7 +169,7 @@ func (v *ProtocolIESingleContainer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -165,9 +191,11 @@ func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -197,7 +225,7 @@ func (v *ProtocolIEField) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -219,9 +247,11 @@ func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEField")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEField")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -247,13 +277,38 @@ func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERProtocolIEContainerPairListValue struct{ Value ProtocolIEContainerPair }
 
-// MarshalAPERProtocolIEContainerPair encodes a ProtocolIEContainerPair list to APER.
-func MarshalAPERProtocolIEContainerPair(list ProtocolIEContainerPair) ([]byte, error) {
+// ProtocolIEContainerPairComplete carries a complete ProtocolIEContainerPair encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ProtocolIEContainerPairComplete struct {
+	Value       ProtocolIEContainerPair
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ProtocolIEContainerPairComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERProtocolIEContainerPairTo(list, bb); err != nil {
+	if err := MarshalAPERProtocolIEContainerPairTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ProtocolIEContainerPairComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERProtocolIEContainerPair encodes a ProtocolIEContainerPair list to APER.
+func MarshalAPERProtocolIEContainerPair(list ProtocolIEContainerPairComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERProtocolIEContainerPairTo appends a ProtocolIEContainerPair list to bb.
@@ -273,14 +328,10 @@ func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *per.
 }
 
 // UnmarshalAPERProtocolIEContainerPair decodes a ProtocolIEContainerPair list from APER.
-func UnmarshalAPERProtocolIEContainerPair(data []byte) (ProtocolIEContainerPair, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
+func UnmarshalAPERProtocolIEContainerPair(data []byte) (ProtocolIEContainerPairComplete, error) {
+	var value ProtocolIEContainerPairComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -318,7 +369,7 @@ func (v *ProtocolIEFieldPair) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -346,9 +397,11 @@ func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -384,13 +437,38 @@ func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERProtocolIEContainerListListValue struct{ Value ProtocolIEContainerList }
 
-// MarshalAPERProtocolIEContainerList encodes a ProtocolIEContainerList list to APER.
-func MarshalAPERProtocolIEContainerList(list ProtocolIEContainerList) ([]byte, error) {
+// ProtocolIEContainerListComplete carries a complete ProtocolIEContainerList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ProtocolIEContainerListComplete struct {
+	Value       ProtocolIEContainerList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ProtocolIEContainerListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERProtocolIEContainerListTo(list, bb); err != nil {
+	if err := MarshalAPERProtocolIEContainerListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ProtocolIEContainerListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERProtocolIEContainerListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERProtocolIEContainerList encodes a ProtocolIEContainerList list to APER.
+func MarshalAPERProtocolIEContainerList(list ProtocolIEContainerListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERProtocolIEContainerListTo appends a ProtocolIEContainerList list to bb.
@@ -410,14 +488,10 @@ func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *per.
 }
 
 // UnmarshalAPERProtocolIEContainerList decodes a ProtocolIEContainerList list from APER.
-func UnmarshalAPERProtocolIEContainerList(data []byte) (ProtocolIEContainerList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERProtocolIEContainerListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerList")
+func UnmarshalAPERProtocolIEContainerList(data []byte) (ProtocolIEContainerListComplete, error) {
+	var value ProtocolIEContainerListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -451,13 +525,38 @@ func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerLis
 
 type asn1cAPERProtocolIEContainerPairListListValue struct{ Value ProtocolIEContainerPairList }
 
-// MarshalAPERProtocolIEContainerPairList encodes a ProtocolIEContainerPairList list to APER.
-func MarshalAPERProtocolIEContainerPairList(list ProtocolIEContainerPairList) ([]byte, error) {
+// ProtocolIEContainerPairListComplete carries a complete ProtocolIEContainerPairList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ProtocolIEContainerPairListComplete struct {
+	Value       ProtocolIEContainerPairList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ProtocolIEContainerPairListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERProtocolIEContainerPairListTo(list, bb); err != nil {
+	if err := MarshalAPERProtocolIEContainerPairListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ProtocolIEContainerPairListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERProtocolIEContainerPairListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERProtocolIEContainerPairList encodes a ProtocolIEContainerPairList list to APER.
+func MarshalAPERProtocolIEContainerPairList(list ProtocolIEContainerPairListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERProtocolIEContainerPairListTo appends a ProtocolIEContainerPairList list to bb.
@@ -477,14 +576,10 @@ func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, 
 }
 
 // UnmarshalAPERProtocolIEContainerPairList decodes a ProtocolIEContainerPairList list from APER.
-func UnmarshalAPERProtocolIEContainerPairList(data []byte) (ProtocolIEContainerPairList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERProtocolIEContainerPairListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
+func UnmarshalAPERProtocolIEContainerPairList(data []byte) (ProtocolIEContainerPairListComplete, error) {
+	var value ProtocolIEContainerPairListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -518,13 +613,38 @@ func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContaine
 
 type asn1cAPERProtocolExtensionContainerListValue struct{ Value ProtocolExtensionContainer }
 
-// MarshalAPERProtocolExtensionContainer encodes a ProtocolExtensionContainer list to APER.
-func MarshalAPERProtocolExtensionContainer(list ProtocolExtensionContainer) ([]byte, error) {
+// ProtocolExtensionContainerComplete carries a complete ProtocolExtensionContainer encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ProtocolExtensionContainerComplete struct {
+	Value       ProtocolExtensionContainer
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ProtocolExtensionContainerComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERProtocolExtensionContainerTo(list, bb); err != nil {
+	if err := MarshalAPERProtocolExtensionContainerTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ProtocolExtensionContainerComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERProtocolExtensionContainerFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERProtocolExtensionContainer encodes a ProtocolExtensionContainer list to APER.
+func MarshalAPERProtocolExtensionContainer(list ProtocolExtensionContainerComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERProtocolExtensionContainerTo appends a ProtocolExtensionContainer list to bb.
@@ -544,14 +664,10 @@ func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb
 }
 
 // UnmarshalAPERProtocolExtensionContainer decodes a ProtocolExtensionContainer list from APER.
-func UnmarshalAPERProtocolExtensionContainer(data []byte) (ProtocolExtensionContainer, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERProtocolExtensionContainerFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
+func UnmarshalAPERProtocolExtensionContainer(data []byte) (ProtocolExtensionContainerComplete, error) {
+	var value ProtocolExtensionContainerComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -589,7 +705,7 @@ func (v *ProtocolExtensionField) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -611,9 +727,11 @@ func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -639,13 +757,38 @@ func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERPrivateIEContainerListValue struct{ Value PrivateIEContainer }
 
-// MarshalAPERPrivateIEContainer encodes a PrivateIEContainer list to APER.
-func MarshalAPERPrivateIEContainer(list PrivateIEContainer) ([]byte, error) {
+// PrivateIEContainerComplete carries a complete PrivateIEContainer encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type PrivateIEContainerComplete struct {
+	Value       PrivateIEContainer
+	PERPadding_ per.CompletePadding
+}
+
+func (v *PrivateIEContainerComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERPrivateIEContainerTo(list, bb); err != nil {
+	if err := MarshalAPERPrivateIEContainerTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *PrivateIEContainerComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERPrivateIEContainerFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEContainer")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PrivateIEContainer")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERPrivateIEContainer encodes a PrivateIEContainer list to APER.
+func MarshalAPERPrivateIEContainer(list PrivateIEContainerComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERPrivateIEContainerTo appends a PrivateIEContainer list to bb.
@@ -665,14 +808,10 @@ func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERPrivateIEContainer decodes a PrivateIEContainer list from APER.
-func UnmarshalAPERPrivateIEContainer(data []byte) (PrivateIEContainer, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERPrivateIEContainerFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "PrivateIEContainer")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "PrivateIEContainer")
+func UnmarshalAPERPrivateIEContainer(data []byte) (PrivateIEContainerComplete, error) {
+	var value PrivateIEContainerComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -710,7 +849,7 @@ func (v *PrivateIEField) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -732,9 +871,11 @@ func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEField")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEField")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 

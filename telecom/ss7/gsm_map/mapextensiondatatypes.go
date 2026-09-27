@@ -144,22 +144,25 @@ func (v *ExtensionContainer) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pcsextensions...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.ValidateDERElement(ext); err != nil {
+		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		children = append(children, ext...)
 	}
 	encoded := ber.EncodeSequence(children)
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ExtensionContainer as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBER decodes ExtensionContainer from BER/DER format.
-func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
+func (v *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
 	*v = ExtensionContainer{}
-	content, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding ExtensionContainer SEQUENCE: %w", err)
 	}
@@ -173,7 +176,7 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				decodedTag_privateextensionlist, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privateextensionlist, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:], opts...)
 				if err != nil {
 					return fmt.Errorf("decoding privateExtensionList: %w", err)
 				}
@@ -181,7 +184,7 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding privateExtensionList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist)
 				}
 				reconstructed_privateextensionlist := ber.EncodeSequence(rawVal_privateextensionlist)
-				dec_privateextensionlist, unmErr := UnmarshalBERPrivateExtensionList(reconstructed_privateextensionlist)
+				dec_privateextensionlist, unmErr := UnmarshalBERPrivateExtensionList(reconstructed_privateextensionlist, opts...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding privateExtensionList: %w", unmErr)
 				}
@@ -201,7 +204,7 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				decodedTag_pcsextensions, n_pcsextensions, rawVal_pcsextensions, err := ber.DecodeTLV(content[offset:])
+				decodedTag_pcsextensions, n_pcsextensions, rawVal_pcsextensions, err := ber.DecodeTLV(content[offset:], opts...)
 				if err != nil {
 					return fmt.Errorf("decoding pcs-Extensions: %w", err)
 				}
@@ -210,7 +213,7 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
 				}
 				reconstructed_pcsextensions := ber.EncodeSequence(rawVal_pcsextensions)
 				var dec_pcsextensions PCSExtensions
-				if unmErr := dec_pcsextensions.UnmarshalBER(reconstructed_pcsextensions); unmErr != nil {
+				if unmErr := dec_pcsextensions.UnmarshalBER(reconstructed_pcsextensions, opts...); unmErr != nil {
 					return fmt.Errorf("decoding pcs-Extensions: %w", unmErr)
 				}
 				v.PcsExtensions = &dec_pcsextensions
@@ -222,7 +225,7 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte) error {
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "ExtensionContainer", Cause: extErr_}
 		}
@@ -311,22 +314,25 @@ func (v *SLRArgExtensionContainer) MarshalDER() ([]byte, error) {
 		children = append(children, enc_slrargpcsextensions...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.ValidateDERElement(ext); err != nil {
+		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		children = append(children, ext...)
 	}
 	encoded := ber.EncodeSequence(children)
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SLRArgExtensionContainer as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBER decodes SLRArgExtensionContainer from BER/DER format.
-func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
+func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
 	*v = SLRArgExtensionContainer{}
-	content, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SLRArgExtensionContainer SEQUENCE: %w", err)
 	}
@@ -340,7 +346,7 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				decodedTag_privateextensionlist, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:])
+				decodedTag_privateextensionlist, n_privateextensionlist, rawVal_privateextensionlist, err := ber.DecodeTLV(content[offset:], opts...)
 				if err != nil {
 					return fmt.Errorf("decoding privateExtensionList: %w", err)
 				}
@@ -348,7 +354,7 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
 					return fmt.Errorf("decoding privateExtensionList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist)
 				}
 				reconstructed_privateextensionlist := ber.EncodeSequence(rawVal_privateextensionlist)
-				dec_privateextensionlist, unmErr := UnmarshalBERPrivateExtensionList(reconstructed_privateextensionlist)
+				dec_privateextensionlist, unmErr := UnmarshalBERPrivateExtensionList(reconstructed_privateextensionlist, opts...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding privateExtensionList: %w", unmErr)
 				}
@@ -368,7 +374,7 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 {
-				decodedTag_slrargpcsextensions, n_slrargpcsextensions, rawVal_slrargpcsextensions, err := ber.DecodeTLV(content[offset:])
+				decodedTag_slrargpcsextensions, n_slrargpcsextensions, rawVal_slrargpcsextensions, err := ber.DecodeTLV(content[offset:], opts...)
 				if err != nil {
 					return fmt.Errorf("decoding slr-Arg-PCS-Extensions: %w", err)
 				}
@@ -377,7 +383,7 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
 				}
 				reconstructed_slrargpcsextensions := ber.EncodeSequence(rawVal_slrargpcsextensions)
 				var dec_slrargpcsextensions SLRArgPCSExtensions
-				if unmErr := dec_slrargpcsextensions.UnmarshalBER(reconstructed_slrargpcsextensions); unmErr != nil {
+				if unmErr := dec_slrargpcsextensions.UnmarshalBER(reconstructed_slrargpcsextensions, opts...); unmErr != nil {
 					return fmt.Errorf("decoding slr-Arg-PCS-Extensions: %w", unmErr)
 				}
 				v.SlrArgPCSExtensions = &dec_slrargpcsextensions
@@ -389,7 +395,7 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte) error {
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "SLRArgExtensionContainer", Cause: extErr_}
 		}
@@ -431,15 +437,18 @@ func MarshalDERPrivateExtensionList(list PrivateExtensionList) ([]byte, error) {
 		children = append(children, enc...)
 	}
 	encoded := ber.EncodeSequence(children)
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PrivateExtensionList as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBERPrivateExtensionList decodes a PrivateExtensionList list from BER.
-func UnmarshalBERPrivateExtensionList(data []byte) (PrivateExtensionList, error) {
-	content, total, err := ber.DecodeSequenceContent(data)
+func UnmarshalBERPrivateExtensionList(data []byte, opts ...ber.DecodeOption) (PrivateExtensionList, error) {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return nil, err
+	}
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("decoding PrivateExtensionList: %w", err)
 	}
@@ -450,11 +459,11 @@ func UnmarshalBERPrivateExtensionList(data []byte) (PrivateExtensionList, error)
 	offset := 0
 	for offset < len(content) {
 		var elem PrivateExtension
-		_, n, _, tlvErr := ber.DecodeTLV(content[offset:])
+		_, n, _, tlvErr := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
-		if unmErr := elem.UnmarshalBER(content[offset : offset+n]); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
@@ -497,16 +506,19 @@ func (v *PrivateExtension) MarshalDER() ([]byte, error) {
 		children = append(children, enc_exttype...)
 	}
 	encoded := ber.EncodeSequence(children)
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PrivateExtension as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBER decodes PrivateExtension from BER/DER format.
-func (v *PrivateExtension) UnmarshalBER(data []byte) error {
+func (v *PrivateExtension) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
 	*v = PrivateExtension{}
-	content, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PrivateExtension SEQUENCE: %w", err)
 	}
@@ -518,7 +530,7 @@ func (v *PrivateExtension) UnmarshalBER(data []byte) error {
 	if offset >= len(content) {
 		return fmt.Errorf("missing required field extId")
 	}
-	val_extid, n, err := ber.DecodeObjectIdentifier(content[offset:])
+	val_extid, n, err := ber.DecodeObjectIdentifier(content[offset:], opts...)
 	if err != nil {
 		return fmt.Errorf("decoding extId: %w", err)
 	}
@@ -526,7 +538,7 @@ func (v *PrivateExtension) UnmarshalBER(data []byte) error {
 	offset += n
 	// Decode extType
 	if offset < len(content) {
-		_, n_exttype, _, tlvErr_exttype := ber.DecodeTLV(content[offset:])
+		_, n_exttype, _, tlvErr_exttype := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_exttype != nil {
 			return fmt.Errorf("decoding extType: %w", tlvErr_exttype)
 		}
@@ -560,22 +572,25 @@ func (v *PCSExtensions) MarshalBER() ([]byte, error) {
 func (v *PCSExtensions) MarshalDER() ([]byte, error) {
 	var children []byte
 	for i, ext := range v.ExtData_ {
-		if err := ber.ValidateDERElement(ext); err != nil {
+		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		children = append(children, ext...)
 	}
 	encoded := ber.EncodeSequence(children)
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PCSExtensions as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBER decodes PCSExtensions from BER/DER format.
-func (v *PCSExtensions) UnmarshalBER(data []byte) error {
+func (v *PCSExtensions) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
 	*v = PCSExtensions{}
-	content, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding PCSExtensions SEQUENCE: %w", err)
 	}
@@ -587,7 +602,7 @@ func (v *PCSExtensions) UnmarshalBER(data []byte) error {
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "PCSExtensions", Cause: extErr_}
 		}
@@ -637,22 +652,25 @@ func (v *SLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 		children = append(children, enc_naesrkrequest...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.ValidateDERElement(ext); err != nil {
+		if err := ber.ValidateDEREncodedElement(ext); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		children = append(children, ext...)
 	}
 	encoded := ber.EncodeSequence(children)
-	if err := ber.ValidateDERElement(encoded); err != nil {
+	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding SLRArgPCSExtensions as DER: %w", err)
 	}
 	return encoded, nil
 }
 
 // UnmarshalBER decodes SLRArgPCSExtensions from BER/DER format.
-func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte) error {
+func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
+	if err := ber.ValidateBERElement(data, opts...); err != nil {
+		return err
+	}
 	*v = SLRArgPCSExtensions{}
-	content, total, err := ber.DecodeSequenceContent(data)
+	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return fmt.Errorf("decoding SLRArgPCSExtensions SEQUENCE: %w", err)
 	}
@@ -665,7 +683,7 @@ func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte) error {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
 			if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 {
-				decodedTag_naesrkrequest, n_naesrkrequest, rawVal_naesrkrequest, err := ber.DecodeTLV(content[offset:])
+				decodedTag_naesrkrequest, n_naesrkrequest, rawVal_naesrkrequest, err := ber.DecodeTLV(content[offset:], opts...)
 				if err != nil {
 					return fmt.Errorf("decoding na-ESRK-Request: %w", err)
 				}
@@ -684,7 +702,7 @@ func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte) error {
 	v.ExtPresent_ = v.ExtPresent_[:0]
 	v.ExtData_ = v.ExtData_[:0]
 	for offset < len(content) {
-		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:])
+		_, nExt_, _, extErr_ := ber.DecodeTLV(content[offset:], opts...)
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "SLRArgPCSExtensions", Cause: extErr_}
 		}

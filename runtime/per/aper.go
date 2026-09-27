@@ -203,18 +203,15 @@ func EncodeUnconstrainedWholeNumberAligned(bb *BitBuffer, v int64) error {
 
 // DecodeUnconstrainedWholeNumberAligned decodes an unconstrained signed integer (APER).
 func DecodeUnconstrainedWholeNumberAligned(bb *BitBuffer) (int64, error) {
-	length, err := DecodeUnconstrainedLengthAligned(bb)
+	// X.691 (02/2021) §11.8 permits values outside int64.
+	value, err := decodeBigTwosComplement(bb, true)
 	if err != nil {
 		return 0, err
 	}
-	if length == 0 {
-		return 0, nil
+	if !value.IsInt64() {
+		return 0, fmt.Errorf("%w: unconstrained INTEGER %s exceeds int64", ErrInvalidValue, value)
 	}
-	data, err := bb.ReadBytes(int(length))
-	if err != nil {
-		return 0, err
-	}
-	return twosComplementToInt64(data), nil
+	return value.Int64(), nil
 }
 
 // EncodeNormallySmallNonNegativeAligned encodes a normally small non-negative number (APER).

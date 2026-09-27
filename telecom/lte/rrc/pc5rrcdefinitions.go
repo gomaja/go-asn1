@@ -17,7 +17,8 @@ var (
 
 // SBCCHSLBCHMessage represents the ASN.1 type SBCCH-SL-BCH-Message (SEQUENCE).
 type SBCCHSLBCHMessage struct {
-	Message SBCCHSLBCHMessageType `asn1:"tag:0,context,implicit"`
+	Message     SBCCHSLBCHMessageType `asn1:"tag:0,context,implicit"`
+	PERPadding_ per.CompletePadding   `asn1:"-" json:"-"`
 }
 
 // SBCCHSLBCHMessageType represents the ASN.1 type SBCCH-SL-BCH-MessageType (SEQUENCE).
@@ -25,7 +26,8 @@ type SBCCHSLBCHMessageType = MasterInformationBlockSL
 
 // SBCCHSLBCHMessageV2XR14 represents the ASN.1 type SBCCH-SL-BCH-Message-V2X-r14 (SEQUENCE).
 type SBCCHSLBCHMessageV2XR14 struct {
-	Message SBCCHSLBCHMessageTypeV2XR14 `asn1:"tag:0,context,implicit"`
+	Message     SBCCHSLBCHMessageTypeV2XR14 `asn1:"tag:0,context,implicit"`
+	PERPadding_ per.CompletePadding         `asn1:"-" json:"-"`
 }
 
 // SBCCHSLBCHMessageTypeV2XR14 represents the ASN.1 type SBCCH-SL-BCH-MessageType-V2X-r14 (SEQUENCE).
@@ -33,24 +35,26 @@ type SBCCHSLBCHMessageTypeV2XR14 = MasterInformationBlockSLV2XR14
 
 // MasterInformationBlockSL represents the ASN.1 type MasterInformationBlock-SL (SEQUENCE).
 type MasterInformationBlockSL struct {
-	SlBandwidthR12          int64             `asn1:"tag:0,context,implicit"`
-	TddConfigSLR12          TDDConfigSLR12    `asn1:"tag:1,context,implicit"`
-	DirectFrameNumberR12    runtime.BitString `asn1:"tag:2,context,implicit"`
-	DirectSubframeNumberR12 int64             `asn1:"tag:3,context,implicit"`
-	InCoverageR12           bool              `asn1:"tag:4,context,implicit"`
-	InCoverageR12Raw_       byte              `asn1:"-" json:"-"`
-	ReservedR12             runtime.BitString `asn1:"tag:5,context,implicit"`
+	SlBandwidthR12          int64               `asn1:"tag:0,context,implicit"`
+	TddConfigSLR12          TDDConfigSLR12      `asn1:"tag:1,context,implicit"`
+	DirectFrameNumberR12    runtime.BitString   `asn1:"tag:2,context,implicit"`
+	DirectSubframeNumberR12 int64               `asn1:"tag:3,context,implicit"`
+	InCoverageR12           bool                `asn1:"tag:4,context,implicit"`
+	InCoverageR12Raw_       byte                `asn1:"-" json:"-"`
+	ReservedR12             runtime.BitString   `asn1:"tag:5,context,implicit"`
+	PERPadding_             per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MasterInformationBlockSLV2XR14 represents the ASN.1 type MasterInformationBlock-SL-V2X-r14 (SEQUENCE).
 type MasterInformationBlockSLV2XR14 struct {
-	SlBandwidthR14          int64             `asn1:"tag:0,context,implicit"`
-	TddConfigSLR14          TDDConfigSLR12    `asn1:"tag:1,context,implicit"`
-	DirectFrameNumberR14    runtime.BitString `asn1:"tag:2,context,implicit"`
-	DirectSubframeNumberR14 int64             `asn1:"tag:3,context,implicit"`
-	InCoverageR14           bool              `asn1:"tag:4,context,implicit"`
-	InCoverageR14Raw_       byte              `asn1:"-" json:"-"`
-	ReservedR14             runtime.BitString `asn1:"tag:5,context,implicit"`
+	SlBandwidthR14          int64               `asn1:"tag:0,context,implicit"`
+	TddConfigSLR14          TDDConfigSLR12      `asn1:"tag:1,context,implicit"`
+	DirectFrameNumberR14    runtime.BitString   `asn1:"tag:2,context,implicit"`
+	DirectSubframeNumberR14 int64               `asn1:"tag:3,context,implicit"`
+	InCoverageR14           bool                `asn1:"tag:4,context,implicit"`
+	InCoverageR14Raw_       byte                `asn1:"-" json:"-"`
+	ReservedR14             runtime.BitString   `asn1:"tag:5,context,implicit"`
+	PERPadding_             per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MarshalUPER encodes SBCCHSLBCHMessage to UPER format.
@@ -59,7 +63,7 @@ func (v *SBCCHSLBCHMessage) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SBCCHSLBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -75,9 +79,11 @@ func (v *SBCCHSLBCHMessage) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -95,7 +101,7 @@ func (v *SBCCHSLBCHMessageV2XR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SBCCHSLBCHMessageV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -111,9 +117,11 @@ func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -131,7 +139,7 @@ func (v *MasterInformationBlockSL) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MasterInformationBlockSL) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -162,9 +170,11 @@ func (v *MasterInformationBlockSL) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -207,7 +217,7 @@ func (v *MasterInformationBlockSLV2XR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MasterInformationBlockSLV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -238,9 +248,11 @@ func (v *MasterInformationBlockSLV2XR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 

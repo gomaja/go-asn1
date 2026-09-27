@@ -27,6 +27,8 @@ type SLPreconfigurationR12 struct {
 	ExtCount_              int64                                    `asn1:"-" json:"-"`
 	ExtPresent_            []bool                                   `asn1:"-" json:"-"`
 	ExtData_               [][]byte                                 `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding                      `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // SLPreconfigGeneralR12 represents the ASN.1 type SL-PreconfigGeneral-r12 (SEQUENCE).
@@ -42,6 +44,8 @@ type SLPreconfigGeneralR12 struct {
 	ExtCount_                       int64                                `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                               `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                             `asn1:"-" json:"-"`
+	PERPadding_                     per.CompletePadding                  `asn1:"-" json:"-"`
+	PERExtPadding_                  []per.CompletePadding                `asn1:"-" json:"-"`
 }
 
 // SLPreconfigSyncR12 represents the ASN.1 type SL-PreconfigSync-r12 (SEQUENCE).
@@ -58,6 +62,8 @@ type SLPreconfigSyncR12 struct {
 	ExtCount_               int64                    `asn1:"-" json:"-"`
 	ExtPresent_             []bool                   `asn1:"-" json:"-"`
 	ExtData_                [][]byte                 `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding      `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding    `asn1:"-" json:"-"`
 }
 
 // SLPreconfigCommPoolList4R12 represents the ASN.1 type SL-PreconfigCommPoolList4-r12 (SEQUENCE_OF).
@@ -85,6 +91,8 @@ type SLPreconfigCommPoolR12 struct {
 	ExtCount_               int64                  `asn1:"-" json:"-"`
 	ExtPresent_             []bool                 `asn1:"-" json:"-"`
 	ExtData_                [][]byte               `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding    `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // SLPreconfigDiscRxPoolListR13 represents the ASN.1 type SL-PreconfigDiscRxPoolList-r13 (SEQUENCE_OF).
@@ -104,11 +112,14 @@ type SLPreconfigDiscPoolR13 struct {
 	ExtCount_           int64                                  `asn1:"-" json:"-"`
 	ExtPresent_         []bool                                 `asn1:"-" json:"-"`
 	ExtData_            [][]byte                               `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding                    `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding                  `asn1:"-" json:"-"`
 }
 
 // SLPreconfigRelayR13 represents the ASN.1 type SL-PreconfigRelay-r13 (SEQUENCE).
 type SLPreconfigRelayR13 struct {
 	ReselectionInfoOoCR13 ReselectionInfoRelayR13 `asn1:"tag:0,context,implicit"`
+	PERPadding_           per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // SLV2XPreconfigurationR14 represents the ASN.1 type SL-V2X-Preconfiguration-r14 (SEQUENCE).
@@ -129,6 +140,8 @@ type SLV2XPreconfigurationR14 struct {
 	ExtCount_                        int64                            `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding              `asn1:"-" json:"-"`
+	PERExtPadding_                   []per.CompletePadding            `asn1:"-" json:"-"`
 }
 
 // SLCBRPreconfigTxConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14 (SEQUENCE).
@@ -137,6 +150,7 @@ type SLCBRPreconfigTxConfigListR14 struct {
 	CbrRangeCommonConfigListR14Indef_ bool                                                     `asn1:"-" json:"-"`
 	SlCBRPSSCHTxConfigListR14         SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14   `asn1:"tag:1,context,implicit"`
 	SlCBRPSSCHTxConfigListR14Indef_   bool                                                     `asn1:"-" json:"-"`
+	PERPadding_                       per.CompletePadding                                      `asn1:"-" json:"-"`
 }
 
 // SLV2XPreconfigFreqListR14 represents the ASN.1 type SL-V2X-PreconfigFreqList-r14 (SEQUENCE_OF).
@@ -162,6 +176,8 @@ type SLV2XPreconfigFreqInfoR14 struct {
 	ExtCount_                           int64                           `asn1:"-" json:"-"`
 	ExtPresent_                         []bool                          `asn1:"-" json:"-"`
 	ExtData_                            [][]byte                        `asn1:"-" json:"-"`
+	PERPadding_                         per.CompletePadding             `asn1:"-" json:"-"`
+	PERExtPadding_                      []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
 // SLPreconfigV2XRxPoolListR14 represents the ASN.1 type SL-PreconfigV2X-RxPoolList-r14 (SEQUENCE_OF).
@@ -196,6 +212,8 @@ type SLV2XPreconfigCommPoolR14 struct {
 	ExtCount_                                  int64                                      `asn1:"-" json:"-"`
 	ExtPresent_                                []bool                                     `asn1:"-" json:"-"`
 	ExtData_                                   [][]byte                                   `asn1:"-" json:"-"`
+	PERPadding_                                per.CompletePadding                        `asn1:"-" json:"-"`
+	PERExtPadding_                             []per.CompletePadding                      `asn1:"-" json:"-"`
 }
 
 // SLPreconfigV2XSyncR14 represents the ASN.1 type SL-PreconfigV2X-Sync-r14 (SEQUENCE).
@@ -210,6 +228,8 @@ type SLPreconfigV2XSyncR14 struct {
 	ExtCount_               int64                        `asn1:"-" json:"-"`
 	ExtPresent_             []bool                       `asn1:"-" json:"-"`
 	ExtData_                [][]byte                     `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding          `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // SLV2XSyncOffsetIndicatorsR14 represents the ASN.1 type SL-V2X-SyncOffsetIndicators-r14 (SEQUENCE).
@@ -217,6 +237,7 @@ type SLV2XSyncOffsetIndicatorsR14 struct {
 	SyncOffsetIndicator1R14 SLOffsetIndicatorSyncR14  `asn1:"tag:0,context,implicit"`
 	SyncOffsetIndicator2R14 SLOffsetIndicatorSyncR14  `asn1:"tag:1,context,implicit"`
 	SyncOffsetIndicator3R14 *SLOffsetIndicatorSyncR14 `asn1:"tag:2,context,implicit,optional" json:"SyncOffsetIndicator3R14,omitempty"`
+	PERPadding_             per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // SLCBRPPPPTxPreconfigListR14 represents the ASN.1 type SL-CBR-PPPP-TxPreconfigList-r14 (SEQUENCE_OF).
@@ -229,6 +250,7 @@ type SLPPPPTxPreconfigIndexR14 struct {
 	CbrConfigIndexR14          int64                                         `asn1:"tag:2,context,implicit"`
 	TxConfigIndexListR14       SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 `asn1:"tag:3,context,implicit"`
 	TxConfigIndexListR14Indef_ bool                                          `asn1:"-" json:"-"`
+	PERPadding_                per.CompletePadding                           `asn1:"-" json:"-"`
 }
 
 // TxPreconfigIndexR14 represents the ASN.1 type Tx-PreconfigIndex-r14 (INTEGER).
@@ -241,6 +263,7 @@ type SLCBRPPPPTxPreconfigListV1530 = []SLPPPPTxPreconfigIndexV1530
 type SLPPPPTxPreconfigIndexV1530 struct {
 	McsPSSCHRangeR15       SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 `asn1:"tag:0,context,implicit,optional" json:"McsPSSCHRangeR15,omitempty"`
 	McsPSSCHRangeR15Indef_ bool                                        `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding                         `asn1:"-" json:"-"`
 }
 
 // SLV2XTxProfileListR15 represents the ASN.1 type SL-V2X-TxProfileList-r15 (SEQUENCE_OF).
@@ -289,6 +312,7 @@ type SLPreconfigurationR12PreconfigCommV1310 struct {
 	CommRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
 	CommTxPoolListR13       SLPreconfigCommTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"CommTxPoolListR13,omitempty"`
 	CommTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // SLPreconfigurationR12PreconfigDiscR13 represents the ASN.1 type SL-Preconfiguration-r12-preconfigDisc-r13 (SEQUENCE).
@@ -297,30 +321,33 @@ type SLPreconfigurationR12PreconfigDiscR13 struct {
 	DiscRxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
 	DiscTxPoolListR13       SLPreconfigDiscTxPoolListR13 `asn1:"tag:1,context,implicit,optional" json:"DiscTxPoolListR13,omitempty"`
 	DiscTxPoolListR13Indef_ bool                         `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // SLPreconfigGeneralR12RohcProfilesR12 represents the ASN.1 type SL-PreconfigGeneral-r12-rohc-Profiles-r12 (SEQUENCE).
 type SLPreconfigGeneralR12RohcProfilesR12 struct {
-	Profile0x0001R12     bool `asn1:"tag:0,context,implicit"`
-	Profile0x0001R12Raw_ byte `asn1:"-" json:"-"`
-	Profile0x0002R12     bool `asn1:"tag:1,context,implicit"`
-	Profile0x0002R12Raw_ byte `asn1:"-" json:"-"`
-	Profile0x0004R12     bool `asn1:"tag:2,context,implicit"`
-	Profile0x0004R12Raw_ byte `asn1:"-" json:"-"`
-	Profile0x0006R12     bool `asn1:"tag:3,context,implicit"`
-	Profile0x0006R12Raw_ byte `asn1:"-" json:"-"`
-	Profile0x0101R12     bool `asn1:"tag:4,context,implicit"`
-	Profile0x0101R12Raw_ byte `asn1:"-" json:"-"`
-	Profile0x0102R12     bool `asn1:"tag:5,context,implicit"`
-	Profile0x0102R12Raw_ byte `asn1:"-" json:"-"`
-	Profile0x0104R12     bool `asn1:"tag:6,context,implicit"`
-	Profile0x0104R12Raw_ byte `asn1:"-" json:"-"`
+	Profile0x0001R12     bool                `asn1:"tag:0,context,implicit"`
+	Profile0x0001R12Raw_ byte                `asn1:"-" json:"-"`
+	Profile0x0002R12     bool                `asn1:"tag:1,context,implicit"`
+	Profile0x0002R12Raw_ byte                `asn1:"-" json:"-"`
+	Profile0x0004R12     bool                `asn1:"tag:2,context,implicit"`
+	Profile0x0004R12Raw_ byte                `asn1:"-" json:"-"`
+	Profile0x0006R12     bool                `asn1:"tag:3,context,implicit"`
+	Profile0x0006R12Raw_ byte                `asn1:"-" json:"-"`
+	Profile0x0101R12     bool                `asn1:"tag:4,context,implicit"`
+	Profile0x0101R12Raw_ byte                `asn1:"-" json:"-"`
+	Profile0x0102R12     bool                `asn1:"tag:5,context,implicit"`
+	Profile0x0102R12Raw_ byte                `asn1:"-" json:"-"`
+	Profile0x0104R12     bool                `asn1:"tag:6,context,implicit"`
+	Profile0x0104R12Raw_ byte                `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLPreconfigDiscPoolR13TxParametersR13 represents the ASN.1 type SL-PreconfigDiscPool-r13-txParameters-r13 (SEQUENCE).
 type SLPreconfigDiscPoolR13TxParametersR13 struct {
-	TxParametersGeneralR13 P0SLR12 `asn1:"tag:0,context,implicit"`
-	TxProbabilityR13       int64   `asn1:"tag:1,context,implicit"`
+	TxParametersGeneralR13 P0SLR12             `asn1:"tag:0,context,implicit"`
+	TxProbabilityR13       int64               `asn1:"tag:1,context,implicit"`
+	PERPadding_            per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 represents the ASN.1 type SL-CBR-PreconfigTxConfigList-r14-cbr-RangeCommonConfigList-r14 (SEQUENCE_OF).
@@ -341,7 +368,7 @@ func (v *SLPreconfigurationR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -425,7 +452,15 @@ func (v *SLPreconfigurationR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding preconfigRelay-r13: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -450,9 +485,11 @@ func (v *SLPreconfigurationR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -490,6 +527,7 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -530,9 +568,11 @@ func (v *SLPreconfigurationR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.PreconfigRelayR13 = &dec_preconfigrelayr13
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -553,7 +593,7 @@ func (v *SLPreconfigGeneralR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -626,7 +666,15 @@ func (v *SLPreconfigGeneralR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding additionalSpectrumEmission-v1440: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -651,9 +699,11 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -702,6 +752,7 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -721,9 +772,11 @@ func (v *SLPreconfigGeneralR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				tmp_additionalspectrumemissionv1440 := AdditionalSpectrumEmissionV10l0(val_additionalspectrumemissionv1440)
 				v.AdditionalSpectrumEmissionV1440 = &tmp_additionalspectrumemissionv1440
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -744,7 +797,7 @@ func (v *SLPreconfigSyncR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -820,7 +873,15 @@ func (v *SLPreconfigSyncR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding syncTxPeriodic-r13: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -845,9 +906,11 @@ func (v *SLPreconfigSyncR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigSyncR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigSyncR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -905,6 +968,7 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -923,9 +987,11 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.SyncTxPeriodicR13 = &val_synctxperiodicr13
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -942,13 +1008,38 @@ func (v *SLPreconfigSyncR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERSLPreconfigCommPoolList4R12ListValue struct{ Value SLPreconfigCommPoolList4R12 }
 
-// MarshalUPERSLPreconfigCommPoolList4R12 encodes a SLPreconfigCommPoolList4R12 list to UPER.
-func MarshalUPERSLPreconfigCommPoolList4R12(list SLPreconfigCommPoolList4R12) ([]byte, error) {
+// SLPreconfigCommPoolList4R12Complete carries a complete SLPreconfigCommPoolList4R12 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPreconfigCommPoolList4R12Complete struct {
+	Value       SLPreconfigCommPoolList4R12
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPreconfigCommPoolList4R12Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPreconfigCommPoolList4R12To(list, bb); err != nil {
+	if err := MarshalUPERSLPreconfigCommPoolList4R12To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPreconfigCommPoolList4R12Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPreconfigCommPoolList4R12From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolList4R12")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolList4R12")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPreconfigCommPoolList4R12 encodes a SLPreconfigCommPoolList4R12 list to UPER.
+func MarshalUPERSLPreconfigCommPoolList4R12(list SLPreconfigCommPoolList4R12Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPreconfigCommPoolList4R12To appends a SLPreconfigCommPoolList4R12 list to bb.
@@ -968,14 +1059,10 @@ func MarshalUPERSLPreconfigCommPoolList4R12To(list SLPreconfigCommPoolList4R12, 
 }
 
 // UnmarshalUPERSLPreconfigCommPoolList4R12 decodes a SLPreconfigCommPoolList4R12 list from UPER.
-func UnmarshalUPERSLPreconfigCommPoolList4R12(data []byte) (SLPreconfigCommPoolList4R12, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPreconfigCommPoolList4R12From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommPoolList4R12")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommPoolList4R12")
+func UnmarshalUPERSLPreconfigCommPoolList4R12(data []byte) (SLPreconfigCommPoolList4R12Complete, error) {
+	var value SLPreconfigCommPoolList4R12Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1009,13 +1096,38 @@ func unmarshalUPERSLPreconfigCommPoolList4R12Into(v *asn1cUPERSLPreconfigCommPoo
 
 type asn1cUPERSLPreconfigCommRxPoolListR13ListValue struct{ Value SLPreconfigCommRxPoolListR13 }
 
-// MarshalUPERSLPreconfigCommRxPoolListR13 encodes a SLPreconfigCommRxPoolListR13 list to UPER.
-func MarshalUPERSLPreconfigCommRxPoolListR13(list SLPreconfigCommRxPoolListR13) ([]byte, error) {
+// SLPreconfigCommRxPoolListR13Complete carries a complete SLPreconfigCommRxPoolListR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPreconfigCommRxPoolListR13Complete struct {
+	Value       SLPreconfigCommRxPoolListR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPreconfigCommRxPoolListR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPreconfigCommRxPoolListR13To(list, bb); err != nil {
+	if err := MarshalUPERSLPreconfigCommRxPoolListR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPreconfigCommRxPoolListR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPreconfigCommRxPoolListR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigCommRxPoolListR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigCommRxPoolListR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPreconfigCommRxPoolListR13 encodes a SLPreconfigCommRxPoolListR13 list to UPER.
+func MarshalUPERSLPreconfigCommRxPoolListR13(list SLPreconfigCommRxPoolListR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPreconfigCommRxPoolListR13To appends a SLPreconfigCommRxPoolListR13 list to bb.
@@ -1035,14 +1147,10 @@ func MarshalUPERSLPreconfigCommRxPoolListR13To(list SLPreconfigCommRxPoolListR13
 }
 
 // UnmarshalUPERSLPreconfigCommRxPoolListR13 decodes a SLPreconfigCommRxPoolListR13 list from UPER.
-func UnmarshalUPERSLPreconfigCommRxPoolListR13(data []byte) (SLPreconfigCommRxPoolListR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPreconfigCommRxPoolListR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommRxPoolListR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommRxPoolListR13")
+func UnmarshalUPERSLPreconfigCommRxPoolListR13(data []byte) (SLPreconfigCommRxPoolListR13Complete, error) {
+	var value SLPreconfigCommRxPoolListR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1076,13 +1184,38 @@ func unmarshalUPERSLPreconfigCommRxPoolListR13Into(v *asn1cUPERSLPreconfigCommRx
 
 type asn1cUPERSLPreconfigCommTxPoolListR13ListValue struct{ Value SLPreconfigCommTxPoolListR13 }
 
-// MarshalUPERSLPreconfigCommTxPoolListR13 encodes a SLPreconfigCommTxPoolListR13 list to UPER.
-func MarshalUPERSLPreconfigCommTxPoolListR13(list SLPreconfigCommTxPoolListR13) ([]byte, error) {
+// SLPreconfigCommTxPoolListR13Complete carries a complete SLPreconfigCommTxPoolListR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPreconfigCommTxPoolListR13Complete struct {
+	Value       SLPreconfigCommTxPoolListR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPreconfigCommTxPoolListR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPreconfigCommTxPoolListR13To(list, bb); err != nil {
+	if err := MarshalUPERSLPreconfigCommTxPoolListR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPreconfigCommTxPoolListR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPreconfigCommTxPoolListR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigCommTxPoolListR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigCommTxPoolListR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPreconfigCommTxPoolListR13 encodes a SLPreconfigCommTxPoolListR13 list to UPER.
+func MarshalUPERSLPreconfigCommTxPoolListR13(list SLPreconfigCommTxPoolListR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPreconfigCommTxPoolListR13To appends a SLPreconfigCommTxPoolListR13 list to bb.
@@ -1102,14 +1235,10 @@ func MarshalUPERSLPreconfigCommTxPoolListR13To(list SLPreconfigCommTxPoolListR13
 }
 
 // UnmarshalUPERSLPreconfigCommTxPoolListR13 decodes a SLPreconfigCommTxPoolListR13 list from UPER.
-func UnmarshalUPERSLPreconfigCommTxPoolListR13(data []byte) (SLPreconfigCommTxPoolListR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPreconfigCommTxPoolListR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommTxPoolListR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigCommTxPoolListR13")
+func UnmarshalUPERSLPreconfigCommTxPoolListR13(data []byte) (SLPreconfigCommTxPoolListR13Complete, error) {
+	var value SLPreconfigCommTxPoolListR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1147,7 +1276,7 @@ func (v *SLPreconfigCommPoolR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1233,7 +1362,15 @@ func (v *SLPreconfigCommPoolR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding priorityList-r13: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -1258,9 +1395,11 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigCommPoolR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1317,6 +1456,7 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -1345,9 +1485,11 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.PriorityListR13 = tmp_prioritylistr13
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -1364,13 +1506,38 @@ func (v *SLPreconfigCommPoolR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERSLPreconfigDiscRxPoolListR13ListValue struct{ Value SLPreconfigDiscRxPoolListR13 }
 
-// MarshalUPERSLPreconfigDiscRxPoolListR13 encodes a SLPreconfigDiscRxPoolListR13 list to UPER.
-func MarshalUPERSLPreconfigDiscRxPoolListR13(list SLPreconfigDiscRxPoolListR13) ([]byte, error) {
+// SLPreconfigDiscRxPoolListR13Complete carries a complete SLPreconfigDiscRxPoolListR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPreconfigDiscRxPoolListR13Complete struct {
+	Value       SLPreconfigDiscRxPoolListR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPreconfigDiscRxPoolListR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPreconfigDiscRxPoolListR13To(list, bb); err != nil {
+	if err := MarshalUPERSLPreconfigDiscRxPoolListR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPreconfigDiscRxPoolListR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPreconfigDiscRxPoolListR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscRxPoolListR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscRxPoolListR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPreconfigDiscRxPoolListR13 encodes a SLPreconfigDiscRxPoolListR13 list to UPER.
+func MarshalUPERSLPreconfigDiscRxPoolListR13(list SLPreconfigDiscRxPoolListR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPreconfigDiscRxPoolListR13To appends a SLPreconfigDiscRxPoolListR13 list to bb.
@@ -1390,14 +1557,10 @@ func MarshalUPERSLPreconfigDiscRxPoolListR13To(list SLPreconfigDiscRxPoolListR13
 }
 
 // UnmarshalUPERSLPreconfigDiscRxPoolListR13 decodes a SLPreconfigDiscRxPoolListR13 list from UPER.
-func UnmarshalUPERSLPreconfigDiscRxPoolListR13(data []byte) (SLPreconfigDiscRxPoolListR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPreconfigDiscRxPoolListR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscRxPoolListR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscRxPoolListR13")
+func UnmarshalUPERSLPreconfigDiscRxPoolListR13(data []byte) (SLPreconfigDiscRxPoolListR13Complete, error) {
+	var value SLPreconfigDiscRxPoolListR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1431,13 +1594,38 @@ func unmarshalUPERSLPreconfigDiscRxPoolListR13Into(v *asn1cUPERSLPreconfigDiscRx
 
 type asn1cUPERSLPreconfigDiscTxPoolListR13ListValue struct{ Value SLPreconfigDiscTxPoolListR13 }
 
-// MarshalUPERSLPreconfigDiscTxPoolListR13 encodes a SLPreconfigDiscTxPoolListR13 list to UPER.
-func MarshalUPERSLPreconfigDiscTxPoolListR13(list SLPreconfigDiscTxPoolListR13) ([]byte, error) {
+// SLPreconfigDiscTxPoolListR13Complete carries a complete SLPreconfigDiscTxPoolListR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPreconfigDiscTxPoolListR13Complete struct {
+	Value       SLPreconfigDiscTxPoolListR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPreconfigDiscTxPoolListR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPreconfigDiscTxPoolListR13To(list, bb); err != nil {
+	if err := MarshalUPERSLPreconfigDiscTxPoolListR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPreconfigDiscTxPoolListR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPreconfigDiscTxPoolListR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscTxPoolListR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigDiscTxPoolListR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPreconfigDiscTxPoolListR13 encodes a SLPreconfigDiscTxPoolListR13 list to UPER.
+func MarshalUPERSLPreconfigDiscTxPoolListR13(list SLPreconfigDiscTxPoolListR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPreconfigDiscTxPoolListR13To appends a SLPreconfigDiscTxPoolListR13 list to bb.
@@ -1457,14 +1645,10 @@ func MarshalUPERSLPreconfigDiscTxPoolListR13To(list SLPreconfigDiscTxPoolListR13
 }
 
 // UnmarshalUPERSLPreconfigDiscTxPoolListR13 decodes a SLPreconfigDiscTxPoolListR13 list from UPER.
-func UnmarshalUPERSLPreconfigDiscTxPoolListR13(data []byte) (SLPreconfigDiscTxPoolListR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPreconfigDiscTxPoolListR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscTxPoolListR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigDiscTxPoolListR13")
+func UnmarshalUPERSLPreconfigDiscTxPoolListR13(data []byte) (SLPreconfigDiscTxPoolListR13Complete, error) {
+	var value SLPreconfigDiscTxPoolListR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1502,7 +1686,7 @@ func (v *SLPreconfigDiscPoolR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigDiscPoolR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1565,9 +1749,11 @@ func (v *SLPreconfigDiscPoolR13) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1639,7 +1825,7 @@ func (v *SLPreconfigRelayR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigRelayR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1655,9 +1841,11 @@ func (v *SLPreconfigRelayR13) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigRelayR13")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigRelayR13")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1675,7 +1863,7 @@ func (v *SLV2XPreconfigurationR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1808,7 +1996,15 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding v2x-TxProfileList-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -1829,7 +2025,15 @@ func (v *SLV2XPreconfigurationR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding anchorCarrierFreqListNR-r16: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 1 {
+				extPadding = v.PERExtPadding_[1]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -1854,9 +2058,11 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigurationR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigurationR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1921,6 +2127,7 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -1992,9 +2199,11 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.V2xTxProfileListR15 = tmp_v2xtxprofilelistr15
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		if int64(1) <= extCount && extPresent[1] {
 			extData, err := per.DecodeOpenType(bb)
@@ -2024,9 +2233,11 @@ func (v *SLV2XPreconfigurationR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.AnchorCarrierFreqListNRR16 = tmp_anchorcarrierfreqlistnrr16
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
+			v.PERExtPadding_[1] = padding
 		}
 		for i := int64(2); i <= extCount; i++ {
 			if extPresent[i] {
@@ -2047,7 +2258,7 @@ func (v *SLCBRPreconfigTxConfigListR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLCBRPreconfigTxConfigListR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2080,9 +2291,11 @@ func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2121,13 +2334,38 @@ func (v *SLCBRPreconfigTxConfigListR14) UnmarshalUPERFrom(bb *per.BitBuffer) err
 
 type asn1cUPERSLV2XPreconfigFreqListR14ListValue struct{ Value SLV2XPreconfigFreqListR14 }
 
-// MarshalUPERSLV2XPreconfigFreqListR14 encodes a SLV2XPreconfigFreqListR14 list to UPER.
-func MarshalUPERSLV2XPreconfigFreqListR14(list SLV2XPreconfigFreqListR14) ([]byte, error) {
+// SLV2XPreconfigFreqListR14Complete carries a complete SLV2XPreconfigFreqListR14 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLV2XPreconfigFreqListR14Complete struct {
+	Value       SLV2XPreconfigFreqListR14
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLV2XPreconfigFreqListR14Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLV2XPreconfigFreqListR14To(list, bb); err != nil {
+	if err := MarshalUPERSLV2XPreconfigFreqListR14To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLV2XPreconfigFreqListR14Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLV2XPreconfigFreqListR14From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqListR14")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqListR14")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLV2XPreconfigFreqListR14 encodes a SLV2XPreconfigFreqListR14 list to UPER.
+func MarshalUPERSLV2XPreconfigFreqListR14(list SLV2XPreconfigFreqListR14Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLV2XPreconfigFreqListR14To appends a SLV2XPreconfigFreqListR14 list to bb.
@@ -2147,14 +2385,10 @@ func MarshalUPERSLV2XPreconfigFreqListR14To(list SLV2XPreconfigFreqListR14, bb *
 }
 
 // UnmarshalUPERSLV2XPreconfigFreqListR14 decodes a SLV2XPreconfigFreqListR14 list from UPER.
-func UnmarshalUPERSLV2XPreconfigFreqListR14(data []byte) (SLV2XPreconfigFreqListR14, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLV2XPreconfigFreqListR14From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLV2XPreconfigFreqListR14")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLV2XPreconfigFreqListR14")
+func UnmarshalUPERSLV2XPreconfigFreqListR14(data []byte) (SLV2XPreconfigFreqListR14Complete, error) {
+	var value SLV2XPreconfigFreqListR14Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2192,7 +2426,7 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2328,7 +2562,15 @@ func (v *SLV2XPreconfigFreqInfoR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding v2x-FreqSelectionConfigList-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -2353,9 +2595,11 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqInfoR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigFreqInfoR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2480,6 +2724,7 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -2508,9 +2753,11 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.V2xFreqSelectionConfigListR15 = tmp_v2xfreqselectionconfiglistr15
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -2527,13 +2774,38 @@ func (v *SLV2XPreconfigFreqInfoR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERSLPreconfigV2XRxPoolListR14ListValue struct{ Value SLPreconfigV2XRxPoolListR14 }
 
-// MarshalUPERSLPreconfigV2XRxPoolListR14 encodes a SLPreconfigV2XRxPoolListR14 list to UPER.
-func MarshalUPERSLPreconfigV2XRxPoolListR14(list SLPreconfigV2XRxPoolListR14) ([]byte, error) {
+// SLPreconfigV2XRxPoolListR14Complete carries a complete SLPreconfigV2XRxPoolListR14 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPreconfigV2XRxPoolListR14Complete struct {
+	Value       SLPreconfigV2XRxPoolListR14
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPreconfigV2XRxPoolListR14Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPreconfigV2XRxPoolListR14To(list, bb); err != nil {
+	if err := MarshalUPERSLPreconfigV2XRxPoolListR14To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPreconfigV2XRxPoolListR14Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPreconfigV2XRxPoolListR14From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigV2XRxPoolListR14")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigV2XRxPoolListR14")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPreconfigV2XRxPoolListR14 encodes a SLPreconfigV2XRxPoolListR14 list to UPER.
+func MarshalUPERSLPreconfigV2XRxPoolListR14(list SLPreconfigV2XRxPoolListR14Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPreconfigV2XRxPoolListR14To appends a SLPreconfigV2XRxPoolListR14 list to bb.
@@ -2553,14 +2825,10 @@ func MarshalUPERSLPreconfigV2XRxPoolListR14To(list SLPreconfigV2XRxPoolListR14, 
 }
 
 // UnmarshalUPERSLPreconfigV2XRxPoolListR14 decodes a SLPreconfigV2XRxPoolListR14 list from UPER.
-func UnmarshalUPERSLPreconfigV2XRxPoolListR14(data []byte) (SLPreconfigV2XRxPoolListR14, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPreconfigV2XRxPoolListR14From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XRxPoolListR14")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XRxPoolListR14")
+func UnmarshalUPERSLPreconfigV2XRxPoolListR14(data []byte) (SLPreconfigV2XRxPoolListR14Complete, error) {
+	var value SLPreconfigV2XRxPoolListR14Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2594,13 +2862,38 @@ func unmarshalUPERSLPreconfigV2XRxPoolListR14Into(v *asn1cUPERSLPreconfigV2XRxPo
 
 type asn1cUPERSLPreconfigV2XTxPoolListR14ListValue struct{ Value SLPreconfigV2XTxPoolListR14 }
 
-// MarshalUPERSLPreconfigV2XTxPoolListR14 encodes a SLPreconfigV2XTxPoolListR14 list to UPER.
-func MarshalUPERSLPreconfigV2XTxPoolListR14(list SLPreconfigV2XTxPoolListR14) ([]byte, error) {
+// SLPreconfigV2XTxPoolListR14Complete carries a complete SLPreconfigV2XTxPoolListR14 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPreconfigV2XTxPoolListR14Complete struct {
+	Value       SLPreconfigV2XTxPoolListR14
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPreconfigV2XTxPoolListR14Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPreconfigV2XTxPoolListR14To(list, bb); err != nil {
+	if err := MarshalUPERSLPreconfigV2XTxPoolListR14To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPreconfigV2XTxPoolListR14Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPreconfigV2XTxPoolListR14From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigV2XTxPoolListR14")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPreconfigV2XTxPoolListR14")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPreconfigV2XTxPoolListR14 encodes a SLPreconfigV2XTxPoolListR14 list to UPER.
+func MarshalUPERSLPreconfigV2XTxPoolListR14(list SLPreconfigV2XTxPoolListR14Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPreconfigV2XTxPoolListR14To appends a SLPreconfigV2XTxPoolListR14 list to bb.
@@ -2620,14 +2913,10 @@ func MarshalUPERSLPreconfigV2XTxPoolListR14To(list SLPreconfigV2XTxPoolListR14, 
 }
 
 // UnmarshalUPERSLPreconfigV2XTxPoolListR14 decodes a SLPreconfigV2XTxPoolListR14 list from UPER.
-func UnmarshalUPERSLPreconfigV2XTxPoolListR14(data []byte) (SLPreconfigV2XTxPoolListR14, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPreconfigV2XTxPoolListR14From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XTxPoolListR14")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPreconfigV2XTxPoolListR14")
+func UnmarshalUPERSLPreconfigV2XTxPoolListR14(data []byte) (SLPreconfigV2XTxPoolListR14Complete, error) {
+	var value SLPreconfigV2XTxPoolListR14Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2665,7 +2954,7 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2836,7 +3125,15 @@ func (v *SLV2XPreconfigCommPoolR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding cbr-pssch-TxConfigList-v1530: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -2861,9 +3158,11 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigCommPoolR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XPreconfigCommPoolR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3018,6 +3317,7 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -3067,9 +3367,11 @@ func (v *SLV2XPreconfigCommPoolR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.CbrPsschTxConfigListV1530 = tmp_cbrpsschtxconfiglistv1530
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -3090,7 +3392,7 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3160,7 +3462,15 @@ func (v *SLPreconfigV2XSyncR14) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding slss-TxDisabled-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -3185,9 +3495,11 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigV2XSyncR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigV2XSyncR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3233,6 +3545,7 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
 		v.ExtData_ = make([][]byte, extCount+1)
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -3251,9 +3564,11 @@ func (v *SLPreconfigV2XSyncR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.SlssTxDisabledR15 = &val_slsstxdisabledr15
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -3274,7 +3589,7 @@ func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLV2XSyncOffsetIndicatorsR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3302,9 +3617,11 @@ func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XSyncOffsetIndicatorsR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLV2XSyncOffsetIndicatorsR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3338,13 +3655,38 @@ func (v *SLV2XSyncOffsetIndicatorsR14) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 
 type asn1cUPERSLCBRPPPPTxPreconfigListR14ListValue struct{ Value SLCBRPPPPTxPreconfigListR14 }
 
-// MarshalUPERSLCBRPPPPTxPreconfigListR14 encodes a SLCBRPPPPTxPreconfigListR14 list to UPER.
-func MarshalUPERSLCBRPPPPTxPreconfigListR14(list SLCBRPPPPTxPreconfigListR14) ([]byte, error) {
+// SLCBRPPPPTxPreconfigListR14Complete carries a complete SLCBRPPPPTxPreconfigListR14 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLCBRPPPPTxPreconfigListR14Complete struct {
+	Value       SLCBRPPPPTxPreconfigListR14
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLCBRPPPPTxPreconfigListR14Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLCBRPPPPTxPreconfigListR14To(list, bb); err != nil {
+	if err := MarshalUPERSLCBRPPPPTxPreconfigListR14To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLCBRPPPPTxPreconfigListR14Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListR14From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListR14")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListR14")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLCBRPPPPTxPreconfigListR14 encodes a SLCBRPPPPTxPreconfigListR14 list to UPER.
+func MarshalUPERSLCBRPPPPTxPreconfigListR14(list SLCBRPPPPTxPreconfigListR14Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLCBRPPPPTxPreconfigListR14To appends a SLCBRPPPPTxPreconfigListR14 list to bb.
@@ -3364,14 +3706,10 @@ func MarshalUPERSLCBRPPPPTxPreconfigListR14To(list SLCBRPPPPTxPreconfigListR14, 
 }
 
 // UnmarshalUPERSLCBRPPPPTxPreconfigListR14 decodes a SLCBRPPPPTxPreconfigListR14 list from UPER.
-func UnmarshalUPERSLCBRPPPPTxPreconfigListR14(data []byte) (SLCBRPPPPTxPreconfigListR14, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListR14From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListR14")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListR14")
+func UnmarshalUPERSLCBRPPPPTxPreconfigListR14(data []byte) (SLCBRPPPPTxPreconfigListR14Complete, error) {
+	var value SLCBRPPPPTxPreconfigListR14Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -3409,7 +3747,7 @@ func (v *SLPPPPTxPreconfigIndexR14) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPPPPTxPreconfigIndexR14) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3441,9 +3779,11 @@ func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3483,13 +3823,38 @@ func (v *SLPPPPTxPreconfigIndexR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERSLCBRPPPPTxPreconfigListV1530ListValue struct{ Value SLCBRPPPPTxPreconfigListV1530 }
 
-// MarshalUPERSLCBRPPPPTxPreconfigListV1530 encodes a SLCBRPPPPTxPreconfigListV1530 list to UPER.
-func MarshalUPERSLCBRPPPPTxPreconfigListV1530(list SLCBRPPPPTxPreconfigListV1530) ([]byte, error) {
+// SLCBRPPPPTxPreconfigListV1530Complete carries a complete SLCBRPPPPTxPreconfigListV1530 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLCBRPPPPTxPreconfigListV1530Complete struct {
+	Value       SLCBRPPPPTxPreconfigListV1530
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLCBRPPPPTxPreconfigListV1530Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLCBRPPPPTxPreconfigListV1530To(list, bb); err != nil {
+	if err := MarshalUPERSLCBRPPPPTxPreconfigListV1530To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLCBRPPPPTxPreconfigListV1530Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListV1530From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListV1530")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListV1530")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLCBRPPPPTxPreconfigListV1530 encodes a SLCBRPPPPTxPreconfigListV1530 list to UPER.
+func MarshalUPERSLCBRPPPPTxPreconfigListV1530(list SLCBRPPPPTxPreconfigListV1530Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLCBRPPPPTxPreconfigListV1530To appends a SLCBRPPPPTxPreconfigListV1530 list to bb.
@@ -3509,14 +3874,10 @@ func MarshalUPERSLCBRPPPPTxPreconfigListV1530To(list SLCBRPPPPTxPreconfigListV15
 }
 
 // UnmarshalUPERSLCBRPPPPTxPreconfigListV1530 decodes a SLCBRPPPPTxPreconfigListV1530 list from UPER.
-func UnmarshalUPERSLCBRPPPPTxPreconfigListV1530(data []byte) (SLCBRPPPPTxPreconfigListV1530, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLCBRPPPPTxPreconfigListV1530From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListV1530")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPPPPTxPreconfigListV1530")
+func UnmarshalUPERSLCBRPPPPTxPreconfigListV1530(data []byte) (SLCBRPPPPTxPreconfigListV1530Complete, error) {
+	var value SLCBRPPPPTxPreconfigListV1530Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -3554,7 +3915,7 @@ func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPPPPTxPreconfigIndexV1530) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3583,9 +3944,11 @@ func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3618,13 +3981,38 @@ func (v *SLPPPPTxPreconfigIndexV1530) UnmarshalUPERFrom(bb *per.BitBuffer) error
 
 type asn1cUPERSLV2XTxProfileListR15ListValue struct{ Value SLV2XTxProfileListR15 }
 
-// MarshalUPERSLV2XTxProfileListR15 encodes a SLV2XTxProfileListR15 list to UPER.
-func MarshalUPERSLV2XTxProfileListR15(list SLV2XTxProfileListR15) ([]byte, error) {
+// SLV2XTxProfileListR15Complete carries a complete SLV2XTxProfileListR15 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLV2XTxProfileListR15Complete struct {
+	Value       SLV2XTxProfileListR15
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLV2XTxProfileListR15Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLV2XTxProfileListR15To(list, bb); err != nil {
+	if err := MarshalUPERSLV2XTxProfileListR15To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLV2XTxProfileListR15Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLV2XTxProfileListR15From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XTxProfileListR15")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLV2XTxProfileListR15")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLV2XTxProfileListR15 encodes a SLV2XTxProfileListR15 list to UPER.
+func MarshalUPERSLV2XTxProfileListR15(list SLV2XTxProfileListR15Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLV2XTxProfileListR15To appends a SLV2XTxProfileListR15 list to bb.
@@ -3644,14 +4032,10 @@ func MarshalUPERSLV2XTxProfileListR15To(list SLV2XTxProfileListR15, bb *per.BitB
 }
 
 // UnmarshalUPERSLV2XTxProfileListR15 decodes a SLV2XTxProfileListR15 list from UPER.
-func UnmarshalUPERSLV2XTxProfileListR15(data []byte) (SLV2XTxProfileListR15, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLV2XTxProfileListR15From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLV2XTxProfileListR15")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLV2XTxProfileListR15")
+func UnmarshalUPERSLV2XTxProfileListR15(data []byte) (SLV2XTxProfileListR15Complete, error) {
+	var value SLV2XTxProfileListR15Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -3689,7 +4073,7 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPER() ([]byte, error) 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigurationR12PreconfigCommV1310) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3728,9 +4112,11 @@ func (v *SLPreconfigurationR12PreconfigCommV1310) UnmarshalUPER(data []byte) err
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigCommV1310")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigCommV1310")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3781,7 +4167,7 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigurationR12PreconfigDiscR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3820,9 +4206,11 @@ func (v *SLPreconfigurationR12PreconfigDiscR13) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigDiscR13")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigurationR12PreconfigDiscR13")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3873,7 +4261,7 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigGeneralR12RohcProfilesR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3907,9 +4295,11 @@ func (v *SLPreconfigGeneralR12RohcProfilesR12) UnmarshalUPER(data []byte) error 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12RohcProfilesR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigGeneralR12RohcProfilesR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3959,7 +4349,7 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SLPreconfigDiscPoolR13TxParametersR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3978,9 +4368,11 @@ func (v *SLPreconfigDiscPoolR13TxParametersR13) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13TxParametersR13")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SLPreconfigDiscPoolR13TxParametersR13")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4003,13 +4395,38 @@ type asn1cUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14ListValue 
 	Value SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14
 }
 
-// MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 encodes a SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 list to UPER.
-func MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14(list SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14) ([]byte, error) {
+// SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete carries a complete SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete struct {
+	Value       SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14To(list, bb); err != nil {
+	if err := MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 encodes a SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 list to UPER.
+func MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14(list SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14To appends a SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 list to bb.
@@ -4029,14 +4446,10 @@ func MarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14To(list 
 }
 
 // UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 decodes a SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14 list from UPER.
-func UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14(data []byte) (SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14")
+func UnmarshalUPERSLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14(data []byte) (SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete, error) {
+	var value SLCBRPreconfigTxConfigListR14CbrRangeCommonConfigListR14Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4072,13 +4485,38 @@ type asn1cUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14ListValue st
 	Value SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14
 }
 
-// MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 encodes a SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 list to UPER.
-func MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14(list SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14) ([]byte, error) {
+// SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete carries a complete SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete struct {
+	Value       SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14To(list, bb); err != nil {
+	if err := MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 encodes a SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 list to UPER.
+func MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14(list SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14To appends a SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 list to bb.
@@ -4098,14 +4536,10 @@ func MarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14To(list SL
 }
 
 // UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 decodes a SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14 list from UPER.
-func UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14(data []byte) (SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14")
+func UnmarshalUPERSLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14(data []byte) (SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete, error) {
+	var value SLCBRPreconfigTxConfigListR14SlCBRPSSCHTxConfigListR14Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4141,13 +4575,38 @@ type asn1cUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14ListValue struct {
 	Value SLPPPPTxPreconfigIndexR14TxConfigIndexListR14
 }
 
-// MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14 encodes a SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 list to UPER.
-func MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14(list SLPPPPTxPreconfigIndexR14TxConfigIndexListR14) ([]byte, error) {
+// SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete carries a complete SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete struct {
+	Value       SLPPPPTxPreconfigIndexR14TxConfigIndexListR14
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14To(list, bb); err != nil {
+	if err := MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14TxConfigIndexListR14")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14TxConfigIndexListR14")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14 encodes a SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 list to UPER.
+func MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14(list SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14To appends a SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 list to bb.
@@ -4167,14 +4626,10 @@ func MarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14To(list SLPPPPTxPre
 }
 
 // UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14 decodes a SLPPPPTxPreconfigIndexR14TxConfigIndexListR14 list from UPER.
-func UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14(data []byte) (SLPPPPTxPreconfigIndexR14TxConfigIndexListR14, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14TxConfigIndexListR14")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexR14TxConfigIndexListR14")
+func UnmarshalUPERSLPPPPTxPreconfigIndexR14TxConfigIndexListR14(data []byte) (SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete, error) {
+	var value SLPPPPTxPreconfigIndexR14TxConfigIndexListR14Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4210,13 +4665,38 @@ type asn1cUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15ListValue struct {
 	Value SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15
 }
 
-// MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 encodes a SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 list to UPER.
-func MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15(list SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15) ([]byte, error) {
+// SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete carries a complete SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete struct {
+	Value       SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15To(list, bb); err != nil {
+	if err := MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 encodes a SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 list to UPER.
+func MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15(list SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15To appends a SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 list to bb.
@@ -4236,14 +4716,10 @@ func MarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15To(list SLPPPPTxPreco
 }
 
 // UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 decodes a SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15 list from UPER.
-func UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15(data []byte) (SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15")
+func UnmarshalUPERSLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15(data []byte) (SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete, error) {
+	var value SLPPPPTxPreconfigIndexV1530McsPSSCHRangeR15Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }

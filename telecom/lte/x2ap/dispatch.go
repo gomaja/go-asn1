@@ -700,34 +700,15 @@ func DecodeUnsuccessfulOutcomeValue(procedureCode int64, data []byte) (interface
 	}
 }
 
-// decodeIEProtocolIEFieldListConstrained decodes a constrained SEQUENCE OF ProtocolIEField values from APER.
-// with the given SIZE constraint bounds.
-func decodeIEProtocolIEFieldListConstrained(bb *per.BitBuffer, lb, ub int64) ([]ProtocolIEField, error) {
-	n, err := per.DecodeConstrainedWholeNumberAligned(bb, lb, ub)
-	if err != nil {
-		return nil, fmt.Errorf("decoding list length: %w", err)
-	}
-	result := make([]ProtocolIEField, 0)
-	for i := int64(0); i < n; i++ {
-		var item ProtocolIEField
-		if err := item.UnmarshalAPERFrom(bb); err != nil {
-			return nil, fmt.Errorf("decoding item %d: %w", i, err)
-		}
-		result = append(result, item)
-	}
-	return result, nil
-}
-
 // DecodeIEFieldValue decodes a known IE open value using its object-set context and ID.
 // Returns the decoded typed value, or nil if the combination is unknown.
 func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{}, error) {
-	bb := per.NewBitBufferFromBytes(data)
 	switch objectSet {
 	case "E-RAB-ItemIEs":
 		switch ieId {
 		case 2: // id-E-RAB-Item -> ERABItem
 			var v ERABItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -736,7 +717,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 263: // id-E-RABUsageReport-Item -> ERABUsageReportItem
 			var v ERABUsageReportItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABUsageReportItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -745,7 +726,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 266: // id-SecondaryRATUsageReport-Item -> SecondaryRATUsageReportItem
 			var v SecondaryRATUsageReportItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE SecondaryRATUsageReportItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -753,6 +734,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverRequest-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -761,41 +743,42 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 11: // id-TargetCell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 23: // id-GUMMEI-ID -> GUMMEI
 			var v GUMMEI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GUMMEI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 14: // id-UE-ContextInformation -> UEContextInformation
 			var v UEContextInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 15: // id-UE-HistoryInformation -> UEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEHistoryInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 13: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TraceActivation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 36: // id-SRVCCOperationPossible -> SRVCCOperationPossible (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCOperationPossible (%d): %w", ieId, err)
@@ -803,6 +786,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SRVCCOperationPossible(v)
 			return &result, nil
 		case 71: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
@@ -810,6 +794,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CSGMembershipStatus(v)
 			return &result, nil
 		case 82: // id-MobilityInformation -> MobilityInformation (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MobilityInformation (%d): %w", ieId, err)
@@ -817,6 +802,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MobilityInformation{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 98: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
@@ -824,6 +810,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 105: // id-UE-HistoryInformationFromTheUE -> UEHistoryInformationFromTheUE (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEHistoryInformationFromTheUE (%d): %w", ieId, err)
@@ -832,23 +819,24 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 104: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ExpectedUEBehaviour (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 103: // id-ProSeAuthorized -> ProSeAuthorized
 			var v ProSeAuthorized
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ProSeAuthorized (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 153: // id-UE-ContextReferenceAtSeNB -> UEContextReferenceAtSeNB
 			var v UEContextReferenceAtSeNB
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextReferenceAtSeNB (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -856,29 +844,30 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 176: // id-V2XServicesAuthorized -> V2XServicesAuthorized
 			var v V2XServicesAuthorized
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE V2XServicesAuthorized (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 182: // id-UE-ContextReferenceAtWT -> UEContextReferenceAtWT
 			var v UEContextReferenceAtWT
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextReferenceAtWT (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 248: // id-NRUESecurityCapabilities -> NRUESecurityCapabilities
 			var v NRUESecurityCapabilities
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE NRUESecurityCapabilities (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 254: // id-UE-ContextReferenceAtSgNB -> UEContextReferenceAtSgNB
 			var v UEContextReferenceAtSgNB
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextReferenceAtSgNB (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 277: // id-AerialUEsubscriptionInformation -> AerialUEsubscriptionInformation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AerialUEsubscriptionInformation (%d): %w", ieId, err)
@@ -887,29 +876,30 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 309: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE SubscriptionBasedUEDifferentiationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 361: // id-CHOinformation-REQ -> CHOinformationREQ
 			var v CHOinformationREQ
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CHOinformationREQ (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 370: // id-NRV2XServicesAuthorized -> NRV2XServicesAuthorized
 			var v NRV2XServicesAuthorized
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE NRV2XServicesAuthorized (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 372: // id-PC5QoSParameters -> PC5QoSParameters
 			var v PC5QoSParameters
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE PC5QoSParameters (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 395: // id-IABNodeIndication -> IABNodeIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABNodeIndication (%d): %w", ieId, err)
@@ -921,7 +911,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 4: // id-E-RABs-ToBeSetup-Item -> ERABsToBeSetupItem
 			var v ERABsToBeSetupItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeSetupItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -929,6 +919,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverRequestAcknowledge-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -936,25 +927,27 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
 			}
 			result := UEX2APID(v)
 			return &result, nil
-		case 1: // id-E-RABs-Admitted-List -> ERABsAdmittedList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 1: // id-E-RABs-Admitted-List -> ERABsAdmittedList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 12: // id-TargeteNBtoSource-eNBTransparentContainer -> TargeteNBtoSourceENBTransparentContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TargeteNBtoSourceENBTransparentContainer (%d): %w", ieId, err)
@@ -963,11 +956,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 154: // id-UE-ContextKeptIndicator -> UEContextKeptIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextKeptIndicator (%d): %w", ieId, err)
@@ -975,39 +969,43 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEContextKeptIndicator(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 183: // id-WT-UE-ContextKeptIndicator -> UEContextKeptIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextKeptIndicator (%d): %w", ieId, err)
 			}
 			result := UEContextKeptIndicator(v)
 			return &result, nil
-		case 339: // id-ERABs-transferred-to-MeNB -> ERABList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 339: // id-ERABs-transferred-to-MeNB -> ERABList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 362: // id-CHOinformation-ACK -> CHOinformationACK
 			var v CHOinformationACK
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CHOinformationACK (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1016,7 +1014,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 0: // id-E-RABs-Admitted-Item -> ERABsAdmittedItem
 			var v ERABsAdmittedItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1024,6 +1022,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverPreparationFailure-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1032,17 +1031,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -1050,7 +1050,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 364: // id-RequestedTargetCellID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1058,6 +1058,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverReport-IEs":
 		switch ieId {
 		case 54: // id-HandoverReportType -> HandoverReportType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverReportType (%d): %w", ieId, err)
@@ -1066,29 +1067,30 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 52: // id-SourceCellECGI -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 53: // id-FailureCellECGI -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 49: // id-Re-establishmentCellECGI -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 81: // id-TargetCellInUTRAN -> TargetCellInUTRAN (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TargetCellInUTRAN (%d): %w", ieId, err)
@@ -1096,6 +1098,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := TargetCellInUTRAN(v)
 			return &result, nil
 		case 83: // id-SourceCellCRNTI -> CRNTI (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CRNTI (%d): %w", ieId, err)
@@ -1103,6 +1106,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CRNTI{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 82: // id-MobilityInformation -> MobilityInformation (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MobilityInformation (%d): %w", ieId, err)
@@ -1110,6 +1114,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MobilityInformation{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 60: // id-UE-RLF-Report-Container -> UERLFReportContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERLFReportContainer (%d): %w", ieId, err)
@@ -1117,6 +1122,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UERLFReportContainer(v)
 			return &result, nil
 		case 107: // id-UE-RLF-Report-Container-for-extended-bands -> UERLFReportContainerForExtendedBands (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERLFReportContainerForExtendedBands (%d): %w", ieId, err)
@@ -1124,6 +1130,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UERLFReportContainerForExtendedBands(v)
 			return &result, nil
 		case 382: // id-TargetCellInNGRAN -> TargetCellInNGRAN (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TargetCellInNGRAN (%d): %w", ieId, err)
@@ -1134,6 +1141,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "EarlyStatusTransfer-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1141,6 +1149,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1148,12 +1157,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -1161,11 +1172,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 367: // id-ProcedureStage -> ProcedureStageChoice
 			var v ProcedureStageChoice
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ProcedureStageChoice (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -1176,6 +1188,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SNStatusTransfer-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1183,31 +1196,35 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
 			}
 			result := UEX2APID(v)
 			return &result, nil
-		case 18: // id-E-RABs-SubjectToStatusTransfer-List -> ERABsSubjectToStatusTransferList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 18: // id-E-RABs-SubjectToStatusTransfer-List -> ERABsSubjectToStatusTransferList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsSubjectToStatusTransferList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToStatusTransferList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -1219,7 +1236,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 19: // id-E-RABs-SubjectToStatusTransfer-Item -> ERABsSubjectToStatusTransferItem
 			var v ERABsSubjectToStatusTransferItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToStatusTransferItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1227,6 +1244,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextRelease-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1234,6 +1252,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1241,18 +1260,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 164: // id-SIPTO-BearerDeactivationIndication -> SIPTOBearerDeactivationIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SIPTOBearerDeactivationIndication (%d): %w", ieId, err)
@@ -1260,6 +1282,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SIPTOBearerDeactivationIndication(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -1270,6 +1293,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverCancel-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1277,6 +1301,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1285,24 +1310,26 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 365: // id-CandidateCellsToBeCancelledList -> CandidateCellsToBeCancelledList (SEQUENCE_OF)
-			v, err := UnmarshalAPERCandidateCellsToBeCancelledListFrom(bb)
+			v, err := UnmarshalAPERCandidateCellsToBeCancelledList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CandidateCellsToBeCancelledList (%d): %w", ieId, err)
 			}
@@ -1311,6 +1338,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverSuccess-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1318,6 +1346,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1325,12 +1354,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -1338,7 +1369,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 11: // id-TargetCell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1346,6 +1377,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ConditionalHandoverCancel-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1353,6 +1385,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1361,24 +1394,26 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 365: // id-CandidateCellsToBeCancelledList -> CandidateCellsToBeCancelledList (SEQUENCE_OF)
-			v, err := UnmarshalAPERCandidateCellsToBeCancelledListFrom(bb)
+			v, err := UnmarshalAPERCandidateCellsToBeCancelledList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CandidateCellsToBeCancelledList (%d): %w", ieId, err)
 			}
@@ -1387,6 +1422,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ErrorIndication-IEs":
 		switch ieId {
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1394,6 +1430,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -1402,29 +1439,32 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 264: // id-Old-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -1432,6 +1472,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -1442,11 +1483,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -1457,11 +1499,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -1472,23 +1515,24 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 20: // id-ServedCells -> ServedCells (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedCellsFrom(bb)
+			v, err := UnmarshalAPERServedCells(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedCells (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 24: // id-GUGroupIDList -> GUGroupIDList (SEQUENCE_OF)
-			v, err := UnmarshalAPERGUGroupIDListFrom(bb)
+			v, err := UnmarshalAPERGUGroupIDList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUGroupIDList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 159: // id-LHN-ID -> LHNID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 32, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LHNID (%d): %w", ieId, err)
@@ -1500,29 +1544,30 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 20: // id-ServedCells -> ServedCells (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedCellsFrom(bb)
+			v, err := UnmarshalAPERServedCells(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedCells (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 24: // id-GUGroupIDList -> GUGroupIDList (SEQUENCE_OF)
-			v, err := UnmarshalAPERGUGroupIDListFrom(bb)
+			v, err := UnmarshalAPERGUGroupIDList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUGroupIDList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 159: // id-LHN-ID -> LHNID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 32, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LHNID (%d): %w", ieId, err)
@@ -1534,11 +1579,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 22: // id-TimeToWait -> TimeToWait (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeToWait (%d): %w", ieId, err)
@@ -1547,15 +1593,15 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		}
 	case "LoadInformation-IEs":
 		switch ieId {
-		case 6: // id-CellInformation -> CellInformationList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 6: // id-CellInformation -> CellInformationList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCellInformationList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellInformationList (%d): %w", ieId, err)
 			}
@@ -1565,7 +1611,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 7: // id-CellInformation-Item -> CellInformationItem
 			var v CellInformationItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellInformationItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1573,37 +1619,37 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENBConfigurationUpdate-IEs":
 		switch ieId {
 		case 25: // id-ServedCellsToAdd -> ServedCells (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedCellsFrom(bb)
+			v, err := UnmarshalAPERServedCells(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedCells (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 26: // id-ServedCellsToModify -> ServedCellsToModify (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedCellsToModifyFrom(bb)
+			v, err := UnmarshalAPERServedCellsToModify(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedCellsToModify (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 27: // id-ServedCellsToDelete -> OldECGIs (SEQUENCE_OF)
-			v, err := UnmarshalAPEROldECGIsFrom(bb)
+			v, err := UnmarshalAPEROldECGIs(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE OldECGIs (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 34: // id-GUGroupIDToAddList -> GUGroupIDList (SEQUENCE_OF)
-			v, err := UnmarshalAPERGUGroupIDListFrom(bb)
+			v, err := UnmarshalAPERGUGroupIDList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUGroupIDList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 35: // id-GUGroupIDToDeleteList -> GUGroupIDList (SEQUENCE_OF)
-			v, err := UnmarshalAPERGUGroupIDListFrom(bb)
+			v, err := UnmarshalAPERGUGroupIDList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUGroupIDList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 143: // id-CoverageModificationList -> CoverageModificationList (SEQUENCE_OF)
-			v, err := UnmarshalAPERCoverageModificationListFrom(bb)
+			v, err := UnmarshalAPERCoverageModificationList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CoverageModificationList (%d): %w", ieId, err)
 			}
@@ -1613,7 +1659,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1622,11 +1668,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 22: // id-TimeToWait -> TimeToWait (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeToWait (%d): %w", ieId, err)
@@ -1635,7 +1682,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1643,18 +1690,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ResourceStatusRequest-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 40: // id-ENB2-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 28: // id-Registration-Request -> RegistrationRequest (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RegistrationRequest (%d): %w", ieId, err)
@@ -1662,19 +1712,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RegistrationRequest(v)
 			return &result, nil
 		case 38: // id-ReportCharacteristics -> ReportCharacteristics (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ReportCharacteristics (%d): %w", ieId, err)
 			}
 			result := ReportCharacteristics{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
-		case 29: // id-CellToReport -> CellToReportList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 29: // id-CellToReport -> CellToReportList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCellToReportList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 30: // id-ReportingPeriodicity -> ReportingPeriodicity (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ReportingPeriodicity (%d): %w", ieId, err)
@@ -1682,6 +1734,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ReportingPeriodicity(v)
 			return &result, nil
 		case 64: // id-PartialSuccessIndicator -> PartialSuccessIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PartialSuccessIndicator (%d): %w", ieId, err)
@@ -1689,6 +1742,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := PartialSuccessIndicator(v)
 			return &result, nil
 		case 109: // id-ReportingPeriodicityRSRPMR -> ReportingPeriodicityRSRPMR (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ReportingPeriodicityRSRPMR (%d): %w", ieId, err)
@@ -1696,6 +1750,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ReportingPeriodicityRSRPMR(v)
 			return &result, nil
 		case 145: // id-ReportingPeriodicityCSIR -> ReportingPeriodicityCSIR (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ReportingPeriodicityCSIR (%d): %w", ieId, err)
@@ -1707,7 +1762,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 31: // id-CellToReport-Item -> CellToReportItem
 			var v CellToReportItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1715,12 +1770,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ResourceStatusResponse-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 40: // id-ENB2-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
@@ -1728,12 +1785,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 65: // id-MeasurementInitiationResult-List -> MeasurementInitiationResultList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 65: // id-MeasurementInitiationResult-List -> MeasurementInitiationResultList (SEQUENCE_OF)
+			v, err := UnmarshalAPERMeasurementInitiationResultList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementInitiationResultList (%d): %w", ieId, err)
 			}
@@ -1743,7 +1800,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 66: // id-MeasurementInitiationResult-Item -> MeasurementInitiationResultItem
 			var v MeasurementInitiationResultItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementInitiationResultItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1752,7 +1809,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 67: // id-MeasurementFailureCause-Item -> MeasurementFailureCauseItem
 			var v MeasurementFailureCauseItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementFailureCauseItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1760,12 +1817,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ResourceStatusFailure-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 40: // id-ENB2-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
@@ -1773,18 +1832,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 68: // id-CompleteFailureCauseInformation-List -> CompleteFailureCauseInformationList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 68: // id-CompleteFailureCauseInformation-List -> CompleteFailureCauseInformationList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCompleteFailureCauseInformationList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CompleteFailureCauseInformationList (%d): %w", ieId, err)
 			}
@@ -1794,7 +1853,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 69: // id-CompleteFailureCauseInformation-Item -> CompleteFailureCauseInformationItem
 			var v CompleteFailureCauseInformationItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CompleteFailureCauseInformationItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1802,19 +1861,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ResourceStatusUpdate-IEs":
 		switch ieId {
 		case 39: // id-ENB1-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 40: // id-ENB2-Measurement-ID -> MeasurementID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementID (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 32: // id-CellMeasurementResult -> CellMeasurementResultList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 32: // id-CellMeasurementResult -> CellMeasurementResultList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCellMeasurementResultList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultList (%d): %w", ieId, err)
 			}
@@ -1824,7 +1885,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 33: // id-CellMeasurementResult-Item -> CellMeasurementResultItem
 			var v CellMeasurementResultItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1833,31 +1894,31 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 43: // id-ENB1-Cell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 44: // id-ENB2-Cell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 46: // id-ENB1-Mobility-Parameters -> MobilityParametersInformation
 			var v MobilityParametersInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MobilityParametersInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 45: // id-ENB2-Proposed-Mobility-Parameters -> MobilityParametersInformation
 			var v MobilityParametersInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MobilityParametersInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1866,19 +1927,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 43: // id-ENB1-Cell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 44: // id-ENB2-Cell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1887,31 +1948,31 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 43: // id-ENB1-Cell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 44: // id-ENB2-Cell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 47: // id-ENB2-Mobility-Parameters-Modification-Range -> MobilityParametersModificationRange
 			var v MobilityParametersModificationRange
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MobilityParametersModificationRange (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -1919,6 +1980,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "RLFIndication-IEs":
 		switch ieId {
 		case 48: // id-FailureCellPCI -> PCI (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("503"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PCI (%d): %w", ieId, err)
@@ -1926,11 +1988,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 49: // id-Re-establishmentCellECGI -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 50: // id-FailureCellCRNTI -> CRNTI (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CRNTI (%d): %w", ieId, err)
@@ -1938,6 +2001,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CRNTI{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 51: // id-ShortMAC-I -> ShortMACI (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ShortMACI (%d): %w", ieId, err)
@@ -1945,6 +2009,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ShortMACI{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 60: // id-UE-RLF-Report-Container -> UERLFReportContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERLFReportContainer (%d): %w", ieId, err)
@@ -1952,6 +2017,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UERLFReportContainer(v)
 			return &result, nil
 		case 75: // id-RRCConnSetupIndicator -> RRCConnSetupIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCConnSetupIndicator (%d): %w", ieId, err)
@@ -1959,6 +2025,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RRCConnSetupIndicator(v)
 			return &result, nil
 		case 78: // id-RRCConnReestabIndicator -> RRCConnReestabIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCConnReestabIndicator (%d): %w", ieId, err)
@@ -1966,6 +2033,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RRCConnReestabIndicator(v)
 			return &result, nil
 		case 107: // id-UE-RLF-Report-Container-for-extended-bands -> UERLFReportContainerForExtendedBands (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERLFReportContainerForExtendedBands (%d): %w", ieId, err)
@@ -1973,6 +2041,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UERLFReportContainerForExtendedBands(v)
 			return &result, nil
 		case 374: // id-NBIoT-RLF-Report-Container -> NBIoTRLFReportContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NBIoTRLFReportContainer (%d): %w", ieId, err)
@@ -1983,7 +2052,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "CellActivationRequest-IEs":
 		switch ieId {
 		case 57: // id-ServedCellsToActivate -> ServedCellsToActivate (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedCellsToActivateFrom(bb)
+			v, err := UnmarshalAPERServedCellsToActivate(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedCellsToActivate (%d): %w", ieId, err)
 			}
@@ -1992,14 +2061,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "CellActivationResponse-IEs":
 		switch ieId {
 		case 58: // id-ActivatedCellList -> ActivatedCellList (SEQUENCE_OF)
-			v, err := UnmarshalAPERActivatedCellListFrom(bb)
+			v, err := UnmarshalAPERActivatedCellList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ActivatedCellList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2008,13 +2077,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2023,7 +2092,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2032,11 +2101,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 101: // id-RNL-Header -> RNLHeader
 			var v RNLHeader
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE RNLHeader (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 102: // id-x2APMessage -> X2APMessage (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE X2APMessage (%d): %w", ieId, err)
@@ -2047,6 +2117,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBAdditionRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2055,11 +2126,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 113: // id-UE-SecurityCapabilities -> UESecurityCapabilities
 			var v UESecurityCapabilities
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UESecurityCapabilities (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 114: // id-SeNBSecurityKey -> SeNBSecurityKey (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 256, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SeNBSecurityKey (%d): %w", ieId, err)
@@ -2068,24 +2140,26 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 115: // id-SeNBUEAggregateMaximumBitRate -> UEAggregateMaximumBitRate
 			var v UEAggregateMaximumBitRate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEAggregateMaximumBitRate (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 116: // id-ServingPLMN -> PLMNIdentity (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PLMNIdentity (%d): %w", ieId, err)
 			}
 			result := PLMNIdentity(v)
 			return &result, nil
-		case 117: // id-E-RABs-ToBeAdded-List -> ERABsToBeAddedList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 117: // id-E-RABs-ToBeAdded-List -> ERABsToBeAddedList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeAddedList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 119: // id-MeNBtoSeNBContainer -> MeNBtoSeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSeNBContainer (%d): %w", ieId, err)
@@ -2093,6 +2167,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MeNBtoSeNBContainer(v)
 			return &result, nil
 		case 71: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
@@ -2100,6 +2175,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CSGMembershipStatus(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2107,6 +2183,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2114,11 +2191,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 104: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ExpectedUEBehaviour (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2129,7 +2207,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 118: // id-E-RABs-ToBeAdded-Item -> ERABsToBeAddedItem
 			var v ERABsToBeAddedItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2137,6 +2215,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBAdditionRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2144,25 +2223,27 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
 			}
 			result := UEX2APID(v)
 			return &result, nil
-		case 120: // id-E-RABs-Admitted-ToBeAdded-List -> ERABsAdmittedToBeAddedList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 120: // id-E-RABs-Admitted-ToBeAdded-List -> ERABsAdmittedToBeAddedList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeAddedList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 122: // id-SeNBtoMeNBContainer -> SeNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SeNBtoMeNBContainer (%d): %w", ieId, err)
@@ -2171,11 +2252,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 165: // id-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
@@ -2183,6 +2265,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 168: // id-SIPTO-L-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
@@ -2190,12 +2273,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2203,7 +2288,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 163: // id-Tunnel-Information-for-BBF -> TunnelInformation
 			var v TunnelInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TunnelInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2212,7 +2297,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 121: // id-E-RABs-Admitted-ToBeAdded-Item -> ERABsAdmittedToBeAddedItem
 			var v ERABsAdmittedToBeAddedItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2220,6 +2305,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBAdditionRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2227,6 +2313,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2235,23 +2322,25 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2261,6 +2350,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBReconfigurationComplete-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2268,6 +2358,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2276,17 +2367,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 123: // id-ResponseInformationSeNBReconfComp -> ResponseInformationSeNBReconfComp
 			var v ResponseInformationSeNBReconfComp
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ResponseInformationSeNBReconfComp (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2296,6 +2389,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBModificationRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2303,6 +2397,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2311,11 +2406,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 136: // id-SCGChangeIndication -> SCGChangeIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGChangeIndication (%d): %w", ieId, err)
@@ -2323,6 +2419,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SCGChangeIndication(v)
 			return &result, nil
 		case 116: // id-ServingPLMN -> PLMNIdentity (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PLMNIdentity (%d): %w", ieId, err)
@@ -2331,11 +2428,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 124: // id-UE-ContextInformationSeNBModReq -> UEContextInformationSeNBModReq
 			var v UEContextInformationSeNBModReq
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextInformationSeNBModReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 119: // id-MeNBtoSeNBContainer -> MeNBtoSeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSeNBContainer (%d): %w", ieId, err)
@@ -2343,6 +2441,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MeNBtoSeNBContainer(v)
 			return &result, nil
 		case 71: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
@@ -2350,12 +2449,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CSGMembershipStatus(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2366,7 +2467,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 125: // id-E-RABs-ToBeAdded-ModReqItem -> ERABsToBeAddedModReqItem
 			var v ERABsToBeAddedModReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedModReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2375,7 +2476,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 126: // id-E-RABs-ToBeModified-ModReqItem -> ERABsToBeModifiedModReqItem
 			var v ERABsToBeModifiedModReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeModifiedModReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2384,7 +2485,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 127: // id-E-RABs-ToBeReleased-ModReqItem -> ERABsToBeReleasedModReqItem
 			var v ERABsToBeReleasedModReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedModReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2392,6 +2493,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBModificationRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2399,37 +2501,39 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
 			}
 			result := UEX2APID(v)
 			return &result, nil
-		case 128: // id-E-RABs-Admitted-ToBeAdded-ModAckList -> ERABsAdmittedToBeAddedModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 128: // id-E-RABs-Admitted-ToBeAdded-ModAckList -> ERABsAdmittedToBeAddedModAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeAddedModAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 129: // id-E-RABs-Admitted-ToBeModified-ModAckList -> ERABsAdmittedToBeModifiedModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 129: // id-E-RABs-Admitted-ToBeModified-ModAckList -> ERABsAdmittedToBeModifiedModAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeModifiedModAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 130: // id-E-RABs-Admitted-ToBeReleased-ModAckList -> ERABsAdmittedToBeReleasedModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 130: // id-E-RABs-Admitted-ToBeReleased-ModAckList -> ERABsAdmittedToBeReleasedModAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeReleasedModAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeReleasedModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 122: // id-SeNBtoMeNBContainer -> SeNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SeNBtoMeNBContainer (%d): %w", ieId, err)
@@ -2438,17 +2542,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2459,7 +2565,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 131: // id-E-RABs-Admitted-ToBeAdded-ModAckItem -> ERABsAdmittedToBeAddedModAckItem
 			var v ERABsAdmittedToBeAddedModAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedModAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2468,7 +2574,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 132: // id-E-RABs-Admitted-ToBeModified-ModAckItem -> ERABsAdmittedToBeModifiedModAckItem
 			var v ERABsAdmittedToBeModifiedModAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedModAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2477,7 +2583,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 133: // id-E-RABs-Admitted-ToBeReleased-ModAckItem -> ERABsAdmittedToReleasedModAckItem
 			var v ERABsAdmittedToReleasedModAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToReleasedModAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2485,6 +2591,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBModificationRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2492,6 +2599,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2500,23 +2608,25 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2526,6 +2636,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBModificationRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2533,6 +2644,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2541,24 +2653,26 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 136: // id-SCGChangeIndication -> SCGChangeIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGChangeIndication (%d): %w", ieId, err)
 			}
 			result := SCGChangeIndication(v)
 			return &result, nil
-		case 134: // id-E-RABs-ToBeReleased-ModReqd -> ERABsToBeReleasedModReqd (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 134: // id-E-RABs-ToBeReleased-ModReqd -> ERABsToBeReleasedModReqd (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedModReqd(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedModReqd (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 122: // id-SeNBtoMeNBContainer -> SeNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SeNBtoMeNBContainer (%d): %w", ieId, err)
@@ -2566,12 +2680,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SeNBtoMeNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2582,7 +2698,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 135: // id-E-RABs-ToBeReleased-ModReqdItem -> ERABsToBeReleasedModReqdItem
 			var v ERABsToBeReleasedModReqdItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedModReqdItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2590,6 +2706,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBModificationConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2597,6 +2714,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2604,6 +2722,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 119: // id-MeNBtoSeNBContainer -> MeNBtoSeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSeNBContainer (%d): %w", ieId, err)
@@ -2612,17 +2731,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2632,6 +2753,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBModificationRefuse-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2639,6 +2761,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2647,11 +2770,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 119: // id-MeNBtoSeNBContainer -> MeNBtoSeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSeNBContainer (%d): %w", ieId, err)
@@ -2660,17 +2784,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2680,6 +2806,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBReleaseRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2687,6 +2814,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2695,17 +2823,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 137: // id-E-RABs-ToBeReleased-List-RelReq -> ERABsToBeReleasedListRelReq (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 137: // id-E-RABs-ToBeReleased-List-RelReq -> ERABsToBeReleasedListRelReq (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedListRelReq(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedListRelReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 154: // id-UE-ContextKeptIndicator -> UEContextKeptIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextKeptIndicator (%d): %w", ieId, err)
@@ -2713,18 +2842,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEContextKeptIndicator(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 181: // id-MakeBeforeBreakIndicator -> MakeBeforeBreakIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MakeBeforeBreakIndicator (%d): %w", ieId, err)
@@ -2736,7 +2868,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 138: // id-E-RABs-ToBeReleased-RelReqItem -> ERABsToBeReleasedRelReqItem
 			var v ERABsToBeReleasedRelReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedRelReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2744,6 +2876,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBReleaseRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2751,6 +2884,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2759,17 +2893,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2779,6 +2915,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBReleaseConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2786,31 +2923,34 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
 			}
 			result := UEX2APID(v)
 			return &result, nil
-		case 139: // id-E-RABs-ToBeReleased-List-RelConf -> ERABsToBeReleasedListRelConf (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 139: // id-E-RABs-ToBeReleased-List-RelConf -> ERABsToBeReleasedListRelConf (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedListRelConf(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedListRelConf (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2821,7 +2961,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 140: // id-E-RABs-ToBeReleased-RelConfItem -> ERABsToBeReleasedRelConfItem
 			var v ERABsToBeReleasedRelConfItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedRelConfItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2829,6 +2969,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SeNBCounterCheckRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2836,25 +2977,28 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 112: // id-SeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
 			}
 			result := UEX2APID(v)
 			return &result, nil
-		case 141: // id-E-RABs-SubjectToCounterCheck-List -> ERABsSubjectToCounterCheckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 141: // id-E-RABs-SubjectToCounterCheck-List -> ERABsSubjectToCounterCheckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsSubjectToCounterCheckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToCounterCheckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2865,7 +3009,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 142: // id-E-RABs-SubjectToCounterCheckItem -> ERABsSubjectToCounterCheckItem
 			var v ERABsSubjectToCounterCheckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToCounterCheckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2874,11 +3018,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 169: // id-X2RemovalThreshold -> X2BenefitValue (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("8"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE X2BenefitValue (%d): %w", ieId, err)
@@ -2889,13 +3034,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2904,13 +3049,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -2918,6 +3063,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "RetrieveUEContextRequest-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2925,6 +3071,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 158: // id-SeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2932,11 +3079,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 172: // id-resumeID -> ResumeID
 			var v ResumeID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ResumeID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 51: // id-ShortMAC-I -> ShortMACI (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ShortMACI (%d): %w", ieId, err)
@@ -2944,6 +3092,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ShortMACI{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 175: // id-NewEUTRANCellIdentifier -> EUTRANCellIdentifier (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 28, 28, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EUTRANCellIdentifier (%d): %w", ieId, err)
@@ -2951,6 +3100,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := EUTRANCellIdentifier{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 50: // id-FailureCellCRNTI -> CRNTI (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CRNTI (%d): %w", ieId, err)
@@ -2958,6 +3108,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CRNTI{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 48: // id-FailureCellPCI -> PCI (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("503"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PCI (%d): %w", ieId, err)
@@ -2967,6 +3118,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "RetrieveUEContextResponse-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2974,12 +3126,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -2987,6 +3141,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -2994,23 +3149,24 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 23: // id-GUMMEI-ID -> GUMMEI
 			var v GUMMEI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GUMMEI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 173: // id-UE-ContextInformationRetrieve -> UEContextInformationRetrieve
 			var v UEContextInformationRetrieve
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextInformationRetrieve (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 13: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TraceActivation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 36: // id-SRVCCOperationPossible -> SRVCCOperationPossible (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCOperationPossible (%d): %w", ieId, err)
@@ -3018,6 +3174,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SRVCCOperationPossible(v)
 			return &result, nil
 		case 98: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
@@ -3026,29 +3183,30 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 104: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ExpectedUEBehaviour (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 103: // id-ProSeAuthorized -> ProSeAuthorized
 			var v ProSeAuthorized
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ProSeAuthorized (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 176: // id-V2XServicesAuthorized -> V2XServicesAuthorized
 			var v V2XServicesAuthorized
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE V2XServicesAuthorized (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 277: // id-AerialUEsubscriptionInformation -> AerialUEsubscriptionInformation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AerialUEsubscriptionInformation (%d): %w", ieId, err)
@@ -3057,19 +3215,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 309: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE SubscriptionBasedUEDifferentiationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 370: // id-NRV2XServicesAuthorized -> NRV2XServicesAuthorized
 			var v NRV2XServicesAuthorized
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE NRV2XServicesAuthorized (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 372: // id-PC5QoSParameters -> PC5QoSParameters
 			var v PC5QoSParameters
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE PC5QoSParameters (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3078,7 +3236,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 174: // id-E-RABs-ToBeSetupRetrieve-Item -> ERABsToBeSetupRetrieveItem
 			var v ERABsToBeSetupRetrieveItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeSetupRetrieveItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3086,6 +3244,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "RetrieveUEContextFailure-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3093,6 +3252,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -3100,13 +3260,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3114,6 +3274,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBAdditionRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3122,11 +3283,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 248: // id-NRUESecurityCapabilities -> NRUESecurityCapabilities
 			var v NRUESecurityCapabilities
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE NRUESecurityCapabilities (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 203: // id-SgNBSecurityKey -> SgNBSecurityKey (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 256, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBSecurityKey (%d): %w", ieId, err)
@@ -3135,11 +3297,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 204: // id-SgNBUEAggregateMaximumBitRate -> UEAggregateMaximumBitRate
 			var v UEAggregateMaximumBitRate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEAggregateMaximumBitRate (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 269: // id-SelectedPLMN -> PLMNIdentity (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PLMNIdentity (%d): %w", ieId, err)
@@ -3148,17 +3311,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 240: // id-HandoverRestrictionList -> HandoverRestrictionList
 			var v HandoverRestrictionList
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverRestrictionList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 205: // id-E-RABs-ToBeAdded-SgNBAddReqList -> ERABsToBeAddedSgNBAddReqList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 205: // id-E-RABs-ToBeAdded-SgNBAddReqList -> ERABsToBeAddedSgNBAddReqList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeAddedSgNBAddReqList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedSgNBAddReqList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 206: // id-MeNBtoSgNBContainer -> MeNBtoSgNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSgNBContainer (%d): %w", ieId, err)
@@ -3166,6 +3330,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MeNBtoSgNBContainer(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -3174,17 +3339,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 104: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ExpectedUEBehaviour (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 208: // id-RequestedSplitSRBs -> SplitSRBs (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SplitSRBs (%d): %w", ieId, err)
@@ -3193,11 +3360,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 257: // id-MeNBResourceCoordinationInformation -> MeNBResourceCoordinationInformation
 			var v MeNBResourceCoordinationInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBResourceCoordinationInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 278: // id-SGNB-Addition-Trigger-Ind -> SGNBAdditionTriggerInd (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SGNBAdditionTriggerInd (%d): %w", ieId, err)
@@ -3205,6 +3373,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SGNBAdditionTriggerInd(v)
 			return &result, nil
 		case 275: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SubscriberProfileIDforRFP (%d): %w", ieId, err)
@@ -3213,11 +3382,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 279: // id-MeNBCell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 329: // id-DesiredActNotificationLevel -> DesiredActNotificationLevel (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DesiredActNotificationLevel (%d): %w", ieId, err)
@@ -3226,11 +3396,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 13: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TraceActivation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 330: // id-LocationInformationSgNBReporting -> LocationInformationSgNBReporting (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LocationInformationSgNBReporting (%d): %w", ieId, err)
@@ -3238,6 +3409,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := LocationInformationSgNBReporting(v)
 			return &result, nil
 		case 98: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
@@ -3245,6 +3417,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 340: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
@@ -3252,6 +3425,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 343: // id-RequestedFastMCGRecoveryViaSRB3 -> RequestedFastMCGRecoveryViaSRB3 (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RequestedFastMCGRecoveryViaSRB3 (%d): %w", ieId, err)
@@ -3259,6 +3433,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RequestedFastMCGRecoveryViaSRB3(v)
 			return &result, nil
 		case 359: // id-UEContextReferenceatSourceNGRAN -> RANUENGAPID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RANUENGAPID (%d): %w", ieId, err)
@@ -3266,6 +3441,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RANUENGAPID(v)
 			return &result, nil
 		case 74: // id-ManagementBasedMDTallowed -> ManagementBasedMDTallowed (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ManagementBasedMDTallowed (%d): %w", ieId, err)
@@ -3273,12 +3449,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ManagementBasedMDTallowed(v)
 			return &result, nil
 		case 89: // id-ManagementBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
-			v, err := UnmarshalAPERMDTPLMNListFrom(bb)
+			v, err := UnmarshalAPERMDTPLMNList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MDTPLMNList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
@@ -3286,6 +3463,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		case 395: // id-IABNodeIndication -> IABNodeIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABNodeIndication (%d): %w", ieId, err)
@@ -3294,17 +3472,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 411: // id-sourceNG-RAN-node-id -> GlobalRANNODEID
 			var v GlobalRANNODEID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalRANNODEID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 15: // id-UE-HistoryInformation -> UEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEHistoryInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 105: // id-UE-HistoryInformationFromTheUE -> UEHistoryInformationFromTheUE (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEHistoryInformationFromTheUE (%d): %w", ieId, err)
@@ -3312,6 +3491,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEHistoryInformationFromTheUE(v)
 			return &result, nil
 		case 419: // id-PSCellChangeHistory -> PSCellChangeHistory (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PSCellChangeHistory (%d): %w", ieId, err)
@@ -3320,11 +3500,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 420: // id-CHOinformation-AddReq -> CHOinformationAddReq
 			var v CHOinformationAddReq
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CHOinformationAddReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 423: // id-SCGActivationRequest -> SCGActivationRequest (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGActivationRequest (%d): %w", ieId, err)
@@ -3333,11 +3514,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 424: // id-CPAinformation-REQ -> CPAinformationREQ
 			var v CPAinformationREQ
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPAinformationREQ (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 449: // id-IABAuthorized -> IABAuthorized (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABAuthorized (%d): %w", ieId, err)
@@ -3349,7 +3531,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 209: // id-E-RABs-ToBeAdded-SgNBAddReq-Item -> ERABsToBeAddedSgNBAddReqItem
 			var v ERABsToBeAddedSgNBAddReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedSgNBAddReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3357,6 +3539,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBAdditionRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3364,25 +3547,27 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 210: // id-E-RABs-Admitted-ToBeAdded-SgNBAddReqAckList -> ERABsAdmittedToBeAddedSgNBAddReqAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 210: // id-E-RABs-Admitted-ToBeAdded-SgNBAddReqAckList -> ERABsAdmittedToBeAddedSgNBAddReqAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeAddedSgNBAddReqAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedSgNBAddReqAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 211: // id-SgNBtoMeNBContainer -> SgNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBtoMeNBContainer (%d): %w", ieId, err)
@@ -3391,17 +3576,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 212: // id-AdmittedSplitSRBs -> SplitSRBs (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SplitSRBs (%d): %w", ieId, err)
@@ -3410,11 +3597,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 258: // id-SgNBResourceCoordinationInformation -> SgNBResourceCoordinationInformation
 			var v SgNBResourceCoordinationInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBResourceCoordinationInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 272: // id-RRCConfigIndication -> RRCConfigInd (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCConfigInd (%d): %w", ieId, err)
@@ -3423,11 +3611,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 331: // id-LocationInformationSgNB -> LocationInformationSgNB
 			var v LocationInformationSgNB
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE LocationInformationSgNB (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 344: // id-AvailableFastMCGRecoveryViaSRB3 -> AvailableFastMCGRecoveryViaSRB3 (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AvailableFastMCGRecoveryViaSRB3 (%d): %w", ieId, err)
@@ -3435,6 +3624,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := AvailableFastMCGRecoveryViaSRB3(v)
 			return &result, nil
 		case 410: // id-DirectForwardingPathAvailability -> DirectForwardingPathAvailability (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DirectForwardingPathAvailability (%d): %w", ieId, err)
@@ -3442,6 +3632,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := DirectForwardingPathAvailability(v)
 			return &result, nil
 		case 422: // id-SCGActivationStatus -> SCGActivationStatus (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGActivationStatus (%d): %w", ieId, err)
@@ -3450,7 +3641,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 425: // id-CPAinformation-REQ-ACK -> CPAinformationREQACK
 			var v CPAinformationREQACK
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPAinformationREQACK (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3459,7 +3650,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 213: // id-E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item -> ERABsAdmittedToBeAddedSgNBAddReqAckItem
 			var v ERABsAdmittedToBeAddedSgNBAddReqAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedSgNBAddReqAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3467,6 +3658,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBAdditionRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3474,6 +3666,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -3482,17 +3675,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -3502,6 +3696,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBReconfigurationComplete-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3509,6 +3704,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -3517,11 +3713,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 214: // id-ResponseInformationSgNBReconfComp -> ResponseInformationSgNBReconfComp
 			var v ResponseInformationSgNBReconfComp
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ResponseInformationSgNBReconfComp (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -3531,6 +3728,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBModificationRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3538,6 +3736,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -3546,11 +3745,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 269: // id-SelectedPLMN -> PLMNIdentity (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PLMNIdentity (%d): %w", ieId, err)
@@ -3559,11 +3759,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 240: // id-HandoverRestrictionList -> HandoverRestrictionList
 			var v HandoverRestrictionList
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverRestrictionList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 241: // id-SCGConfigurationQuery -> SCGConfigurationQuery (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGConfigurationQuery (%d): %w", ieId, err)
@@ -3572,11 +3773,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 215: // id-UE-ContextInformation-SgNBModReq -> UEContextInformationSgNBModReq
 			var v UEContextInformationSgNBModReq
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextInformationSgNBModReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 206: // id-MeNBtoSgNBContainer -> MeNBtoSgNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSgNBContainer (%d): %w", ieId, err)
@@ -3584,6 +3786,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := MeNBtoSgNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -3591,11 +3794,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 257: // id-MeNBResourceCoordinationInformation -> MeNBResourceCoordinationInformation
 			var v MeNBResourceCoordinationInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBResourceCoordinationInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 208: // id-RequestedSplitSRBs -> SplitSRBs (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SplitSRBs (%d): %w", ieId, err)
@@ -3603,6 +3807,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SplitSRBs(v)
 			return &result, nil
 		case 280: // id-RequestedSplitSRBsrelease -> SplitSRBs (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SplitSRBs (%d): %w", ieId, err)
@@ -3610,6 +3815,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SplitSRBs(v)
 			return &result, nil
 		case 329: // id-DesiredActNotificationLevel -> DesiredActNotificationLevel (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DesiredActNotificationLevel (%d): %w", ieId, err)
@@ -3617,6 +3823,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := DesiredActNotificationLevel(v)
 			return &result, nil
 		case 330: // id-LocationInformationSgNBReporting -> LocationInformationSgNBReporting (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LocationInformationSgNBReporting (%d): %w", ieId, err)
@@ -3625,11 +3832,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 279: // id-MeNBCell-ID -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ECGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 343: // id-RequestedFastMCGRecoveryViaSRB3 -> RequestedFastMCGRecoveryViaSRB3 (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RequestedFastMCGRecoveryViaSRB3 (%d): %w", ieId, err)
@@ -3637,6 +3845,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RequestedFastMCGRecoveryViaSRB3(v)
 			return &result, nil
 		case 345: // id-RequestedFastMCGRecoveryViaSRB3Release -> RequestedFastMCGRecoveryViaSRB3Release (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RequestedFastMCGRecoveryViaSRB3Release (%d): %w", ieId, err)
@@ -3644,6 +3853,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RequestedFastMCGRecoveryViaSRB3Release(v)
 			return &result, nil
 		case 379: // id-SNtriggered -> SNtriggered (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SNtriggered (%d): %w", ieId, err)
@@ -3651,6 +3861,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SNtriggered(v)
 			return &result, nil
 		case 395: // id-IABNodeIndication -> IABNodeIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABNodeIndication (%d): %w", ieId, err)
@@ -3658,6 +3869,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := IABNodeIndication(v)
 			return &result, nil
 		case 416: // id-PSCellHistoryInformationRetrieve -> PSCellHistoryInformationRetrieve (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PSCellHistoryInformationRetrieve (%d): %w", ieId, err)
@@ -3665,6 +3877,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := PSCellHistoryInformationRetrieve(v)
 			return &result, nil
 		case 105: // id-UE-HistoryInformationFromTheUE -> UEHistoryInformationFromTheUE (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEHistoryInformationFromTheUE (%d): %w", ieId, err)
@@ -3673,11 +3886,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 421: // id-CHOinformation-ModReq -> CHOinformationModReq
 			var v CHOinformationModReq
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CHOinformationModReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 423: // id-SCGActivationRequest -> SCGActivationRequest (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGActivationRequest (%d): %w", ieId, err)
@@ -3686,17 +3900,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 426: // id-CPAinformation-MOD -> CPAinformationMOD
 			var v CPAinformationMOD
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPAinformationMOD (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 432: // id-CPCupdate-MOD -> CPCupdateMOD
 			var v CPCupdateMOD
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPCupdateMOD (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 449: // id-IABAuthorized -> IABAuthorized (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABAuthorized (%d): %w", ieId, err)
@@ -3708,7 +3923,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 216: // id-E-RABs-ToBeAdded-SgNBModReq-Item -> ERABsToBeAddedSgNBModReqItem
 			var v ERABsToBeAddedSgNBModReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeAddedSgNBModReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3717,7 +3932,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 217: // id-E-RABs-ToBeModified-SgNBModReq-Item -> ERABsToBeModifiedSgNBModReqItem
 			var v ERABsToBeModifiedSgNBModReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeModifiedSgNBModReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3726,7 +3941,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 218: // id-E-RABs-ToBeReleased-SgNBModReq-Item -> ERABsToBeReleasedSgNBModReqItem
 			var v ERABsToBeReleasedSgNBModReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBModReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3734,6 +3949,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBModificationRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3741,37 +3957,39 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 219: // id-E-RABs-Admitted-ToBeAdded-SgNBModAckList -> ERABsAdmittedToBeAddedSgNBModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 219: // id-E-RABs-Admitted-ToBeAdded-SgNBModAckList -> ERABsAdmittedToBeAddedSgNBModAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeAddedSgNBModAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedSgNBModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 220: // id-E-RABs-Admitted-ToBeModified-SgNBModAckList -> ERABsAdmittedToBeModifiedSgNBModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 220: // id-E-RABs-Admitted-ToBeModified-SgNBModAckList -> ERABsAdmittedToBeModifiedSgNBModAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeModifiedSgNBModAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedSgNBModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 221: // id-E-RABs-Admitted-ToBeReleased-SgNBModAckList -> ERABsAdmittedToBeReleasedSgNBModAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 221: // id-E-RABs-Admitted-ToBeReleased-SgNBModAckList -> ERABsAdmittedToBeReleasedSgNBModAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeReleasedSgNBModAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeReleasedSgNBModAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 3: // id-E-RABs-NotAdmitted-List -> ERABList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 211: // id-SgNBtoMeNBContainer -> SgNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBtoMeNBContainer (%d): %w", ieId, err)
@@ -3780,11 +3998,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -3792,11 +4011,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 258: // id-SgNBResourceCoordinationInformation -> SgNBResourceCoordinationInformation
 			var v SgNBResourceCoordinationInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBResourceCoordinationInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 212: // id-AdmittedSplitSRBs -> SplitSRBs (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SplitSRBs (%d): %w", ieId, err)
@@ -3804,6 +4024,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SplitSRBs(v)
 			return &result, nil
 		case 281: // id-AdmittedSplitSRBsrelease -> SplitSRBs (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SplitSRBs (%d): %w", ieId, err)
@@ -3811,6 +4032,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SplitSRBs(v)
 			return &result, nil
 		case 272: // id-RRCConfigIndication -> RRCConfigInd (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCConfigInd (%d): %w", ieId, err)
@@ -3819,11 +4041,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 331: // id-LocationInformationSgNB -> LocationInformationSgNB
 			var v LocationInformationSgNB
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE LocationInformationSgNB (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 344: // id-AvailableFastMCGRecoveryViaSRB3 -> AvailableFastMCGRecoveryViaSRB3 (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AvailableFastMCGRecoveryViaSRB3 (%d): %w", ieId, err)
@@ -3831,6 +4054,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := AvailableFastMCGRecoveryViaSRB3(v)
 			return &result, nil
 		case 346: // id-ReleaseFastMCGRecoveryViaSRB3 -> ReleaseFastMCGRecoveryViaSRB3 (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ReleaseFastMCGRecoveryViaSRB3 (%d): %w", ieId, err)
@@ -3838,12 +4062,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ReleaseFastMCGRecoveryViaSRB3(v)
 			return &result, nil
 		case 415: // id-SCG-UE-HistoryInformation -> SCGUEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERSCGUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERSCGUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGUEHistoryInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 422: // id-SCGActivationStatus -> SCGActivationStatus (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGActivationStatus (%d): %w", ieId, err)
@@ -3852,7 +4077,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 427: // id-CPAinformation-MOD-ACK -> CPAinformationMODACK
 			var v CPAinformationMODACK
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPAinformationMODACK (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3861,7 +4086,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 222: // id-E-RABs-Admitted-ToBeAdded-SgNBModAck-Item -> ERABsAdmittedToBeAddedSgNBModAckItem
 			var v ERABsAdmittedToBeAddedSgNBModAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeAddedSgNBModAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3870,7 +4095,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 223: // id-E-RABs-Admitted-ToBeModified-SgNBModAck-Item -> ERABsAdmittedToBeModifiedSgNBModAckItem
 			var v ERABsAdmittedToBeModifiedSgNBModAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedSgNBModAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3879,7 +4104,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 224: // id-E-RABs-Admitted-ToBeReleased-SgNBModAck-Item -> ERABsAdmittedToReleasedSgNBModAckItem
 			var v ERABsAdmittedToReleasedSgNBModAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToReleasedSgNBModAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -3887,6 +4112,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBModificationRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3894,6 +4120,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -3902,17 +4129,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -3922,6 +4150,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBModificationRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -3929,6 +4158,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -3937,24 +4167,26 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 249: // id-PDCPChangeIndication -> PDCPChangeIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PDCPChangeIndication (%d): %w", ieId, err)
 			}
 			result := PDCPChangeIndication(v)
 			return &result, nil
-		case 225: // id-E-RABs-ToBeReleased-SgNBModReqdList -> ERABsToBeReleasedSgNBModReqdList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 225: // id-E-RABs-ToBeReleased-SgNBModReqdList -> ERABsToBeReleasedSgNBModReqdList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedSgNBModReqdList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBModReqdList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 211: // id-SgNBtoMeNBContainer -> SgNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBtoMeNBContainer (%d): %w", ieId, err)
@@ -3962,24 +4194,26 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBtoMeNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 226: // id-E-RABs-ToBeModified-SgNBModReqdList -> ERABsToBeModifiedSgNBModReqdList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 226: // id-E-RABs-ToBeModified-SgNBModReqdList -> ERABsToBeModifiedSgNBModReqdList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeModifiedSgNBModReqdList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeModifiedSgNBModReqdList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 258: // id-SgNBResourceCoordinationInformation -> SgNBResourceCoordinationInformation
 			var v SgNBResourceCoordinationInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBResourceCoordinationInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 272: // id-RRCConfigIndication -> RRCConfigInd (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCConfigInd (%d): %w", ieId, err)
@@ -3988,17 +4222,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 331: // id-LocationInformationSgNB -> LocationInformationSgNB
 			var v LocationInformationSgNB
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE LocationInformationSgNB (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 415: // id-SCG-UE-HistoryInformation -> SCGUEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERSCGUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERSCGUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGUEHistoryInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 423: // id-SCGActivationRequest -> SCGActivationRequest (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGActivationRequest (%d): %w", ieId, err)
@@ -4007,11 +4242,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 428: // id-CPACinformation-REQD -> CPACinformationREQD
 			var v CPACinformationREQD
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPACinformationREQD (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 438: // id-SCGreconfigNotification -> SCGreconfigNotification (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGreconfigNotification (%d): %w", ieId, err)
@@ -4023,7 +4259,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 227: // id-E-RABs-ToBeReleased-SgNBModReqd-Item -> ERABsToBeReleasedSgNBModReqdItem
 			var v ERABsToBeReleasedSgNBModReqdItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBModReqdItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4032,7 +4268,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 228: // id-E-RABs-ToBeModified-SgNBModReqd-Item -> ERABsToBeModifiedSgNBModReqdItem
 			var v ERABsToBeModifiedSgNBModReqdItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeModifiedSgNBModReqdItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4040,6 +4276,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBModificationConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4047,19 +4284,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 294: // id-E-RABs-AdmittedToBeModified-SgNBModConfList -> ERABsAdmittedToBeModifiedSgNBModConfList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 294: // id-E-RABs-AdmittedToBeModified-SgNBModConfList -> ERABsAdmittedToBeModifiedSgNBModConfList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeModifiedSgNBModConfList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedSgNBModConfList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 206: // id-MeNBtoSgNBContainer -> MeNBtoSgNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSgNBContainer (%d): %w", ieId, err)
@@ -4068,11 +4307,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4080,7 +4320,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 257: // id-MeNBResourceCoordinationInformation -> MeNBResourceCoordinationInformation
 			var v MeNBResourceCoordinationInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBResourceCoordinationInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4089,7 +4329,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 295: // id-E-RABs-AdmittedToBeModified-SgNBModConf-Item -> ERABsAdmittedToBeModifiedSgNBModConfItem
 			var v ERABsAdmittedToBeModifiedSgNBModConfItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeModifiedSgNBModConfItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4097,6 +4337,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBModificationRefuse-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4104,6 +4345,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4112,11 +4354,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 206: // id-MeNBtoSgNBContainer -> MeNBtoSgNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSgNBContainer (%d): %w", ieId, err)
@@ -4125,11 +4368,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4139,6 +4383,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBReleaseRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4146,6 +4391,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4154,17 +4400,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
-		case 231: // id-E-RABs-ToBeReleased-SgNBRelReqList -> ERABsToBeReleasedSgNBRelReqList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 231: // id-E-RABs-ToBeReleased-SgNBRelReqList -> ERABsToBeReleasedSgNBRelReqList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedSgNBRelReqList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelReqList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 154: // id-UE-ContextKeptIndicator -> UEContextKeptIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEContextKeptIndicator (%d): %w", ieId, err)
@@ -4172,20 +4419,22 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEContextKeptIndicator(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 206: // id-MeNBtoSgNBContainer -> MeNBtoSgNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSgNBContainer (%d): %w", ieId, err)
 			}
 			result := MeNBtoSgNBContainer(v)
 			return &result, nil
-		case 339: // id-ERABs-transferred-to-MeNB -> ERABList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 339: // id-ERABs-transferred-to-MeNB -> ERABList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABList (%d): %w", ieId, err)
 			}
@@ -4195,7 +4444,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 232: // id-E-RABs-ToBeReleased-SgNBRelReq-Item -> ERABsToBeReleasedSgNBRelReqItem
 			var v ERABsToBeReleasedSgNBRelReqItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelReqItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4203,6 +4452,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBReleaseRequestAcknowledge-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4210,6 +4460,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4218,24 +4469,25 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 318: // id-E-RABs-Admitted-ToBeReleased-SgNBRelReqAckList -> ERABsAdmittedToBeReleasedSgNBRelReqAckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 318: // id-E-RABs-Admitted-ToBeReleased-SgNBRelReqAckList -> ERABsAdmittedToBeReleasedSgNBRelReqAckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsAdmittedToBeReleasedSgNBRelReqAckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeReleasedSgNBRelReqAckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 415: // id-SCG-UE-HistoryInformation -> SCGUEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERSCGUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERSCGUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGUEHistoryInformation (%d): %w", ieId, err)
 			}
@@ -4245,7 +4497,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 319: // id-E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-Item -> ERABsAdmittedToBeReleasedSgNBRelReqAckItem
 			var v ERABsAdmittedToBeReleasedSgNBRelReqAckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsAdmittedToBeReleasedSgNBRelReqAckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4253,6 +4505,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBReleaseRequestReject-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4260,6 +4513,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4268,17 +4522,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4288,6 +4543,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBReleaseRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4295,6 +4551,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4303,23 +4560,25 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 320: // id-E-RABs-ToBeReleased-SgNBRelReqdList -> ERABsToBeReleasedSgNBRelReqdList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 320: // id-E-RABs-ToBeReleased-SgNBRelReqdList -> ERABsToBeReleasedSgNBRelReqdList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedSgNBRelReqdList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelReqdList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 211: // id-SgNBtoMeNBContainer -> SgNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBtoMeNBContainer (%d): %w", ieId, err)
@@ -4327,7 +4586,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBtoMeNBContainer(v)
 			return &result, nil
 		case 415: // id-SCG-UE-HistoryInformation -> SCGUEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERSCGUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERSCGUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGUEHistoryInformation (%d): %w", ieId, err)
 			}
@@ -4337,7 +4596,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 321: // id-E-RABs-ToBeReleased-SgNBRelReqd-Item -> ERABsToBeReleasedSgNBRelReqdItem
 			var v ERABsToBeReleasedSgNBRelReqdItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelReqdItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4345,6 +4604,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBReleaseConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4352,25 +4612,27 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 233: // id-E-RABs-ToBeReleased-SgNBRelConfList -> ERABsToBeReleasedSgNBRelConfList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 233: // id-E-RABs-ToBeReleased-SgNBRelConfList -> ERABsToBeReleasedSgNBRelConfList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedSgNBRelConfList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelConfList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4381,7 +4643,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 234: // id-E-RABs-ToBeReleased-SgNBRelConf-Item -> ERABsToBeReleasedSgNBRelConfItem
 			var v ERABsToBeReleasedSgNBRelConfItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBRelConfItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4389,6 +4651,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBCounterCheckRequest-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4396,19 +4659,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 235: // id-E-RABs-SubjectToSgNBCounterCheck-List -> ERABsSubjectToSgNBCounterCheckList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 235: // id-E-RABs-SubjectToSgNBCounterCheck-List -> ERABsSubjectToSgNBCounterCheckList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsSubjectToSgNBCounterCheckList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToSgNBCounterCheckList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4419,7 +4684,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 236: // id-E-RABs-SubjectToSgNBCounterCheck-Item -> ERABsSubjectToSgNBCounterCheckItem
 			var v ERABsSubjectToSgNBCounterCheckItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsSubjectToSgNBCounterCheckItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4427,6 +4692,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBChangeRequired-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4434,6 +4700,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4442,17 +4709,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 239: // id-Target-SgNB-ID -> GlobalGNBID
 			var v GlobalGNBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalGNBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 211: // id-SgNBtoMeNBContainer -> SgNBtoMeNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBtoMeNBContainer (%d): %w", ieId, err)
@@ -4460,20 +4728,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBtoMeNBContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 415: // id-SCG-UE-HistoryInformation -> SCGUEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERSCGUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERSCGUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGUEHistoryInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 429: // id-CPCinformation-REQD -> CPCinformationREQD
 			var v CPCinformationREQD
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPCinformationREQD (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4481,7 +4750,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "AccessAndMobilityIndication-IEs":
 		switch ieId {
 		case 414: // id-NRRAReport -> NRRAReport (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRRAReportFrom(bb)
+			v, err := UnmarshalAPERNRRAReport(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NRRAReport (%d): %w", ieId, err)
 			}
@@ -4490,6 +4759,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBChangeConfirm-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4497,25 +4767,27 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 229: // id-E-RABs-ToBeReleased-SgNBChaConfList -> ERABsToBeReleasedSgNBChaConfList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 229: // id-E-RABs-ToBeReleased-SgNBChaConfList -> ERABsToBeReleasedSgNBChaConfList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsToBeReleasedSgNBChaConfList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBChaConfList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4523,11 +4795,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 430: // id-CPCinformation-CONF -> CPCinformationCONF
 			var v CPCinformationCONF
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPCinformationCONF (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 206: // id-MeNBtoSgNBContainer -> MeNBtoSgNBContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeNBtoSgNBContainer (%d): %w", ieId, err)
@@ -4539,7 +4812,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 230: // id-E-RABs-ToBeReleased-SgNBChaConf-Item -> ERABsToBeReleasedSgNBChaConfItem
 			var v ERABsToBeReleasedSgNBChaConfItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsToBeReleasedSgNBChaConfItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4547,6 +4820,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "RRCTransfer-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4554,6 +4828,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4562,17 +4837,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 242: // id-SplitSRB -> SplitSRB
 			var v SplitSRB
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE SplitSRB (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 243: // id-NRUeReport -> NRUeReport
 			var v NRUeReport
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE NRUeReport (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4580,13 +4856,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 342: // id-FastMCGRecovery-SN-to-MN -> FastMCGRecovery
 			var v FastMCGRecovery
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE FastMCGRecovery (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 347: // id-FastMCGRecovery-MN-to-SN -> FastMCGRecovery
 			var v FastMCGRecovery
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE FastMCGRecovery (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4594,6 +4870,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBChangeRefuse-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -4601,6 +4878,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -4609,17 +4887,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -4630,11 +4909,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 244: // id-InitiatingNodeType-EndcX2Setup -> InitiatingNodeTypeEndcX2Setup
 			var v InitiatingNodeTypeEndcX2Setup
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE InitiatingNodeTypeEndcX2Setup (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4642,7 +4922,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 352: // id-TNLConfigurationInfo -> TNLConfigurationInfo
 			var v TNLConfigurationInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TNLConfigurationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4651,17 +4931,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 250: // id-ServedEUTRAcellsENDCX2ManagementList -> ServedEUTRAcellsENDCX2ManagementList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb)
+			v, err := UnmarshalAPERServedEUTRAcellsENDCX2ManagementList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4669,7 +4950,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 351: // id-CellandCapacityAssistInfo -> CellandCapacityAssistInfo
 			var v CellandCapacityAssistInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellandCapacityAssistInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4678,17 +4959,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalGNBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
+			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 348: // id-PartialListIndicator -> PartialListIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PartialListIndicator (%d): %w", ieId, err)
@@ -4700,11 +4982,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 246: // id-RespondingNodeType-EndcX2Setup -> RespondingNodeTypeEndcX2Setup
 			var v RespondingNodeTypeEndcX2Setup
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE RespondingNodeTypeEndcX2Setup (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4712,7 +4995,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 352: // id-TNLConfigurationInfo -> TNLConfigurationInfo
 			var v TNLConfigurationInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TNLConfigurationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4721,17 +5004,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 250: // id-ServedEUTRAcellsENDCX2ManagementList -> ServedEUTRAcellsENDCX2ManagementList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb)
+			v, err := UnmarshalAPERServedEUTRAcellsENDCX2ManagementList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4739,7 +5023,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 351: // id-CellandCapacityAssistInfo -> CellandCapacityAssistInfo
 			var v CellandCapacityAssistInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellandCapacityAssistInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4748,17 +5032,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalGNBID (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
+			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 348: // id-PartialListIndicator -> PartialListIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PartialListIndicator (%d): %w", ieId, err)
@@ -4770,17 +5055,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 22: // id-TimeToWait -> TimeToWait (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeToWait (%d): %w", ieId, err)
@@ -4788,6 +5074,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := TimeToWait(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4795,7 +5082,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 350: // id-MessageOversizeNotification -> MessageOversizeNotification
 			var v MessageOversizeNotification
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE MessageOversizeNotification (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -4804,11 +5091,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 245: // id-InitiatingNodeType-EndcConfigUpdate -> InitiatingNodeTypeEndcConfigUpdate
 			var v InitiatingNodeTypeEndcConfigUpdate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE InitiatingNodeTypeEndcConfigUpdate (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4816,24 +5104,24 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 352: // id-TNLConfigurationInfo -> TNLConfigurationInfo
 			var v TNLConfigurationInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TNLConfigurationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 353: // id-TNLA-To-Add-List -> TNLAToAddList (SEQUENCE_OF)
-			v, err := UnmarshalAPERTNLAToAddListFrom(bb)
+			v, err := UnmarshalAPERTNLAToAddList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TNLAToAddList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 354: // id-TNLA-To-Update-List -> TNLAToUpdateList (SEQUENCE_OF)
-			v, err := UnmarshalAPERTNLAToUpdateListFrom(bb)
+			v, err := UnmarshalAPERTNLAToUpdateList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TNLAToUpdateList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 355: // id-TNLA-To-Remove-List -> TNLAToRemoveList (SEQUENCE_OF)
-			v, err := UnmarshalAPERTNLAToRemoveListFrom(bb)
+			v, err := UnmarshalAPERTNLAToRemoveList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TNLAToRemoveList (%d): %w", ieId, err)
 			}
@@ -4843,24 +5131,24 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 251: // id-CellAssistanceInformation -> CellAssistanceInformation
 			var v CellAssistanceInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellAssistanceInformation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 250: // id-ServedEUTRAcellsENDCX2ManagementList -> ServedEUTRAcellsENDCX2ManagementList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedEUTRAcellsENDCX2ManagementListFrom(bb)
+			v, err := UnmarshalAPERServedEUTRAcellsENDCX2ManagementList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsENDCX2ManagementList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 259: // id-ServedEUTRAcellsToModifyListENDCConfUpd -> ServedEUTRAcellsToModifyListENDCConfUpd (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpdFrom(bb)
+			v, err := UnmarshalAPERServedEUTRAcellsToModifyListENDCConfUpd(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsToModifyListENDCConfUpd (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 260: // id-ServedEUTRAcellsToDeleteListENDCConfUpd -> ServedEUTRAcellsToDeleteListENDCConfUpd (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpdFrom(bb)
+			v, err := UnmarshalAPERServedEUTRAcellsToDeleteListENDCConfUpd(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedEUTRAcellsToDeleteListENDCConfUpd (%d): %w", ieId, err)
 			}
@@ -4869,19 +5157,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "En-gNB-ENDCConfigUpdateIEs":
 		switch ieId {
 		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
+			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 261: // id-ServedNRcellsToModifyListENDCConfUpd -> ServedNRcellsToModifyENDCConfUpdList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb)
+			v, err := UnmarshalAPERServedNRcellsToModifyENDCConfUpdList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedNRcellsToModifyENDCConfUpdList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 262: // id-ServedNRcellsToDeleteListENDCConfUpd -> ServedNRcellsToDeleteENDCConfUpdList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb)
+			v, err := UnmarshalAPERServedNRcellsToDeleteENDCConfUpdList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedNRcellsToDeleteENDCConfUpdList (%d): %w", ieId, err)
 			}
@@ -4891,11 +5179,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 247: // id-RespondingNodeType-EndcConfigUpdate -> RespondingNodeTypeEndcConfigUpdate
 			var v RespondingNodeTypeEndcConfigUpdate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE RespondingNodeTypeEndcConfigUpdate (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4903,24 +5192,24 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 352: // id-TNLConfigurationInfo -> TNLConfigurationInfo
 			var v TNLConfigurationInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TNLConfigurationInfo (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 356: // id-TNLA-Setup-List -> TNLASetupList (SEQUENCE_OF)
-			v, err := UnmarshalAPERTNLASetupListFrom(bb)
+			v, err := UnmarshalAPERTNLASetupList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TNLASetupList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 357: // id-TNLA-Failed-To-Setup-List -> TNLAFailedToSetupList (SEQUENCE_OF)
-			v, err := UnmarshalAPERTNLAFailedToSetupListFrom(bb)
+			v, err := UnmarshalAPERTNLAFailedToSetupList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TNLAFailedToSetupList (%d): %w", ieId, err)
 			}
@@ -4929,7 +5218,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "En-gNB-ENDCConfigUpdateAckIEs":
 		switch ieId {
 		case 253: // id-ServedNRcellsENDCX2ManagementList -> ServedNRcellsENDCX2ManagementList (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb)
+			v, err := UnmarshalAPERServedNRcellsENDCX2ManagementList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedNRcellsENDCX2ManagementList (%d): %w", ieId, err)
 			}
@@ -4939,17 +5228,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 22: // id-TimeToWait -> TimeToWait (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeToWait (%d): %w", ieId, err)
@@ -4957,6 +5247,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := TimeToWait(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4966,12 +5257,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCCellActivationRequest-IEs":
 		switch ieId {
 		case 267: // id-ServedNRCellsToActivate -> ServedNRCellsToActivate (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedNRCellsToActivateFrom(bb)
+			v, err := UnmarshalAPERServedNRCellsToActivate(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ServedNRCellsToActivate (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 256: // id-ActivationID -> ActivationID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ActivationID (%d): %w", ieId, err)
@@ -4979,6 +5271,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ActivationID(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -4988,12 +5281,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCCellActivationResponse-IEs":
 		switch ieId {
 		case 268: // id-ActivatedNRCellList -> ActivatedNRCellList (SEQUENCE_OF)
-			v, err := UnmarshalAPERActivatedNRCellListFrom(bb)
+			v, err := UnmarshalAPERActivatedNRCellList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ActivatedNRCellList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 256: // id-ActivationID -> ActivationID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ActivationID (%d): %w", ieId, err)
@@ -5002,11 +5296,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5016,6 +5311,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCCellActivationFailure-IEs":
 		switch ieId {
 		case 256: // id-ActivationID -> ActivationID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ActivationID (%d): %w", ieId, err)
@@ -5024,17 +5320,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5044,18 +5341,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCResourceStatusRequest-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 28: // id-Registration-Request -> RegistrationRequestENDC (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RegistrationRequestENDC (%d): %w", ieId, err)
@@ -5063,6 +5363,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := RegistrationRequestENDC(v)
 			return &result, nil
 		case 30: // id-ReportingPeriodicity -> ReportingPeriodicityENDC (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ReportingPeriodicityENDC (%d): %w", ieId, err)
@@ -5070,26 +5371,28 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := ReportingPeriodicityENDC(v)
 			return &result, nil
 		case 38: // id-ReportCharacteristics -> ReportCharacteristicsENDC (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ReportCharacteristicsENDC (%d): %w", ieId, err)
 			}
 			result := ReportCharacteristicsENDC{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
-		case 391: // id-CellToReport-NR-ENDC -> CellToReportNRENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 16384)
+		case 391: // id-CellToReport-NR-ENDC -> CellToReportNRENDCList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCellToReportNRENDCList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportNRENDCList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 403: // id-CellToReport-E-UTRA-ENDC -> CellToReportEUTRAENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 403: // id-CellToReport-E-UTRA-ENDC -> CellToReportEUTRAENDCList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCellToReportEUTRAENDCList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportEUTRAENDCList (%d): %w", ieId, err)
 			}
@@ -5099,7 +5402,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 392: // id-CellToReport-NR-ENDC-Item -> CellToReportNRENDCItem
 			var v CellToReportNRENDCItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportNRENDCItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5108,7 +5411,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 404: // id-CellToReport-E-UTRA-ENDC-Item -> CellToReportEUTRAENDCItem
 			var v CellToReportEUTRAENDCItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellToReportEUTRAENDCItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5116,12 +5419,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCResourceStatusResponse-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
@@ -5129,11 +5434,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5143,12 +5449,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCResourceStatusFailure-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
@@ -5156,17 +5464,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5176,31 +5485,34 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCResourceStatusUpdate-IEs":
 		switch ieId {
 		case 383: // id-E-UTRAN-Node1-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 384: // id-E-UTRAN-Node2-Measurement-ID -> MeasurementIDENDC (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MeasurementIDENDC (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 393: // id-CellMeasurementResult-NR-ENDC -> CellMeasurementResultNRENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 16384)
+		case 393: // id-CellMeasurementResult-NR-ENDC -> CellMeasurementResultNRENDCList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCellMeasurementResultNRENDCList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultNRENDCList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 401: // id-CellMeasurementResult-E-UTRA-ENDC -> CellMeasurementResultEUTRAENDCList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 401: // id-CellMeasurementResult-E-UTRA-ENDC -> CellMeasurementResultEUTRAENDCList (SEQUENCE_OF)
+			v, err := UnmarshalAPERCellMeasurementResultEUTRAENDCList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultEUTRAENDCList (%d): %w", ieId, err)
 			}
@@ -5210,7 +5522,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 394: // id-CellMeasurementResult-NR-ENDC-Item -> CellMeasurementResultNRENDCItem
 			var v CellMeasurementResultNRENDCItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultNRENDCItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5219,7 +5531,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 402: // id-CellMeasurementResult-E-UTRA-ENDC-Item -> CellMeasurementResultEUTRAENDCItem
 			var v CellMeasurementResultEUTRAENDCItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CellMeasurementResultEUTRAENDCItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5227,6 +5539,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SecondaryRATDataUsageReport-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5234,19 +5547,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
 			}
 			result := SgNBUEX2APID(v)
 			return &result, nil
-		case 265: // id-SecondaryRATUsageReportList -> SecondaryRATUsageReportList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 265: // id-SecondaryRATUsageReportList -> SecondaryRATUsageReportList (SEQUENCE_OF)
+			v, err := UnmarshalAPERSecondaryRATUsageReportList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SecondaryRATUsageReportList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -5256,6 +5571,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SgNBActivityNotification-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5263,6 +5579,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5270,6 +5587,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 296: // id-UEContextLevelUserPlaneActivity -> UserPlaneTrafficActivityReport (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UserPlaneTrafficActivityReport (%d): %w", ieId, err)
@@ -5277,12 +5595,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UserPlaneTrafficActivityReport(v)
 			return &result, nil
 		case 297: // id-ERABActivityNotifyItemList -> ERABActivityNotifyItemList (SEQUENCE_OF)
-			v, err := UnmarshalAPERERABActivityNotifyItemListFrom(bb)
+			v, err := UnmarshalAPERERABActivityNotifyItemList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABActivityNotifyItemList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -5292,18 +5611,19 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCPartialResetRequired-IEs":
 		switch ieId {
 		case 270: // id-UEs-ToBeReset -> UEsToBeResetList (SEQUENCE_OF)
-			v, err := UnmarshalAPERUEsToBeResetListFrom(bb)
+			v, err := UnmarshalAPERUEsToBeResetList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEsToBeResetList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5313,12 +5633,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCPartialResetConfirm-IEs":
 		switch ieId {
 		case 271: // id-UEs-Admitted-ToBeReset -> UEsToBeResetList (SEQUENCE_OF)
-			v, err := UnmarshalAPERUEsToBeResetListFrom(bb)
+			v, err := UnmarshalAPERUEsToBeResetList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEsToBeResetList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5329,11 +5650,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 285: // id-InitiatingNodeType-EutranrCellResourceCoordination -> InitiatingNodeTypeEutranrCellResourceCoordination
 			var v InitiatingNodeTypeEutranrCellResourceCoordination
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE InitiatingNodeTypeEutranrCellResourceCoordination (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5344,11 +5666,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE DataTrafficResourceIndication (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 288: // id-SpectrumSharingGroupID -> SpectrumSharingGroupID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SpectrumSharingGroupID (%d): %w", ieId, err)
@@ -5356,7 +5679,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SpectrumSharingGroupID(v)
 			return &result, nil
 		case 289: // id-ListofEUTRACellsinEUTRACoordinationReq -> ListofEUTRACellsinEUTRACoordinationReq (SEQUENCE_OF)
-			v, err := UnmarshalAPERListofEUTRACellsinEUTRACoordinationReqFrom(bb)
+			v, err := UnmarshalAPERListofEUTRACellsinEUTRACoordinationReq(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ListofEUTRACellsinEUTRACoordinationReq (%d): %w", ieId, err)
 			}
@@ -5366,17 +5689,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE DataTrafficResourceIndication (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 291: // id-ListofEUTRACellsinNRCoordinationReq -> ListofEUTRACellsinNRCoordinationReq (SEQUENCE_OF)
-			v, err := UnmarshalAPERListofEUTRACellsinNRCoordinationReqFrom(bb)
+			v, err := UnmarshalAPERListofEUTRACellsinNRCoordinationReq(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ListofEUTRACellsinNRCoordinationReq (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 288: // id-SpectrumSharingGroupID -> SpectrumSharingGroupID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SpectrumSharingGroupID (%d): %w", ieId, err)
@@ -5384,7 +5708,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SpectrumSharingGroupID(v)
 			return &result, nil
 		case 292: // id-ListofNRCellsinNRCoordinationReq -> ListofNRCellsinNRCoordinationReq (SEQUENCE_OF)
-			v, err := UnmarshalAPERListofNRCellsinNRCoordinationReqFrom(bb)
+			v, err := UnmarshalAPERListofNRCellsinNRCoordinationReq(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ListofNRCellsinNRCoordinationReq (%d): %w", ieId, err)
 			}
@@ -5394,11 +5718,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 286: // id-RespondingNodeType-EutranrCellResourceCoordination -> RespondingNodeTypeEutranrCellResourceCoordination
 			var v RespondingNodeTypeEutranrCellResourceCoordination
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE RespondingNodeTypeEutranrCellResourceCoordination (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5409,11 +5734,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE DataTrafficResourceIndication (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 288: // id-SpectrumSharingGroupID -> SpectrumSharingGroupID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SpectrumSharingGroupID (%d): %w", ieId, err)
@@ -5421,7 +5747,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SpectrumSharingGroupID(v)
 			return &result, nil
 		case 290: // id-ListofEUTRACellsinEUTRACoordinationResp -> ListofEUTRACellsinEUTRACoordinationResp (SEQUENCE_OF)
-			v, err := UnmarshalAPERListofEUTRACellsinEUTRACoordinationRespFrom(bb)
+			v, err := UnmarshalAPERListofEUTRACellsinEUTRACoordinationResp(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ListofEUTRACellsinEUTRACoordinationResp (%d): %w", ieId, err)
 			}
@@ -5431,11 +5757,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 287: // id-DataTrafficResourceIndication -> DataTrafficResourceIndication
 			var v DataTrafficResourceIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE DataTrafficResourceIndication (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 288: // id-SpectrumSharingGroupID -> SpectrumSharingGroupID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SpectrumSharingGroupID (%d): %w", ieId, err)
@@ -5443,7 +5770,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SpectrumSharingGroupID(v)
 			return &result, nil
 		case 293: // id-ListofNRCellsinNRCoordinationResp -> ListofNRCellsinNRCoordinationResp (SEQUENCE_OF)
-			v, err := UnmarshalAPERListofNRCellsinNRCoordinationRespFrom(bb)
+			v, err := UnmarshalAPERListofNRCellsinNRCoordinationResp(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ListofNRCellsinNRCoordinationResp (%d): %w", ieId, err)
 			}
@@ -5453,11 +5780,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 298: // id-InitiatingNodeType-EndcX2Removal -> InitiatingNodeTypeEndcX2Removal
 			var v InitiatingNodeTypeEndcX2Removal
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE InitiatingNodeTypeEndcX2Removal (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5468,7 +5796,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5477,7 +5805,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalGNBID (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5486,11 +5814,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 299: // id-RespondingNodeType-EndcX2Removal -> RespondingNodeTypeEndcX2Removal
 			var v RespondingNodeTypeEndcX2Removal
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE RespondingNodeTypeEndcX2Removal (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5501,7 +5830,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 21: // id-GlobalENB-ID -> GlobalENBID
 			var v GlobalENBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalENBID (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5510,7 +5839,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 252: // id-Globalen-gNB-ID -> GlobalGNBID
 			var v GlobalGNBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalGNBID (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5519,17 +5848,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5539,6 +5869,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "DataForwardingAddressIndication-IEs":
 		switch ieId {
 		case 9: // id-New-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5546,12 +5877,14 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 155: // id-New-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
 		case 10: // id-Old-eNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5559,18 +5892,20 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 156: // id-Old-eNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
 			}
 			return v, nil
-		case 307: // id-E-RABs-DataForwardingAddress-List -> ERABsDataForwardingAddressList (SEQUENCE OF ProtocolIE-Field)
-			v, err := decodeIEProtocolIEFieldListConstrained(bb, 1, 256)
+		case 307: // id-E-RABs-DataForwardingAddress-List -> ERABsDataForwardingAddressList (SEQUENCE_OF)
+			v, err := UnmarshalAPERERABsDataForwardingAddressList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsDataForwardingAddressList (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 368: // id-CHO-DC-Indicator -> CHODCIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CHODCIndicator (%d): %w", ieId, err)
@@ -5578,6 +5913,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CHODCIndicator(v)
 			return &result, nil
 		case 407: // id-CHO-DC-EarlyDataForwarding -> CHODCEarlyDataForwarding (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CHODCEarlyDataForwarding (%d): %w", ieId, err)
@@ -5585,6 +5921,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := CHODCEarlyDataForwarding(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5593,7 +5930,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 431: // id-CPCinformation-NOTIFY -> CPCinformationNOTIFY
 			var v CPCinformationNOTIFY
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CPCinformationNOTIFY (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5602,7 +5939,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 		switch ieId {
 		case 308: // id-E-RABs-DataForwardingAddress-Item -> ERABsDataForwardingAddressItem
 			var v ERABsDataForwardingAddressItem
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE ERABsDataForwardingAddressItem (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5610,6 +5947,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "GNBStatusIndicationIEs":
 		switch ieId {
 		case 310: // id-GNBOverloadInformation -> GNBOverloadInformation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GNBOverloadInformation (%d): %w", ieId, err)
@@ -5617,6 +5955,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := GNBOverloadInformation(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5626,6 +5965,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENDCConfigurationTransfer-IEs":
 		switch ieId {
 		case 326: // id-endcSONConfigurationTransfer -> EndcSONConfigurationTransfer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EndcSONConfigurationTransfer (%d): %w", ieId, err)
@@ -5633,6 +5973,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := EndcSONConfigurationTransfer(v)
 			return &result, nil
 		case 335: // id-InterfaceInstanceIndication -> InterfaceInstanceIndication (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("255"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE InterfaceInstanceIndication (%d): %w", ieId, err)
@@ -5642,6 +5983,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "TraceStartIEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5649,6 +5991,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5657,11 +6000,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 13: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE TraceActivation (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -5671,6 +6015,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "DeactivateTraceIEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5678,6 +6023,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5685,6 +6031,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 333: // id-EUTRANTraceID -> EUTRANTraceID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EUTRANTraceID (%d): %w", ieId, err)
@@ -5692,6 +6039,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := EUTRANTraceID(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -5701,6 +6049,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "CellTrafficTraceIEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5708,6 +6057,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5715,6 +6065,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 333: // id-EUTRANTraceID -> EUTRANTraceID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EUTRANTraceID (%d): %w", ieId, err)
@@ -5722,6 +6073,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := EUTRANTraceID(v)
 			return &result, nil
 		case 377: // id-TraceCollectionEntityIPAddress -> TraceCollectionEntityIPAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TraceCollectionEntityIPAddress (%d): %w", ieId, err)
@@ -5729,6 +6081,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := TraceCollectionEntityIPAddress{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 376: // id-PrivacyIndicator -> PrivacyIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PrivacyIndicator (%d): %w", ieId, err)
@@ -5736,6 +6089,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := PrivacyIndicator(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -5745,6 +6099,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "F1CTrafficTransfer-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5752,6 +6107,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5759,6 +6115,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 397: // id-F1CTrafficContainer -> F1CTrafficContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE F1CTrafficContainer (%d): %w", ieId, err)
@@ -5766,6 +6123,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := F1CTrafficContainer(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -5775,6 +6133,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UERadioCapabilityIDMappingRequestIEs":
 		switch ieId {
 		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
@@ -5785,6 +6144,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UERadioCapabilityIDMappingResponseIEs":
 		switch ieId {
 		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
@@ -5792,6 +6152,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		case 400: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
@@ -5800,7 +6161,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 17: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE CriticalityDiagnostics (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5808,6 +6169,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "CPC-cancel-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5815,6 +6177,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5822,6 +6185,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SgNBUEX2APID(v)
 			return &result, nil
 		case 157: // id-MeNB-UE-X2AP-ID-Extension -> UEX2APIDExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("0"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APIDExtension (%d): %w", ieId, err)
@@ -5829,13 +6193,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return v, nil
 		case 5: // id-Cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE Cause (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 239: // id-Target-SgNB-ID -> GlobalGNBID
 			var v GlobalGNBID
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE GlobalGNBID (%d): %w", ieId, err)
 			}
 			return &v, nil
@@ -5843,7 +6207,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "RachIndication-IEs":
 		switch ieId {
 		case 447: // id-RaReportIndicationList -> RaReportIndicationList (SEQUENCE_OF)
-			v, err := UnmarshalAPERRaReportIndicationListFrom(bb)
+			v, err := UnmarshalAPERRaReportIndicationList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RaReportIndicationList (%d): %w", ieId, err)
 			}
@@ -5852,6 +6216,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SCGFailureInformationReport-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5859,6 +6224,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5867,17 +6233,18 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			return &result, nil
 		case 450: // id-SourcePSCellCGI -> NRCGI
 			var v NRCGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE NRCGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 451: // id-FailedPSCellCGI -> NRCGI
 			var v NRCGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding IE NRCGI (%d): %w", ieId, err)
 			}
 			return &v, nil
 		case 452: // id-SCG-FailureReportContainer -> SCGFailureReportContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SCGFailureReportContainer (%d): %w", ieId, err)
@@ -5885,6 +6252,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := SCGFailureReportContainer(v)
 			return &result, nil
 		case 453: // id-TimeSCG-Failure -> TimeSCGFailure (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1023), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeSCGFailure (%d): %w", ieId, err)
@@ -5895,6 +6263,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "SCGFailureTransfer-IEs":
 		switch ieId {
 		case 111: // id-MeNB-UE-X2AP-ID -> UEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEX2APID (%d): %w", ieId, err)
@@ -5902,6 +6271,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			result := UEX2APID(v)
 			return &result, nil
 		case 207: // id-SgNB-UE-X2AP-ID -> SgNBUEX2APID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SgNBUEX2APID (%d): %w", ieId, err)
@@ -5916,13 +6286,12 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 // DecodeExtensionFieldValue decodes a known extension open value using its object-set context and ID.
 // Returns the decoded typed value, or nil if the combination is unknown.
 func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte) (interface{}, error) {
-	bb := per.NewBitBufferFromBytes(data)
 	switch objectSet {
 	case "CHOinformation-REQ-ExtIEs":
 		switch extensionId {
 		case 446: // id-CHOTimeBasedInformation -> CHOTimeBasedInformation
 			var v CHOTimeBasedInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension CHOTimeBasedInformation (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -5930,6 +6299,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RAB-Level-QoS-Parameters-ExtIEs":
 		switch extensionId {
 		case 273: // id-DownlinkPacketLossRate -> PacketLossRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PacketLossRate (%d): %w", extensionId, err)
@@ -5937,6 +6307,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PacketLossRate(v)
 			return &result, nil
 		case 274: // id-UplinkPacketLossRate -> PacketLossRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PacketLossRate (%d): %w", extensionId, err)
@@ -5947,18 +6318,21 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "FDD-Info-ExtIEs":
 		switch extensionId {
 		case 95: // id-UL-EARFCNExtension -> EARFCNExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("65536"), runtime.MustParseBigIntDecimal("262143"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
 			}
 			return v, nil
 		case 96: // id-DL-EARFCNExtension -> EARFCNExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("65536"), runtime.MustParseBigIntDecimal("262143"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
 			}
 			return v, nil
 		case 177: // id-OffsetOfNbiotChannelNumberToDL-EARFCN -> OffsetOfNbiotChannelNumberToEARFCN (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 21, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension OffsetOfNbiotChannelNumberToEARFCN (%d): %w", extensionId, err)
@@ -5966,6 +6340,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := OffsetOfNbiotChannelNumberToEARFCN(v)
 			return &result, nil
 		case 178: // id-OffsetOfNbiotChannelNumberToUL-EARFCN -> OffsetOfNbiotChannelNumberToEARFCN (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 21, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension OffsetOfNbiotChannelNumberToEARFCN (%d): %w", extensionId, err)
@@ -5973,6 +6348,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := OffsetOfNbiotChannelNumberToEARFCN(v)
 			return &result, nil
 		case 282: // id-NRS-NSSS-PowerOffset -> NRSNSSSPowerOffset (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRSNSSSPowerOffset (%d): %w", extensionId, err)
@@ -5980,6 +6356,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := NRSNSSSPowerOffset(v)
 			return &result, nil
 		case 283: // id-NSSS-NumOccasionDifferentPrecoder -> NSSSNumOccasionDifferentPrecoder (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NSSSNumOccasionDifferentPrecoder (%d): %w", extensionId, err)
@@ -5990,7 +6367,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "FDD-InfoNeighbourServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 387: // id-ULCarrierList -> NRCarrierList (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRCarrierListFrom(bb)
+			v, err := UnmarshalAPERNRCarrierList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCarrierList (%d): %w", extensionId, err)
 			}
@@ -5999,24 +6376,28 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "GBR-QosInformation-ExtIEs":
 		switch extensionId {
 		case 196: // id-extended-e-RAB-MaximumBitrateDL -> ExtendedBitRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
 			return v, nil
 		case 197: // id-extended-e-RAB-MaximumBitrateUL -> ExtendedBitRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
 			return v, nil
 		case 198: // id-extended-e-RAB-GuaranteedBitrateDL -> ExtendedBitRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
 			return v, nil
 		case 199: // id-extended-e-RAB-GuaranteedBitrateUL -> ExtendedBitRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
@@ -6027,7 +6408,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 396: // id-QoS-Mapping-Information -> QoSMappingInformation
 			var v QoSMappingInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension QoSMappingInformation (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6035,6 +6416,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "HandoverRestrictionList-ExtIEs":
 		switch extensionId {
 		case 202: // id-NRrestrictioninEPSasSecondaryRAT -> NRrestrictioninEPSasSecondaryRAT (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRrestrictioninEPSasSecondaryRAT (%d): %w", extensionId, err)
@@ -6042,12 +6424,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := NRrestrictioninEPSasSecondaryRAT(v)
 			return &result, nil
 		case 301: // id-CNTypeRestrictions -> CNTypeRestrictions (SEQUENCE_OF)
-			v, err := UnmarshalAPERCNTypeRestrictionsFrom(bb)
+			v, err := UnmarshalAPERCNTypeRestrictions(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CNTypeRestrictions (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 305: // id-NRrestrictionin5GS -> NRrestrictionin5GS (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRrestrictionin5GS (%d): %w", extensionId, err)
@@ -6055,6 +6438,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := NRrestrictionin5GS(v)
 			return &result, nil
 		case 332: // id-LastNG-RANPLMNIdentity -> PLMNIdentity (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PLMNIdentity (%d): %w", extensionId, err)
@@ -6062,6 +6446,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PLMNIdentity(v)
 			return &result, nil
 		case 358: // id-UnlicensedSpectrumRestriction -> UnlicensedSpectrumRestriction (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension UnlicensedSpectrumRestriction (%d): %w", extensionId, err)
@@ -6069,7 +6454,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := UnlicensedSpectrumRestriction(v)
 			return &result, nil
 		case 437: // id-RAT-Restrictions -> RATRestrictions (SEQUENCE_OF)
-			v, err := UnmarshalAPERRATRestrictionsFrom(bb)
+			v, err := UnmarshalAPERRATRestrictions(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RATRestrictions (%d): %w", extensionId, err)
 			}
@@ -6078,6 +6463,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "LastVisitedEUTRANCellInformation-ExtIEs":
 		switch extensionId {
 		case 77: // id-Time-UE-StayedInCell-EnhancedGranularity -> TimeUEStayedInCellEnhancedGranularity (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(40950), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TimeUEStayedInCellEnhancedGranularity (%d): %w", extensionId, err)
@@ -6086,12 +6472,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 80: // id-HO-cause -> Cause
 			var v Cause
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension Cause (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 418: // id-PSCell-UE-HistoryInformation -> PSCellUEHistoryInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERPSCellUEHistoryInformationFrom(bb)
+			v, err := UnmarshalAPERPSCellUEHistoryInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PSCellUEHistoryInformation (%d): %w", extensionId, err)
 			}
@@ -6100,6 +6486,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "LocationReportingInformation-ExtIEs":
 		switch extensionId {
 		case 409: // id-AdditionLocationInformation -> AdditionLocationInformation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionLocationInformation (%d): %w", extensionId, err)
@@ -6110,6 +6497,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "M4Configuration-ExtIEs":
 		switch extensionId {
 		case 442: // id-M4ReportAmount -> M4ReportAmountMDT (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M4ReportAmountMDT (%d): %w", extensionId, err)
@@ -6120,6 +6508,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "M5Configuration-ExtIEs":
 		switch extensionId {
 		case 443: // id-M5ReportAmount -> M5ReportAmountMDT (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M5ReportAmountMDT (%d): %w", extensionId, err)
@@ -6130,6 +6519,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "M6Configuration-ExtIEs":
 		switch extensionId {
 		case 444: // id-M6ReportAmount -> M6ReportAmountMDT (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M6ReportAmountMDT (%d): %w", extensionId, err)
@@ -6140,6 +6530,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "M7Configuration-ExtIEs":
 		switch extensionId {
 		case 445: // id-M7ReportAmount -> M7ReportAmountMDT (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M7ReportAmountMDT (%d): %w", extensionId, err)
@@ -6151,23 +6542,24 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 85: // id-M3Configuration -> M3Configuration
 			var v M3Configuration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension M3Configuration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 86: // id-M4Configuration -> M4Configuration
 			var v M4Configuration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension M4Configuration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 87: // id-M5Configuration -> M5Configuration
 			var v M5Configuration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension M5Configuration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 88: // id-MDT-Location-Info -> MDTLocationInfo (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTLocationInfo (%d): %w", extensionId, err)
@@ -6175,38 +6567,38 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := MDTLocationInfo{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 90: // id-SignallingBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
-			v, err := UnmarshalAPERMDTPLMNListFrom(bb)
+			v, err := UnmarshalAPERMDTPLMNList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTPLMNList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 161: // id-M6Configuration -> M6Configuration
 			var v M6Configuration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension M6Configuration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 162: // id-M7Configuration -> M7Configuration
 			var v M7Configuration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension M7Configuration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 303: // id-BluetoothMeasurementConfiguration -> BluetoothMeasurementConfiguration
 			var v BluetoothMeasurementConfiguration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension BluetoothMeasurementConfiguration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 304: // id-WLANMeasurementConfiguration -> WLANMeasurementConfiguration
 			var v WLANMeasurementConfiguration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension WLANMeasurementConfiguration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 440: // id-SensorMeasurementConfiguration -> SensorMeasurementConfiguration
 			var v SensorMeasurementConfiguration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SensorMeasurementConfiguration (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6215,11 +6607,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 322: // id-NRCGI -> NRCGI
 			var v NRCGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension NRCGI (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 323: // id-MeNBCoordinationAssistanceInformation -> MeNBCoordinationAssistanceInformation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MeNBCoordinationAssistanceInformation (%d): %w", extensionId, err)
@@ -6230,6 +6623,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "Neighbour-Information-ExtIEs":
 		switch extensionId {
 		case 76: // id-NeighbourTAC -> TAC (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TAC (%d): %w", extensionId, err)
@@ -6237,6 +6631,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := TAC(v)
 			return &result, nil
 		case 94: // id-eARFCNExtension -> EARFCNExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("65536"), runtime.MustParseBigIntDecimal("262143"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
@@ -6246,6 +6641,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "NRFreqInfo-ExtIEs":
 		switch extensionId {
 		case 388: // id-FrequencyShift7p5khz -> FrequencyShift7p5khz (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension FrequencyShift7p5khz (%d): %w", extensionId, err)
@@ -6256,6 +6652,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "NRRAReportList-Item-ExtIEs":
 		switch extensionId {
 		case 448: // id-PSCellListContainer -> PSCellListContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PSCellListContainer (%d): %w", extensionId, err)
@@ -6266,6 +6663,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "NRNeighbour-Information-ExtIEs":
 		switch extensionId {
 		case 380: // id-CSI-RSTransmissionIndication -> CSIRSTransmissionIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CSIRSTransmissionIndication (%d): %w", extensionId, err)
@@ -6274,11 +6672,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 389: // id-SSB-PositionsInBurst -> SSBPositionsInBurst
 			var v SSBPositionsInBurst
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SSBPositionsInBurst (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 390: // id-NRCellPRACHConfig -> NRCellPRACHConfig (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCellPRACHConfig (%d): %w", extensionId, err)
@@ -6286,7 +6685,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := NRCellPRACHConfig(v)
 			return &result, nil
 		case 433: // id-Additional-Measurement-Timing-Configuration-List -> AdditionalMeasurementTimingConfigurationList (SEQUENCE_OF)
-			v, err := UnmarshalAPERAdditionalMeasurementTimingConfigurationListFrom(bb)
+			v, err := UnmarshalAPERAdditionalMeasurementTimingConfigurationList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalMeasurementTimingConfigurationList (%d): %w", extensionId, err)
 			}
@@ -6296,7 +6695,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 439: // id-MIMOPRBusageInformation -> MIMOPRBusageInformation
 			var v MIMOPRBusageInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension MIMOPRBusageInformation (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6304,6 +6703,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "ProSeAuthorized-ExtIEs":
 		switch extensionId {
 		case 149: // id-ProSeUEtoNetworkRelaying -> ProSeUEtoNetworkRelaying (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ProSeUEtoNetworkRelaying (%d): %w", extensionId, err)
@@ -6314,6 +6714,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "RadioResourceStatus-ExtIEs":
 		switch extensionId {
 		case 193: // id-DL-scheduling-PDCCH-CCE-usage -> DLSchedulingPDCCHCCEUsage (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(100), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DLSchedulingPDCCHCCEUsage (%d): %w", extensionId, err)
@@ -6321,6 +6722,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := DLSchedulingPDCCHCCEUsage(v)
 			return &result, nil
 		case 194: // id-UL-scheduling-PDCCH-CCE-usage -> ULSchedulingPDCCHCCEUsage (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(100), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ULSchedulingPDCCHCCEUsage (%d): %w", extensionId, err)
@@ -6332,7 +6734,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 148: // id-enhancedRNTP -> EnhancedRNTP
 			var v EnhancedRNTP
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension EnhancedRNTP (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6340,6 +6742,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "RSRPMRList-ExtIEs":
 		switch extensionId {
 		case 147: // id-UEID -> UEID (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension UEID (%d): %w", extensionId, err)
@@ -6350,13 +6753,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "ServedCell-ExtIEs":
 		switch extensionId {
 		case 327: // id-NRNeighbourInfoToAdd -> NRNeighbourInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRNeighbourInformationFrom(bb)
+			v, err := UnmarshalAPERNRNeighbourInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRNeighbourInformation (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 434: // id-ServedCellSpecificInfoReq-NR -> ServedCellSpecificInfoReqNR (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedCellSpecificInfoReqNRFrom(bb)
+			v, err := UnmarshalAPERServedCellSpecificInfoReqNR(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ServedCellSpecificInfoReqNR (%d): %w", extensionId, err)
 			}
@@ -6365,6 +6768,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "ServedCell-Information-ExtIEs":
 		switch extensionId {
 		case 41: // id-Number-of-Antennaports -> NumberOfAntennaports (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NumberOfAntennaports (%d): %w", extensionId, err)
@@ -6373,17 +6777,18 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 55: // id-PRACH-Configuration -> PRACHConfiguration
 			var v PRACHConfiguration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension PRACHConfiguration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 56: // id-MBSFN-Subframe-Info -> MBSFNSubframeInfolist (SEQUENCE_OF)
-			v, err := UnmarshalAPERMBSFNSubframeInfolistFrom(bb)
+			v, err := UnmarshalAPERMBSFNSubframeInfolist(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MBSFNSubframeInfolist (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 70: // id-CSG-Id -> CSGId (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 27, 27, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CSGId (%d): %w", extensionId, err)
@@ -6391,18 +6796,19 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := CSGId{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 79: // id-MBMS-Service-Area-List -> MBMSServiceAreaIdentityList (SEQUENCE_OF)
-			v, err := UnmarshalAPERMBMSServiceAreaIdentityListFrom(bb)
+			v, err := UnmarshalAPERMBMSServiceAreaIdentityList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MBMSServiceAreaIdentityList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 84: // id-MultibandInfoList -> MultibandInfoList (SEQUENCE_OF)
-			v, err := UnmarshalAPERMultibandInfoListFrom(bb)
+			v, err := UnmarshalAPERMultibandInfoList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MultibandInfoList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 160: // id-FreqBandIndicatorPriority -> FreqBandIndicatorPriority (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension FreqBandIndicatorPriority (%d): %w", extensionId, err)
@@ -6410,6 +6816,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := FreqBandIndicatorPriority(v)
 			return &result, nil
 		case 180: // id-BandwidthReducedSI -> BandwidthReducedSI (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BandwidthReducedSI (%d): %w", extensionId, err)
@@ -6418,25 +6825,25 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 284: // id-ProtectedEUTRAResourceIndication -> ProtectedEUTRAResourceIndication
 			var v ProtectedEUTRAResourceIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension ProtectedEUTRAResourceIndication (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 336: // id-BPLMN-ID-Info-EUTRA -> BPLMNIDInfoEUTRA (SEQUENCE_OF)
-			v, err := UnmarshalAPERBPLMNIDInfoEUTRAFrom(bb)
+			v, err := UnmarshalAPERBPLMNIDInfoEUTRA(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BPLMNIDInfoEUTRA (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 373: // id-NPRACHConfiguration -> NPRACHConfiguration
 			var v NPRACHConfiguration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension NPRACHConfiguration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 406: // id-SFN-Offset -> SFNOffset
 			var v SFNOffset
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SFNOffset (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6445,11 +6852,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 316: // id-ECGI -> ECGI
 			var v ECGI
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension ECGI (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 324: // id-SgNBCoordinationAssistanceInformation -> SgNBCoordinationAssistanceInformation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension SgNBCoordinationAssistanceInformation (%d): %w", extensionId, err)
@@ -6460,12 +6868,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "SULInformation-ExtIEs":
 		switch extensionId {
 		case 386: // id-CarrierList -> NRCarrierList (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRCarrierListFrom(bb)
+			v, err := UnmarshalAPERNRCarrierList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCarrierList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 388: // id-FrequencyShift7p5khz -> FrequencyShift7p5khz (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension FrequencyShift7p5khz (%d): %w", extensionId, err)
@@ -6477,11 +6886,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 97: // id-AdditionalSpecialSubframe-Info -> AdditionalSpecialSubframeInfo
 			var v AdditionalSpecialSubframeInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalSpecialSubframeInfo (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 94: // id-eARFCNExtension -> EARFCNExtension (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("65536"), runtime.MustParseBigIntDecimal("262143"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EARFCNExtension (%d): %w", extensionId, err)
@@ -6489,11 +6899,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return v, nil
 		case 179: // id-AdditionalSpecialSubframeExtension-Info -> AdditionalSpecialSubframeExtensionInfo
 			var v AdditionalSpecialSubframeExtensionInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalSpecialSubframeExtensionInfo (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 177: // id-OffsetOfNbiotChannelNumberToDL-EARFCN -> OffsetOfNbiotChannelNumberToEARFCN (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 21, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension OffsetOfNbiotChannelNumberToEARFCN (%d): %w", extensionId, err)
@@ -6501,6 +6912,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := OffsetOfNbiotChannelNumberToEARFCN(v)
 			return &result, nil
 		case 338: // id-NBIoT-UL-DL-AlignmentOffset -> NBIoTULDLAlignmentOffset (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NBIoTULDLAlignmentOffset (%d): %w", extensionId, err)
@@ -6511,6 +6923,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "TDD-InfoNeighbourServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 399: // id-IntendedTDD-DL-ULConfiguration-NR -> IntendedTDDDLULConfigurationNR (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension IntendedTDDDLULConfigurationNR (%d): %w", extensionId, err)
@@ -6518,6 +6931,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := IntendedTDDDLULConfigurationNR(v)
 			return &result, nil
 		case 385: // id-TDDULDLConfigurationCommonNR -> TDDULDLConfigurationCommonNR (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TDDULDLConfigurationCommonNR (%d): %w", extensionId, err)
@@ -6525,7 +6939,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := TDDULDLConfigurationCommonNR(v)
 			return &result, nil
 		case 386: // id-CarrierList -> NRCarrierList (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRCarrierListFrom(bb)
+			v, err := UnmarshalAPERNRCarrierList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCarrierList (%d): %w", extensionId, err)
 			}
@@ -6535,17 +6949,18 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 72: // id-MDTConfiguration -> MDTConfiguration
 			var v MDTConfiguration
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension MDTConfiguration (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 195: // id-UEAppLayerMeasConfig -> UEAppLayerMeasConfig
 			var v UEAppLayerMeasConfig
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension UEAppLayerMeasConfig (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 375: // id-MDTConfigurationNR -> MDTConfigurationNR (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTConfigurationNR (%d): %w", extensionId, err)
@@ -6553,6 +6968,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := MDTConfigurationNR(v)
 			return &result, nil
 		case 405: // id-TraceCollectionEntityURI -> URIAddress (VisibleString)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeKnownMultiplierStringAligned(bb, 7, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension URIAddress (%d): %w", extensionId, err)
@@ -6563,12 +6979,14 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "UEAggregate-MaximumBitrate-ExtIEs":
 		switch extensionId {
 		case 200: // id-extended-uEaggregateMaximumBitRateDownlink -> ExtendedBitRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
 			return v, nil
 		case 201: // id-extended-uEaggregateMaximumBitRateUplink -> ExtendedBitRate (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
@@ -6578,6 +6996,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "UEAppLayerMeasConfig-ExtIEs":
 		switch extensionId {
 		case 276: // id-serviceType -> ServiceType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ServiceType (%d): %w", extensionId, err)
@@ -6588,6 +7007,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "UE-ContextInformation-ExtIEs":
 		switch extensionId {
 		case 74: // id-ManagementBasedMDTallowed -> ManagementBasedMDTallowed (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ManagementBasedMDTallowed (%d): %w", extensionId, err)
@@ -6595,18 +7015,19 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := ManagementBasedMDTallowed(v)
 			return &result, nil
 		case 89: // id-ManagementBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
-			v, err := UnmarshalAPERMDTPLMNListFrom(bb)
+			v, err := UnmarshalAPERMDTPLMNList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTPLMNList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 184: // id-UESidelinkAggregateMaximumBitRate -> UESidelinkAggregateMaximumBitRate
 			var v UESidelinkAggregateMaximumBitRate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension UESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 360: // id-EPCHandoverRestrictionListContainer -> EPCHandoverRestrictionListContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EPCHandoverRestrictionListContainer (%d): %w", extensionId, err)
@@ -6614,6 +7035,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := EPCHandoverRestrictionListContainer(v)
 			return &result, nil
 		case 340: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
@@ -6622,11 +7044,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 371: // id-NRUESidelinkAggregateMaximumBitRate -> NRUESidelinkAggregateMaximumBitRate
 			var v NRUESidelinkAggregateMaximumBitRate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension NRUESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension UERadioCapabilityID (%d): %w", extensionId, err)
@@ -6634,6 +7057,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		case 408: // id-IMSvoiceEPSfallbackfrom5G -> IMSvoiceEPSfallbackfrom5G (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension IMSvoiceEPSfallbackfrom5G (%d): %w", extensionId, err)
@@ -6644,6 +7068,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeSetup-ItemExtIEs":
 		switch extensionId {
 		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
@@ -6652,11 +7077,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 363: // id-DAPSRequestInfo -> DAPSRequestInfo
 			var v DAPSRequestInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension DAPSRequestInfo (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 369: // id-Ethernet-Type -> EthernetType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
@@ -6664,6 +7090,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := EthernetType(v)
 			return &result, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6672,7 +7099,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 435: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6681,7 +7108,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 366: // id-DAPSResponseInfo -> DAPSResponseInfo
 			var v DAPSResponseInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension DAPSResponseInfo (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6689,6 +7116,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-SubjectToStatusTransfer-ItemExtIEs":
 		switch extensionId {
 		case 91: // id-ReceiveStatusOfULPDCPSDUsExtended -> ReceiveStatusOfULPDCPSDUsExtended (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 16384, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsExtended (%d): %w", extensionId, err)
@@ -6697,17 +7125,18 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 92: // id-ULCOUNTValueExtended -> COUNTValueExtended
 			var v COUNTValueExtended
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension COUNTValueExtended (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 93: // id-DLCOUNTValueExtended -> COUNTValueExtended
 			var v COUNTValueExtended
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension COUNTValueExtended (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 150: // id-ReceiveStatusOfULPDCPSDUsPDCP-SNlength18 -> ReceiveStatusOfULPDCPSDUsPDCPSNlength18 (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 131072, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsPDCPSNlength18 (%d): %w", extensionId, err)
@@ -6716,13 +7145,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 151: // id-ULCOUNTValuePDCP-SNlength18 -> COUNTvaluePDCPSNlength18
 			var v COUNTvaluePDCPSNlength18
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension COUNTvaluePDCPSNlength18 (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 152: // id-DLCOUNTValuePDCP-SNlength18 -> COUNTvaluePDCPSNlength18
 			var v COUNTvaluePDCPSNlength18
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension COUNTvaluePDCPSNlength18 (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6731,11 +7160,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 61: // id-ABSInformation -> ABSInformation
 			var v ABSInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension ABSInformation (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 62: // id-InvokeIndication -> InvokeIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension InvokeIndication (%d): %w", extensionId, err)
@@ -6743,6 +7173,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := InvokeIndication(v)
 			return &result, nil
 		case 99: // id-IntendedULDLConfiguration -> SubframeAssignment (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 7, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension SubframeAssignment (%d): %w", extensionId, err)
@@ -6751,19 +7182,19 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 100: // id-ExtendedULInterferenceOverloadInfo -> ExtendedULInterferenceOverloadInfo
 			var v ExtendedULInterferenceOverloadInfo
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedULInterferenceOverloadInfo (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 108: // id-CoMPInformation -> CoMPInformation
 			var v CoMPInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension CoMPInformation (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 106: // id-DynamicDLTransmissionInformation -> DynamicDLTransmissionInformation
 			var v DynamicDLTransmissionInformation
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension DynamicDLTransmissionInformation (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -6771,6 +7202,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "ServedCellsToModify-Item-ExtIEs":
 		switch extensionId {
 		case 59: // id-DeactivationIndication -> DeactivationIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DeactivationIndication (%d): %w", extensionId, err)
@@ -6778,7 +7210,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := DeactivationIndication(v)
 			return &result, nil
 		case 328: // id-NRNeighbourInfoToModify -> NRNeighbourInformation (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRNeighbourInformationFrom(bb)
+			v, err := UnmarshalAPERNRNeighbourInformation(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRNeighbourInformation (%d): %w", extensionId, err)
 			}
@@ -6788,29 +7220,30 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 42: // id-CompositeAvailableCapacityGroup -> CompositeAvailableCapacityGroup
 			var v CompositeAvailableCapacityGroup
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension CompositeAvailableCapacityGroup (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 63: // id-ABS-Status -> ABSStatus
 			var v ABSStatus
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension ABSStatus (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 110: // id-RSRPMRList -> RSRPMRList (SEQUENCE_OF)
-			v, err := UnmarshalAPERRSRPMRListFrom(bb)
+			v, err := UnmarshalAPERRSRPMRList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RSRPMRList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 146: // id-CSIReportList -> CSIReportList (SEQUENCE_OF)
-			v, err := UnmarshalAPERCSIReportListFrom(bb)
+			v, err := UnmarshalAPERCSIReportList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CSIReportList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 170: // id-CellReportingIndicator -> CellReportingIndicator (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CellReportingIndicator (%d): %w", extensionId, err)
@@ -6818,7 +7251,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := CellReportingIndicator(v)
 			return &result, nil
 		case 417: // id-MeasurementResultforNRCellsPossiblyAggregated -> MeasurementResultforNRCellsPossiblyAggregated (SEQUENCE_OF)
-			v, err := UnmarshalAPERMeasurementResultforNRCellsPossiblyAggregatedFrom(bb)
+			v, err := UnmarshalAPERMeasurementResultforNRCellsPossiblyAggregated(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MeasurementResultforNRCellsPossiblyAggregated (%d): %w", extensionId, err)
 			}
@@ -6827,6 +7260,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-Item-SCG-BearerExtIEs":
 		switch extensionId {
 		case 166: // id-Correlation-ID -> CorrelationID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
@@ -6834,6 +7268,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := CorrelationID(v)
 			return &result, nil
 		case 167: // id-SIPTO-Correlation-ID -> CorrelationID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
@@ -6841,6 +7276,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := CorrelationID(v)
 			return &result, nil
 		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
@@ -6848,6 +7284,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := BearerType(v)
 			return &result, nil
 		case 369: // id-Ethernet-Type -> EthernetType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
@@ -6855,6 +7292,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := EthernetType(v)
 			return &result, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6865,6 +7303,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-Item-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6875,6 +7314,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-Item-SCG-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6885,6 +7325,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-Item-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6895,6 +7336,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-ModReqItem-SCG-BearerExtIEs":
 		switch extensionId {
 		case 166: // id-Correlation-ID -> CorrelationID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
@@ -6902,6 +7344,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := CorrelationID(v)
 			return &result, nil
 		case 167: // id-SIPTO-Correlation-ID -> CorrelationID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
@@ -6909,6 +7352,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := CorrelationID(v)
 			return &result, nil
 		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
@@ -6916,6 +7360,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := BearerType(v)
 			return &result, nil
 		case 369: // id-Ethernet-Type -> EthernetType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
@@ -6923,6 +7368,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := EthernetType(v)
 			return &result, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6933,6 +7379,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-ModReqItem-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6943,6 +7390,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-ModAckItem-SCG-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6953,6 +7401,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-ModAckItem-Split-BearerExtIEs":
 		switch extensionId {
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -6964,11 +7413,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 184: // id-UESidelinkAggregateMaximumBitRate -> UESidelinkAggregateMaximumBitRate
 			var v UESidelinkAggregateMaximumBitRate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension UESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 340: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
@@ -6976,6 +7426,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 360: // id-EPCHandoverRestrictionListContainer -> EPCHandoverRestrictionListContainer (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EPCHandoverRestrictionListContainer (%d): %w", extensionId, err)
@@ -6984,11 +7435,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 371: // id-NRUESidelinkAggregateMaximumBitRate -> NRUESidelinkAggregateMaximumBitRate
 			var v NRUESidelinkAggregateMaximumBitRate
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension NRUESidelinkAggregateMaximumBitRate (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 378: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension UERadioCapabilityID (%d): %w", extensionId, err)
@@ -6996,6 +7448,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := UERadioCapabilityID(v)
 			return &result, nil
 		case 408: // id-IMSvoiceEPSfallbackfrom5G -> IMSvoiceEPSfallbackfrom5G (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension IMSvoiceEPSfallbackfrom5G (%d): %w", extensionId, err)
@@ -7007,11 +7460,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 185: // id-uL-GTPtunnelEndpoint -> GTPtunnelEndpoint
 			var v GTPtunnelEndpoint
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension GTPtunnelEndpoint (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 306: // id-dL-Forwarding -> DLForwarding (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DLForwarding (%d): %w", extensionId, err)
@@ -7019,6 +7473,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := DLForwarding(v)
 			return &result, nil
 		case 369: // id-Ethernet-Type -> EthernetType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
@@ -7027,11 +7482,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 435: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -7042,6 +7498,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RLCMode (%d): %w", extensionId, err)
@@ -7049,6 +7506,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := RLCMode(v)
 			return &result, nil
 		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
@@ -7056,6 +7514,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := BearerType(v)
 			return &result, nil
 		case 369: // id-Ethernet-Type -> EthernetType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
@@ -7063,6 +7522,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := EthernetType(v)
 			return &result, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -7071,11 +7531,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 435: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 413: // id-SourceNodeDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -7086,6 +7547,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-SgNBAddReq-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7093,6 +7555,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7100,6 +7563,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 315: // id-duplicationActivation -> DuplicationActivation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DuplicationActivation (%d): %w", extensionId, err)
@@ -7110,6 +7574,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7117,6 +7582,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7124,6 +7590,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -7132,7 +7599,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 436: // id-SecurityResult -> SecurityResult
 			var v SecurityResult
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SecurityResult (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -7140,6 +7607,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 314: // id-lCID -> LCID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("32"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension LCID (%d): %w", extensionId, err)
@@ -7149,6 +7617,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "UE-ContextInformationSgNBModReqExtIEs":
 		switch extensionId {
 		case 275: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension SubscriberProfileIDforRFP (%d): %w", extensionId, err)
@@ -7156,6 +7625,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := SubscriberProfileIDforRFP(v)
 			return &result, nil
 		case 340: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
@@ -7163,6 +7633,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
 			return &result, nil
 		case 341: // id-LowerLayerPresenceStatusChange -> LowerLayerPresenceStatusChange (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension LowerLayerPresenceStatusChange (%d): %w", extensionId, err)
@@ -7173,6 +7644,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RLCMode (%d): %w", extensionId, err)
@@ -7180,6 +7652,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := RLCMode(v)
 			return &result, nil
 		case 171: // id-BearerType -> BearerType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
@@ -7187,6 +7660,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := BearerType(v)
 			return &result, nil
 		case 369: // id-Ethernet-Type -> EthernetType (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
@@ -7195,11 +7669,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 435: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SecurityIndication (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -7210,6 +7685,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeAdded-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7217,6 +7693,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7224,6 +7701,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 315: // id-duplicationActivation -> DuplicationActivation (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DuplicationActivation (%d): %w", extensionId, err)
@@ -7235,7 +7713,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 300: // id-RLC-Status -> RLCStatus
 			var v RLCStatus
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension RLCStatus (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -7243,6 +7721,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeModified-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7250,6 +7729,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7258,7 +7738,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 313: // id-secondarymeNBULGTPTEIDatPDCP -> GTPtunnelEndpoint
 			var v GTPtunnelEndpoint
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension GTPtunnelEndpoint (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -7266,6 +7746,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7273,6 +7754,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7281,11 +7763,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 436: // id-SecurityResult -> SecurityResult
 			var v SecurityResult
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SecurityResult (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 412: // id-SourceDLForwardingIPAddress -> TransportLayerAddress (BIT_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
@@ -7296,6 +7779,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 314: // id-lCID -> LCID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("32"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension LCID (%d): %w", extensionId, err)
@@ -7305,6 +7789,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7312,6 +7797,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7323,13 +7809,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 312: // id-secondarysgNBDLGTPTEIDatPDCP -> GTPtunnelEndpoint
 			var v GTPtunnelEndpoint
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension GTPtunnelEndpoint (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 300: // id-RLC-Status -> RLCStatus
 			var v RLCStatus
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension RLCStatus (%d): %w", extensionId, err)
 			}
 			return &v, nil
@@ -7337,6 +7823,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeReleased-SgNBModReqd-ItemExtIEs":
 		switch extensionId {
 		case 317: // id-RLCMode-transferred -> RLCMode (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RLCMode (%d): %w", extensionId, err)
@@ -7347,6 +7834,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeModified-SgNBModReqd-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7354,6 +7842,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7361,6 +7850,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 325: // id-new-drb-ID-req -> NewDRBIDrequest (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NewDRBIDrequest (%d): %w", extensionId, err)
@@ -7372,11 +7862,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		switch extensionId {
 		case 300: // id-RLC-Status -> RLCStatus
 			var v RLCStatus
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension RLCStatus (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 314: // id-lCID -> LCID (INTEGER)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("32"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension LCID (%d): %w", extensionId, err)
@@ -7386,6 +7877,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs":
 		switch extensionId {
 		case 302: // id-uLpDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7393,6 +7885,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := PDCPSnLength(v)
 			return &result, nil
 		case 311: // id-dLPDCPSnLength -> PDCPSnLength (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PDCPSnLength (%d): %w", extensionId, err)
@@ -7403,7 +7896,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPpresentExtIEs":
 		switch extensionId {
 		case 441: // id-AdditionalListofForwardingGTPTunnelEndpoint -> AdditionalListofForwardingGTPTunnelEndpoint (SEQUENCE_OF)
-			v, err := UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpointFrom(bb)
+			v, err := UnmarshalAPERAdditionalListofForwardingGTPTunnelEndpoint(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalListofForwardingGTPTunnelEndpoint (%d): %w", extensionId, err)
 			}
@@ -7412,7 +7905,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "En-gNBServedCells-ExtIEs":
 		switch extensionId {
 		case 434: // id-ServedCellSpecificInfoReq-NR -> ServedCellSpecificInfoReqNR (SEQUENCE_OF)
-			v, err := UnmarshalAPERServedCellSpecificInfoReqNRFrom(bb)
+			v, err := UnmarshalAPERServedCellSpecificInfoReqNR(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ServedCellSpecificInfoReqNR (%d): %w", extensionId, err)
 			}
@@ -7421,24 +7914,25 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "ServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 334: // id-additionalPLMNs-Item -> AdditionalPLMNsItem (SEQUENCE_OF)
-			v, err := UnmarshalAPERAdditionalPLMNsItemFrom(bb)
+			v, err := UnmarshalAPERAdditionalPLMNsItem(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalPLMNsItem (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 337: // id-BPLMN-ID-Info-NR -> BPLMNIDInfoNR (SEQUENCE_OF)
-			v, err := UnmarshalAPERBPLMNIDInfoNRFrom(bb)
+			v, err := UnmarshalAPERBPLMNIDInfoNR(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BPLMNIDInfoNR (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 389: // id-SSB-PositionsInBurst -> SSBPositionsInBurst
 			var v SSBPositionsInBurst
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SSBPositionsInBurst (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 390: // id-NRCellPRACHConfig -> NRCellPRACHConfig (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCellPRACHConfig (%d): %w", extensionId, err)
@@ -7446,6 +7940,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := NRCellPRACHConfig(v)
 			return &result, nil
 		case 380: // id-CSI-RSTransmissionIndication -> CSIRSTransmissionIndication (ENUMERATED)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CSIRSTransmissionIndication (%d): %w", extensionId, err)
@@ -7454,12 +7949,12 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			return &result, nil
 		case 406: // id-SFN-Offset -> SFNOffset
 			var v SFNOffset
-			if err := v.UnmarshalAPERFrom(bb); err != nil {
+			if err := v.UnmarshalAPER(data); err != nil {
 				return nil, fmt.Errorf("decoding extension SFNOffset (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 433: // id-Additional-Measurement-Timing-Configuration-List -> AdditionalMeasurementTimingConfigurationList (SEQUENCE_OF)
-			v, err := UnmarshalAPERAdditionalMeasurementTimingConfigurationListFrom(bb)
+			v, err := UnmarshalAPERAdditionalMeasurementTimingConfigurationList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalMeasurementTimingConfigurationList (%d): %w", extensionId, err)
 			}
@@ -7468,13 +7963,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "FDD-InfoServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 387: // id-ULCarrierList -> NRCarrierList (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRCarrierListFrom(bb)
+			v, err := UnmarshalAPERNRCarrierList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCarrierList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 381: // id-DLCarrierList -> NRCarrierList (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRCarrierListFrom(bb)
+			v, err := UnmarshalAPERNRCarrierList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCarrierList (%d): %w", extensionId, err)
 			}
@@ -7483,6 +7978,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "TDD-InfoServedNRCell-Information-ExtIEs":
 		switch extensionId {
 		case 385: // id-TDDULDLConfigurationCommonNR -> TDDULDLConfigurationCommonNR (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TDDULDLConfigurationCommonNR (%d): %w", extensionId, err)
@@ -7490,12 +7986,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			result := TDDULDLConfigurationCommonNR(v)
 			return &result, nil
 		case 386: // id-CarrierList -> NRCarrierList (SEQUENCE_OF)
-			v, err := UnmarshalAPERNRCarrierListFrom(bb)
+			v, err := UnmarshalAPERNRCarrierList(data)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRCarrierList (%d): %w", extensionId, err)
 			}
 			return &v, nil
 		case 399: // id-IntendedTDD-DL-ULConfiguration-NR -> IntendedTDDDLULConfigurationNR (OCTET_STRING)
+			bb := per.NewBitBufferFromBytes(data)
 			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension IntendedTDDDLULConfigurationNR (%d): %w", extensionId, err)
@@ -8287,6 +8784,13 @@ func indirectProtocolOpenTypeValue(value reflect.Value) reflect.Value {
 		}
 		value = value.Elem()
 	}
+	if value.IsValid() && value.Kind() == reflect.Struct && value.Type().NumField() == 2 &&
+		len(value.Type().Name()) > len("Complete") && value.Type().Name()[len(value.Type().Name())-len("Complete"):] == "Complete" {
+		payload, padding := value.FieldByName("Value"), value.FieldByName("PERPadding_")
+		if payload.IsValid() && padding.IsValid() && padding.Type() == reflect.TypeOf(per.CompletePadding{}) {
+			return payload
+		}
+	}
 	return value
 }
 
@@ -8311,6 +8815,9 @@ func decodeProtocolFieldsInValue(value reflect.Value, hint protocolOpenTypeHint,
 		seen[visit] = true
 		defer delete(seen, visit)
 		return decodeProtocolFieldsInValue(value.Elem(), hint, path, seen)
+	}
+	if unwrapped := indirectProtocolOpenTypeValue(value); unwrapped.IsValid() && unwrapped.Type() != value.Type() {
+		return decodeProtocolFieldsInValue(unwrapped, hint, path, seen)
 	}
 
 	resolvedType := hint.typeName

@@ -26,12 +26,14 @@ const (
 type VarConditionalReconfiguration struct {
 	CondReconfigurationListR16       CondReconfigurationToAddModListR16 `asn1:"tag:0,context,implicit,optional" json:"CondReconfigurationListR16,omitempty"`
 	CondReconfigurationListR16Indef_ bool                               `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding                `asn1:"-" json:"-"`
 }
 
 // VarConnEstFailReportR11 represents the ASN.1 type VarConnEstFailReport-r11 (SEQUENCE).
 type VarConnEstFailReportR11 struct {
 	ConnEstFailReportR11 ConnEstFailReportR11 `asn1:"tag:0,context,implicit"`
 	PlmnIdentityR11      PLMNIdentity         `asn1:"tag:1,context,implicit"`
+	PERPadding_          per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR10 represents the ASN.1 type VarLogMeasConfig-r10 (SEQUENCE).
@@ -39,6 +41,7 @@ type VarLogMeasConfigR10 struct {
 	AreaConfigurationR10 *AreaConfigurationR10 `asn1:"tag:0,context,explicit,optional" json:"AreaConfigurationR10,omitempty"`
 	LoggingDurationR10   LoggingDurationR10    `asn1:"tag:1,context,implicit"`
 	LoggingIntervalR10   LoggingIntervalR10    `asn1:"tag:2,context,implicit"`
+	PERPadding_          per.CompletePadding   `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR11 represents the ASN.1 type VarLogMeasConfig-r11 (SEQUENCE).
@@ -47,6 +50,7 @@ type VarLogMeasConfigR11 struct {
 	AreaConfigurationV1130 *AreaConfigurationV1130 `asn1:"tag:1,context,implicit,optional" json:"AreaConfigurationV1130,omitempty"`
 	LoggingDurationR10     LoggingDurationR10      `asn1:"tag:2,context,implicit"`
 	LoggingIntervalR10     LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
+	PERPadding_            per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR12 represents the ASN.1 type VarLogMeasConfig-r12 (SEQUENCE).
@@ -57,6 +61,7 @@ type VarLogMeasConfigR12 struct {
 	LoggingIntervalR10           LoggingIntervalR10      `asn1:"tag:3,context,implicit"`
 	TargetMBSFNAreaListR12       TargetMBSFNAreaListR12  `asn1:"tag:4,context,implicit,optional" json:"TargetMBSFNAreaListR12,omitempty"`
 	TargetMBSFNAreaListR12Indef_ bool                    `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR15 represents the ASN.1 type VarLogMeasConfig-r15 (SEQUENCE).
@@ -71,6 +76,7 @@ type VarLogMeasConfigR15 struct {
 	BtNameListR15Indef_          bool                    `asn1:"-" json:"-"`
 	WlanNameListR15              WLANNameListR15         `asn1:"tag:6,context,implicit,optional" json:"WlanNameListR15,omitempty"`
 	WlanNameListR15Indef_        bool                    `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // VarLogMeasConfigR17 represents the ASN.1 type VarLogMeasConfig-r17 (SEQUENCE).
@@ -87,6 +93,7 @@ type VarLogMeasConfigR17 struct {
 	WlanNameListR15Indef_        bool                         `asn1:"-" json:"-"`
 	LoggedEventTriggerConfigR17  *LoggedEventTriggerConfigR17 `asn1:"tag:7,context,implicit,optional" json:"LoggedEventTriggerConfigR17,omitempty"`
 	MeasUncomBarPreR17           *int64                       `asn1:"tag:8,context,implicit,optional" json:"MeasUncomBarPreR17,omitempty"`
+	PERPadding_                  per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // VarLogMeasReportR10 represents the ASN.1 type VarLogMeasReport-r10 (SEQUENCE).
@@ -98,6 +105,7 @@ type VarLogMeasReportR10 struct {
 	AbsoluteTimeInfoR10         AbsoluteTimeInfoR10 `asn1:"tag:4,context,implicit"`
 	LogMeasInfoListR10          LogMeasInfoList2R10 `asn1:"tag:5,context,implicit"`
 	LogMeasInfoListR10Indef_    bool                `asn1:"-" json:"-"`
+	PERPadding_                 per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarLogMeasReportR11 represents the ASN.1 type VarLogMeasReport-r11 (SEQUENCE).
@@ -111,6 +119,7 @@ type VarLogMeasReportR11 struct {
 	LogMeasInfoListR10          LogMeasInfoList2R10  `asn1:"tag:5,context,implicit"`
 	LogMeasInfoListR10Indef_    bool                 `asn1:"-" json:"-"`
 	SigLoggedMeasTypeR18        int64                `asn1:"tag:6,context,implicit"`
+	PERPadding_                 per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // LogMeasInfoList2R10 represents the ASN.1 type LogMeasInfoList2-r10 (SEQUENCE_OF).
@@ -140,6 +149,7 @@ type VarMeasConfig struct {
 	SpeedStatePars             *VarMeasConfigSpeedStatePars `asn1:"tag:11,context,explicit,optional" json:"SpeedStatePars,omitempty"`
 	AllowInterruptionsR11      *bool                        `asn1:"tag:12,context,implicit,optional" json:"AllowInterruptionsR11,omitempty"`
 	AllowInterruptionsR11Raw_  byte                         `asn1:"-" json:"-"`
+	PERPadding_                per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleConfigR15 represents the ASN.1 type VarMeasIdleConfig-r15 (SEQUENCE).
@@ -147,6 +157,7 @@ type VarMeasIdleConfigR15 struct {
 	MeasIdleCarrierListEUTRAR15       EUTRACarrierListR15 `asn1:"tag:0,context,implicit,optional" json:"MeasIdleCarrierListEUTRAR15,omitempty"`
 	MeasIdleCarrierListEUTRAR15Indef_ bool                `asn1:"-" json:"-"`
 	MeasIdleDurationR15               int64               `asn1:"tag:1,context,implicit"`
+	PERPadding_                       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleConfigR16 represents the ASN.1 type VarMeasIdleConfig-r16 (SEQUENCE).
@@ -155,12 +166,14 @@ type VarMeasIdleConfigR16 struct {
 	MeasIdleCarrierListNRR16Indef_ bool                `asn1:"-" json:"-"`
 	ValidityAreaListR16            ValidityAreaListR16 `asn1:"tag:1,context,implicit,optional" json:"ValidityAreaListR16,omitempty"`
 	ValidityAreaListR16Indef_      bool                `asn1:"-" json:"-"`
+	PERPadding_                    per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleReportR15 represents the ASN.1 type VarMeasIdleReport-r15 (SEQUENCE).
 type VarMeasIdleReportR15 struct {
 	MeasReportIdleR15       MeasResultListIdleR15 `asn1:"tag:0,context,implicit"`
 	MeasReportIdleR15Indef_ bool                  `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding   `asn1:"-" json:"-"`
 }
 
 // VarMeasIdleReportR16 represents the ASN.1 type VarMeasIdleReport-r16 (SEQUENCE).
@@ -169,6 +182,7 @@ type VarMeasIdleReportR16 struct {
 	MeasReportIdleR16Indef_   bool                     `asn1:"-" json:"-"`
 	MeasReportIdleNRR16       MeasResultListIdleNRR16  `asn1:"tag:1,context,implicit,optional" json:"MeasReportIdleNRR16,omitempty"`
 	MeasReportIdleNRR16Indef_ bool                     `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // VarMeasReportList represents the ASN.1 type VarMeasReportList (SEQUENCE_OF).
@@ -188,6 +202,7 @@ type VarMeasReport struct {
 	PoolsTriggeredListR14       TxResourcePoolMeasListR14 `asn1:"tag:4,context,implicit,optional" json:"PoolsTriggeredListR14,omitempty"`
 	PoolsTriggeredListR14Indef_ bool                      `asn1:"-" json:"-"`
 	NumberOfReportsSent         *big.Int                  `asn1:"tag:5,context,implicit"`
+	PERPadding_                 per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // CellsTriggeredList represents the ASN.1 type CellsTriggeredList (SEQUENCE_OF).
@@ -204,14 +219,16 @@ type VarMobilityHistoryReportR12 = VisitedCellInfoListR12
 
 // VarPendingRnaUpdateR15 represents the ASN.1 type VarPendingRnaUpdate-r15 (SEQUENCE).
 type VarPendingRnaUpdateR15 struct {
-	PendingRnaUpdate     *bool `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
-	PendingRnaUpdateRaw_ byte  `asn1:"-" json:"-"`
+	PendingRnaUpdate     *bool               `asn1:"tag:0,context,implicit,optional" json:"PendingRnaUpdate,omitempty"`
+	PendingRnaUpdateRaw_ byte                `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarRLFReportR10 represents the ASN.1 type VarRLF-Report-r10 (SEQUENCE).
 type VarRLFReportR10 struct {
-	RlfReportR10    RLFReportR9  `asn1:"tag:0,context,implicit"`
-	PlmnIdentityR10 PLMNIdentity `asn1:"tag:1,context,implicit"`
+	RlfReportR10    RLFReportR9         `asn1:"tag:0,context,implicit"`
+	PlmnIdentityR10 PLMNIdentity        `asn1:"tag:1,context,implicit"`
+	PERPadding_     per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarRLFReportR11 represents the ASN.1 type VarRLF-Report-r11 (SEQUENCE).
@@ -219,28 +236,32 @@ type VarRLFReportR11 struct {
 	RlfReportR10              RLFReportR9          `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR11       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
 	PlmnIdentityListR11Indef_ bool                 `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // VarShortINACTIVEMACInputR15 represents the ASN.1 type VarShortINACTIVE-MAC-Input-r15 (SEQUENCE).
 type VarShortINACTIVEMACInputR15 struct {
-	CellIdentityR15 CellIdentity `asn1:"tag:0,context,implicit"`
-	PhysCellIdR15   PhysCellId   `asn1:"tag:1,context,implicit"`
-	CRNTIR15        CRNTI        `asn1:"tag:2,context,implicit"`
+	CellIdentityR15 CellIdentity        `asn1:"tag:0,context,implicit"`
+	PhysCellIdR15   PhysCellId          `asn1:"tag:1,context,implicit"`
+	CRNTIR15        CRNTI               `asn1:"tag:2,context,implicit"`
+	PERPadding_     per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarShortMACInput represents the ASN.1 type VarShortMAC-Input (SEQUENCE).
 type VarShortMACInput struct {
-	CellIdentity CellIdentity `asn1:"tag:0,context,implicit"`
-	PhysCellId   PhysCellId   `asn1:"tag:1,context,implicit"`
-	CRNTI        CRNTI        `asn1:"tag:2,context,implicit"`
+	CellIdentity CellIdentity        `asn1:"tag:0,context,implicit"`
+	PhysCellId   PhysCellId          `asn1:"tag:1,context,implicit"`
+	CRNTI        CRNTI               `asn1:"tag:2,context,implicit"`
+	PERPadding_  per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarShortResumeMACInputR13 represents the ASN.1 type VarShortResumeMAC-Input-r13 (SEQUENCE).
 type VarShortResumeMACInputR13 struct {
-	CellIdentityR13        CellIdentity      `asn1:"tag:0,context,implicit"`
-	PhysCellIdR13          PhysCellId        `asn1:"tag:1,context,implicit"`
-	CRNTIR13               CRNTI             `asn1:"tag:2,context,implicit"`
-	ResumeDiscriminatorR13 runtime.BitString `asn1:"tag:3,context,implicit"`
+	CellIdentityR13        CellIdentity        `asn1:"tag:0,context,implicit"`
+	PhysCellIdR13          PhysCellId          `asn1:"tag:1,context,implicit"`
+	CRNTIR13               CRNTI               `asn1:"tag:2,context,implicit"`
+	ResumeDiscriminatorR13 runtime.BitString   `asn1:"tag:3,context,implicit"`
+	PERPadding_            per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarWLANMobilityConfig represents the ASN.1 type VarWLAN-MobilityConfig (SEQUENCE).
@@ -249,12 +270,14 @@ type VarWLANMobilityConfig struct {
 	WlanMobilitySetR13Indef_ bool                  `asn1:"-" json:"-"`
 	SuccessReportRequested   *int64                `asn1:"tag:1,context,implicit,optional" json:"SuccessReportRequested,omitempty"`
 	WlanSuspendConfigR14     *WLANSuspendConfigR14 `asn1:"tag:2,context,implicit,optional" json:"WlanSuspendConfigR14,omitempty"`
+	PERPadding_              per.CompletePadding   `asn1:"-" json:"-"`
 }
 
 // VarWLANStatusR13 represents the ASN.1 type VarWLAN-Status-r13 (SEQUENCE).
 type VarWLANStatusR13 struct {
-	StatusR13 WLANStatusR13    `asn1:"tag:0,context,implicit"`
-	StatusR14 *WLANStatusV1430 `asn1:"tag:1,context,implicit,optional" json:"StatusR14,omitempty"`
+	StatusR13   WLANStatusR13       `asn1:"tag:0,context,implicit"`
+	StatusR14   *WLANStatusV1430    `asn1:"tag:1,context,implicit,optional" json:"StatusR14,omitempty"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarMeasConfigSpeedStatePars choice constants.
@@ -265,9 +288,11 @@ const (
 
 // VarMeasConfigSpeedStatePars represents the ASN.1 CHOICE type VarMeasConfig-speedStatePars.
 type VarMeasConfigSpeedStatePars struct {
-	Choice  int
-	Release *struct{}                         `json:"Release,omitempty"`
-	Setup   *VarMeasConfigSpeedStateParsSetup `json:"Setup,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding               `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding               `json:"-"`
+	Release             *struct{}                         `json:"Release,omitempty"`
+	Setup               *VarMeasConfigSpeedStateParsSetup `json:"Setup,omitempty"`
 }
 
 // NewVarMeasConfigSpeedStateParsRelease creates a VarMeasConfigSpeedStatePars with the release alternative.
@@ -290,6 +315,7 @@ func NewVarMeasConfigSpeedStateParsSetup(v VarMeasConfigSpeedStateParsSetup) Var
 type VarMeasConfigSpeedStateParsSetup struct {
 	MobilityStateParameters MobilityStateParameters `asn1:"tag:0,context,implicit"`
 	TimeToTriggerSF         SpeedStateScaleFactors  `asn1:"tag:1,context,implicit"`
+	PERPadding_             per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // CellsTriggeredListElem choice constants.
@@ -304,13 +330,15 @@ const (
 
 // CellsTriggeredListElem represents the ASN.1 CHOICE type CellsTriggeredList-Elem.
 type CellsTriggeredListElem struct {
-	Choice             int
-	PhysCellIdEUTRA    *PhysCellId                            `json:"PhysCellIdEUTRA,omitempty"`
-	PhysCellIdUTRA     *CellsTriggeredListElemPhysCellIdUTRA  `json:"PhysCellIdUTRA,omitempty"`
-	PhysCellIdGERAN    *CellsTriggeredListElemPhysCellIdGERAN `json:"PhysCellIdGERAN,omitempty"`
-	PhysCellIdCDMA2000 *PhysCellIdCDMA2000                    `json:"PhysCellIdCDMA2000,omitempty"`
-	WlanIdentifiersR13 *WLANIdentifiersR12                    `json:"WlanIdentifiersR13,omitempty"`
-	PhysCellIdNRR15    *CellsTriggeredListElemPhysCellIdNRR15 `json:"PhysCellIdNRR15,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding                    `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding                    `json:"-"`
+	PhysCellIdEUTRA     *PhysCellId                            `json:"PhysCellIdEUTRA,omitempty"`
+	PhysCellIdUTRA      *CellsTriggeredListElemPhysCellIdUTRA  `json:"PhysCellIdUTRA,omitempty"`
+	PhysCellIdGERAN     *CellsTriggeredListElemPhysCellIdGERAN `json:"PhysCellIdGERAN,omitempty"`
+	PhysCellIdCDMA2000  *PhysCellIdCDMA2000                    `json:"PhysCellIdCDMA2000,omitempty"`
+	WlanIdentifiersR13  *WLANIdentifiersR12                    `json:"WlanIdentifiersR13,omitempty"`
+	PhysCellIdNRR15     *CellsTriggeredListElemPhysCellIdNRR15 `json:"PhysCellIdNRR15,omitempty"`
 }
 
 // NewCellsTriggeredListElemPhysCellIdEUTRA creates a CellsTriggeredListElem with the physCellIdEUTRA alternative.
@@ -369,9 +397,11 @@ const (
 
 // CellsTriggeredListElemPhysCellIdUTRA represents the ASN.1 CHOICE type CellsTriggeredList-Elem-physCellIdUTRA.
 type CellsTriggeredListElemPhysCellIdUTRA struct {
-	Choice int
-	Fdd    *PhysCellIdUTRAFDD `json:"Fdd,omitempty"`
-	Tdd    *PhysCellIdUTRATDD `json:"Tdd,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding `json:"-"`
+	Fdd                 *PhysCellIdUTRAFDD  `json:"Fdd,omitempty"`
+	Tdd                 *PhysCellIdUTRATDD  `json:"Tdd,omitempty"`
 }
 
 // NewCellsTriggeredListElemPhysCellIdUTRAFdd creates a CellsTriggeredListElemPhysCellIdUTRA with the fdd alternative.
@@ -392,16 +422,18 @@ func NewCellsTriggeredListElemPhysCellIdUTRATdd(v PhysCellIdUTRATDD) CellsTrigge
 
 // CellsTriggeredListElemPhysCellIdGERAN represents the ASN.1 type CellsTriggeredList-Elem-physCellIdGERAN (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdGERAN struct {
-	CarrierFreq CarrierFreqGERAN `asn1:"tag:0,context,implicit"`
-	PhysCellId  PhysCellIdGERAN  `asn1:"tag:1,context,implicit"`
+	CarrierFreq CarrierFreqGERAN    `asn1:"tag:0,context,implicit"`
+	PhysCellId  PhysCellIdGERAN     `asn1:"tag:1,context,implicit"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellsTriggeredListElemPhysCellIdNRR15 represents the ASN.1 type CellsTriggeredList-Elem-physCellIdNR-r15 (SEQUENCE).
 type CellsTriggeredListElemPhysCellIdNRR15 struct {
-	CarrierFreq          ARFCNValueNRR15 `asn1:"tag:0,context,implicit"`
-	PhysCellId           PhysCellIdNRR15 `asn1:"tag:1,context,implicit"`
-	RsIndexListR15       SSBIndexListR15 `asn1:"tag:2,context,implicit,optional" json:"RsIndexListR15,omitempty"`
-	RsIndexListR15Indef_ bool            `asn1:"-" json:"-"`
+	CarrierFreq          ARFCNValueNRR15     `asn1:"tag:0,context,implicit"`
+	PhysCellId           PhysCellIdNRR15     `asn1:"tag:1,context,implicit"`
+	RsIndexListR15       SSBIndexListR15     `asn1:"tag:2,context,implicit,optional" json:"RsIndexListR15,omitempty"`
+	RsIndexListR15Indef_ bool                `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MarshalUPER encodes VarConditionalReconfiguration to UPER format.
@@ -410,7 +442,7 @@ func (v *VarConditionalReconfiguration) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarConditionalReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -439,9 +471,11 @@ func (v *VarConditionalReconfiguration) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarConditionalReconfiguration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarConditionalReconfiguration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -478,7 +512,7 @@ func (v *VarConnEstFailReportR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarConnEstFailReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -497,9 +531,11 @@ func (v *VarConnEstFailReportR11) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarConnEstFailReportR11")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarConnEstFailReportR11")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -520,7 +556,7 @@ func (v *VarLogMeasConfigR10) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarLogMeasConfigR10) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -548,9 +584,11 @@ func (v *VarLogMeasConfigR10) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR10")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR10")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -587,7 +625,7 @@ func (v *VarLogMeasConfigR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarLogMeasConfigR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -623,9 +661,11 @@ func (v *VarLogMeasConfigR11) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR11")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR11")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -673,7 +713,7 @@ func (v *VarLogMeasConfigR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarLogMeasConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -724,9 +764,11 @@ func (v *VarLogMeasConfigR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -795,7 +837,7 @@ func (v *VarLogMeasConfigR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarLogMeasConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -876,9 +918,11 @@ func (v *VarLogMeasConfigR15) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -989,7 +1033,7 @@ func (v *VarLogMeasConfigR17) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarLogMeasConfigR17) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1086,9 +1130,11 @@ func (v *VarLogMeasConfigR17) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR17")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasConfigR17")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1221,7 +1267,7 @@ func (v *VarLogMeasReportR10) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarLogMeasReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1259,9 +1305,11 @@ func (v *VarLogMeasReportR10) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR10")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR10")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1311,7 +1359,7 @@ func (v *VarLogMeasReportR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarLogMeasReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1359,9 +1407,11 @@ func (v *VarLogMeasReportR11) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR11")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarLogMeasReportR11")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1423,13 +1473,38 @@ func (v *VarLogMeasReportR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERLogMeasInfoList2R10ListValue struct{ Value LogMeasInfoList2R10 }
 
-// MarshalUPERLogMeasInfoList2R10 encodes a LogMeasInfoList2R10 list to UPER.
-func MarshalUPERLogMeasInfoList2R10(list LogMeasInfoList2R10) ([]byte, error) {
+// LogMeasInfoList2R10Complete carries a complete LogMeasInfoList2R10 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type LogMeasInfoList2R10Complete struct {
+	Value       LogMeasInfoList2R10
+	PERPadding_ per.CompletePadding
+}
+
+func (v *LogMeasInfoList2R10Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERLogMeasInfoList2R10To(list, bb); err != nil {
+	if err := MarshalUPERLogMeasInfoList2R10To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *LogMeasInfoList2R10Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERLogMeasInfoList2R10From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "LogMeasInfoList2R10")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "LogMeasInfoList2R10")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERLogMeasInfoList2R10 encodes a LogMeasInfoList2R10 list to UPER.
+func MarshalUPERLogMeasInfoList2R10(list LogMeasInfoList2R10Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERLogMeasInfoList2R10To appends a LogMeasInfoList2R10 list to bb.
@@ -1449,14 +1524,10 @@ func MarshalUPERLogMeasInfoList2R10To(list LogMeasInfoList2R10, bb *per.BitBuffe
 }
 
 // UnmarshalUPERLogMeasInfoList2R10 decodes a LogMeasInfoList2R10 list from UPER.
-func UnmarshalUPERLogMeasInfoList2R10(data []byte) (LogMeasInfoList2R10, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERLogMeasInfoList2R10From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "LogMeasInfoList2R10")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "LogMeasInfoList2R10")
+func UnmarshalUPERLogMeasInfoList2R10(data []byte) (LogMeasInfoList2R10Complete, error) {
+	var value LogMeasInfoList2R10Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1494,7 +1565,7 @@ func (v *VarMeasConfig) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasConfig) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1668,9 +1739,11 @@ func (v *VarMeasConfig) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfig")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfig")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1910,7 +1983,7 @@ func (v *VarMeasIdleConfigR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasIdleConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1942,9 +2015,11 @@ func (v *VarMeasIdleConfigR15) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1986,7 +2061,7 @@ func (v *VarMeasIdleConfigR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasIdleConfigR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2030,9 +2105,11 @@ func (v *VarMeasIdleConfigR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleConfigR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2090,7 +2167,7 @@ func (v *VarMeasIdleReportR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasIdleReportR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2113,9 +2190,11 @@ func (v *VarMeasIdleReportR15) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2144,7 +2223,7 @@ func (v *VarMeasIdleReportR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasIdleReportR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2188,9 +2267,11 @@ func (v *VarMeasIdleReportR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasIdleReportR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2244,13 +2325,38 @@ func (v *VarMeasIdleReportR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERVarMeasReportListListValue struct{ Value VarMeasReportList }
 
-// MarshalUPERVarMeasReportList encodes a VarMeasReportList list to UPER.
-func MarshalUPERVarMeasReportList(list VarMeasReportList) ([]byte, error) {
+// VarMeasReportListComplete carries a complete VarMeasReportList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type VarMeasReportListComplete struct {
+	Value       VarMeasReportList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *VarMeasReportListComplete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERVarMeasReportListTo(list, bb); err != nil {
+	if err := MarshalUPERVarMeasReportListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *VarMeasReportListComplete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERVarMeasReportListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasReportList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasReportList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERVarMeasReportList encodes a VarMeasReportList list to UPER.
+func MarshalUPERVarMeasReportList(list VarMeasReportListComplete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERVarMeasReportListTo appends a VarMeasReportList list to bb.
@@ -2270,14 +2376,10 @@ func MarshalUPERVarMeasReportListTo(list VarMeasReportList, bb *per.BitBuffer) e
 }
 
 // UnmarshalUPERVarMeasReportList decodes a VarMeasReportList list from UPER.
-func UnmarshalUPERVarMeasReportList(data []byte) (VarMeasReportList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERVarMeasReportListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarMeasReportList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarMeasReportList")
+func UnmarshalUPERVarMeasReportList(data []byte) (VarMeasReportListComplete, error) {
+	var value VarMeasReportListComplete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2311,13 +2413,38 @@ func unmarshalUPERVarMeasReportListInto(v *asn1cUPERVarMeasReportListListValue, 
 
 type asn1cUPERVarMeasReportListR12ListValue struct{ Value VarMeasReportListR12 }
 
-// MarshalUPERVarMeasReportListR12 encodes a VarMeasReportListR12 list to UPER.
-func MarshalUPERVarMeasReportListR12(list VarMeasReportListR12) ([]byte, error) {
+// VarMeasReportListR12Complete carries a complete VarMeasReportListR12 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type VarMeasReportListR12Complete struct {
+	Value       VarMeasReportListR12
+	PERPadding_ per.CompletePadding
+}
+
+func (v *VarMeasReportListR12Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERVarMeasReportListR12To(list, bb); err != nil {
+	if err := MarshalUPERVarMeasReportListR12To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *VarMeasReportListR12Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERVarMeasReportListR12From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasReportListR12")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarMeasReportListR12")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERVarMeasReportListR12 encodes a VarMeasReportListR12 list to UPER.
+func MarshalUPERVarMeasReportListR12(list VarMeasReportListR12Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERVarMeasReportListR12To appends a VarMeasReportListR12 list to bb.
@@ -2337,14 +2464,10 @@ func MarshalUPERVarMeasReportListR12To(list VarMeasReportListR12, bb *per.BitBuf
 }
 
 // UnmarshalUPERVarMeasReportListR12 decodes a VarMeasReportListR12 list from UPER.
-func UnmarshalUPERVarMeasReportListR12(data []byte) (VarMeasReportListR12, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERVarMeasReportListR12From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarMeasReportListR12")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarMeasReportListR12")
+func UnmarshalUPERVarMeasReportListR12(data []byte) (VarMeasReportListR12Complete, error) {
+	var value VarMeasReportListR12Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2382,7 +2505,7 @@ func (v *VarMeasReport) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasReport) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2455,9 +2578,11 @@ func (v *VarMeasReport) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasReport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasReport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2554,13 +2679,38 @@ func (v *VarMeasReport) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERCellsTriggeredListListValue struct{ Value CellsTriggeredList }
 
-// MarshalUPERCellsTriggeredList encodes a CellsTriggeredList list to UPER.
-func MarshalUPERCellsTriggeredList(list CellsTriggeredList) ([]byte, error) {
+// CellsTriggeredListComplete carries a complete CellsTriggeredList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CellsTriggeredListComplete struct {
+	Value       CellsTriggeredList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CellsTriggeredListComplete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERCellsTriggeredListTo(list, bb); err != nil {
+	if err := MarshalUPERCellsTriggeredListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CellsTriggeredListComplete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERCellsTriggeredListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellsTriggeredList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellsTriggeredList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERCellsTriggeredList encodes a CellsTriggeredList list to UPER.
+func MarshalUPERCellsTriggeredList(list CellsTriggeredListComplete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERCellsTriggeredListTo appends a CellsTriggeredList list to bb.
@@ -2580,14 +2730,10 @@ func MarshalUPERCellsTriggeredListTo(list CellsTriggeredList, bb *per.BitBuffer)
 }
 
 // UnmarshalUPERCellsTriggeredList decodes a CellsTriggeredList list from UPER.
-func UnmarshalUPERCellsTriggeredList(data []byte) (CellsTriggeredList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERCellsTriggeredListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellsTriggeredList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellsTriggeredList")
+func UnmarshalUPERCellsTriggeredList(data []byte) (CellsTriggeredListComplete, error) {
+	var value CellsTriggeredListComplete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2621,13 +2767,38 @@ func unmarshalUPERCellsTriggeredListInto(v *asn1cUPERCellsTriggeredListListValue
 
 type asn1cUPERCSIRSTriggeredListR12ListValue struct{ Value CSIRSTriggeredListR12 }
 
-// MarshalUPERCSIRSTriggeredListR12 encodes a CSIRSTriggeredListR12 list to UPER.
-func MarshalUPERCSIRSTriggeredListR12(list CSIRSTriggeredListR12) ([]byte, error) {
+// CSIRSTriggeredListR12Complete carries a complete CSIRSTriggeredListR12 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CSIRSTriggeredListR12Complete struct {
+	Value       CSIRSTriggeredListR12
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CSIRSTriggeredListR12Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERCSIRSTriggeredListR12To(list, bb); err != nil {
+	if err := MarshalUPERCSIRSTriggeredListR12To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CSIRSTriggeredListR12Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERCSIRSTriggeredListR12From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CSIRSTriggeredListR12")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CSIRSTriggeredListR12")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERCSIRSTriggeredListR12 encodes a CSIRSTriggeredListR12 list to UPER.
+func MarshalUPERCSIRSTriggeredListR12(list CSIRSTriggeredListR12Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERCSIRSTriggeredListR12To appends a CSIRSTriggeredListR12 list to bb.
@@ -2647,14 +2818,10 @@ func MarshalUPERCSIRSTriggeredListR12To(list CSIRSTriggeredListR12, bb *per.BitB
 }
 
 // UnmarshalUPERCSIRSTriggeredListR12 decodes a CSIRSTriggeredListR12 list from UPER.
-func UnmarshalUPERCSIRSTriggeredListR12(data []byte) (CSIRSTriggeredListR12, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERCSIRSTriggeredListR12From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CSIRSTriggeredListR12")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CSIRSTriggeredListR12")
+func UnmarshalUPERCSIRSTriggeredListR12(data []byte) (CSIRSTriggeredListR12Complete, error) {
+	var value CSIRSTriggeredListR12Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2688,13 +2855,38 @@ func unmarshalUPERCSIRSTriggeredListR12Into(v *asn1cUPERCSIRSTriggeredListR12Lis
 
 type asn1cUPERSSBIndexListR15ListValue struct{ Value SSBIndexListR15 }
 
-// MarshalUPERSSBIndexListR15 encodes a SSBIndexListR15 list to UPER.
-func MarshalUPERSSBIndexListR15(list SSBIndexListR15) ([]byte, error) {
+// SSBIndexListR15Complete carries a complete SSBIndexListR15 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SSBIndexListR15Complete struct {
+	Value       SSBIndexListR15
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SSBIndexListR15Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSSBIndexListR15To(list, bb); err != nil {
+	if err := MarshalUPERSSBIndexListR15To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SSBIndexListR15Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSSBIndexListR15From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SSBIndexListR15")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SSBIndexListR15")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSSBIndexListR15 encodes a SSBIndexListR15 list to UPER.
+func MarshalUPERSSBIndexListR15(list SSBIndexListR15Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSSBIndexListR15To appends a SSBIndexListR15 list to bb.
@@ -2714,14 +2906,10 @@ func MarshalUPERSSBIndexListR15To(list SSBIndexListR15, bb *per.BitBuffer) error
 }
 
 // UnmarshalUPERSSBIndexListR15 decodes a SSBIndexListR15 list from UPER.
-func UnmarshalUPERSSBIndexListR15(data []byte) (SSBIndexListR15, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSSBIndexListR15From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SSBIndexListR15")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SSBIndexListR15")
+func UnmarshalUPERSSBIndexListR15(data []byte) (SSBIndexListR15Complete, error) {
+	var value SSBIndexListR15Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2759,7 +2947,7 @@ func (v *VarPendingRnaUpdateR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarPendingRnaUpdateR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2781,9 +2969,11 @@ func (v *VarPendingRnaUpdateR15) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarPendingRnaUpdateR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarPendingRnaUpdateR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2810,7 +3000,7 @@ func (v *VarRLFReportR10) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarRLFReportR10) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2829,9 +3019,11 @@ func (v *VarRLFReportR10) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR10")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR10")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2852,7 +3044,7 @@ func (v *VarRLFReportR11) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarRLFReportR11) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2878,9 +3070,11 @@ func (v *VarRLFReportR11) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR11")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportR11")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2912,7 +3106,7 @@ func (v *VarShortINACTIVEMACInputR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarShortINACTIVEMACInputR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2934,9 +3128,11 @@ func (v *VarShortINACTIVEMACInputR15) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortINACTIVEMACInputR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarShortINACTIVEMACInputR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2966,7 +3162,7 @@ func (v *VarShortMACInput) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarShortMACInput) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2988,9 +3184,11 @@ func (v *VarShortMACInput) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortMACInput")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarShortMACInput")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3020,7 +3218,7 @@ func (v *VarShortResumeMACInputR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarShortResumeMACInputR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3045,9 +3243,11 @@ func (v *VarShortResumeMACInputR13) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarShortResumeMACInputR13")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarShortResumeMACInputR13")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3082,7 +3282,7 @@ func (v *VarWLANMobilityConfig) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarWLANMobilityConfig) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3127,9 +3327,11 @@ func (v *VarWLANMobilityConfig) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANMobilityConfig")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANMobilityConfig")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3188,7 +3390,7 @@ func (v *VarWLANStatusR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarWLANStatusR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3213,9 +3415,11 @@ func (v *VarWLANStatusR13) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANStatusR13")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarWLANStatusR13")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3248,7 +3452,7 @@ func (v *VarMeasConfigSpeedStatePars) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3276,9 +3480,11 @@ func (v *VarMeasConfigSpeedStatePars) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStatePars")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStatePars")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3291,6 +3497,7 @@ func (v *VarMeasConfigSpeedStatePars) UnmarshalUPERFrom(bb *per.BitBuffer) error
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case VarMeasConfigSpeedStateParsChoiceRelease:
+		v.Release = new(struct{})
 	case VarMeasConfigSpeedStateParsChoiceSetup:
 		var dec_setup VarMeasConfigSpeedStateParsSetup
 		if err := dec_setup.UnmarshalUPERFrom(bb); err != nil {
@@ -3307,7 +3514,7 @@ func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarMeasConfigSpeedStateParsSetup) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3326,9 +3533,11 @@ func (v *VarMeasConfigSpeedStateParsSetup) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStateParsSetup")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarMeasConfigSpeedStateParsSetup")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3349,7 +3558,7 @@ func (v *CellsTriggeredListElem) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3411,9 +3620,11 @@ func (v *CellsTriggeredListElem) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3473,7 +3684,7 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3507,9 +3718,11 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) UnmarshalUPER(data []byte) error 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdUTRA")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdUTRA")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3545,7 +3758,7 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdGERAN) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3564,9 +3777,11 @@ func (v *CellsTriggeredListElemPhysCellIdGERAN) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdGERAN")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdGERAN")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3587,7 +3802,7 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellsTriggeredListElemPhysCellIdNRR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3622,9 +3837,11 @@ func (v *CellsTriggeredListElemPhysCellIdNRR15) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdNRR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellsTriggeredListElemPhysCellIdNRR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 

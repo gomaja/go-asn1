@@ -1,22 +1,22 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "3101ba2676aecce56d186e66557ebea55368972f",
-  "target_base_commit": "575eb338a2aaa2743b8ae32ecfce982195fed019",
+  "compiler_commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+  "target_base_commit": "366de494fcb788dd0a0d740ba984816ade486f6a",
   "inputs": {
-    "sha256": "0620c78815c37168758b2eb880734c8fef79d944bc731b0789c877688fe62349",
+    "sha256": "f0b7a3e852bfe44dfb6ac66613f8751b437f6cf928eed5689ebca733f39b4368",
     "files": [
       {
         "path": "conformance/corpus.yaml",
         "mode": "0644",
-        "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-        "size_bytes": 124189
+        "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+        "size_bytes": 126896
       },
       {
         "path": "conformance/source.lock.json",
         "mode": "0644",
-        "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-        "size_bytes": 139720
+        "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+        "size_bytes": 140737
       }
     ]
   },
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "3101ba2676aecce56d186e66557ebea55368972f",
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
           "dirty": false
         },
         "frontend": {
@@ -39,17 +39,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-          "size_bytes": 124189
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-          "size_bytes": 139720
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
         },
         "source_plan": {
           "path": "gsm-map/source-plan.json",
-          "sha256": "207f24b23f74f9b18282f313be7267542ec61738fbabffe7aa43081e4a2116cb",
+          "sha256": "7790389aa9867863031fc11469b533ce942d29fc80d7f678e3ce04d709dfb58a",
           "size_bytes": 1489488
         },
         "sources": [
@@ -1150,7 +1150,7 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "d5440b464d44a451f776ded17760b193e8de3d436b3f60b5f073cfe3aa3ebab9",
+          "sha256": "bfe5e65d686ff9aba778772deb8009270d6b626b9e43d29185136d8c8ba71ac5",
           "size_bytes": 8942159
         },
         "outputs": [
@@ -1166,13 +1166,13 @@
           },
           {
             "path": "gsm_map/dummymap.go",
-            "sha256": "89f6cc1dfa1f6a89ac1d791f5f50ed620f02a4ad89a4afa806f0efa407a42759",
-            "size_bytes": 455341
+            "sha256": "a84c510e8b7f795c03f5bd37c1405e13db64c03056cc64b16febdd6534ea340f",
+            "size_bytes": 463197
           },
           {
             "path": "gsm_map/ericssonmap.go",
-            "sha256": "04439dc473eecbc4e4dc9a516f24b26470976c248eeb392bfc168c4b9f7315ab",
-            "size_bytes": 132680
+            "sha256": "6b682f6db4e426f27e7215f003e67b2575912293caaffb08e41221e2b3822db9",
+            "size_bytes": 137196
           },
           {
             "path": "gsm_map/mapapplicationcontexts.go",
@@ -1216,73 +1216,73 @@
           },
           {
             "path": "gsm_map/mapchdatatypes.go",
-            "sha256": "1dd24fb5a5540291db4bdcfd07f3fb32d36d31d933a816c9f3ed5a60768a4ceb",
-            "size_bytes": 414913
+            "sha256": "f6dbd098a49a40229bc2e3785ec66cfa434d95ade365c3bc30f73175c32f63a8",
+            "size_bytes": 421062
           },
           {
             "path": "gsm_map/mapchdatatypes_2.go",
-            "sha256": "9b33900376bb7eb4d0809bba395dfc4645a16255f990ebb82ee5a5bc6e9ba69d",
-            "size_bytes": 400828
+            "sha256": "64e56b8778b1100294b22bd59cd7ad590364ff4c6848b170e44c53ed7b610da6",
+            "size_bytes": 406878
           },
           {
             "path": "gsm_map/mapcommondatatypes.go",
-            "sha256": "28bc7d055d057b611a63b85ce45c280ecad550c0aa95a3d213bef58c8d7e02ac",
-            "size_bytes": 93564
+            "sha256": "88e6935dcd1497359160bc630879f28d4b6d8c4d27b5c154a8f64a6a25ff638e",
+            "size_bytes": 96037
           },
           {
             "path": "gsm_map/mapcommondatatypes_2.go",
-            "sha256": "8a4aefc3ce24bae5c7ed55324a84b76bbc5d9752b51ea83638e327ec03ab9906",
-            "size_bytes": 100202
+            "sha256": "4411b2c7e695db9ebd1fc4f3368c05eafbfbc786a3e10203b5134799df57901d",
+            "size_bytes": 102536
           },
           {
             "path": "gsm_map/mapcommondatatypes_3.go",
-            "sha256": "b44731359677b960769c7b55334306312883f3a22ec8b84a35b21c541d10fc16",
-            "size_bytes": 94890
+            "sha256": "b03e2a405830dd04ba7a957a2c47fc25c2fcfb099e7252141072c63d5e0d826e",
+            "size_bytes": 97363
           },
           {
             "path": "gsm_map/mapcommondatatypes_4.go",
-            "sha256": "8cf3a91e4ec99140774cbd4e09ccee64f60678dd840e552198fe7950f1b70f1e",
-            "size_bytes": 94262
+            "sha256": "ba483935b8177976114edea41741e94c75c12af02095c1f0b8106215115d8447",
+            "size_bytes": 96735
           },
           {
             "path": "gsm_map/mapcommondatatypes_5.go",
-            "sha256": "3c45f97a5d27b54d8151fb8dfcb20b97a5f7e04ea07397be8fce6a67b02450f3",
-            "size_bytes": 89410
+            "sha256": "b5228b011fd0c13a32e634b65fd6c770e46f1796b50c4796ae01391f7a272229",
+            "size_bytes": 91744
           },
           {
             "path": "gsm_map/mapcommondatatypes_6.go",
-            "sha256": "672e262bb35bc0f39c8340d649b42c480462f737a5f2d6b70b30a234df432c97",
-            "size_bytes": 88625
+            "sha256": "c0c2465c706431c4990f6e9a43114914cbcc0351a9bf36544dd63d181f4ac297",
+            "size_bytes": 90959
           },
           {
             "path": "gsm_map/mapdialogueinformation.go",
-            "sha256": "eee27be95c94920b55d686b37c50f22ee322c0457b71163f9c35e9b845cc0578",
-            "size_bytes": 54533
+            "sha256": "254de2eee072c8f73a44250136ee51b72d06bd63af42ff4ec181240c3f29aa49",
+            "size_bytes": 55940
           },
           {
             "path": "gsm_map/maperdatatypes.go",
-            "sha256": "1e624fa86fe957e9c41f4a01e863c52382cd5eb4f3a3f0280e6d853e56d10d1e",
-            "size_bytes": 243824
+            "sha256": "f2ed9a19fe7a57027590da0f8b1db4b2ed962bf9f2eeffe309b5c18ae1d641c7",
+            "size_bytes": 251378
           },
           {
             "path": "gsm_map/maperdatatypes_2.go",
-            "sha256": "902cbb97a6e0a473d4f95eb8ca7b32ab41ec5b0d4bc6cabf3c6c1b4807feb7b1",
-            "size_bytes": 236977
+            "sha256": "c5e6bcbabbc3fe1b2c1ef79103823cc34a900efbb5f06cb3493c2b4e031a7f92",
+            "size_bytes": 244477
           },
           {
             "path": "gsm_map/maperdatatypes_3.go",
-            "sha256": "e60fcdefa98b81e8f4f3adfd59099c13cfa9e9b3bce27df7927533660d07a075",
-            "size_bytes": 245016
+            "sha256": "55d3710c79abd0df8e18a25172c7e39e32b7c29aafd78fd3f089766444b62b9f",
+            "size_bytes": 252570
           },
           {
             "path": "gsm_map/maperdatatypes_4.go",
-            "sha256": "45b241abf7319216adb5d6f538aef62140342528836189172a7b54c088da6cd4",
-            "size_bytes": 240547
+            "sha256": "0df016fc41ca21dc45936d0f24cb0cfc5a945d92a6902a1e8b80c9aef6e29017",
+            "size_bytes": 248083
           },
           {
             "path": "gsm_map/maperdatatypes_5.go",
-            "sha256": "53a6dac3b765a69ff8a122bac529314934a93bcd95590b7a6bcb5a89c3ad0149",
-            "size_bytes": 234631
+            "sha256": "8e544feacf020b5a9335adf8ee38976806bf21c4136ab459a4e4a396c5c0d46d",
+            "size_bytes": 242140
           },
           {
             "path": "gsm_map/maperrors.go",
@@ -1296,38 +1296,38 @@
           },
           {
             "path": "gsm_map/mapextensiondatatypes.go",
-            "sha256": "b641aa8699ce7e2f713336450f2dab76df10c221653ebc503282b91447d1ffe3",
-            "size_bytes": 27657
+            "sha256": "9d3963cc5c1524f516b58840b42218fb89e7177b21771ce4282a23c3d05e6ccb",
+            "size_bytes": 28567
           },
           {
             "path": "gsm_map/mapextensiondatatypes_2.go",
-            "sha256": "7868ba740c57427e595c8280c085ccd369a660cbabbea4c8ccdb3ee663ff0269",
-            "size_bytes": 29655
+            "sha256": "1b9c34be6805bcf3fd1d4a767297704ce37b0c4a74281cfbfeb8fab19347df18",
+            "size_bytes": 30565
           },
           {
             "path": "gsm_map/mapextensiondatatypes_3.go",
-            "sha256": "da21761e3c3bc91ca4dd758b0e0391734a19cdbae8bea66dd6022103928035df",
-            "size_bytes": 27768
+            "sha256": "51b1ae224a00c0b61eaefe9a79978ec5b60d8a463a59ed4f2b2967157592351c",
+            "size_bytes": 28678
           },
           {
             "path": "gsm_map/mapextensiondatatypes_4.go",
-            "sha256": "87feb37845292d65b46effb4ff04dc0951838269d0f9dec0fec9a0bc6c77deec",
-            "size_bytes": 27768
+            "sha256": "4a62b0d5ceb161602b6cb48d37955a68ebadc4205540e862a61b0c84c5328767",
+            "size_bytes": 28678
           },
           {
             "path": "gsm_map/mapextensiondatatypes_5.go",
-            "sha256": "924e366ca39c3bb1d0dca5c428c17c53fad00ec9ab32f29b71d2d96fe98775f9",
-            "size_bytes": 27768
+            "sha256": "b940524d9e970afa551e2c5c8415236c95186c6c5325546d2908e61e9a673e3c",
+            "size_bytes": 28678
           },
           {
             "path": "gsm_map/mapextensiondatatypes_6.go",
-            "sha256": "18ecd7c401c857ff3bb0898066527283878658c6b61e2cd209d4b9c0f6ca6eea",
-            "size_bytes": 27768
+            "sha256": "9a966cfbe0f41992742885f6fb85565d3ddbd9e5c70b8582885ac558f88c7360",
+            "size_bytes": 28678
           },
           {
             "path": "gsm_map/mapgrdatatypes.go",
-            "sha256": "9e4deb1a0014e372b305c4c123d4d9ad4a18f6f5f0db903f3ae1c5496ec03b35",
-            "size_bytes": 130183
+            "sha256": "cdc0e0a9b54d1d0187597fd08d0cc033e1a09690bf5f57c9ad19d987ad933767",
+            "size_bytes": 132101
           },
           {
             "path": "gsm_map/mapgroupcalloperations.go",
@@ -1336,13 +1336,13 @@
           },
           {
             "path": "gsm_map/maplcsdatatypes.go",
-            "sha256": "0d95c437c819efac1917dfc7f0b42e54d7bcfc39a9edd25b59ccf196e69cd2b3",
-            "size_bytes": 361199
+            "sha256": "f810b3929e0363ce0d55e38aba1ca4829dae5eda3280348fee656e72fb5b261c",
+            "size_bytes": 366457
           },
           {
             "path": "gsm_map/maplcsdatatypes_2.go",
-            "sha256": "51b64d09be7129aa9f947090ffb98dc5a56b33943fed910d9679bf206b55627a",
-            "size_bytes": 364403
+            "sha256": "b43013616ab3b4416518cbf41e0a1af087e73290d985ee4676b87c817090ad94",
+            "size_bytes": 369661
           },
           {
             "path": "gsm_map/maplocationserviceoperations.go",
@@ -1356,53 +1356,53 @@
           },
           {
             "path": "gsm_map/mapmsdatatypes.go",
-            "sha256": "4cca178713e8729a73a1703765d875be69f26193330bc778d65c517dde748ca2",
-            "size_bytes": 2768548
+            "sha256": "4e0164942d1ff263c0872e6fd83b7557918ed8742be49a1e6e74009308a33f23",
+            "size_bytes": 2814536
           },
           {
             "path": "gsm_map/mapmsdatatypes_2.go",
-            "sha256": "0b947ed9644bce864ffbc311b0c7013079d03b553e316723fa4b272fc21ae775",
-            "size_bytes": 1908097
+            "sha256": "2e147e398d754d22105d6e7fe688458f9f5b6fb30e50fd789f0a5d8e12dfee49",
+            "size_bytes": 1943317
           },
           {
             "path": "gsm_map/mapmsdatatypes_3.go",
-            "sha256": "73a43d81fd97998359164325e5f5d531a0c5749c83aa93fa81d0bf7dee47b700",
-            "size_bytes": 2599410
+            "sha256": "13fd18fe9a7a0fba82a7b8494de09cc7179e101f07757cd63dc5a54e87c4f33b",
+            "size_bytes": 2643270
           },
           {
             "path": "gsm_map/mapmsdatatypes_4.go",
-            "sha256": "6424e907e81a184532808091032fa486f196e16becb01ab6d41ca749399c388e",
-            "size_bytes": 2778064
+            "sha256": "d31f02651a56005d01211c93f8d8ae61a149158941492c07b6bc1d46a7db08f6",
+            "size_bytes": 2824052
           },
           {
             "path": "gsm_map/mapmsdatatypes_5.go",
-            "sha256": "411dd79f52072ba3543add1e2bb79cec9257720f8a3326ba41b8ebf528af7ef2",
-            "size_bytes": 2458645
+            "sha256": "a4942f2aa8a44a2b65539f6f234dc6925d77feae2d20b83fca4ab3f5a4781afd",
+            "size_bytes": 2500914
           },
           {
             "path": "gsm_map/mapomdatatypes.go",
-            "sha256": "5950ddaaf4ddf4b9158b577e73fc8b64ebf6e3e4c70b0f916455ec9271152cec",
-            "size_bytes": 256738
+            "sha256": "53e95ad22319576d4077aeb0c06aeffbbeaf2226df1bf55e828e214c6d5a25e1",
+            "size_bytes": 260167
           },
           {
             "path": "gsm_map/mapomdatatypes_2.go",
-            "sha256": "cb42455bb18d2af648634676f9c1297e5838709da4ea2641cdfe3c68e27664d3",
-            "size_bytes": 116158
+            "sha256": "1f683553059ba808725d038f81149032d5aac858395d9716028323f0c88748ca",
+            "size_bytes": 117884
           },
           {
             "path": "gsm_map/mapomdatatypes_3.go",
-            "sha256": "009353f13d6f55df48b044a2227ce8099bd5fd0ad2328b87fec6b8bb89569230",
-            "size_bytes": 252672
+            "sha256": "f90cd493f20a91f18a48a0c0744262b795298fad8485efe72d17118547f925b7",
+            "size_bytes": 255948
           },
           {
             "path": "gsm_map/mapomdatatypes_4.go",
-            "sha256": "dc6072429b85bcfb647e4166b09b935fdbb683ad79ab21dc7bf7a055279be3b8",
-            "size_bytes": 257804
+            "sha256": "b18564ed5ea242588083ecd4d7a5b4fba2f4f92a727f87a747a34c45fe80831a",
+            "size_bytes": 261233
           },
           {
             "path": "gsm_map/mapomdatatypes_5.go",
-            "sha256": "856b96ffa6baef8d7c49f4345616991bebbbd879782278b8e9b689a2fab38c14",
-            "size_bytes": 198388
+            "sha256": "f3dc8cf6f6405909c25d664054ea743c130a5fcd92ebab49dbf1187d627b7e06",
+            "size_bytes": 201475
           },
           {
             "path": "gsm_map/mapoperationandmaintenanceoperations.go",
@@ -1421,18 +1421,18 @@
           },
           {
             "path": "gsm_map/mapsmdatatypes.go",
-            "sha256": "7f90efe645380e266155db9e3cefc383fa4aef22019588502887756a6b881089",
-            "size_bytes": 292005
+            "sha256": "65f7021a91275cd3289acbc4d8dd9d9d370053cc7d3cce588310306ce202f8c3",
+            "size_bytes": 296780
           },
           {
             "path": "gsm_map/mapsmdatatypes_2.go",
-            "sha256": "047c3571001fdec66500e623f0c44bf95cbaa055e28ae3b4fb937bb1989d2635",
-            "size_bytes": 212873
+            "sha256": "ad15925803d4b8753ae298e57fdd8398ebd1865d7aca3a646a865f9766bea172",
+            "size_bytes": 217018
           },
           {
             "path": "gsm_map/mapsmdatatypes_3.go",
-            "sha256": "196317faa52d6476c33aa1e7610bd95abebf76b2f2ac4a9055510e9be7babcee",
-            "size_bytes": 278890
+            "sha256": "4084ae770549a418f61899d20d67639e1d752150fc247ff22e4472895258e963",
+            "size_bytes": 283332
           },
           {
             "path": "gsm_map/mapsscode.go",
@@ -1466,33 +1466,33 @@
           },
           {
             "path": "gsm_map/mapssdatatypes.go",
-            "sha256": "454289149130a6c803bc6c36d9bd0b4acf319fd52c11793936616a214aac51cb",
-            "size_bytes": 194598
+            "sha256": "73b7683988d8f2b3e64752f8628ede2f52baea8f5759fd301b13c9504548636b",
+            "size_bytes": 199355
           },
           {
             "path": "gsm_map/mapssdatatypes_2.go",
-            "sha256": "e3e70993de8040e210c65d8f11d37bb36d3b660463df0490989f49c958fd7f08",
-            "size_bytes": 197896
+            "sha256": "63c98c475c2cc243a01bce0118437c5232779714bbdbc8ce40532f9036518b0a",
+            "size_bytes": 202653
           },
           {
             "path": "gsm_map/mapssdatatypes_3.go",
-            "sha256": "d738b392542472b0e2ed6177072332ad58851fceb15cf12fcf3b87431a907abd",
-            "size_bytes": 195471
+            "sha256": "db518f3342079622d2d300078a2d4ddf4080539f8b814c345133e68b1af0b829",
+            "size_bytes": 200228
           },
           {
             "path": "gsm_map/mapssdatatypes_4.go",
-            "sha256": "7134105776a76f1882280fcfab29a3969e51f05d834cb1d897cb55bb3ec7902b",
-            "size_bytes": 195471
+            "sha256": "aed1c4b1c377556b1411949ad3c5c8d45d7756c9339ab98eee611712ac00a132",
+            "size_bytes": 200228
           },
           {
             "path": "gsm_map/mapssdatatypes_5.go",
-            "sha256": "63be4900792dbaebbb13c5b0540f4934f34fc5ba262922c40a1132779d6e0921",
-            "size_bytes": 195471
+            "sha256": "814b663f60584f429dfe5da6399700b315aefc66f4c4b07334fda75e16dd4ef2",
+            "size_bytes": 200228
           },
           {
             "path": "gsm_map/mapssdatatypes_6.go",
-            "sha256": "e2cd65b0d83470ddfc3fcf09080d099a491f5263c7ade2afe5e5a51aef205b41",
-            "size_bytes": 195471
+            "sha256": "3bf197c1b9fa69c04e7c6d17c0fc33350814442e244d7eb900b3fdc9e7b7a425",
+            "size_bytes": 200228
           },
           {
             "path": "gsm_map/mapsupplementaryserviceoperations.go",
@@ -1536,33 +1536,33 @@
           },
           {
             "path": "gsm_map/nokiamapextensions.go",
-            "sha256": "5d3ebe93fac8afed4a5539d79cdd761a7cf38a052c0cbb97a296b9a573bca38a",
-            "size_bytes": 371825
+            "sha256": "2359606a1c3cd00b7f12772c116cee4c348545ce914313828994abab6f31a0c9",
+            "size_bytes": 379983
           },
           {
             "path": "gsm_map/remoteoperationsgenericrospdus.go",
-            "sha256": "d73534a1a7150e06c39be3b2f097133691f1c123d44fbeaf4e29bd6ccda09703",
-            "size_bytes": 84249
+            "sha256": "44e5c68af8467bd8666abd6d852ebe7b10e75ac6ac17c0983f3a20a9b0006603",
+            "size_bytes": 86224
           },
           {
             "path": "gsm_map/remoteoperationsinformationobjects.go",
-            "sha256": "954a628b8ed9e132b69b7b2a4dbde92e78e48e5686a671c9a6724b4f83878eea",
-            "size_bytes": 3179
+            "sha256": "b006ce28fee6edadf7fdf2dfd91093ef7807ea8bc82fa9b076916ee7e02ff270",
+            "size_bytes": 3318
           },
           {
             "path": "gsm_map/remoteoperationsusefuldefinitions.go",
-            "sha256": "9be728d32af7b307283d6e9ff929f44a7b9de0a7c1c1a22bc7810662dc2e0a12",
-            "size_bytes": 50065
+            "sha256": "2c06b8b2e7b15b682747abe52a290396e73052bbf74fc52ac8f5be3fb83a0912",
+            "size_bytes": 51583
           },
           {
             "path": "gsm_map/ssdatatypes.go",
-            "sha256": "0efc10341fa78913ada7431c589a98dcb10cceef7097b217d93f9581a3e96bc8",
-            "size_bytes": 712007
+            "sha256": "467697f0ce2b5995d47be0b2f324374e1ca1f2cec394b4271b0b9fb33ddef1de",
+            "size_bytes": 724286
           },
           {
             "path": "gsm_map/sserrors.go",
-            "sha256": "c44a93f169f5bb5128f4e49c7d2685484d9e0669cdf94f6d01035989539e0b81",
-            "size_bytes": 4247
+            "sha256": "4dfabe83e60fbaa3311a2cd8c6bcdf1aa8f57f983464234a7747946ab5b8cdd0",
+            "size_bytes": 4402
           },
           {
             "path": "gsm_map/ssoperations.go",
@@ -1722,7 +1722,7 @@
             ],
             "dir": "",
             "exit_code": 0,
-            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 26.6.2, build 25G83 (Darwin 25.6.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
           },
           {
             "name": "go",
@@ -1758,7 +1758,7 @@
               "-encoding",
               "ber",
               "-import-base",
-              "github.com/gomaja/asn1c-go/generated/gsm_map",
+              "github.com/gomaja/go-asn1/telecom/ss7/gsm_map",
               "-module-path",
               "github.com/gomaja/go-asn1",
               "-flat",
@@ -1777,7 +1777,7 @@
             ],
             "dir": "$WORK/gsm-map/generated",
             "exit_code": 0,
-            "stdout": "ok  \tgithub.com/gomaja/asn1c-go/generated/gsm_map/gsm_map\t\u003cduration\u003e\n"
+            "stdout": "ok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map/gsm_map\t\u003cduration\u003e\n"
           },
           {
             "name": "go",
@@ -1847,8 +1847,8 @@
             "generated_artifacts": [
               {
                 "path": "$WORK/gsm-map/generated-provider/gsm-map/send-routing-info-real-capture/main.go",
-                "sha256": "564ce7858745daea7d027e4063ba71f5cbd935c9908fe885bef325f5f3ac65ea",
-                "size_bytes": 1177
+                "sha256": "cdeefc05261a43569043e59f68692f86fd7fffb58060fc87f5b2445d1a83aa82",
+                "size_bytes": 1178
               },
               {
                 "path": "$WORK/gsm-map/generated-provider/gsm-map/send-routing-info-real-capture/output.json",
@@ -1869,7 +1869,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "3101ba2676aecce56d186e66557ebea55368972f",
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
           "dirty": false
         },
         "frontend": {
@@ -1878,17 +1878,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-          "size_bytes": 124189
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-          "size_bytes": 139720
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
         },
         "source_plan": {
           "path": "lte-rrc/source-plan.json",
-          "sha256": "4d91b17cf7e2ef57ccd3bc993742bd7a814c60d3e86b2bab05b3c99f0b79632e",
+          "sha256": "87ef3a45f3af120771c874e6c36b94814bef63db19f7c974fcb57a8a5710ae2a",
           "size_bytes": 584617
         },
         "sources": [
@@ -1987,7 +1987,7 @@
         ],
         "ir": {
           "path": "lte-rrc/resolved-schema.json",
-          "sha256": "f757435dd9fd94d518fda335303fa1a604f93e90558acea5969142ed7598eca7",
+          "sha256": "cec0e5277c7783022a248954fa9d00ab7cb0b8edd345e214c031b7275cd0da6f",
           "size_bytes": 5596445
         },
         "outputs": [
@@ -1997,44 +1997,49 @@
             "size_bytes": 8922
           },
           {
+            "path": "rrc/doc.go",
+            "sha256": "6e3a8a97e7572bbd0f4551b80e7203d358154a3adff2db74e53d6a86380e33f6",
+            "size_bytes": 756
+          },
+          {
             "path": "rrc/eutrainternodedefinitions.go",
-            "sha256": "922e59b8b6abd9ad6da9b6c5a23f352879e8c977ddcf412b9478a412ae404abd",
-            "size_bytes": 432855
+            "sha256": "0982178da4aa71d195badf2d0566cf97752ba43b5b7053367cd029c433ed744d",
+            "size_bytes": 461830
           },
           {
             "path": "rrc/eutrarrcdefinitions.go",
-            "sha256": "5725d3013833795c30277680af2522a5d43a842d89b4c1cd52d6960316cf0d4d",
-            "size_bytes": 14108180
+            "sha256": "1810e25b352799767ad1f23c03e86a0f996ab35687f54a02f8b09b3b2e141c9e",
+            "size_bytes": 15201802
           },
           {
             "path": "rrc/eutrasidelinkpreconf.go",
-            "sha256": "90139928708337b2ec8283d5a79b59a604a505179a4d6d7a5e9d6bc33631880f",
-            "size_bytes": 187319
+            "sha256": "65e5ee4a49528e5194ed301d76caec1b9ba7e86b5780c3efc3c571e002f5e14c",
+            "size_bytes": 205248
           },
           {
             "path": "rrc/eutrauevariables.go",
-            "sha256": "c1d7aa7dfb0cda5460e4ddf7803c70086b7daf0df507874cd3a23f175137a50b",
-            "size_bytes": 153235
+            "sha256": "09e814ec551c6951943b6485719a9509b6b05af0053e618c1a5d8e705108819c",
+            "size_bytes": 161242
           },
           {
             "path": "rrc/nbiotinternodedefinitions.go",
-            "sha256": "17184e319939cd8013962cdf505b8d81d32b037c852f7f209db7f173525a4e5c",
-            "size_bytes": 109061
+            "sha256": "19568b67eca2272c3c36971c7b441731d0ff1b6ac9ba960dc5712d49089d36f0",
+            "size_bytes": 115219
           },
           {
             "path": "rrc/nbiotrrcdefinitions.go",
-            "sha256": "e7d23e3a5ed83f1a3e5465a7ee05143081a179aaac9437ba2ad1e145c38168c7",
-            "size_bytes": 2437590
+            "sha256": "0ee871456f667e2f5992f9130d094e2a9da73f9c4c0c49f3b35068e0bf1f5971",
+            "size_bytes": 2610339
           },
           {
             "path": "rrc/nbiotuevariables.go",
-            "sha256": "4e877e686f8475619263eb11f8ff5f5b13997dc5cb23194c99880ceab5d0459c",
-            "size_bytes": 15242
+            "sha256": "7c281ece8a3448beecf5db60bbc7e5fc7a73cef2f4e4faf31524f0c740f6b588",
+            "size_bytes": 16443
           },
           {
             "path": "rrc/pc5rrcdefinitions.go",
-            "sha256": "d567254afc4743dcd7d4695004c09e3bbc478d88c2c20dd13d243cbce724a616",
-            "size_bytes": 10775
+            "sha256": "ae846d454a437c013b03e9711cd7d5d205e8ed5ee8386dcd679e0638535a7ec1",
+            "size_bytes": 11265
           },
           {
             "path": "rrc/per_helpers.go",
@@ -2078,6 +2083,7 @@
             "args": [
               "check",
               "$WORK/lte-rrc/generated/rrc/asn1_wire_vectors_test.go",
+              "$WORK/lte-rrc/generated/rrc/doc.go",
               "$WORK/lte-rrc/generated/rrc/eutrainternodedefinitions.go",
               "$WORK/lte-rrc/generated/rrc/eutrarrcdefinitions.go",
               "$WORK/lte-rrc/generated/rrc/eutrasidelinkpreconf.go",
@@ -2121,7 +2127,7 @@
             ],
             "dir": "",
             "exit_code": 0,
-            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 26.6.2, build 25G83 (Darwin 25.6.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
           },
           {
             "name": "go",
@@ -2157,7 +2163,7 @@
               "-encoding",
               "uper",
               "-import-base",
-              "github.com/gomaja/asn1c-go/generated/lte_rrc",
+              "github.com/gomaja/go-asn1/telecom/lte/rrc",
               "-module-path",
               "github.com/gomaja/go-asn1",
               "-flat",
@@ -2176,7 +2182,7 @@
             ],
             "dir": "$WORK/lte-rrc/generated",
             "exit_code": 0,
-            "stdout": "ok  \tgithub.com/gomaja/asn1c-go/generated/lte_rrc/rrc\t\u003cduration\u003e\n"
+            "stdout": "ok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc/rrc\t\u003cduration\u003e\n"
           },
           {
             "name": "go",
@@ -2246,13 +2252,362 @@
             "generated_artifacts": [
               {
                 "path": "$WORK/lte-rrc/generated-provider/lte-rrc/ul-dcch-measurement-report/main.go",
-                "sha256": "7f0e6f3ba0a0b5a0ddf2839a0b0de370b64a0e666e1b71425337d35c4f9f57cd",
-                "size_bytes": 1224
+                "sha256": "7f195f7fa7cd0326c6226276b61331c4c6de261e6951c79cc8403ec8bf0940d9",
+                "size_bytes": 1221
               },
               {
                 "path": "$WORK/lte-rrc/generated-provider/lte-rrc/ul-dcch-measurement-report/output.json",
                 "sha256": "67db0915ac4679837839b6bb86aa806810b4aa864569e6952fb736b417ec1d5b",
                 "size_bytes": 748
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "rrc",
+      "output": "telecom/umts/rrc",
+      "conformance": {
+        "entry_id": "rrc",
+        "status": "supported",
+        "encoding": "uper",
+        "version": 1,
+        "compiler": {
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
+          "dirty": false
+        },
+        "frontend": {
+          "name": "pycrate",
+          "version": "0.7.11"
+        },
+        "manifest": {
+          "path": "conformance/corpus.yaml",
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
+        },
+        "source_lock": {
+          "path": "conformance/source.lock.json",
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
+        },
+        "source_plan": {
+          "path": "rrc/source-plan.json",
+          "sha256": "bdf371bfe61290e20e15d554c7ab7a09a89d860e4cc59c9706b5b021f825261d",
+          "size_bytes": 929329
+        },
+        "sources": [
+          {
+            "collection": "rrc-25331-v19",
+            "path": "modules/Class-definitions.asn",
+            "mode": "0644",
+            "sha256": "d0c5475ddfc2d7187fbc1cf7b4a2a3de27adcab83174ea5f58e03047380346a0"
+          },
+          {
+            "collection": "rrc-25331-v19",
+            "path": "modules/Constant-definitions.asn",
+            "mode": "0644",
+            "sha256": "d934c3d4702efa6c1e9aad8d745656513ce7d8fd7ab9e10eea88ee5177131465"
+          },
+          {
+            "collection": "rrc-25331-v19",
+            "path": "modules/InformationElements.asn",
+            "mode": "0644",
+            "sha256": "ea748c86018f36eb3fc6d8c12e76f0e65c412585b8be69f602709f3f538392d0"
+          },
+          {
+            "collection": "rrc-25331-v19",
+            "path": "modules/Internode-definitions.asn",
+            "mode": "0644",
+            "sha256": "b9049302b71d8c5a2da97f2bf303264b8dff08551f79fd98c5b86206ee2a2f68"
+          },
+          {
+            "collection": "rrc-25331-v19",
+            "path": "modules/PDU-definitions.asn",
+            "mode": "0644",
+            "sha256": "c1a7eef09bb88d9a8835162c66c8957a1e2b1d2a8f690720e0bd4b1ad73935c5"
+          }
+        ],
+        "module_closure": [
+          {
+            "module": "Class-definitions",
+            "path": "rrc-25331-v19/modules/Class-definitions.asn"
+          },
+          {
+            "module": "Constant-definitions",
+            "path": "rrc-25331-v19/modules/Constant-definitions.asn"
+          },
+          {
+            "module": "InformationElements",
+            "path": "rrc-25331-v19/modules/InformationElements.asn"
+          },
+          {
+            "module": "Internode-definitions",
+            "path": "rrc-25331-v19/modules/Internode-definitions.asn"
+          },
+          {
+            "module": "PDU-definitions",
+            "path": "rrc-25331-v19/modules/PDU-definitions.asn"
+          }
+        ],
+        "ir": {
+          "path": "rrc/resolved-schema.json",
+          "sha256": "925a4ee3d0fa9bc100a4ecbd239639bee0f8100f10a619e4b882f584caa0ff34",
+          "size_bytes": 10933060
+        },
+        "outputs": [
+          {
+            "path": "rrc/asn1_wire_vectors_test.go",
+            "sha256": "a9f35ff8693e067b0804a11a7b93c22414346ca5b67694d6e70ab950a6e32c2a",
+            "size_bytes": 9051
+          },
+          {
+            "path": "rrc/classdefinitions.go",
+            "sha256": "eb715ab1011af5e4460f69cad538e6c0d8c869f778b284c9cb4b96140bdf5f59",
+            "size_bytes": 160662
+          },
+          {
+            "path": "rrc/constantdefinitions.go",
+            "sha256": "9c734c3566add01a5e7bc447173b6e9041b63cbbd4acd03cf0fc7b107be77728",
+            "size_bytes": 18067
+          },
+          {
+            "path": "rrc/doc.go",
+            "sha256": "6e3a8a97e7572bbd0f4551b80e7203d358154a3adff2db74e53d6a86380e33f6",
+            "size_bytes": 756
+          },
+          {
+            "path": "rrc/informationelements.go",
+            "sha256": "7b5a9e26aa48f9f8d503eeba0378832bd5b29313cbb9b801ab840745f2069bc7",
+            "size_bytes": 18017554
+          },
+          {
+            "path": "rrc/internodedefinitions.go",
+            "sha256": "e6f9869c09cd52ca9abcae796eb94e26f36eb4e2f691f34706ea69e28621bf77",
+            "size_bytes": 1840624
+          },
+          {
+            "path": "rrc/pdudefinitions.go",
+            "sha256": "355a682b099b436f7b29f02fc0e3d628d496db54e49c8e2fa15b59304f69c082",
+            "size_bytes": 11665277
+          },
+          {
+            "path": "rrc/per_helpers.go",
+            "sha256": "c0b1973f6c1a7c3d5dc142431caf9299c531ddbe537debbdbacacc429596c528",
+            "size_bytes": 101
+          }
+        ],
+        "standards": [
+          {
+            "authority": "3gpp",
+            "document": "3GPP TS 25.331 V19.0.1 (Release 19), clause 11",
+            "status": "current Release 19 publication verified 2026-09-27"
+          },
+          {
+            "authority": "itu-t",
+            "document": "ITU-T X.691 (02/2021), Unaligned Packed Encoding Rules",
+            "status": "in force verified 2026-09-27"
+          }
+        ],
+        "validation": [
+          {
+            "name": "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/decoder",
+            "args": null,
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0,
+            "stdout": "{\"decoded\":{\"PredefinedConfigStatusList\":{\"Choice\":1,\"Absent\":{}},\"UESecurityInformation\":{\"Choice\":1,\"Absent\":{}},\"UeCapabilityContainer\":{\"Choice\":1,\"Absent\":{}},\"V390NonCriticalExtensions\":{\"Choice\":2,\"Present\":{\"InterRATHandoverInfoV390ext\":{\"DlPhysChCapabilityFDDV380ext\":{}},\"V3a0NonCriticalExtensions\":{\"InterRATHandoverInfoV3a0ext\":{},\"LaterNonCriticalExtensions\":{\"InterRATHandoverInfoV3d0ext\":{},\"InterRATHandoverInfoR3AddExt\":{\"InterRATHandoverInfoV690ext1\":{}}}}}}},\"reencoded_hex\":\"194020\",\"consumed_bits\":22,\"input_bits\":24}\n"
+          },
+          {
+            "name": "/Users/marwanjadid/go/bin/golangci-lint",
+            "args": [
+              "run",
+              "--allow-serial-runners",
+              "./..."
+            ],
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0,
+            "stdout": "0 issues.\n"
+          },
+          {
+            "name": "/Users/marwanjadid/go/bin/gopls",
+            "args": [
+              "check",
+              "$WORK/rrc/generated/rrc/asn1_wire_vectors_test.go",
+              "$WORK/rrc/generated/rrc/classdefinitions.go",
+              "$WORK/rrc/generated/rrc/constantdefinitions.go",
+              "$WORK/rrc/generated/rrc/doc.go",
+              "$WORK/rrc/generated/rrc/informationelements.go",
+              "$WORK/rrc/generated/rrc/internodedefinitions.go",
+              "$WORK/rrc/generated/rrc/pdudefinitions.go",
+              "$WORK/rrc/generated/rrc/per_helpers.go"
+            ],
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "/Users/marwanjadid/go/bin/staticcheck",
+            "args": [
+              "./..."
+            ],
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "/opt/homebrew/bin/tshark",
+            "args": [
+              "-r",
+              "$WORK/rrc/wire-captures/capture-000.pcap",
+              "-T",
+              "json",
+              "-x"
+            ],
+            "dir": "",
+            "exit_code": 0,
+            "stdout": "[\n  {\n    \"_index\": \"packets-1970-01-01\",\n    \"_score\": null,\n    \"_source\": {\n      \"layers\": {\n        \"frame_raw\": [\n          \"000c00157272632e697261742e697261745f686f5f696e666f00000000194020\",\n          0,\n          32,\n          0,\n          1,\n          0\n        ],\n        \"frame\": {\n          \"frame.encap_type\": \"155\",\n          \"frame.time\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.time_utc\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.time_epoch\": \"1970-01-01T00:00:00.000001000Z\",\n          \"frame.offset_shift\": \"0.000000000\",\n          \"frame.time_relative\": \"0.000000000\",\n          \"frame.number\": \"1\",\n          \"frame.len\": \"32\",\n          \"frame.cap_len\": \"32\",\n          \"frame.marked\": \"0\",\n          \"frame.ignored\": \"0\",\n          \"frame.protocols\": \"exported_pdu:rrc\",\n          \"frame.encoding\": \"0\"\n        },\n        \"exported_pdu_raw\": [\n          \"000c00157272632e697261742e697261745f686f5f696e666f00000000\",\n          0,\n          29,\n          0,\n          1,\n          0\n        ],\n        \"exported_pdu\": {\n          \"exported_pdu.tag_raw\": [\n            \"000c00157272632e697261742e697261745f686f5f696e666f\",\n            0,\n            25,\n            0,\n            5,\n            0\n          ],\n          \"exported_pdu.tag\": \"12\",\n          \"exported_pdu.tag_tree\": {\n            \"exported_pdu.tag_len_raw\": [\n              \"0015\",\n              2,\n              2,\n              0,\n              5,\n              0\n            ],\n            \"exported_pdu.tag_len\": \"21\",\n            \"exported_pdu.prot_name_raw\": [\n              \"7272632e697261742e697261745f686f5f696e666f\",\n              4,\n              21,\n              0,\n              43,\n              0\n            ],\n            \"exported_pdu.prot_name\": \"rrc.irat.irat_ho_info\"\n          },\n          \"exported_pdu.tag_raw\": [\n            \"00000000\",\n            25,\n            4,\n            0,\n            5,\n            0\n          ],\n          \"exported_pdu.tag\": \"0\",\n          \"exported_pdu.tag_tree\": {\n            \"exported_pdu.tag_len_raw\": [\n              \"0000\",\n              27,\n              2,\n              0,\n              5,\n              0\n            ],\n            \"exported_pdu.tag_len\": \"0\"\n          },\n          \"exported_pdu.exported_pdu_raw\": [\n            \"194020\",\n            29,\n            3,\n            0,\n            30,\n            0\n          ],\n          \"exported_pdu.exported_pdu\": \"19:40:20\"\n        },\n        \"rrc_raw\": [\n          \"194020\",\n          29,\n          3,\n          0,\n          1,\n          0\n        ],\n        \"rrc\": \"Radio Resource Control (RRC) protocol\",\n        \"rrc_raw\": [\n          \"194020\",\n          29,\n          3,\n          0,\n          1,\n          0\n        ],\n        \"rrc\": \"Radio Resource Control (RRC) protocol\",\n        \"rrc.InterRATHandoverInfo_element_raw\": [\n          \"1940\",\n          29,\n          2,\n          0,\n          0,\n          0\n        ],\n        \"rrc.InterRATHandoverInfo_element\": {\n          \"per.choice_index_raw\": [\n            \"19\",\n            29,\n            1,\n            0,\n            7,\n            0\n          ],\n          \"per.choice_index\": \"0\",\n          \"rrc.predefinedConfigStatusList_raw\": [\n            \"19\",\n            29,\n            1,\n            0,\n            7,\n            0\n          ],\n          \"rrc.predefinedConfigStatusList\": \"0\",\n          \"rrc.predefinedConfigStatusList_tree\": {\n            \"rrc.absent_element\": \"\"\n          },\n          \"per.choice_index_raw\": [\n            \"19\",\n            29,\n            1,\n            0,\n            7,\n            0\n          ],\n          \"per.choice_index\": \"0\",\n          \"rrc.uE_SecurityInformation_raw\": [\n            \"19\",\n            29,\n            1,\n            0,\n            7,\n            0\n          ],\n          \"rrc.uE_SecurityInformation\": \"0\",\n          \"rrc.uE_SecurityInformation_tree\": {\n            \"rrc.absent_element\": \"\"\n          },\n          \"per.choice_index_raw\": [\n            \"19\",\n            29,\n            1,\n            0,\n            7,\n            0\n          ],\n          \"per.choice_index\": \"0\",\n          \"rrc.ue_CapabilityContainer_raw\": [\n            \"19\",\n            29,\n            1,\n            0,\n            7,\n            0\n          ],\n          \"rrc.ue_CapabilityContainer\": \"0\",\n          \"rrc.ue_CapabilityContainer_tree\": {\n            \"rrc.absent_element\": \"\"\n          },\n          \"per.choice_index_raw\": [\n            \"19\",\n            29,\n            1,\n            0,\n            7,\n            0\n          ],\n          \"per.choice_index\": \"1\",\n          \"rrc.v390NonCriticalExtensions_raw\": [\n            \"1940\",\n            29,\n            2,\n            0,\n            7,\n            0\n          ],\n          \"rrc.v390NonCriticalExtensions\": \"1\",\n          \"rrc.v390NonCriticalExtensions_tree\": {\n            \"rrc.present_element_raw\": [\n              \"1940\",\n              29,\n              2,\n              0,\n              0,\n              0\n            ],\n            \"rrc.present_element\": {\n              \"per.optional_field_bit_raw\": [\n                \"1\",\n                29,\n                1,\n                1,\n                2,\n                0\n              ],\n              \"per.optional_field_bit\": \"1\",\n              \"rrc.interRATHandoverInfo_v390ext_element_raw\": [\n                \"19\",\n                29,\n                1,\n                0,\n                0,\n                0\n              ],\n              \"rrc.interRATHandoverInfo_v390ext_element\": {\n                \"per.optional_field_bit_raw\": [\n                  \"0\",\n                  29,\n                  1,\n                  1,\n                  2,\n                  0\n                ],\n                \"per.optional_field_bit\": \"0\",\n                \"rrc.dl_PhysChCapabilityFDD_v380ext_element_raw\": [\n                  \"19\",\n                  29,\n                  1,\n                  0,\n                  0,\n                  0\n                ],\n                \"rrc.dl_PhysChCapabilityFDD_v380ext_element\": {\n                  \"per.optional_field_bit_raw\": [\n                    \"0\",\n                    29,\n                    1,\n                    1,\n                    2,\n                    0\n                  ],\n                  \"per.optional_field_bit\": \"0\"\n                }\n              },\n              \"rrc.v3a0NonCriticalExtensions_element_raw\": [\n                \"1940\",\n                29,\n                2,\n                0,\n                0,\n                0\n              ],\n              \"rrc.v3a0NonCriticalExtensions_element\": {\n                \"per.optional_field_bit_raw\": [\n                  \"1\",\n                  29,\n                  1,\n                  1,\n                  2,\n                  0\n                ],\n                \"per.optional_field_bit\": \"1\",\n                \"rrc.interRATHandoverInfo_v3a0ext_element_raw\": [\n                  \"40\",\n                  30,\n                  1,\n                  0,\n                  0,\n                  0\n                ],\n                \"rrc.interRATHandoverInfo_v3a0ext_element\": {\n                  \"per.optional_field_bit_raw\": [\n                    \"0\",\n                    30,\n                    1,\n                    1,\n                    2,\n                    0\n                  ],\n                  \"per.optional_field_bit\": \"0\"\n                },\n                \"rrc.laterNonCriticalExtensions_element_raw\": [\n                  \"40\",\n                  30,\n                  1,\n                  0,\n                  0,\n                  0\n                ],\n                \"rrc.laterNonCriticalExtensions_element\": {\n                  \"per.optional_field_bit_raw\": [\n                    \"1\",\n                    30,\n                    1,\n                    1,\n                    2,\n                    0\n                  ],\n                  \"per.optional_field_bit\": \"1\",\n                  \"per.optional_field_bit_raw\": [\n                    \"0\",\n                    30,\n                    1,\n                    1,\n                    2,\n                    0\n                  ],\n                  \"per.optional_field_bit\": \"0\",\n                  \"rrc.interRATHandoverInfo_v3d0ext_element_raw\": [\n                    \"40\",\n                    30,\n                    1,\n                    0,\n                    0,\n                    0\n                  ],\n                  \"rrc.interRATHandoverInfo_v3d0ext_element\": {\n                    \"per.optional_field_bit_raw\": [\n                      \"0\",\n                      30,\n                      1,\n                      1,\n                      2,\n                      0\n                    ],\n                    \"per.optional_field_bit\": \"0\"\n                  },\n                  \"per.bit_string_length_raw\": [\n                    \"40\",\n                    30,\n                    1,\n                    0,\n                    7,\n                    0\n                  ],\n                  \"per.bit_string_length\": \"2\",\n                  \"rrc.interRATHandoverInfo_r3_add_ext_raw\": [\n                    \"00\",\n                    0,\n                    1,\n                    0,\n                    30,\n                    1\n                  ],\n                  \"rrc.interRATHandoverInfo_r3_add_ext\": \"00\",\n                  \"rrc.interRATHandoverInfo_r3_add_ext_tree\": {\n                    \"rrc_raw\": [\n                      \"00\",\n                      0,\n                      1,\n                      0,\n                      1,\n                      1\n                    ],\n                    \"rrc\": \"Radio Resource Control (RRC) protocol\",\n                    \"rrc.InterRATHandoverInfo_r3_add_ext_IEs_element_raw\": [\n                      \"00\",\n                      0,\n                      1,\n                      0,\n                      0,\n                      1\n                    ],\n                    \"rrc.InterRATHandoverInfo_r3_add_ext_IEs_element\": {\n                      \"per.optional_field_bit_raw\": [\n                        \"0\",\n                        0,\n                        1,\n                        1,\n                        2,\n                        1\n                      ],\n                      \"per.optional_field_bit\": \"0\",\n                      \"rrc.interRATHandoverInfo_v690ext1_element_raw\": [\n                        \"00\",\n                        0,\n                        1,\n                        0,\n                        0,\n                        1\n                      ],\n                      \"rrc.interRATHandoverInfo_v690ext1_element\": {\n                        \"per.optional_field_bit_raw\": [\n                          \"0\",\n                          0,\n                          1,\n                          1,\n                          2,\n                          1\n                        ],\n                        \"per.optional_field_bit\": \"0\"\n                      }\n                    }\n                  }\n                }\n              }\n            }\n          }\n        }\n      }\n    }\n  }\n]\n"
+          },
+          {
+            "name": "/opt/homebrew/bin/tshark",
+            "args": [
+              "-v"
+            ],
+            "dir": "",
+            "exit_code": 0,
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+          },
+          {
+            "name": "go",
+            "args": [
+              "build",
+              "-trimpath",
+              "-buildvcs=false",
+              "-o",
+              "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/decoder",
+              "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/main.go"
+            ],
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "go",
+            "args": [
+              "build",
+              "./..."
+            ],
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "go",
+            "args": [
+              "run",
+              "./cmd/asn1c",
+              "-from-ir",
+              "$WORK/rrc/resolved-schema.json",
+              "-o",
+              "$WORK/rrc/generated",
+              "-encoding",
+              "uper",
+              "-import-base",
+              "github.com/gomaja/go-asn1/telecom/umts/rrc",
+              "-content-manifest",
+              "$COMPILER/conformance/corpus.yaml",
+              "-content-entry",
+              "rrc",
+              "-module-path",
+              "github.com/gomaja/go-asn1",
+              "-flat",
+              "rrc"
+            ],
+            "dir": "$COMPILER",
+            "exit_code": 0,
+            "stdout": "Generated Go code in $WORK/rrc/generated\n"
+          },
+          {
+            "name": "go",
+            "args": [
+              "test",
+              "./...",
+              "-count=1"
+            ],
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0,
+            "stdout": "ok  \tgithub.com/gomaja/go-asn1/telecom/umts/rrc/rrc\t\u003cduration\u003e\n"
+          },
+          {
+            "name": "go",
+            "args": [
+              "vet",
+              "./..."
+            ],
+            "dir": "$WORK/rrc/generated",
+            "exit_code": 0
+          },
+          {
+            "name": "python3",
+            "args": [
+              "extractor/extract.py",
+              "--source-plan",
+              "$WORK/rrc/source-plan.json",
+              "--source-base",
+              "$COMPILER",
+              "--manifest",
+              "$COMPILER/conformance/corpus.yaml",
+              "--source-lock",
+              "$COMPILER/conformance/source.lock.json",
+              "--entry",
+              "rrc",
+              "-o",
+              "$WORK/rrc/schema.json"
+            ],
+            "dir": "$COMPILER",
+            "exit_code": 0,
+            "stdout": "[proc] module Constant-definitions (oid: []): 195 ASN.1 assignments found\n[proc] module InformationElements (oid: []): 3646 ASN.1 assignments found\n[proc] module PDU-definitions (oid: []): 614 ASN.1 assignments found\n[proc] module Class-definitions (oid: []): 25 ASN.1 assignments found\n[proc] module Internode-definitions (oid: []): 159 ASN.1 assignments found\n--- compilation cycle ---\n--- compilation cycle ---\n--- verifications ---\n[proc] ASN.1 modules processed: ['Constant-definitions', 'InformationElements', 'PDU-definitions', 'Class-definitions', 'Internode-definitions']\n[proc] ASN.1 objects compiled: 4440 types, 0 sets, 194 values\n[proc] done\n",
+            "stderr": "IR written to $WORK/rrc/schema.json\n"
+          }
+        ],
+        "wire": [
+          {
+            "protocol": "rrc",
+            "capture": "$COMPILER/training_data/wire/rrc/inter-rat-handover-contained-r3/envelope/rrc/capture.pcap",
+            "capture_artifact": {
+              "path": "$COMPILER/training_data/wire/rrc/inter-rat-handover-contained-r3/envelope/rrc/capture.pcap",
+              "sha256": "1b1ab1dd7404aedd998799e727b7e9cfe5959092d3796e9d325edbbd1d042a4b",
+              "size_bytes": 72
+            },
+            "packets": 1,
+            "matched": 1,
+            "generated_commands": [
+              {
+                "name": "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/decoder",
+                "args": null,
+                "dir": "$WORK/rrc/generated",
+                "exit_code": 0,
+                "stdout": "{\"decoded\":{\"PredefinedConfigStatusList\":{\"Choice\":1,\"Absent\":{}},\"UESecurityInformation\":{\"Choice\":1,\"Absent\":{}},\"UeCapabilityContainer\":{\"Choice\":1,\"Absent\":{}},\"V390NonCriticalExtensions\":{\"Choice\":2,\"Present\":{\"InterRATHandoverInfoV390ext\":{\"DlPhysChCapabilityFDDV380ext\":{}},\"V3a0NonCriticalExtensions\":{\"InterRATHandoverInfoV3a0ext\":{},\"LaterNonCriticalExtensions\":{\"InterRATHandoverInfoV3d0ext\":{},\"InterRATHandoverInfoR3AddExt\":{\"InterRATHandoverInfoV690ext1\":{}}}}}}},\"reencoded_hex\":\"194020\",\"consumed_bits\":22,\"input_bits\":24}\n"
+              },
+              {
+                "name": "go",
+                "args": [
+                  "build",
+                  "-trimpath",
+                  "-buildvcs=false",
+                  "-o",
+                  "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/decoder",
+                  "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/main.go"
+                ],
+                "dir": "$WORK/rrc/generated",
+                "exit_code": 0
+              }
+            ],
+            "generated_artifacts": [
+              {
+                "path": "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/main.go",
+                "sha256": "4959f037920a8aa2c2e155af55e99b8227117796f553f24f891be135922fd16a",
+                "size_bytes": 1193
+              },
+              {
+                "path": "$WORK/rrc/generated-provider/rrc/inter-rat-handover-contained-r3/output.json",
+                "sha256": "1a3c3a48e857826561b0c87c485fb24e66780945e40b7907ce66fc20b868ce0a",
+                "size_bytes": 539
               }
             ]
           }
@@ -2268,7 +2623,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "3101ba2676aecce56d186e66557ebea55368972f",
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
           "dirty": false
         },
         "frontend": {
@@ -2277,17 +2632,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-          "size_bytes": 124189
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-          "size_bytes": 139720
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
         },
         "source_plan": {
           "path": "s1ap/source-plan.json",
-          "sha256": "60b4086aa0ca6cc03e98bdd37d3cad7b5f71659e3913f65460b0c1abf6dfe5a1",
+          "sha256": "9767211f26c991fbc630f6408e6bb1fc8585baa1b09b59c75f2a9648c22ce6b6",
           "size_bytes": 376279
         },
         "sources": [
@@ -2376,7 +2731,7 @@
         ],
         "ir": {
           "path": "s1ap/resolved-schema.json",
-          "sha256": "246818b13128b59813fe2f5652135469adffaa32679fe6b09c5aa5be4614febf",
+          "sha256": "616b33292293d3e3c2a38936ae1a922784ba4c547512a5f1709d4d529f2a7c2b",
           "size_bytes": 2208837
         },
         "outputs": [
@@ -2387,8 +2742,13 @@
           },
           {
             "path": "s1ap/dispatch.go",
-            "sha256": "f2301408ccb6320341a58b36367eed88866df9fe1a2dfe52290d02c23d9eabe9",
-            "size_bytes": 302825
+            "sha256": "901df9143d9e6efcf8e493f76aa76275f2b79d9953f8c71c9e846a243f44a6aa",
+            "size_bytes": 317109
+          },
+          {
+            "path": "s1ap/doc.go",
+            "sha256": "1464f1b230e816059708cd291745d4061f1f341321e8c00ebf35b6dbcd8023d4",
+            "size_bytes": 758
           },
           {
             "path": "s1ap/per_helpers.go",
@@ -2397,8 +2757,8 @@
           },
           {
             "path": "s1ap/s1apcommondatatypes.go",
-            "sha256": "8450a6e31360211111e46454bcf584b025f9eb5bf61ca230ae57fa8d5c2b061f",
-            "size_bytes": 4754
+            "sha256": "bfb1e65a12a0f70b476abc8f0947846df9550e6c01d528c315616bb52d22cf55",
+            "size_bytes": 4959
           },
           {
             "path": "s1ap/s1apconstants.go",
@@ -2407,28 +2767,28 @@
           },
           {
             "path": "s1ap/s1apcontainers.go",
-            "sha256": "cdbe89d575ae7a17b8d12e5e698d4f56ec8d1587c8e2c0faaa33736927498809",
-            "size_bytes": 29725
+            "sha256": "7ea859e37c28956acdd60b86b1deab52db21968a2116c4bc599a3917124aca5a",
+            "size_bytes": 34613
           },
           {
             "path": "s1ap/s1apies.go",
-            "sha256": "736eaa0256d525993ce57e83f7cbfcbe1790b321c04dcac7a65b49c43f5a68eb",
-            "size_bytes": 1360318
+            "sha256": "f40817e7a4a5c1d6b31e8656c794bbf7df116c2f8cc9370badb8e21e37090c23",
+            "size_bytes": 1443243
           },
           {
             "path": "s1ap/s1appducontents.go",
-            "sha256": "84ff8f44d5ea35fd806d3c1b5c6ce998630171f6901f4e9ec27a3f29656c9c13",
-            "size_bytes": 619021
+            "sha256": "722cb2cbf0a9b19f971fef72c5aeca593a5388c4a2a66a56f55b53baf360c459",
+            "size_bytes": 660599
           },
           {
             "path": "s1ap/s1appdudescriptions.go",
-            "sha256": "af4c2a0b95abe2140aac0097e3440aa5d5f82cb9a09075d83e10d8079fddc9d8",
-            "size_bytes": 12501
+            "sha256": "c0898ad43e0f2f8d6d31e8edc238ecbc034986e5aff7526600addb5e92d90e72",
+            "size_bytes": 13021
           },
           {
             "path": "s1ap/sontransferies.go",
-            "sha256": "e5f675ba921b01b49dee5b1c3a7c142956d882ac45a7b3c401a1833993cf8c07",
-            "size_bytes": 163996
+            "sha256": "cf6e9afaadadec65b2d416227555fb09e2d473bd6f522d0b5040d0a4dd65e39b",
+            "size_bytes": 176285
           }
         ],
         "standards": [
@@ -2468,6 +2828,7 @@
               "check",
               "$WORK/s1ap/generated/s1ap/asn1_wire_vectors_test.go",
               "$WORK/s1ap/generated/s1ap/dispatch.go",
+              "$WORK/s1ap/generated/s1ap/doc.go",
               "$WORK/s1ap/generated/s1ap/per_helpers.go",
               "$WORK/s1ap/generated/s1ap/s1apcommondatatypes.go",
               "$WORK/s1ap/generated/s1ap/s1apconstants.go",
@@ -2510,7 +2871,7 @@
             ],
             "dir": "",
             "exit_code": 0,
-            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 26.6.2, build 25G83 (Darwin 25.6.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
           },
           {
             "name": "go",
@@ -2546,7 +2907,7 @@
               "-encoding",
               "aper",
               "-import-base",
-              "github.com/gomaja/asn1c-go/generated/s1ap",
+              "github.com/gomaja/go-asn1/telecom/lte/s1ap",
               "-module-path",
               "github.com/gomaja/go-asn1",
               "-flat",
@@ -2565,7 +2926,7 @@
             ],
             "dir": "$WORK/s1ap/generated",
             "exit_code": 0,
-            "stdout": "ok  \tgithub.com/gomaja/asn1c-go/generated/s1ap/s1ap\t\u003cduration\u003e\n"
+            "stdout": "ok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap/s1ap\t\u003cduration\u003e\n"
           },
           {
             "name": "go",
@@ -2635,8 +2996,8 @@
             "generated_artifacts": [
               {
                 "path": "$WORK/s1ap/generated-provider/s1ap/ue-context-release-request-cause-nas/main.go",
-                "sha256": "5ed0dcd018df57f82a96b625c4ec82e5c2fb660b73ddf58c36d5f91aa8e11eb2",
-                "size_bytes": 1275
+                "sha256": "3095c956f4ed6ad20387c9bdba8bf85a7883c804c18a681ca13a102a57eace35",
+                "size_bytes": 1276
               },
               {
                 "path": "$WORK/s1ap/generated-provider/s1ap/ue-context-release-request-cause-nas/output.json",
@@ -2657,7 +3018,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "3101ba2676aecce56d186e66557ebea55368972f",
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
           "dirty": false
         },
         "frontend": {
@@ -2666,17 +3027,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-          "size_bytes": 124189
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-          "size_bytes": 139720
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
         },
         "source_plan": {
           "path": "sgp22/source-plan.json",
-          "sha256": "9325029fdc8daec7898b72d566d246ce8cc76ac3363134eaa7e814088cff9ff2",
+          "sha256": "43ad01ad218c3c513126fbd6413e21b4f4a38867cf880a52bd94cbedbb8fa142",
           "size_bytes": 68687
         },
         "sources": [
@@ -2759,7 +3120,7 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "4cada079ea097d9146d997906e7f2a5b501bdfbc8a6ffc65dfac44c6256a8904",
+          "sha256": "0f51985bb9958d72e8efa868edfecb1f76409e458734499c8b90a2912108830b",
           "size_bytes": 403623
         },
         "outputs": [
@@ -2775,18 +3136,18 @@
           },
           {
             "path": "sgp22/pkix1explicit88.go",
-            "sha256": "1b9eeea8c81e081db4e0656b1d711637994db49ab9ebc1cc02f8fa3f2cb40d13",
-            "size_bytes": 272233
+            "sha256": "e296318e8ad2bd1c40d2466bb6a14ab5c6739722df4daa3857729e91d462895f",
+            "size_bytes": 280319
           },
           {
             "path": "sgp22/pkix1implicit88.go",
-            "sha256": "dd0c4166671c32cf9122318db587b7fe75eab9898a127428135d0555046936d7",
-            "size_bytes": 148913
+            "sha256": "dfd6fdef311e72b00085a06f82b4cfd8130d93e3b8bfe6179ca493880d56dde5",
+            "size_bytes": 153530
           },
           {
             "path": "sgp22/rspdefinitions.go",
-            "sha256": "0cb3d0d287ff772f51d7f34dc99b8618849b84258d5fb09877a7e95c207416e2",
-            "size_bytes": 1067894
+            "sha256": "48ef6e2244bf038fb6c872c29be45f8b55dcd8214f1a23907e223c938dabe90d",
+            "size_bytes": 1089278
           }
         ],
         "standards": [
@@ -2871,7 +3232,7 @@
             ],
             "dir": "",
             "exit_code": 0,
-            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 26.6.2, build 25G83 (Darwin 25.6.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
           },
           {
             "name": "go",
@@ -2907,7 +3268,7 @@
               "-encoding",
               "ber",
               "-import-base",
-              "github.com/gomaja/asn1c-go/generated/esim",
+              "github.com/gomaja/go-asn1/telecom/esim",
               "-module-path",
               "github.com/gomaja/go-asn1",
               "-flat",
@@ -2926,7 +3287,7 @@
             ],
             "dir": "$WORK/sgp22/generated",
             "exit_code": 0,
-            "stdout": "ok  \tgithub.com/gomaja/asn1c-go/generated/esim/sgp22\t\u003cduration\u003e\n"
+            "stdout": "ok  \texample.invalid/asn1conf/release/sgp22/sgp22\t\u003cduration\u003e\n"
           },
           {
             "name": "go",
@@ -2996,8 +3357,8 @@
             "generated_artifacts": [
               {
                 "path": "$WORK/sgp22/generated-provider/sgp22/prepare-download-certificate/main.go",
-                "sha256": "ba52e1ed23b1849453b1e037c8e13f1259467b7b57afc1e4f36b2b28da24f4bd",
-                "size_bytes": 1840
+                "sha256": "44c9440d2be348083118cce19ce5be469ffff6beb5f1f5f8f10504f30df7d192",
+                "size_bytes": 1837
               },
               {
                 "path": "$WORK/sgp22/generated-provider/sgp22/prepare-download-certificate/output.json",
@@ -3018,7 +3379,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "3101ba2676aecce56d186e66557ebea55368972f",
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
           "dirty": false
         },
         "frontend": {
@@ -3027,17 +3388,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-          "size_bytes": 124189
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-          "size_bytes": 139720
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
         },
         "source_plan": {
           "path": "sgp32/source-plan.json",
-          "sha256": "3b1e1e92b8a66fa70bde3120415094071ce99e3ddb288a5b17e971911c95b8c2",
+          "sha256": "391c7e04e158ced4ff4a1e84bbf19a9776ad077b867abc73dcfd8419780cdd19",
           "size_bytes": 97863
         },
         "sources": [
@@ -3138,7 +3499,7 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "bd0ff0c4f570eb08ce9939e2464fbcbe3449242b633fe133eaaa67aaa30f1ec9",
+          "sha256": "2fdc977e0a9bf347ff7ad818e88c740fcd141da576556d26e219ae898161a8be",
           "size_bytes": 639153
         },
         "outputs": [
@@ -3154,23 +3515,23 @@
           },
           {
             "path": "sgp32/pkix1explicit88.go",
-            "sha256": "4e472033707dadd8695dd71ba0a069c08d1e02361547b224c91d856f108a5b38",
-            "size_bytes": 272233
+            "sha256": "d0032c0866a8cb977709c766fbf51da0a77e50b68b01fee1587c44e4bef7c9ce",
+            "size_bytes": 280319
           },
           {
             "path": "sgp32/pkix1implicit88.go",
-            "sha256": "6cb9d269c183fd468eec2879caefc990617c8b9379b72995e19835270ad0c35d",
-            "size_bytes": 148913
+            "sha256": "04b6f42c38998eb2daeafaebc8b1e8c9123b188e29e749970c4b758b4d035d0e",
+            "size_bytes": 153530
           },
           {
             "path": "sgp32/rspdefinitions.go",
-            "sha256": "432347e7db1ebcb7cc923fd51343f9b8cbeae9b953030d19f8830fecafd75843",
-            "size_bytes": 1067894
+            "sha256": "fe4476cd9f236a7560fcae699a6b09af126d229f326c0b746a4f2696885f0d12",
+            "size_bytes": 1089278
           },
           {
             "path": "sgp32/sgp32definitions.go",
-            "sha256": "ca9a0957ecee3809c17b7ac19edb23a740cbefaaabb822311f9ba8de57a9e650",
-            "size_bytes": 1433954
+            "sha256": "9207eeeb8073a753d969e8a4a35b586ce81dc6172685e60cc6de1f8b40d8d842",
+            "size_bytes": 1460209
           }
         ],
         "standards": [
@@ -3256,7 +3617,7 @@
             ],
             "dir": "",
             "exit_code": 0,
-            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 26.6.2, build 25G83 (Darwin 25.6.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
           },
           {
             "name": "go",
@@ -3292,7 +3653,7 @@
               "-encoding",
               "ber",
               "-import-base",
-              "github.com/gomaja/asn1c-go/generated/esim",
+              "github.com/gomaja/go-asn1/telecom/esim",
               "-module-path",
               "github.com/gomaja/go-asn1",
               "-flat",
@@ -3311,7 +3672,7 @@
             ],
             "dir": "$WORK/sgp32/generated",
             "exit_code": 0,
-            "stdout": "ok  \tgithub.com/gomaja/asn1c-go/generated/esim/sgp32\t\u003cduration\u003e\n"
+            "stdout": "ok  \texample.invalid/asn1conf/release/sgp32/sgp32\t\u003cduration\u003e\n"
           },
           {
             "name": "go",
@@ -3381,8 +3742,8 @@
             "generated_artifacts": [
               {
                 "path": "$WORK/sgp32/generated-provider/sgp32/get-certs-response-certificates/main.go",
-                "sha256": "6fe1f62033f7777d62d8d793f416edb818ef89dc083db1ac98496d53674fc916",
-                "size_bytes": 2182
+                "sha256": "6f709a93020169703a396b3b39d5ac6b4ce5fdece9e542e560d8f1afd8ec9ff2",
+                "size_bytes": 2179
               },
               {
                 "path": "$WORK/sgp32/generated-provider/sgp32/get-certs-response-certificates/output.json",
@@ -3403,7 +3764,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "3101ba2676aecce56d186e66557ebea55368972f",
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
           "dirty": false
         },
         "frontend": {
@@ -3412,17 +3773,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-          "size_bytes": 124189
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-          "size_bytes": 139720
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
         },
         "source_plan": {
           "path": "tcap/source-plan.json",
-          "sha256": "959a13db159cda4e22d8b2e45fad925b34057af029b4035ff44d89038cca14c1",
+          "sha256": "58cf0869629b1ab5bae0a65a458b52c9ac232712441f28e30e696b6e26b02363",
           "size_bytes": 25040
         },
         "sources": [
@@ -3501,44 +3862,44 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "37192c1844063f984e29aff8544a6e4ca852c70c735135464dd380f102da39e7",
+          "sha256": "54e1c5c414d413db4d13f727a09a3f741f0db8d2804450d7b572152470e61319",
           "size_bytes": 249883
         },
         "outputs": [
           {
             "path": "tcap/asn1_wire_vectors_test.go",
-            "sha256": "593571b8ca2089019a5adf8e614c8c4966c161f566b7340afb8c87c4d46fd707",
-            "size_bytes": 10948
+            "sha256": "14190ae048397748751b94122eefdb633895a303a64ec77b3a67bc8b9ef97ce8",
+            "size_bytes": 12540
           },
           {
             "path": "tcap/dialoguepdus.go",
-            "sha256": "a495a1036963b01fe4aed1b5e49c7d836b942cbc6da4abc2bee542229c73da95",
-            "size_bytes": 88202
+            "sha256": "13977e8e611fc2237a822052aaec2df12f749a7deac37320fd6da165e3924af6",
+            "size_bytes": 90855
           },
           {
             "path": "tcap/remoteoperationsgenericrospdus.go",
-            "sha256": "2ceb687a16d63bd2fd6c1c8ddb2b83ff946154acf75353f3284da09696522c15",
-            "size_bytes": 84246
+            "sha256": "30f04c6777a409090557e7145ab220d61e586c4073d9277b30894e8fabd09df7",
+            "size_bytes": 86221
           },
           {
             "path": "tcap/remoteoperationsinformationobjects.go",
-            "sha256": "8dd8618a3013a5e9be7cbe056d46267ff4eec476874a8719bc1ebf737e647cf8",
-            "size_bytes": 3176
+            "sha256": "3aadbc44c59471e1bf545ae337c660169a516242d94e452fde93efeb61116a5e",
+            "size_bytes": 3315
           },
           {
             "path": "tcap/remoteoperationsusefuldefinitions.go",
-            "sha256": "d6b33adad724c796079602047f1b75db3f7bac739da655bda359289d75871820",
-            "size_bytes": 50062
+            "sha256": "8fabd2f99ee638d1e82b42d447c35a719329bebb640f887a7c283bd4bf710a6b",
+            "size_bytes": 51580
           },
           {
             "path": "tcap/tcapmessages.go",
-            "sha256": "1c5a120164a86105d4b28fac0f6d245d69e36ba0d4b7ad85617d0c8ab36f7566",
-            "size_bytes": 64350
+            "sha256": "af382b35bb4bbe72eb43bf95a544d6fb513352b35963b042dc0c31a618098f69",
+            "size_bytes": 66764
           },
           {
             "path": "tcap/unidialoguepdus.go",
-            "sha256": "31be3f92340c7f023bb4fd5e7bb49432f2f4feb83b2e2c2a0230063ac0f2c366",
-            "size_bytes": 15077
+            "sha256": "3032ddaaa8ad4b479ba87bd60590269090ef7bdd777b5c489ad4354e1b47ae16",
+            "size_bytes": 15692
           }
         ],
         "standards": [
@@ -3617,7 +3978,7 @@
             ],
             "dir": "",
             "exit_code": 0,
-            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 26.6.2, build 25G83 (Darwin 25.6.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
           },
           {
             "name": "go",
@@ -3653,7 +4014,7 @@
               "-encoding",
               "ber",
               "-import-base",
-              "github.com/gomaja/asn1c-go/generated/tcap",
+              "github.com/gomaja/go-asn1/telecom/ss7/tcap",
               "-module-path",
               "github.com/gomaja/go-asn1",
               "-flat",
@@ -3672,7 +4033,7 @@
             ],
             "dir": "$WORK/tcap/generated",
             "exit_code": 0,
-            "stdout": "ok  \tgithub.com/gomaja/asn1c-go/generated/tcap/tcap\t\u003cduration\u003e\n"
+            "stdout": "ok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap/tcap\t\u003cduration\u003e\n"
           },
           {
             "name": "go",
@@ -3742,8 +4103,8 @@
             "generated_artifacts": [
               {
                 "path": "$WORK/tcap/generated-provider/tcap/end-return-result/main.go",
-                "sha256": "04e6f6ea007e7c9e378de409fac9c6f4cbea82d17d2f83f52eabf31e4f2828ae",
-                "size_bytes": 1160
+                "sha256": "9e918cc90b1c6a429a81d5e2c381bb636e4cd06370b023bd8510c749a340425e",
+                "size_bytes": 1161
               },
               {
                 "path": "$WORK/tcap/generated-provider/tcap/end-return-result/output.json",
@@ -3764,7 +4125,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "3101ba2676aecce56d186e66557ebea55368972f",
+          "commit": "8a0c431e020d64b0775d28eae493cbc36c25eb77",
           "dirty": false
         },
         "frontend": {
@@ -3773,17 +4134,17 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "f39d3aaf9034a65e8ec8536560b1c27cd478eb69c6410bbadf10687f65a1d129",
-          "size_bytes": 124189
+          "sha256": "19bb92ae5de81b3eedb6890b1f57ae6262f8cdd34c451db02aea367f66d65fd2",
+          "size_bytes": 126896
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
-          "sha256": "5e4fcd4c23124a8eb9cd7769ee79c749a71403f23ee1c7d43722b90f076d75a6",
-          "size_bytes": 139720
+          "sha256": "6a85cdba5c76e8a430e2c1ae8ad1b49afd8a4ca0647a5b48dd9c7585ddab5060",
+          "size_bytes": 140737
         },
         "source_plan": {
           "path": "x2ap/source-plan.json",
-          "sha256": "f12d555a31b040ff9dceb6fb34ef63deec596c47a25fc7fd19b75de450caeb70",
+          "sha256": "f1913ae635d8bd80d308097d42f0c9d153fb952a4d5ebc04c4ff39b8457af305",
           "size_bytes": 476621
         },
         "sources": [
@@ -3852,7 +4213,7 @@
         ],
         "ir": {
           "path": "x2ap/resolved-schema.json",
-          "sha256": "c3db3470cfe2d6da103e177715f03bc4d680f9a75f99327a54d2c63bb30437e2",
+          "sha256": "8895375bebedd07aefbd0d3781acaccd10253e93eda6ce080a8a4f458ac72d15",
           "size_bytes": 2925245
         },
         "outputs": [
@@ -3863,13 +4224,18 @@
           },
           {
             "path": "x2ap/asn1_wire_vectors_test.go",
-            "sha256": "0e5c15c3749e0304f69ab215ed34f45c3486baee9cda9ddecbf54ab1001e99d9",
-            "size_bytes": 25698
+            "sha256": "2a913866adb52248416019a80aaa833d28d5a3740802caf73006fcc7d2b3d80a",
+            "size_bytes": 25798
           },
           {
             "path": "x2ap/dispatch.go",
-            "sha256": "f98d6121dfa249bfa06f5b9833a76a7cbe7d6ad6abc2d2df7da5e4d6d1789e61",
-            "size_bytes": 390912
+            "sha256": "68d24fe5a0abef5d6b4792c92a1570d81ba21effb634a856d0f9e58c7d17582b",
+            "size_bytes": 410279
+          },
+          {
+            "path": "x2ap/doc.go",
+            "sha256": "299b57d279821519ae79f9581c32816cf7d01dc50c5203552f8ae99f1e6f5592",
+            "size_bytes": 758
           },
           {
             "path": "x2ap/per_helpers.go",
@@ -3878,8 +4244,8 @@
           },
           {
             "path": "x2ap/x2apcommondatatypes.go",
-            "sha256": "000a626179eb915ec3c3c1886de6cab049029018738286668a69f033956587a8",
-            "size_bytes": 4946
+            "sha256": "cd1a29e0768852e16e1d4234263edc5d1088aedd2c7562553ebd64319491df0c",
+            "size_bytes": 5151
           },
           {
             "path": "x2ap/x2apconstants.go",
@@ -3888,23 +4254,23 @@
           },
           {
             "path": "x2ap/x2apcontainers.go",
-            "sha256": "77cecafb787fc529551ce4328ff9d3cc783f2251c110976df75927179d3121cb",
-            "size_bytes": 29742
+            "sha256": "f945e546776a56cf81f4220217d9ee3d1e2b389aac60350c8d0697a1460db994",
+            "size_bytes": 34639
           },
           {
             "path": "x2ap/x2apies.go",
-            "sha256": "f40283ff952add96813d2716170b8fa383e9cf97501c0f82137b0a2e95ad8af6",
-            "size_bytes": 1678663
+            "sha256": "712d6e446954b48b99bc32f2c87652b9dc469d87bf4d6724dc36394c19962356",
+            "size_bytes": 1783515
           },
           {
             "path": "x2ap/x2appducontents.go",
-            "sha256": "c86ad34dbf2381c4983fca4ad239c7a2bf4cc0a458a7a56d68558630b7767afc",
-            "size_bytes": 1566179
+            "sha256": "828615168f227607c4f9ccdd0175d6ccd39663b2bafd4f30c044341314ca0bd7",
+            "size_bytes": 1664456
           },
           {
             "path": "x2ap/x2appdudescriptions.go",
-            "sha256": "caafa737afc2190b1bb9bcd64b46d889d36e47ddacdbb7f2ed8e32f261325cfa",
-            "size_bytes": 12501
+            "sha256": "71f85586c8ba4c181d66c5453e144a3d6ca28d29807bf45f67705111e100f765",
+            "size_bytes": 13021
           }
         ],
         "standards": [
@@ -3925,7 +4291,7 @@
             "args": null,
             "dir": "$WORK/x2ap/generated",
             "exit_code": 0,
-            "stdout": "{\"decoded\":{\"Value\":{\"ProtocolIEs\":[{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"}]},\"ProtocolIEs\":[{\"Path\":\"HandoverRequest.ProtocolIEs[0]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},\"Value\":1,\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[1]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},\"Value\":{\"Choice\":1,\"RadioNetwork\":0},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[2]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},\"Value\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[3]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},\"Value\":{\"GUGroupID\":{\"PLMNIdentity\":\"IfNU\",\"MMEGroupID\":\"AAE=\"},\"MMECode\":\"AQ==\"},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[4]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},\"Value\":{\"MMEUES1APID\":1,\"UESecurityCapabilities\":{\"EncryptionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16},\"IntegrityProtectionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16}},\"ASSecurityInformation\":{\"KeyENodeBStar\":{\"Bytes\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\",\"BitLength\":256},\"NextHopChainingCount\":0},\"UEaggregateMaximumBitRate\":{\"UEaggregateMaximumBitRateDownlink\":1,\"UEaggregateMaximumBitRateUplink\":1},\"ERABsToBeSetupList\":[{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"}],\"RRCContext\":\"AAA=\"},\"Children\":[{\"Path\":\"HandoverRequest.ProtocolIEs[4].ERABsToBeSetupList[0]\",\"ObjectSet\":\"E-RABs-ToBeSetup-ItemIEs\",\"Field\":{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"},\"Value\":{\"ERABID\":5,\"ERABLevelQoSParameters\":{\"QCI\":6,\"AllocationAndRetentionPriority\":{\"PriorityLevel\":1,\"PreEmptionCapability\":0,\"PreEmptionVulnerability\":0}},\"DLForwarding\":0,\"ULGTPtunnelEndpoint\":{\"TransportLayerAddress\":{\"Bytes\":\"wAACAQ==\",\"BitLength\":32},\"GTPTEID\":\"AAAAAQ==\"}},\"Children\":null,\"Extensions\":null}],\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[5]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"},\"Value\":[{\"Choice\":1,\"EUTRANCell\":{\"GlobalCellID\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"CellType\":{\"CellSize\":0},\"TimeUEStayedInCell\":5}}],\"Children\":null,\"Extensions\":null}],\"ProtocolExtensions\":null},\"reencoded_hex\":\"0000007b000006000a00020001000540020000000b00080021f35412345670001700070021f354000101000e004100010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000000f400c000021f35412345670000005\",\"consumed_bits\":1016,\"input_bits\":1016}\n"
+            "stdout": "{\"decoded\":{\"Value\":{\"ProtocolIEs\":[{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"}]},\"ProtocolIEs\":[{\"Path\":\"HandoverRequest.ProtocolIEs[0]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},\"Value\":1,\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[1]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},\"Value\":{\"Choice\":1,\"RadioNetwork\":0},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[2]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},\"Value\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[3]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},\"Value\":{\"GUGroupID\":{\"PLMNIdentity\":\"IfNU\",\"MMEGroupID\":\"AAE=\"},\"MMECode\":\"AQ==\"},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[4]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},\"Value\":{\"MMEUES1APID\":1,\"UESecurityCapabilities\":{\"EncryptionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16},\"IntegrityProtectionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16}},\"ASSecurityInformation\":{\"KeyENodeBStar\":{\"Bytes\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\",\"BitLength\":256},\"NextHopChainingCount\":0},\"UEaggregateMaximumBitRate\":{\"UEaggregateMaximumBitRateDownlink\":1,\"UEaggregateMaximumBitRateUplink\":1},\"ERABsToBeSetupList\":[{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"}],\"RRCContext\":\"AAA=\"},\"Children\":[{\"Path\":\"HandoverRequest.ProtocolIEs[4].ERABsToBeSetupList[0]\",\"ObjectSet\":\"E-RABs-ToBeSetup-ItemIEs\",\"Field\":{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"},\"Value\":{\"ERABID\":5,\"ERABLevelQoSParameters\":{\"QCI\":6,\"AllocationAndRetentionPriority\":{\"PriorityLevel\":1,\"PreEmptionCapability\":0,\"PreEmptionVulnerability\":0}},\"DLForwarding\":0,\"ULGTPtunnelEndpoint\":{\"TransportLayerAddress\":{\"Bytes\":\"wAACAQ==\",\"BitLength\":32},\"GTPTEID\":\"AAAAAQ==\"}},\"Children\":null,\"Extensions\":null}],\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[5]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"},\"Value\":{\"Value\":[{\"Choice\":1,\"EUTRANCell\":{\"GlobalCellID\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"CellType\":{\"CellSize\":0},\"TimeUEStayedInCell\":5}}],\"PERPadding_\":{}},\"Children\":null,\"Extensions\":null}],\"ProtocolExtensions\":null},\"reencoded_hex\":\"0000007b000006000a00020001000540020000000b00080021f35412345670001700070021f354000101000e004100010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000000f400c000021f35412345670000005\",\"consumed_bits\":1016,\"input_bits\":1016}\n"
           },
           {
             "name": "/Users/marwanjadid/go/bin/golangci-lint",
@@ -3945,6 +4311,7 @@
               "$WORK/x2ap/generated/x2ap/asn1_contract_vectors_test.go",
               "$WORK/x2ap/generated/x2ap/asn1_wire_vectors_test.go",
               "$WORK/x2ap/generated/x2ap/dispatch.go",
+              "$WORK/x2ap/generated/x2ap/doc.go",
               "$WORK/x2ap/generated/x2ap/per_helpers.go",
               "$WORK/x2ap/generated/x2ap/x2apcommondatatypes.go",
               "$WORK/x2ap/generated/x2ap/x2apconstants.go",
@@ -3986,7 +4353,7 @@
             ],
             "dir": "",
             "exit_code": 0,
-            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 26.6.2, build 25G83 (Darwin 25.6.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
+            "stdout": "TShark (Wireshark) 4.6.8 (Git commit e677bf052328).\n\nCopyright 1998-2026 Gerald Combs \u003cgerald@wireshark.org\u003e and contributors.\nLicensed under the terms of the GNU General Public License (version 2 or later).\nThis is free software; see the file named COPYING in the distribution. There is\nNO WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\nCompile-time info:\n Bit width: 64-bit\n  Compiler: Clang 21.0.0 (clang-2100.1.1.101)\n      GLib: 2.88.3\n With:\n  +Gcrypt 1.12.2              +LZ4 1.10.0\n  +GnuTLS 3.8.13 and PKCS#11  +MaxMind\n  +Kerberos (MIT)             +nghttp2 1.70.0\n  +libpcap                    +nghttp3 1.18.0\n  +libsmi 0.5.0               +PCRE2 10.47 2025-10-21\n  +libxml2 2.9.13             +zlib 1.2.12\n  +Lua 5.5.1                  +Zstandard 1.5.7\n Without:\n  -brotli              -Snappy              -zlib-ng\n  -POSIX capabilities  -xxhash\n\nRuntime info:\n      OS: macOS 27.0, build 26A428 (Darwin 27.0.0)\n     CPU: Apple M3\n  Memory: 16384 MB of physical memory\n    GLib: 2.88.3\n  Locale: LC_TYPE=C.UTF-8\n Plugins: supported, 0 loaded\n With:\n  +c-ares 1.34.8           +libsmi 0.5.0            +PCRE2 10.47 2025-10-21\n  +Gcrypt 1.12.2           +LZ4 1.10.0              +zlib 1.2.12\n  +GnuTLS 3.8.13           +nghttp2 1.70.0          +Zstandard 1.5.7\n  +libpcap 1.10.1          +nghttp3 1.18.0\n"
           },
           {
             "name": "go",
@@ -4022,7 +4389,7 @@
               "-encoding",
               "aper",
               "-import-base",
-              "github.com/gomaja/asn1c-go/generated/x2ap",
+              "github.com/gomaja/go-asn1/telecom/lte/x2ap",
               "-module-path",
               "github.com/gomaja/go-asn1",
               "-flat",
@@ -4041,7 +4408,7 @@
             ],
             "dir": "$WORK/x2ap/generated",
             "exit_code": 0,
-            "stdout": "ok  \tgithub.com/gomaja/asn1c-go/generated/x2ap/x2ap\t\u003cduration\u003e\n"
+            "stdout": "ok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap/x2ap\t\u003cduration\u003e\n"
           },
           {
             "name": "go",
@@ -4092,7 +4459,7 @@
                 "args": null,
                 "dir": "$WORK/x2ap/generated",
                 "exit_code": 0,
-                "stdout": "{\"decoded\":{\"Value\":{\"ProtocolIEs\":[{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"}]},\"ProtocolIEs\":[{\"Path\":\"HandoverRequest.ProtocolIEs[0]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},\"Value\":1,\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[1]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},\"Value\":{\"Choice\":1,\"RadioNetwork\":0},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[2]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},\"Value\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[3]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},\"Value\":{\"GUGroupID\":{\"PLMNIdentity\":\"IfNU\",\"MMEGroupID\":\"AAE=\"},\"MMECode\":\"AQ==\"},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[4]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},\"Value\":{\"MMEUES1APID\":1,\"UESecurityCapabilities\":{\"EncryptionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16},\"IntegrityProtectionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16}},\"ASSecurityInformation\":{\"KeyENodeBStar\":{\"Bytes\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\",\"BitLength\":256},\"NextHopChainingCount\":0},\"UEaggregateMaximumBitRate\":{\"UEaggregateMaximumBitRateDownlink\":1,\"UEaggregateMaximumBitRateUplink\":1},\"ERABsToBeSetupList\":[{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"}],\"RRCContext\":\"AAA=\"},\"Children\":[{\"Path\":\"HandoverRequest.ProtocolIEs[4].ERABsToBeSetupList[0]\",\"ObjectSet\":\"E-RABs-ToBeSetup-ItemIEs\",\"Field\":{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"},\"Value\":{\"ERABID\":5,\"ERABLevelQoSParameters\":{\"QCI\":6,\"AllocationAndRetentionPriority\":{\"PriorityLevel\":1,\"PreEmptionCapability\":0,\"PreEmptionVulnerability\":0}},\"DLForwarding\":0,\"ULGTPtunnelEndpoint\":{\"TransportLayerAddress\":{\"Bytes\":\"wAACAQ==\",\"BitLength\":32},\"GTPTEID\":\"AAAAAQ==\"}},\"Children\":null,\"Extensions\":null}],\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[5]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"},\"Value\":[{\"Choice\":1,\"EUTRANCell\":{\"GlobalCellID\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"CellType\":{\"CellSize\":0},\"TimeUEStayedInCell\":5}}],\"Children\":null,\"Extensions\":null}],\"ProtocolExtensions\":null},\"reencoded_hex\":\"0000007b000006000a00020001000540020000000b00080021f35412345670001700070021f354000101000e004100010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000000f400c000021f35412345670000005\",\"consumed_bits\":1016,\"input_bits\":1016}\n"
+                "stdout": "{\"decoded\":{\"Value\":{\"ProtocolIEs\":[{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"}]},\"ProtocolIEs\":[{\"Path\":\"HandoverRequest.ProtocolIEs[0]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":10,\"Criticality\":0,\"Value\":\"0001\"},\"Value\":1,\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[1]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":5,\"Criticality\":1,\"Value\":\"0000\"},\"Value\":{\"Choice\":1,\"RadioNetwork\":0},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[2]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":11,\"Criticality\":0,\"Value\":\"0021f35412345670\"},\"Value\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[3]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":23,\"Criticality\":0,\"Value\":\"0021f354000101\"},\"Value\":{\"GUGroupID\":{\"PLMNIdentity\":\"IfNU\",\"MMEGroupID\":\"AAE=\"},\"MMECode\":\"AQ==\"},\"Children\":null,\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[4]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":14,\"Criticality\":0,\"Value\":\"00010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000\"},\"Value\":{\"MMEUES1APID\":1,\"UESecurityCapabilities\":{\"EncryptionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16},\"IntegrityProtectionAlgorithms\":{\"Bytes\":\"AAA=\",\"BitLength\":16}},\"ASSecurityInformation\":{\"KeyENodeBStar\":{\"Bytes\":\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\",\"BitLength\":256},\"NextHopChainingCount\":0},\"UEaggregateMaximumBitRate\":{\"UEaggregateMaximumBitRateDownlink\":1,\"UEaggregateMaximumBitRateUplink\":1},\"ERABsToBeSetupList\":[{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"}],\"RRCContext\":\"AAA=\"},\"Children\":[{\"Path\":\"HandoverRequest.ProtocolIEs[4].ERABsToBeSetupList[0]\",\"ObjectSet\":\"E-RABs-ToBeSetup-ItemIEs\",\"Field\":{\"Id\":4,\"Criticality\":1,\"Value\":\"4500060401f0c000020100000001\"},\"Value\":{\"ERABID\":5,\"ERABLevelQoSParameters\":{\"QCI\":6,\"AllocationAndRetentionPriority\":{\"PriorityLevel\":1,\"PreEmptionCapability\":0,\"PreEmptionVulnerability\":0}},\"DLForwarding\":0,\"ULGTPtunnelEndpoint\":{\"TransportLayerAddress\":{\"Bytes\":\"wAACAQ==\",\"BitLength\":32},\"GTPTEID\":\"AAAAAQ==\"}},\"Children\":null,\"Extensions\":null}],\"Extensions\":null},{\"Path\":\"HandoverRequest.ProtocolIEs[5]\",\"ObjectSet\":\"HandoverRequest-IEs\",\"Field\":{\"Id\":15,\"Criticality\":1,\"Value\":\"000021f35412345670000005\"},\"Value\":{\"Value\":[{\"Choice\":1,\"EUTRANCell\":{\"GlobalCellID\":{\"PLMNIdentity\":\"IfNU\",\"EUTRANcellIdentifier\":{\"Bytes\":\"EjRWcA==\",\"BitLength\":28}},\"CellType\":{\"CellSize\":0},\"TimeUEStayedInCell\":5}}],\"PERPadding_\":{}},\"Children\":null,\"Extensions\":null}],\"ProtocolExtensions\":null},\"reencoded_hex\":\"0000007b000006000a00020001000540020000000b00080021f35412345670001700070021f354000101000e004100010000000000000000000000000000000000000000000000000000000000000000000000000000010001000004400e4500060401f0c000020100000001020000000f400c000021f35412345670000005\",\"consumed_bits\":1016,\"input_bits\":1016}\n"
               },
               {
                 "name": "go",
@@ -4111,13 +4478,13 @@
             "generated_artifacts": [
               {
                 "path": "$WORK/x2ap/generated-provider/x2ap/handover-request-ue-history-recursive/main.go",
-                "sha256": "d3c5ade0d6cd72b0c68971b261e5da82004e77a951182d7261ad461cdec40aa2",
-                "size_bytes": 1481
+                "sha256": "57168c18d1a718f68e4b496d7e6c31a1a5c6db9ef719480f1a034bbf2df1ccce",
+                "size_bytes": 1482
               },
               {
                 "path": "$WORK/x2ap/generated-provider/x2ap/handover-request-ue-history-recursive/output.json",
-                "sha256": "67df385b9ca4a357ac759bb4907e20439ff00f774b44b90be6a41accc406a4fc",
-                "size_bytes": 3348
+                "sha256": "ab92da5d0435dd9673ddfb8ae3c7de44f8fc8ba27838319b9eb9c85a14722728",
+                "size_bytes": 3375
               }
             ]
           }
@@ -4126,13 +4493,13 @@
     }
   ],
   "outputs": {
-    "sha256": "44968e33519a1e012f326792ca5e67ab5f342bcf67f788c13af32197d4bf2f6e",
+    "sha256": "fb2935fae6b93d92e8c09b127416e3ac3e4c50f0f975f1cdd64c1cf2e7536013",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
         "mode": "0644",
-        "sha256": "70e7513681071a3159efeced42d3392a8c6db4d997784e75ae271f8f6c858ccb",
-        "size_bytes": 28478
+        "sha256": "aeca683bedf1305cae6428cbc9de750418059233dc05a11817e3e51bdd8ebe97",
+        "size_bytes": 35142
       },
       {
         "path": "runtime/ber/bigint_value_test.go",
@@ -4149,14 +4516,14 @@
       {
         "path": "runtime/ber/decoder.go",
         "mode": "0644",
-        "sha256": "c30e8fb14f47d807f520ae7da19bf67a54027be0f9d99db3f2833197c74635c4",
-        "size_bytes": 33975
+        "sha256": "5bc285dab7156d1ba7abdd92b5005b49fcefe3c1a5d9f915e5fb31e095d9f056",
+        "size_bytes": 47043
       },
       {
         "path": "runtime/ber/encoder.go",
         "mode": "0644",
-        "sha256": "04536dbc5d77f727c8a3b8eff7e459969090507991980e72a1fbf6202870107b",
-        "size_bytes": 19014
+        "sha256": "a91c59b2676a7e1fd890a146d773dd2f1392992cb52067f14d6f6f8628c1a7c1",
+        "size_bytes": 19130
       },
       {
         "path": "runtime/ber/errors.go",
@@ -4165,10 +4532,34 @@
         "size_bytes": 1155
       },
       {
+        "path": "runtime/ber/external.go",
+        "mode": "0644",
+        "sha256": "038e3904e54c486fe38670954e6dd53b4c4d46d452e19a3ed0a09063c99a3c8b",
+        "size_bytes": 7133
+      },
+      {
+        "path": "runtime/ber/external_limits_test.go",
+        "mode": "0644",
+        "sha256": "7d6df6c2ba8f16b5587348bdeab31c6bacccc6cb0fbdf7d230cbd95f74d005af",
+        "size_bytes": 3723
+      },
+      {
+        "path": "runtime/ber/external_test.go",
+        "mode": "0644",
+        "sha256": "57ae49212882add97d30daf3ee08dbb8f9465d3b30ba3634623c89f6536d8e0e",
+        "size_bytes": 3946
+      },
+      {
         "path": "runtime/ber/oid_checked_test.go",
         "mode": "0644",
         "sha256": "b6cf3bcceff1f177053a3e89a8e4060f2bf31a612473bcaeb0336f08b9521481",
         "size_bytes": 2777
+      },
+      {
+        "path": "runtime/ber/options.go",
+        "mode": "0644",
+        "sha256": "00a02acf30ae286e4a88e91961e9f76b07f50f8f925ed56a172d16b2f032e0ff",
+        "size_bytes": 2116
       },
       {
         "path": "runtime/ber/real_decimal_test.go",
@@ -4181,6 +4572,18 @@
         "mode": "0644",
         "sha256": "f0c841caeb2782f3be66a125f43dd504061cd4e36d27c9fb42ab0d48dd837c1c",
         "size_bytes": 5649
+      },
+      {
+        "path": "runtime/ber/work.go",
+        "mode": "0644",
+        "sha256": "2cd1078b57b7f4ee4ab4cf93c734ab52d74b26fcaccb9ad204da168775cb89ac",
+        "size_bytes": 2322
+      },
+      {
+        "path": "runtime/ber/work_limit_test.go",
+        "mode": "0644",
+        "sha256": "d412db5ee4d7ddea70886c5b8dfa5e4a0b765bf512e49360f7d9ab02ee74e944",
+        "size_bytes": 3584
       },
       {
         "path": "runtime/constraint/constraint.go",
@@ -4201,6 +4604,12 @@
         "size_bytes": 1335
       },
       {
+        "path": "runtime/external.go",
+        "mode": "0644",
+        "sha256": "30c320805abfbabc5605181371d886a20f062a8ffce7ceeda926555f09fdee8e",
+        "size_bytes": 1845
+      },
+      {
         "path": "runtime/integer_value.go",
         "mode": "0644",
         "sha256": "4c52e0dad85279bf655e87f46d73260c4dc7c887996b42a142b888094416cc7d",
@@ -4215,14 +4624,20 @@
       {
         "path": "runtime/per/aper.go",
         "mode": "0644",
-        "sha256": "5493c227863d9503692dfef3484b1f7bf6ed1394a14407b2cc1bdfd0cf1eb140",
-        "size_bytes": 22022
+        "sha256": "be720d6efc3aa3763f0f21cecb87fd29fd96bf5b154273f67f9918c11b867276",
+        "size_bytes": 22067
       },
       {
         "path": "runtime/per/bitbuffer.go",
         "mode": "0644",
-        "sha256": "b38f71ba62d7aac9b08e1d9d789894e1f38ff4d0baaf6b2af0ae08721631131e",
-        "size_bytes": 6988
+        "sha256": "c4800611d641555fb2b6f1dc3fb62e4bd24cecc7c2225a1b45a6e736c8461acb",
+        "size_bytes": 9233
+      },
+      {
+        "path": "runtime/per/bitbuffer_bounds_test.go",
+        "mode": "0644",
+        "sha256": "363c60cc78af332c50035d6c11ec65c1f35a1b5907a59a549e683b8394d586f8",
+        "size_bytes": 697
       },
       {
         "path": "runtime/per/complete_encoding_test.go",
@@ -4267,6 +4682,12 @@
         "size_bytes": 13857
       },
       {
+        "path": "runtime/per/integer_int64_boundary_test.go",
+        "mode": "0644",
+        "sha256": "1c5cf38f69e559e0534bba42d892b59b5f9e2d506a494ed34604381b01a09c0d",
+        "size_bytes": 3915
+      },
+      {
         "path": "runtime/per/integer_set.go",
         "mode": "0644",
         "sha256": "21193b5f30c74bfe4bac2e73153b9b0d9b5cce7268dfe73c81e257a5f18b921e",
@@ -4297,10 +4718,28 @@
         "size_bytes": 2438
       },
       {
+        "path": "runtime/per/padding_preserve_test.go",
+        "mode": "0644",
+        "sha256": "ed1afb46836c6fa1ebd8de4d6be6e5178d700fae6561e70d2753ee99c1f1e588",
+        "size_bytes": 2450
+      },
+      {
+        "path": "runtime/per/time.go",
+        "mode": "0644",
+        "sha256": "87f65bd4c1df58a5d98305dae2e1d270d58786ee1e698a0bac8357a352467b43",
+        "size_bytes": 2304
+      },
+      {
+        "path": "runtime/per/time_test.go",
+        "mode": "0644",
+        "sha256": "fa08a1cae3c8bfba0498a4e6971c92ff51cae8e95497d2be91ed001aef82fe8b",
+        "size_bytes": 1668
+      },
+      {
         "path": "runtime/per/uper.go",
         "mode": "0644",
-        "sha256": "0d0350815f77cbd41943b3a71cb0918a0d5ec2073e9f8f9df1b25d6897f8f6bd",
-        "size_bytes": 29172
+        "sha256": "ee1a6cc1a8bab1d9a4197783fd4f705dea0c04025809b886aa3235e4bfc7a172",
+        "size_bytes": 29086
       },
       {
         "path": "runtime/per/uper_test.go",
@@ -4353,20 +4792,20 @@
       {
         "path": "telecom/esim/sgp22/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "1b9eeea8c81e081db4e0656b1d711637994db49ab9ebc1cc02f8fa3f2cb40d13",
-        "size_bytes": 272233
+        "sha256": "e296318e8ad2bd1c40d2466bb6a14ab5c6739722df4daa3857729e91d462895f",
+        "size_bytes": 280319
       },
       {
         "path": "telecom/esim/sgp22/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "dd0c4166671c32cf9122318db587b7fe75eab9898a127428135d0555046936d7",
-        "size_bytes": 148913
+        "sha256": "dfd6fdef311e72b00085a06f82b4cfd8130d93e3b8bfe6179ca493880d56dde5",
+        "size_bytes": 153530
       },
       {
         "path": "telecom/esim/sgp22/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "0cb3d0d287ff772f51d7f34dc99b8618849b84258d5fb09877a7e95c207416e2",
-        "size_bytes": 1067894
+        "sha256": "48ef6e2244bf038fb6c872c29be45f8b55dcd8214f1a23907e223c938dabe90d",
+        "size_bytes": 1089278
       },
       {
         "path": "telecom/esim/sgp32/asn1_wire_vectors_test.go",
@@ -4383,26 +4822,26 @@
       {
         "path": "telecom/esim/sgp32/pkix1explicit88.go",
         "mode": "0644",
-        "sha256": "4e472033707dadd8695dd71ba0a069c08d1e02361547b224c91d856f108a5b38",
-        "size_bytes": 272233
+        "sha256": "d0032c0866a8cb977709c766fbf51da0a77e50b68b01fee1587c44e4bef7c9ce",
+        "size_bytes": 280319
       },
       {
         "path": "telecom/esim/sgp32/pkix1implicit88.go",
         "mode": "0644",
-        "sha256": "6cb9d269c183fd468eec2879caefc990617c8b9379b72995e19835270ad0c35d",
-        "size_bytes": 148913
+        "sha256": "04b6f42c38998eb2daeafaebc8b1e8c9123b188e29e749970c4b758b4d035d0e",
+        "size_bytes": 153530
       },
       {
         "path": "telecom/esim/sgp32/rspdefinitions.go",
         "mode": "0644",
-        "sha256": "432347e7db1ebcb7cc923fd51343f9b8cbeae9b953030d19f8830fecafd75843",
-        "size_bytes": 1067894
+        "sha256": "fe4476cd9f236a7560fcae699a6b09af126d229f326c0b746a4f2696885f0d12",
+        "size_bytes": 1089278
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions.go",
         "mode": "0644",
-        "sha256": "ca9a0957ecee3809c17b7ac19edb23a740cbefaaabb822311f9ba8de57a9e650",
-        "size_bytes": 1433954
+        "sha256": "9207eeeb8073a753d969e8a4a35b586ce81dc6172685e60cc6de1f8b40d8d842",
+        "size_bytes": 1460209
       },
       {
         "path": "telecom/esim/sgp32/sgp32definitions_test.go",
@@ -4417,46 +4856,52 @@
         "size_bytes": 8922
       },
       {
+        "path": "telecom/lte/rrc/doc.go",
+        "mode": "0644",
+        "sha256": "6e3a8a97e7572bbd0f4551b80e7203d358154a3adff2db74e53d6a86380e33f6",
+        "size_bytes": 756
+      },
+      {
         "path": "telecom/lte/rrc/eutrainternodedefinitions.go",
         "mode": "0644",
-        "sha256": "922e59b8b6abd9ad6da9b6c5a23f352879e8c977ddcf412b9478a412ae404abd",
-        "size_bytes": 432855
+        "sha256": "0982178da4aa71d195badf2d0566cf97752ba43b5b7053367cd029c433ed744d",
+        "size_bytes": 461830
       },
       {
         "path": "telecom/lte/rrc/eutrarrcdefinitions.go",
         "mode": "0644",
-        "sha256": "5725d3013833795c30277680af2522a5d43a842d89b4c1cd52d6960316cf0d4d",
-        "size_bytes": 14108180
+        "sha256": "1810e25b352799767ad1f23c03e86a0f996ab35687f54a02f8b09b3b2e141c9e",
+        "size_bytes": 15201802
       },
       {
         "path": "telecom/lte/rrc/eutrasidelinkpreconf.go",
         "mode": "0644",
-        "sha256": "90139928708337b2ec8283d5a79b59a604a505179a4d6d7a5e9d6bc33631880f",
-        "size_bytes": 187319
+        "sha256": "65e5ee4a49528e5194ed301d76caec1b9ba7e86b5780c3efc3c571e002f5e14c",
+        "size_bytes": 205248
       },
       {
         "path": "telecom/lte/rrc/eutrauevariables.go",
         "mode": "0644",
-        "sha256": "c1d7aa7dfb0cda5460e4ddf7803c70086b7daf0df507874cd3a23f175137a50b",
-        "size_bytes": 153235
+        "sha256": "09e814ec551c6951943b6485719a9509b6b05af0053e618c1a5d8e705108819c",
+        "size_bytes": 161242
       },
       {
         "path": "telecom/lte/rrc/nbiotinternodedefinitions.go",
         "mode": "0644",
-        "sha256": "17184e319939cd8013962cdf505b8d81d32b037c852f7f209db7f173525a4e5c",
-        "size_bytes": 109061
+        "sha256": "19568b67eca2272c3c36971c7b441731d0ff1b6ac9ba960dc5712d49089d36f0",
+        "size_bytes": 115219
       },
       {
         "path": "telecom/lte/rrc/nbiotrrcdefinitions.go",
         "mode": "0644",
-        "sha256": "e7d23e3a5ed83f1a3e5465a7ee05143081a179aaac9437ba2ad1e145c38168c7",
-        "size_bytes": 2437590
+        "sha256": "0ee871456f667e2f5992f9130d094e2a9da73f9c4c0c49f3b35068e0bf1f5971",
+        "size_bytes": 2610339
       },
       {
         "path": "telecom/lte/rrc/nbiotuevariables.go",
         "mode": "0644",
-        "sha256": "4e877e686f8475619263eb11f8ff5f5b13997dc5cb23194c99880ceab5d0459c",
-        "size_bytes": 15242
+        "sha256": "7c281ece8a3448beecf5db60bbc7e5fc7a73cef2f4e4faf31524f0c740f6b588",
+        "size_bytes": 16443
       },
       {
         "path": "telecom/lte/rrc/package_api_test.go",
@@ -4467,8 +4912,8 @@
       {
         "path": "telecom/lte/rrc/pc5rrcdefinitions.go",
         "mode": "0644",
-        "sha256": "d567254afc4743dcd7d4695004c09e3bbc478d88c2c20dd13d243cbce724a616",
-        "size_bytes": 10775
+        "sha256": "ae846d454a437c013b03e9711cd7d5d205e8ed5ee8386dcd679e0638535a7ec1",
+        "size_bytes": 11265
       },
       {
         "path": "telecom/lte/rrc/per_helpers.go",
@@ -4485,8 +4930,14 @@
       {
         "path": "telecom/lte/s1ap/dispatch.go",
         "mode": "0644",
-        "sha256": "f2301408ccb6320341a58b36367eed88866df9fe1a2dfe52290d02c23d9eabe9",
-        "size_bytes": 302825
+        "sha256": "901df9143d9e6efcf8e493f76aa76275f2b79d9953f8c71c9e846a243f44a6aa",
+        "size_bytes": 317109
+      },
+      {
+        "path": "telecom/lte/s1ap/doc.go",
+        "mode": "0644",
+        "sha256": "1464f1b230e816059708cd291745d4061f1f341321e8c00ebf35b6dbcd8023d4",
+        "size_bytes": 758
       },
       {
         "path": "telecom/lte/s1ap/per_helpers.go",
@@ -4497,8 +4948,8 @@
       {
         "path": "telecom/lte/s1ap/s1apcommondatatypes.go",
         "mode": "0644",
-        "sha256": "8450a6e31360211111e46454bcf584b025f9eb5bf61ca230ae57fa8d5c2b061f",
-        "size_bytes": 4754
+        "sha256": "bfb1e65a12a0f70b476abc8f0947846df9550e6c01d528c315616bb52d22cf55",
+        "size_bytes": 4959
       },
       {
         "path": "telecom/lte/s1ap/s1apconstants.go",
@@ -4509,32 +4960,32 @@
       {
         "path": "telecom/lte/s1ap/s1apcontainers.go",
         "mode": "0644",
-        "sha256": "cdbe89d575ae7a17b8d12e5e698d4f56ec8d1587c8e2c0faaa33736927498809",
-        "size_bytes": 29725
+        "sha256": "7ea859e37c28956acdd60b86b1deab52db21968a2116c4bc599a3917124aca5a",
+        "size_bytes": 34613
       },
       {
         "path": "telecom/lte/s1ap/s1apies.go",
         "mode": "0644",
-        "sha256": "736eaa0256d525993ce57e83f7cbfcbe1790b321c04dcac7a65b49c43f5a68eb",
-        "size_bytes": 1360318
+        "sha256": "f40817e7a4a5c1d6b31e8656c794bbf7df116c2f8cc9370badb8e21e37090c23",
+        "size_bytes": 1443243
       },
       {
         "path": "telecom/lte/s1ap/s1appducontents.go",
         "mode": "0644",
-        "sha256": "84ff8f44d5ea35fd806d3c1b5c6ce998630171f6901f4e9ec27a3f29656c9c13",
-        "size_bytes": 619021
+        "sha256": "722cb2cbf0a9b19f971fef72c5aeca593a5388c4a2a66a56f55b53baf360c459",
+        "size_bytes": 660599
       },
       {
         "path": "telecom/lte/s1ap/s1appdudescriptions.go",
         "mode": "0644",
-        "sha256": "af4c2a0b95abe2140aac0097e3440aa5d5f82cb9a09075d83e10d8079fddc9d8",
-        "size_bytes": 12501
+        "sha256": "c0898ad43e0f2f8d6d31e8edc238ecbc034986e5aff7526600addb5e92d90e72",
+        "size_bytes": 13021
       },
       {
         "path": "telecom/lte/s1ap/sontransferies.go",
         "mode": "0644",
-        "sha256": "e5f675ba921b01b49dee5b1c3a7c142956d882ac45a7b3c401a1833993cf8c07",
-        "size_bytes": 163996
+        "sha256": "cf6e9afaadadec65b2d416227555fb09e2d473bd6f522d0b5040d0a4dd65e39b",
+        "size_bytes": 176285
       },
       {
         "path": "telecom/lte/x2ap/asn1_contract_vectors_test.go",
@@ -4545,14 +4996,20 @@
       {
         "path": "telecom/lte/x2ap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "0e5c15c3749e0304f69ab215ed34f45c3486baee9cda9ddecbf54ab1001e99d9",
-        "size_bytes": 25698
+        "sha256": "2a913866adb52248416019a80aaa833d28d5a3740802caf73006fcc7d2b3d80a",
+        "size_bytes": 25798
       },
       {
         "path": "telecom/lte/x2ap/dispatch.go",
         "mode": "0644",
-        "sha256": "f98d6121dfa249bfa06f5b9833a76a7cbe7d6ad6abc2d2df7da5e4d6d1789e61",
-        "size_bytes": 390912
+        "sha256": "68d24fe5a0abef5d6b4792c92a1570d81ba21effb634a856d0f9e58c7d17582b",
+        "size_bytes": 410279
+      },
+      {
+        "path": "telecom/lte/x2ap/doc.go",
+        "mode": "0644",
+        "sha256": "299b57d279821519ae79f9581c32816cf7d01dc50c5203552f8ae99f1e6f5592",
+        "size_bytes": 758
       },
       {
         "path": "telecom/lte/x2ap/per_helpers.go",
@@ -4563,8 +5020,8 @@
       {
         "path": "telecom/lte/x2ap/x2apcommondatatypes.go",
         "mode": "0644",
-        "sha256": "000a626179eb915ec3c3c1886de6cab049029018738286668a69f033956587a8",
-        "size_bytes": 4946
+        "sha256": "cd1a29e0768852e16e1d4234263edc5d1088aedd2c7562553ebd64319491df0c",
+        "size_bytes": 5151
       },
       {
         "path": "telecom/lte/x2ap/x2apconstants.go",
@@ -4575,26 +5032,26 @@
       {
         "path": "telecom/lte/x2ap/x2apcontainers.go",
         "mode": "0644",
-        "sha256": "77cecafb787fc529551ce4328ff9d3cc783f2251c110976df75927179d3121cb",
-        "size_bytes": 29742
+        "sha256": "f945e546776a56cf81f4220217d9ee3d1e2b389aac60350c8d0697a1460db994",
+        "size_bytes": 34639
       },
       {
         "path": "telecom/lte/x2ap/x2apies.go",
         "mode": "0644",
-        "sha256": "f40283ff952add96813d2716170b8fa383e9cf97501c0f82137b0a2e95ad8af6",
-        "size_bytes": 1678663
+        "sha256": "712d6e446954b48b99bc32f2c87652b9dc469d87bf4d6724dc36394c19962356",
+        "size_bytes": 1783515
       },
       {
         "path": "telecom/lte/x2ap/x2appducontents.go",
         "mode": "0644",
-        "sha256": "c86ad34dbf2381c4983fca4ad239c7a2bf4cc0a458a7a56d68558630b7767afc",
-        "size_bytes": 1566179
+        "sha256": "828615168f227607c4f9ccdd0175d6ccd39663b2bafd4f30c044341314ca0bd7",
+        "size_bytes": 1664456
       },
       {
         "path": "telecom/lte/x2ap/x2appdudescriptions.go",
         "mode": "0644",
-        "sha256": "caafa737afc2190b1bb9bcd64b46d889d36e47ddacdbb7f2ed8e32f261325cfa",
-        "size_bytes": 12501
+        "sha256": "71f85586c8ba4c181d66c5453e144a3d6ca28d29807bf45f67705111e100f765",
+        "size_bytes": 13021
       },
       {
         "path": "telecom/ss7/gsm_map/asn1_contract_vectors_test.go",
@@ -4611,14 +5068,14 @@
       {
         "path": "telecom/ss7/gsm_map/dummymap.go",
         "mode": "0644",
-        "sha256": "89f6cc1dfa1f6a89ac1d791f5f50ed620f02a4ad89a4afa806f0efa407a42759",
-        "size_bytes": 455341
+        "sha256": "a84c510e8b7f795c03f5bd37c1405e13db64c03056cc64b16febdd6534ea340f",
+        "size_bytes": 463197
       },
       {
         "path": "telecom/ss7/gsm_map/ericssonmap.go",
         "mode": "0644",
-        "sha256": "04439dc473eecbc4e4dc9a516f24b26470976c248eeb392bfc168c4b9f7315ab",
-        "size_bytes": 132680
+        "sha256": "6b682f6db4e426f27e7215f003e67b2575912293caaffb08e41221e2b3822db9",
+        "size_bytes": 137196
       },
       {
         "path": "telecom/ss7/gsm_map/mapapplicationcontexts.go",
@@ -4671,86 +5128,86 @@
       {
         "path": "telecom/ss7/gsm_map/mapchdatatypes.go",
         "mode": "0644",
-        "sha256": "1dd24fb5a5540291db4bdcfd07f3fb32d36d31d933a816c9f3ed5a60768a4ceb",
-        "size_bytes": 414913
+        "sha256": "f6dbd098a49a40229bc2e3785ec66cfa434d95ade365c3bc30f73175c32f63a8",
+        "size_bytes": 421062
       },
       {
         "path": "telecom/ss7/gsm_map/mapchdatatypes_2.go",
         "mode": "0644",
-        "sha256": "9b33900376bb7eb4d0809bba395dfc4645a16255f990ebb82ee5a5bc6e9ba69d",
-        "size_bytes": 400828
+        "sha256": "64e56b8778b1100294b22bd59cd7ad590364ff4c6848b170e44c53ed7b610da6",
+        "size_bytes": 406878
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes.go",
         "mode": "0644",
-        "sha256": "28bc7d055d057b611a63b85ce45c280ecad550c0aa95a3d213bef58c8d7e02ac",
-        "size_bytes": 93564
+        "sha256": "88e6935dcd1497359160bc630879f28d4b6d8c4d27b5c154a8f64a6a25ff638e",
+        "size_bytes": 96037
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_2.go",
         "mode": "0644",
-        "sha256": "8a4aefc3ce24bae5c7ed55324a84b76bbc5d9752b51ea83638e327ec03ab9906",
-        "size_bytes": 100202
+        "sha256": "4411b2c7e695db9ebd1fc4f3368c05eafbfbc786a3e10203b5134799df57901d",
+        "size_bytes": 102536
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_3.go",
         "mode": "0644",
-        "sha256": "b44731359677b960769c7b55334306312883f3a22ec8b84a35b21c541d10fc16",
-        "size_bytes": 94890
+        "sha256": "b03e2a405830dd04ba7a957a2c47fc25c2fcfb099e7252141072c63d5e0d826e",
+        "size_bytes": 97363
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_4.go",
         "mode": "0644",
-        "sha256": "8cf3a91e4ec99140774cbd4e09ccee64f60678dd840e552198fe7950f1b70f1e",
-        "size_bytes": 94262
+        "sha256": "ba483935b8177976114edea41741e94c75c12af02095c1f0b8106215115d8447",
+        "size_bytes": 96735
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_5.go",
         "mode": "0644",
-        "sha256": "3c45f97a5d27b54d8151fb8dfcb20b97a5f7e04ea07397be8fce6a67b02450f3",
-        "size_bytes": 89410
+        "sha256": "b5228b011fd0c13a32e634b65fd6c770e46f1796b50c4796ae01391f7a272229",
+        "size_bytes": 91744
       },
       {
         "path": "telecom/ss7/gsm_map/mapcommondatatypes_6.go",
         "mode": "0644",
-        "sha256": "672e262bb35bc0f39c8340d649b42c480462f737a5f2d6b70b30a234df432c97",
-        "size_bytes": 88625
+        "sha256": "c0c2465c706431c4990f6e9a43114914cbcc0351a9bf36544dd63d181f4ac297",
+        "size_bytes": 90959
       },
       {
         "path": "telecom/ss7/gsm_map/mapdialogueinformation.go",
         "mode": "0644",
-        "sha256": "eee27be95c94920b55d686b37c50f22ee322c0457b71163f9c35e9b845cc0578",
-        "size_bytes": 54533
+        "sha256": "254de2eee072c8f73a44250136ee51b72d06bd63af42ff4ec181240c3f29aa49",
+        "size_bytes": 55940
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes.go",
         "mode": "0644",
-        "sha256": "1e624fa86fe957e9c41f4a01e863c52382cd5eb4f3a3f0280e6d853e56d10d1e",
-        "size_bytes": 243824
+        "sha256": "f2ed9a19fe7a57027590da0f8b1db4b2ed962bf9f2eeffe309b5c18ae1d641c7",
+        "size_bytes": 251378
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_2.go",
         "mode": "0644",
-        "sha256": "902cbb97a6e0a473d4f95eb8ca7b32ab41ec5b0d4bc6cabf3c6c1b4807feb7b1",
-        "size_bytes": 236977
+        "sha256": "c5e6bcbabbc3fe1b2c1ef79103823cc34a900efbb5f06cb3493c2b4e031a7f92",
+        "size_bytes": 244477
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_3.go",
         "mode": "0644",
-        "sha256": "e60fcdefa98b81e8f4f3adfd59099c13cfa9e9b3bce27df7927533660d07a075",
-        "size_bytes": 245016
+        "sha256": "55d3710c79abd0df8e18a25172c7e39e32b7c29aafd78fd3f089766444b62b9f",
+        "size_bytes": 252570
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_4.go",
         "mode": "0644",
-        "sha256": "45b241abf7319216adb5d6f538aef62140342528836189172a7b54c088da6cd4",
-        "size_bytes": 240547
+        "sha256": "0df016fc41ca21dc45936d0f24cb0cfc5a945d92a6902a1e8b80c9aef6e29017",
+        "size_bytes": 248083
       },
       {
         "path": "telecom/ss7/gsm_map/maperdatatypes_5.go",
         "mode": "0644",
-        "sha256": "53a6dac3b765a69ff8a122bac529314934a93bcd95590b7a6bcb5a89c3ad0149",
-        "size_bytes": 234631
+        "sha256": "8e544feacf020b5a9335adf8ee38976806bf21c4136ab459a4e4a396c5c0d46d",
+        "size_bytes": 242140
       },
       {
         "path": "telecom/ss7/gsm_map/maperrors.go",
@@ -4767,44 +5224,44 @@
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes.go",
         "mode": "0644",
-        "sha256": "b641aa8699ce7e2f713336450f2dab76df10c221653ebc503282b91447d1ffe3",
-        "size_bytes": 27657
+        "sha256": "9d3963cc5c1524f516b58840b42218fb89e7177b21771ce4282a23c3d05e6ccb",
+        "size_bytes": 28567
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_2.go",
         "mode": "0644",
-        "sha256": "7868ba740c57427e595c8280c085ccd369a660cbabbea4c8ccdb3ee663ff0269",
-        "size_bytes": 29655
+        "sha256": "1b9c34be6805bcf3fd1d4a767297704ce37b0c4a74281cfbfeb8fab19347df18",
+        "size_bytes": 30565
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_3.go",
         "mode": "0644",
-        "sha256": "da21761e3c3bc91ca4dd758b0e0391734a19cdbae8bea66dd6022103928035df",
-        "size_bytes": 27768
+        "sha256": "51b1ae224a00c0b61eaefe9a79978ec5b60d8a463a59ed4f2b2967157592351c",
+        "size_bytes": 28678
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_4.go",
         "mode": "0644",
-        "sha256": "87feb37845292d65b46effb4ff04dc0951838269d0f9dec0fec9a0bc6c77deec",
-        "size_bytes": 27768
+        "sha256": "4a62b0d5ceb161602b6cb48d37955a68ebadc4205540e862a61b0c84c5328767",
+        "size_bytes": 28678
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_5.go",
         "mode": "0644",
-        "sha256": "924e366ca39c3bb1d0dca5c428c17c53fad00ec9ab32f29b71d2d96fe98775f9",
-        "size_bytes": 27768
+        "sha256": "b940524d9e970afa551e2c5c8415236c95186c6c5325546d2908e61e9a673e3c",
+        "size_bytes": 28678
       },
       {
         "path": "telecom/ss7/gsm_map/mapextensiondatatypes_6.go",
         "mode": "0644",
-        "sha256": "18ecd7c401c857ff3bb0898066527283878658c6b61e2cd209d4b9c0f6ca6eea",
-        "size_bytes": 27768
+        "sha256": "9a966cfbe0f41992742885f6fb85565d3ddbd9e5c70b8582885ac558f88c7360",
+        "size_bytes": 28678
       },
       {
         "path": "telecom/ss7/gsm_map/mapgrdatatypes.go",
         "mode": "0644",
-        "sha256": "9e4deb1a0014e372b305c4c123d4d9ad4a18f6f5f0db903f3ae1c5496ec03b35",
-        "size_bytes": 130183
+        "sha256": "cdc0e0a9b54d1d0187597fd08d0cc033e1a09690bf5f57c9ad19d987ad933767",
+        "size_bytes": 132101
       },
       {
         "path": "telecom/ss7/gsm_map/mapgroupcalloperations.go",
@@ -4815,14 +5272,14 @@
       {
         "path": "telecom/ss7/gsm_map/maplcsdatatypes.go",
         "mode": "0644",
-        "sha256": "0d95c437c819efac1917dfc7f0b42e54d7bcfc39a9edd25b59ccf196e69cd2b3",
-        "size_bytes": 361199
+        "sha256": "f810b3929e0363ce0d55e38aba1ca4829dae5eda3280348fee656e72fb5b261c",
+        "size_bytes": 366457
       },
       {
         "path": "telecom/ss7/gsm_map/maplcsdatatypes_2.go",
         "mode": "0644",
-        "sha256": "51b64d09be7129aa9f947090ffb98dc5a56b33943fed910d9679bf206b55627a",
-        "size_bytes": 364403
+        "sha256": "b43013616ab3b4416518cbf41e0a1af087e73290d985ee4676b87c817090ad94",
+        "size_bytes": 369661
       },
       {
         "path": "telecom/ss7/gsm_map/maplocationserviceoperations.go",
@@ -4839,62 +5296,62 @@
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes.go",
         "mode": "0644",
-        "sha256": "4cca178713e8729a73a1703765d875be69f26193330bc778d65c517dde748ca2",
-        "size_bytes": 2768548
+        "sha256": "4e0164942d1ff263c0872e6fd83b7557918ed8742be49a1e6e74009308a33f23",
+        "size_bytes": 2814536
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_2.go",
         "mode": "0644",
-        "sha256": "0b947ed9644bce864ffbc311b0c7013079d03b553e316723fa4b272fc21ae775",
-        "size_bytes": 1908097
+        "sha256": "2e147e398d754d22105d6e7fe688458f9f5b6fb30e50fd789f0a5d8e12dfee49",
+        "size_bytes": 1943317
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_3.go",
         "mode": "0644",
-        "sha256": "73a43d81fd97998359164325e5f5d531a0c5749c83aa93fa81d0bf7dee47b700",
-        "size_bytes": 2599410
+        "sha256": "13fd18fe9a7a0fba82a7b8494de09cc7179e101f07757cd63dc5a54e87c4f33b",
+        "size_bytes": 2643270
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_4.go",
         "mode": "0644",
-        "sha256": "6424e907e81a184532808091032fa486f196e16becb01ab6d41ca749399c388e",
-        "size_bytes": 2778064
+        "sha256": "d31f02651a56005d01211c93f8d8ae61a149158941492c07b6bc1d46a7db08f6",
+        "size_bytes": 2824052
       },
       {
         "path": "telecom/ss7/gsm_map/mapmsdatatypes_5.go",
         "mode": "0644",
-        "sha256": "411dd79f52072ba3543add1e2bb79cec9257720f8a3326ba41b8ebf528af7ef2",
-        "size_bytes": 2458645
+        "sha256": "a4942f2aa8a44a2b65539f6f234dc6925d77feae2d20b83fca4ab3f5a4781afd",
+        "size_bytes": 2500914
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes.go",
         "mode": "0644",
-        "sha256": "5950ddaaf4ddf4b9158b577e73fc8b64ebf6e3e4c70b0f916455ec9271152cec",
-        "size_bytes": 256738
+        "sha256": "53e95ad22319576d4077aeb0c06aeffbbeaf2226df1bf55e828e214c6d5a25e1",
+        "size_bytes": 260167
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_2.go",
         "mode": "0644",
-        "sha256": "cb42455bb18d2af648634676f9c1297e5838709da4ea2641cdfe3c68e27664d3",
-        "size_bytes": 116158
+        "sha256": "1f683553059ba808725d038f81149032d5aac858395d9716028323f0c88748ca",
+        "size_bytes": 117884
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_3.go",
         "mode": "0644",
-        "sha256": "009353f13d6f55df48b044a2227ce8099bd5fd0ad2328b87fec6b8bb89569230",
-        "size_bytes": 252672
+        "sha256": "f90cd493f20a91f18a48a0c0744262b795298fad8485efe72d17118547f925b7",
+        "size_bytes": 255948
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_4.go",
         "mode": "0644",
-        "sha256": "dc6072429b85bcfb647e4166b09b935fdbb683ad79ab21dc7bf7a055279be3b8",
-        "size_bytes": 257804
+        "sha256": "b18564ed5ea242588083ecd4d7a5b4fba2f4f92a727f87a747a34c45fe80831a",
+        "size_bytes": 261233
       },
       {
         "path": "telecom/ss7/gsm_map/mapomdatatypes_5.go",
         "mode": "0644",
-        "sha256": "856b96ffa6baef8d7c49f4345616991bebbbd879782278b8e9b689a2fab38c14",
-        "size_bytes": 198388
+        "sha256": "f3dc8cf6f6405909c25d664054ea743c130a5fcd92ebab49dbf1187d627b7e06",
+        "size_bytes": 201475
       },
       {
         "path": "telecom/ss7/gsm_map/mapoperationandmaintenanceoperations.go",
@@ -4917,20 +5374,20 @@
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes.go",
         "mode": "0644",
-        "sha256": "7f90efe645380e266155db9e3cefc383fa4aef22019588502887756a6b881089",
-        "size_bytes": 292005
+        "sha256": "65f7021a91275cd3289acbc4d8dd9d9d370053cc7d3cce588310306ce202f8c3",
+        "size_bytes": 296780
       },
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes_2.go",
         "mode": "0644",
-        "sha256": "047c3571001fdec66500e623f0c44bf95cbaa055e28ae3b4fb937bb1989d2635",
-        "size_bytes": 212873
+        "sha256": "ad15925803d4b8753ae298e57fdd8398ebd1865d7aca3a646a865f9766bea172",
+        "size_bytes": 217018
       },
       {
         "path": "telecom/ss7/gsm_map/mapsmdatatypes_3.go",
         "mode": "0644",
-        "sha256": "196317faa52d6476c33aa1e7610bd95abebf76b2f2ac4a9055510e9be7babcee",
-        "size_bytes": 278890
+        "sha256": "4084ae770549a418f61899d20d67639e1d752150fc247ff22e4472895258e963",
+        "size_bytes": 283332
       },
       {
         "path": "telecom/ss7/gsm_map/mapsscode.go",
@@ -4971,38 +5428,38 @@
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes.go",
         "mode": "0644",
-        "sha256": "454289149130a6c803bc6c36d9bd0b4acf319fd52c11793936616a214aac51cb",
-        "size_bytes": 194598
+        "sha256": "73b7683988d8f2b3e64752f8628ede2f52baea8f5759fd301b13c9504548636b",
+        "size_bytes": 199355
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_2.go",
         "mode": "0644",
-        "sha256": "e3e70993de8040e210c65d8f11d37bb36d3b660463df0490989f49c958fd7f08",
-        "size_bytes": 197896
+        "sha256": "63c98c475c2cc243a01bce0118437c5232779714bbdbc8ce40532f9036518b0a",
+        "size_bytes": 202653
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_3.go",
         "mode": "0644",
-        "sha256": "d738b392542472b0e2ed6177072332ad58851fceb15cf12fcf3b87431a907abd",
-        "size_bytes": 195471
+        "sha256": "db518f3342079622d2d300078a2d4ddf4080539f8b814c345133e68b1af0b829",
+        "size_bytes": 200228
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_4.go",
         "mode": "0644",
-        "sha256": "7134105776a76f1882280fcfab29a3969e51f05d834cb1d897cb55bb3ec7902b",
-        "size_bytes": 195471
+        "sha256": "aed1c4b1c377556b1411949ad3c5c8d45d7756c9339ab98eee611712ac00a132",
+        "size_bytes": 200228
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_5.go",
         "mode": "0644",
-        "sha256": "63be4900792dbaebbb13c5b0540f4934f34fc5ba262922c40a1132779d6e0921",
-        "size_bytes": 195471
+        "sha256": "814b663f60584f429dfe5da6399700b315aefc66f4c4b07334fda75e16dd4ef2",
+        "size_bytes": 200228
       },
       {
         "path": "telecom/ss7/gsm_map/mapssdatatypes_6.go",
         "mode": "0644",
-        "sha256": "e2cd65b0d83470ddfc3fcf09080d099a491f5263c7ade2afe5e5a51aef205b41",
-        "size_bytes": 195471
+        "sha256": "3bf197c1b9fa69c04e7c6d17c0fc33350814442e244d7eb900b3fdc9e7b7a425",
+        "size_bytes": 200228
       },
       {
         "path": "telecom/ss7/gsm_map/mapsupplementaryserviceoperations.go",
@@ -5055,38 +5512,38 @@
       {
         "path": "telecom/ss7/gsm_map/nokiamapextensions.go",
         "mode": "0644",
-        "sha256": "5d3ebe93fac8afed4a5539d79cdd761a7cf38a052c0cbb97a296b9a573bca38a",
-        "size_bytes": 371825
+        "sha256": "2359606a1c3cd00b7f12772c116cee4c348545ce914313828994abab6f31a0c9",
+        "size_bytes": 379983
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsgenericrospdus.go",
         "mode": "0644",
-        "sha256": "d73534a1a7150e06c39be3b2f097133691f1c123d44fbeaf4e29bd6ccda09703",
-        "size_bytes": 84249
+        "sha256": "44e5c68af8467bd8666abd6d852ebe7b10e75ac6ac17c0983f3a20a9b0006603",
+        "size_bytes": 86224
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsinformationobjects.go",
         "mode": "0644",
-        "sha256": "954a628b8ed9e132b69b7b2a4dbde92e78e48e5686a671c9a6724b4f83878eea",
-        "size_bytes": 3179
+        "sha256": "b006ce28fee6edadf7fdf2dfd91093ef7807ea8bc82fa9b076916ee7e02ff270",
+        "size_bytes": 3318
       },
       {
         "path": "telecom/ss7/gsm_map/remoteoperationsusefuldefinitions.go",
         "mode": "0644",
-        "sha256": "9be728d32af7b307283d6e9ff929f44a7b9de0a7c1c1a22bc7810662dc2e0a12",
-        "size_bytes": 50065
+        "sha256": "2c06b8b2e7b15b682747abe52a290396e73052bbf74fc52ac8f5be3fb83a0912",
+        "size_bytes": 51583
       },
       {
         "path": "telecom/ss7/gsm_map/ssdatatypes.go",
         "mode": "0644",
-        "sha256": "0efc10341fa78913ada7431c589a98dcb10cceef7097b217d93f9581a3e96bc8",
-        "size_bytes": 712007
+        "sha256": "467697f0ce2b5995d47be0b2f324374e1ca1f2cec394b4271b0b9fb33ddef1de",
+        "size_bytes": 724286
       },
       {
         "path": "telecom/ss7/gsm_map/sserrors.go",
         "mode": "0644",
-        "sha256": "c44a93f169f5bb5128f4e49c7d2685484d9e0669cdf94f6d01035989539e0b81",
-        "size_bytes": 4247
+        "sha256": "4dfabe83e60fbaa3311a2cd8c6bcdf1aa8f57f983464234a7747946ab5b8cdd0",
+        "size_bytes": 4402
       },
       {
         "path": "telecom/ss7/gsm_map/ssoperations.go",
@@ -5097,44 +5554,92 @@
       {
         "path": "telecom/ss7/tcap/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "593571b8ca2089019a5adf8e614c8c4966c161f566b7340afb8c87c4d46fd707",
-        "size_bytes": 10948
+        "sha256": "14190ae048397748751b94122eefdb633895a303a64ec77b3a67bc8b9ef97ce8",
+        "size_bytes": 12540
       },
       {
         "path": "telecom/ss7/tcap/dialoguepdus.go",
         "mode": "0644",
-        "sha256": "a495a1036963b01fe4aed1b5e49c7d836b942cbc6da4abc2bee542229c73da95",
-        "size_bytes": 88202
+        "sha256": "13977e8e611fc2237a822052aaec2df12f749a7deac37320fd6da165e3924af6",
+        "size_bytes": 90855
       },
       {
         "path": "telecom/ss7/tcap/remoteoperationsgenericrospdus.go",
         "mode": "0644",
-        "sha256": "2ceb687a16d63bd2fd6c1c8ddb2b83ff946154acf75353f3284da09696522c15",
-        "size_bytes": 84246
+        "sha256": "30f04c6777a409090557e7145ab220d61e586c4073d9277b30894e8fabd09df7",
+        "size_bytes": 86221
       },
       {
         "path": "telecom/ss7/tcap/remoteoperationsinformationobjects.go",
         "mode": "0644",
-        "sha256": "8dd8618a3013a5e9be7cbe056d46267ff4eec476874a8719bc1ebf737e647cf8",
-        "size_bytes": 3176
+        "sha256": "3aadbc44c59471e1bf545ae337c660169a516242d94e452fde93efeb61116a5e",
+        "size_bytes": 3315
       },
       {
         "path": "telecom/ss7/tcap/remoteoperationsusefuldefinitions.go",
         "mode": "0644",
-        "sha256": "d6b33adad724c796079602047f1b75db3f7bac739da655bda359289d75871820",
-        "size_bytes": 50062
+        "sha256": "8fabd2f99ee638d1e82b42d447c35a719329bebb640f887a7c283bd4bf710a6b",
+        "size_bytes": 51580
       },
       {
         "path": "telecom/ss7/tcap/tcapmessages.go",
         "mode": "0644",
-        "sha256": "1c5a120164a86105d4b28fac0f6d245d69e36ba0d4b7ad85617d0c8ab36f7566",
-        "size_bytes": 64350
+        "sha256": "af382b35bb4bbe72eb43bf95a544d6fb513352b35963b042dc0c31a618098f69",
+        "size_bytes": 66764
       },
       {
         "path": "telecom/ss7/tcap/unidialoguepdus.go",
         "mode": "0644",
-        "sha256": "31be3f92340c7f023bb4fd5e7bb49432f2f4feb83b2e2c2a0230063ac0f2c366",
-        "size_bytes": 15077
+        "sha256": "3032ddaaa8ad4b479ba87bd60590269090ef7bdd777b5c489ad4354e1b47ae16",
+        "size_bytes": 15692
+      },
+      {
+        "path": "telecom/umts/rrc/asn1_wire_vectors_test.go",
+        "mode": "0644",
+        "sha256": "a9f35ff8693e067b0804a11a7b93c22414346ca5b67694d6e70ab950a6e32c2a",
+        "size_bytes": 9051
+      },
+      {
+        "path": "telecom/umts/rrc/classdefinitions.go",
+        "mode": "0644",
+        "sha256": "eb715ab1011af5e4460f69cad538e6c0d8c869f778b284c9cb4b96140bdf5f59",
+        "size_bytes": 160662
+      },
+      {
+        "path": "telecom/umts/rrc/constantdefinitions.go",
+        "mode": "0644",
+        "sha256": "9c734c3566add01a5e7bc447173b6e9041b63cbbd4acd03cf0fc7b107be77728",
+        "size_bytes": 18067
+      },
+      {
+        "path": "telecom/umts/rrc/doc.go",
+        "mode": "0644",
+        "sha256": "6e3a8a97e7572bbd0f4551b80e7203d358154a3adff2db74e53d6a86380e33f6",
+        "size_bytes": 756
+      },
+      {
+        "path": "telecom/umts/rrc/informationelements.go",
+        "mode": "0644",
+        "sha256": "7b5a9e26aa48f9f8d503eeba0378832bd5b29313cbb9b801ab840745f2069bc7",
+        "size_bytes": 18017554
+      },
+      {
+        "path": "telecom/umts/rrc/internodedefinitions.go",
+        "mode": "0644",
+        "sha256": "e6f9869c09cd52ca9abcae796eb94e26f36eb4e2f691f34706ea69e28621bf77",
+        "size_bytes": 1840624
+      },
+      {
+        "path": "telecom/umts/rrc/pdudefinitions.go",
+        "mode": "0644",
+        "sha256": "355a682b099b436f7b29f02fc0e3d628d496db54e49c8e2fa15b59304f69c082",
+        "size_bytes": 11665277
+      },
+      {
+        "path": "telecom/umts/rrc/per_helpers.go",
+        "mode": "0644",
+        "sha256": "c0b1973f6c1a7c3d5dc142431caf9299c531ddbe537debbdbacacc429596c528",
+        "size_bytes": 101
       }
     ]
   },
@@ -5149,16 +5654,24 @@
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/encoder.go",
         "$STAGE/runtime/ber/errors.go",
+        "$STAGE/runtime/ber/external.go",
+        "$STAGE/runtime/ber/external_limits_test.go",
+        "$STAGE/runtime/ber/external_test.go",
         "$STAGE/runtime/ber/oid_checked_test.go",
+        "$STAGE/runtime/ber/options.go",
         "$STAGE/runtime/ber/real_decimal_test.go",
         "$STAGE/runtime/ber/string_fixed_width_test.go",
+        "$STAGE/runtime/ber/work.go",
+        "$STAGE/runtime/ber/work_limit_test.go",
         "$STAGE/runtime/constraint/constraint.go",
         "$STAGE/runtime/decode_path.go",
         "$STAGE/runtime/decode_path_test.go",
+        "$STAGE/runtime/external.go",
         "$STAGE/runtime/integer_value.go",
         "$STAGE/runtime/integer_value_test.go",
         "$STAGE/runtime/per/aper.go",
         "$STAGE/runtime/per/bitbuffer.go",
+        "$STAGE/runtime/per/bitbuffer_bounds_test.go",
         "$STAGE/runtime/per/complete_encoding_test.go",
         "$STAGE/runtime/per/errors.go",
         "$STAGE/runtime/per/fragment.go",
@@ -5166,11 +5679,15 @@
         "$STAGE/runtime/per/hardening_test.go",
         "$STAGE/runtime/per/integer_big.go",
         "$STAGE/runtime/per/integer_big_test.go",
+        "$STAGE/runtime/per/integer_int64_boundary_test.go",
         "$STAGE/runtime/per/integer_set.go",
         "$STAGE/runtime/per/integer_set_test.go",
         "$STAGE/runtime/per/integer_uint64.go",
         "$STAGE/runtime/per/oid.go",
         "$STAGE/runtime/per/oid_checked_test.go",
+        "$STAGE/runtime/per/padding_preserve_test.go",
+        "$STAGE/runtime/per/time.go",
+        "$STAGE/runtime/per/time_test.go",
         "$STAGE/runtime/per/uper.go",
         "$STAGE/runtime/per/uper_test.go",
         "$STAGE/runtime/per_choice.go",
@@ -5191,6 +5708,7 @@
         "$STAGE/telecom/esim/sgp32/sgp32definitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions_test.go",
         "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/rrc/doc.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrarrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrasidelinkpreconf.go",
@@ -5203,6 +5721,7 @@
         "$STAGE/telecom/lte/rrc/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/s1ap/dispatch.go",
+        "$STAGE/telecom/lte/s1ap/doc.go",
         "$STAGE/telecom/lte/s1ap/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/s1apcommondatatypes.go",
         "$STAGE/telecom/lte/s1ap/s1apconstants.go",
@@ -5214,6 +5733,7 @@
         "$STAGE/telecom/lte/x2ap/asn1_contract_vectors_test.go",
         "$STAGE/telecom/lte/x2ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/x2ap/dispatch.go",
+        "$STAGE/telecom/lte/x2ap/doc.go",
         "$STAGE/telecom/lte/x2ap/per_helpers.go",
         "$STAGE/telecom/lte/x2ap/x2apcommondatatypes.go",
         "$STAGE/telecom/lte/x2ap/x2apconstants.go",
@@ -5310,7 +5830,15 @@
         "$STAGE/telecom/ss7/tcap/remoteoperationsinformationobjects.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsusefuldefinitions.go",
         "$STAGE/telecom/ss7/tcap/tcapmessages.go",
-        "$STAGE/telecom/ss7/tcap/unidialoguepdus.go"
+        "$STAGE/telecom/ss7/tcap/unidialoguepdus.go",
+        "$STAGE/telecom/umts/rrc/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/umts/rrc/classdefinitions.go",
+        "$STAGE/telecom/umts/rrc/constantdefinitions.go",
+        "$STAGE/telecom/umts/rrc/doc.go",
+        "$STAGE/telecom/umts/rrc/informationelements.go",
+        "$STAGE/telecom/umts/rrc/internodedefinitions.go",
+        "$STAGE/telecom/umts/rrc/pdudefinitions.go",
+        "$STAGE/telecom/umts/rrc/per_helpers.go"
       ],
       "dir": "$STAGE",
       "exit_code": 0
@@ -5336,16 +5864,24 @@
         "$STAGE/runtime/ber/decoder.go",
         "$STAGE/runtime/ber/encoder.go",
         "$STAGE/runtime/ber/errors.go",
+        "$STAGE/runtime/ber/external.go",
+        "$STAGE/runtime/ber/external_limits_test.go",
+        "$STAGE/runtime/ber/external_test.go",
         "$STAGE/runtime/ber/oid_checked_test.go",
+        "$STAGE/runtime/ber/options.go",
         "$STAGE/runtime/ber/real_decimal_test.go",
         "$STAGE/runtime/ber/string_fixed_width_test.go",
+        "$STAGE/runtime/ber/work.go",
+        "$STAGE/runtime/ber/work_limit_test.go",
         "$STAGE/runtime/constraint/constraint.go",
         "$STAGE/runtime/decode_path.go",
         "$STAGE/runtime/decode_path_test.go",
+        "$STAGE/runtime/external.go",
         "$STAGE/runtime/integer_value.go",
         "$STAGE/runtime/integer_value_test.go",
         "$STAGE/runtime/per/aper.go",
         "$STAGE/runtime/per/bitbuffer.go",
+        "$STAGE/runtime/per/bitbuffer_bounds_test.go",
         "$STAGE/runtime/per/complete_encoding_test.go",
         "$STAGE/runtime/per/errors.go",
         "$STAGE/runtime/per/fragment.go",
@@ -5353,11 +5889,15 @@
         "$STAGE/runtime/per/hardening_test.go",
         "$STAGE/runtime/per/integer_big.go",
         "$STAGE/runtime/per/integer_big_test.go",
+        "$STAGE/runtime/per/integer_int64_boundary_test.go",
         "$STAGE/runtime/per/integer_set.go",
         "$STAGE/runtime/per/integer_set_test.go",
         "$STAGE/runtime/per/integer_uint64.go",
         "$STAGE/runtime/per/oid.go",
         "$STAGE/runtime/per/oid_checked_test.go",
+        "$STAGE/runtime/per/padding_preserve_test.go",
+        "$STAGE/runtime/per/time.go",
+        "$STAGE/runtime/per/time_test.go",
         "$STAGE/runtime/per/uper.go",
         "$STAGE/runtime/per/uper_test.go",
         "$STAGE/runtime/per_choice.go",
@@ -5378,6 +5918,7 @@
         "$STAGE/telecom/esim/sgp32/sgp32definitions.go",
         "$STAGE/telecom/esim/sgp32/sgp32definitions_test.go",
         "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/rrc/doc.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrarrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrasidelinkpreconf.go",
@@ -5390,6 +5931,7 @@
         "$STAGE/telecom/lte/rrc/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/s1ap/dispatch.go",
+        "$STAGE/telecom/lte/s1ap/doc.go",
         "$STAGE/telecom/lte/s1ap/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/s1apcommondatatypes.go",
         "$STAGE/telecom/lte/s1ap/s1apconstants.go",
@@ -5401,6 +5943,7 @@
         "$STAGE/telecom/lte/x2ap/asn1_contract_vectors_test.go",
         "$STAGE/telecom/lte/x2ap/asn1_wire_vectors_test.go",
         "$STAGE/telecom/lte/x2ap/dispatch.go",
+        "$STAGE/telecom/lte/x2ap/doc.go",
         "$STAGE/telecom/lte/x2ap/per_helpers.go",
         "$STAGE/telecom/lte/x2ap/x2apcommondatatypes.go",
         "$STAGE/telecom/lte/x2ap/x2apconstants.go",
@@ -5497,10 +6040,19 @@
         "$STAGE/telecom/ss7/tcap/remoteoperationsinformationobjects.go",
         "$STAGE/telecom/ss7/tcap/remoteoperationsusefuldefinitions.go",
         "$STAGE/telecom/ss7/tcap/tcapmessages.go",
-        "$STAGE/telecom/ss7/tcap/unidialoguepdus.go"
+        "$STAGE/telecom/ss7/tcap/unidialoguepdus.go",
+        "$STAGE/telecom/umts/rrc/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/umts/rrc/classdefinitions.go",
+        "$STAGE/telecom/umts/rrc/constantdefinitions.go",
+        "$STAGE/telecom/umts/rrc/doc.go",
+        "$STAGE/telecom/umts/rrc/informationelements.go",
+        "$STAGE/telecom/umts/rrc/internodedefinitions.go",
+        "$STAGE/telecom/umts/rrc/pdudefinitions.go",
+        "$STAGE/telecom/umts/rrc/per_helpers.go"
       ],
       "dir": "$STAGE",
-      "exit_code": 0
+      "exit_code": 0,
+      "stdout": "$STAGE/runtime/ber/work_limit_test.go:103:6-15: b.N can be modernized using b.Loop()\n"
     },
     {
       "name": "/Users/marwanjadid/go/bin/staticcheck",
@@ -5529,7 +6081,7 @@
       ],
       "dir": "$STAGE",
       "exit_code": 0,
-      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\n"
+      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/umts/rrc\t\u003cduration\u003e\n"
     },
     {
       "name": "go",
@@ -5540,7 +6092,7 @@
       ],
       "dir": "$STAGE",
       "exit_code": 0,
-      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\n"
+      "stdout": "ok  \tgithub.com/gomaja/go-asn1/runtime\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/runtime/ber\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/constraint\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/runtime/per\t\u003cduration\u003e\n?   \tgithub.com/gomaja/go-asn1/runtime/tag\t[no test files]\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp22\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/esim/sgp32\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/rrc\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/s1ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/lte/x2ap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/gsm_map\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/ss7/tcap\t\u003cduration\u003e\nok  \tgithub.com/gomaja/go-asn1/telecom/umts/rrc\t\u003cduration\u003e\n"
     },
     {
       "name": "go",
@@ -5561,7 +6113,8 @@
       ],
       "dir": "$COMPILER",
       "exit_code": 0,
-      "stdout": "Name: pycrate\nVersion: 0.7.11\nSummary: A software suite to handle various data and protocol formats\nHome-page: https://github.com/pycrate-org/pycrate/\nAuthor: Benoit Michau\nAuthor-email: michau.benoit@gmail.com\nLicense: LGPL v2.1+\nLocation: /Users/marwanjadid/Library/Python/3.9/lib/python/site-packages\nRequires: \nRequired-by: \n"
+      "stdout": "Name: pycrate\nVersion: 0.7.11\nSummary: A software suite to handle various data and protocol formats\nHome-page: https://github.com/pycrate-org/pycrate/\nAuthor: Benoit Michau\nAuthor-email: michau.benoit@gmail.com\nLicense: LGPL v2.1+\nLocation: /Users/marwanjadid/Library/Python/3.9/lib/python/site-packages\nRequires: \nRequired-by: \n",
+      "stderr": "WARNING: The directory '/Users/marwanjadid/Library/Caches/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.\n"
     }
   ]
 }

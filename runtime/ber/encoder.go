@@ -427,12 +427,12 @@ type derElement struct {
 func splitDERElements(children []byte) ([]derElement, error) {
 	var elements []derElement
 	for offset := 0; offset < len(children); {
-		decodedTag, total, _, err := DecodeTLV(children[offset:])
+		decodedTag, total, _, err := DecodeTLV(children[offset:], encodingStructureOption(children[offset:]))
 		if err != nil {
 			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
 		}
 		encoded := children[offset : offset+total]
-		if err := ValidateDERElement(encoded); err != nil {
+		if err := ValidateDEREncodedElement(encoded); err != nil {
 			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
 		}
 		elements = append(elements, derElement{tag: decodedTag, encoded: encoded})
@@ -485,7 +485,7 @@ func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 	if err != nil {
 		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}
-	_, total, _, err := DecodeTLV(content)
+	_, total, _, err := DecodeTLV(content, encodingStructureOption(content))
 	if err != nil {
 		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}
@@ -596,7 +596,7 @@ func EncodeBigIntValue(v *big.Int) []byte {
 	full := EncodeBigInt(v)
 	// EncodeBigInt emits tag + length + contents; the contents start after
 	// the 1-octet universal INTEGER tag and its length field.
-	_, _, value, err := DecodeTLV(full)
+	_, _, value, err := DecodeTLV(full, encodingStructureOption(full))
 	if err != nil {
 		// EncodeBigInt always produces a well-formed TLV, so this is
 		// unreachable; return the whole thing rather than silently dropping

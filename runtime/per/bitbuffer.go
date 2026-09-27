@@ -22,6 +22,19 @@ func NewBitBufferFromBytes(data []byte) *BitBuffer {
 	}
 }
 
+// NewBitBufferFromBits bounds a nested PER encoding carried in a BIT STRING
+// to its declared bit length. X.691 (02/2021) 11.1.1(b) permits a complete
+// unaligned encoding in a BIT STRING without octet padding.
+func NewBitBufferFromBits(data []byte, bitLen int) (*BitBuffer, error) {
+	if bitLen < 0 || bitLen > len(data)*8 || len(data) != (bitLen+7)/8 {
+		return nil, fmt.Errorf("%w: invalid bit-string length %d for %d octets", ErrInvalidValue, bitLen, len(data))
+	}
+	if bitLen%8 != 0 && data[len(data)-1]&byte((1<<uint(8-bitLen%8))-1) != 0 {
+		return nil, fmt.Errorf("%w: nonzero unused BIT STRING bits", ErrInvalidValue)
+	}
+	return &BitBuffer{data: data, bitLen: bitLen}, nil
+}
+
 // WriteBit writes a single bit (0 or 1).
 func (bb *BitBuffer) WriteBit(bit uint8) error {
 	byteIdx := bb.bitPos / 8
@@ -128,6 +141,31 @@ func (bb *BitBuffer) CompleteBytes() []byte {
 	return bb.data
 }
 
+// CompletePadding retains terminal bits observed when decoding a complete PER
+// encoding. X.691 (02/2021) 11.1.3.1 and 11.1.4 require encoders to emit zero
+// bits here; decoded input may carry other values that a lossless re-encode
+// must retain.
+type CompletePadding struct {
+	bits  uint8
+	count uint8
+}
+
+// CompleteBytesWithPadding returns a complete encoding with observed terminal
+// bits. A newly constructed value has zero padding. If a decoded value changes
+// bit length, its old padding cannot be applied to the new encoding.
+func (bb *BitBuffer) CompleteBytesWithPadding(padding CompletePadding) ([]byte, error) {
+	out := append([]byte(nil), bb.CompleteBytes()...)
+	if padding.count == 0 {
+		return out, nil
+	}
+	want := (8 - bb.bitPos%8) % 8
+	if bb.bitPos == 0 || int(padding.count) != want || padding.bits >= 1<<padding.count {
+		return nil, fmt.Errorf("%w: stale complete-encoding padding", ErrInvalidValue)
+	}
+	out[len(out)-1] |= padding.bits
+	return out, nil
+}
+
 // BitsWritten returns the total number of bits written.
 func (bb *BitBuffer) BitsWritten() int {
 	return bb.bitPos
@@ -143,44 +181,57 @@ func (bb *BitBuffer) BitPos() int {
 	return bb.bitPos
 }
 
-// ValidateOpenTypePadding consumes the zero padding at the end of a complete
-// PER encoding carried in an open type. X.691 (02/2021), section 11.2 requires
-// the complete encoding to occupy an integral number of octets.
+// CaptureOpenTypePadding consumes terminal bits of a complete PER encoding in
+// an open type. X.691 (02/2021) 11.2.1 requires an octet-aligned encoding.
+func CaptureOpenTypePadding(bb *BitBuffer) (CompletePadding, error) {
+	return captureTrailingPadding(bb, "open type")
+}
+
+// CaptureFinalPadding consumes terminal bits after a complete top-level value.
+func CaptureFinalPadding(bb *BitBuffer) (CompletePadding, error) {
+	return captureTrailingPadding(bb, "top-level value")
+}
+
+// ValidateOpenTypePadding consumes terminal bits of a complete open type.
 func ValidateOpenTypePadding(bb *BitBuffer) error {
-	return validateTrailingPadding(bb, "open type")
+	_, err := CaptureOpenTypePadding(bb)
+	return err
 }
 
-// ValidateFinalPadding consumes the zero padding after a complete top-level
-// PER value and rejects appended data.
+// ValidateFinalPadding consumes terminal bits and rejects appended data.
 func ValidateFinalPadding(bb *BitBuffer) error {
-	return validateTrailingPadding(bb, "top-level value")
+	_, err := CaptureFinalPadding(bb)
+	return err
 }
 
-func validateTrailingPadding(bb *BitBuffer, context string) error {
+func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, error) {
 	remaining := bb.BitsRemaining()
 	if bb.BitPos() == 0 {
 		switch {
 		case remaining == 0:
-			return fmt.Errorf("%w: %s complete encoding is empty", ErrTruncated, context)
+			return CompletePadding{}, fmt.Errorf("%w: %s complete encoding is empty", ErrTruncated, context)
 		case remaining < 8:
-			return fmt.Errorf("%w: %s zero-bit complete encoding has %d bits", ErrTruncated, context, remaining)
+			return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding has %d bits", ErrTruncated, context, remaining)
 		case remaining > 8:
-			return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+			return CompletePadding{}, fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
 		}
 	}
 	if remaining > 7 {
 		if bb.BitPos() != 0 {
-			return fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+			return CompletePadding{}, fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
 		}
 	}
 	padding, err := bb.ReadBits(remaining)
 	if err != nil {
-		return err
+		return CompletePadding{}, err
 	}
-	if padding != 0 {
-		return fmt.Errorf("%w: %s has non-zero trailing padding", ErrInvalidValue, context)
+	if bb.BitPos() == 8 && remaining == 8 && padding != 0 {
+		return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding is nonzero", ErrInvalidValue, context)
 	}
-	return nil
+	if remaining == 8 {
+		return CompletePadding{}, nil
+	}
+	return CompletePadding{bits: uint8(padding), count: uint8(remaining)}, nil
 }
 
 // WriteBitsFromBytes writes exactly bitLen bits from the given byte slice (MSB first).

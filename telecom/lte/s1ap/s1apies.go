@@ -25,6 +25,8 @@ type AdditionalGUTI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // AdditionalRRMPriorityIndex represents the ASN.1 type AdditionalRRMPriorityIndex (BIT_STRING).
@@ -59,12 +61,14 @@ const (
 
 // AreaScopeOfMDT represents the ASN.1 CHOICE type AreaScopeOfMDT.
 type AreaScopeOfMDT struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	CellBased        *CellBasedMDT               `json:"CellBased,omitempty"`
-	TABased          *TABasedMDT                 `json:"TABased,omitempty"`
-	PLMNWide         *struct{}                   `json:"PLMNWide,omitempty"`
-	TAIBased         *TAIBasedMDT                `json:"TAIBased,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	CellBased           *CellBasedMDT               `json:"CellBased,omitempty"`
+	TABased             *TABasedMDT                 `json:"TABased,omitempty"`
+	PLMNWide            *struct{}                   `json:"PLMNWide,omitempty"`
+	TAIBased            *TAIBasedMDT                `json:"TAIBased,omitempty"`
 }
 
 // NewAreaScopeOfMDTCellBased creates a AreaScopeOfMDT with the cellBased alternative.
@@ -109,12 +113,14 @@ const (
 
 // AreaScopeOfQMC represents the ASN.1 CHOICE type AreaScopeOfQMC.
 type AreaScopeOfQMC struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	CellBased        *CellBasedQMC               `json:"CellBased,omitempty"`
-	TABased          *TABasedQMC                 `json:"TABased,omitempty"`
-	TAIBased         *TAIBasedQMC                `json:"TAIBased,omitempty"`
-	PLMNAreaBased    *PLMNAreaBasedQMC           `json:"PLMNAreaBased,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	CellBased           *CellBasedQMC               `json:"CellBased,omitempty"`
+	TABased             *TABasedQMC                 `json:"TABased,omitempty"`
+	TAIBased            *TAIBasedQMC                `json:"TAIBased,omitempty"`
+	PLMNAreaBased       *PLMNAreaBasedQMC           `json:"PLMNAreaBased,omitempty"`
 }
 
 // NewAreaScopeOfQMCCellBased creates a AreaScopeOfQMC with the cellBased alternative.
@@ -159,6 +165,8 @@ type AllocationAndRetentionPriority struct {
 	ExtCount_               int64                      `asn1:"-" json:"-"`
 	ExtPresent_             []bool                     `asn1:"-" json:"-"`
 	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // AssistanceDataForCECapableUEs represents the ASN.1 type AssistanceDataForCECapableUEs (SEQUENCE).
@@ -169,6 +177,8 @@ type AssistanceDataForCECapableUEs struct {
 	ExtCount_                               int64                                   `asn1:"-" json:"-"`
 	ExtPresent_                             []bool                                  `asn1:"-" json:"-"`
 	ExtData_                                [][]byte                                `asn1:"-" json:"-"`
+	PERPadding_                             per.CompletePadding                     `asn1:"-" json:"-"`
+	PERExtPadding_                          []per.CompletePadding                   `asn1:"-" json:"-"`
 }
 
 // AssistanceDataForPaging represents the ASN.1 type AssistanceDataForPaging (SEQUENCE).
@@ -181,6 +191,8 @@ type AssistanceDataForPaging struct {
 	ExtCount_                         int64                              `asn1:"-" json:"-"`
 	ExtPresent_                       []bool                             `asn1:"-" json:"-"`
 	ExtData_                          [][]byte                           `asn1:"-" json:"-"`
+	PERPadding_                       per.CompletePadding                `asn1:"-" json:"-"`
+	PERExtPadding_                    []per.CompletePadding              `asn1:"-" json:"-"`
 }
 
 // AssistanceDataForRecommendedCells represents the ASN.1 type AssistanceDataForRecommendedCells (SEQUENCE).
@@ -191,6 +203,8 @@ type AssistanceDataForRecommendedCells struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // BearersSubjectToStatusTransferList represents the ASN.1 type Bearers-SubjectToStatusTransferList (SEQUENCE_OF).
@@ -207,6 +221,8 @@ type BearersSubjectToStatusTransferItem struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // BearersSubjectToEarlyStatusTransferList represents the ASN.1 type Bearers-SubjectToEarlyStatusTransferList (SEQUENCE_OF).
@@ -221,6 +237,8 @@ type BearersSubjectToEarlyStatusTransferItem struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // BearersSubjectToDLDiscardingList represents the ASN.1 type Bearers-SubjectToDLDiscardingList (SEQUENCE_OF).
@@ -235,6 +253,8 @@ type BearersSubjectToDLDiscardingItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // BearerType represents the ASN.1 ENUMERATED type BearerType.
@@ -267,6 +287,8 @@ type BluetoothMeasurementConfiguration struct {
 	ExtCount_                         int64                       `asn1:"-" json:"-"`
 	ExtPresent_                       []bool                      `asn1:"-" json:"-"`
 	ExtData_                          [][]byte                    `asn1:"-" json:"-"`
+	PERPadding_                       per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_                    []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // BluetoothMeasConfigNameList represents the ASN.1 type BluetoothMeasConfigNameList (SEQUENCE_OF).
@@ -304,6 +326,8 @@ const (
 // BroadcastCancelledAreaList represents the ASN.1 CHOICE type BroadcastCancelledAreaList.
 type BroadcastCancelledAreaList struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding         `json:"-"`
 	UnknownExtension         *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	CellIDCancelled          CellIDCancelled             `json:"CellIDCancelled,omitempty"`
 	TAICancelled             TAICancelled                `json:"TAICancelled,omitempty"`
@@ -344,6 +368,8 @@ const (
 // BroadcastCompletedAreaList represents the ASN.1 CHOICE type BroadcastCompletedAreaList.
 type BroadcastCompletedAreaList struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding         `json:"-"`
 	UnknownExtension         *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	CellIDBroadcast          CellIDBroadcast             `json:"CellIDBroadcast,omitempty"`
 	TAIBroadcast             TAIBroadcast                `json:"TAIBroadcast,omitempty"`
@@ -386,6 +412,8 @@ type CancelledCellinEAIItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CancelledCellinTAI represents the ASN.1 type CancelledCellinTAI (SEQUENCE_OF).
@@ -400,6 +428,8 @@ type CancelledCellinTAIItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // Cause choice constants.
@@ -413,13 +443,15 @@ const (
 
 // Cause represents the ASN.1 CHOICE type Cause.
 type Cause struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	RadioNetwork     *CauseRadioNetwork          `json:"RadioNetwork,omitempty"`
-	Transport        *CauseTransport             `json:"Transport,omitempty"`
-	Nas              *CauseNas                   `json:"Nas,omitempty"`
-	Protocol         *CauseProtocol              `json:"Protocol,omitempty"`
-	Misc             *CauseMisc                  `json:"Misc,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	RadioNetwork        *CauseRadioNetwork          `json:"RadioNetwork,omitempty"`
+	Transport           *CauseTransport             `json:"Transport,omitempty"`
+	Nas                 *CauseNas                   `json:"Nas,omitempty"`
+	Protocol            *CauseProtocol              `json:"Protocol,omitempty"`
+	Misc                *CauseMisc                  `json:"Misc,omitempty"`
 }
 
 // NewCauseRadioNetwork creates a Cause with the radioNetwork alternative.
@@ -753,6 +785,8 @@ type CellIdentifierAndCELevelForCECapableUEs struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CELevel represents the ASN.1 type CELevel (OCTET_STRING).
@@ -788,6 +822,8 @@ type CellIDBroadcastItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellIDCancelled represents the ASN.1 type CellID-Cancelled (SEQUENCE_OF).
@@ -802,6 +838,8 @@ type CellIDCancelledItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellBasedMDT represents the ASN.1 type CellBasedMDT (SEQUENCE).
@@ -813,6 +851,8 @@ type CellBasedMDT struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellIdListforMDT represents the ASN.1 type CellIdListforMDT (SEQUENCE_OF).
@@ -827,6 +867,8 @@ type CellBasedQMC struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CellIdListforQMC represents the ASN.1 type CellIdListforQMC (SEQUENCE_OF).
@@ -902,6 +944,8 @@ type Cdma2000OneXSRVCCInfo struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // Cdma2000OneXMEID represents the ASN.1 type Cdma2000OneXMEID (OCTET_STRING).
@@ -949,6 +993,8 @@ type CellType struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CGI represents the ASN.1 type CGI (SEQUENCE).
@@ -962,6 +1008,8 @@ type CGI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CI represents the ASN.1 type CI (OCTET_STRING).
@@ -998,6 +1046,8 @@ type CNTypeRestrictionsItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CNType represents the ASN.1 ENUMERATED type CNType.
@@ -1067,6 +1117,8 @@ type ConnectedengNBItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ContextatSource represents the ASN.1 type ContextatSource (SEQUENCE).
@@ -1078,6 +1130,8 @@ type ContextatSource struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CorrelationID represents the ASN.1 type Correlation-ID (OCTET_STRING).
@@ -1135,6 +1189,8 @@ type CSGIdListItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CSGMembershipStatus represents the ASN.1 ENUMERATED type CSGMembershipStatus.
@@ -1165,6 +1221,8 @@ type COUNTvalue struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // COUNTValueExtended represents the ASN.1 type COUNTValueExtended (SEQUENCE).
@@ -1176,6 +1234,8 @@ type COUNTValueExtended struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // COUNTvaluePDCPSNlength18 represents the ASN.1 type COUNTvaluePDCP-SNlength18 (SEQUENCE).
@@ -1187,6 +1247,8 @@ type COUNTvaluePDCPSNlength18 struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CoverageLevel represents the ASN.1 ENUMERATED type Coverage-Level.
@@ -1217,6 +1279,8 @@ type CriticalityDiagnostics struct {
 	ExtCount_                       int64                        `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                       `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                     `asn1:"-" json:"-"`
+	PERPadding_                     per.CompletePadding          `asn1:"-" json:"-"`
+	PERExtPadding_                  []per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // CriticalityDiagnosticsIEList represents the ASN.1 type CriticalityDiagnostics-IE-List (SEQUENCE_OF).
@@ -1232,6 +1296,8 @@ type CriticalityDiagnosticsIEItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // DAPSRequestInfo represents the ASN.1 type DAPSRequestInfo (SEQUENCE).
@@ -1242,6 +1308,8 @@ type DAPSRequestInfo struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // DAPSResponseInfoList represents the ASN.1 type DAPSResponseInfoList (SEQUENCE_OF).
@@ -1256,6 +1324,8 @@ type DAPSResponseInfoItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // DAPSResponseInfo represents the ASN.1 type DAPSResponseInfo (SEQUENCE).
@@ -1266,6 +1336,8 @@ type DAPSResponseInfo struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // DataCodingScheme represents the ASN.1 type DataCodingScheme (BIT_STRING).
@@ -1289,6 +1361,8 @@ type ServedDCNsItem struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // DLCPSecurityInformation represents the ASN.1 type DL-CP-SecurityInformation (SEQUENCE).
@@ -1299,6 +1373,8 @@ type DLCPSecurityInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // DLForwarding represents the ASN.1 ENUMERATED type DL-Forwarding.
@@ -1330,6 +1406,8 @@ const (
 // DLCOUNTPDCPSNlength represents the ASN.1 CHOICE type DLCOUNT-PDCP-SNlength.
 type DLCOUNTPDCPSNlength struct {
 	Choice                     int
+	PERPadding_                per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_        per.CompletePadding         `json:"-"`
 	UnknownExtension           *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	DLCOUNTValuePDCPSNlength12 *COUNTvalue                 `json:"DLCOUNTValuePDCPSNlength12,omitempty"`
 	DLCOUNTValuePDCPSNlength15 *COUNTValueExtended         `json:"DLCOUNTValuePDCPSNlength15,omitempty"`
@@ -1370,6 +1448,8 @@ const (
 // DLDiscarding represents the ASN.1 CHOICE type DLDiscarding.
 type DLDiscarding struct {
 	Choice                            int
+	PERPadding_                       per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_               per.CompletePadding         `json:"-"`
 	UnknownExtension                  *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	DiscardDLCOUNTValuePDCPSNlength12 *COUNTvalue                 `json:"DiscardDLCOUNTValuePDCPSNlength12,omitempty"`
 	DiscardDLCOUNTValuePDCPSNlength15 *COUNTValueExtended         `json:"DiscardDLCOUNTValuePDCPSNlength15,omitempty"`
@@ -1492,6 +1572,8 @@ type EmergencyAreaIDBroadcastItem struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // EmergencyAreaIDCancelled represents the ASN.1 type EmergencyAreaID-Cancelled (SEQUENCE_OF).
@@ -1507,6 +1589,8 @@ type EmergencyAreaIDCancelledItem struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CompletedCellinEAI represents the ASN.1 type CompletedCellinEAI (SEQUENCE_OF).
@@ -1520,6 +1604,8 @@ type CompletedCellinEAIItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // IEsECGIList represents the ASN.1 type ECGI-List (SEQUENCE_OF).
@@ -1553,6 +1639,8 @@ type ENBEarlyStatusTransferTransparentContainer struct {
 	ExtCount_                                     int64                                   `asn1:"-" json:"-"`
 	ExtPresent_                                   []bool                                  `asn1:"-" json:"-"`
 	ExtData_                                      [][]byte                                `asn1:"-" json:"-"`
+	PERPadding_                                   per.CompletePadding                     `asn1:"-" json:"-"`
+	PERExtPadding_                                []per.CompletePadding                   `asn1:"-" json:"-"`
 }
 
 // ENBID choice constants.
@@ -1565,12 +1653,14 @@ const (
 
 // ENBID represents the ASN.1 CHOICE type ENB-ID.
 type ENBID struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	MacroENBID       *runtime.BitString          `json:"MacroENBID,omitempty"`
-	HomeENBID        *runtime.BitString          `json:"HomeENBID,omitempty"`
-	ShortMacroENBID  *runtime.BitString          `json:"ShortMacroENBID,omitempty"`
-	LongMacroENBID   *runtime.BitString          `json:"LongMacroENBID,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	MacroENBID          *runtime.BitString          `json:"MacroENBID,omitempty"`
+	HomeENBID           *runtime.BitString          `json:"HomeENBID,omitempty"`
+	ShortMacroENBID     *runtime.BitString          `json:"ShortMacroENBID,omitempty"`
+	LongMacroENBID      *runtime.BitString          `json:"LongMacroENBID,omitempty"`
 }
 
 // NewENBIDMacroENBID creates a ENBID with the macroENB-ID alternative.
@@ -1618,6 +1708,8 @@ type GERANCellID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GlobalENBID represents the ASN.1 type Global-ENB-ID (SEQUENCE).
@@ -1629,6 +1721,8 @@ type GlobalENBID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GlobalEnGNBID represents the ASN.1 type Global-en-gNB-ID (SEQUENCE).
@@ -1640,6 +1734,8 @@ type GlobalEnGNBID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GUMMEIList represents the ASN.1 type GUMMEIList (SEQUENCE_OF).
@@ -1654,6 +1750,8 @@ type ENBStatusTransferTransparentContainer struct {
 	ExtCount_                                int64                              `asn1:"-" json:"-"`
 	ExtPresent_                              []bool                             `asn1:"-" json:"-"`
 	ExtData_                                 [][]byte                           `asn1:"-" json:"-"`
+	PERPadding_                              per.CompletePadding                `asn1:"-" json:"-"`
+	PERExtPadding_                           []per.CompletePadding              `asn1:"-" json:"-"`
 }
 
 // ENBUES1APID represents the ASN.1 type ENB-UE-S1AP-ID (INTEGER).
@@ -1678,6 +1776,8 @@ type ENDCSONConfigurationTransfer struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENDCSONTransferType choice constants.
@@ -1688,10 +1788,12 @@ const (
 
 // ENDCSONTransferType represents the ASN.1 CHOICE type EN-DCSONTransferType.
 type ENDCSONTransferType struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	Request          *ENDCTransferTypeRequest    `json:"Request,omitempty"`
-	Reply            *ENDCTransferTypeReply      `json:"Reply,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	Request             *ENDCTransferTypeRequest    `json:"Request,omitempty"`
+	Reply               *ENDCTransferTypeReply      `json:"Reply,omitempty"`
 }
 
 // NewENDCSONTransferTypeRequest creates a ENDCSONTransferType with the request alternative.
@@ -1722,6 +1824,8 @@ type ENDCTransferTypeRequest struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENDCTransferTypeReply represents the ASN.1 type EN-DCTransferTypeReply (SEQUENCE).
@@ -1733,6 +1837,8 @@ type ENDCTransferTypeReply struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENDCSONeNBIdentification represents the ASN.1 type EN-DCSONeNBIdentification (SEQUENCE).
@@ -1744,6 +1850,8 @@ type ENDCSONeNBIdentification struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENDCSONengNBIdentification represents the ASN.1 type EN-DCSONengNBIdentification (SEQUENCE).
@@ -1755,6 +1863,8 @@ type ENDCSONengNBIdentification struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // EndIndication represents the ASN.1 ENUMERATED type EndIndication.
@@ -1851,6 +1961,8 @@ type ERABInformationListItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABList represents the ASN.1 type E-RABList (SEQUENCE_OF).
@@ -1865,6 +1977,8 @@ type ERABItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABLevelQoSParameters represents the ASN.1 type E-RABLevelQoSParameters (SEQUENCE).
@@ -1877,6 +1991,8 @@ type ERABLevelQoSParameters struct {
 	ExtCount_                   int64                          `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                         `asn1:"-" json:"-"`
 	ExtData_                    [][]byte                       `asn1:"-" json:"-"`
+	PERPadding_                 per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtPadding_              []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // ERABSecurityResultList represents the ASN.1 type E-RABSecurityResultList (SEQUENCE_OF).
@@ -1891,6 +2007,8 @@ type ERABSecurityResultItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABUsageReportList represents the ASN.1 type E-RABUsageReportList (SEQUENCE_OF).
@@ -1907,6 +2025,8 @@ type ERABUsageReportItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // EthernetType represents the ASN.1 ENUMERATED type Ethernet-Type.
@@ -1934,6 +2054,8 @@ type EUTRANCGI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // EUTRANRoundTripDelayEstimationInfo represents the ASN.1 type EUTRANRoundTripDelayEstimationInfo (INTEGER).
@@ -1949,6 +2071,8 @@ type EventL1LoggedMDTConfig struct {
 	ExtCount_          int64                           `asn1:"-" json:"-"`
 	ExtPresent_        []bool                          `asn1:"-" json:"-"`
 	ExtData_           [][]byte                        `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding             `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
 // EventTrigger choice constants.
@@ -1961,6 +2085,8 @@ const (
 // EventTrigger represents the ASN.1 CHOICE type EventTrigger.
 type EventTrigger struct {
 	Choice                 int
+	PERPadding_            per.CompletePadding        `json:"-"`
+	PEROpenTypePadding_    per.CompletePadding        `json:"-"`
 	OutOfCoverage          *int64                     `json:"OutOfCoverage,omitempty"`
 	EventL1LoggedMDTConfig *EventL1LoggedMDTConfig    `json:"EventL1LoggedMDTConfig,omitempty"`
 	ChoiceExtensions       *ProtocolIESingleContainer `json:"ChoiceExtensions,omitempty"`
@@ -1999,6 +2125,8 @@ type ExpectedUEBehaviour struct {
 	ExtCount_          int64                        `asn1:"-" json:"-"`
 	ExtPresent_        []bool                       `asn1:"-" json:"-"`
 	ExtData_           [][]byte                     `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding          `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // ExpectedUEActivityBehaviour represents the ASN.1 type ExpectedUEActivityBehaviour (SEQUENCE).
@@ -2011,6 +2139,8 @@ type ExpectedUEActivityBehaviour struct {
 	ExtCount_                              int64                                   `asn1:"-" json:"-"`
 	ExtPresent_                            []bool                                  `asn1:"-" json:"-"`
 	ExtData_                               [][]byte                                `asn1:"-" json:"-"`
+	PERPadding_                            per.CompletePadding                     `asn1:"-" json:"-"`
+	PERExtPadding_                         []per.CompletePadding                   `asn1:"-" json:"-"`
 }
 
 // ExpectedActivityPeriod represents the ASN.1 type ExpectedActivityPeriod (INTEGER).
@@ -2096,6 +2226,8 @@ type FiveGSTAI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // FiveQI represents the ASN.1 type FiveQI (INTEGER).
@@ -2145,6 +2277,8 @@ type ForbiddenTAsItem struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ForbiddenTACs represents the ASN.1 type ForbiddenTACs (SEQUENCE_OF).
@@ -2163,6 +2297,8 @@ type ForbiddenLAsItem struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ForbiddenLACs represents the ASN.1 type ForbiddenLACs (SEQUENCE_OF).
@@ -2179,6 +2315,8 @@ type GBRQosInformation struct {
 	ExtCount_               int64                      `asn1:"-" json:"-"`
 	ExtPresent_             []bool                     `asn1:"-" json:"-"`
 	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GTPTEID represents the ASN.1 type GTP-TEID (OCTET_STRING).
@@ -2194,6 +2332,8 @@ type GUMMEI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GUMMEIType represents the ASN.1 ENUMERATED type GUMMEIType.
@@ -2265,6 +2405,8 @@ type HandoverRestrictionList struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // HandoverType represents the ASN.1 ENUMERATED type HandoverType.
@@ -2327,6 +2469,8 @@ type ImmediateMDT struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // IMSI represents the ASN.1 type IMSI (OCTET_STRING).
@@ -2341,6 +2485,8 @@ type InformationOnRecommendedCellsAndENBsForPaging struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // IntegrityProtectionAlgorithms represents the ASN.1 type IntegrityProtectionAlgorithms (BIT_STRING).
@@ -2404,6 +2550,8 @@ type IntersystemMeasurementConfiguration struct {
 	ExtCount_                        int64                            `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                           `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                         `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding              `asn1:"-" json:"-"`
+	PERExtPadding_                   []per.CompletePadding            `asn1:"-" json:"-"`
 }
 
 // InterSystemMeasurementParameters represents the ASN.1 type InterSystemMeasurementParameters (SEQUENCE).
@@ -2416,6 +2564,8 @@ type InterSystemMeasurementParameters struct {
 	ExtCount_                        int64                      `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                     `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                   []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // InterSystemMeasurementList represents the ASN.1 type InterSystemMeasurementList (SEQUENCE_OF).
@@ -2435,6 +2585,7 @@ type InterSystemMeasurementItem struct {
 	ExcludedCellsToAddModList []byte                     `asn1:"tag:9,context,implicit,optional" json:"ExcludedCellsToAddModList,omitempty"`
 	IEExtensions              ProtocolExtensionContainer `asn1:"tag:10,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_        bool                       `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // IntersystemSONConfigurationTransfer represents the ASN.1 type IntersystemSONConfigurationTransfer (OCTET_STRING).
@@ -2535,6 +2686,8 @@ type LAI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // LastVisitedCellItem choice constants.
@@ -2547,12 +2700,14 @@ const (
 
 // LastVisitedCellItem represents the ASN.1 CHOICE type LastVisitedCell-Item.
 type LastVisitedCellItem struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension       `json:"UnknownExtension,omitempty"`
-	EUTRANCell       *LastVisitedEUTRANCellInformation `json:"EUTRANCell,omitempty"`
-	UTRANCell        *LastVisitedUTRANCellInformation  `json:"UTRANCell,omitempty"`
-	GERANCell        *LastVisitedGERANCellInformation  `json:"GERANCell,omitempty"`
-	NGRANCell        *LastVisitedNGRANCellInformation  `json:"NGRANCell,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding               `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding               `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension       `json:"UnknownExtension,omitempty"`
+	EUTRANCell          *LastVisitedEUTRANCellInformation `json:"EUTRANCell,omitempty"`
+	UTRANCell           *LastVisitedUTRANCellInformation  `json:"UTRANCell,omitempty"`
+	GERANCell           *LastVisitedGERANCellInformation  `json:"GERANCell,omitempty"`
+	NGRANCell           *LastVisitedNGRANCellInformation  `json:"NGRANCell,omitempty"`
 }
 
 // NewLastVisitedCellItemEUTRANCell creates a LastVisitedCellItem with the e-UTRAN-Cell alternative.
@@ -2597,6 +2752,8 @@ type LastVisitedEUTRANCellInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // LastVisitedPSCellList represents the ASN.1 type LastVisitedPSCellList (SEQUENCE_OF).
@@ -2611,6 +2768,8 @@ type LastVisitedPSCellInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // LastVisitedNGRANCellInformation represents the ASN.1 type LastVisitedNGRANCellInformation (OCTET_STRING).
@@ -2626,9 +2785,11 @@ const (
 
 // LastVisitedGERANCellInformation represents the ASN.1 CHOICE type LastVisitedGERANCellInformation.
 type LastVisitedGERANCellInformation struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	Undefined        *struct{}                   `json:"Undefined,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	Undefined           *struct{}                   `json:"Undefined,omitempty"`
 }
 
 // NewLastVisitedGERANCellInformationUndefined creates a LastVisitedGERANCellInformation with the undefined alternative.
@@ -2679,6 +2840,8 @@ type ListeningSubframePattern struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // LoggedMDT represents the ASN.1 type LoggedMDT (SEQUENCE).
@@ -2690,6 +2853,8 @@ type LoggedMDT struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // LoggingInterval represents the ASN.1 ENUMERATED type LoggingInterval.
@@ -2771,6 +2936,8 @@ type LoggedMBSFNMDT struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // LoggedMDTTrigger choice constants.
@@ -2781,10 +2948,12 @@ const (
 
 // LoggedMDTTrigger represents the ASN.1 CHOICE type LoggedMDTTrigger.
 type LoggedMDTTrigger struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	Periodical       *struct{}                   `json:"Periodical,omitempty"`
-	EventTrigger     *EventTrigger               `json:"EventTrigger,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	Periodical          *struct{}                   `json:"Periodical,omitempty"`
+	EventTrigger        *EventTrigger               `json:"EventTrigger,omitempty"`
 }
 
 // NewLoggedMDTTriggerPeriodical creates a LoggedMDTTrigger with the periodical alternative.
@@ -2830,6 +2999,8 @@ type LTENTNTAIInformation struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // M3Configuration represents the ASN.1 type M3Configuration (SEQUENCE).
@@ -2840,6 +3011,8 @@ type M3Configuration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // M3period represents the ASN.1 ENUMERATED type M3period.
@@ -2894,6 +3067,8 @@ type M4Configuration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // M4ReportAmountMDT represents the ASN.1 ENUMERATED type M4ReportAmountMDT.
@@ -2970,6 +3145,8 @@ type M5Configuration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // M5ReportAmountMDT represents the ASN.1 ENUMERATED type M5ReportAmountMDT.
@@ -3047,6 +3224,8 @@ type M6Configuration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // M6ReportAmountMDT represents the ASN.1 ENUMERATED type M6ReportAmountMDT.
@@ -3169,6 +3348,8 @@ type M7Configuration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // M7ReportAmountMDT represents the ASN.1 ENUMERATED type M7ReportAmountMDT.
@@ -3249,6 +3430,8 @@ type MDTConfiguration struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ManagementBasedMDTAllowed represents the ASN.1 ENUMERATED type ManagementBasedMDTAllowed.
@@ -3279,6 +3462,8 @@ type MBSFNResultToLogInfo struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // MDTPLMNList represents the ASN.1 type MDTPLMNList (SEQUENCE_OF).
@@ -3312,11 +3497,13 @@ const (
 
 // MDTMode represents the ASN.1 CHOICE type MDTMode.
 type MDTMode struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	ImmediateMDT     *ImmediateMDT               `json:"ImmediateMDT,omitempty"`
-	LoggedMDT        *LoggedMDT                  `json:"LoggedMDT,omitempty"`
-	MDTModeExtension *MDTModeExtension           `json:"MDTModeExtension,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	ImmediateMDT        *ImmediateMDT               `json:"ImmediateMDT,omitempty"`
+	LoggedMDT           *LoggedMDT                  `json:"LoggedMDT,omitempty"`
+	MDTModeExtension    *MDTModeExtension           `json:"MDTModeExtension,omitempty"`
 }
 
 // NewMDTModeImmediateMDT creates a MDTMode with the immediateMDT alternative.
@@ -3345,9 +3532,10 @@ func NewMDTModeMDTModeExtension(v MDTModeExtension) MDTMode {
 
 // MDTModeExtension represents the ASN.1 type MDTMode-Extension (SEQUENCE).
 type MDTModeExtension struct {
-	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
-	Criticality Criticality      `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MeasurementsToActivate represents the ASN.1 type MeasurementsToActivate (BIT_STRING).
@@ -3361,10 +3549,12 @@ const (
 
 // MeasurementThresholdA2 represents the ASN.1 CHOICE type MeasurementThresholdA2.
 type MeasurementThresholdA2 struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	ThresholdRSRP    *ThresholdRSRP              `json:"ThresholdRSRP,omitempty"`
-	ThresholdRSRQ    *ThresholdRSRQ              `json:"ThresholdRSRQ,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	ThresholdRSRP       *ThresholdRSRP              `json:"ThresholdRSRP,omitempty"`
+	ThresholdRSRQ       *ThresholdRSRQ              `json:"ThresholdRSRQ,omitempty"`
 }
 
 // NewMeasurementThresholdA2ThresholdRSRP creates a MeasurementThresholdA2 with the threshold-RSRP alternative.
@@ -3392,10 +3582,12 @@ const (
 
 // MeasurementThresholdL1LoggedMDT represents the ASN.1 CHOICE type MeasurementThresholdL1LoggedMDT.
 type MeasurementThresholdL1LoggedMDT struct {
-	Choice           int
-	ThresholdRSRP    *ThresholdRSRP             `json:"ThresholdRSRP,omitempty"`
-	ThresholdRSRQ    *ThresholdRSRQ             `json:"ThresholdRSRQ,omitempty"`
-	ChoiceExtensions *ProtocolIESingleContainer `json:"ChoiceExtensions,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding        `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding        `json:"-"`
+	ThresholdRSRP       *ThresholdRSRP             `json:"ThresholdRSRP,omitempty"`
+	ThresholdRSRQ       *ThresholdRSRQ             `json:"ThresholdRSRQ,omitempty"`
+	ChoiceExtensions    *ProtocolIESingleContainer `json:"ChoiceExtensions,omitempty"`
 }
 
 // NewMeasurementThresholdL1LoggedMDTThresholdRSRP creates a MeasurementThresholdL1LoggedMDT with the threshold-RSRP alternative.
@@ -3439,10 +3631,12 @@ const (
 
 // MMEPagingTarget represents the ASN.1 CHOICE type MMEPagingTarget.
 type MMEPagingTarget struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	GlobalENBID      *GlobalENBID                `json:"GlobalENBID,omitempty"`
-	TAI              *TAI                        `json:"TAI,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	GlobalENBID         *GlobalENBID                `json:"GlobalENBID,omitempty"`
+	TAI                 *TAI                        `json:"TAI,omitempty"`
 }
 
 // NewMMEPagingTargetGlobalENBID creates a MMEPagingTarget with the global-ENB-ID alternative.
@@ -3523,6 +3717,8 @@ type MutingPatternInformation struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // MDTConfigurationNR represents the ASN.1 type MDT-ConfigurationNR (OCTET_STRING).
@@ -3602,6 +3798,8 @@ type NBIoTPagingEDRXInformation struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // NBIoTPagingEDRXCycle represents the ASN.1 ENUMERATED type NB-IoT-Paging-eDRX-Cycle.
@@ -3773,6 +3971,8 @@ type NRCGI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // NRencryptionAlgorithms represents the ASN.1 type NRencryptionAlgorithms (BIT_STRING).
@@ -3822,6 +4022,8 @@ type NRUESecurityCapabilities struct {
 	ExtCount_                       int64                           `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                          `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                        `asn1:"-" json:"-"`
+	PERPadding_                     per.CompletePadding             `asn1:"-" json:"-"`
+	PERExtPadding_                  []per.CompletePadding           `asn1:"-" json:"-"`
 }
 
 // NumberofBroadcastRequest represents the ASN.1 type NumberofBroadcastRequest (INTEGER).
@@ -3839,6 +4041,8 @@ type NRV2XServicesAuthorized struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // NRUESidelinkAggregateMaximumBitrate represents the ASN.1 type NRUESidelinkAggregateMaximumBitrate (SEQUENCE).
@@ -3849,6 +4053,8 @@ type NRUESidelinkAggregateMaximumBitrate struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // OldBSSToNewBSSInformation represents the ASN.1 type OldBSS-ToNewBSS-Information (OCTET_STRING).
@@ -3895,9 +4101,11 @@ const (
 
 // OverloadResponse represents the ASN.1 CHOICE type OverloadResponse.
 type OverloadResponse struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	OverloadAction   *OverloadAction             `json:"OverloadAction,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	OverloadAction      *OverloadAction             `json:"OverloadAction,omitempty"`
 }
 
 // NewOverloadResponseOverloadAction creates a OverloadResponse with the overloadAction alternative.
@@ -3921,6 +4129,8 @@ type PagingAttemptInformation struct {
 	ExtCount_                      int64                          `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                         `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                       `asn1:"-" json:"-"`
+	PERPadding_                    per.CompletePadding            `asn1:"-" json:"-"`
+	PERExtPadding_                 []per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // PagingAttemptCount represents the ASN.1 type PagingAttemptCount (INTEGER).
@@ -3935,6 +4145,8 @@ type PagingEDRXInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PagingEDRXCycle represents the ASN.1 ENUMERATED type Paging-eDRX-Cycle.
@@ -4217,6 +4429,8 @@ type PC5QoSParameters struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PC5QoSFlowList represents the ASN.1 type PC5QoSFlowList (SEQUENCE_OF).
@@ -4232,6 +4446,8 @@ type PC5QoSFlowItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PC5FlowBitRates represents the ASN.1 type PC5FlowBitRates (SEQUENCE).
@@ -4243,6 +4459,8 @@ type PC5FlowBitRates struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PDCPSN represents the ASN.1 type PDCP-SN (INTEGER).
@@ -4279,6 +4497,8 @@ type M1PeriodicReporting struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PLMNidentity represents the ASN.1 type PLMNidentity (OCTET_STRING).
@@ -4293,6 +4513,8 @@ type PLMNAreaBasedQMC struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PLMNListforQMC represents the ASN.1 type PLMNListforQMC (SEQUENCE_OF).
@@ -4373,6 +4595,8 @@ type ProSeAuthorized struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ProSeDirectDiscovery represents the ASN.1 ENUMERATED type ProSeDirectDiscovery.
@@ -4456,6 +4680,8 @@ type PSCellInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // QCI represents the ASN.1 type QCI (INTEGER).
@@ -4538,6 +4764,8 @@ type RecommendedCellsForPaging struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RecommendedCellList represents the ASN.1 type RecommendedCellList (SEQUENCE_OF).
@@ -4552,6 +4780,8 @@ type RecommendedCellItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RecommendedENBsForPaging represents the ASN.1 type RecommendedENBsForPaging (SEQUENCE).
@@ -4563,6 +4793,8 @@ type RecommendedENBsForPaging struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RecommendedENBList represents the ASN.1 type RecommendedENBList (SEQUENCE_OF).
@@ -4576,6 +4808,8 @@ type RecommendedENBItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RelativeMMECapacity represents the ASN.1 type RelativeMMECapacity (INTEGER).
@@ -4612,6 +4846,8 @@ type RATRestrictionsItem struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RATType represents the ASN.1 ENUMERATED type RAT-Type.
@@ -4773,6 +5009,8 @@ type RequestedTNLInfo struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RequestType represents the ASN.1 type RequestType (SEQUENCE).
@@ -4784,6 +5022,8 @@ type RequestType struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RequestTypeAdditionalInfo represents the ASN.1 ENUMERATED type RequestTypeAdditionalInfo.
@@ -4811,6 +5051,8 @@ type RIMTransfer struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // RIMInformation represents the ASN.1 type RIMInformation (OCTET_STRING).
@@ -4825,11 +5067,13 @@ const (
 
 // RIMRoutingAddress represents the ASN.1 CHOICE type RIMRoutingAddress.
 type RIMRoutingAddress struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	GERANCellID      *GERANCellID                `json:"GERANCellID,omitempty"`
-	TargetRNCID      *TargetRNCID                `json:"TargetRNCID,omitempty"`
-	EHRPDSectorID    []byte                      `json:"EHRPDSectorID,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	GERANCellID         *GERANCellID                `json:"GERANCellID,omitempty"`
+	TargetRNCID         *TargetRNCID                `json:"TargetRNCID,omitempty"`
+	EHRPDSectorID       []byte                      `json:"EHRPDSectorID,omitempty"`
 }
 
 // NewRIMRoutingAddressGERANCellID creates a RIMRoutingAddress with the gERAN-Cell-ID alternative.
@@ -4884,6 +5128,8 @@ type RLFReportInformation struct {
 	ExtCount_                            int64                                 `asn1:"-" json:"-"`
 	ExtPresent_                          []bool                                `asn1:"-" json:"-"`
 	ExtData_                             [][]byte                              `asn1:"-" json:"-"`
+	PERPadding_                          per.CompletePadding                   `asn1:"-" json:"-"`
+	PERExtPadding_                       []per.CompletePadding                 `asn1:"-" json:"-"`
 }
 
 // RNCID represents the ASN.1 type RNC-ID (INTEGER).
@@ -4947,6 +5193,8 @@ type SecurityContext struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SecondaryRATType represents the ASN.1 ENUMERATED type SecondaryRATType.
@@ -4998,6 +5246,8 @@ type SecondaryRATDataUsageReportItem struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SecurityIndication represents the ASN.1 type SecurityIndication (SEQUENCE).
@@ -5008,6 +5258,8 @@ type SecurityIndication struct {
 	ExtCount_                     int64                         `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding           `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding         `asn1:"-" json:"-"`
 }
 
 // SecurityResult represents the ASN.1 type SecurityResult (SEQUENCE).
@@ -5018,6 +5270,8 @@ type SecurityResult struct {
 	ExtCount_                 int64                      `asn1:"-" json:"-"`
 	ExtPresent_               []bool                     `asn1:"-" json:"-"`
 	ExtData_                  [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_            []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SensorMeasConfig represents the ASN.1 ENUMERATED type SensorMeasConfig.
@@ -5044,6 +5298,8 @@ type SensorMeasConfigNameItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SensorMeasConfigNameList represents the ASN.1 type SensorMeasConfigNameList (SEQUENCE_OF).
@@ -5059,6 +5315,8 @@ type SensorMeasurementConfiguration struct {
 	ExtCount_                      int64                      `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                    per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                 []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SensorNameConfig choice constants.
@@ -5070,6 +5328,8 @@ const (
 // SensorNameConfig represents the ASN.1 CHOICE type SensorNameConfig.
 type SensorNameConfig struct {
 	Choice                        int
+	PERPadding_                   per.CompletePadding        `json:"-"`
+	PEROpenTypePadding_           per.CompletePadding        `json:"-"`
 	UncompensatedBarometricConfig *int64                     `json:"UncompensatedBarometricConfig,omitempty"`
 	ChoiceExtensions              *ProtocolIESingleContainer `json:"ChoiceExtensions,omitempty"`
 }
@@ -5122,6 +5382,8 @@ const (
 // SONInformation represents the ASN.1 CHOICE type SONInformation.
 type SONInformation struct {
 	Choice                  int
+	PERPadding_             per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_     per.CompletePadding         `json:"-"`
 	UnknownExtension        *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	SONInformationRequest   *SONInformationRequest      `json:"SONInformationRequest,omitempty"`
 	SONInformationReply     *SONInformationReply        `json:"SONInformationReply,omitempty"`
@@ -5154,9 +5416,10 @@ func NewSONInformationSONInformationExtension(v SONInformationExtension) SONInfo
 
 // SONInformationExtension represents the ASN.1 type SONInformation-Extension (SEQUENCE).
 type SONInformationExtension struct {
-	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
-	Criticality Criticality      `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SONInformationRequest represents the ASN.1 ENUMERATED type SONInformationRequest.
@@ -5192,6 +5455,8 @@ type SONInformationReply struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SONInformationReport choice constants.
@@ -5202,6 +5467,8 @@ const (
 // SONInformationReport represents the ASN.1 CHOICE type SONInformationReport.
 type SONInformationReport struct {
 	Choice               int
+	PERPadding_          per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_  per.CompletePadding         `json:"-"`
 	UnknownExtension     *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	RLFReportInformation *RLFReportInformation       `json:"RLFReportInformation,omitempty"`
 }
@@ -5224,6 +5491,8 @@ type SONConfigurationTransfer struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SynchronisationInformation represents the ASN.1 type SynchronisationInformation (SEQUENCE).
@@ -5237,6 +5506,8 @@ type SynchronisationInformation struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SourceToTargetTransparentContainer represents the ASN.1 type Source-ToTarget-TransparentContainer (OCTET_STRING).
@@ -5251,6 +5522,7 @@ type SourceeNBID struct {
 	SelectedTAI        TAI                        `asn1:"tag:1,context,implicit"`
 	IEExtensions       ProtocolExtensionContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitempty"`
 	IEExtensionsIndef_ bool                       `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // SRVCCOperationNotPossible represents the ASN.1 ENUMERATED type SRVCCOperationNotPossible.
@@ -5313,6 +5585,8 @@ const (
 // SourceNodeID represents the ASN.1 CHOICE type SourceNodeID.
 type SourceNodeID struct {
 	Choice                int
+	PERPadding_           per.CompletePadding    `json:"-"`
+	PEROpenTypePadding_   per.CompletePadding    `json:"-"`
 	SourceNgRanNodeID     *SourceNgRanNodeID     `json:"SourceNgRanNodeID,omitempty"`
 	SourceNodeIDExtension *SourceNodeIDExtension `json:"SourceNodeIDExtension,omitempty"`
 }
@@ -5335,9 +5609,10 @@ func NewSourceNodeIDSourceNodeIDExtension(v SourceNodeIDExtension) SourceNodeID 
 
 // SourceNodeIDExtension represents the ASN.1 type SourceNodeID-Extension (SEQUENCE).
 type SourceNodeIDExtension struct {
-	Id          ProtocolIEID     `asn1:"tag:0,context,implicit"`
-	Criticality Criticality      `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
+	Criticality Criticality         `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SourceeNBToTargeteNBTransparentContainer represents the ASN.1 type SourceeNB-ToTargeteNB-TransparentContainer (SEQUENCE).
@@ -5354,6 +5629,8 @@ type SourceeNBToTargeteNBTransparentContainer struct {
 	ExtCount_                  int64                      `asn1:"-" json:"-"`
 	ExtPresent_                []bool                     `asn1:"-" json:"-"`
 	ExtData_                   [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_             []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SourceNgRanNodeID represents the ASN.1 type SourceNgRanNode-ID (SEQUENCE).
@@ -5365,6 +5642,8 @@ type SourceNgRanNodeID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SourceRNCToTargetRNCTransparentContainer represents the ASN.1 type SourceRNC-ToTargetRNC-TransparentContainer (OCTET_STRING).
@@ -5389,6 +5668,8 @@ type ServedGUMMEIsItem struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ServedGroupIDs represents the ASN.1 type ServedGroupIDs (SEQUENCE_OF).
@@ -5416,6 +5697,8 @@ type SubscriptionBasedUEDifferentiationInfo struct {
 	ExtCount_                      int64                       `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                      `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                    `asn1:"-" json:"-"`
+	PERPadding_                    per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_                 []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // ScheduledCommunicationTime represents the ASN.1 type ScheduledCommunicationTime (SEQUENCE).
@@ -5428,6 +5711,8 @@ type ScheduledCommunicationTime struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SupportedTAs represents the ASN.1 type SupportedTAs (SEQUENCE_OF).
@@ -5443,6 +5728,8 @@ type SupportedTAsItem struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // StratumLevel represents the ASN.1 type StratumLevel (INTEGER).
@@ -5476,6 +5763,8 @@ type TimeSynchronisationInfo struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // STMSI represents the ASN.1 type S-TMSI (SEQUENCE).
@@ -5487,6 +5776,8 @@ type STMSI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TAC represents the ASN.1 type TAC (OCTET_STRING).
@@ -5504,6 +5795,8 @@ type TAIBasedMDT struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TAIListforMDT represents the ASN.1 type TAIListforMDT (SEQUENCE_OF).
@@ -5521,6 +5814,8 @@ type TAI struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TAIBroadcast represents the ASN.1 type TAI-Broadcast (SEQUENCE_OF).
@@ -5536,6 +5831,8 @@ type TAIBroadcastItem struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TAICancelled represents the ASN.1 type TAI-Cancelled (SEQUENCE_OF).
@@ -5551,6 +5848,8 @@ type TAICancelledItem struct {
 	ExtCount_                int64                      `asn1:"-" json:"-"`
 	ExtPresent_              []bool                     `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TABasedMDT represents the ASN.1 type TABasedMDT (SEQUENCE).
@@ -5562,6 +5861,8 @@ type TABasedMDT struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TAListforMDT represents the ASN.1 type TAListforMDT (SEQUENCE_OF).
@@ -5576,6 +5877,8 @@ type TABasedQMC struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TAListforQMC represents the ASN.1 type TAListforQMC (SEQUENCE_OF).
@@ -5590,6 +5893,8 @@ type TAIBasedQMC struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TAIListforQMC represents the ASN.1 type TAIListforQMC (SEQUENCE_OF).
@@ -5606,6 +5911,8 @@ type CompletedCellinTAIItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TBCDSTRING represents the ASN.1 type TBCD-STRING (OCTET_STRING).
@@ -5621,12 +5928,14 @@ const (
 
 // TargetID represents the ASN.1 CHOICE type TargetID.
 type TargetID struct {
-	Choice             int
-	UnknownExtension   *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	TargeteNBID        *TargeteNBID                `json:"TargeteNBID,omitempty"`
-	TargetRNCID        *TargetRNCID                `json:"TargetRNCID,omitempty"`
-	CGI                *CGI                        `json:"CGI,omitempty"`
-	TargetgNgRanNodeID *TargetNgRanNodeID          `json:"TargetgNgRanNodeID,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	TargeteNBID         *TargeteNBID                `json:"TargeteNBID,omitempty"`
+	TargetRNCID         *TargetRNCID                `json:"TargetRNCID,omitempty"`
+	CGI                 *CGI                        `json:"CGI,omitempty"`
+	TargetgNgRanNodeID  *TargetNgRanNodeID          `json:"TargetgNgRanNodeID,omitempty"`
 }
 
 // NewTargetIDTargeteNBID creates a TargetID with the targeteNB-ID alternative.
@@ -5670,6 +5979,8 @@ type TargeteNBID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TargetRNCID represents the ASN.1 type TargetRNC-ID (SEQUENCE).
@@ -5683,6 +5994,8 @@ type TargetRNCID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TargetNgRanNodeID represents the ASN.1 type TargetNgRanNode-ID (SEQUENCE).
@@ -5694,6 +6007,8 @@ type TargetNgRanNodeID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GlobalRANNODEID choice constants.
@@ -5704,10 +6019,12 @@ const (
 
 // GlobalRANNODEID represents the ASN.1 CHOICE type Global-RAN-NODE-ID.
 type GlobalRANNODEID struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	GNB              *GNB                        `json:"GNB,omitempty"`
-	NgENB            *NGENB                      `json:"NgENB,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	GNB                 *GNB                        `json:"GNB,omitempty"`
+	NgENB               *NGENB                      `json:"NgENB,omitempty"`
 }
 
 // NewGlobalRANNODEIDGNB creates a GlobalRANNODEID with the gNB alternative.
@@ -5734,6 +6051,8 @@ type GNB struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GlobalGNBID represents the ASN.1 type Global-GNB-ID (SEQUENCE).
@@ -5745,6 +6064,8 @@ type GlobalGNBID struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GNBIdentity choice constants.
@@ -5754,9 +6075,11 @@ const (
 
 // GNBIdentity represents the ASN.1 CHOICE type GNB-Identity.
 type GNBIdentity struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	GNBID            *GNBID                      `json:"GNBID,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	GNBID               *GNBID                      `json:"GNBID,omitempty"`
 }
 
 // NewGNBIdentityGNBID creates a GNBIdentity with the gNB-ID alternative.
@@ -5775,6 +6098,8 @@ type NGENB struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // GNBID represents the ASN.1 type GNB-ID (BIT_STRING).
@@ -5788,6 +6113,8 @@ type TargeteNBToSourceeNBTransparentContainer struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TargetToSourceTransparentContainer represents the ASN.1 type Target-ToSource-TransparentContainer (OCTET_STRING).
@@ -5810,6 +6137,8 @@ type M1ThresholdEventA2 struct {
 	ExtCount_            int64                      `asn1:"-" json:"-"`
 	ExtPresent_          []bool                     `asn1:"-" json:"-"`
 	ExtData_             [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ThresholdRSRP represents the ASN.1 type Threshold-RSRP (INTEGER).
@@ -5827,6 +6156,8 @@ type TimeBasedHandoverInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // HandoverWindowStart represents the ASN.1 type HandoverWindowStart (INTEGER).
@@ -5943,6 +6274,8 @@ type TransportInformation struct {
 	ExtCount_             int64                 `asn1:"-" json:"-"`
 	ExtPresent_           []bool                `asn1:"-" json:"-"`
 	ExtData_              [][]byte              `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // TransportLayerAddress represents the ASN.1 type TransportLayerAddress (BIT_STRING).
@@ -5959,6 +6292,8 @@ type TraceActivation struct {
 	ExtCount_                      int64                      `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                    per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                 []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TraceDepth represents the ASN.1 ENUMERATED type TraceDepth.
@@ -6007,6 +6342,8 @@ type TunnelInformation struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // TypeOfError represents the ASN.1 ENUMERATED type TypeOfError.
@@ -6056,6 +6393,8 @@ type UEAggregateMaximumBitrate struct {
 	ExtCount_                   int64                      `asn1:"-" json:"-"`
 	ExtPresent_                 []bool                     `asn1:"-" json:"-"`
 	ExtData_                    [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                 per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_              []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEAppLayerMeasConfig represents the ASN.1 type UEAppLayerMeasConfig (SEQUENCE).
@@ -6067,6 +6406,8 @@ type UEAppLayerMeasConfig struct {
 	ExtCount_                      int64                      `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                     `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                    per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                 []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UECapabilityInfoRequest represents the ASN.1 ENUMERATED type UECapabilityInfoRequest.
@@ -6109,10 +6450,12 @@ const (
 
 // UES1APIDs represents the ASN.1 CHOICE type UE-S1AP-IDs.
 type UES1APIDs struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	UES1APIDPair     *UES1APIDPair               `json:"UES1APIDPair,omitempty"`
-	MMEUES1APID      *MMEUES1APID                `json:"MMEUES1APID,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	UES1APIDPair        *UES1APIDPair               `json:"UES1APIDPair,omitempty"`
+	MMEUES1APID         *MMEUES1APID                `json:"MMEUES1APID,omitempty"`
 }
 
 // NewUES1APIDsUES1APIDPair creates a UES1APIDs with the uE-S1AP-ID-pair alternative.
@@ -6140,6 +6483,8 @@ type UES1APIDPair struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEAssociatedLogicalS1ConnectionItem represents the ASN.1 type UE-associatedLogicalS1-ConnectionItem (SEQUENCE).
@@ -6151,6 +6496,8 @@ type UEAssociatedLogicalS1ConnectionItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEIdentityIndexValue represents the ASN.1 type UEIdentityIndexValue (BIT_STRING).
@@ -6170,10 +6517,12 @@ const (
 
 // UEPagingID represents the ASN.1 CHOICE type UEPagingID.
 type UEPagingID struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	STMSI            *STMSI                      `json:"STMSI,omitempty"`
-	IMSI             *IMSI                       `json:"IMSI,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	STMSI               *STMSI                      `json:"STMSI,omitempty"`
+	IMSI                *IMSI                       `json:"IMSI,omitempty"`
 }
 
 // NewUEPagingIDSTMSI creates a UEPagingID with the s-TMSI alternative.
@@ -6216,6 +6565,8 @@ type UESecurityCapabilities struct {
 	ExtCount_                     int64                         `asn1:"-" json:"-"`
 	ExtPresent_                   []bool                        `asn1:"-" json:"-"`
 	ExtData_                      [][]byte                      `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding           `asn1:"-" json:"-"`
+	PERExtPadding_                []per.CompletePadding         `asn1:"-" json:"-"`
 }
 
 // UESidelinkAggregateMaximumBitrate represents the ASN.1 type UESidelinkAggregateMaximumBitrate (SEQUENCE).
@@ -6226,6 +6577,8 @@ type UESidelinkAggregateMaximumBitrate struct {
 	ExtCount_                         int64                      `asn1:"-" json:"-"`
 	ExtPresent_                       []bool                     `asn1:"-" json:"-"`
 	ExtData_                          [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                       per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                    []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEUsageType represents the ASN.1 type UE-Usage-Type (INTEGER).
@@ -6240,6 +6593,8 @@ type ULCPSecurityInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ULNASMAC represents the ASN.1 type UL-NAS-MAC (BIT_STRING).
@@ -6276,6 +6631,8 @@ type UserLocationInformation struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEUserPlaneCIoTSupportIndicator represents the ASN.1 ENUMERATED type UEUserPlaneCIoTSupportIndicator.
@@ -6325,6 +6682,8 @@ type V2XServicesAuthorized struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // VehicleUE represents the ASN.1 ENUMERATED type VehicleUE.
@@ -6378,6 +6737,8 @@ const (
 // WarningAreaList represents the ASN.1 CHOICE type WarningAreaList.
 type WarningAreaList struct {
 	Choice                     int
+	PERPadding_                per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_        per.CompletePadding         `json:"-"`
 	UnknownExtension           *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	CellIDList                 ECGIList                    `json:"CellIDList,omitempty"`
 	TrackingAreaListforWarning TAIListforWarning           `json:"TrackingAreaListforWarning,omitempty"`
@@ -6429,6 +6790,8 @@ type WLANMeasurementConfiguration struct {
 	ExtCount_                    int64                      `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                     `asn1:"-" json:"-"`
 	ExtData_                     [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_               []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // WLANMeasConfigNameList represents the ASN.1 type WLANMeasConfigNameList (SEQUENCE_OF).
@@ -6461,6 +6824,8 @@ type WUSAssistanceInformation struct {
 	ExtCount_                    int64                        `asn1:"-" json:"-"`
 	ExtPresent_                  []bool                       `asn1:"-" json:"-"`
 	ExtData_                     [][]byte                     `asn1:"-" json:"-"`
+	PERPadding_                  per.CompletePadding          `asn1:"-" json:"-"`
+	PERExtPadding_               []per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // X2TNLConfigurationInfo represents the ASN.1 type X2TNLConfigurationInfo (SEQUENCE).
@@ -6472,6 +6837,8 @@ type X2TNLConfigurationInfo struct {
 	ExtCount_                          int64                      `asn1:"-" json:"-"`
 	ExtPresent_                        []bool                     `asn1:"-" json:"-"`
 	ExtData_                           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_                        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_                     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENBX2ExtTLAs represents the ASN.1 type ENBX2ExtTLAs (SEQUENCE_OF).
@@ -6487,6 +6854,8 @@ type ENBX2ExtTLA struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ENBX2GTPTLAs represents the ASN.1 type ENBX2GTPTLAs (SEQUENCE_OF).
@@ -6501,7 +6870,7 @@ func (v *AdditionalGUTI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AdditionalGUTI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6562,9 +6931,11 @@ func (v *AdditionalGUTI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalGUTI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalGUTI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6631,7 +7002,7 @@ func (v *AreaScopeOfMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6673,7 +7044,11 @@ func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown AreaScopeOfMDT extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
+		openBytes, err := inner.CompleteBytesWithPadding(v.PEROpenTypePadding_)
+		if err != nil {
+			return err
+		}
+		if err := per.EncodeOpenTypeAligned(bb, openBytes); err != nil {
 			return err
 		}
 		return nil
@@ -6709,9 +7084,11 @@ func (v *AreaScopeOfMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AreaScopeOfMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AreaScopeOfMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6746,9 +7123,11 @@ func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			v.TAIBased = &dec_taibased
 		}
-		if err := per.ValidateOpenTypePadding(inner); err != nil {
+		padding, err := per.CaptureOpenTypePadding(inner)
+		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
+		v.PEROpenTypePadding_ = padding
 		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
@@ -6770,6 +7149,7 @@ func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 		}
 		v.TABased = &dec_tabased
 	case AreaScopeOfMDTChoicePLMNWide:
+		v.PLMNWide = new(struct{})
 	}
 	return nil
 }
@@ -6780,7 +7160,7 @@ func (v *AreaScopeOfQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AreaScopeOfQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6850,9 +7230,11 @@ func (v *AreaScopeOfQMC) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AreaScopeOfQMC")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AreaScopeOfQMC")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6914,7 +7296,7 @@ func (v *AllocationAndRetentionPriority) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AllocationAndRetentionPriority) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6978,9 +7360,11 @@ func (v *AllocationAndRetentionPriority) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AllocationAndRetentionPriority")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AllocationAndRetentionPriority")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7054,7 +7438,7 @@ func (v *AssistanceDataForCECapableUEs) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AssistanceDataForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7112,9 +7496,11 @@ func (v *AssistanceDataForCECapableUEs) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForCECapableUEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForCECapableUEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7176,7 +7562,7 @@ func (v *AssistanceDataForPaging) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AssistanceDataForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7255,9 +7641,11 @@ func (v *AssistanceDataForPaging) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForPaging")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForPaging")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7349,7 +7737,7 @@ func (v *AssistanceDataForRecommendedCells) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AssistanceDataForRecommendedCells) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7407,9 +7795,11 @@ func (v *AssistanceDataForRecommendedCells) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCells")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCells")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7469,13 +7859,38 @@ type asn1cAPERBearersSubjectToStatusTransferListListValue struct {
 	Value BearersSubjectToStatusTransferList
 }
 
-// MarshalAPERBearersSubjectToStatusTransferList encodes a BearersSubjectToStatusTransferList list to APER.
-func MarshalAPERBearersSubjectToStatusTransferList(list BearersSubjectToStatusTransferList) ([]byte, error) {
+// BearersSubjectToStatusTransferListComplete carries a complete BearersSubjectToStatusTransferList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type BearersSubjectToStatusTransferListComplete struct {
+	Value       BearersSubjectToStatusTransferList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *BearersSubjectToStatusTransferListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERBearersSubjectToStatusTransferListTo(list, bb); err != nil {
+	if err := MarshalAPERBearersSubjectToStatusTransferListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *BearersSubjectToStatusTransferListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERBearersSubjectToStatusTransferListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERBearersSubjectToStatusTransferList encodes a BearersSubjectToStatusTransferList list to APER.
+func MarshalAPERBearersSubjectToStatusTransferList(list BearersSubjectToStatusTransferListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERBearersSubjectToStatusTransferListTo appends a BearersSubjectToStatusTransferList list to bb.
@@ -7495,14 +7910,10 @@ func MarshalAPERBearersSubjectToStatusTransferListTo(list BearersSubjectToStatus
 }
 
 // UnmarshalAPERBearersSubjectToStatusTransferList decodes a BearersSubjectToStatusTransferList list from APER.
-func UnmarshalAPERBearersSubjectToStatusTransferList(data []byte) (BearersSubjectToStatusTransferList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERBearersSubjectToStatusTransferListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferList")
+func UnmarshalAPERBearersSubjectToStatusTransferList(data []byte) (BearersSubjectToStatusTransferListComplete, error) {
+	var value BearersSubjectToStatusTransferListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -7540,7 +7951,7 @@ func (v *BearersSubjectToStatusTransferItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *BearersSubjectToStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7612,9 +8023,11 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "BearersSubjectToStatusTransferItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7694,13 +8107,38 @@ type asn1cAPERBearersSubjectToEarlyStatusTransferListListValue struct {
 	Value BearersSubjectToEarlyStatusTransferList
 }
 
-// MarshalAPERBearersSubjectToEarlyStatusTransferList encodes a BearersSubjectToEarlyStatusTransferList list to APER.
-func MarshalAPERBearersSubjectToEarlyStatusTransferList(list BearersSubjectToEarlyStatusTransferList) ([]byte, error) {
+// BearersSubjectToEarlyStatusTransferListComplete carries a complete BearersSubjectToEarlyStatusTransferList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type BearersSubjectToEarlyStatusTransferListComplete struct {
+	Value       BearersSubjectToEarlyStatusTransferList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *BearersSubjectToEarlyStatusTransferListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERBearersSubjectToEarlyStatusTransferListTo(list, bb); err != nil {
+	if err := MarshalAPERBearersSubjectToEarlyStatusTransferListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *BearersSubjectToEarlyStatusTransferListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERBearersSubjectToEarlyStatusTransferListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERBearersSubjectToEarlyStatusTransferList encodes a BearersSubjectToEarlyStatusTransferList list to APER.
+func MarshalAPERBearersSubjectToEarlyStatusTransferList(list BearersSubjectToEarlyStatusTransferListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERBearersSubjectToEarlyStatusTransferListTo appends a BearersSubjectToEarlyStatusTransferList list to bb.
@@ -7720,14 +8158,10 @@ func MarshalAPERBearersSubjectToEarlyStatusTransferListTo(list BearersSubjectToE
 }
 
 // UnmarshalAPERBearersSubjectToEarlyStatusTransferList decodes a BearersSubjectToEarlyStatusTransferList list from APER.
-func UnmarshalAPERBearersSubjectToEarlyStatusTransferList(data []byte) (BearersSubjectToEarlyStatusTransferList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERBearersSubjectToEarlyStatusTransferListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferList")
+func UnmarshalAPERBearersSubjectToEarlyStatusTransferList(data []byte) (BearersSubjectToEarlyStatusTransferListComplete, error) {
+	var value BearersSubjectToEarlyStatusTransferListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -7765,7 +8199,7 @@ func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPER() ([]byte, error) 
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7826,9 +8260,11 @@ func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPER(data []byte) err
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7893,13 +8329,38 @@ type asn1cAPERBearersSubjectToDLDiscardingListListValue struct {
 	Value BearersSubjectToDLDiscardingList
 }
 
-// MarshalAPERBearersSubjectToDLDiscardingList encodes a BearersSubjectToDLDiscardingList list to APER.
-func MarshalAPERBearersSubjectToDLDiscardingList(list BearersSubjectToDLDiscardingList) ([]byte, error) {
+// BearersSubjectToDLDiscardingListComplete carries a complete BearersSubjectToDLDiscardingList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type BearersSubjectToDLDiscardingListComplete struct {
+	Value       BearersSubjectToDLDiscardingList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *BearersSubjectToDLDiscardingListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERBearersSubjectToDLDiscardingListTo(list, bb); err != nil {
+	if err := MarshalAPERBearersSubjectToDLDiscardingListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *BearersSubjectToDLDiscardingListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERBearersSubjectToDLDiscardingListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERBearersSubjectToDLDiscardingList encodes a BearersSubjectToDLDiscardingList list to APER.
+func MarshalAPERBearersSubjectToDLDiscardingList(list BearersSubjectToDLDiscardingListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERBearersSubjectToDLDiscardingListTo appends a BearersSubjectToDLDiscardingList list to bb.
@@ -7919,14 +8380,10 @@ func MarshalAPERBearersSubjectToDLDiscardingListTo(list BearersSubjectToDLDiscar
 }
 
 // UnmarshalAPERBearersSubjectToDLDiscardingList decodes a BearersSubjectToDLDiscardingList list from APER.
-func UnmarshalAPERBearersSubjectToDLDiscardingList(data []byte) (BearersSubjectToDLDiscardingList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERBearersSubjectToDLDiscardingListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingList")
+func UnmarshalAPERBearersSubjectToDLDiscardingList(data []byte) (BearersSubjectToDLDiscardingListComplete, error) {
+	var value BearersSubjectToDLDiscardingListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -7964,7 +8421,7 @@ func (v *BearersSubjectToDLDiscardingItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *BearersSubjectToDLDiscardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8025,9 +8482,11 @@ func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8094,7 +8553,7 @@ func (v *BluetoothMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *BluetoothMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8175,9 +8634,11 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BluetoothMeasurementConfiguration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "BluetoothMeasurementConfiguration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8269,13 +8730,38 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer)
 
 type asn1cAPERBluetoothMeasConfigNameListListValue struct{ Value BluetoothMeasConfigNameList }
 
-// MarshalAPERBluetoothMeasConfigNameList encodes a BluetoothMeasConfigNameList list to APER.
-func MarshalAPERBluetoothMeasConfigNameList(list BluetoothMeasConfigNameList) ([]byte, error) {
+// BluetoothMeasConfigNameListComplete carries a complete BluetoothMeasConfigNameList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type BluetoothMeasConfigNameListComplete struct {
+	Value       BluetoothMeasConfigNameList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *BluetoothMeasConfigNameListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERBluetoothMeasConfigNameListTo(list, bb); err != nil {
+	if err := MarshalAPERBluetoothMeasConfigNameListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *BluetoothMeasConfigNameListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERBluetoothMeasConfigNameListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BluetoothMeasConfigNameList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BluetoothMeasConfigNameList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERBluetoothMeasConfigNameList encodes a BluetoothMeasConfigNameList list to APER.
+func MarshalAPERBluetoothMeasConfigNameList(list BluetoothMeasConfigNameListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERBluetoothMeasConfigNameListTo appends a BluetoothMeasConfigNameList list to bb.
@@ -8295,14 +8781,10 @@ func MarshalAPERBluetoothMeasConfigNameListTo(list BluetoothMeasConfigNameList, 
 }
 
 // UnmarshalAPERBluetoothMeasConfigNameList decodes a BluetoothMeasConfigNameList list from APER.
-func UnmarshalAPERBluetoothMeasConfigNameList(data []byte) (BluetoothMeasConfigNameList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERBluetoothMeasConfigNameListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "BluetoothMeasConfigNameList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "BluetoothMeasConfigNameList")
+func UnmarshalAPERBluetoothMeasConfigNameList(data []byte) (BluetoothMeasConfigNameListComplete, error) {
+	var value BluetoothMeasConfigNameListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -8336,14 +8818,37 @@ func unmarshalAPERBluetoothMeasConfigNameListInto(v *asn1cAPERBluetoothMeasConfi
 
 type asn1cAPERBPLMNsListValue struct{ Value BPLMNs }
 
-// MarshalAPERBPLMNs encodes a BPLMNs list to APER.
-func MarshalAPERBPLMNs(list BPLMNs) ([]byte, error) {
+// BPLMNsComplete carries a complete BPLMNs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type BPLMNsComplete struct {
+	Value       BPLMNs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *BPLMNsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERBPLMNsTo(list, bb); err != nil {
+	if err := MarshalAPERBPLMNsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *BPLMNsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERBPLMNsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BPLMNs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "BPLMNs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERBPLMNs encodes a BPLMNs list to APER.
+func MarshalAPERBPLMNs(list BPLMNsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERBPLMNsTo appends a BPLMNs list to bb.
 func MarshalAPERBPLMNsTo(list BPLMNs, bb *per.BitBuffer) error {
@@ -8362,14 +8867,10 @@ func MarshalAPERBPLMNsTo(list BPLMNs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERBPLMNs decodes a BPLMNs list from APER.
-func UnmarshalAPERBPLMNs(data []byte) (BPLMNs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERBPLMNsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "BPLMNs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "BPLMNs")
+func UnmarshalAPERBPLMNs(data []byte) (BPLMNsComplete, error) {
+	var value BPLMNsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -8407,7 +8908,7 @@ func (v *BroadcastCancelledAreaList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *BroadcastCancelledAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8482,9 +8983,11 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BroadcastCancelledAreaList")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "BroadcastCancelledAreaList")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8570,7 +9073,7 @@ func (v *BroadcastCompletedAreaList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *BroadcastCompletedAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8645,9 +9148,11 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BroadcastCompletedAreaList")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "BroadcastCompletedAreaList")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8729,13 +9234,38 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 
 type asn1cAPERCancelledCellinEAIListValue struct{ Value CancelledCellinEAI }
 
-// MarshalAPERCancelledCellinEAI encodes a CancelledCellinEAI list to APER.
-func MarshalAPERCancelledCellinEAI(list CancelledCellinEAI) ([]byte, error) {
+// CancelledCellinEAIComplete carries a complete CancelledCellinEAI encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CancelledCellinEAIComplete struct {
+	Value       CancelledCellinEAI
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CancelledCellinEAIComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCancelledCellinEAITo(list, bb); err != nil {
+	if err := MarshalAPERCancelledCellinEAITo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CancelledCellinEAIComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCancelledCellinEAIFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CancelledCellinEAI")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CancelledCellinEAI")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCancelledCellinEAI encodes a CancelledCellinEAI list to APER.
+func MarshalAPERCancelledCellinEAI(list CancelledCellinEAIComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCancelledCellinEAITo appends a CancelledCellinEAI list to bb.
@@ -8755,14 +9285,10 @@ func MarshalAPERCancelledCellinEAITo(list CancelledCellinEAI, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERCancelledCellinEAI decodes a CancelledCellinEAI list from APER.
-func UnmarshalAPERCancelledCellinEAI(data []byte) (CancelledCellinEAI, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCancelledCellinEAIFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CancelledCellinEAI")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CancelledCellinEAI")
+func UnmarshalAPERCancelledCellinEAI(data []byte) (CancelledCellinEAIComplete, error) {
+	var value CancelledCellinEAIComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -8800,7 +9326,7 @@ func (v *CancelledCellinEAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CancelledCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8861,9 +9387,11 @@ func (v *CancelledCellinEAIItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CancelledCellinEAIItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CancelledCellinEAIItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8926,13 +9454,38 @@ func (v *CancelledCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERCancelledCellinTAIListValue struct{ Value CancelledCellinTAI }
 
-// MarshalAPERCancelledCellinTAI encodes a CancelledCellinTAI list to APER.
-func MarshalAPERCancelledCellinTAI(list CancelledCellinTAI) ([]byte, error) {
+// CancelledCellinTAIComplete carries a complete CancelledCellinTAI encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CancelledCellinTAIComplete struct {
+	Value       CancelledCellinTAI
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CancelledCellinTAIComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCancelledCellinTAITo(list, bb); err != nil {
+	if err := MarshalAPERCancelledCellinTAITo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CancelledCellinTAIComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCancelledCellinTAIFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CancelledCellinTAI")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CancelledCellinTAI")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCancelledCellinTAI encodes a CancelledCellinTAI list to APER.
+func MarshalAPERCancelledCellinTAI(list CancelledCellinTAIComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCancelledCellinTAITo appends a CancelledCellinTAI list to bb.
@@ -8952,14 +9505,10 @@ func MarshalAPERCancelledCellinTAITo(list CancelledCellinTAI, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERCancelledCellinTAI decodes a CancelledCellinTAI list from APER.
-func UnmarshalAPERCancelledCellinTAI(data []byte) (CancelledCellinTAI, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCancelledCellinTAIFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CancelledCellinTAI")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CancelledCellinTAI")
+func UnmarshalAPERCancelledCellinTAI(data []byte) (CancelledCellinTAIComplete, error) {
+	var value CancelledCellinTAIComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -8997,7 +9546,7 @@ func (v *CancelledCellinTAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CancelledCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9058,9 +9607,11 @@ func (v *CancelledCellinTAIItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CancelledCellinTAIItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CancelledCellinTAIItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9127,7 +9678,7 @@ func (v *Cause) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9204,9 +9755,11 @@ func (v *Cause) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9279,7 +9832,7 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPER() ([]byte, error) 
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9340,9 +9893,11 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPER(data []byte) err
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellIdentifierAndCELevelForCECapableUEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellIdentifierAndCELevelForCECapableUEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9405,13 +9960,38 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitB
 
 type asn1cAPERCellIDBroadcastListValue struct{ Value CellIDBroadcast }
 
-// MarshalAPERCellIDBroadcast encodes a CellIDBroadcast list to APER.
-func MarshalAPERCellIDBroadcast(list CellIDBroadcast) ([]byte, error) {
+// CellIDBroadcastComplete carries a complete CellIDBroadcast encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CellIDBroadcastComplete struct {
+	Value       CellIDBroadcast
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CellIDBroadcastComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCellIDBroadcastTo(list, bb); err != nil {
+	if err := MarshalAPERCellIDBroadcastTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CellIDBroadcastComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCellIDBroadcastFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIDBroadcast")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIDBroadcast")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCellIDBroadcast encodes a CellIDBroadcast list to APER.
+func MarshalAPERCellIDBroadcast(list CellIDBroadcastComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCellIDBroadcastTo appends a CellIDBroadcast list to bb.
@@ -9431,14 +10011,10 @@ func MarshalAPERCellIDBroadcastTo(list CellIDBroadcast, bb *per.BitBuffer) error
 }
 
 // UnmarshalAPERCellIDBroadcast decodes a CellIDBroadcast list from APER.
-func UnmarshalAPERCellIDBroadcast(data []byte) (CellIDBroadcast, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCellIDBroadcastFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIDBroadcast")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIDBroadcast")
+func UnmarshalAPERCellIDBroadcast(data []byte) (CellIDBroadcastComplete, error) {
+	var value CellIDBroadcastComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -9476,7 +10052,7 @@ func (v *CellIDBroadcastItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9534,9 +10110,11 @@ func (v *CellIDBroadcastItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellIDBroadcastItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellIDBroadcastItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9594,13 +10172,38 @@ func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERCellIDCancelledListValue struct{ Value CellIDCancelled }
 
-// MarshalAPERCellIDCancelled encodes a CellIDCancelled list to APER.
-func MarshalAPERCellIDCancelled(list CellIDCancelled) ([]byte, error) {
+// CellIDCancelledComplete carries a complete CellIDCancelled encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CellIDCancelledComplete struct {
+	Value       CellIDCancelled
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CellIDCancelledComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCellIDCancelledTo(list, bb); err != nil {
+	if err := MarshalAPERCellIDCancelledTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CellIDCancelledComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCellIDCancelledFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIDCancelled")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIDCancelled")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCellIDCancelled encodes a CellIDCancelled list to APER.
+func MarshalAPERCellIDCancelled(list CellIDCancelledComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCellIDCancelledTo appends a CellIDCancelled list to bb.
@@ -9620,14 +10223,10 @@ func MarshalAPERCellIDCancelledTo(list CellIDCancelled, bb *per.BitBuffer) error
 }
 
 // UnmarshalAPERCellIDCancelled decodes a CellIDCancelled list from APER.
-func UnmarshalAPERCellIDCancelled(data []byte) (CellIDCancelled, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCellIDCancelledFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIDCancelled")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIDCancelled")
+func UnmarshalAPERCellIDCancelled(data []byte) (CellIDCancelledComplete, error) {
+	var value CellIDCancelledComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -9665,7 +10264,7 @@ func (v *CellIDCancelledItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9726,9 +10325,11 @@ func (v *CellIDCancelledItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellIDCancelledItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellIDCancelledItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9795,7 +10396,7 @@ func (v *CellBasedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9860,9 +10461,11 @@ func (v *CellBasedMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellBasedMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellBasedMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9931,13 +10534,38 @@ func (v *CellBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERCellIdListforMDTListValue struct{ Value CellIdListforMDT }
 
-// MarshalAPERCellIdListforMDT encodes a CellIdListforMDT list to APER.
-func MarshalAPERCellIdListforMDT(list CellIdListforMDT) ([]byte, error) {
+// CellIdListforMDTComplete carries a complete CellIdListforMDT encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CellIdListforMDTComplete struct {
+	Value       CellIdListforMDT
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CellIdListforMDTComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCellIdListforMDTTo(list, bb); err != nil {
+	if err := MarshalAPERCellIdListforMDTTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CellIdListforMDTComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCellIdListforMDTFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIdListforMDT")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIdListforMDT")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCellIdListforMDT encodes a CellIdListforMDT list to APER.
+func MarshalAPERCellIdListforMDT(list CellIdListforMDTComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCellIdListforMDTTo appends a CellIdListforMDT list to bb.
@@ -9957,14 +10585,10 @@ func MarshalAPERCellIdListforMDTTo(list CellIdListforMDT, bb *per.BitBuffer) err
 }
 
 // UnmarshalAPERCellIdListforMDT decodes a CellIdListforMDT list from APER.
-func UnmarshalAPERCellIdListforMDT(data []byte) (CellIdListforMDT, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCellIdListforMDTFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIdListforMDT")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIdListforMDT")
+func UnmarshalAPERCellIdListforMDT(data []byte) (CellIdListforMDTComplete, error) {
+	var value CellIdListforMDTComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -10002,7 +10626,7 @@ func (v *CellBasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10067,9 +10691,11 @@ func (v *CellBasedQMC) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellBasedQMC")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellBasedQMC")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10138,13 +10764,38 @@ func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERCellIdListforQMCListValue struct{ Value CellIdListforQMC }
 
-// MarshalAPERCellIdListforQMC encodes a CellIdListforQMC list to APER.
-func MarshalAPERCellIdListforQMC(list CellIdListforQMC) ([]byte, error) {
+// CellIdListforQMCComplete carries a complete CellIdListforQMC encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CellIdListforQMCComplete struct {
+	Value       CellIdListforQMC
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CellIdListforQMCComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCellIdListforQMCTo(list, bb); err != nil {
+	if err := MarshalAPERCellIdListforQMCTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CellIdListforQMCComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCellIdListforQMCFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIdListforQMC")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CellIdListforQMC")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCellIdListforQMC encodes a CellIdListforQMC list to APER.
+func MarshalAPERCellIdListforQMC(list CellIdListforQMCComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCellIdListforQMCTo appends a CellIdListforQMC list to bb.
@@ -10164,14 +10815,10 @@ func MarshalAPERCellIdListforQMCTo(list CellIdListforQMC, bb *per.BitBuffer) err
 }
 
 // UnmarshalAPERCellIdListforQMC decodes a CellIdListforQMC list from APER.
-func UnmarshalAPERCellIdListforQMC(data []byte) (CellIdListforQMC, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCellIdListforQMCFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIdListforQMC")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CellIdListforQMC")
+func UnmarshalAPERCellIdListforQMC(data []byte) (CellIdListforQMCComplete, error) {
+	var value CellIdListforQMCComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -10209,7 +10856,7 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10273,9 +10920,11 @@ func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cdma2000OneXSRVCCInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "Cdma2000OneXSRVCCInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10349,7 +10998,7 @@ func (v *CellType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10407,9 +11056,11 @@ func (v *CellType) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellType")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellType")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10473,7 +11124,7 @@ func (v *CGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10545,9 +11196,11 @@ func (v *CGI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CGI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CGI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10629,13 +11282,38 @@ func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERCNTypeRestrictionsListValue struct{ Value CNTypeRestrictions }
 
-// MarshalAPERCNTypeRestrictions encodes a CNTypeRestrictions list to APER.
-func MarshalAPERCNTypeRestrictions(list CNTypeRestrictions) ([]byte, error) {
+// CNTypeRestrictionsComplete carries a complete CNTypeRestrictions encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CNTypeRestrictionsComplete struct {
+	Value       CNTypeRestrictions
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CNTypeRestrictionsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCNTypeRestrictionsTo(list, bb); err != nil {
+	if err := MarshalAPERCNTypeRestrictionsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CNTypeRestrictionsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCNTypeRestrictionsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CNTypeRestrictions")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CNTypeRestrictions")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCNTypeRestrictions encodes a CNTypeRestrictions list to APER.
+func MarshalAPERCNTypeRestrictions(list CNTypeRestrictionsComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCNTypeRestrictionsTo appends a CNTypeRestrictions list to bb.
@@ -10655,14 +11333,10 @@ func MarshalAPERCNTypeRestrictionsTo(list CNTypeRestrictions, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERCNTypeRestrictions decodes a CNTypeRestrictions list from APER.
-func UnmarshalAPERCNTypeRestrictions(data []byte) (CNTypeRestrictions, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCNTypeRestrictionsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CNTypeRestrictions")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CNTypeRestrictions")
+func UnmarshalAPERCNTypeRestrictions(data []byte) (CNTypeRestrictionsComplete, error) {
+	var value CNTypeRestrictionsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -10700,7 +11374,7 @@ func (v *CNTypeRestrictionsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10761,9 +11435,11 @@ func (v *CNTypeRestrictionsItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CNTypeRestrictionsItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CNTypeRestrictionsItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10828,13 +11504,38 @@ func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERConnectedengNBListListValue struct{ Value ConnectedengNBList }
 
-// MarshalAPERConnectedengNBList encodes a ConnectedengNBList list to APER.
-func MarshalAPERConnectedengNBList(list ConnectedengNBList) ([]byte, error) {
+// ConnectedengNBListComplete carries a complete ConnectedengNBList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ConnectedengNBListComplete struct {
+	Value       ConnectedengNBList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ConnectedengNBListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERConnectedengNBListTo(list, bb); err != nil {
+	if err := MarshalAPERConnectedengNBListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ConnectedengNBListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERConnectedengNBListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ConnectedengNBList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ConnectedengNBList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERConnectedengNBList encodes a ConnectedengNBList list to APER.
+func MarshalAPERConnectedengNBList(list ConnectedengNBListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERConnectedengNBListTo appends a ConnectedengNBList list to bb.
@@ -10854,14 +11555,10 @@ func MarshalAPERConnectedengNBListTo(list ConnectedengNBList, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERConnectedengNBList decodes a ConnectedengNBList list from APER.
-func UnmarshalAPERConnectedengNBList(data []byte) (ConnectedengNBList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERConnectedengNBListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ConnectedengNBList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ConnectedengNBList")
+func UnmarshalAPERConnectedengNBList(data []byte) (ConnectedengNBListComplete, error) {
+	var value ConnectedengNBListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -10899,7 +11596,7 @@ func (v *ConnectedengNBItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ConnectedengNBItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10967,9 +11664,11 @@ func (v *ConnectedengNBItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ConnectedengNBItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ConnectedengNBItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11047,7 +11746,7 @@ func (v *ContextatSource) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ContextatSource) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11108,9 +11807,11 @@ func (v *ContextatSource) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ContextatSource")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ContextatSource")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11173,14 +11874,37 @@ func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERCSGIdListListValue struct{ Value CSGIdList }
 
-// MarshalAPERCSGIdList encodes a CSGIdList list to APER.
-func MarshalAPERCSGIdList(list CSGIdList) ([]byte, error) {
+// CSGIdListComplete carries a complete CSGIdList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CSGIdListComplete struct {
+	Value       CSGIdList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CSGIdListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCSGIdListTo(list, bb); err != nil {
+	if err := MarshalAPERCSGIdListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *CSGIdListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCSGIdListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CSGIdList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CSGIdList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCSGIdList encodes a CSGIdList list to APER.
+func MarshalAPERCSGIdList(list CSGIdListComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERCSGIdListTo appends a CSGIdList list to bb.
 func MarshalAPERCSGIdListTo(list CSGIdList, bb *per.BitBuffer) error {
@@ -11199,14 +11923,10 @@ func MarshalAPERCSGIdListTo(list CSGIdList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERCSGIdList decodes a CSGIdList list from APER.
-func UnmarshalAPERCSGIdList(data []byte) (CSGIdList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCSGIdListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CSGIdList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CSGIdList")
+func UnmarshalAPERCSGIdList(data []byte) (CSGIdListComplete, error) {
+	var value CSGIdListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -11244,7 +11964,7 @@ func (v *CSGIdListItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CSGIdListItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11302,9 +12022,11 @@ func (v *CSGIdListItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CSGIdListItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CSGIdListItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11368,7 +12090,7 @@ func (v *COUNTvalue) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *COUNTvalue) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11429,9 +12151,11 @@ func (v *COUNTvalue) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvalue")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvalue")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11500,7 +12224,7 @@ func (v *COUNTValueExtended) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *COUNTValueExtended) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11561,9 +12285,11 @@ func (v *COUNTValueExtended) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTValueExtended")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "COUNTValueExtended")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11632,7 +12358,7 @@ func (v *COUNTvaluePDCPSNlength18) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *COUNTvaluePDCPSNlength18) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11693,9 +12419,11 @@ func (v *COUNTvaluePDCPSNlength18) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11764,7 +12492,7 @@ func (v *CriticalityDiagnostics) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11858,9 +12586,11 @@ func (v *CriticalityDiagnostics) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11972,13 +12702,38 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERCriticalityDiagnosticsIEListListValue struct{ Value CriticalityDiagnosticsIEList }
 
-// MarshalAPERCriticalityDiagnosticsIEList encodes a CriticalityDiagnosticsIEList list to APER.
-func MarshalAPERCriticalityDiagnosticsIEList(list CriticalityDiagnosticsIEList) ([]byte, error) {
+// CriticalityDiagnosticsIEListComplete carries a complete CriticalityDiagnosticsIEList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CriticalityDiagnosticsIEListComplete struct {
+	Value       CriticalityDiagnosticsIEList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CriticalityDiagnosticsIEListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCriticalityDiagnosticsIEListTo(list, bb); err != nil {
+	if err := MarshalAPERCriticalityDiagnosticsIEListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CriticalityDiagnosticsIEListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCriticalityDiagnosticsIEListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCriticalityDiagnosticsIEList encodes a CriticalityDiagnosticsIEList list to APER.
+func MarshalAPERCriticalityDiagnosticsIEList(list CriticalityDiagnosticsIEListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCriticalityDiagnosticsIEListTo appends a CriticalityDiagnosticsIEList list to bb.
@@ -11998,14 +12753,10 @@ func MarshalAPERCriticalityDiagnosticsIEListTo(list CriticalityDiagnosticsIEList
 }
 
 // UnmarshalAPERCriticalityDiagnosticsIEList decodes a CriticalityDiagnosticsIEList list from APER.
-func UnmarshalAPERCriticalityDiagnosticsIEList(data []byte) (CriticalityDiagnosticsIEList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCriticalityDiagnosticsIEListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
+func UnmarshalAPERCriticalityDiagnosticsIEList(data []byte) (CriticalityDiagnosticsIEListComplete, error) {
+	var value CriticalityDiagnosticsIEListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -12043,7 +12794,7 @@ func (v *CriticalityDiagnosticsIEItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CriticalityDiagnosticsIEItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12107,9 +12858,11 @@ func (v *CriticalityDiagnosticsIEItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12183,7 +12936,7 @@ func (v *DAPSRequestInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DAPSRequestInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12241,9 +12994,11 @@ func (v *DAPSRequestInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DAPSRequestInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DAPSRequestInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12303,13 +13058,38 @@ func (v *DAPSRequestInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERDAPSResponseInfoListListValue struct{ Value DAPSResponseInfoList }
 
-// MarshalAPERDAPSResponseInfoList encodes a DAPSResponseInfoList list to APER.
-func MarshalAPERDAPSResponseInfoList(list DAPSResponseInfoList) ([]byte, error) {
+// DAPSResponseInfoListComplete carries a complete DAPSResponseInfoList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type DAPSResponseInfoListComplete struct {
+	Value       DAPSResponseInfoList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *DAPSResponseInfoListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERDAPSResponseInfoListTo(list, bb); err != nil {
+	if err := MarshalAPERDAPSResponseInfoListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *DAPSResponseInfoListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERDAPSResponseInfoListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "DAPSResponseInfoList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "DAPSResponseInfoList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERDAPSResponseInfoList encodes a DAPSResponseInfoList list to APER.
+func MarshalAPERDAPSResponseInfoList(list DAPSResponseInfoListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERDAPSResponseInfoListTo appends a DAPSResponseInfoList list to bb.
@@ -12329,14 +13109,10 @@ func MarshalAPERDAPSResponseInfoListTo(list DAPSResponseInfoList, bb *per.BitBuf
 }
 
 // UnmarshalAPERDAPSResponseInfoList decodes a DAPSResponseInfoList list from APER.
-func UnmarshalAPERDAPSResponseInfoList(data []byte) (DAPSResponseInfoList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERDAPSResponseInfoListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "DAPSResponseInfoList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "DAPSResponseInfoList")
+func UnmarshalAPERDAPSResponseInfoList(data []byte) (DAPSResponseInfoListComplete, error) {
+	var value DAPSResponseInfoListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -12374,7 +13150,7 @@ func (v *DAPSResponseInfoItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DAPSResponseInfoItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12435,9 +13211,11 @@ func (v *DAPSResponseInfoItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DAPSResponseInfoItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DAPSResponseInfoItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12504,7 +13282,7 @@ func (v *DAPSResponseInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DAPSResponseInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12562,9 +13340,11 @@ func (v *DAPSResponseInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DAPSResponseInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DAPSResponseInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12624,14 +13404,37 @@ func (v *DAPSResponseInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERServedDCNsListValue struct{ Value ServedDCNs }
 
-// MarshalAPERServedDCNs encodes a ServedDCNs list to APER.
-func MarshalAPERServedDCNs(list ServedDCNs) ([]byte, error) {
+// ServedDCNsComplete carries a complete ServedDCNs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ServedDCNsComplete struct {
+	Value       ServedDCNs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ServedDCNsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERServedDCNsTo(list, bb); err != nil {
+	if err := MarshalAPERServedDCNsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ServedDCNsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERServedDCNsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedDCNs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedDCNs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERServedDCNs encodes a ServedDCNs list to APER.
+func MarshalAPERServedDCNs(list ServedDCNsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERServedDCNsTo appends a ServedDCNs list to bb.
 func MarshalAPERServedDCNsTo(list ServedDCNs, bb *per.BitBuffer) error {
@@ -12650,14 +13453,10 @@ func MarshalAPERServedDCNsTo(list ServedDCNs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERServedDCNs decodes a ServedDCNs list from APER.
-func UnmarshalAPERServedDCNs(data []byte) (ServedDCNs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERServedDCNsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedDCNs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedDCNs")
+func UnmarshalAPERServedDCNs(data []byte) (ServedDCNsComplete, error) {
+	var value ServedDCNsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -12695,7 +13494,7 @@ func (v *ServedDCNsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12756,9 +13555,11 @@ func (v *ServedDCNsItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ServedDCNsItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ServedDCNsItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12827,7 +13628,7 @@ func (v *DLCPSecurityInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DLCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12885,9 +13686,11 @@ func (v *DLCPSecurityInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLCPSecurityInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DLCPSecurityInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12951,7 +13754,7 @@ func (v *DLCOUNTPDCPSNlength) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DLCOUNTPDCPSNlength) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13014,9 +13817,11 @@ func (v *DLCOUNTPDCPSNlength) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLCOUNTPDCPSNlength")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DLCOUNTPDCPSNlength")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13072,7 +13877,7 @@ func (v *DLDiscarding) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DLDiscarding) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13135,9 +13940,11 @@ func (v *DLDiscarding) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DLDiscarding")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DLDiscarding")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13189,14 +13996,37 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERECGIListListValue struct{ Value ECGIList }
 
-// MarshalAPERECGIList encodes a ECGIList list to APER.
-func MarshalAPERECGIList(list ECGIList) ([]byte, error) {
+// ECGIListComplete carries a complete ECGIList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ECGIListComplete struct {
+	Value       ECGIList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ECGIListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERECGIListTo(list, bb); err != nil {
+	if err := MarshalAPERECGIListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ECGIListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERECGIListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ECGIList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ECGIList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERECGIList encodes a ECGIList list to APER.
+func MarshalAPERECGIList(list ECGIListComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERECGIListTo appends a ECGIList list to bb.
 func MarshalAPERECGIListTo(list ECGIList, bb *per.BitBuffer) error {
@@ -13215,14 +14045,10 @@ func MarshalAPERECGIListTo(list ECGIList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERECGIList decodes a ECGIList list from APER.
-func UnmarshalAPERECGIList(data []byte) (ECGIList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERECGIListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ECGIList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ECGIList")
+func UnmarshalAPERECGIList(data []byte) (ECGIListComplete, error) {
+	var value ECGIListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13256,13 +14082,38 @@ func unmarshalAPERECGIListInto(v *asn1cAPERECGIListListValue, bb *per.BitBuffer)
 
 type asn1cAPERPWSfailedECGIListListValue struct{ Value PWSfailedECGIList }
 
-// MarshalAPERPWSfailedECGIList encodes a PWSfailedECGIList list to APER.
-func MarshalAPERPWSfailedECGIList(list PWSfailedECGIList) ([]byte, error) {
+// PWSfailedECGIListComplete carries a complete PWSfailedECGIList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type PWSfailedECGIListComplete struct {
+	Value       PWSfailedECGIList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *PWSfailedECGIListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERPWSfailedECGIListTo(list, bb); err != nil {
+	if err := MarshalAPERPWSfailedECGIListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *PWSfailedECGIListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERPWSfailedECGIListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PWSfailedECGIList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PWSfailedECGIList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERPWSfailedECGIList encodes a PWSfailedECGIList list to APER.
+func MarshalAPERPWSfailedECGIList(list PWSfailedECGIListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERPWSfailedECGIListTo appends a PWSfailedECGIList list to bb.
@@ -13282,14 +14133,10 @@ func MarshalAPERPWSfailedECGIListTo(list PWSfailedECGIList, bb *per.BitBuffer) e
 }
 
 // UnmarshalAPERPWSfailedECGIList decodes a PWSfailedECGIList list from APER.
-func UnmarshalAPERPWSfailedECGIList(data []byte) (PWSfailedECGIList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERPWSfailedECGIListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "PWSfailedECGIList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "PWSfailedECGIList")
+func UnmarshalAPERPWSfailedECGIList(data []byte) (PWSfailedECGIListComplete, error) {
+	var value PWSfailedECGIListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13323,13 +14170,38 @@ func unmarshalAPERPWSfailedECGIListInto(v *asn1cAPERPWSfailedECGIListListValue, 
 
 type asn1cAPEREmergencyAreaIDListListValue struct{ Value EmergencyAreaIDList }
 
-// MarshalAPEREmergencyAreaIDList encodes a EmergencyAreaIDList list to APER.
-func MarshalAPEREmergencyAreaIDList(list EmergencyAreaIDList) ([]byte, error) {
+// EmergencyAreaIDListComplete carries a complete EmergencyAreaIDList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type EmergencyAreaIDListComplete struct {
+	Value       EmergencyAreaIDList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *EmergencyAreaIDListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPEREmergencyAreaIDListTo(list, bb); err != nil {
+	if err := MarshalAPEREmergencyAreaIDListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *EmergencyAreaIDListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPEREmergencyAreaIDListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPEREmergencyAreaIDList encodes a EmergencyAreaIDList list to APER.
+func MarshalAPEREmergencyAreaIDList(list EmergencyAreaIDListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPEREmergencyAreaIDListTo appends a EmergencyAreaIDList list to bb.
@@ -13349,14 +14221,10 @@ func MarshalAPEREmergencyAreaIDListTo(list EmergencyAreaIDList, bb *per.BitBuffe
 }
 
 // UnmarshalAPEREmergencyAreaIDList decodes a EmergencyAreaIDList list from APER.
-func UnmarshalAPEREmergencyAreaIDList(data []byte) (EmergencyAreaIDList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPEREmergencyAreaIDListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDList")
+func UnmarshalAPEREmergencyAreaIDList(data []byte) (EmergencyAreaIDListComplete, error) {
+	var value EmergencyAreaIDListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13390,13 +14258,38 @@ func unmarshalAPEREmergencyAreaIDListInto(v *asn1cAPEREmergencyAreaIDListListVal
 
 type asn1cAPEREmergencyAreaIDBroadcastListValue struct{ Value EmergencyAreaIDBroadcast }
 
-// MarshalAPEREmergencyAreaIDBroadcast encodes a EmergencyAreaIDBroadcast list to APER.
-func MarshalAPEREmergencyAreaIDBroadcast(list EmergencyAreaIDBroadcast) ([]byte, error) {
+// EmergencyAreaIDBroadcastComplete carries a complete EmergencyAreaIDBroadcast encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type EmergencyAreaIDBroadcastComplete struct {
+	Value       EmergencyAreaIDBroadcast
+	PERPadding_ per.CompletePadding
+}
+
+func (v *EmergencyAreaIDBroadcastComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPEREmergencyAreaIDBroadcastTo(list, bb); err != nil {
+	if err := MarshalAPEREmergencyAreaIDBroadcastTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *EmergencyAreaIDBroadcastComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPEREmergencyAreaIDBroadcastFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcast")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcast")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPEREmergencyAreaIDBroadcast encodes a EmergencyAreaIDBroadcast list to APER.
+func MarshalAPEREmergencyAreaIDBroadcast(list EmergencyAreaIDBroadcastComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPEREmergencyAreaIDBroadcastTo appends a EmergencyAreaIDBroadcast list to bb.
@@ -13416,14 +14309,10 @@ func MarshalAPEREmergencyAreaIDBroadcastTo(list EmergencyAreaIDBroadcast, bb *pe
 }
 
 // UnmarshalAPEREmergencyAreaIDBroadcast decodes a EmergencyAreaIDBroadcast list from APER.
-func UnmarshalAPEREmergencyAreaIDBroadcast(data []byte) (EmergencyAreaIDBroadcast, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPEREmergencyAreaIDBroadcastFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcast")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcast")
+func UnmarshalAPEREmergencyAreaIDBroadcast(data []byte) (EmergencyAreaIDBroadcastComplete, error) {
+	var value EmergencyAreaIDBroadcastComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13461,7 +14350,7 @@ func (v *EmergencyAreaIDBroadcastItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13529,9 +14418,11 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcastItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "EmergencyAreaIDBroadcastItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13605,13 +14496,38 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 
 type asn1cAPEREmergencyAreaIDCancelledListValue struct{ Value EmergencyAreaIDCancelled }
 
-// MarshalAPEREmergencyAreaIDCancelled encodes a EmergencyAreaIDCancelled list to APER.
-func MarshalAPEREmergencyAreaIDCancelled(list EmergencyAreaIDCancelled) ([]byte, error) {
+// EmergencyAreaIDCancelledComplete carries a complete EmergencyAreaIDCancelled encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type EmergencyAreaIDCancelledComplete struct {
+	Value       EmergencyAreaIDCancelled
+	PERPadding_ per.CompletePadding
+}
+
+func (v *EmergencyAreaIDCancelledComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPEREmergencyAreaIDCancelledTo(list, bb); err != nil {
+	if err := MarshalAPEREmergencyAreaIDCancelledTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *EmergencyAreaIDCancelledComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPEREmergencyAreaIDCancelledFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDCancelled")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDCancelled")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPEREmergencyAreaIDCancelled encodes a EmergencyAreaIDCancelled list to APER.
+func MarshalAPEREmergencyAreaIDCancelled(list EmergencyAreaIDCancelledComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPEREmergencyAreaIDCancelledTo appends a EmergencyAreaIDCancelled list to bb.
@@ -13631,14 +14547,10 @@ func MarshalAPEREmergencyAreaIDCancelledTo(list EmergencyAreaIDCancelled, bb *pe
 }
 
 // UnmarshalAPEREmergencyAreaIDCancelled decodes a EmergencyAreaIDCancelled list from APER.
-func UnmarshalAPEREmergencyAreaIDCancelled(data []byte) (EmergencyAreaIDCancelled, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPEREmergencyAreaIDCancelledFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDCancelled")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDCancelled")
+func UnmarshalAPEREmergencyAreaIDCancelled(data []byte) (EmergencyAreaIDCancelledComplete, error) {
+	var value EmergencyAreaIDCancelledComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13676,7 +14588,7 @@ func (v *EmergencyAreaIDCancelledItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13744,9 +14656,11 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EmergencyAreaIDCancelledItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "EmergencyAreaIDCancelledItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13820,13 +14734,38 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 
 type asn1cAPERCompletedCellinEAIListValue struct{ Value CompletedCellinEAI }
 
-// MarshalAPERCompletedCellinEAI encodes a CompletedCellinEAI list to APER.
-func MarshalAPERCompletedCellinEAI(list CompletedCellinEAI) ([]byte, error) {
+// CompletedCellinEAIComplete carries a complete CompletedCellinEAI encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CompletedCellinEAIComplete struct {
+	Value       CompletedCellinEAI
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CompletedCellinEAIComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCompletedCellinEAITo(list, bb); err != nil {
+	if err := MarshalAPERCompletedCellinEAITo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CompletedCellinEAIComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCompletedCellinEAIFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CompletedCellinEAI")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CompletedCellinEAI")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCompletedCellinEAI encodes a CompletedCellinEAI list to APER.
+func MarshalAPERCompletedCellinEAI(list CompletedCellinEAIComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCompletedCellinEAITo appends a CompletedCellinEAI list to bb.
@@ -13846,14 +14785,10 @@ func MarshalAPERCompletedCellinEAITo(list CompletedCellinEAI, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERCompletedCellinEAI decodes a CompletedCellinEAI list from APER.
-func UnmarshalAPERCompletedCellinEAI(data []byte) (CompletedCellinEAI, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCompletedCellinEAIFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CompletedCellinEAI")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CompletedCellinEAI")
+func UnmarshalAPERCompletedCellinEAI(data []byte) (CompletedCellinEAIComplete, error) {
+	var value CompletedCellinEAIComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13891,7 +14826,7 @@ func (v *CompletedCellinEAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CompletedCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13949,9 +14884,11 @@ func (v *CompletedCellinEAIItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CompletedCellinEAIItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CompletedCellinEAIItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14009,14 +14946,37 @@ func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERIEsECGIListListValue struct{ Value IEsECGIList }
 
-// MarshalAPERIEsECGIList encodes a IEsECGIList list to APER.
-func MarshalAPERIEsECGIList(list IEsECGIList) ([]byte, error) {
+// IEsECGIListComplete carries a complete IEsECGIList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type IEsECGIListComplete struct {
+	Value       IEsECGIList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *IEsECGIListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERIEsECGIListTo(list, bb); err != nil {
+	if err := MarshalAPERIEsECGIListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *IEsECGIListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERIEsECGIListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "IEsECGIList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "IEsECGIList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERIEsECGIList encodes a IEsECGIList list to APER.
+func MarshalAPERIEsECGIList(list IEsECGIListComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERIEsECGIListTo appends a IEsECGIList list to bb.
 func MarshalAPERIEsECGIListTo(list IEsECGIList, bb *per.BitBuffer) error {
@@ -14035,14 +14995,10 @@ func MarshalAPERIEsECGIListTo(list IEsECGIList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERIEsECGIList decodes a IEsECGIList list from APER.
-func UnmarshalAPERIEsECGIList(data []byte) (IEsECGIList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERIEsECGIListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "IEsECGIList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "IEsECGIList")
+func UnmarshalAPERIEsECGIList(data []byte) (IEsECGIListComplete, error) {
+	var value IEsECGIListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -14076,13 +15032,38 @@ func unmarshalAPERIEsECGIListInto(v *asn1cAPERIEsECGIListListValue, bb *per.BitB
 
 type asn1cAPEREmergencyAreaIDListForRestartListValue struct{ Value EmergencyAreaIDListForRestart }
 
-// MarshalAPEREmergencyAreaIDListForRestart encodes a EmergencyAreaIDListForRestart list to APER.
-func MarshalAPEREmergencyAreaIDListForRestart(list EmergencyAreaIDListForRestart) ([]byte, error) {
+// EmergencyAreaIDListForRestartComplete carries a complete EmergencyAreaIDListForRestart encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type EmergencyAreaIDListForRestartComplete struct {
+	Value       EmergencyAreaIDListForRestart
+	PERPadding_ per.CompletePadding
+}
+
+func (v *EmergencyAreaIDListForRestartComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPEREmergencyAreaIDListForRestartTo(list, bb); err != nil {
+	if err := MarshalAPEREmergencyAreaIDListForRestartTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *EmergencyAreaIDListForRestartComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPEREmergencyAreaIDListForRestartFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDListForRestart")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EmergencyAreaIDListForRestart")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPEREmergencyAreaIDListForRestart encodes a EmergencyAreaIDListForRestart list to APER.
+func MarshalAPEREmergencyAreaIDListForRestart(list EmergencyAreaIDListForRestartComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPEREmergencyAreaIDListForRestartTo appends a EmergencyAreaIDListForRestart list to bb.
@@ -14102,14 +15083,10 @@ func MarshalAPEREmergencyAreaIDListForRestartTo(list EmergencyAreaIDListForResta
 }
 
 // UnmarshalAPEREmergencyAreaIDListForRestart decodes a EmergencyAreaIDListForRestart list from APER.
-func UnmarshalAPEREmergencyAreaIDListForRestart(data []byte) (EmergencyAreaIDListForRestart, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPEREmergencyAreaIDListForRestartFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDListForRestart")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "EmergencyAreaIDListForRestart")
+func UnmarshalAPEREmergencyAreaIDListForRestart(data []byte) (EmergencyAreaIDListForRestartComplete, error) {
+	var value EmergencyAreaIDListForRestartComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -14147,7 +15124,7 @@ func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPER() ([]byte, erro
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14212,9 +15189,11 @@ func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPER(data []byte) 
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBEarlyStatusTransferTransparentContainer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBEarlyStatusTransferTransparentContainer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14287,7 +15266,7 @@ func (v *ENBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14336,7 +15315,11 @@ func (v *ENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown ENBID extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
+		openBytes, err := inner.CompleteBytesWithPadding(v.PEROpenTypePadding_)
+		if err != nil {
+			return err
+		}
+		if err := per.EncodeOpenTypeAligned(bb, openBytes); err != nil {
 			return err
 		}
 		return nil
@@ -14371,9 +15354,11 @@ func (v *ENBID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14417,9 +15402,11 @@ func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_longmacroenbid := runtime.BitString{Bytes: bsBytes_longmacroenbid, BitLength: bsBitLen_longmacroenbid}
 			v.LongMacroENBID = &tmp_longmacroenbid
 		}
-		if err := per.ValidateOpenTypePadding(inner); err != nil {
+		padding, err := per.CaptureOpenTypePadding(inner)
+		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
+		v.PEROpenTypePadding_ = padding
 		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
@@ -14452,7 +15439,7 @@ func (v *GERANCellID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GERANCellID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14516,9 +15503,11 @@ func (v *GERANCellID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GERANCellID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GERANCellID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14590,7 +15579,7 @@ func (v *GlobalENBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GlobalENBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14651,9 +15640,11 @@ func (v *GlobalENBID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalENBID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GlobalENBID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14720,7 +15711,7 @@ func (v *GlobalEnGNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GlobalEnGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14781,9 +15772,11 @@ func (v *GlobalEnGNBID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalEnGNBID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GlobalEnGNBID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14848,14 +15841,37 @@ func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERGUMMEIListListValue struct{ Value GUMMEIList }
 
-// MarshalAPERGUMMEIList encodes a GUMMEIList list to APER.
-func MarshalAPERGUMMEIList(list GUMMEIList) ([]byte, error) {
+// GUMMEIListComplete carries a complete GUMMEIList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type GUMMEIListComplete struct {
+	Value       GUMMEIList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *GUMMEIListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERGUMMEIListTo(list, bb); err != nil {
+	if err := MarshalAPERGUMMEIListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *GUMMEIListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERGUMMEIListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "GUMMEIList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "GUMMEIList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERGUMMEIList encodes a GUMMEIList list to APER.
+func MarshalAPERGUMMEIList(list GUMMEIListComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERGUMMEIListTo appends a GUMMEIList list to bb.
 func MarshalAPERGUMMEIListTo(list GUMMEIList, bb *per.BitBuffer) error {
@@ -14874,14 +15890,10 @@ func MarshalAPERGUMMEIListTo(list GUMMEIList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERGUMMEIList decodes a GUMMEIList list from APER.
-func UnmarshalAPERGUMMEIList(data []byte) (GUMMEIList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERGUMMEIListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "GUMMEIList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "GUMMEIList")
+func UnmarshalAPERGUMMEIList(data []byte) (GUMMEIListComplete, error) {
+	var value GUMMEIListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -14919,7 +15931,7 @@ func (v *ENBStatusTransferTransparentContainer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14984,9 +15996,11 @@ func (v *ENBStatusTransferTransparentContainer) UnmarshalAPER(data []byte) error
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBStatusTransferTransparentContainer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBStatusTransferTransparentContainer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15055,14 +16069,37 @@ func (v *ENBStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuf
 
 type asn1cAPERENBX2TLAsListValue struct{ Value ENBX2TLAs }
 
-// MarshalAPERENBX2TLAs encodes a ENBX2TLAs list to APER.
-func MarshalAPERENBX2TLAs(list ENBX2TLAs) ([]byte, error) {
+// ENBX2TLAsComplete carries a complete ENBX2TLAs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ENBX2TLAsComplete struct {
+	Value       ENBX2TLAs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ENBX2TLAsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERENBX2TLAsTo(list, bb); err != nil {
+	if err := MarshalAPERENBX2TLAsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ENBX2TLAsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERENBX2TLAsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBX2TLAs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBX2TLAs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERENBX2TLAs encodes a ENBX2TLAs list to APER.
+func MarshalAPERENBX2TLAs(list ENBX2TLAsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERENBX2TLAsTo appends a ENBX2TLAs list to bb.
 func MarshalAPERENBX2TLAsTo(list ENBX2TLAs, bb *per.BitBuffer) error {
@@ -15081,14 +16118,10 @@ func MarshalAPERENBX2TLAsTo(list ENBX2TLAs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERENBX2TLAs decodes a ENBX2TLAs list from APER.
-func UnmarshalAPERENBX2TLAs(data []byte) (ENBX2TLAs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERENBX2TLAsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBX2TLAs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBX2TLAs")
+func UnmarshalAPERENBX2TLAs(data []byte) (ENBX2TLAsComplete, error) {
+	var value ENBX2TLAsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -15126,7 +16159,7 @@ func (v *ENDCSONConfigurationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENDCSONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15195,9 +16228,11 @@ func (v *ENDCSONConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15273,7 +16308,7 @@ func (v *ENDCSONTransferType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENDCSONTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15329,9 +16364,11 @@ func (v *ENDCSONTransferType) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONTransferType")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONTransferType")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15381,7 +16418,7 @@ func (v *ENDCTransferTypeRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENDCTransferTypeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15466,9 +16503,11 @@ func (v *ENDCTransferTypeRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENDCTransferTypeRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENDCTransferTypeRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15566,7 +16605,7 @@ func (v *ENDCTransferTypeReply) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENDCTransferTypeReply) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15627,9 +16666,11 @@ func (v *ENDCTransferTypeReply) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENDCTransferTypeReply")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENDCTransferTypeReply")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15694,7 +16735,7 @@ func (v *ENDCSONeNBIdentification) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENDCSONeNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15755,9 +16796,11 @@ func (v *ENDCSONeNBIdentification) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONeNBIdentification")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONeNBIdentification")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15822,7 +16865,7 @@ func (v *ENDCSONengNBIdentification) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENDCSONengNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15883,9 +16926,11 @@ func (v *ENDCSONengNBIdentification) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONengNBIdentification")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENDCSONengNBIdentification")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15946,14 +16991,37 @@ func (v *ENDCSONengNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 
 type asn1cAPEREPLMNsListValue struct{ Value EPLMNs }
 
-// MarshalAPEREPLMNs encodes a EPLMNs list to APER.
-func MarshalAPEREPLMNs(list EPLMNs) ([]byte, error) {
+// EPLMNsComplete carries a complete EPLMNs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type EPLMNsComplete struct {
+	Value       EPLMNs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *EPLMNsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPEREPLMNsTo(list, bb); err != nil {
+	if err := MarshalAPEREPLMNsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *EPLMNsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPEREPLMNsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EPLMNs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "EPLMNs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPEREPLMNs encodes a EPLMNs list to APER.
+func MarshalAPEREPLMNs(list EPLMNsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPEREPLMNsTo appends a EPLMNs list to bb.
 func MarshalAPEREPLMNsTo(list EPLMNs, bb *per.BitBuffer) error {
@@ -15972,14 +17040,10 @@ func MarshalAPEREPLMNsTo(list EPLMNs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPEREPLMNs decodes a EPLMNs list from APER.
-func UnmarshalAPEREPLMNs(data []byte) (EPLMNs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPEREPLMNsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "EPLMNs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "EPLMNs")
+func UnmarshalAPEREPLMNs(data []byte) (EPLMNsComplete, error) {
+	var value EPLMNsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -16013,13 +17077,38 @@ func unmarshalAPEREPLMNsInto(v *asn1cAPEREPLMNsListValue, bb *per.BitBuffer) err
 
 type asn1cAPERERABInformationListListValue struct{ Value ERABInformationList }
 
-// MarshalAPERERABInformationList encodes a ERABInformationList list to APER.
-func MarshalAPERERABInformationList(list ERABInformationList) ([]byte, error) {
+// ERABInformationListComplete carries a complete ERABInformationList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABInformationListComplete struct {
+	Value       ERABInformationList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABInformationListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABInformationListTo(list, bb); err != nil {
+	if err := MarshalAPERERABInformationListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABInformationListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABInformationListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABInformationList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABInformationList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABInformationList encodes a ERABInformationList list to APER.
+func MarshalAPERERABInformationList(list ERABInformationListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABInformationListTo appends a ERABInformationList list to bb.
@@ -16039,14 +17128,10 @@ func MarshalAPERERABInformationListTo(list ERABInformationList, bb *per.BitBuffe
 }
 
 // UnmarshalAPERERABInformationList decodes a ERABInformationList list from APER.
-func UnmarshalAPERERABInformationList(data []byte) (ERABInformationList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABInformationListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABInformationList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABInformationList")
+func UnmarshalAPERERABInformationList(data []byte) (ERABInformationListComplete, error) {
+	var value ERABInformationListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -16084,7 +17169,7 @@ func (v *ERABInformationListItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABInformationListItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16150,9 +17235,11 @@ func (v *ERABInformationListItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABInformationListItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABInformationListItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16224,14 +17311,37 @@ func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABListListValue struct{ Value ERABList }
 
-// MarshalAPERERABList encodes a ERABList list to APER.
-func MarshalAPERERABList(list ERABList) ([]byte, error) {
+// ERABListComplete carries a complete ERABList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABListComplete struct {
+	Value       ERABList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABListTo(list, bb); err != nil {
+	if err := MarshalAPERERABListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ERABListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABList encodes a ERABList list to APER.
+func MarshalAPERERABList(list ERABListComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERERABListTo appends a ERABList list to bb.
 func MarshalAPERERABListTo(list ERABList, bb *per.BitBuffer) error {
@@ -16250,14 +17360,10 @@ func MarshalAPERERABListTo(list ERABList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERERABList decodes a ERABList list from APER.
-func UnmarshalAPERERABList(data []byte) (ERABList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABList")
+func UnmarshalAPERERABList(data []byte) (ERABListComplete, error) {
+	var value ERABListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -16295,7 +17401,7 @@ func (v *ERABItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16356,9 +17462,11 @@ func (v *ERABItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16425,7 +17533,7 @@ func (v *ERABLevelQoSParameters) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABLevelQoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16494,9 +17602,11 @@ func (v *ERABLevelQoSParameters) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABLevelQoSParameters")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABLevelQoSParameters")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16570,13 +17680,38 @@ func (v *ERABLevelQoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABSecurityResultListListValue struct{ Value ERABSecurityResultList }
 
-// MarshalAPERERABSecurityResultList encodes a ERABSecurityResultList list to APER.
-func MarshalAPERERABSecurityResultList(list ERABSecurityResultList) ([]byte, error) {
+// ERABSecurityResultListComplete carries a complete ERABSecurityResultList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABSecurityResultListComplete struct {
+	Value       ERABSecurityResultList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABSecurityResultListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABSecurityResultListTo(list, bb); err != nil {
+	if err := MarshalAPERERABSecurityResultListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABSecurityResultListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABSecurityResultListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSecurityResultList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSecurityResultList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABSecurityResultList encodes a ERABSecurityResultList list to APER.
+func MarshalAPERERABSecurityResultList(list ERABSecurityResultListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABSecurityResultListTo appends a ERABSecurityResultList list to bb.
@@ -16596,14 +17731,10 @@ func MarshalAPERERABSecurityResultListTo(list ERABSecurityResultList, bb *per.Bi
 }
 
 // UnmarshalAPERERABSecurityResultList decodes a ERABSecurityResultList list from APER.
-func UnmarshalAPERERABSecurityResultList(data []byte) (ERABSecurityResultList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABSecurityResultListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSecurityResultList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSecurityResultList")
+func UnmarshalAPERERABSecurityResultList(data []byte) (ERABSecurityResultListComplete, error) {
+	var value ERABSecurityResultListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -16641,7 +17772,7 @@ func (v *ERABSecurityResultItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABSecurityResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16702,9 +17833,11 @@ func (v *ERABSecurityResultItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSecurityResultItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABSecurityResultItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16767,13 +17900,38 @@ func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABUsageReportListListValue struct{ Value ERABUsageReportList }
 
-// MarshalAPERERABUsageReportList encodes a ERABUsageReportList list to APER.
-func MarshalAPERERABUsageReportList(list ERABUsageReportList) ([]byte, error) {
+// ERABUsageReportListComplete carries a complete ERABUsageReportList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABUsageReportListComplete struct {
+	Value       ERABUsageReportList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABUsageReportListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABUsageReportListTo(list, bb); err != nil {
+	if err := MarshalAPERERABUsageReportListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABUsageReportListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABUsageReportListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABUsageReportList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABUsageReportList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABUsageReportList encodes a ERABUsageReportList list to APER.
+func MarshalAPERERABUsageReportList(list ERABUsageReportListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABUsageReportListTo appends a ERABUsageReportList list to bb.
@@ -16793,14 +17951,10 @@ func MarshalAPERERABUsageReportListTo(list ERABUsageReportList, bb *per.BitBuffe
 }
 
 // UnmarshalAPERERABUsageReportList decodes a ERABUsageReportList list from APER.
-func UnmarshalAPERERABUsageReportList(data []byte) (ERABUsageReportList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABUsageReportListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABUsageReportList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABUsageReportList")
+func UnmarshalAPERERABUsageReportList(data []byte) (ERABUsageReportListComplete, error) {
+	var value ERABUsageReportListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -16838,7 +17992,7 @@ func (v *ERABUsageReportItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16905,9 +18059,11 @@ func (v *ERABUsageReportItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABUsageReportItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABUsageReportItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16986,7 +18142,7 @@ func (v *EUTRANCGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17047,9 +18203,11 @@ func (v *EUTRANCGI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EUTRANCGI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "EUTRANCGI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -17118,7 +18276,7 @@ func (v *EventL1LoggedMDTConfig) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *EventL1LoggedMDTConfig) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17182,9 +18340,11 @@ func (v *EventL1LoggedMDTConfig) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EventL1LoggedMDTConfig")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "EventL1LoggedMDTConfig")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -17256,7 +18416,7 @@ func (v *EventTrigger) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *EventTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17297,9 +18457,11 @@ func (v *EventTrigger) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EventTrigger")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "EventTrigger")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -17339,7 +18501,7 @@ func (v *ExpectedUEBehaviour) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ExpectedUEBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17410,9 +18572,11 @@ func (v *ExpectedUEBehaviour) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEBehaviour")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEBehaviour")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -17494,7 +18658,7 @@ func (v *ExpectedUEActivityBehaviour) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ExpectedUEActivityBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17573,9 +18737,11 @@ func (v *ExpectedUEActivityBehaviour) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEActivityBehaviour")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ExpectedUEActivityBehaviour")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -17668,7 +18834,7 @@ func (v *FiveGSTAI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *FiveGSTAI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17729,9 +18895,11 @@ func (v *FiveGSTAI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "FiveGSTAI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "FiveGSTAI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -17796,14 +18964,37 @@ func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERForbiddenTAsListValue struct{ Value ForbiddenTAs }
 
-// MarshalAPERForbiddenTAs encodes a ForbiddenTAs list to APER.
-func MarshalAPERForbiddenTAs(list ForbiddenTAs) ([]byte, error) {
+// ForbiddenTAsComplete carries a complete ForbiddenTAs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ForbiddenTAsComplete struct {
+	Value       ForbiddenTAs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ForbiddenTAsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERForbiddenTAsTo(list, bb); err != nil {
+	if err := MarshalAPERForbiddenTAsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ForbiddenTAsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERForbiddenTAsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenTAs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenTAs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERForbiddenTAs encodes a ForbiddenTAs list to APER.
+func MarshalAPERForbiddenTAs(list ForbiddenTAsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERForbiddenTAsTo appends a ForbiddenTAs list to bb.
 func MarshalAPERForbiddenTAsTo(list ForbiddenTAs, bb *per.BitBuffer) error {
@@ -17822,14 +19013,10 @@ func MarshalAPERForbiddenTAsTo(list ForbiddenTAs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERForbiddenTAs decodes a ForbiddenTAs list from APER.
-func UnmarshalAPERForbiddenTAs(data []byte) (ForbiddenTAs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERForbiddenTAsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenTAs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenTAs")
+func UnmarshalAPERForbiddenTAs(data []byte) (ForbiddenTAsComplete, error) {
+	var value ForbiddenTAsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -17867,7 +19054,7 @@ func (v *ForbiddenTAsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -17935,9 +19122,11 @@ func (v *ForbiddenTAsItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ForbiddenTAsItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ForbiddenTAsItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -18011,14 +19200,37 @@ func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERForbiddenTACsListValue struct{ Value ForbiddenTACs }
 
-// MarshalAPERForbiddenTACs encodes a ForbiddenTACs list to APER.
-func MarshalAPERForbiddenTACs(list ForbiddenTACs) ([]byte, error) {
+// ForbiddenTACsComplete carries a complete ForbiddenTACs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ForbiddenTACsComplete struct {
+	Value       ForbiddenTACs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ForbiddenTACsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERForbiddenTACsTo(list, bb); err != nil {
+	if err := MarshalAPERForbiddenTACsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ForbiddenTACsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERForbiddenTACsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenTACs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenTACs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERForbiddenTACs encodes a ForbiddenTACs list to APER.
+func MarshalAPERForbiddenTACs(list ForbiddenTACsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERForbiddenTACsTo appends a ForbiddenTACs list to bb.
 func MarshalAPERForbiddenTACsTo(list ForbiddenTACs, bb *per.BitBuffer) error {
@@ -18037,14 +19249,10 @@ func MarshalAPERForbiddenTACsTo(list ForbiddenTACs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERForbiddenTACs decodes a ForbiddenTACs list from APER.
-func UnmarshalAPERForbiddenTACs(data []byte) (ForbiddenTACs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERForbiddenTACsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenTACs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenTACs")
+func UnmarshalAPERForbiddenTACs(data []byte) (ForbiddenTACsComplete, error) {
+	var value ForbiddenTACsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -18078,14 +19286,37 @@ func unmarshalAPERForbiddenTACsInto(v *asn1cAPERForbiddenTACsListValue, bb *per.
 
 type asn1cAPERForbiddenLAsListValue struct{ Value ForbiddenLAs }
 
-// MarshalAPERForbiddenLAs encodes a ForbiddenLAs list to APER.
-func MarshalAPERForbiddenLAs(list ForbiddenLAs) ([]byte, error) {
+// ForbiddenLAsComplete carries a complete ForbiddenLAs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ForbiddenLAsComplete struct {
+	Value       ForbiddenLAs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ForbiddenLAsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERForbiddenLAsTo(list, bb); err != nil {
+	if err := MarshalAPERForbiddenLAsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ForbiddenLAsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERForbiddenLAsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenLAs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenLAs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERForbiddenLAs encodes a ForbiddenLAs list to APER.
+func MarshalAPERForbiddenLAs(list ForbiddenLAsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERForbiddenLAsTo appends a ForbiddenLAs list to bb.
 func MarshalAPERForbiddenLAsTo(list ForbiddenLAs, bb *per.BitBuffer) error {
@@ -18104,14 +19335,10 @@ func MarshalAPERForbiddenLAsTo(list ForbiddenLAs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERForbiddenLAs decodes a ForbiddenLAs list from APER.
-func UnmarshalAPERForbiddenLAs(data []byte) (ForbiddenLAs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERForbiddenLAsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenLAs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenLAs")
+func UnmarshalAPERForbiddenLAs(data []byte) (ForbiddenLAsComplete, error) {
+	var value ForbiddenLAsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -18149,7 +19376,7 @@ func (v *ForbiddenLAsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ForbiddenLAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18217,9 +19444,11 @@ func (v *ForbiddenLAsItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ForbiddenLAsItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ForbiddenLAsItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -18293,14 +19522,37 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERForbiddenLACsListValue struct{ Value ForbiddenLACs }
 
-// MarshalAPERForbiddenLACs encodes a ForbiddenLACs list to APER.
-func MarshalAPERForbiddenLACs(list ForbiddenLACs) ([]byte, error) {
+// ForbiddenLACsComplete carries a complete ForbiddenLACs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ForbiddenLACsComplete struct {
+	Value       ForbiddenLACs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ForbiddenLACsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERForbiddenLACsTo(list, bb); err != nil {
+	if err := MarshalAPERForbiddenLACsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ForbiddenLACsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERForbiddenLACsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenLACs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ForbiddenLACs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERForbiddenLACs encodes a ForbiddenLACs list to APER.
+func MarshalAPERForbiddenLACs(list ForbiddenLACsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERForbiddenLACsTo appends a ForbiddenLACs list to bb.
 func MarshalAPERForbiddenLACsTo(list ForbiddenLACs, bb *per.BitBuffer) error {
@@ -18319,14 +19571,10 @@ func MarshalAPERForbiddenLACsTo(list ForbiddenLACs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERForbiddenLACs decodes a ForbiddenLACs list from APER.
-func UnmarshalAPERForbiddenLACs(data []byte) (ForbiddenLACs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERForbiddenLACsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenLACs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ForbiddenLACs")
+func UnmarshalAPERForbiddenLACs(data []byte) (ForbiddenLACsComplete, error) {
+	var value ForbiddenLACsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -18364,7 +19612,7 @@ func (v *GBRQosInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GBRQosInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18431,9 +19679,11 @@ func (v *GBRQosInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GBRQosInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GBRQosInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -18512,7 +19762,7 @@ func (v *GUMMEI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GUMMEI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18576,9 +19826,11 @@ func (v *GUMMEI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GUMMEI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GUMMEI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -18652,7 +19904,7 @@ func (v *HandoverRestrictionList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18763,9 +20015,11 @@ func (v *HandoverRestrictionList) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRestrictionList")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRestrictionList")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -18904,7 +20158,7 @@ func (v *ImmediateMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ImmediateMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -18981,9 +20235,11 @@ func (v *ImmediateMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ImmediateMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ImmediateMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -19074,7 +20330,7 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) MarshalAPER() ([]byte, e
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InformationOnRecommendedCellsAndENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19135,9 +20391,11 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPER(data []byt
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InformationOnRecommendedCellsAndENBsForPaging")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InformationOnRecommendedCellsAndENBsForPaging")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -19202,7 +20460,7 @@ func (v *IntersystemMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *IntersystemMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19284,9 +20542,11 @@ func (v *IntersystemMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "IntersystemMeasurementConfiguration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "IntersystemMeasurementConfiguration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -19381,7 +20641,7 @@ func (v *InterSystemMeasurementParameters) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19454,9 +20714,11 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemMeasurementParameters")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemMeasurementParameters")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -19537,13 +20799,38 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) 
 
 type asn1cAPERInterSystemMeasurementListListValue struct{ Value InterSystemMeasurementList }
 
-// MarshalAPERInterSystemMeasurementList encodes a InterSystemMeasurementList list to APER.
-func MarshalAPERInterSystemMeasurementList(list InterSystemMeasurementList) ([]byte, error) {
+// InterSystemMeasurementListComplete carries a complete InterSystemMeasurementList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type InterSystemMeasurementListComplete struct {
+	Value       InterSystemMeasurementList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *InterSystemMeasurementListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERInterSystemMeasurementListTo(list, bb); err != nil {
+	if err := MarshalAPERInterSystemMeasurementListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *InterSystemMeasurementListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERInterSystemMeasurementListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "InterSystemMeasurementList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "InterSystemMeasurementList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERInterSystemMeasurementList encodes a InterSystemMeasurementList list to APER.
+func MarshalAPERInterSystemMeasurementList(list InterSystemMeasurementListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERInterSystemMeasurementListTo appends a InterSystemMeasurementList list to bb.
@@ -19563,14 +20850,10 @@ func MarshalAPERInterSystemMeasurementListTo(list InterSystemMeasurementList, bb
 }
 
 // UnmarshalAPERInterSystemMeasurementList decodes a InterSystemMeasurementList list from APER.
-func UnmarshalAPERInterSystemMeasurementList(data []byte) (InterSystemMeasurementList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERInterSystemMeasurementListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "InterSystemMeasurementList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "InterSystemMeasurementList")
+func UnmarshalAPERInterSystemMeasurementList(data []byte) (InterSystemMeasurementListComplete, error) {
+	var value InterSystemMeasurementListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -19608,7 +20891,7 @@ func (v *InterSystemMeasurementItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InterSystemMeasurementItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19702,9 +20985,11 @@ func (v *InterSystemMeasurementItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemMeasurementItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemMeasurementItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -19839,7 +21124,7 @@ func (v *LAI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LAI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -19900,9 +21185,11 @@ func (v *LAI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LAI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LAI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -19971,7 +21258,7 @@ func (v *LastVisitedCellItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LastVisitedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20013,7 +21300,11 @@ func (v *LastVisitedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown LastVisitedCellItem extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
+		openBytes, err := inner.CompleteBytesWithPadding(v.PEROpenTypePadding_)
+		if err != nil {
+			return err
+		}
+		if err := per.EncodeOpenTypeAligned(bb, openBytes); err != nil {
 			return err
 		}
 		return nil
@@ -20055,9 +21346,11 @@ func (v *LastVisitedCellItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedCellItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedCellItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -20093,9 +21386,11 @@ func (v *LastVisitedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_ngrancell := LastVisitedNGRANCellInformation(val_ngrancell)
 			v.NGRANCell = &tmp_ngrancell
 		}
-		if err := per.ValidateOpenTypePadding(inner); err != nil {
+		padding, err := per.CaptureOpenTypePadding(inner)
+		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
+		v.PEROpenTypePadding_ = padding
 		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
@@ -20133,7 +21428,7 @@ func (v *LastVisitedEUTRANCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LastVisitedEUTRANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20197,9 +21492,11 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedEUTRANCellInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedEUTRANCellInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -20265,13 +21562,38 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) 
 
 type asn1cAPERLastVisitedPSCellListListValue struct{ Value LastVisitedPSCellList }
 
-// MarshalAPERLastVisitedPSCellList encodes a LastVisitedPSCellList list to APER.
-func MarshalAPERLastVisitedPSCellList(list LastVisitedPSCellList) ([]byte, error) {
+// LastVisitedPSCellListComplete carries a complete LastVisitedPSCellList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type LastVisitedPSCellListComplete struct {
+	Value       LastVisitedPSCellList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *LastVisitedPSCellListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERLastVisitedPSCellListTo(list, bb); err != nil {
+	if err := MarshalAPERLastVisitedPSCellListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *LastVisitedPSCellListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERLastVisitedPSCellListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "LastVisitedPSCellList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "LastVisitedPSCellList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERLastVisitedPSCellList encodes a LastVisitedPSCellList list to APER.
+func MarshalAPERLastVisitedPSCellList(list LastVisitedPSCellListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERLastVisitedPSCellListTo appends a LastVisitedPSCellList list to bb.
@@ -20291,14 +21613,10 @@ func MarshalAPERLastVisitedPSCellListTo(list LastVisitedPSCellList, bb *per.BitB
 }
 
 // UnmarshalAPERLastVisitedPSCellList decodes a LastVisitedPSCellList list from APER.
-func UnmarshalAPERLastVisitedPSCellList(data []byte) (LastVisitedPSCellList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERLastVisitedPSCellListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "LastVisitedPSCellList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "LastVisitedPSCellList")
+func UnmarshalAPERLastVisitedPSCellList(data []byte) (LastVisitedPSCellListComplete, error) {
+	var value LastVisitedPSCellListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -20336,7 +21654,7 @@ func (v *LastVisitedPSCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LastVisitedPSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20402,9 +21720,11 @@ func (v *LastVisitedPSCellInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedPSCellInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedPSCellInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -20479,7 +21799,7 @@ func (v *LastVisitedGERANCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LastVisitedGERANCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20519,9 +21839,11 @@ func (v *LastVisitedGERANCellInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedGERANCellInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LastVisitedGERANCellInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -20546,6 +21868,7 @@ func (v *LastVisitedGERANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	v.Choice = 1
 	switch v.Choice {
 	case LastVisitedGERANCellInformationChoiceUndefined:
+		v.Undefined = new(struct{})
 	}
 	return nil
 }
@@ -20556,7 +21879,7 @@ func (v *ListeningSubframePattern) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ListeningSubframePattern) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20617,9 +21940,11 @@ func (v *ListeningSubframePattern) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ListeningSubframePattern")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ListeningSubframePattern")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -20688,7 +22013,7 @@ func (v *LoggedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20749,9 +22074,11 @@ func (v *LoggedMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LoggedMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LoggedMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -20820,7 +22147,7 @@ func (v *LoggedMBSFNMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LoggedMBSFNMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -20896,9 +22223,11 @@ func (v *LoggedMBSFNMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LoggedMBSFNMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LoggedMBSFNMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -20988,7 +22317,7 @@ func (v *LoggedMDTTrigger) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LoggedMDTTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21038,9 +22367,11 @@ func (v *LoggedMDTTrigger) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LoggedMDTTrigger")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LoggedMDTTrigger")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -21069,6 +22400,7 @@ func (v *LoggedMDTTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case LoggedMDTTriggerChoicePeriodical:
+		v.Periodical = new(struct{})
 	case LoggedMDTTriggerChoiceEventTrigger:
 		var dec_eventtrigger EventTrigger
 		if err := dec_eventtrigger.UnmarshalAPERFrom(bb); err != nil {
@@ -21085,7 +22417,7 @@ func (v *LTENTNTAIInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21161,9 +22493,11 @@ func (v *LTENTNTAIInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LTENTNTAIInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LTENTNTAIInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -21253,7 +22587,7 @@ func (v *M3Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *M3Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21311,9 +22645,11 @@ func (v *M3Configuration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "M3Configuration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "M3Configuration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -21377,7 +22713,7 @@ func (v *M4Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *M4Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21438,9 +22774,11 @@ func (v *M4Configuration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "M4Configuration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "M4Configuration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -21509,7 +22847,7 @@ func (v *M5Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *M5Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21570,9 +22908,11 @@ func (v *M5Configuration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "M5Configuration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "M5Configuration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -21641,7 +22981,7 @@ func (v *M6Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *M6Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21710,9 +23050,11 @@ func (v *M6Configuration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "M6Configuration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "M6Configuration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -21793,7 +23135,7 @@ func (v *M7Configuration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *M7Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21854,9 +23196,11 @@ func (v *M7Configuration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "M7Configuration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "M7Configuration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -21925,7 +23269,7 @@ func (v *MDTConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MDTConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -21989,9 +23333,11 @@ func (v *MDTConfiguration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MDTConfiguration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MDTConfiguration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22057,13 +23403,38 @@ func (v *MDTConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERMBSFNResultToLogListValue struct{ Value MBSFNResultToLog }
 
-// MarshalAPERMBSFNResultToLog encodes a MBSFNResultToLog list to APER.
-func MarshalAPERMBSFNResultToLog(list MBSFNResultToLog) ([]byte, error) {
+// MBSFNResultToLogComplete carries a complete MBSFNResultToLog encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type MBSFNResultToLogComplete struct {
+	Value       MBSFNResultToLog
+	PERPadding_ per.CompletePadding
+}
+
+func (v *MBSFNResultToLogComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERMBSFNResultToLogTo(list, bb); err != nil {
+	if err := MarshalAPERMBSFNResultToLogTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *MBSFNResultToLogComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERMBSFNResultToLogFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MBSFNResultToLog")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MBSFNResultToLog")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERMBSFNResultToLog encodes a MBSFNResultToLog list to APER.
+func MarshalAPERMBSFNResultToLog(list MBSFNResultToLogComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERMBSFNResultToLogTo appends a MBSFNResultToLog list to bb.
@@ -22083,14 +23454,10 @@ func MarshalAPERMBSFNResultToLogTo(list MBSFNResultToLog, bb *per.BitBuffer) err
 }
 
 // UnmarshalAPERMBSFNResultToLog decodes a MBSFNResultToLog list from APER.
-func UnmarshalAPERMBSFNResultToLog(data []byte) (MBSFNResultToLog, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERMBSFNResultToLogFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "MBSFNResultToLog")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "MBSFNResultToLog")
+func UnmarshalAPERMBSFNResultToLog(data []byte) (MBSFNResultToLogComplete, error) {
+	var value MBSFNResultToLogComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -22128,7 +23495,7 @@ func (v *MBSFNResultToLogInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MBSFNResultToLogInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22194,9 +23561,11 @@ func (v *MBSFNResultToLogInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNResultToLogInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNResultToLogInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22267,14 +23636,37 @@ func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERMDTPLMNListListValue struct{ Value MDTPLMNList }
 
-// MarshalAPERMDTPLMNList encodes a MDTPLMNList list to APER.
-func MarshalAPERMDTPLMNList(list MDTPLMNList) ([]byte, error) {
+// MDTPLMNListComplete carries a complete MDTPLMNList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type MDTPLMNListComplete struct {
+	Value       MDTPLMNList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *MDTPLMNListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERMDTPLMNListTo(list, bb); err != nil {
+	if err := MarshalAPERMDTPLMNListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *MDTPLMNListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERMDTPLMNListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MDTPLMNList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MDTPLMNList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERMDTPLMNList encodes a MDTPLMNList list to APER.
+func MarshalAPERMDTPLMNList(list MDTPLMNListComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERMDTPLMNListTo appends a MDTPLMNList list to bb.
 func MarshalAPERMDTPLMNListTo(list MDTPLMNList, bb *per.BitBuffer) error {
@@ -22293,14 +23685,10 @@ func MarshalAPERMDTPLMNListTo(list MDTPLMNList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERMDTPLMNList decodes a MDTPLMNList list from APER.
-func UnmarshalAPERMDTPLMNList(data []byte) (MDTPLMNList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERMDTPLMNListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "MDTPLMNList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "MDTPLMNList")
+func UnmarshalAPERMDTPLMNList(data []byte) (MDTPLMNListComplete, error) {
+	var value MDTPLMNListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -22338,7 +23726,7 @@ func (v *MDTMode) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22380,7 +23768,11 @@ func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown MDTMode extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
+		openBytes, err := inner.CompleteBytesWithPadding(v.PEROpenTypePadding_)
+		if err != nil {
+			return err
+		}
+		if err := per.EncodeOpenTypeAligned(bb, openBytes); err != nil {
 			return err
 		}
 		return nil
@@ -22415,9 +23807,11 @@ func (v *MDTMode) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MDTMode")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MDTMode")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22452,9 +23846,11 @@ func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			v.MDTModeExtension = &dec_mdtmodeextension
 		}
-		if err := per.ValidateOpenTypePadding(inner); err != nil {
+		padding, err := per.CaptureOpenTypePadding(inner)
+		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
+		v.PEROpenTypePadding_ = padding
 		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
@@ -22485,7 +23881,7 @@ func (v *MDTModeExtension) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MDTModeExtension) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22507,9 +23903,11 @@ func (v *MDTModeExtension) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MDTModeExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MDTModeExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22539,7 +23937,7 @@ func (v *MeasurementThresholdA2) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MeasurementThresholdA2) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22595,9 +23993,11 @@ func (v *MeasurementThresholdA2) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementThresholdA2")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementThresholdA2")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22649,7 +24049,7 @@ func (v *MeasurementThresholdL1LoggedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MeasurementThresholdL1LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22690,9 +24090,11 @@ func (v *MeasurementThresholdL1LoggedMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementThresholdL1LoggedMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementThresholdL1LoggedMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22734,7 +24136,7 @@ func (v *MMEPagingTarget) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEPagingTarget) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22790,9 +24192,11 @@ func (v *MMEPagingTarget) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEPagingTarget")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEPagingTarget")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22842,7 +24246,7 @@ func (v *MutingPatternInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MutingPatternInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -22908,9 +24312,11 @@ func (v *MutingPatternInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MutingPatternInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MutingPatternInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -22985,7 +24391,7 @@ func (v *NBIoTPagingEDRXInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NBIoTPagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23051,9 +24457,11 @@ func (v *NBIoTPagingEDRXInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NBIoTPagingEDRXInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NBIoTPagingEDRXInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -23129,7 +24537,7 @@ func (v *NRCGI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23190,9 +24598,11 @@ func (v *NRCGI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRCGI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NRCGI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -23261,7 +24671,7 @@ func (v *NRUESecurityCapabilities) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NRUESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23322,9 +24732,11 @@ func (v *NRUESecurityCapabilities) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRUESecurityCapabilities")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NRUESecurityCapabilities")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -23393,7 +24805,7 @@ func (v *NRV2XServicesAuthorized) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NRV2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23464,9 +24876,11 @@ func (v *NRV2XServicesAuthorized) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRV2XServicesAuthorized")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NRV2XServicesAuthorized")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -23549,7 +24963,7 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23607,9 +25021,11 @@ func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NRUESidelinkAggregateMaximumBitrate")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NRUESidelinkAggregateMaximumBitrate")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -23673,7 +25089,7 @@ func (v *OverloadResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *OverloadResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23719,9 +25135,11 @@ func (v *OverloadResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OverloadResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "OverloadResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -23762,7 +25180,7 @@ func (v *PagingAttemptInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23831,9 +25249,11 @@ func (v *PagingAttemptInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PagingAttemptInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PagingAttemptInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -23914,7 +25334,7 @@ func (v *PagingEDRXInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -23980,9 +25400,11 @@ func (v *PagingEDRXInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PagingEDRXInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PagingEDRXInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -24058,7 +25480,7 @@ func (v *PC5QoSParameters) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PC5QoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24131,9 +25553,11 @@ func (v *PC5QoSParameters) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSParameters")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSParameters")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -24214,13 +25638,38 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERPC5QoSFlowListListValue struct{ Value PC5QoSFlowList }
 
-// MarshalAPERPC5QoSFlowList encodes a PC5QoSFlowList list to APER.
-func MarshalAPERPC5QoSFlowList(list PC5QoSFlowList) ([]byte, error) {
+// PC5QoSFlowListComplete carries a complete PC5QoSFlowList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type PC5QoSFlowListComplete struct {
+	Value       PC5QoSFlowList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *PC5QoSFlowListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERPC5QoSFlowListTo(list, bb); err != nil {
+	if err := MarshalAPERPC5QoSFlowListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *PC5QoSFlowListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERPC5QoSFlowListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PC5QoSFlowList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PC5QoSFlowList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERPC5QoSFlowList encodes a PC5QoSFlowList list to APER.
+func MarshalAPERPC5QoSFlowList(list PC5QoSFlowListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERPC5QoSFlowListTo appends a PC5QoSFlowList list to bb.
@@ -24240,14 +25689,10 @@ func MarshalAPERPC5QoSFlowListTo(list PC5QoSFlowList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERPC5QoSFlowList decodes a PC5QoSFlowList list from APER.
-func UnmarshalAPERPC5QoSFlowList(data []byte) (PC5QoSFlowList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERPC5QoSFlowListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "PC5QoSFlowList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "PC5QoSFlowList")
+func UnmarshalAPERPC5QoSFlowList(data []byte) (PC5QoSFlowListComplete, error) {
+	var value PC5QoSFlowListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -24285,7 +25730,7 @@ func (v *PC5QoSFlowItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PC5QoSFlowItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24359,9 +25804,11 @@ func (v *PC5QoSFlowItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSFlowItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PC5QoSFlowItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -24448,7 +25895,7 @@ func (v *PC5FlowBitRates) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PC5FlowBitRates) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24509,9 +25956,11 @@ func (v *PC5FlowBitRates) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PC5FlowBitRates")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PC5FlowBitRates")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -24580,7 +26029,7 @@ func (v *M1PeriodicReporting) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *M1PeriodicReporting) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24641,9 +26090,11 @@ func (v *M1PeriodicReporting) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "M1PeriodicReporting")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "M1PeriodicReporting")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -24712,7 +26163,7 @@ func (v *PLMNAreaBasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PLMNAreaBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24777,9 +26228,11 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PLMNAreaBasedQMC")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PLMNAreaBasedQMC")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -24848,13 +26301,38 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERPLMNListforQMCListValue struct{ Value PLMNListforQMC }
 
-// MarshalAPERPLMNListforQMC encodes a PLMNListforQMC list to APER.
-func MarshalAPERPLMNListforQMC(list PLMNListforQMC) ([]byte, error) {
+// PLMNListforQMCComplete carries a complete PLMNListforQMC encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type PLMNListforQMCComplete struct {
+	Value       PLMNListforQMC
+	PERPadding_ per.CompletePadding
+}
+
+func (v *PLMNListforQMCComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERPLMNListforQMCTo(list, bb); err != nil {
+	if err := MarshalAPERPLMNListforQMCTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *PLMNListforQMCComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERPLMNListforQMCFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PLMNListforQMC")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "PLMNListforQMC")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERPLMNListforQMC encodes a PLMNListforQMC list to APER.
+func MarshalAPERPLMNListforQMC(list PLMNListforQMCComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERPLMNListforQMCTo appends a PLMNListforQMC list to bb.
@@ -24874,14 +26352,10 @@ func MarshalAPERPLMNListforQMCTo(list PLMNListforQMC, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERPLMNListforQMC decodes a PLMNListforQMC list from APER.
-func UnmarshalAPERPLMNListforQMC(data []byte) (PLMNListforQMC, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERPLMNListforQMCFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "PLMNListforQMC")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "PLMNListforQMC")
+func UnmarshalAPERPLMNListforQMC(data []byte) (PLMNListforQMCComplete, error) {
+	var value PLMNListforQMCComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -24919,7 +26393,7 @@ func (v *ProSeAuthorized) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ProSeAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -24990,9 +26464,11 @@ func (v *ProSeAuthorized) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProSeAuthorized")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ProSeAuthorized")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -25075,7 +26551,7 @@ func (v *PSCellInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25133,9 +26609,11 @@ func (v *PSCellInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PSCellInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PSCellInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -25197,7 +26675,7 @@ func (v *RecommendedCellsForPaging) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25262,9 +26740,11 @@ func (v *RecommendedCellsForPaging) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -25333,13 +26813,38 @@ func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERRecommendedCellListListValue struct{ Value RecommendedCellList }
 
-// MarshalAPERRecommendedCellList encodes a RecommendedCellList list to APER.
-func MarshalAPERRecommendedCellList(list RecommendedCellList) ([]byte, error) {
+// RecommendedCellListComplete carries a complete RecommendedCellList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type RecommendedCellListComplete struct {
+	Value       RecommendedCellList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *RecommendedCellListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERRecommendedCellListTo(list, bb); err != nil {
+	if err := MarshalAPERRecommendedCellListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *RecommendedCellListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERRecommendedCellListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedCellList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedCellList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERRecommendedCellList encodes a RecommendedCellList list to APER.
+func MarshalAPERRecommendedCellList(list RecommendedCellListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERRecommendedCellListTo appends a RecommendedCellList list to bb.
@@ -25359,14 +26864,10 @@ func MarshalAPERRecommendedCellListTo(list RecommendedCellList, bb *per.BitBuffe
 }
 
 // UnmarshalAPERRecommendedCellList decodes a RecommendedCellList list from APER.
-func UnmarshalAPERRecommendedCellList(data []byte) (RecommendedCellList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERRecommendedCellListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "RecommendedCellList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "RecommendedCellList")
+func UnmarshalAPERRecommendedCellList(data []byte) (RecommendedCellListComplete, error) {
+	var value RecommendedCellListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -25404,7 +26905,7 @@ func (v *RecommendedCellItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RecommendedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25470,9 +26971,11 @@ func (v *RecommendedCellItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -25545,7 +27048,7 @@ func (v *RecommendedENBsForPaging) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25610,9 +27113,11 @@ func (v *RecommendedENBsForPaging) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBsForPaging")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBsForPaging")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -25681,13 +27186,38 @@ func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERRecommendedENBListListValue struct{ Value RecommendedENBList }
 
-// MarshalAPERRecommendedENBList encodes a RecommendedENBList list to APER.
-func MarshalAPERRecommendedENBList(list RecommendedENBList) ([]byte, error) {
+// RecommendedENBListComplete carries a complete RecommendedENBList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type RecommendedENBListComplete struct {
+	Value       RecommendedENBList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *RecommendedENBListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERRecommendedENBListTo(list, bb); err != nil {
+	if err := MarshalAPERRecommendedENBListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *RecommendedENBListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERRecommendedENBListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedENBList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "RecommendedENBList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERRecommendedENBList encodes a RecommendedENBList list to APER.
+func MarshalAPERRecommendedENBList(list RecommendedENBListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERRecommendedENBListTo appends a RecommendedENBList list to bb.
@@ -25707,14 +27237,10 @@ func MarshalAPERRecommendedENBListTo(list RecommendedENBList, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERRecommendedENBList decodes a RecommendedENBList list from APER.
-func UnmarshalAPERRecommendedENBList(data []byte) (RecommendedENBList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERRecommendedENBListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "RecommendedENBList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "RecommendedENBList")
+func UnmarshalAPERRecommendedENBList(data []byte) (RecommendedENBListComplete, error) {
+	var value RecommendedENBListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -25752,7 +27278,7 @@ func (v *RecommendedENBItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RecommendedENBItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -25810,9 +27336,11 @@ func (v *RecommendedENBItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedENBItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -25870,13 +27398,38 @@ func (v *RecommendedENBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERRATRestrictionsListValue struct{ Value RATRestrictions }
 
-// MarshalAPERRATRestrictions encodes a RATRestrictions list to APER.
-func MarshalAPERRATRestrictions(list RATRestrictions) ([]byte, error) {
+// RATRestrictionsComplete carries a complete RATRestrictions encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type RATRestrictionsComplete struct {
+	Value       RATRestrictions
+	PERPadding_ per.CompletePadding
+}
+
+func (v *RATRestrictionsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERRATRestrictionsTo(list, bb); err != nil {
+	if err := MarshalAPERRATRestrictionsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *RATRestrictionsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERRATRestrictionsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "RATRestrictions")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "RATRestrictions")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERRATRestrictions encodes a RATRestrictions list to APER.
+func MarshalAPERRATRestrictions(list RATRestrictionsComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERRATRestrictionsTo appends a RATRestrictions list to bb.
@@ -25896,14 +27449,10 @@ func MarshalAPERRATRestrictionsTo(list RATRestrictions, bb *per.BitBuffer) error
 }
 
 // UnmarshalAPERRATRestrictions decodes a RATRestrictions list from APER.
-func UnmarshalAPERRATRestrictions(data []byte) (RATRestrictions, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERRATRestrictionsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "RATRestrictions")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "RATRestrictions")
+func UnmarshalAPERRATRestrictions(data []byte) (RATRestrictionsComplete, error) {
+	var value RATRestrictionsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -25941,7 +27490,7 @@ func (v *RATRestrictionsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26002,9 +27551,11 @@ func (v *RATRestrictionsItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RATRestrictionsItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RATRestrictionsItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -26073,7 +27624,7 @@ func (v *RequestedTNLInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RequestedTNLInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26131,9 +27682,11 @@ func (v *RequestedTNLInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RequestedTNLInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RequestedTNLInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -26197,7 +27750,7 @@ func (v *RequestType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RequestType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26258,9 +27811,11 @@ func (v *RequestType) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RequestType")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RequestType")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -26329,7 +27884,7 @@ func (v *RIMTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26395,9 +27950,11 @@ func (v *RIMTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RIMTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RIMTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -26472,7 +28029,7 @@ func (v *RIMRoutingAddress) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26518,7 +28075,11 @@ func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown RIMRoutingAddress extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
+		openBytes, err := inner.CompleteBytesWithPadding(v.PEROpenTypePadding_)
+		if err != nil {
+			return err
+		}
+		if err := per.EncodeOpenTypeAligned(bb, openBytes); err != nil {
 			return err
 		}
 		return nil
@@ -26543,9 +28104,11 @@ func (v *RIMRoutingAddress) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RIMRoutingAddress")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RIMRoutingAddress")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -26588,9 +28151,11 @@ func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			tmp_ehrpdsectorid := val_ehrpdsectorid
 			v.EHRPDSectorID = tmp_ehrpdsectorid
 		}
-		if err := per.ValidateOpenTypePadding(inner); err != nil {
+		padding, err := per.CaptureOpenTypePadding(inner)
+		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
+		v.PEROpenTypePadding_ = padding
 		return nil
 	}
 	v.Choice = 1
@@ -26611,7 +28176,7 @@ func (v *RLFReportInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26677,9 +28242,11 @@ func (v *RLFReportInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RLFReportInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RLFReportInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -26751,13 +28318,38 @@ func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERECGIListForRestartListValue struct{ Value ECGIListForRestart }
 
-// MarshalAPERECGIListForRestart encodes a ECGIListForRestart list to APER.
-func MarshalAPERECGIListForRestart(list ECGIListForRestart) ([]byte, error) {
+// ECGIListForRestartComplete carries a complete ECGIListForRestart encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ECGIListForRestartComplete struct {
+	Value       ECGIListForRestart
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ECGIListForRestartComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERECGIListForRestartTo(list, bb); err != nil {
+	if err := MarshalAPERECGIListForRestartTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ECGIListForRestartComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERECGIListForRestartFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ECGIListForRestart")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ECGIListForRestart")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERECGIListForRestart encodes a ECGIListForRestart list to APER.
+func MarshalAPERECGIListForRestart(list ECGIListForRestartComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERECGIListForRestartTo appends a ECGIListForRestart list to bb.
@@ -26777,14 +28369,10 @@ func MarshalAPERECGIListForRestartTo(list ECGIListForRestart, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERECGIListForRestart decodes a ECGIListForRestart list from APER.
-func UnmarshalAPERECGIListForRestart(data []byte) (ECGIListForRestart, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERECGIListForRestartFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ECGIListForRestart")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ECGIListForRestart")
+func UnmarshalAPERECGIListForRestart(data []byte) (ECGIListForRestartComplete, error) {
+	var value ECGIListForRestartComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -26822,7 +28410,7 @@ func (v *SecurityContext) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SecurityContext) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -26883,9 +28471,11 @@ func (v *SecurityContext) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SecurityContext")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SecurityContext")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -26952,13 +28542,38 @@ type asn1cAPERSecondaryRATDataUsageReportListListValue struct {
 	Value SecondaryRATDataUsageReportList
 }
 
-// MarshalAPERSecondaryRATDataUsageReportList encodes a SecondaryRATDataUsageReportList list to APER.
-func MarshalAPERSecondaryRATDataUsageReportList(list SecondaryRATDataUsageReportList) ([]byte, error) {
+// SecondaryRATDataUsageReportListComplete carries a complete SecondaryRATDataUsageReportList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SecondaryRATDataUsageReportListComplete struct {
+	Value       SecondaryRATDataUsageReportList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SecondaryRATDataUsageReportListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERSecondaryRATDataUsageReportListTo(list, bb); err != nil {
+	if err := MarshalAPERSecondaryRATDataUsageReportListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SecondaryRATDataUsageReportListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERSecondaryRATDataUsageReportListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERSecondaryRATDataUsageReportList encodes a SecondaryRATDataUsageReportList list to APER.
+func MarshalAPERSecondaryRATDataUsageReportList(list SecondaryRATDataUsageReportListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERSecondaryRATDataUsageReportListTo appends a SecondaryRATDataUsageReportList list to bb.
@@ -26978,14 +28593,10 @@ func MarshalAPERSecondaryRATDataUsageReportListTo(list SecondaryRATDataUsageRepo
 }
 
 // UnmarshalAPERSecondaryRATDataUsageReportList decodes a SecondaryRATDataUsageReportList list from APER.
-func UnmarshalAPERSecondaryRATDataUsageReportList(data []byte) (SecondaryRATDataUsageReportList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERSecondaryRATDataUsageReportListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportList")
+func UnmarshalAPERSecondaryRATDataUsageReportList(data []byte) (SecondaryRATDataUsageReportListComplete, error) {
+	var value SecondaryRATDataUsageReportListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -27023,7 +28634,7 @@ func (v *SecondaryRATDataUsageReportItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27094,9 +28705,11 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReportItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -27179,7 +28792,7 @@ func (v *SecurityIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SecurityIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27237,9 +28850,11 @@ func (v *SecurityIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SecurityIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SecurityIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -27303,7 +28918,7 @@ func (v *SecurityResult) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SecurityResult) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27361,9 +28976,11 @@ func (v *SecurityResult) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SecurityResult")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SecurityResult")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -27427,7 +29044,7 @@ func (v *SensorMeasConfigNameItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SensorMeasConfigNameItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27485,9 +29102,11 @@ func (v *SensorMeasConfigNameItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SensorMeasConfigNameItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SensorMeasConfigNameItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -27545,13 +29164,38 @@ func (v *SensorMeasConfigNameItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERSensorMeasConfigNameListListValue struct{ Value SensorMeasConfigNameList }
 
-// MarshalAPERSensorMeasConfigNameList encodes a SensorMeasConfigNameList list to APER.
-func MarshalAPERSensorMeasConfigNameList(list SensorMeasConfigNameList) ([]byte, error) {
+// SensorMeasConfigNameListComplete carries a complete SensorMeasConfigNameList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SensorMeasConfigNameListComplete struct {
+	Value       SensorMeasConfigNameList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SensorMeasConfigNameListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERSensorMeasConfigNameListTo(list, bb); err != nil {
+	if err := MarshalAPERSensorMeasConfigNameListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SensorMeasConfigNameListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERSensorMeasConfigNameListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERSensorMeasConfigNameList encodes a SensorMeasConfigNameList list to APER.
+func MarshalAPERSensorMeasConfigNameList(list SensorMeasConfigNameListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERSensorMeasConfigNameListTo appends a SensorMeasConfigNameList list to bb.
@@ -27571,14 +29215,10 @@ func MarshalAPERSensorMeasConfigNameListTo(list SensorMeasConfigNameList, bb *pe
 }
 
 // UnmarshalAPERSensorMeasConfigNameList decodes a SensorMeasConfigNameList list from APER.
-func UnmarshalAPERSensorMeasConfigNameList(data []byte) (SensorMeasConfigNameList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERSensorMeasConfigNameListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SensorMeasConfigNameList")
+func UnmarshalAPERSensorMeasConfigNameList(data []byte) (SensorMeasConfigNameListComplete, error) {
+	var value SensorMeasConfigNameListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -27616,7 +29256,7 @@ func (v *SensorMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SensorMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27689,9 +29329,11 @@ func (v *SensorMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SensorMeasurementConfiguration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SensorMeasurementConfiguration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -27776,7 +29418,7 @@ func (v *SensorNameConfig) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SensorNameConfig) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27810,9 +29452,11 @@ func (v *SensorNameConfig) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SensorNameConfig")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SensorNameConfig")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -27846,7 +29490,7 @@ func (v *SONInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -27888,7 +29532,11 @@ func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown SONInformation extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
+		openBytes, err := inner.CompleteBytesWithPadding(v.PEROpenTypePadding_)
+		if err != nil {
+			return err
+		}
+		if err := per.EncodeOpenTypeAligned(bb, openBytes); err != nil {
 			return err
 		}
 		return nil
@@ -27923,9 +29571,11 @@ func (v *SONInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SONInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SONInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -27960,9 +29610,11 @@ func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			v.SONInformationExtension = &dec_soninformationextension
 		}
-		if err := per.ValidateOpenTypePadding(inner); err != nil {
+		padding, err := per.CaptureOpenTypePadding(inner)
+		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
+		v.PEROpenTypePadding_ = padding
 		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
@@ -27994,7 +29646,7 @@ func (v *SONInformationExtension) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SONInformationExtension) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28016,9 +29668,11 @@ func (v *SONInformationExtension) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SONInformationExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SONInformationExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28048,7 +29702,7 @@ func (v *SONInformationReply) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28111,9 +29765,11 @@ func (v *SONInformationReply) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SONInformationReply")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SONInformationReply")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28183,7 +29839,7 @@ func (v *SONInformationReport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SONInformationReport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28229,9 +29885,11 @@ func (v *SONInformationReport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SONInformationReport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SONInformationReport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28271,7 +29929,7 @@ func (v *SONConfigurationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28335,9 +29993,11 @@ func (v *SONConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SONConfigurationTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SONConfigurationTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28405,7 +30065,7 @@ func (v *SynchronisationInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28491,9 +30151,11 @@ func (v *SynchronisationInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SynchronisationInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SynchronisationInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28595,7 +30257,7 @@ func (v *SourceeNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SourceeNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28630,9 +30292,11 @@ func (v *SourceeNBID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SourceeNBID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SourceeNBID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28675,7 +30339,7 @@ func (v *SourceNodeID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SourceNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28709,9 +30373,11 @@ func (v *SourceNodeID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SourceNodeID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SourceNodeID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28745,7 +30411,7 @@ func (v *SourceNodeIDExtension) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SourceNodeIDExtension) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28767,9 +30433,11 @@ func (v *SourceNodeIDExtension) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SourceNodeIDExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SourceNodeIDExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -28799,7 +30467,7 @@ func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPER() ([]byte, error)
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -28893,9 +30561,11 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPER(data []byte) er
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SourceeNBToTargeteNBTransparentContainer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SourceeNBToTargeteNBTransparentContainer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -29009,7 +30679,7 @@ func (v *SourceNgRanNodeID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SourceNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29070,9 +30740,11 @@ func (v *SourceNgRanNodeID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SourceNgRanNodeID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SourceNgRanNodeID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -29133,14 +30805,37 @@ func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERServedGUMMEIsListValue struct{ Value ServedGUMMEIs }
 
-// MarshalAPERServedGUMMEIs encodes a ServedGUMMEIs list to APER.
-func MarshalAPERServedGUMMEIs(list ServedGUMMEIs) ([]byte, error) {
+// ServedGUMMEIsComplete carries a complete ServedGUMMEIs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ServedGUMMEIsComplete struct {
+	Value       ServedGUMMEIs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ServedGUMMEIsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERServedGUMMEIsTo(list, bb); err != nil {
+	if err := MarshalAPERServedGUMMEIsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ServedGUMMEIsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERServedGUMMEIsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedGUMMEIs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedGUMMEIs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERServedGUMMEIs encodes a ServedGUMMEIs list to APER.
+func MarshalAPERServedGUMMEIs(list ServedGUMMEIsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERServedGUMMEIsTo appends a ServedGUMMEIs list to bb.
 func MarshalAPERServedGUMMEIsTo(list ServedGUMMEIs, bb *per.BitBuffer) error {
@@ -29159,14 +30854,10 @@ func MarshalAPERServedGUMMEIsTo(list ServedGUMMEIs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERServedGUMMEIs decodes a ServedGUMMEIs list from APER.
-func UnmarshalAPERServedGUMMEIs(data []byte) (ServedGUMMEIs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERServedGUMMEIsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedGUMMEIs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedGUMMEIs")
+func UnmarshalAPERServedGUMMEIs(data []byte) (ServedGUMMEIsComplete, error) {
+	var value ServedGUMMEIsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -29204,7 +30895,7 @@ func (v *ServedGUMMEIsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29289,9 +30980,11 @@ func (v *ServedGUMMEIsItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ServedGUMMEIsItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ServedGUMMEIsItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -29388,13 +31081,38 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERServedGroupIDsListValue struct{ Value ServedGroupIDs }
 
-// MarshalAPERServedGroupIDs encodes a ServedGroupIDs list to APER.
-func MarshalAPERServedGroupIDs(list ServedGroupIDs) ([]byte, error) {
+// ServedGroupIDsComplete carries a complete ServedGroupIDs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ServedGroupIDsComplete struct {
+	Value       ServedGroupIDs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ServedGroupIDsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERServedGroupIDsTo(list, bb); err != nil {
+	if err := MarshalAPERServedGroupIDsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ServedGroupIDsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERServedGroupIDsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedGroupIDs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedGroupIDs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERServedGroupIDs encodes a ServedGroupIDs list to APER.
+func MarshalAPERServedGroupIDs(list ServedGroupIDsComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERServedGroupIDsTo appends a ServedGroupIDs list to bb.
@@ -29414,14 +31132,10 @@ func MarshalAPERServedGroupIDsTo(list ServedGroupIDs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERServedGroupIDs decodes a ServedGroupIDs list from APER.
-func UnmarshalAPERServedGroupIDs(data []byte) (ServedGroupIDs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERServedGroupIDsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedGroupIDs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedGroupIDs")
+func UnmarshalAPERServedGroupIDs(data []byte) (ServedGroupIDsComplete, error) {
+	var value ServedGroupIDsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -29455,14 +31169,37 @@ func unmarshalAPERServedGroupIDsInto(v *asn1cAPERServedGroupIDsListValue, bb *pe
 
 type asn1cAPERServedMMECsListValue struct{ Value ServedMMECs }
 
-// MarshalAPERServedMMECs encodes a ServedMMECs list to APER.
-func MarshalAPERServedMMECs(list ServedMMECs) ([]byte, error) {
+// ServedMMECsComplete carries a complete ServedMMECs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ServedMMECsComplete struct {
+	Value       ServedMMECs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ServedMMECsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERServedMMECsTo(list, bb); err != nil {
+	if err := MarshalAPERServedMMECsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ServedMMECsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERServedMMECsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedMMECs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedMMECs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERServedMMECs encodes a ServedMMECs list to APER.
+func MarshalAPERServedMMECs(list ServedMMECsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERServedMMECsTo appends a ServedMMECs list to bb.
 func MarshalAPERServedMMECsTo(list ServedMMECs, bb *per.BitBuffer) error {
@@ -29481,14 +31218,10 @@ func MarshalAPERServedMMECsTo(list ServedMMECs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERServedMMECs decodes a ServedMMECs list from APER.
-func UnmarshalAPERServedMMECs(data []byte) (ServedMMECs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERServedMMECsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedMMECs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedMMECs")
+func UnmarshalAPERServedMMECs(data []byte) (ServedMMECsComplete, error) {
+	var value ServedMMECsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -29522,14 +31255,37 @@ func unmarshalAPERServedMMECsInto(v *asn1cAPERServedMMECsListValue, bb *per.BitB
 
 type asn1cAPERServedPLMNsListValue struct{ Value ServedPLMNs }
 
-// MarshalAPERServedPLMNs encodes a ServedPLMNs list to APER.
-func MarshalAPERServedPLMNs(list ServedPLMNs) ([]byte, error) {
+// ServedPLMNsComplete carries a complete ServedPLMNs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ServedPLMNsComplete struct {
+	Value       ServedPLMNs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ServedPLMNsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERServedPLMNsTo(list, bb); err != nil {
+	if err := MarshalAPERServedPLMNsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ServedPLMNsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERServedPLMNsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedPLMNs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ServedPLMNs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERServedPLMNs encodes a ServedPLMNs list to APER.
+func MarshalAPERServedPLMNs(list ServedPLMNsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERServedPLMNsTo appends a ServedPLMNs list to bb.
 func MarshalAPERServedPLMNsTo(list ServedPLMNs, bb *per.BitBuffer) error {
@@ -29548,14 +31304,10 @@ func MarshalAPERServedPLMNsTo(list ServedPLMNs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERServedPLMNs decodes a ServedPLMNs list from APER.
-func UnmarshalAPERServedPLMNs(data []byte) (ServedPLMNs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERServedPLMNsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedPLMNs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ServedPLMNs")
+func UnmarshalAPERServedPLMNs(data []byte) (ServedPLMNsComplete, error) {
+	var value ServedPLMNsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -29593,7 +31345,7 @@ func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29696,9 +31448,11 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPER(data []byte) erro
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubscriptionBasedUEDifferentiationInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SubscriptionBasedUEDifferentiationInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -29823,7 +31577,7 @@ func (v *ScheduledCommunicationTime) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ScheduledCommunicationTime) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -29902,9 +31656,11 @@ func (v *ScheduledCommunicationTime) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ScheduledCommunicationTime")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ScheduledCommunicationTime")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -29993,14 +31749,37 @@ func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 
 type asn1cAPERSupportedTAsListValue struct{ Value SupportedTAs }
 
-// MarshalAPERSupportedTAs encodes a SupportedTAs list to APER.
-func MarshalAPERSupportedTAs(list SupportedTAs) ([]byte, error) {
+// SupportedTAsComplete carries a complete SupportedTAs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SupportedTAsComplete struct {
+	Value       SupportedTAs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SupportedTAsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERSupportedTAsTo(list, bb); err != nil {
+	if err := MarshalAPERSupportedTAsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *SupportedTAsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERSupportedTAsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SupportedTAs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SupportedTAs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERSupportedTAs encodes a SupportedTAs list to APER.
+func MarshalAPERSupportedTAs(list SupportedTAsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERSupportedTAsTo appends a SupportedTAs list to bb.
 func MarshalAPERSupportedTAsTo(list SupportedTAs, bb *per.BitBuffer) error {
@@ -30019,14 +31798,10 @@ func MarshalAPERSupportedTAsTo(list SupportedTAs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERSupportedTAs decodes a SupportedTAs list from APER.
-func UnmarshalAPERSupportedTAs(data []byte) (SupportedTAs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERSupportedTAsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SupportedTAs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SupportedTAs")
+func UnmarshalAPERSupportedTAs(data []byte) (SupportedTAsComplete, error) {
+	var value SupportedTAsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -30064,7 +31839,7 @@ func (v *SupportedTAsItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SupportedTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30132,9 +31907,11 @@ func (v *SupportedTAsItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SupportedTAsItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SupportedTAsItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -30212,7 +31989,7 @@ func (v *TimeSynchronisationInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30273,9 +32050,11 @@ func (v *TimeSynchronisationInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TimeSynchronisationInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TimeSynchronisationInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -30344,7 +32123,7 @@ func (v *STMSI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30405,9 +32184,11 @@ func (v *STMSI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "STMSI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "STMSI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -30472,13 +32253,38 @@ func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTACListInLTENTNListValue struct{ Value TACListInLTENTN }
 
-// MarshalAPERTACListInLTENTN encodes a TACListInLTENTN list to APER.
-func MarshalAPERTACListInLTENTN(list TACListInLTENTN) ([]byte, error) {
+// TACListInLTENTNComplete carries a complete TACListInLTENTN encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TACListInLTENTNComplete struct {
+	Value       TACListInLTENTN
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TACListInLTENTNComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTACListInLTENTNTo(list, bb); err != nil {
+	if err := MarshalAPERTACListInLTENTNTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *TACListInLTENTNComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTACListInLTENTNFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TACListInLTENTN")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TACListInLTENTN")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTACListInLTENTN encodes a TACListInLTENTN list to APER.
+func MarshalAPERTACListInLTENTN(list TACListInLTENTNComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERTACListInLTENTNTo appends a TACListInLTENTN list to bb.
@@ -30498,14 +32304,10 @@ func MarshalAPERTACListInLTENTNTo(list TACListInLTENTN, bb *per.BitBuffer) error
 }
 
 // UnmarshalAPERTACListInLTENTN decodes a TACListInLTENTN list from APER.
-func UnmarshalAPERTACListInLTENTN(data []byte) (TACListInLTENTN, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTACListInLTENTNFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TACListInLTENTN")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TACListInLTENTN")
+func UnmarshalAPERTACListInLTENTN(data []byte) (TACListInLTENTNComplete, error) {
+	var value TACListInLTENTNComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -30543,7 +32345,7 @@ func (v *TAIBasedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TAIBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30608,9 +32410,11 @@ func (v *TAIBasedMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TAIBasedMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TAIBasedMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -30679,14 +32483,37 @@ func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAIListforMDTListValue struct{ Value TAIListforMDT }
 
-// MarshalAPERTAIListforMDT encodes a TAIListforMDT list to APER.
-func MarshalAPERTAIListforMDT(list TAIListforMDT) ([]byte, error) {
+// TAIListforMDTComplete carries a complete TAIListforMDT encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAIListforMDTComplete struct {
+	Value       TAIListforMDT
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAIListforMDTComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAIListforMDTTo(list, bb); err != nil {
+	if err := MarshalAPERTAIListforMDTTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *TAIListforMDTComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAIListforMDTFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListforMDT")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListforMDT")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAIListforMDT encodes a TAIListforMDT list to APER.
+func MarshalAPERTAIListforMDT(list TAIListforMDTComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERTAIListforMDTTo appends a TAIListforMDT list to bb.
 func MarshalAPERTAIListforMDTTo(list TAIListforMDT, bb *per.BitBuffer) error {
@@ -30705,14 +32532,10 @@ func MarshalAPERTAIListforMDTTo(list TAIListforMDT, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERTAIListforMDT decodes a TAIListforMDT list from APER.
-func UnmarshalAPERTAIListforMDT(data []byte) (TAIListforMDT, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAIListforMDTFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListforMDT")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListforMDT")
+func UnmarshalAPERTAIListforMDT(data []byte) (TAIListforMDTComplete, error) {
+	var value TAIListforMDTComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -30746,13 +32569,38 @@ func unmarshalAPERTAIListforMDTInto(v *asn1cAPERTAIListforMDTListValue, bb *per.
 
 type asn1cAPERTAIListforWarningListValue struct{ Value TAIListforWarning }
 
-// MarshalAPERTAIListforWarning encodes a TAIListforWarning list to APER.
-func MarshalAPERTAIListforWarning(list TAIListforWarning) ([]byte, error) {
+// TAIListforWarningComplete carries a complete TAIListforWarning encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAIListforWarningComplete struct {
+	Value       TAIListforWarning
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAIListforWarningComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAIListforWarningTo(list, bb); err != nil {
+	if err := MarshalAPERTAIListforWarningTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *TAIListforWarningComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAIListforWarningFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListforWarning")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListforWarning")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAIListforWarning encodes a TAIListforWarning list to APER.
+func MarshalAPERTAIListforWarning(list TAIListforWarningComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERTAIListforWarningTo appends a TAIListforWarning list to bb.
@@ -30772,14 +32620,10 @@ func MarshalAPERTAIListforWarningTo(list TAIListforWarning, bb *per.BitBuffer) e
 }
 
 // UnmarshalAPERTAIListforWarning decodes a TAIListforWarning list from APER.
-func UnmarshalAPERTAIListforWarning(data []byte) (TAIListforWarning, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAIListforWarningFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListforWarning")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListforWarning")
+func UnmarshalAPERTAIListforWarning(data []byte) (TAIListforWarningComplete, error) {
+	var value TAIListforWarningComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -30817,7 +32661,7 @@ func (v *TAI) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -30878,9 +32722,11 @@ func (v *TAI) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TAI")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TAI")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -30945,14 +32791,37 @@ func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAIBroadcastListValue struct{ Value TAIBroadcast }
 
-// MarshalAPERTAIBroadcast encodes a TAIBroadcast list to APER.
-func MarshalAPERTAIBroadcast(list TAIBroadcast) ([]byte, error) {
+// TAIBroadcastComplete carries a complete TAIBroadcast encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAIBroadcastComplete struct {
+	Value       TAIBroadcast
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAIBroadcastComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAIBroadcastTo(list, bb); err != nil {
+	if err := MarshalAPERTAIBroadcastTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *TAIBroadcastComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAIBroadcastFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIBroadcast")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIBroadcast")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAIBroadcast encodes a TAIBroadcast list to APER.
+func MarshalAPERTAIBroadcast(list TAIBroadcastComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERTAIBroadcastTo appends a TAIBroadcast list to bb.
 func MarshalAPERTAIBroadcastTo(list TAIBroadcast, bb *per.BitBuffer) error {
@@ -30971,14 +32840,10 @@ func MarshalAPERTAIBroadcastTo(list TAIBroadcast, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERTAIBroadcast decodes a TAIBroadcast list from APER.
-func UnmarshalAPERTAIBroadcast(data []byte) (TAIBroadcast, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAIBroadcastFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIBroadcast")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIBroadcast")
+func UnmarshalAPERTAIBroadcast(data []byte) (TAIBroadcastComplete, error) {
+	var value TAIBroadcastComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -31016,7 +32881,7 @@ func (v *TAIBroadcastItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TAIBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31084,9 +32949,11 @@ func (v *TAIBroadcastItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TAIBroadcastItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TAIBroadcastItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -31158,14 +33025,37 @@ func (v *TAIBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAICancelledListValue struct{ Value TAICancelled }
 
-// MarshalAPERTAICancelled encodes a TAICancelled list to APER.
-func MarshalAPERTAICancelled(list TAICancelled) ([]byte, error) {
+// TAICancelledComplete carries a complete TAICancelled encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAICancelledComplete struct {
+	Value       TAICancelled
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAICancelledComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAICancelledTo(list, bb); err != nil {
+	if err := MarshalAPERTAICancelledTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *TAICancelledComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAICancelledFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAICancelled")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAICancelled")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAICancelled encodes a TAICancelled list to APER.
+func MarshalAPERTAICancelled(list TAICancelledComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERTAICancelledTo appends a TAICancelled list to bb.
 func MarshalAPERTAICancelledTo(list TAICancelled, bb *per.BitBuffer) error {
@@ -31184,14 +33074,10 @@ func MarshalAPERTAICancelledTo(list TAICancelled, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERTAICancelled decodes a TAICancelled list from APER.
-func UnmarshalAPERTAICancelled(data []byte) (TAICancelled, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAICancelledFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAICancelled")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAICancelled")
+func UnmarshalAPERTAICancelled(data []byte) (TAICancelledComplete, error) {
+	var value TAICancelledComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -31229,7 +33115,7 @@ func (v *TAICancelledItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TAICancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31297,9 +33183,11 @@ func (v *TAICancelledItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TAICancelledItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TAICancelledItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -31375,7 +33263,7 @@ func (v *TABasedMDT) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31440,9 +33328,11 @@ func (v *TABasedMDT) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TABasedMDT")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TABasedMDT")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -31511,14 +33401,37 @@ func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAListforMDTListValue struct{ Value TAListforMDT }
 
-// MarshalAPERTAListforMDT encodes a TAListforMDT list to APER.
-func MarshalAPERTAListforMDT(list TAListforMDT) ([]byte, error) {
+// TAListforMDTComplete carries a complete TAListforMDT encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAListforMDTComplete struct {
+	Value       TAListforMDT
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAListforMDTComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAListforMDTTo(list, bb); err != nil {
+	if err := MarshalAPERTAListforMDTTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *TAListforMDTComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAListforMDTFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAListforMDT")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAListforMDT")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAListforMDT encodes a TAListforMDT list to APER.
+func MarshalAPERTAListforMDT(list TAListforMDTComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERTAListforMDTTo appends a TAListforMDT list to bb.
 func MarshalAPERTAListforMDTTo(list TAListforMDT, bb *per.BitBuffer) error {
@@ -31537,14 +33450,10 @@ func MarshalAPERTAListforMDTTo(list TAListforMDT, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERTAListforMDT decodes a TAListforMDT list from APER.
-func UnmarshalAPERTAListforMDT(data []byte) (TAListforMDT, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAListforMDTFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAListforMDT")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAListforMDT")
+func UnmarshalAPERTAListforMDT(data []byte) (TAListforMDTComplete, error) {
+	var value TAListforMDTComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -31582,7 +33491,7 @@ func (v *TABasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31647,9 +33556,11 @@ func (v *TABasedQMC) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TABasedQMC")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TABasedQMC")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -31718,14 +33629,37 @@ func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAListforQMCListValue struct{ Value TAListforQMC }
 
-// MarshalAPERTAListforQMC encodes a TAListforQMC list to APER.
-func MarshalAPERTAListforQMC(list TAListforQMC) ([]byte, error) {
+// TAListforQMCComplete carries a complete TAListforQMC encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAListforQMCComplete struct {
+	Value       TAListforQMC
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAListforQMCComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAListforQMCTo(list, bb); err != nil {
+	if err := MarshalAPERTAListforQMCTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *TAListforQMCComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAListforQMCFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAListforQMC")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAListforQMC")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAListforQMC encodes a TAListforQMC list to APER.
+func MarshalAPERTAListforQMC(list TAListforQMCComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERTAListforQMCTo appends a TAListforQMC list to bb.
 func MarshalAPERTAListforQMCTo(list TAListforQMC, bb *per.BitBuffer) error {
@@ -31744,14 +33678,10 @@ func MarshalAPERTAListforQMCTo(list TAListforQMC, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERTAListforQMC decodes a TAListforQMC list from APER.
-func UnmarshalAPERTAListforQMC(data []byte) (TAListforQMC, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAListforQMCFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAListforQMC")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAListforQMC")
+func UnmarshalAPERTAListforQMC(data []byte) (TAListforQMCComplete, error) {
+	var value TAListforQMCComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -31789,7 +33719,7 @@ func (v *TAIBasedQMC) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -31854,9 +33784,11 @@ func (v *TAIBasedQMC) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TAIBasedQMC")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TAIBasedQMC")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -31925,14 +33857,37 @@ func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAIListforQMCListValue struct{ Value TAIListforQMC }
 
-// MarshalAPERTAIListforQMC encodes a TAIListforQMC list to APER.
-func MarshalAPERTAIListforQMC(list TAIListforQMC) ([]byte, error) {
+// TAIListforQMCComplete carries a complete TAIListforQMC encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAIListforQMCComplete struct {
+	Value       TAIListforQMC
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAIListforQMCComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAIListforQMCTo(list, bb); err != nil {
+	if err := MarshalAPERTAIListforQMCTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *TAIListforQMCComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAIListforQMCFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListforQMC")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListforQMC")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAIListforQMC encodes a TAIListforQMC list to APER.
+func MarshalAPERTAIListforQMC(list TAIListforQMCComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERTAIListforQMCTo appends a TAIListforQMC list to bb.
 func MarshalAPERTAIListforQMCTo(list TAIListforQMC, bb *per.BitBuffer) error {
@@ -31951,14 +33906,10 @@ func MarshalAPERTAIListforQMCTo(list TAIListforQMC, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERTAIListforQMC decodes a TAIListforQMC list from APER.
-func UnmarshalAPERTAIListforQMC(data []byte) (TAIListforQMC, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAIListforQMCFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListforQMC")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListforQMC")
+func UnmarshalAPERTAIListforQMC(data []byte) (TAIListforQMCComplete, error) {
+	var value TAIListforQMCComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -31992,13 +33943,38 @@ func unmarshalAPERTAIListforQMCInto(v *asn1cAPERTAIListforQMCListValue, bb *per.
 
 type asn1cAPERCompletedCellinTAIListValue struct{ Value CompletedCellinTAI }
 
-// MarshalAPERCompletedCellinTAI encodes a CompletedCellinTAI list to APER.
-func MarshalAPERCompletedCellinTAI(list CompletedCellinTAI) ([]byte, error) {
+// CompletedCellinTAIComplete carries a complete CompletedCellinTAI encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CompletedCellinTAIComplete struct {
+	Value       CompletedCellinTAI
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CompletedCellinTAIComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERCompletedCellinTAITo(list, bb); err != nil {
+	if err := MarshalAPERCompletedCellinTAITo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CompletedCellinTAIComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERCompletedCellinTAIFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CompletedCellinTAI")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CompletedCellinTAI")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERCompletedCellinTAI encodes a CompletedCellinTAI list to APER.
+func MarshalAPERCompletedCellinTAI(list CompletedCellinTAIComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERCompletedCellinTAITo appends a CompletedCellinTAI list to bb.
@@ -32018,14 +33994,10 @@ func MarshalAPERCompletedCellinTAITo(list CompletedCellinTAI, bb *per.BitBuffer)
 }
 
 // UnmarshalAPERCompletedCellinTAI decodes a CompletedCellinTAI list from APER.
-func UnmarshalAPERCompletedCellinTAI(data []byte) (CompletedCellinTAI, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERCompletedCellinTAIFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CompletedCellinTAI")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CompletedCellinTAI")
+func UnmarshalAPERCompletedCellinTAI(data []byte) (CompletedCellinTAIComplete, error) {
+	var value CompletedCellinTAIComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -32063,7 +34035,7 @@ func (v *CompletedCellinTAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CompletedCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32121,9 +34093,11 @@ func (v *CompletedCellinTAIItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CompletedCellinTAIItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CompletedCellinTAIItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -32185,7 +34159,7 @@ func (v *TargetID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TargetID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32227,7 +34201,11 @@ func (v *TargetID) MarshalAPERTo(bb *per.BitBuffer) error {
 		default:
 			return fmt.Errorf("unknown TargetID extension choice %d", v.Choice)
 		}
-		if err := per.EncodeOpenTypeAligned(bb, inner.CompleteBytes()); err != nil {
+		openBytes, err := inner.CompleteBytesWithPadding(v.PEROpenTypePadding_)
+		if err != nil {
+			return err
+		}
+		if err := per.EncodeOpenTypeAligned(bb, openBytes); err != nil {
 			return err
 		}
 		return nil
@@ -32269,9 +34247,11 @@ func (v *TargetID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargetID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TargetID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -32306,9 +34286,11 @@ func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			}
 			v.TargetgNgRanNodeID = &dec_targetgngrannodeid
 		}
-		if err := per.ValidateOpenTypePadding(inner); err != nil {
+		padding, err := per.CaptureOpenTypePadding(inner)
+		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
+		v.PEROpenTypePadding_ = padding
 		return nil
 	}
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
@@ -32345,7 +34327,7 @@ func (v *TargeteNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32406,9 +34388,11 @@ func (v *TargeteNBID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargeteNBID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TargeteNBID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -32473,7 +34457,7 @@ func (v *TargetRNCID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TargetRNCID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32550,9 +34534,11 @@ func (v *TargetRNCID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargetRNCID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TargetRNCID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -32643,7 +34629,7 @@ func (v *TargetNgRanNodeID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32704,9 +34690,11 @@ func (v *TargetNgRanNodeID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargetNgRanNodeID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TargetNgRanNodeID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -32771,7 +34759,7 @@ func (v *GlobalRANNODEID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GlobalRANNODEID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32827,9 +34815,11 @@ func (v *GlobalRANNODEID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GlobalRANNODEID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -32879,7 +34869,7 @@ func (v *GNB) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GNB) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -32937,9 +34927,11 @@ func (v *GNB) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GNB")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GNB")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33001,7 +34993,7 @@ func (v *GlobalGNBID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GlobalGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33062,9 +35054,11 @@ func (v *GlobalGNBID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GlobalGNBID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GlobalGNBID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33131,7 +35125,7 @@ func (v *GNBIdentity) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *GNBIdentity) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33177,9 +35171,11 @@ func (v *GNBIdentity) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "GNBIdentity")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "GNBIdentity")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33220,7 +35216,7 @@ func (v *NGENB) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NGENB) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33278,9 +35274,11 @@ func (v *NGENB) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NGENB")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NGENB")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33342,7 +35340,7 @@ func (v *TargeteNBToSourceeNBTransparentContainer) MarshalAPER() ([]byte, error)
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TargeteNBToSourceeNBTransparentContainer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33400,9 +35398,11 @@ func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPER(data []byte) er
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TargeteNBToSourceeNBTransparentContainer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TargeteNBToSourceeNBTransparentContainer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33466,7 +35466,7 @@ func (v *M1ThresholdEventA2) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33524,9 +35524,11 @@ func (v *M1ThresholdEventA2) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "M1ThresholdEventA2")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "M1ThresholdEventA2")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33588,7 +35590,7 @@ func (v *TimeBasedHandoverInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TimeBasedHandoverInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33649,9 +35651,11 @@ func (v *TimeBasedHandoverInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TimeBasedHandoverInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TimeBasedHandoverInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33720,7 +35724,7 @@ func (v *TransportInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TransportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33765,9 +35769,11 @@ func (v *TransportInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TransportInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TransportInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33814,7 +35820,7 @@ func (v *TraceActivation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TraceActivation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -33881,9 +35887,11 @@ func (v *TraceActivation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TraceActivation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TraceActivation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -33962,7 +35970,7 @@ func (v *TunnelInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TunnelInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34028,9 +36036,11 @@ func (v *TunnelInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TunnelInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TunnelInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -34102,13 +36112,38 @@ func (v *TunnelInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAIListForRestartListValue struct{ Value TAIListForRestart }
 
-// MarshalAPERTAIListForRestart encodes a TAIListForRestart list to APER.
-func MarshalAPERTAIListForRestart(list TAIListForRestart) ([]byte, error) {
+// TAIListForRestartComplete carries a complete TAIListForRestart encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAIListForRestartComplete struct {
+	Value       TAIListForRestart
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAIListForRestartComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAIListForRestartTo(list, bb); err != nil {
+	if err := MarshalAPERTAIListForRestartTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *TAIListForRestartComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAIListForRestartFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListForRestart")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIListForRestart")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAIListForRestart encodes a TAIListForRestart list to APER.
+func MarshalAPERTAIListForRestart(list TAIListForRestartComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERTAIListForRestartTo appends a TAIListForRestart list to bb.
@@ -34128,14 +36163,10 @@ func MarshalAPERTAIListForRestartTo(list TAIListForRestart, bb *per.BitBuffer) e
 }
 
 // UnmarshalAPERTAIListForRestart decodes a TAIListForRestart list from APER.
-func UnmarshalAPERTAIListForRestart(data []byte) (TAIListForRestart, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAIListForRestartFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListForRestart")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIListForRestart")
+func UnmarshalAPERTAIListForRestart(data []byte) (TAIListForRestartComplete, error) {
+	var value TAIListForRestartComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -34173,7 +36204,7 @@ func (v *UEAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34234,9 +36265,11 @@ func (v *UEAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEAggregateMaximumBitrate")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEAggregateMaximumBitrate")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -34305,7 +36338,7 @@ func (v *UEAppLayerMeasConfig) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEAppLayerMeasConfig) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34366,9 +36399,11 @@ func (v *UEAppLayerMeasConfig) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEAppLayerMeasConfig")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEAppLayerMeasConfig")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -34435,7 +36470,7 @@ func (v *UES1APIDs) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UES1APIDs) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34491,9 +36526,11 @@ func (v *UES1APIDs) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UES1APIDs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UES1APIDs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -34544,7 +36581,7 @@ func (v *UES1APIDPair) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UES1APIDPair) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34605,9 +36642,11 @@ func (v *UES1APIDPair) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UES1APIDPair")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UES1APIDPair")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -34676,7 +36715,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34747,9 +36786,11 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -34828,13 +36869,38 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 
 type asn1cAPERUEHistoryInformationListValue struct{ Value UEHistoryInformation }
 
-// MarshalAPERUEHistoryInformation encodes a UEHistoryInformation list to APER.
-func MarshalAPERUEHistoryInformation(list UEHistoryInformation) ([]byte, error) {
+// UEHistoryInformationComplete carries a complete UEHistoryInformation encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type UEHistoryInformationComplete struct {
+	Value       UEHistoryInformation
+	PERPadding_ per.CompletePadding
+}
+
+func (v *UEHistoryInformationComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERUEHistoryInformationTo(list, bb); err != nil {
+	if err := MarshalAPERUEHistoryInformationTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *UEHistoryInformationComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERUEHistoryInformationFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UEHistoryInformation")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UEHistoryInformation")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERUEHistoryInformation encodes a UEHistoryInformation list to APER.
+func MarshalAPERUEHistoryInformation(list UEHistoryInformationComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERUEHistoryInformationTo appends a UEHistoryInformation list to bb.
@@ -34854,14 +36920,10 @@ func MarshalAPERUEHistoryInformationTo(list UEHistoryInformation, bb *per.BitBuf
 }
 
 // UnmarshalAPERUEHistoryInformation decodes a UEHistoryInformation list from APER.
-func UnmarshalAPERUEHistoryInformation(data []byte) (UEHistoryInformation, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERUEHistoryInformationFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "UEHistoryInformation")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "UEHistoryInformation")
+func UnmarshalAPERUEHistoryInformation(data []byte) (UEHistoryInformationComplete, error) {
+	var value UEHistoryInformationComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -34899,7 +36961,7 @@ func (v *UEPagingID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEPagingID) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -34955,9 +37017,11 @@ func (v *UEPagingID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -35008,7 +37072,7 @@ func (v *UESecurityCapabilities) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35069,9 +37133,11 @@ func (v *UESecurityCapabilities) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UESecurityCapabilities")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UESecurityCapabilities")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -35140,7 +37206,7 @@ func (v *UESidelinkAggregateMaximumBitrate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35198,9 +37264,11 @@ func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UESidelinkAggregateMaximumBitrate")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UESidelinkAggregateMaximumBitrate")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -35264,7 +37332,7 @@ func (v *ULCPSecurityInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ULCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35325,9 +37393,11 @@ func (v *ULCPSecurityInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULCPSecurityInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ULCPSecurityInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -35396,7 +37466,7 @@ func (v *UserLocationInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UserLocationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35457,9 +37527,11 @@ func (v *UserLocationInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UserLocationInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UserLocationInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -35524,7 +37596,7 @@ func (v *V2XServicesAuthorized) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *V2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35595,9 +37667,11 @@ func (v *V2XServicesAuthorized) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "V2XServicesAuthorized")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "V2XServicesAuthorized")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -35680,7 +37754,7 @@ func (v *WarningAreaList) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35755,9 +37829,11 @@ func (v *WarningAreaList) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WarningAreaList")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "WarningAreaList")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -35843,7 +37919,7 @@ func (v *WLANMeasurementConfiguration) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *WLANMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -35932,9 +38008,11 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementConfiguration")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementConfiguration")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -36037,13 +38115,38 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 
 type asn1cAPERWLANMeasConfigNameListListValue struct{ Value WLANMeasConfigNameList }
 
-// MarshalAPERWLANMeasConfigNameList encodes a WLANMeasConfigNameList list to APER.
-func MarshalAPERWLANMeasConfigNameList(list WLANMeasConfigNameList) ([]byte, error) {
+// WLANMeasConfigNameListComplete carries a complete WLANMeasConfigNameList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type WLANMeasConfigNameListComplete struct {
+	Value       WLANMeasConfigNameList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *WLANMeasConfigNameListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERWLANMeasConfigNameListTo(list, bb); err != nil {
+	if err := MarshalAPERWLANMeasConfigNameListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *WLANMeasConfigNameListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERWLANMeasConfigNameListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "WLANMeasConfigNameList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "WLANMeasConfigNameList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERWLANMeasConfigNameList encodes a WLANMeasConfigNameList list to APER.
+func MarshalAPERWLANMeasConfigNameList(list WLANMeasConfigNameListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERWLANMeasConfigNameListTo appends a WLANMeasConfigNameList list to bb.
@@ -36063,14 +38166,10 @@ func MarshalAPERWLANMeasConfigNameListTo(list WLANMeasConfigNameList, bb *per.Bi
 }
 
 // UnmarshalAPERWLANMeasConfigNameList decodes a WLANMeasConfigNameList list from APER.
-func UnmarshalAPERWLANMeasConfigNameList(data []byte) (WLANMeasConfigNameList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERWLANMeasConfigNameListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "WLANMeasConfigNameList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "WLANMeasConfigNameList")
+func UnmarshalAPERWLANMeasConfigNameList(data []byte) (WLANMeasConfigNameListComplete, error) {
+	var value WLANMeasConfigNameListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -36108,7 +38207,7 @@ func (v *WUSAssistanceInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *WUSAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -36166,9 +38265,11 @@ func (v *WUSAssistanceInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WUSAssistanceInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "WUSAssistanceInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -36232,7 +38333,7 @@ func (v *X2TNLConfigurationInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *X2TNLConfigurationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -36297,9 +38398,11 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "X2TNLConfigurationInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "X2TNLConfigurationInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -36368,14 +38471,37 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERENBX2ExtTLAsListValue struct{ Value ENBX2ExtTLAs }
 
-// MarshalAPERENBX2ExtTLAs encodes a ENBX2ExtTLAs list to APER.
-func MarshalAPERENBX2ExtTLAs(list ENBX2ExtTLAs) ([]byte, error) {
+// ENBX2ExtTLAsComplete carries a complete ENBX2ExtTLAs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ENBX2ExtTLAsComplete struct {
+	Value       ENBX2ExtTLAs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ENBX2ExtTLAsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERENBX2ExtTLAsTo(list, bb); err != nil {
+	if err := MarshalAPERENBX2ExtTLAsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ENBX2ExtTLAsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERENBX2ExtTLAsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBX2ExtTLAs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBX2ExtTLAs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERENBX2ExtTLAs encodes a ENBX2ExtTLAs list to APER.
+func MarshalAPERENBX2ExtTLAs(list ENBX2ExtTLAsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERENBX2ExtTLAsTo appends a ENBX2ExtTLAs list to bb.
 func MarshalAPERENBX2ExtTLAsTo(list ENBX2ExtTLAs, bb *per.BitBuffer) error {
@@ -36394,14 +38520,10 @@ func MarshalAPERENBX2ExtTLAsTo(list ENBX2ExtTLAs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERENBX2ExtTLAs decodes a ENBX2ExtTLAs list from APER.
-func UnmarshalAPERENBX2ExtTLAs(data []byte) (ENBX2ExtTLAs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERENBX2ExtTLAsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBX2ExtTLAs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBX2ExtTLAs")
+func UnmarshalAPERENBX2ExtTLAs(data []byte) (ENBX2ExtTLAsComplete, error) {
+	var value ENBX2ExtTLAsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -36439,7 +38561,7 @@ func (v *ENBX2ExtTLA) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -36517,9 +38639,11 @@ func (v *ENBX2ExtTLA) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBX2ExtTLA")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBX2ExtTLA")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -36607,14 +38731,37 @@ func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERENBX2GTPTLAsListValue struct{ Value ENBX2GTPTLAs }
 
-// MarshalAPERENBX2GTPTLAs encodes a ENBX2GTPTLAs list to APER.
-func MarshalAPERENBX2GTPTLAs(list ENBX2GTPTLAs) ([]byte, error) {
+// ENBX2GTPTLAsComplete carries a complete ENBX2GTPTLAs encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ENBX2GTPTLAsComplete struct {
+	Value       ENBX2GTPTLAs
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ENBX2GTPTLAsComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERENBX2GTPTLAsTo(list, bb); err != nil {
+	if err := MarshalAPERENBX2GTPTLAsTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *ENBX2GTPTLAsComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERENBX2GTPTLAsFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBX2GTPTLAs")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBX2GTPTLAs")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERENBX2GTPTLAs encodes a ENBX2GTPTLAs list to APER.
+func MarshalAPERENBX2GTPTLAs(list ENBX2GTPTLAsComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERENBX2GTPTLAsTo appends a ENBX2GTPTLAs list to bb.
 func MarshalAPERENBX2GTPTLAsTo(list ENBX2GTPTLAs, bb *per.BitBuffer) error {
@@ -36633,14 +38780,10 @@ func MarshalAPERENBX2GTPTLAsTo(list ENBX2GTPTLAs, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERENBX2GTPTLAs decodes a ENBX2GTPTLAs list from APER.
-func UnmarshalAPERENBX2GTPTLAs(data []byte) (ENBX2GTPTLAs, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERENBX2GTPTLAsFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBX2GTPTLAs")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBX2GTPTLAs")
+func UnmarshalAPERENBX2GTPTLAs(data []byte) (ENBX2GTPTLAsComplete, error) {
+	var value ENBX2GTPTLAsComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -36676,13 +38819,38 @@ type asn1cAPERENBIndirectX2TransportLayerAddressesListValue struct {
 	Value ENBIndirectX2TransportLayerAddresses
 }
 
-// MarshalAPERENBIndirectX2TransportLayerAddresses encodes a ENBIndirectX2TransportLayerAddresses list to APER.
-func MarshalAPERENBIndirectX2TransportLayerAddresses(list ENBIndirectX2TransportLayerAddresses) ([]byte, error) {
+// ENBIndirectX2TransportLayerAddressesComplete carries a complete ENBIndirectX2TransportLayerAddresses encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ENBIndirectX2TransportLayerAddressesComplete struct {
+	Value       ENBIndirectX2TransportLayerAddresses
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ENBIndirectX2TransportLayerAddressesComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERENBIndirectX2TransportLayerAddressesTo(list, bb); err != nil {
+	if err := MarshalAPERENBIndirectX2TransportLayerAddressesTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ENBIndirectX2TransportLayerAddressesComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERENBIndirectX2TransportLayerAddressesFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBIndirectX2TransportLayerAddresses")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENBIndirectX2TransportLayerAddresses")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERENBIndirectX2TransportLayerAddresses encodes a ENBIndirectX2TransportLayerAddresses list to APER.
+func MarshalAPERENBIndirectX2TransportLayerAddresses(list ENBIndirectX2TransportLayerAddressesComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERENBIndirectX2TransportLayerAddressesTo appends a ENBIndirectX2TransportLayerAddresses list to bb.
@@ -36702,14 +38870,10 @@ func MarshalAPERENBIndirectX2TransportLayerAddressesTo(list ENBIndirectX2Transpo
 }
 
 // UnmarshalAPERENBIndirectX2TransportLayerAddresses decodes a ENBIndirectX2TransportLayerAddresses list from APER.
-func UnmarshalAPERENBIndirectX2TransportLayerAddresses(data []byte) (ENBIndirectX2TransportLayerAddresses, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERENBIndirectX2TransportLayerAddressesFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBIndirectX2TransportLayerAddresses")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ENBIndirectX2TransportLayerAddresses")
+func UnmarshalAPERENBIndirectX2TransportLayerAddresses(data []byte) (ENBIndirectX2TransportLayerAddressesComplete, error) {
+	var value ENBIndirectX2TransportLayerAddressesComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
