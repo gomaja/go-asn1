@@ -5,8 +5,12 @@ Compiled ASN.1 specifications as native Go packages with generated marshal/unmar
 ## Installation
 
 ```bash
-go get github.com/gomaja/go-asn1
+go get github.com/gomaja/go-asn1@main
 ```
+
+No tagged releases are published. Depend on the `main` branch and update with
+`go get github.com/gomaja/go-asn1@main`; do not use `@latest` or `go get -u`,
+which resolve older tagged versions still cached by the Go module proxy.
 
 ## Usage
 
@@ -282,4 +286,5 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 
 ## License
 
-MIT
+Licensed under the [Apache License, Version 2.0](LICENSE). See [NOTICE](NOTICE) for the
+attribution of the third-party specifications from which the packages are generated.

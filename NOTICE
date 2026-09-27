@@ -1,0 +1,12 @@
+go-asn1
+Copyright 2026 gomaja
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The Go packages in this repository are generated from formal ASN.1
+definitions published in third-party specifications, including those of the
+3GPP Organizational Partners (ARIB, ATIS, CCSA, ETSI, TSDSI, TTA, TTC), ITU-T,
+the GSM Association (GSMA) and the IETF. Those specifications remain the
+property of their respective copyright holders and are subject to their
+terms of use. The specification sources, editions and content hashes used
+for each generated package are recorded in release-evidence.json.
