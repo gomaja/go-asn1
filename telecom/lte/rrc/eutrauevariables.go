@@ -3456,6 +3456,9 @@ func (v *VarMeasConfigSpeedStatePars) MarshalUPER() ([]byte, error) {
 }
 
 func (v *VarMeasConfigSpeedStatePars) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("VarMeasConfigSpeedStatePars: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -3562,6 +3565,9 @@ func (v *CellsTriggeredListElem) MarshalUPER() ([]byte, error) {
 }
 
 func (v *CellsTriggeredListElem) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellsTriggeredListElem: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 5); err != nil {
 		return err
 	}
@@ -3688,6 +3694,9 @@ func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPER() ([]byte, error) {
 }
 
 func (v *CellsTriggeredListElemPhysCellIdUTRA) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellsTriggeredListElemPhysCellIdUTRA: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}

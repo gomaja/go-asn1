@@ -1552,6 +1552,9 @@ func (v *DLDCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *DLDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("DLDCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 31); err != nil {
 		return err
 	}
@@ -2063,6 +2066,9 @@ func (v *ULDCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *ULDCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ULDCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 31); err != nil {
 		return err
 	}
@@ -2525,6 +2531,9 @@ func (v *ULDCCHMessageTypeExt) MarshalUPER() ([]byte, error) {
 }
 
 func (v *ULDCCHMessageTypeExt) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ULDCCHMessageTypeExt: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
 		return err
 	}
@@ -2688,6 +2697,9 @@ func (v *DLCCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *DLCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("DLCCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -2877,6 +2889,9 @@ func (v *ULCCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *ULCCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ULCCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
@@ -2975,6 +2990,9 @@ func (v *ULCCCHMessageTypeR11) MarshalUPER() ([]byte, error) {
 }
 
 func (v *ULCCCHMessageTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ULCCCHMessageTypeR11: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
@@ -3081,6 +3099,9 @@ func (v *PCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *PCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -3181,6 +3202,9 @@ func (v *DLSHCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *DLSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("DLSHCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -3281,6 +3305,9 @@ func (v *ULSHCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *ULSHCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ULSHCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -3381,6 +3408,9 @@ func (v *BCCHFACHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *BCCHFACHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("BCCHFACHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
@@ -3573,6 +3603,9 @@ func (v *MCCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *MCCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MCCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
 		return err
 	}
@@ -3775,6 +3808,9 @@ func (v *MSCHMessageType) MarshalUPER() ([]byte, error) {
 }
 
 func (v *MSCHMessageType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MSCHMessageType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}

@@ -5841,6 +5841,9 @@ func (v *ProcedureStageChoice) MarshalAPER() ([]byte, error) {
 }
 
 func (v *ProcedureStageChoice) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ProcedureStageChoice: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -12080,6 +12083,9 @@ func (v *ERABsToBeAddedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeAddedItem: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -12677,6 +12683,9 @@ func (v *ERABsAdmittedToBeAddedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToBeAddedItem: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -13297,6 +13306,9 @@ func (v *ResponseInformationSeNBReconfComp) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ResponseInformationSeNBReconfComp: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -14166,6 +14178,9 @@ func (v *ERABsToBeAddedModReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeAddedModReqItem: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -14659,6 +14674,9 @@ func (v *ERABsToBeModifiedModReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeModifiedModReqItem: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -15185,6 +15203,9 @@ func (v *ERABsToBeReleasedModReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedModReqItem: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -15799,6 +15820,9 @@ func (v *ERABsAdmittedToBeAddedModAckItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToBeAddedModAckItem: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -16301,6 +16325,9 @@ func (v *ERABsAdmittedToBeModifiedModAckItem) MarshalAPERTo(bb *per.BitBuffer) e
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToBeModifiedModAckItem: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -16790,6 +16817,9 @@ func (v *ERABsAdmittedToReleasedModAckItem) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToReleasedModAckItem: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -17981,6 +18011,9 @@ func (v *ERABsToBeReleasedRelReqItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedRelReqItem: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -18695,6 +18728,9 @@ func (v *ERABsToBeReleasedRelConfItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedRelConfItem: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -22228,6 +22264,9 @@ func (v *ResponseInformationSgNBReconfComp) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ResponseInformationSgNBReconfComp: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -31556,6 +31595,9 @@ func (v *InitiatingNodeTypeEndcX2Setup) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("InitiatingNodeTypeEndcX2Setup: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -32512,6 +32554,9 @@ func (v *CellAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("CellAssistanceInformation: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -32825,6 +32870,9 @@ func (v *RespondingNodeTypeEndcX2Setup) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("RespondingNodeTypeEndcX2Setup: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -33171,6 +33219,9 @@ func (v *InitiatingNodeTypeEndcConfigUpdate) MarshalAPERTo(bb *per.BitBuffer) er
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("InitiatingNodeTypeEndcConfigUpdate: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -33959,6 +34010,9 @@ func (v *RespondingNodeTypeEndcConfigUpdate) MarshalAPERTo(bb *per.BitBuffer) er
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("RespondingNodeTypeEndcConfigUpdate: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -37128,6 +37182,9 @@ func (v *InitiatingNodeTypeEutranrCellResourceCoordination) MarshalAPERTo(bb *pe
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("InitiatingNodeTypeEutranrCellResourceCoordination: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -37640,6 +37697,9 @@ func (v *RespondingNodeTypeEutranrCellResourceCoordination) MarshalAPERTo(bb *pe
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("RespondingNodeTypeEutranrCellResourceCoordination: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -38062,6 +38122,9 @@ func (v *InitiatingNodeTypeEndcX2Removal) MarshalAPERTo(bb *per.BitBuffer) error
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("InitiatingNodeTypeEndcX2Removal: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -38303,6 +38366,9 @@ func (v *RespondingNodeTypeEndcX2Removal) MarshalAPERTo(bb *per.BitBuffer) error
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("RespondingNodeTypeEndcX2Removal: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -40120,6 +40186,9 @@ func (v *ERABsToBeAddedSgNBAddReqItemResourceConfiguration) MarshalAPERTo(bb *pe
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeAddedSgNBAddReqItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -40229,6 +40298,9 @@ func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration) MarshalAP
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToBeAddedSgNBAddReqAckItemResourceConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -40340,6 +40412,9 @@ func (v *ERABsToBeAddedSgNBModReqItemResourceConfiguration) MarshalAPERTo(bb *pe
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeAddedSgNBModReqItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -40449,6 +40524,9 @@ func (v *ERABsToBeModifiedSgNBModReqItemResourceConfiguration) MarshalAPERTo(bb 
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeModifiedSgNBModReqItemResourceConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -40560,6 +40638,9 @@ func (v *ERABsToBeReleasedSgNBModReqItemResourceConfiguration) MarshalAPERTo(bb 
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedSgNBModReqItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -40669,6 +40750,9 @@ func (v *ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration) MarshalAPERT
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToBeAddedSgNBModAckItemResourceConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -40780,6 +40864,9 @@ func (v *ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration) MarshalAP
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToBeModifiedSgNBModAckItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -40889,6 +40976,9 @@ func (v *ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration) MarshalAPER
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToReleasedSgNBModAckItemResourceConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -41000,6 +41090,9 @@ func (v *ERABsToBeModifiedSgNBModReqdItemResourceConfiguration) MarshalAPERTo(bb
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeModifiedSgNBModReqdItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -41109,6 +41202,9 @@ func (v *ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration) MarshalA
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsAdmittedToBeModifiedSgNBModConfItemResourceConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -41220,6 +41316,9 @@ func (v *ERABsToBeReleasedSgNBRelReqItemResourceConfiguration) MarshalAPERTo(bb 
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedSgNBRelReqItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -41330,6 +41429,9 @@ func (v *ERABsToBeReleasedSgNBRelConfItemResourceConfiguration) MarshalAPERTo(bb
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedSgNBRelConfItemResourceConfiguration: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -41439,6 +41541,9 @@ func (v *ERABsToBeReleasedSgNBChaConfItemResourceConfiguration) MarshalAPERTo(bb
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ERABsToBeReleasedSgNBChaConfItemResourceConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -41869,6 +41974,9 @@ func (v *ServedNRCellInformationNrModeInfo) MarshalAPERTo(bb *per.BitBuffer) err
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ServedNRCellInformationNrModeInfo: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {

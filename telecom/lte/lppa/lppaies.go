@@ -2863,6 +2863,9 @@ func (v *BitmapsforNPRS) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("BitmapsforNPRS: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -3032,6 +3035,9 @@ func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("Cause: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 3
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -4231,6 +4237,9 @@ func (v *InterRATMeasuredResultsValue) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("InterRATMeasuredResultsValue: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
@@ -4726,6 +4735,9 @@ func (v *MeasuredResultsValue) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasuredResultsValue: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 5
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -5299,6 +5311,9 @@ func (v *NPRSMutingConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("NPRSMutingConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 4
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -5919,6 +5934,9 @@ func (v *OTDOACellInformationItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("OTDOACellInformationItem: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 11
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -6606,6 +6624,9 @@ func (v *PRSMutingConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("PRSMutingConfiguration: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 4
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -8908,6 +8929,9 @@ func (v *Subframeallocation) MarshalAPER() ([]byte, error) {
 }
 
 func (v *Subframeallocation) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("Subframeallocation: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -11000,6 +11024,9 @@ func (v *ResultUTRANItemPhysCellIDUTRAN) MarshalAPER() ([]byte, error) {
 }
 
 func (v *ResultUTRANItemPhysCellIDUTRAN) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ResultUTRANItemPhysCellIDUTRAN: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}

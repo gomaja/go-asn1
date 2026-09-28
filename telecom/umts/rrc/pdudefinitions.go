@@ -26269,6 +26269,9 @@ func (v *ActiveSetUpdate) MarshalUPER() ([]byte, error) {
 }
 
 func (v *ActiveSetUpdate) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdate: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -32675,6 +32678,9 @@ func (v *AssistanceDataDelivery) MarshalUPER() ([]byte, error) {
 }
 
 func (v *AssistanceDataDelivery) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("AssistanceDataDelivery: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -33294,6 +33300,9 @@ func (v *CellChangeOrderFromUTRAN) MarshalUPER() ([]byte, error) {
 }
 
 func (v *CellChangeOrderFromUTRAN) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellChangeOrderFromUTRAN: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -33542,6 +33551,9 @@ func (v *CellChangeOrderFromUTRANFailure) MarshalUPER() ([]byte, error) {
 }
 
 func (v *CellChangeOrderFromUTRANFailure) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellChangeOrderFromUTRANFailure: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -35182,6 +35194,9 @@ func (v *CellUpdateConfirm) MarshalUPER() ([]byte, error) {
 }
 
 func (v *CellUpdateConfirm) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirm: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -35254,6 +35269,9 @@ func (v *CellUpdateConfirmCriticalExtensionR14IEs) MarshalUPER() ([]byte, error)
 }
 
 func (v *CellUpdateConfirmCriticalExtensionR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCriticalExtensionR14IEs: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -48869,6 +48887,9 @@ func (v *CellUpdateConfirmCCCH) MarshalUPER() ([]byte, error) {
 }
 
 func (v *CellUpdateConfirmCCCH) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCH: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -48941,6 +48962,9 @@ func (v *CounterCheck) MarshalUPER() ([]byte, error) {
 }
 
 func (v *CounterCheck) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CounterCheck: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -49174,6 +49198,9 @@ func (v *DownlinkDirectTransfer) MarshalUPER() ([]byte, error) {
 }
 
 func (v *DownlinkDirectTransfer) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("DownlinkDirectTransfer: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -49381,6 +49408,9 @@ func (v *HandoverToUTRANCommand) MarshalUPER() ([]byte, error) {
 }
 
 func (v *HandoverToUTRANCommand) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommand: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -50639,6 +50669,9 @@ func (v *HandoverToUTRANCommandLaterCriticalExtensions) MarshalUPER() ([]byte, e
 }
 
 func (v *HandoverToUTRANCommandLaterCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandLaterCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -52136,6 +52169,9 @@ func (v *HandoverFromUTRANCommandGSM) MarshalUPER() ([]byte, error) {
 }
 
 func (v *HandoverFromUTRANCommandGSM) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGSM: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -52646,6 +52682,9 @@ func (v *HandoverFromUTRANCommandCDMA2000) MarshalUPER() ([]byte, error) {
 }
 
 func (v *HandoverFromUTRANCommandCDMA2000) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandCDMA2000: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -55289,6 +55328,9 @@ func (v *MeasurementControl) MarshalUPER() ([]byte, error) {
 }
 
 func (v *MeasurementControl) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControl: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -60123,6 +60165,9 @@ func (v *PhysicalChannelReconfiguration) MarshalUPER() ([]byte, error) {
 }
 
 func (v *PhysicalChannelReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfiguration: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -69049,6 +69094,9 @@ func (v *PhysicalSharedChannelAllocation) MarshalUPER() ([]byte, error) {
 }
 
 func (v *PhysicalSharedChannelAllocation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalSharedChannelAllocation: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -69867,6 +69915,9 @@ func (v *RadioBearerReconfiguration) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfiguration: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -82058,6 +82109,9 @@ func (v *RadioBearerRelease) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerRelease) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerRelease: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -96161,6 +96215,9 @@ func (v *RadioBearerSetup) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerSetup) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetup: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -109695,6 +109752,9 @@ func (v *RRCConnectionReject) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RRCConnectionReject) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionReject: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -110150,6 +110210,9 @@ func (v *RRCConnectionRelease) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RRCConnectionRelease) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionRelease: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -110676,6 +110739,9 @@ func (v *RRCConnectionReleaseCCCH) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RRCConnectionReleaseCCCH) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionReleaseCCCH: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -112136,6 +112202,9 @@ func (v *RRCConnectionSetup) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RRCConnectionSetup) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetup: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -118254,6 +118323,9 @@ func (v *RRCFailureInfo) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RRCFailureInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCFailureInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -118423,6 +118495,9 @@ func (v *SecurityModeCommand) MarshalUPER() ([]byte, error) {
 }
 
 func (v *SecurityModeCommand) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SecurityModeCommand: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -118930,6 +119005,9 @@ func (v *SignallingConnectionRelease) MarshalUPER() ([]byte, error) {
 }
 
 func (v *SignallingConnectionRelease) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SignallingConnectionRelease: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -120420,6 +120498,9 @@ func (v *TransportChannelReconfiguration) MarshalUPER() ([]byte, error) {
 }
 
 func (v *TransportChannelReconfiguration) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfiguration: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -130860,6 +130941,9 @@ func (v *UECapabilityEnquiry) MarshalUPER() ([]byte, error) {
 }
 
 func (v *UECapabilityEnquiry) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UECapabilityEnquiry: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -132065,6 +132149,9 @@ func (v *UECapabilityInformationConfirm) MarshalUPER() ([]byte, error) {
 }
 
 func (v *UECapabilityInformationConfirm) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UECapabilityInformationConfirm: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -132530,6 +132617,9 @@ func (v *UplinkPhysicalChannelControl) MarshalUPER() ([]byte, error) {
 }
 
 func (v *UplinkPhysicalChannelControl) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UplinkPhysicalChannelControl: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -133598,6 +133688,9 @@ func (v *URAUpdateConfirm) MarshalUPER() ([]byte, error) {
 }
 
 func (v *URAUpdateConfirm) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("URAUpdateConfirm: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -134452,6 +134545,9 @@ func (v *URAUpdateConfirmCCCH) MarshalUPER() ([]byte, error) {
 }
 
 func (v *URAUpdateConfirmCCCH) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("URAUpdateConfirmCCCH: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -134568,6 +134664,9 @@ func (v *UTRANMobilityInformation) MarshalUPER() ([]byte, error) {
 }
 
 func (v *UTRANMobilityInformation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UTRANMobilityInformation: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -140396,6 +140495,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensions) MarshalUPER() ([]byte, er
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -140638,6 +140740,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensions) Marshal
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -140998,6 +141103,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalE
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -141299,6 +141407,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalE
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -141541,6 +141652,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalE
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -141783,6 +141897,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalE
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -141966,6 +142083,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalE
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -142149,6 +142269,9 @@ func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalE
 }
 
 func (v *ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("ActiveSetUpdateLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -143530,6 +143653,9 @@ func (v *CellChangeOrderFromUTRANV590extIEsGeranSystemInfoType) MarshalUPER() ([
 }
 
 func (v *CellChangeOrderFromUTRANV590extIEsGeranSystemInfoType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellChangeOrderFromUTRANV590extIEsGeranSystemInfoType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -145059,6 +145185,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensions) MarshalUPER() ([]byte, 
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -145472,6 +145601,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensions) Marsh
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -145773,6 +145905,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -146015,6 +146150,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -146330,6 +146468,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -146808,6 +146949,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -147109,6 +147253,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -147410,6 +147557,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -147593,6 +147743,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -147776,6 +147929,9 @@ func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCritica
 }
 
 func (v *CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -148102,6 +148258,9 @@ func (v *CellUpdateConfirmR3IEsModeSpecificTransChInfo) MarshalUPER() ([]byte, e
 }
 
 func (v *CellUpdateConfirmR3IEsModeSpecificTransChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmR3IEsModeSpecificTransChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -148254,6 +148413,9 @@ func (v *CellUpdateConfirmR3IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, er
 }
 
 func (v *CellUpdateConfirmR3IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmR3IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -148369,6 +148531,9 @@ func (v *CellUpdateConfirmR4IEsModeSpecificTransChInfo) MarshalUPER() ([]byte, e
 }
 
 func (v *CellUpdateConfirmR4IEsModeSpecificTransChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmR4IEsModeSpecificTransChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -148521,6 +148686,9 @@ func (v *CellUpdateConfirmR4IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, er
 }
 
 func (v *CellUpdateConfirmR4IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmR4IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -148636,6 +148804,9 @@ func (v *CellUpdateConfirmR5IEsModeSpecificTransChInfo) MarshalUPER() ([]byte, e
 }
 
 func (v *CellUpdateConfirmR5IEsModeSpecificTransChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmR5IEsModeSpecificTransChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -148788,6 +148959,9 @@ func (v *CellUpdateConfirmR5IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, er
 }
 
 func (v *CellUpdateConfirmR5IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmR5IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -149555,6 +149729,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensions) MarshalUPER() ([]by
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -149968,6 +150145,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensions) M
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -150269,6 +150449,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -150511,6 +150694,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -150826,6 +151012,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -151304,6 +151493,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -151487,6 +151679,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -151729,6 +151924,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -151912,6 +152110,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -152095,6 +152296,9 @@ func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCri
 }
 
 func (v *CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("CellUpdateConfirmCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -153022,6 +153226,9 @@ func (v *HandoverToUTRANCommandCriticalExtensions) MarshalUPER() ([]byte, error)
 }
 
 func (v *HandoverToUTRANCommandCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -153185,6 +153392,9 @@ func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensions) MarshalUPER
 }
 
 func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -153348,6 +153558,9 @@ func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExten
 }
 
 func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -153570,6 +153783,9 @@ func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExten
 }
 
 func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -153910,6 +154126,9 @@ func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExten
 }
 
 func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -154250,6 +154469,9 @@ func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExten
 }
 
 func (v *HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -154472,6 +154694,9 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationMode) MarshalUPER() ([]byte, er
 }
 
 func (v *HandoverToUTRANCommandR3IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR3IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -154746,6 +154971,9 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModeCompleteModeSpecificInfo) M
 }
 
 func (v *HandoverToUTRANCommandR3IEsSpecificationModeCompleteModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR3IEsSpecificationModeCompleteModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -154945,6 +155173,9 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModePreconfigurationPreConfigMo
 }
 
 func (v *HandoverToUTRANCommandR3IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR3IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -155066,6 +155297,9 @@ func (v *HandoverToUTRANCommandR3IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR3IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR3IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -155276,6 +155510,9 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationMode) MarshalUPER() ([]byte, er
 }
 
 func (v *HandoverToUTRANCommandR4IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR4IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -155550,6 +155787,9 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModeCompleteModeSpecificInfo) M
 }
 
 func (v *HandoverToUTRANCommandR4IEsSpecificationModeCompleteModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR4IEsSpecificationModeCompleteModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -155749,6 +155989,9 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationPreConfigMo
 }
 
 func (v *HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -155870,6 +156113,9 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -156016,6 +156262,9 @@ func (v *HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR4IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -156204,6 +156453,9 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationMode) MarshalUPER() ([]byte, er
 }
 
 func (v *HandoverToUTRANCommandR5IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR5IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -156478,6 +156730,9 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModeCompleteModeSpecificInfo) M
 }
 
 func (v *HandoverToUTRANCommandR5IEsSpecificationModeCompleteModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR5IEsSpecificationModeCompleteModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -156677,6 +156932,9 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationPreConfigMo
 }
 
 func (v *HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -156798,6 +157056,9 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -156944,6 +157205,9 @@ func (v *HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR5IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -157132,6 +157396,9 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationMode) MarshalUPER() ([]byte, er
 }
 
 func (v *HandoverToUTRANCommandR6IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR6IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -157503,6 +157770,9 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationPreConfigMo
 }
 
 func (v *HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -157624,6 +157894,9 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -157770,6 +158043,9 @@ func (v *HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR6IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -157958,6 +158234,9 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationMode) MarshalUPER() ([]byte, er
 }
 
 func (v *HandoverToUTRANCommandR7IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR7IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -158348,6 +158627,9 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationPreConfigMo
 }
 
 func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -158469,6 +158751,9 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -158615,6 +158900,9 @@ func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR7IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -158913,6 +159201,9 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationMode) MarshalUPER() ([]byte, er
 }
 
 func (v *HandoverToUTRANCommandR8IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR8IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -159303,6 +159594,9 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationPreConfigMo
 }
 
 func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -159445,6 +159739,9 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -159591,6 +159888,9 @@ func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR8IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -159889,6 +160189,9 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationMode) MarshalUPER() ([]byte, er
 }
 
 func (v *HandoverToUTRANCommandR9IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR9IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -160279,6 +160582,9 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationPreConfigMo
 }
 
 func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -160421,6 +160727,9 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -160567,6 +160876,9 @@ func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecifi
 }
 
 func (v *HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR9IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -161015,6 +161327,9 @@ func (v *HandoverToUTRANCommandLaterCriticalExtensionsCriticalExtensions) Marsha
 }
 
 func (v *HandoverToUTRANCommandLaterCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandLaterCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -161257,6 +161572,9 @@ func (v *HandoverToUTRANCommandLaterCriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *HandoverToUTRANCommandLaterCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandLaterCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -161472,6 +161790,9 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationMode) MarshalUPER() ([]byte, e
 }
 
 func (v *HandoverToUTRANCommandR10IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR10IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -161862,6 +162183,9 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationPreConfigM
 }
 
 func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -162004,6 +162328,9 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecif
 }
 
 func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -162150,6 +162477,9 @@ func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecif
 }
 
 func (v *HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR10IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -162448,6 +162778,9 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationMode) MarshalUPER() ([]byte, e
 }
 
 func (v *HandoverToUTRANCommandR11IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR11IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -162838,6 +163171,9 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationPreConfigM
 }
 
 func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -162959,6 +163295,9 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecif
 }
 
 func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -163105,6 +163444,9 @@ func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecif
 }
 
 func (v *HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR11IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -163403,6 +163745,9 @@ func (v *HandoverToUTRANCommandVbc0extIEsSpecificationMode) MarshalUPER() ([]byt
 }
 
 func (v *HandoverToUTRANCommandVbc0extIEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandVbc0extIEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	switch v.Choice {
 	case HandoverToUTRANCommandVbc0extIEsSpecificationModeChoiceComplete:
 		if v.Complete == nil {
@@ -163563,6 +163908,9 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationMode) MarshalUPER() ([]byte, e
 }
 
 func (v *HandoverToUTRANCommandR12IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR12IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -164046,6 +164394,9 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationPreConfigM
 }
 
 func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -164167,6 +164518,9 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecif
 }
 
 func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -164313,6 +164667,9 @@ func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecif
 }
 
 func (v *HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecificInfoTdd) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverToUTRANCommandR12IEsSpecificationModePreconfigurationModeSpecificInfoTdd: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -165726,6 +166083,9 @@ func (v *HandoverFromUTRANCommandGSMLaterThanR3CriticalExtensions) MarshalUPER()
 }
 
 func (v *HandoverFromUTRANCommandGSMLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGSMLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -166000,6 +166360,9 @@ func (v *HandoverFromUTRANCommandGSMR3IEsGsmMessage) MarshalUPER() ([]byte, erro
 }
 
 func (v *HandoverFromUTRANCommandGSMR3IEsGsmMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGSMR3IEsGsmMessage: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -166160,6 +166523,9 @@ func (v *HandoverFromUTRANCommandGSMR6IEsGsmMessage) MarshalUPER() ([]byte, erro
 }
 
 func (v *HandoverFromUTRANCommandGSMR6IEsGsmMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGSMR6IEsGsmMessage: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -166320,6 +166686,9 @@ func (v *HandoverFromUTRANCommandGSMR6IEsGeranSystemInfoType) MarshalUPER() ([]b
 }
 
 func (v *HandoverFromUTRANCommandGSMR6IEsGeranSystemInfoType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGSMR6IEsGeranSystemInfoType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -166420,6 +166789,9 @@ func (v *HandoverFromUTRANCommandGSMV690extIEsGeranSystemInfoType) MarshalUPER()
 }
 
 func (v *HandoverFromUTRANCommandGSMV690extIEsGeranSystemInfoType) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGSMV690extIEsGeranSystemInfoType: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -166520,6 +166892,9 @@ func (v *HandoverFromUTRANCommandGERANIuHandoverFromUTRANCommandGERANIu) Marshal
 }
 
 func (v *HandoverFromUTRANCommandGERANIuHandoverFromUTRANCommandGERANIu) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGERANIuHandoverFromUTRANCommandGERANIu: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -166753,6 +167128,9 @@ func (v *HandoverFromUTRANCommandGERANIuR5IEsGeranIuMessage) MarshalUPER() ([]by
 }
 
 func (v *HandoverFromUTRANCommandGERANIuR5IEsGeranIuMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandGERANIuR5IEsGeranIuMessage: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -167155,6 +167533,9 @@ func (v *HandoverFromUTRANCommandEUTRACriticalExtensions) MarshalUPER() ([]byte,
 }
 
 func (v *HandoverFromUTRANCommandEUTRACriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandEUTRACriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -167338,6 +167719,9 @@ func (v *HandoverFromUTRANCommandEUTRACriticalExtensionsCriticalExtensions) Mars
 }
 
 func (v *HandoverFromUTRANCommandEUTRACriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANCommandEUTRACriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -167553,6 +167937,9 @@ func (v *HandoverFromUTRANFailureInterRATMessage) MarshalUPER() ([]byte, error) 
 }
 
 func (v *HandoverFromUTRANFailureInterRATMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverFromUTRANFailureInterRATMessage: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -167960,6 +168347,9 @@ func (v *InterRATHandoverInfoPredefinedConfigStatusList) MarshalUPER() ([]byte, 
 }
 
 func (v *InterRATHandoverInfoPredefinedConfigStatusList) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("InterRATHandoverInfoPredefinedConfigStatusList: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -168036,6 +168426,9 @@ func (v *InterRATHandoverInfoUESecurityInformation) MarshalUPER() ([]byte, error
 }
 
 func (v *InterRATHandoverInfoUESecurityInformation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("InterRATHandoverInfoUESecurityInformation: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -168098,6 +168491,9 @@ func (v *InterRATHandoverInfoUeCapabilityContainer) MarshalUPER() ([]byte, error
 }
 
 func (v *InterRATHandoverInfoUeCapabilityContainer) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("InterRATHandoverInfoUeCapabilityContainer: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -168168,6 +168564,9 @@ func (v *InterRATHandoverInfoV390NonCriticalExtensions) MarshalUPER() ([]byte, e
 }
 
 func (v *InterRATHandoverInfoV390NonCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("InterRATHandoverInfoV390NonCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -170302,6 +170701,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensions) MarshalUPER() ([]byte,
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -170702,6 +171104,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -170924,6 +171329,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -171166,6 +171574,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -171467,6 +171878,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -171768,6 +172182,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -172128,6 +172545,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -172311,6 +172731,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -172494,6 +172917,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -172677,6 +173103,9 @@ func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExten
 }
 
 func (v *MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterThanR3CriticalExtensionsLaterThanR4CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -172860,6 +173289,9 @@ func (v *MeasurementControlV590extIEsMeasurementCommandV590ext) MarshalUPER() ([
 }
 
 func (v *MeasurementControlV590extIEsMeasurementCommandV590ext) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlV590extIEsMeasurementCommandV590ext: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -172960,6 +173392,9 @@ func (v *MeasurementControlLaterCriticalExtensionsR14IEsCriticalExtensions) Mars
 }
 
 func (v *MeasurementControlLaterCriticalExtensionsR14IEsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterCriticalExtensionsR14IEsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -173143,6 +173578,9 @@ func (v *MeasurementControlLaterCriticalExtensionsR15IEsCriticalExtensions) Mars
 }
 
 func (v *MeasurementControlLaterCriticalExtensionsR15IEsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("MeasurementControlLaterCriticalExtensionsR15IEsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -175286,6 +175724,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensions) MarshalUPE
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -175699,6 +176140,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -176000,6 +176444,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -176301,6 +176748,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -176720,6 +177170,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -177198,6 +177651,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -177440,6 +177896,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -177682,6 +178141,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -177865,6 +178327,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -178048,6 +178513,9 @@ func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExte
 }
 
 func (v *PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -178263,6 +178731,9 @@ func (v *PhysicalChannelReconfigurationR3IEsModeSpecificInfo) MarshalUPER() ([]b
 }
 
 func (v *PhysicalChannelReconfigurationR3IEsModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationR3IEsModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -178378,6 +178849,9 @@ func (v *PhysicalChannelReconfigurationR4IEsModeSpecificInfo) MarshalUPER() ([]b
 }
 
 func (v *PhysicalChannelReconfigurationR4IEsModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationR4IEsModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -178493,6 +178967,9 @@ func (v *PhysicalChannelReconfigurationR5IEsModeSpecificInfo) MarshalUPER() ([]b
 }
 
 func (v *PhysicalChannelReconfigurationR5IEsModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalChannelReconfigurationR5IEsModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -179109,6 +179586,9 @@ func (v *PhysicalSharedChannelAllocationLaterThanR3CriticalExtensions) MarshalUP
 }
 
 func (v *PhysicalSharedChannelAllocationLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PhysicalSharedChannelAllocationLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -179495,6 +179975,9 @@ func (v *PUSCHCapacityRequestAllocationConfirmation) MarshalUPER() ([]byte, erro
 }
 
 func (v *PUSCHCapacityRequestAllocationConfirmation) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PUSCHCapacityRequestAllocationConfirmation: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -180297,6 +180780,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensions) MarshalUPER() 
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -180769,6 +181255,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -181129,6 +181618,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -181489,6 +181981,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -181947,6 +182442,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -182425,6 +182923,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -182726,6 +183227,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -183086,6 +183590,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -183269,6 +183776,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -183452,6 +183962,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -183635,6 +184148,9 @@ func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensio
 }
 
 func (v *RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -183818,6 +184334,9 @@ func (v *RadioBearerReconfigurationR3IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerReconfigurationR3IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR3IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -183970,6 +184489,9 @@ func (v *RadioBearerReconfigurationR3IEsModeSpecificPhysChInfo) MarshalUPER() ([
 }
 
 func (v *RadioBearerReconfigurationR3IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR3IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -184085,6 +184607,9 @@ func (v *RadioBearerReconfigurationR4IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerReconfigurationR4IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR4IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -184237,6 +184762,9 @@ func (v *RadioBearerReconfigurationR4IEsModeSpecificPhysChInfo) MarshalUPER() ([
 }
 
 func (v *RadioBearerReconfigurationR4IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR4IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -184352,6 +184880,9 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationMode) MarshalUPER() ([]byte
 }
 
 func (v *RadioBearerReconfigurationR5IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR5IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -184803,6 +185334,9 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModeCompleteDummy) MarshalU
 }
 
 func (v *RadioBearerReconfigurationR5IEsSpecificationModeCompleteDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR5IEsSpecificationModeCompleteDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -184993,6 +185527,9 @@ func (v *RadioBearerReconfigurationR5IEsSpecificationModePreconfigurationPreConf
 }
 
 func (v *RadioBearerReconfigurationR5IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR5IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -185114,6 +185651,9 @@ func (v *RadioBearerReconfigurationR5IEsModeSpecificPhysChInfo) MarshalUPER() ([
 }
 
 func (v *RadioBearerReconfigurationR5IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR5IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -185229,6 +185769,9 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationMode) MarshalUPER() ([]byte
 }
 
 func (v *RadioBearerReconfigurationR6IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR6IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -185719,6 +186262,9 @@ func (v *RadioBearerReconfigurationR6IEsSpecificationModePreconfigurationPreConf
 }
 
 func (v *RadioBearerReconfigurationR6IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR6IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -185840,6 +186386,9 @@ func (v *RadioBearerReconfigurationV6f0extIEsSpecificationMode) MarshalUPER() ([
 }
 
 func (v *RadioBearerReconfigurationV6f0extIEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationV6f0extIEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	switch v.Choice {
 	case RadioBearerReconfigurationV6f0extIEsSpecificationModeChoiceComplete:
 		if v.Complete == nil {
@@ -185962,6 +186511,9 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationMode) MarshalUPER() ([]byte
 }
 
 func (v *RadioBearerReconfigurationR7IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR7IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -186488,6 +187040,9 @@ func (v *RadioBearerReconfigurationR7IEsSpecificationModePreconfigurationPreConf
 }
 
 func (v *RadioBearerReconfigurationR7IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR7IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -186609,6 +187164,9 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationMode) MarshalUPER() ([]byte
 }
 
 func (v *RadioBearerReconfigurationR8IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR8IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -187135,6 +187693,9 @@ func (v *RadioBearerReconfigurationR8IEsSpecificationModePreconfigurationPreConf
 }
 
 func (v *RadioBearerReconfigurationR8IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR8IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -187256,6 +187817,9 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationMode) MarshalUPER() ([]byte
 }
 
 func (v *RadioBearerReconfigurationR9IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR9IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -187782,6 +188346,9 @@ func (v *RadioBearerReconfigurationR9IEsSpecificationModePreconfigurationPreConf
 }
 
 func (v *RadioBearerReconfigurationR9IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR9IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -187903,6 +188470,9 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationMode) MarshalUPER() ([]byt
 }
 
 func (v *RadioBearerReconfigurationR10IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR10IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -188429,6 +188999,9 @@ func (v *RadioBearerReconfigurationR10IEsSpecificationModePreconfigurationPreCon
 }
 
 func (v *RadioBearerReconfigurationR10IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR10IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -188550,6 +189123,9 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationMode) MarshalUPER() ([]byt
 }
 
 func (v *RadioBearerReconfigurationR11IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR11IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -189112,6 +189688,9 @@ func (v *RadioBearerReconfigurationR11IEsSpecificationModePreconfigurationPreCon
 }
 
 func (v *RadioBearerReconfigurationR11IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR11IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -189233,6 +189812,9 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationMode) MarshalUPER() ([]byt
 }
 
 func (v *RadioBearerReconfigurationR12IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR12IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -189795,6 +190377,9 @@ func (v *RadioBearerReconfigurationR12IEsSpecificationModePreconfigurationPreCon
 }
 
 func (v *RadioBearerReconfigurationR12IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR12IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -189916,6 +190501,9 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationMode) MarshalUPER() ([]byt
 }
 
 func (v *RadioBearerReconfigurationR13IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR13IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -190516,6 +191104,9 @@ func (v *RadioBearerReconfigurationR13IEsSpecificationModePreconfigurationPreCon
 }
 
 func (v *RadioBearerReconfigurationR13IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR13IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -190637,6 +191228,9 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationMode) MarshalUPER() ([]byt
 }
 
 func (v *RadioBearerReconfigurationR14IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR14IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -191309,6 +191903,9 @@ func (v *RadioBearerReconfigurationR14IEsSpecificationModePreconfigurationPreCon
 }
 
 func (v *RadioBearerReconfigurationR14IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR14IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -191573,6 +192170,9 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationMode) MarshalUPER() ([]byt
 }
 
 func (v *RadioBearerReconfigurationR15IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR15IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -192245,6 +192845,9 @@ func (v *RadioBearerReconfigurationR15IEsSpecificationModePreconfigurationPreCon
 }
 
 func (v *RadioBearerReconfigurationR15IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReconfigurationR15IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -193140,6 +193743,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensions) MarshalUPER() ([]byte,
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -193553,6 +194159,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensions) Mars
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -193854,6 +194463,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -194155,6 +194767,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -194574,6 +195189,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -195052,6 +195670,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -195412,6 +196033,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -195713,6 +196337,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -195896,6 +196523,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -196079,6 +196709,9 @@ func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -196262,6 +196895,9 @@ func (v *RadioBearerReleaseR3IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerReleaseR3IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseR3IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -196414,6 +197050,9 @@ func (v *RadioBearerReleaseR3IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, e
 }
 
 func (v *RadioBearerReleaseR3IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseR3IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -196529,6 +197168,9 @@ func (v *RadioBearerReleaseR4IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerReleaseR4IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseR4IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -196681,6 +197323,9 @@ func (v *RadioBearerReleaseR4IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, e
 }
 
 func (v *RadioBearerReleaseR4IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseR4IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -196796,6 +197441,9 @@ func (v *RadioBearerReleaseR5IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerReleaseR5IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseR5IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -196948,6 +197596,9 @@ func (v *RadioBearerReleaseR5IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, e
 }
 
 func (v *RadioBearerReleaseR5IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerReleaseR5IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -197980,6 +198631,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensions) MarshalUPER() ([]byte, e
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -198393,6 +199047,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensions) Marsha
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -198694,6 +199351,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -198936,6 +199596,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -199251,6 +199914,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -199729,6 +200395,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -200030,6 +200699,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -200331,6 +201003,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -200514,6 +201189,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -200697,6 +201375,9 @@ func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritical
 }
 
 func (v *RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -200880,6 +201561,9 @@ func (v *RadioBearerSetupR3IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerSetupR3IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR3IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -201032,6 +201716,9 @@ func (v *RadioBearerSetupR3IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, err
 }
 
 func (v *RadioBearerSetupR3IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR3IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -201147,6 +201834,9 @@ func (v *RadioBearerSetupR4IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerSetupR4IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR4IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -201299,6 +201989,9 @@ func (v *RadioBearerSetupR4IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, err
 }
 
 func (v *RadioBearerSetupR4IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR4IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -201414,6 +202107,9 @@ func (v *RadioBearerSetupR5IEsDummy) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerSetupR5IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR5IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -201566,6 +202262,9 @@ func (v *RadioBearerSetupR5IEsModeSpecificPhysChInfo) MarshalUPER() ([]byte, err
 }
 
 func (v *RadioBearerSetupR5IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR5IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -201681,6 +202380,9 @@ func (v *RadioBearerSetupR6IEsSpecificationMode) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerSetupR6IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR6IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -202286,6 +202988,9 @@ func (v *RadioBearerSetupR7IEsSpecificationMode) MarshalUPER() ([]byte, error) {
 }
 
 func (v *RadioBearerSetupR7IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RadioBearerSetupR7IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -204334,6 +205039,9 @@ func (v *RRCConnectionReleaseLaterThanR3CriticalExtensions) MarshalUPER() ([]byt
 }
 
 func (v *RRCConnectionReleaseLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionReleaseLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -205290,6 +205998,9 @@ func (v *RRCConnectionReleaseCCCHLaterThanR3CriticalExtensions) MarshalUPER() ([
 }
 
 func (v *RRCConnectionReleaseCCCHLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionReleaseCCCHLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -205869,6 +206580,9 @@ func (v *RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensions
 }
 
 func (v *RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionReleaseCCCHLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -207192,6 +207906,9 @@ func (v *RRCConnectionRequestV690extIEsDomainIndicator) MarshalUPER() ([]byte, e
 }
 
 func (v *RRCConnectionRequestV690extIEsDomainIndicator) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionRequestV690extIEsDomainIndicator: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -207896,6 +208613,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensions) MarshalUPER() ([]byte,
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -208250,6 +208970,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensions) Mars
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -208492,6 +209215,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -208734,6 +209460,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -209035,6 +209764,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -209395,6 +210127,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -209637,6 +210372,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -209879,6 +210617,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -210121,6 +210862,9 @@ func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCritic
 }
 
 func (v *RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -210336,6 +211080,9 @@ func (v *RRCConnectionSetupR5IEsSpecificationMode) MarshalUPER() ([]byte, error)
 }
 
 func (v *RRCConnectionSetupR5IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR5IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -210614,6 +211361,9 @@ func (v *RRCConnectionSetupR5IEsSpecificationModePreconfigurationPreConfigMode) 
 }
 
 func (v *RRCConnectionSetupR5IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR5IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -210735,6 +211485,9 @@ func (v *RRCConnectionSetupR6IEsSpecificationMode) MarshalUPER() ([]byte, error)
 }
 
 func (v *RRCConnectionSetupR6IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR6IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -211013,6 +211766,9 @@ func (v *RRCConnectionSetupR6IEsSpecificationModePreconfigurationPreConfigMode) 
 }
 
 func (v *RRCConnectionSetupR6IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR6IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -211134,6 +211890,9 @@ func (v *RRCConnectionSetupR7IEsSpecificationMode) MarshalUPER() ([]byte, error)
 }
 
 func (v *RRCConnectionSetupR7IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR7IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -211412,6 +212171,9 @@ func (v *RRCConnectionSetupR7IEsSpecificationModePreconfigurationPreConfigMode) 
 }
 
 func (v *RRCConnectionSetupR7IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR7IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -211533,6 +212295,9 @@ func (v *RRCConnectionSetupR8IEsSpecificationMode) MarshalUPER() ([]byte, error)
 }
 
 func (v *RRCConnectionSetupR8IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR8IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -211811,6 +212576,9 @@ func (v *RRCConnectionSetupR8IEsSpecificationModePreconfigurationPreConfigMode) 
 }
 
 func (v *RRCConnectionSetupR8IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR8IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -211932,6 +212700,9 @@ func (v *RRCConnectionSetupR9IEsSpecificationMode) MarshalUPER() ([]byte, error)
 }
 
 func (v *RRCConnectionSetupR9IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR9IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -212210,6 +212981,9 @@ func (v *RRCConnectionSetupR9IEsSpecificationModePreconfigurationPreConfigMode) 
 }
 
 func (v *RRCConnectionSetupR9IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR9IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -212331,6 +213105,9 @@ func (v *RRCConnectionSetupR10IEsSpecificationMode) MarshalUPER() ([]byte, error
 }
 
 func (v *RRCConnectionSetupR10IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR10IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -212609,6 +213386,9 @@ func (v *RRCConnectionSetupR10IEsSpecificationModePreconfigurationPreConfigMode)
 }
 
 func (v *RRCConnectionSetupR10IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR10IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -212730,6 +213510,9 @@ func (v *RRCConnectionSetupR11IEsSpecificationMode) MarshalUPER() ([]byte, error
 }
 
 func (v *RRCConnectionSetupR11IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR11IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -213008,6 +213791,9 @@ func (v *RRCConnectionSetupR11IEsSpecificationModePreconfigurationPreConfigMode)
 }
 
 func (v *RRCConnectionSetupR11IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR11IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -213129,6 +213915,9 @@ func (v *RRCConnectionSetupR12IEsSpecificationMode) MarshalUPER() ([]byte, error
 }
 
 func (v *RRCConnectionSetupR12IEsSpecificationMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR12IEsSpecificationMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -213407,6 +214196,9 @@ func (v *RRCConnectionSetupR12IEsSpecificationModePreconfigurationPreConfigMode)
 }
 
 func (v *RRCConnectionSetupR12IEsSpecificationModePreconfigurationPreConfigMode) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("RRCConnectionSetupR12IEsSpecificationModePreconfigurationPreConfigMode: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -215075,6 +215867,9 @@ func (v *SecurityModeCommandLaterThanR3CriticalExtensions) MarshalUPER() ([]byte
 }
 
 func (v *SecurityModeCommandLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SecurityModeCommandLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -215965,6 +216760,9 @@ func (v *SystemInformationBCHPayload) MarshalUPER() ([]byte, error) {
 }
 
 func (v *SystemInformationBCHPayload) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SystemInformationBCHPayload: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
 		return err
 	}
@@ -216409,6 +217207,9 @@ func (v *SystemInformation2BCHSegmentCombination) MarshalUPER() ([]byte, error) 
 }
 
 func (v *SystemInformation2BCHSegmentCombination) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SystemInformation2BCHSegmentCombination: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
 		return err
 	}
@@ -216853,6 +217654,9 @@ func (v *SystemInformationFACHPayload) MarshalUPER() ([]byte, error) {
 }
 
 func (v *SystemInformationFACHPayload) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SystemInformationFACHPayload: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 15); err != nil {
 		return err
 	}
@@ -218025,6 +218829,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensions) MarshalUP
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -218438,6 +219245,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -218739,6 +219549,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -219040,6 +219853,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -219459,6 +220275,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -219937,6 +220756,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -220238,6 +221060,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -220539,6 +221364,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -220722,6 +221550,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -220905,6 +221736,9 @@ func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExt
 }
 
 func (v *TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -221120,6 +221954,9 @@ func (v *TransportChannelReconfigurationR3IEsDummy) MarshalUPER() ([]byte, error
 }
 
 func (v *TransportChannelReconfigurationR3IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationR3IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -221272,6 +222109,9 @@ func (v *TransportChannelReconfigurationR3IEsModeSpecificPhysChInfo) MarshalUPER
 }
 
 func (v *TransportChannelReconfigurationR3IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationR3IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -221387,6 +222227,9 @@ func (v *TransportChannelReconfigurationR4IEsDummy) MarshalUPER() ([]byte, error
 }
 
 func (v *TransportChannelReconfigurationR4IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationR4IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -221539,6 +222382,9 @@ func (v *TransportChannelReconfigurationR4IEsModeSpecificPhysChInfo) MarshalUPER
 }
 
 func (v *TransportChannelReconfigurationR4IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationR4IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -221654,6 +222500,9 @@ func (v *TransportChannelReconfigurationR5IEsDummy) MarshalUPER() ([]byte, error
 }
 
 func (v *TransportChannelReconfigurationR5IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationR5IEsDummy: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -221806,6 +222655,9 @@ func (v *TransportChannelReconfigurationR5IEsModeSpecificPhysChInfo) MarshalUPER
 }
 
 func (v *TransportChannelReconfigurationR5IEsModeSpecificPhysChInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportChannelReconfigurationR5IEsModeSpecificPhysChInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -222190,6 +223042,9 @@ func (v *TransportFormatCombinationControlModeSpecificInfo) MarshalUPER() ([]byt
 }
 
 func (v *TransportFormatCombinationControlModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("TransportFormatCombinationControlModeSpecificInfo: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -224822,6 +225677,9 @@ func (v *UplinkPhysicalChannelControlLaterThanR3CriticalExtensions) MarshalUPER(
 }
 
 func (v *UplinkPhysicalChannelControlLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UplinkPhysicalChannelControlLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -225117,6 +225975,9 @@ func (v *UplinkPhysicalChannelControlLaterThanR3CriticalExtensionsCriticalExtens
 }
 
 func (v *UplinkPhysicalChannelControlLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UplinkPhysicalChannelControlLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -225418,6 +226279,9 @@ func (v *UplinkPhysicalChannelControlLaterThanR3CriticalExtensionsCriticalExtens
 }
 
 func (v *UplinkPhysicalChannelControlLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UplinkPhysicalChannelControlLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -225633,6 +226497,9 @@ func (v *UplinkPhysicalChannelControlR4IEsTddOption) MarshalUPER() ([]byte, erro
 }
 
 func (v *UplinkPhysicalChannelControlR4IEsTddOption) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UplinkPhysicalChannelControlR4IEsTddOption: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -225890,6 +226757,9 @@ func (v *UplinkPhysicalChannelControlR5IEsTddOption) MarshalUPER() ([]byte, erro
 }
 
 func (v *UplinkPhysicalChannelControlR5IEsTddOption) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UplinkPhysicalChannelControlR5IEsTddOption: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -226166,6 +227036,9 @@ func (v *UplinkPhysicalChannelControlR7IEsTddOption) MarshalUPER() ([]byte, erro
 }
 
 func (v *UplinkPhysicalChannelControlR7IEsTddOption) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UplinkPhysicalChannelControlR7IEsTddOption: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -227241,6 +228114,9 @@ func (v *URAUpdateConfirmLaterThanR3CriticalExtensions) MarshalUPER() ([]byte, e
 }
 
 func (v *URAUpdateConfirmLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("URAUpdateConfirmLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -227463,6 +228339,9 @@ func (v *URAUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensions) Marsha
 }
 
 func (v *URAUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("URAUpdateConfirmLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -228490,6 +229369,9 @@ func (v *UTRANMobilityInformationLaterThanR3CriticalExtensions) MarshalUPER() ([
 }
 
 func (v *UTRANMobilityInformationLaterThanR3CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UTRANMobilityInformationLaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -228771,6 +229653,9 @@ func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensions
 }
 
 func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -229072,6 +229957,9 @@ func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensions
 }
 
 func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -229255,6 +230143,9 @@ func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensions
 }
 
 func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -229438,6 +230329,9 @@ func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensions
 }
 
 func (v *UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UTRANMobilityInformationLaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -231277,6 +232171,9 @@ func (v *LoggingMeasurementConfigurationCriticalExtensions) MarshalUPER() ([]byt
 }
 
 func (v *LoggingMeasurementConfigurationCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("LoggingMeasurementConfigurationCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -231460,6 +232357,9 @@ func (v *LoggingMeasurementConfigurationCriticalExtensionsCriticalExtensions) Ma
 }
 
 func (v *LoggingMeasurementConfigurationCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("LoggingMeasurementConfigurationCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -231884,6 +232784,9 @@ func (v *UEInformationRequestCriticalExtensions) MarshalUPER() ([]byte, error) {
 }
 
 func (v *UEInformationRequestCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UEInformationRequestCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -232067,6 +232970,9 @@ func (v *UEInformationRequestCriticalExtensionsCriticalExtensions) MarshalUPER()
 }
 
 func (v *UEInformationRequestCriticalExtensionsCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UEInformationRequestCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}

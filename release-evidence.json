@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "a2686b08677089409f5c341a0046843d6215214e",
-  "target_base_commit": "587a345fc1a9e1289abfe8a16ab558bbbc857f48",
+  "compiler_commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
+  "target_base_commit": "5f8a77994ef17231f969a9ced6bca3f4e1dfc873",
   "inputs": {
     "sha256": "f550293ecd58e5109feeb727fdb6dc8f442cc6fb8e0d4b3772eb8c8f51e24c37",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -1869,7 +1869,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -1978,8 +1978,8 @@
           },
           {
             "path": "lppa/lppacommondatatypes.go",
-            "sha256": "104871a1d1436fcde5474fc1bd77c73dd075747fd635b3b7ae51357d7a3bb411",
-            "size_bytes": 5259
+            "sha256": "d05467cde52086d1a7860c1a86b2dd7b4abf36ce538dc766878b8d15fab44d26",
+            "size_bytes": 5354
           },
           {
             "path": "lppa/lppaconstants.go",
@@ -1993,8 +1993,8 @@
           },
           {
             "path": "lppa/lppaies.go",
-            "sha256": "ec3b227d5293c5902c153eace76dcdb38460d1250947828d87e2dc7111de3b7b",
-            "size_bytes": 430303
+            "sha256": "04a9ecd6a2f377404f4a580f97877aca77266f8de378effe4a8b305a2e071e53",
+            "size_bytes": 431243
           },
           {
             "path": "lppa/lppapducontents.go",
@@ -2003,8 +2003,8 @@
           },
           {
             "path": "lppa/lppapdudescriptions.go",
-            "sha256": "3e7d53986c3d3c4e33de6fe0a1c2cd76891bb1db72eb621dffabf24dec406897",
-            "size_bytes": 14542
+            "sha256": "3494eb8005691870d41639c029e835bf0d8fee7a2da4225123258f29cb3c759a",
+            "size_bytes": 14633
           },
           {
             "path": "lppa/per_helpers.go",
@@ -2314,7 +2314,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -2448,13 +2448,13 @@
           },
           {
             "path": "rrc/eutrainternodedefinitions.go",
-            "sha256": "0982178da4aa71d195badf2d0566cf97752ba43b5b7053367cd029c433ed744d",
-            "size_bytes": 461830
+            "sha256": "c790a4a53b5bf66af07bee7f1317f92983061aae354f7273acc6307607c19974",
+            "size_bytes": 463588
           },
           {
             "path": "rrc/eutrarrcdefinitions.go",
-            "sha256": "1810e25b352799767ad1f23c03e86a0f996ab35687f54a02f8b09b3b2e141c9e",
-            "size_bytes": 15201802
+            "sha256": "cb6e8f3cd96d94f0c8cb7d9a644dbcb150bf00bc7335529120a1e0ea2ef0aa08",
+            "size_bytes": 15268158
           },
           {
             "path": "rrc/eutrasidelinkpreconf.go",
@@ -2463,18 +2463,18 @@
           },
           {
             "path": "rrc/eutrauevariables.go",
-            "sha256": "09e814ec551c6951943b6485719a9509b6b05af0053e618c1a5d8e705108819c",
-            "size_bytes": 161242
+            "sha256": "4d216bfc01a7d7574243d7d19559d12afb3cde6134c0c3070f660bebdabe68af",
+            "size_bytes": 161579
           },
           {
             "path": "rrc/nbiotinternodedefinitions.go",
-            "sha256": "19568b67eca2272c3c36971c7b441731d0ff1b6ac9ba960dc5712d49089d36f0",
-            "size_bytes": 115219
+            "sha256": "334468925bfbc6f55d64a41f393daeee25ac4bc618e0e3145478d25247488ab5",
+            "size_bytes": 116289
           },
           {
             "path": "rrc/nbiotrrcdefinitions.go",
-            "sha256": "0ee871456f667e2f5992f9130d094e2a9da73f9c4c0c49f3b35068e0bf1f5971",
-            "size_bytes": 2610339
+            "sha256": "613bdef36e78a002f36d59202e9d1e031a5f991f2048655aeb53bc1b17f2af15",
+            "size_bytes": 2623812
           },
           {
             "path": "rrc/nbiotuevariables.go",
@@ -2719,7 +2719,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -2808,8 +2808,8 @@
           },
           {
             "path": "rrc/classdefinitions.go",
-            "sha256": "eb715ab1011af5e4460f69cad538e6c0d8c869f778b284c9cb4b96140bdf5f59",
-            "size_bytes": 160662
+            "sha256": "8dd01c30356d985f5d2814cceaf80e5b7a817728b91f918972819d2a98accbc1",
+            "size_bytes": 161878
           },
           {
             "path": "rrc/constantdefinitions.go",
@@ -2823,18 +2823,18 @@
           },
           {
             "path": "rrc/informationelements.go",
-            "sha256": "7b5a9e26aa48f9f8d503eeba0378832bd5b29313cbb9b801ab840745f2069bc7",
-            "size_bytes": 18017554
+            "sha256": "9f34a40e4ddb0b6a3aeca7dc9858293a102bdca2205de210f8c4c83ed14d5234",
+            "size_bytes": 18113835
           },
           {
             "path": "rrc/internodedefinitions.go",
-            "sha256": "e6f9869c09cd52ca9abcae796eb94e26f36eb4e2f691f34706ea69e28621bf77",
-            "size_bytes": 1840624
+            "sha256": "9fc6f90fded809528b69f5b5eba2f808a31b892b8612cd2435c42a6b87db73c7",
+            "size_bytes": 1846546
           },
           {
             "path": "rrc/pdudefinitions.go",
-            "sha256": "355a682b099b436f7b29f02fc0e3d628d496db54e49c8e2fa15b59304f69c082",
-            "size_bytes": 11665277
+            "sha256": "2acac1afa76bad734fbeed623fd4d1a79d134b709539e400e1962497351ac294",
+            "size_bytes": 11714205
           },
           {
             "path": "rrc/per_helpers.go",
@@ -3068,7 +3068,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -3202,8 +3202,8 @@
           },
           {
             "path": "s1ap/s1apcommondatatypes.go",
-            "sha256": "bfb1e65a12a0f70b476abc8f0947846df9550e6c01d528c315616bb52d22cf55",
-            "size_bytes": 4959
+            "sha256": "6a2039f29f855449ae43c4c16d8db80f82c2816c7974392e17705fda54c3b807",
+            "size_bytes": 5054
           },
           {
             "path": "s1ap/s1apconstants.go",
@@ -3217,23 +3217,23 @@
           },
           {
             "path": "s1ap/s1apies.go",
-            "sha256": "f40817e7a4a5c1d6b31e8656c794bbf7df116c2f8cc9370badb8e21e37090c23",
-            "size_bytes": 1443243
+            "sha256": "fc0961eeb8835e526254331c2cb9d808632e46cb999b08b81eebea9c457456c1",
+            "size_bytes": 1446135
           },
           {
             "path": "s1ap/s1appducontents.go",
-            "sha256": "722cb2cbf0a9b19f971fef72c5aeca593a5388c4a2a66a56f55b53baf360c459",
-            "size_bytes": 660599
+            "sha256": "2f51ef05aa75abbd94906836dc787053ac33f6268c57e37668e68814e573827a",
+            "size_bytes": 660810
           },
           {
             "path": "s1ap/s1appdudescriptions.go",
-            "sha256": "c0898ad43e0f2f8d6d31e8edc238ecbc034986e5aff7526600addb5e92d90e72",
-            "size_bytes": 13021
+            "sha256": "4a4f879a56a61e34c1a89bba7ec05d9ac81c8233fe5acaf9f805c8d148460060",
+            "size_bytes": 13112
           },
           {
             "path": "s1ap/sontransferies.go",
-            "sha256": "cf6e9afaadadec65b2d416227555fb09e2d473bd6f522d0b5040d0a4dd65e39b",
-            "size_bytes": 176285
+            "sha256": "ba9d725fa56d3bc68bf1aba8d9f6a20dfa2ce1886449d1b04a7478060d2e0726",
+            "size_bytes": 177031
           }
         ],
         "standards": [
@@ -3463,7 +3463,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -3824,7 +3824,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -4209,7 +4209,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -4570,7 +4570,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "a2686b08677089409f5c341a0046843d6215214e",
+          "commit": "4ace2d89da878084a0994d6d3188f3d5a5c73a15",
           "dirty": false
         },
         "frontend": {
@@ -4689,8 +4689,8 @@
           },
           {
             "path": "x2ap/x2apcommondatatypes.go",
-            "sha256": "cd1a29e0768852e16e1d4234263edc5d1088aedd2c7562553ebd64319491df0c",
-            "size_bytes": 5151
+            "sha256": "c5d178444ad06a706979e3095db9a822a5761a8bde7a1dd2dd75cac47f84f46a",
+            "size_bytes": 5246
           },
           {
             "path": "x2ap/x2apconstants.go",
@@ -4704,18 +4704,18 @@
           },
           {
             "path": "x2ap/x2apies.go",
-            "sha256": "712d6e446954b48b99bc32f2c87652b9dc469d87bf4d6724dc36394c19962356",
-            "size_bytes": 1783515
+            "sha256": "1b217274f1a1ffd99b3b2be96b8b50ecb69162ed9388b0ec90ad337764502666",
+            "size_bytes": 1786282
           },
           {
             "path": "x2ap/x2appducontents.go",
-            "sha256": "828615168f227607c4f9ccdd0175d6ccd39663b2bafd4f30c044341314ca0bd7",
-            "size_bytes": 1664456
+            "sha256": "6a8a6ea609bd465e47d494532f918fed8ab5aeb900f37837d28f872a4ee93bc3",
+            "size_bytes": 1668896
           },
           {
             "path": "x2ap/x2appdudescriptions.go",
-            "sha256": "71f85586c8ba4c181d66c5453e144a3d6ca28d29807bf45f67705111e100f765",
-            "size_bytes": 13021
+            "sha256": "dcfa2f9d8fcf793a0dee1c54e1291da8c56269936a6efeea270b9c229773b8f4",
+            "size_bytes": 13112
           }
         ],
         "standards": [
@@ -4938,7 +4938,7 @@
     }
   ],
   "outputs": {
-    "sha256": "63dddd442532a75f4789c0fd1104f92a9e9beba3b03ede2fef06a32d4d1df529",
+    "sha256": "5fc4d1fd564b461aaaa6753195c4911f70683c313319bc16231777b96a8c65f3",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5357,8 +5357,8 @@
       {
         "path": "telecom/lte/lppa/lppacommondatatypes.go",
         "mode": "0644",
-        "sha256": "104871a1d1436fcde5474fc1bd77c73dd075747fd635b3b7ae51357d7a3bb411",
-        "size_bytes": 5259
+        "sha256": "d05467cde52086d1a7860c1a86b2dd7b4abf36ce538dc766878b8d15fab44d26",
+        "size_bytes": 5354
       },
       {
         "path": "telecom/lte/lppa/lppaconstants.go",
@@ -5375,8 +5375,8 @@
       {
         "path": "telecom/lte/lppa/lppaies.go",
         "mode": "0644",
-        "sha256": "ec3b227d5293c5902c153eace76dcdb38460d1250947828d87e2dc7111de3b7b",
-        "size_bytes": 430303
+        "sha256": "04a9ecd6a2f377404f4a580f97877aca77266f8de378effe4a8b305a2e071e53",
+        "size_bytes": 431243
       },
       {
         "path": "telecom/lte/lppa/lppapducontents.go",
@@ -5387,8 +5387,8 @@
       {
         "path": "telecom/lte/lppa/lppapdudescriptions.go",
         "mode": "0644",
-        "sha256": "3e7d53986c3d3c4e33de6fe0a1c2cd76891bb1db72eb621dffabf24dec406897",
-        "size_bytes": 14542
+        "sha256": "3494eb8005691870d41639c029e835bf0d8fee7a2da4225123258f29cb3c759a",
+        "size_bytes": 14633
       },
       {
         "path": "telecom/lte/lppa/per_helpers.go",
@@ -5411,14 +5411,14 @@
       {
         "path": "telecom/lte/rrc/eutrainternodedefinitions.go",
         "mode": "0644",
-        "sha256": "0982178da4aa71d195badf2d0566cf97752ba43b5b7053367cd029c433ed744d",
-        "size_bytes": 461830
+        "sha256": "c790a4a53b5bf66af07bee7f1317f92983061aae354f7273acc6307607c19974",
+        "size_bytes": 463588
       },
       {
         "path": "telecom/lte/rrc/eutrarrcdefinitions.go",
         "mode": "0644",
-        "sha256": "1810e25b352799767ad1f23c03e86a0f996ab35687f54a02f8b09b3b2e141c9e",
-        "size_bytes": 15201802
+        "sha256": "cb6e8f3cd96d94f0c8cb7d9a644dbcb150bf00bc7335529120a1e0ea2ef0aa08",
+        "size_bytes": 15268158
       },
       {
         "path": "telecom/lte/rrc/eutrasidelinkpreconf.go",
@@ -5429,20 +5429,20 @@
       {
         "path": "telecom/lte/rrc/eutrauevariables.go",
         "mode": "0644",
-        "sha256": "09e814ec551c6951943b6485719a9509b6b05af0053e618c1a5d8e705108819c",
-        "size_bytes": 161242
+        "sha256": "4d216bfc01a7d7574243d7d19559d12afb3cde6134c0c3070f660bebdabe68af",
+        "size_bytes": 161579
       },
       {
         "path": "telecom/lte/rrc/nbiotinternodedefinitions.go",
         "mode": "0644",
-        "sha256": "19568b67eca2272c3c36971c7b441731d0ff1b6ac9ba960dc5712d49089d36f0",
-        "size_bytes": 115219
+        "sha256": "334468925bfbc6f55d64a41f393daeee25ac4bc618e0e3145478d25247488ab5",
+        "size_bytes": 116289
       },
       {
         "path": "telecom/lte/rrc/nbiotrrcdefinitions.go",
         "mode": "0644",
-        "sha256": "0ee871456f667e2f5992f9130d094e2a9da73f9c4c0c49f3b35068e0bf1f5971",
-        "size_bytes": 2610339
+        "sha256": "613bdef36e78a002f36d59202e9d1e031a5f991f2048655aeb53bc1b17f2af15",
+        "size_bytes": 2623812
       },
       {
         "path": "telecom/lte/rrc/nbiotuevariables.go",
@@ -5495,8 +5495,8 @@
       {
         "path": "telecom/lte/s1ap/s1apcommondatatypes.go",
         "mode": "0644",
-        "sha256": "bfb1e65a12a0f70b476abc8f0947846df9550e6c01d528c315616bb52d22cf55",
-        "size_bytes": 4959
+        "sha256": "6a2039f29f855449ae43c4c16d8db80f82c2816c7974392e17705fda54c3b807",
+        "size_bytes": 5054
       },
       {
         "path": "telecom/lte/s1ap/s1apconstants.go",
@@ -5513,26 +5513,26 @@
       {
         "path": "telecom/lte/s1ap/s1apies.go",
         "mode": "0644",
-        "sha256": "f40817e7a4a5c1d6b31e8656c794bbf7df116c2f8cc9370badb8e21e37090c23",
-        "size_bytes": 1443243
+        "sha256": "fc0961eeb8835e526254331c2cb9d808632e46cb999b08b81eebea9c457456c1",
+        "size_bytes": 1446135
       },
       {
         "path": "telecom/lte/s1ap/s1appducontents.go",
         "mode": "0644",
-        "sha256": "722cb2cbf0a9b19f971fef72c5aeca593a5388c4a2a66a56f55b53baf360c459",
-        "size_bytes": 660599
+        "sha256": "2f51ef05aa75abbd94906836dc787053ac33f6268c57e37668e68814e573827a",
+        "size_bytes": 660810
       },
       {
         "path": "telecom/lte/s1ap/s1appdudescriptions.go",
         "mode": "0644",
-        "sha256": "c0898ad43e0f2f8d6d31e8edc238ecbc034986e5aff7526600addb5e92d90e72",
-        "size_bytes": 13021
+        "sha256": "4a4f879a56a61e34c1a89bba7ec05d9ac81c8233fe5acaf9f805c8d148460060",
+        "size_bytes": 13112
       },
       {
         "path": "telecom/lte/s1ap/sontransferies.go",
         "mode": "0644",
-        "sha256": "cf6e9afaadadec65b2d416227555fb09e2d473bd6f522d0b5040d0a4dd65e39b",
-        "size_bytes": 176285
+        "sha256": "ba9d725fa56d3bc68bf1aba8d9f6a20dfa2ce1886449d1b04a7478060d2e0726",
+        "size_bytes": 177031
       },
       {
         "path": "telecom/lte/x2ap/asn1_contract_vectors_test.go",
@@ -5567,8 +5567,8 @@
       {
         "path": "telecom/lte/x2ap/x2apcommondatatypes.go",
         "mode": "0644",
-        "sha256": "cd1a29e0768852e16e1d4234263edc5d1088aedd2c7562553ebd64319491df0c",
-        "size_bytes": 5151
+        "sha256": "c5d178444ad06a706979e3095db9a822a5761a8bde7a1dd2dd75cac47f84f46a",
+        "size_bytes": 5246
       },
       {
         "path": "telecom/lte/x2ap/x2apconstants.go",
@@ -5585,20 +5585,20 @@
       {
         "path": "telecom/lte/x2ap/x2apies.go",
         "mode": "0644",
-        "sha256": "712d6e446954b48b99bc32f2c87652b9dc469d87bf4d6724dc36394c19962356",
-        "size_bytes": 1783515
+        "sha256": "1b217274f1a1ffd99b3b2be96b8b50ecb69162ed9388b0ec90ad337764502666",
+        "size_bytes": 1786282
       },
       {
         "path": "telecom/lte/x2ap/x2appducontents.go",
         "mode": "0644",
-        "sha256": "828615168f227607c4f9ccdd0175d6ccd39663b2bafd4f30c044341314ca0bd7",
-        "size_bytes": 1664456
+        "sha256": "6a8a6ea609bd465e47d494532f918fed8ab5aeb900f37837d28f872a4ee93bc3",
+        "size_bytes": 1668896
       },
       {
         "path": "telecom/lte/x2ap/x2appdudescriptions.go",
         "mode": "0644",
-        "sha256": "71f85586c8ba4c181d66c5453e144a3d6ca28d29807bf45f67705111e100f765",
-        "size_bytes": 13021
+        "sha256": "dcfa2f9d8fcf793a0dee1c54e1291da8c56269936a6efeea270b9c229773b8f4",
+        "size_bytes": 13112
       },
       {
         "path": "telecom/ss7/gsm_map/asn1_contract_vectors_test.go",
@@ -6149,8 +6149,8 @@
       {
         "path": "telecom/umts/rrc/classdefinitions.go",
         "mode": "0644",
-        "sha256": "eb715ab1011af5e4460f69cad538e6c0d8c869f778b284c9cb4b96140bdf5f59",
-        "size_bytes": 160662
+        "sha256": "8dd01c30356d985f5d2814cceaf80e5b7a817728b91f918972819d2a98accbc1",
+        "size_bytes": 161878
       },
       {
         "path": "telecom/umts/rrc/constantdefinitions.go",
@@ -6167,20 +6167,20 @@
       {
         "path": "telecom/umts/rrc/informationelements.go",
         "mode": "0644",
-        "sha256": "7b5a9e26aa48f9f8d503eeba0378832bd5b29313cbb9b801ab840745f2069bc7",
-        "size_bytes": 18017554
+        "sha256": "9f34a40e4ddb0b6a3aeca7dc9858293a102bdca2205de210f8c4c83ed14d5234",
+        "size_bytes": 18113835
       },
       {
         "path": "telecom/umts/rrc/internodedefinitions.go",
         "mode": "0644",
-        "sha256": "e6f9869c09cd52ca9abcae796eb94e26f36eb4e2f691f34706ea69e28621bf77",
-        "size_bytes": 1840624
+        "sha256": "9fc6f90fded809528b69f5b5eba2f808a31b892b8612cd2435c42a6b87db73c7",
+        "size_bytes": 1846546
       },
       {
         "path": "telecom/umts/rrc/pdudefinitions.go",
         "mode": "0644",
-        "sha256": "355a682b099b436f7b29f02fc0e3d628d496db54e49c8e2fa15b59304f69c082",
-        "size_bytes": 11665277
+        "sha256": "2acac1afa76bad734fbeed623fd4d1a79d134b709539e400e1962497351ac294",
+        "size_bytes": 11714205
       },
       {
         "path": "telecom/umts/rrc/per_helpers.go",

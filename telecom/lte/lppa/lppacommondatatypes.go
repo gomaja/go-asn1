@@ -143,6 +143,9 @@ func (v *PrivateIEID) MarshalAPER() ([]byte, error) {
 }
 
 func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PrivateIEID: choice %d must be positive", v.Choice)
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
