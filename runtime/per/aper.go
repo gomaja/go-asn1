@@ -331,7 +331,7 @@ func DecodeEnumeratedAligned(bb *BitBuffer, rootCount int, extensible bool) (int
 			if err != nil {
 				return 0, err
 			}
-			return int64(rootCount) + extIdx, nil
+			return addExtensionIndex(rootCount, extIdx)
 		}
 	}
 	if rootCount <= 1 {
@@ -704,7 +704,8 @@ func DecodeChoiceIndexAligned(bb *BitBuffer, numAlternatives int, extensible boo
 			if err != nil {
 				return 0, true, err
 			}
-			return int64(numAlternatives) + idx, true, nil
+			index, err := addExtensionIndex(numAlternatives, idx)
+			return index, true, err
 		}
 	}
 	if numAlternatives <= 1 {

@@ -41,7 +41,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 		if len(stack) == 1 && elements > 0 {
 			return ErrExtraData
 		}
-		if parent.indefinite && pos+2 <= parent.end && data[pos] == 0 && data[pos+1] == 0 {
+		if parent.indefinite && parent.end-pos >= 2 && data[pos] == 0 && data[pos+1] == 0 {
 			pos += 2
 			stack = stack[:len(stack)-1]
 			continue
@@ -73,10 +73,10 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 			pos = start
 			continue
 		}
-		end := start + length
-		if end < start || end > parent.end {
+		if length > parent.end-start {
 			return ErrTruncated
 		}
+		end := start + length
 		if t.Constructed {
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)

@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
-  "target_base_commit": "be78a27d19261056afc2020777077711f03b8202",
+  "compiler_commit": "d204d77805d6bf844214929100e62459b29a07c8",
+  "target_base_commit": "ac85614d383655ed3b5bc0e108a30c90292f29c1",
   "inputs": {
     "sha256": "f550293ecd58e5109feeb727fdb6dc8f442cc6fb8e0d4b3772eb8c8f51e24c37",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -1869,7 +1869,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -2314,7 +2314,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -2719,7 +2719,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -3068,7 +3068,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -3463,7 +3463,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -3824,7 +3824,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -4209,7 +4209,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -4570,7 +4570,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+          "commit": "d204d77805d6bf844214929100e62459b29a07c8",
           "dirty": false
         },
         "frontend": {
@@ -4938,13 +4938,13 @@
     }
   ],
   "outputs": {
-    "sha256": "e1778643701f1f4c591cfac4dea477261b1246562c77b8f0988a17bf8deeb5d1",
+    "sha256": "edeb8d8804cf803a1b933d6bcce774f626342e5dce69a1dc843864c8cb75315b",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
         "mode": "0644",
-        "sha256": "da602fc4aedf653ec69439812162d3330aea547c63881a14c0b57b819ed735d5",
-        "size_bytes": 36227
+        "sha256": "55bffb35d022e91e9d767225bfa03eee27548bbe5bcf5cfbf5835837eb29a8d3",
+        "size_bytes": 36335
       },
       {
         "path": "runtime/ber/bigint_value_test.go",
@@ -4961,8 +4961,8 @@
       {
         "path": "runtime/ber/decoder.go",
         "mode": "0644",
-        "sha256": "79ed845064d04ff1363423087c6ab1c1f2ed356f157a4fd8b2a2738b4ddf43c5",
-        "size_bytes": 47436
+        "sha256": "61c4df5c907c4c16ba4ca191ee27e56a50ede17622945824e12c01b4602aafc0",
+        "size_bytes": 47621
       },
       {
         "path": "runtime/ber/encoder.go",
@@ -4979,8 +4979,8 @@
       {
         "path": "runtime/ber/external.go",
         "mode": "0644",
-        "sha256": "038e3904e54c486fe38670954e6dd53b4c4d46d452e19a3ed0a09063c99a3c8b",
-        "size_bytes": 7133
+        "sha256": "f2041fb7472dbfa70edc896b544b4a5c489c2ff82c98caa16e0946853f22aa92",
+        "size_bytes": 7980
       },
       {
         "path": "runtime/ber/external_limits_test.go",
@@ -4991,8 +4991,8 @@
       {
         "path": "runtime/ber/external_test.go",
         "mode": "0644",
-        "sha256": "57ae49212882add97d30daf3ee08dbb8f9465d3b30ba3634623c89f6536d8e0e",
-        "size_bytes": 3946
+        "sha256": "695197d4036d10648639d2d8c8153f4ef9c9c5d1b6f26f473b1e6e2377346e7d",
+        "size_bytes": 4505
       },
       {
         "path": "runtime/ber/oid_checked_test.go",
@@ -5021,8 +5021,8 @@
       {
         "path": "runtime/ber/work.go",
         "mode": "0644",
-        "sha256": "2cd1078b57b7f4ee4ab4cf93c734ab52d74b26fcaccb9ad204da168775cb89ac",
-        "size_bytes": 2322
+        "sha256": "ed9bb2e46b37e8ab49a731e83cc1efc20b9d400b0d388898c558d25a1ba8225d",
+        "size_bytes": 2316
       },
       {
         "path": "runtime/ber/work_limit_test.go",
@@ -5069,14 +5069,20 @@
       {
         "path": "runtime/per/aper.go",
         "mode": "0644",
-        "sha256": "be720d6efc3aa3763f0f21cecb87fd29fd96bf5b154273f67f9918c11b867276",
-        "size_bytes": 22067
+        "sha256": "a5c0f6d3120972064b40af6dbc2255f65cb42a5ed66d6e4171c2009c23bd668c",
+        "size_bytes": 22107
       },
       {
         "path": "runtime/per/bitbuffer.go",
         "mode": "0644",
-        "sha256": "c4800611d641555fb2b6f1dc3fb62e4bd24cecc7c2225a1b45a6e736c8461acb",
-        "size_bytes": 9233
+        "sha256": "a3a5855119a21d5e25f26b4d4f27bc49a3b539f6ab6044737d456581bffa4189",
+        "size_bytes": 10098
+      },
+      {
+        "path": "runtime/per/bitbuffer_arithmetic_test.go",
+        "mode": "0644",
+        "sha256": "0230d3159d554c57e74bdc436614420d62eacc68cd26adf9710bb5c920952f70",
+        "size_bytes": 1524
       },
       {
         "path": "runtime/per/bitbuffer_bounds_test.go",
@@ -5111,8 +5117,8 @@
       {
         "path": "runtime/per/hardening_test.go",
         "mode": "0644",
-        "sha256": "2e3a82abb05c37bce6389fa85b485c482192f70aa14c95a488f46daee531e61c",
-        "size_bytes": 17879
+        "sha256": "74b01736ee034eca1e2762a31c4a7f6cf4eabf41fedbd978b50e9de9ae08d20c",
+        "size_bytes": 21046
       },
       {
         "path": "runtime/per/integer_big.go",
@@ -5183,8 +5189,8 @@
       {
         "path": "runtime/per/uper.go",
         "mode": "0644",
-        "sha256": "ee1a6cc1a8bab1d9a4197783fd4f705dea0c04025809b886aa3235e4bfc7a172",
-        "size_bytes": 29086
+        "sha256": "274fc341d1bf8489f6140095bf406d013c3c8de2576e0e80722c991a09b7c1b6",
+        "size_bytes": 29677
       },
       {
         "path": "runtime/per/uper_test.go",
@@ -6176,6 +6182,7 @@
         "$STAGE/runtime/integer_value_test.go",
         "$STAGE/runtime/per/aper.go",
         "$STAGE/runtime/per/bitbuffer.go",
+        "$STAGE/runtime/per/bitbuffer_arithmetic_test.go",
         "$STAGE/runtime/per/bitbuffer_bounds_test.go",
         "$STAGE/runtime/per/complete_encoding_test.go",
         "$STAGE/runtime/per/errors.go",
@@ -6396,6 +6403,7 @@
         "$STAGE/runtime/integer_value_test.go",
         "$STAGE/runtime/per/aper.go",
         "$STAGE/runtime/per/bitbuffer.go",
+        "$STAGE/runtime/per/bitbuffer_arithmetic_test.go",
         "$STAGE/runtime/per/bitbuffer_bounds_test.go",
         "$STAGE/runtime/per/complete_encoding_test.go",
         "$STAGE/runtime/per/errors.go",

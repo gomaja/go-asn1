@@ -3,11 +3,25 @@ package ber
 import (
 	"bytes"
 	"encoding/hex"
+	"errors"
+	"math"
 	"math/big"
 	"testing"
 
 	"github.com/gomaja/go-asn1/runtime"
 )
+
+func TestExternalBitLengthRejectsHostIntOverflow(t *testing.T) {
+	if _, err := externalBitLength(math.MaxInt/8+1, 0); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("overflow error = %v, want ErrInvalidValue", err)
+	}
+	if got, err := externalBitLength(math.MaxInt/8, 7); err != nil || got != math.MaxInt/8*8-7 {
+		t.Fatalf("boundary bit length = %d, error %v", got, err)
+	}
+	if got, err := externalBitLength(math.MaxInt/8+1, 1); err != nil || got != math.MaxInt {
+		t.Fatalf("maximum representable bit length = %d, error %v", got, err)
+	}
+}
 
 // X.690 (02/2021) §8.18.1 and Q.773 (06/1997) Annex A.
 func TestExternalAlternatives(t *testing.T) {

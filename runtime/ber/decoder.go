@@ -504,7 +504,11 @@ func validateDERExternal(value []byte) error {
 	}
 	if decoded.Encoding == runtime.ExternalArbitrary {
 		bits := decoded.Arbitrary
-		unused := len(bits.Bytes)*8 - bits.BitLength
+		unused := (8 - bits.BitLength%8) % 8
+		length, err := externalBitLength(len(bits.Bytes), unused)
+		if err != nil || length != bits.BitLength {
+			return fmt.Errorf("%w: invalid EXTERNAL arbitrary bit length", ErrInvalidValue)
+		}
 		if unused > 0 && bits.Bytes[len(bits.Bytes)-1]&byte((1<<unused)-1) != 0 {
 			return fmt.Errorf("EXTERNAL DER arbitrary has nonzero unused bits")
 		}

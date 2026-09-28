@@ -294,7 +294,7 @@ func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, err
 			if err != nil {
 				return 0, err
 			}
-			return int64(rootCount) + extIdx, nil
+			return addExtensionIndex(rootCount, extIdx)
 		}
 	}
 	if rootCount <= 1 {
@@ -636,7 +636,8 @@ func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int
 			if err != nil {
 				return 0, true, err
 			}
-			return int64(numAlternatives) + idx, true, nil
+			index, err := addExtensionIndex(numAlternatives, idx)
+			return index, true, err
 		}
 	}
 	if numAlternatives <= 1 {
@@ -644,6 +645,16 @@ func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int
 	}
 	idx, err := DecodeConstrainedWholeNumber(bb, 0, int64(numAlternatives-1))
 	return idx, false, err
+}
+
+// X.691 (02/2021) §§14, 23 encode extension alternatives as a normally
+// small index following the root alternatives. Reject indexes that the API's
+// int64 representation cannot hold.
+func addExtensionIndex(rootCount int, extensionIndex int64) (int64, error) {
+	if rootCount < 0 || extensionIndex < 0 || extensionIndex > math.MaxInt64-int64(rootCount) {
+		return 0, fmt.Errorf("%w: extension index %d exceeds int64 range with %d root alternatives", ErrInvalidValue, extensionIndex, rootCount)
+	}
+	return int64(rootCount) + extensionIndex, nil
 }
 
 // --- internal helpers ---

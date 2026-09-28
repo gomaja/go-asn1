@@ -177,6 +177,9 @@ func TestBERLengthCannotWrapSliceBounds(t *testing.T) {
 		{"nested indefinite", []byte{0x30, 0x80, 0x04, 0x84, 0x7f, 0xff, 0xff, 0xff, 0, 0}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
+			if err := ValidateBERElement(tc.wire); err == nil {
+				t.Fatal("accepted BER length beyond input")
+			}
 			if _, _, _, err := DecodeTLV(tc.wire); err == nil {
 				t.Fatal("accepted length beyond input")
 			}

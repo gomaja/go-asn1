@@ -2,11 +2,114 @@ package per
 
 import (
 	"bytes"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"math"
 	"testing"
 )
+
+func TestDecodedExtensionIndexRejectsInt64Overflow(t *testing.T) {
+	for _, tc := range []struct {
+		name    string
+		wire    string
+		aligned bool
+	}{
+		{name: "UPER", wire: "c21fffffffffffffffc0"},
+		{name: "APER", wire: "c0087fffffffffffffff", aligned: true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			wire, err := hex.DecodeString(tc.wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+			for _, kind := range []string{"CHOICE", "ENUMERATED"} {
+				t.Run(kind, func(t *testing.T) {
+					input := NewBitBufferFromBytes(wire)
+					if kind == "CHOICE" {
+						var extension bool
+						if tc.aligned {
+							_, extension, err = DecodeChoiceIndexAligned(input, 2, true)
+						} else {
+							_, extension, err = DecodeChoiceIndex(input, 2, true)
+						}
+						if !extension {
+							t.Fatal("extension bit was not decoded")
+						}
+					} else if tc.aligned {
+						_, err = DecodeEnumeratedAligned(input, 2, true)
+					} else {
+						_, err = DecodeEnumerated(input, 2, true)
+					}
+					if !errors.Is(err, ErrInvalidValue) {
+						t.Fatalf("decoded index overflow error = %v, want ErrInvalidValue", err)
+					}
+				})
+			}
+		})
+	}
+}
+
+func TestDecodedExtensionIndexAtInt64Boundary(t *testing.T) {
+	for _, aligned := range []bool{false, true} {
+		for _, enumerated := range []bool{false, true} {
+			bb := NewBitBuffer()
+			var err error
+			if enumerated && aligned {
+				err = EncodeEnumeratedAligned(bb, math.MaxInt64, 2, true)
+			} else if enumerated {
+				err = EncodeEnumerated(bb, math.MaxInt64, 2, true)
+			} else if aligned {
+				err = EncodeChoiceIndexAligned(bb, math.MaxInt64, 2, true)
+			} else {
+				err = EncodeChoiceIndex(bb, math.MaxInt64, 2, true)
+			}
+			if err != nil {
+				t.Fatal(err)
+			}
+			input := NewBitBufferFromBytes(bb.Bytes())
+			var got int64
+			if enumerated && aligned {
+				got, err = DecodeEnumeratedAligned(input, 2, true)
+			} else if enumerated {
+				got, err = DecodeEnumerated(input, 2, true)
+			} else if aligned {
+				got, _, err = DecodeChoiceIndexAligned(input, 2, true)
+			} else {
+				got, _, err = DecodeChoiceIndex(input, 2, true)
+			}
+			if err != nil || got != math.MaxInt64 {
+				t.Fatalf("aligned=%t enumerated=%t: decoded index %d, error %v", aligned, enumerated, got, err)
+			}
+		}
+	}
+}
+
+func FuzzDecodeExtendedIndexesNoPanic(f *testing.F) {
+	for _, seed := range []string{"c21fffffffffffffffc0", "c0087fffffffffffffff", "80", "00"} {
+		wire, err := hex.DecodeString(seed)
+		if err != nil {
+			f.Fatal(err)
+		}
+		f.Add(wire)
+	}
+	f.Fuzz(func(t *testing.T, wire []byte) {
+		for _, decode := range []func(*BitBuffer) (int64, error){
+			func(bb *BitBuffer) (int64, error) { value, _, err := DecodeChoiceIndex(bb, 2, true); return value, err },
+			func(bb *BitBuffer) (int64, error) {
+				value, _, err := DecodeChoiceIndexAligned(bb, 2, true)
+				return value, err
+			},
+			func(bb *BitBuffer) (int64, error) { return DecodeEnumerated(bb, 2, true) },
+			func(bb *BitBuffer) (int64, error) { return DecodeEnumeratedAligned(bb, 2, true) },
+		} {
+			value, err := decode(NewBitBufferFromBytes(wire))
+			if err == nil && value < 0 {
+				t.Fatalf("decoded negative extension index %d", value)
+			}
+		}
+	})
+}
 
 func TestNormallySmallNonNegativeRejectsInt64Overflow(t *testing.T) {
 	for _, tc := range []struct {

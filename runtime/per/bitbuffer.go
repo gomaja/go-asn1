@@ -1,12 +1,16 @@
 package per
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 // BitBuffer provides bit-level read/write operations for PER encoding.
 type BitBuffer struct {
-	data   []byte
-	bitPos int // current read position (read) or total bits written (write)
-	bitLen int // total bits available (read mode only)
+	data          []byte
+	bitPos        int  // current read position (read) or total bits written (write)
+	bitLen        int  // total bits available (read mode only)
+	invalidLength bool // input octets cannot be represented as an int bit length
 }
 
 // NewBitBuffer creates a write-mode buffer.
@@ -16,6 +20,9 @@ func NewBitBuffer() *BitBuffer {
 
 // NewBitBufferFromBytes creates a read-mode buffer from encoded bytes.
 func NewBitBufferFromBytes(data []byte) *BitBuffer {
+	if len(data) > math.MaxInt/8 {
+		return &BitBuffer{invalidLength: true}
+	}
 	return &BitBuffer{
 		data:   data,
 		bitLen: len(data) * 8,
@@ -26,7 +33,8 @@ func NewBitBufferFromBytes(data []byte) *BitBuffer {
 // to its declared bit length. X.691 (02/2021) 11.1.1(b) permits a complete
 // unaligned encoding in a BIT STRING without octet padding.
 func NewBitBufferFromBits(data []byte, bitLen int) (*BitBuffer, error) {
-	if bitLen < 0 || bitLen > len(data)*8 || len(data) != (bitLen+7)/8 {
+	required, err := octetsForBitLength(bitLen)
+	if err != nil || len(data) != required {
 		return nil, fmt.Errorf("%w: invalid bit-string length %d for %d octets", ErrInvalidValue, bitLen, len(data))
 	}
 	if bitLen%8 != 0 && data[len(data)-1]&byte((1<<uint(8-bitLen%8))-1) != 0 {
@@ -37,6 +45,9 @@ func NewBitBufferFromBits(data []byte, bitLen int) (*BitBuffer, error) {
 
 // WriteBit writes a single bit (0 or 1).
 func (bb *BitBuffer) WriteBit(bit uint8) error {
+	if bb.bitPos == math.MaxInt {
+		return fmt.Errorf("%w: PER bit position exceeds int", ErrInvalidValue)
+	}
 	byteIdx := bb.bitPos / 8
 	bitIdx := uint(7 - bb.bitPos%8)
 
@@ -68,6 +79,9 @@ func (bb *BitBuffer) WriteBits(val uint64, n int) error {
 
 // ReadBit reads a single bit.
 func (bb *BitBuffer) ReadBit() (uint8, error) {
+	if bb.invalidLength {
+		return 0, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
+	}
 	if bb.bitPos >= bb.bitLen {
 		return 0, ErrTruncated
 	}
@@ -80,6 +94,9 @@ func (bb *BitBuffer) ReadBit() (uint8, error) {
 
 // ReadBits reads n bits and returns them right-aligned in a uint64.
 func (bb *BitBuffer) ReadBits(n int) (uint64, error) {
+	if bb.invalidLength {
+		return 0, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
+	}
 	if n < 0 || n > 64 {
 		return 0, fmt.Errorf("per: ReadBits n=%d out of range", n)
 	}
@@ -109,6 +126,9 @@ func (bb *BitBuffer) WriteBytes(data []byte) error {
 
 // ReadBytes reads n bytes (8*n bits).
 func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
+	if bb.invalidLength {
+		return nil, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
+	}
 	if n < 0 {
 		return nil, fmt.Errorf("%w: ReadBytes called with negative n=%d", ErrInvalidValue, n)
 	}
@@ -205,6 +225,9 @@ func ValidateFinalPadding(bb *BitBuffer) error {
 }
 
 func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, error) {
+	if bb.invalidLength {
+		return CompletePadding{}, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
+	}
 	remaining := bb.BitsRemaining()
 	if bb.BitPos() == 0 {
 		switch {
@@ -279,6 +302,9 @@ func (bb *BitBuffer) AlignToOctetRead() error {
 
 // ReadBitsToBytes reads bitLen bits and returns them packed into bytes (MSB first).
 func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
+	if bb.invalidLength {
+		return nil, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
+	}
 	if bitLen < 0 {
 		return nil, fmt.Errorf("%w: ReadBitsToBytes called with negative bitLen=%d", ErrInvalidValue, bitLen)
 	}

@@ -2,6 +2,7 @@ package ber
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/tag"
@@ -117,7 +118,11 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 			return result, err
 		}
 		result.Encoding = runtime.ExternalArbitrary
-		result.Arbitrary = runtime.BitString{Bytes: append([]byte(nil), bits...), BitLength: len(bits)*8 - unused}
+		bitLength, err := externalBitLength(len(bits), unused)
+		if err != nil {
+			return result, err
+		}
+		result.Arbitrary = runtime.BitString{Bytes: append([]byte(nil), bits...), BitLength: bitLength}
 	default:
 		return result, fmt.Errorf("%w: EXTERNAL encoding choice %d", ErrInvalidTag, t.Number)
 	}
@@ -175,10 +180,18 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 		children = append(children, EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, value.OctetAligned)...)
 	case runtime.ExternalArbitrary:
 		bits := value.Arbitrary
-		if bits.BitLength < 0 || bits.BitLength > len(bits.Bytes)*8 || bits.BitLength <= (len(bits.Bytes)-1)*8 && len(bits.Bytes) > 0 {
+		if bits.BitLength < 0 {
 			return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
 		}
-		unused := len(bits.Bytes)*8 - bits.BitLength
+		expectedOctets := bits.BitLength / 8
+		unused := 0
+		if rem := bits.BitLength % 8; rem != 0 {
+			expectedOctets++
+			unused = 8 - rem
+		}
+		if len(bits.Bytes) != expectedOctets {
+			return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
+		}
 		if unused > 0 && bits.Bytes[len(bits.Bytes)-1]&byte((1<<unused)-1) != 0 {
 			return nil, fmt.Errorf("%w: nonzero unused EXTERNAL bits", ErrInvalidValue)
 		}
@@ -193,4 +206,20 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 		}
 	}
 	return encoded, nil
+}
+
+// X.690 (02/2021) §8.6 represents a BIT STRING with an unused-bit count.
+// The public BitString length uses int, so reject wire lengths beyond it.
+func externalBitLength(octets, unused int) (int, error) {
+	if octets < 0 || unused < 0 || unused > 7 || octets == 0 && unused != 0 {
+		return 0, fmt.Errorf("%w: EXTERNAL arbitrary bit length exceeds host int", ErrInvalidValue)
+	}
+	if octets == 0 {
+		return 0, nil
+	}
+	lastOctetBits := 8 - unused
+	if octets-1 > (math.MaxInt-lastOctetBits)/8 {
+		return 0, fmt.Errorf("%w: EXTERNAL arbitrary bit length exceeds host int", ErrInvalidValue)
+	}
+	return (octets-1)*8 + lastOctetBits, nil
 }
