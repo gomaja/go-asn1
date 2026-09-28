@@ -267,6 +267,9 @@ func DecodeInteger(bb *BitBuffer, lb, ub *int64, extensible bool) (int64, error)
 // EncodeEnumerated encodes an enumerated value.
 // rootCount = number of root enumeration values, extensible = has "..." marker.
 func EncodeEnumerated(bb *BitBuffer, v int64, rootCount int, extensible bool) error {
+	if rootCount < 0 {
+		return fmt.Errorf("%w: negative ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	}
 	if extensible {
 		isExtension := v >= int64(rootCount)
 		if err := EncodeBoolean(bb, isExtension); err != nil {
@@ -284,6 +287,9 @@ func EncodeEnumerated(bb *BitBuffer, v int64, rootCount int, extensible bool) er
 
 // DecodeEnumerated decodes an enumerated value.
 func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, error) {
+	if rootCount < 0 {
+		return 0, fmt.Errorf("%w: negative ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -609,6 +615,9 @@ func DecodeOpenType(bb *BitBuffer) ([]byte, error) {
 
 // EncodeChoiceIndex encodes a CHOICE index for root alternatives.
 func EncodeChoiceIndex(bb *BitBuffer, index int64, numAlternatives int, extensible bool) error {
+	if numAlternatives < 0 {
+		return fmt.Errorf("%w: negative CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	}
 	if extensible {
 		isExtension := index >= int64(numAlternatives)
 		if err := EncodeBoolean(bb, isExtension); err != nil {
@@ -626,6 +635,9 @@ func EncodeChoiceIndex(bb *BitBuffer, index int64, numAlternatives int, extensib
 
 // DecodeChoiceIndex decodes a CHOICE index.
 func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int64, bool, error) {
+	if numAlternatives < 0 {
+		return 0, false, fmt.Errorf("%w: negative CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {

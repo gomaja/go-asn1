@@ -85,6 +85,34 @@ func TestDecodedExtensionIndexAtInt64Boundary(t *testing.T) {
 	}
 }
 
+func TestNegativeRootCountsAreRejected(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		encode func(*BitBuffer, bool) error
+		decode func(*BitBuffer, bool) error
+	}{
+		{"UPER ENUMERATED", func(bb *BitBuffer, ext bool) error { return EncodeEnumerated(bb, math.MaxInt64, -1, ext) }, func(bb *BitBuffer, ext bool) error { _, err := DecodeEnumerated(bb, -1, ext); return err }},
+		{"APER ENUMERATED", func(bb *BitBuffer, ext bool) error { return EncodeEnumeratedAligned(bb, math.MaxInt64, -1, ext) }, func(bb *BitBuffer, ext bool) error { _, err := DecodeEnumeratedAligned(bb, -1, ext); return err }},
+		{"UPER CHOICE", func(bb *BitBuffer, ext bool) error { return EncodeChoiceIndex(bb, math.MaxInt64, -1, ext) }, func(bb *BitBuffer, ext bool) error { _, _, err := DecodeChoiceIndex(bb, -1, ext); return err }},
+		{"APER CHOICE", func(bb *BitBuffer, ext bool) error { return EncodeChoiceIndexAligned(bb, math.MaxInt64, -1, ext) }, func(bb *BitBuffer, ext bool) error { _, _, err := DecodeChoiceIndexAligned(bb, -1, ext); return err }},
+	} {
+		for _, extensible := range []bool{false, true} {
+			t.Run(fmt.Sprintf("%s/ext=%t", tc.name, extensible), func(t *testing.T) {
+				bb := NewBitBuffer()
+				if err := tc.encode(bb, extensible); !errors.Is(err, ErrInvalidValue) {
+					t.Fatalf("encode error = %v, want ErrInvalidValue", err)
+				}
+				if bb.BitsWritten() != 0 {
+					t.Fatalf("invalid root count wrote %d bits", bb.BitsWritten())
+				}
+				if err := tc.decode(NewBitBufferFromBytes([]byte{0x80}), extensible); !errors.Is(err, ErrInvalidValue) {
+					t.Fatalf("decode error = %v, want ErrInvalidValue", err)
+				}
+			})
+		}
+	}
+}
+
 func FuzzDecodeExtendedIndexesNoPanic(f *testing.F) {
 	for _, seed := range []string{"c21fffffffffffffffc0", "c0087fffffffffffffff", "80", "00"} {
 		wire, err := hex.DecodeString(seed)

@@ -304,6 +304,9 @@ func DecodeIntegerAligned(bb *BitBuffer, lb, ub *int64, extensible bool) (int64,
 
 // EncodeEnumeratedAligned encodes an enumerated value using APER rules.
 func EncodeEnumeratedAligned(bb *BitBuffer, v int64, rootCount int, extensible bool) error {
+	if rootCount < 0 {
+		return fmt.Errorf("%w: negative ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	}
 	if extensible {
 		isExtension := v >= int64(rootCount)
 		if err := EncodeBoolean(bb, isExtension); err != nil {
@@ -321,6 +324,9 @@ func EncodeEnumeratedAligned(bb *BitBuffer, v int64, rootCount int, extensible b
 
 // DecodeEnumeratedAligned decodes an enumerated value using APER rules.
 func DecodeEnumeratedAligned(bb *BitBuffer, rootCount int, extensible bool) (int64, error) {
+	if rootCount < 0 {
+		return 0, fmt.Errorf("%w: negative ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -677,6 +683,9 @@ func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
 
 // EncodeChoiceIndexAligned encodes a CHOICE index (APER).
 func EncodeChoiceIndexAligned(bb *BitBuffer, index int64, numAlternatives int, extensible bool) error {
+	if numAlternatives < 0 {
+		return fmt.Errorf("%w: negative CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	}
 	if extensible {
 		isExtension := index >= int64(numAlternatives)
 		if err := EncodeBoolean(bb, isExtension); err != nil {
@@ -694,6 +703,9 @@ func EncodeChoiceIndexAligned(bb *BitBuffer, index int64, numAlternatives int, e
 
 // DecodeChoiceIndexAligned decodes a CHOICE index (APER).
 func DecodeChoiceIndexAligned(bb *BitBuffer, numAlternatives int, extensible bool) (int64, bool, error) {
+	if numAlternatives < 0 {
+		return 0, false, fmt.Errorf("%w: negative CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {

@@ -1,16 +1,16 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
-  "target_base_commit": "56b534637db9e1760bc9241cd56b21777a4ba7f1",
+  "compiler_commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
+  "target_base_commit": "131397ea97d7275b02f5453247ea5234dbb1ecb1",
   "inputs": {
-    "sha256": "f550293ecd58e5109feeb727fdb6dc8f442cc6fb8e0d4b3772eb8c8f51e24c37",
+    "sha256": "1eb363f62062ea582f92c7224275b79e9756e43d588d64b0b1e454b1e5b76c12",
     "files": [
       {
         "path": "conformance/corpus.yaml",
         "mode": "0644",
-        "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-        "size_bytes": 131014
+        "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+        "size_bytes": 131119
       },
       {
         "path": "conformance/source.lock.json",
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -39,8 +39,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -49,7 +49,7 @@
         },
         "source_plan": {
           "path": "gsm-map/source-plan.json",
-          "sha256": "ca28317cf26491033a1e231e9698ef808826a9293ad22d1937a5106391843357",
+          "sha256": "b6bf291059f1e975ccc58210d77c1a1b8f298d7494c683ed51d83f9d9ed9dacb",
           "size_bytes": 1489488
         },
         "sources": [
@@ -1150,7 +1150,7 @@
         ],
         "ir": {
           "path": "gsm-map/resolved-schema.json",
-          "sha256": "74c0b87db68db4612c52c3aab08e83ed88741c1584c61570f88e81fd71dac645",
+          "sha256": "2513e7cb2bc8a9201d1c94c337f9c448e78d5b8dfa6ff4f7283847a272ce1132",
           "size_bytes": 8942159
         },
         "outputs": [
@@ -1869,7 +1869,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -1878,8 +1878,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -1888,7 +1888,7 @@
         },
         "source_plan": {
           "path": "lppa/source-plan.json",
-          "sha256": "e4b56255e74b90b04284afb497393a45d8ca2fc7fd0d00deb46f3c41927896f2",
+          "sha256": "d122307fd2d2e092e676131754cd3443a6695bdc1d7b0013c4bd360aef11d3a5",
           "size_bytes": 75872
         },
         "sources": [
@@ -1957,7 +1957,7 @@
         ],
         "ir": {
           "path": "lppa/resolved-schema.json",
-          "sha256": "7ecc0d43b132049117d1f3708cf81b773d6eb2330a85978070817a9f6a00b858",
+          "sha256": "fab4f488102e510a86bc4f71c145cdc6de6236f110520f5fbc526a09076c579d",
           "size_bytes": 461726
         },
         "outputs": [
@@ -2314,7 +2314,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -2323,8 +2323,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -2333,7 +2333,7 @@
         },
         "source_plan": {
           "path": "lte-rrc/source-plan.json",
-          "sha256": "74477f1b036b15c83fc549b08bcf7871be2b756fd6be286521cf9ac1667cf113",
+          "sha256": "550efc2033e9edc468f23cc7d1302e010d4bd9086b2a8a51aba27a8ebdb47722",
           "size_bytes": 584617
         },
         "sources": [
@@ -2432,7 +2432,7 @@
         ],
         "ir": {
           "path": "lte-rrc/resolved-schema.json",
-          "sha256": "593567d9d4a0c7c6d5a70b28b09be2c2a2cd29b532b81fbd0c28c6de8ae1aac8",
+          "sha256": "bb3f401f3358f1d41d00273f3df0a4e6342410b0110deeb498da56db02d53b79",
           "size_bytes": 5596445
         },
         "outputs": [
@@ -2719,7 +2719,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -2728,8 +2728,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -2738,7 +2738,7 @@
         },
         "source_plan": {
           "path": "rrc/source-plan.json",
-          "sha256": "75265ff40ef4445ea1158435c86d1a64b9cac92558c149d7b4a45952d70f22de",
+          "sha256": "a6589c7a2c0549af68a58221a73a0b0fcb74f92202402648120d729a618466f0",
           "size_bytes": 929329
         },
         "sources": [
@@ -2797,7 +2797,7 @@
         ],
         "ir": {
           "path": "rrc/resolved-schema.json",
-          "sha256": "7c20783bb9cf6010f553e2db47d60ee6b9cf68012d5175ff2957e4b869a911ef",
+          "sha256": "a078eea0c31f931ec7748048d6185aa84b7d710e8f6f08c241942467582bdc9e",
           "size_bytes": 10933060
         },
         "outputs": [
@@ -3068,7 +3068,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -3077,8 +3077,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -3087,7 +3087,7 @@
         },
         "source_plan": {
           "path": "s1ap/source-plan.json",
-          "sha256": "0d45abc37a0653d6b8041b619bc9f479e1a0ada76da40c17a7005ef3f170d5da",
+          "sha256": "69c7b2dbfa63f25fc94f8d963a58a8fe853e38d4da67413f52f43976fd99492d",
           "size_bytes": 376279
         },
         "sources": [
@@ -3176,7 +3176,7 @@
         ],
         "ir": {
           "path": "s1ap/resolved-schema.json",
-          "sha256": "f1c41667abd9807de213dffec1e7c1d13a17587709772ec069ec89f66a478de6",
+          "sha256": "a1f9d53f978932cdf57495c95affb9d240d9c38dd396cfa60fb1e9d708b5aa7e",
           "size_bytes": 2208837
         },
         "outputs": [
@@ -3463,7 +3463,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -3472,8 +3472,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -3482,7 +3482,7 @@
         },
         "source_plan": {
           "path": "sgp22/source-plan.json",
-          "sha256": "04eb035e105e1cc25a5799d00bccbf253a6e496f84191d05318abccbfe8746ec",
+          "sha256": "41623c13c15d43a7ddc37e00b8477c5cfb3d700860afec771f2e1784bc945641",
           "size_bytes": 68687
         },
         "sources": [
@@ -3565,7 +3565,7 @@
         ],
         "ir": {
           "path": "sgp22/resolved-schema.json",
-          "sha256": "7931d135641dbbdc2b5be5ed66219dda160969a6c6d49005500c9ca7691d02ce",
+          "sha256": "580d5038dd79405539ed7e7f3b1d1100a9fe84f69200845954353c20e7e9e01b",
           "size_bytes": 403623
         },
         "outputs": [
@@ -3824,7 +3824,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -3833,8 +3833,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -3843,7 +3843,7 @@
         },
         "source_plan": {
           "path": "sgp32/source-plan.json",
-          "sha256": "105dad776a8a8564312b37cb62594085d1f89770ffb7af122031b09fb72f7971",
+          "sha256": "e64ec57c1c83b3494aecc6f7c72a50f51f2bd5d75b5d9d0822ae2d6116652aea",
           "size_bytes": 97863
         },
         "sources": [
@@ -3944,7 +3944,7 @@
         ],
         "ir": {
           "path": "sgp32/resolved-schema.json",
-          "sha256": "4b023c3f2f7becaa0c0a5b074d3a4d1df6126d9541b855cfd3a5e24bc617d98a",
+          "sha256": "8156ef6dbacb152c6b38416119b9e100b92f067e6a4b9ead3e95ccbc216431bb",
           "size_bytes": 639153
         },
         "outputs": [
@@ -4209,7 +4209,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -4218,8 +4218,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -4228,7 +4228,7 @@
         },
         "source_plan": {
           "path": "tcap/source-plan.json",
-          "sha256": "0999280bde5f6ca22af189db431a049d06dccd8ecd8af500d93c616c6b3d9732",
+          "sha256": "7e3e792bc9dfe0a4d550f3148798591a2d5e3181ea6bd653ce9db073e5375144",
           "size_bytes": 25040
         },
         "sources": [
@@ -4307,7 +4307,7 @@
         ],
         "ir": {
           "path": "tcap/resolved-schema.json",
-          "sha256": "71ef8a4c90b02287089ae97fc798b5f93e34ac1acc5ec4c305aa97f59ed0642c",
+          "sha256": "f853fc55abe45d805f0468dcca4973321912aa5eb02a3611370bdce84b934896",
           "size_bytes": 249883
         },
         "outputs": [
@@ -4570,7 +4570,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "ddfdfb24fc14bbc6688b3f5783423eb81261ec8f",
+          "commit": "6a13aee0d35ddae617819221e92cbe114a869e9a",
           "dirty": false
         },
         "frontend": {
@@ -4579,8 +4579,8 @@
         },
         "manifest": {
           "path": "conformance/corpus.yaml",
-          "sha256": "e420372fbfffa58b86960d7c7f579c07b6da17553db39534301b1d79722ccf05",
-          "size_bytes": 131014
+          "sha256": "57b80a489d8c668ef8574038367a8496bab767df8688e44cc83f0d3c2a330e45",
+          "size_bytes": 131119
         },
         "source_lock": {
           "path": "conformance/source.lock.json",
@@ -4589,7 +4589,7 @@
         },
         "source_plan": {
           "path": "x2ap/source-plan.json",
-          "sha256": "a3051317387314f12f6a6ec1d7f0f35e45ae500a3412cdb0b323ab69a4a7e913",
+          "sha256": "cde0e90bc2d82135f53456386401bb18369738fd282cceb0c77d1c6be9925247",
           "size_bytes": 476621
         },
         "sources": [
@@ -4658,7 +4658,7 @@
         ],
         "ir": {
           "path": "x2ap/resolved-schema.json",
-          "sha256": "8801cd9414cc9cf1d430646a21085fbe0051903a04c25b250bd07466b59471be",
+          "sha256": "a4739f15745c2d424fdfb5a5f282c8abb12627d60cfc1bf1783fd55ecb263174",
           "size_bytes": 2925245
         },
         "outputs": [
@@ -4938,7 +4938,7 @@
     }
   ],
   "outputs": {
-    "sha256": "35d1d0dd6c673ce73531ab381d46ea9c8722a1e59875c4cd43592cec2d9c7a6e",
+    "sha256": "89ea15d5083a598ade98916cf86cb984b20a04c53b176e0d203b490fe510ff0a",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5111,8 +5111,8 @@
       {
         "path": "runtime/per/aper.go",
         "mode": "0644",
-        "sha256": "a5c0f6d3120972064b40af6dbc2255f65cb42a5ed66d6e4171c2009c23bd668c",
-        "size_bytes": 22107
+        "sha256": "e87c2bcb58ca89138b4df758a510a2a49ceeb7f258d0c1cb5ff030ae56591bab",
+        "size_bytes": 22584
       },
       {
         "path": "runtime/per/big_width_test.go",
@@ -5165,8 +5165,8 @@
       {
         "path": "runtime/per/hardening_test.go",
         "mode": "0644",
-        "sha256": "74b01736ee034eca1e2762a31c4a7f6cf4eabf41fedbd978b50e9de9ae08d20c",
-        "size_bytes": 21046
+        "sha256": "d75a264d477213d192ac5ceaeb2b15bb85e49b6961a244ed3a8d966ac8417ede",
+        "size_bytes": 22694
       },
       {
         "path": "runtime/per/integer_big.go",
@@ -5237,8 +5237,8 @@
       {
         "path": "runtime/per/uper.go",
         "mode": "0644",
-        "sha256": "274fc341d1bf8489f6140095bf406d013c3c8de2576e0e80722c991a09b7c1b6",
-        "size_bytes": 29677
+        "sha256": "c1e036ebd3353a2dfc58aea3a4cb4664cabfcf84106b2fe3e17190a14cd48046",
+        "size_bytes": 30154
       },
       {
         "path": "runtime/per/uper_test.go",
@@ -5415,6 +5415,12 @@
         "size_bytes": 8922
       },
       {
+        "path": "telecom/lte/rrc/choice_overflow_test.go",
+        "mode": "0644",
+        "sha256": "2cf0cad097a352823d49d232f7e0fdc8d2dee85da35928e725286587bd583cad",
+        "size_bytes": 477
+      },
+      {
         "path": "telecom/lte/rrc/doc.go",
         "mode": "0644",
         "sha256": "6e3a8a97e7572bbd0f4551b80e7203d358154a3adff2db74e53d6a86380e33f6",
@@ -5485,6 +5491,12 @@
         "mode": "0644",
         "sha256": "94309176029b8fe248cd8e250a1511caa0df7d0460f4b71f1dfd209cef978368",
         "size_bytes": 25242
+      },
+      {
+        "path": "telecom/lte/s1ap/choice_overflow_test.go",
+        "mode": "0644",
+        "sha256": "42a4ec593922791a6de7a3955770e21bda6ea0c16f84a1a98b146344c2f2152f",
+        "size_bytes": 471
       },
       {
         "path": "telecom/lte/s1ap/dispatch.go",
@@ -6286,6 +6298,7 @@
         "$STAGE/telecom/lte/lppa/lppapdudescriptions.go",
         "$STAGE/telecom/lte/lppa/per_helpers.go",
         "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/rrc/choice_overflow_test.go",
         "$STAGE/telecom/lte/rrc/doc.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrarrcdefinitions.go",
@@ -6298,6 +6311,7 @@
         "$STAGE/telecom/lte/rrc/pc5rrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/s1ap/choice_overflow_test.go",
         "$STAGE/telecom/lte/s1ap/dispatch.go",
         "$STAGE/telecom/lte/s1ap/doc.go",
         "$STAGE/telecom/lte/s1ap/per_helpers.go",
@@ -6515,6 +6529,7 @@
         "$STAGE/telecom/lte/lppa/lppapdudescriptions.go",
         "$STAGE/telecom/lte/lppa/per_helpers.go",
         "$STAGE/telecom/lte/rrc/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/rrc/choice_overflow_test.go",
         "$STAGE/telecom/lte/rrc/doc.go",
         "$STAGE/telecom/lte/rrc/eutrainternodedefinitions.go",
         "$STAGE/telecom/lte/rrc/eutrarrcdefinitions.go",
@@ -6527,6 +6542,7 @@
         "$STAGE/telecom/lte/rrc/pc5rrcdefinitions.go",
         "$STAGE/telecom/lte/rrc/per_helpers.go",
         "$STAGE/telecom/lte/s1ap/asn1_wire_vectors_test.go",
+        "$STAGE/telecom/lte/s1ap/choice_overflow_test.go",
         "$STAGE/telecom/lte/s1ap/dispatch.go",
         "$STAGE/telecom/lte/s1ap/doc.go",
         "$STAGE/telecom/lte/s1ap/per_helpers.go",
