@@ -18,7 +18,10 @@ func TestEsipaMessageFromIpaToEimPreservesTransferResponseChoiceTLV(t *testing.T
 	if err != nil {
 		t.Fatalf("MarshalBER() error = %v", err)
 	}
-	want := ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 78, ber.EncodeNull())
+	want, err := ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 78, ber.EncodeNull())
+	if err != nil {
+		t.Fatal(err)
+	}
 	if !bytes.Equal(got, want) {
 		t.Errorf("MarshalBER() = %x, want %x", got, want)
 	}
@@ -46,12 +49,22 @@ func TestEsipaMessageFromEimToIpaPreservesTransferRequestChoiceTLV(t *testing.T)
 	if err != nil {
 		t.Fatalf("MarshalBER() error = %v", err)
 	}
-	inner := ber.EncodeConstructed(tag.Tag{
+	innerValue, err := ber.EncodeTLV(tag.Tag{Class: tag.ClassApplication, Number: 28}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	inner, err := ber.EncodeConstructed(tag.Tag{
 		Class:       tag.ClassContextSpecific,
 		Number:      82,
 		Constructed: true,
-	}, ber.EncodeTLV(tag.Tag{Class: tag.ClassApplication, Number: 28}, nil))
-	want := ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 78, inner)
+	}, innerValue)
+	if err != nil {
+		t.Fatal(err)
+	}
+	want, err := ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 78, inner)
+	if err != nil {
+		t.Fatal(err)
+	}
 	if !bytes.Equal(got, want) {
 		t.Errorf("MarshalBER() = %x, want %x", got, want)
 	}
