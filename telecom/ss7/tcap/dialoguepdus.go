@@ -1093,7 +1093,11 @@ func (v *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding protocol-version: %w", bsErr)
 				}
-				tmp_protocolversion := runtime.BitString{Bytes: bsBytes_protocolversion, BitLength: len(bsBytes_protocolversion)*8 - bsUnused_protocolversion}
+				bsBitLength_protocolversion, bsLenErr_protocolversion := ber.BitStringBitLength(len(bsBytes_protocolversion), bsUnused_protocolversion)
+				if bsLenErr_protocolversion != nil {
+					return fmt.Errorf("decoding protocol-version: %w", bsLenErr_protocolversion)
+				}
+				tmp_protocolversion := runtime.BitString{Bytes: bsBytes_protocolversion, BitLength: bsBitLength_protocolversion}
 				v.ProtocolVersion = &tmp_protocolversion
 				offset += n_protocolversion
 			}
@@ -1292,7 +1296,11 @@ func (v *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding protocol-version: %w", bsErr)
 				}
-				tmp_protocolversion := runtime.BitString{Bytes: bsBytes_protocolversion, BitLength: len(bsBytes_protocolversion)*8 - bsUnused_protocolversion}
+				bsBitLength_protocolversion, bsLenErr_protocolversion := ber.BitStringBitLength(len(bsBytes_protocolversion), bsUnused_protocolversion)
+				if bsLenErr_protocolversion != nil {
+					return fmt.Errorf("decoding protocol-version: %w", bsLenErr_protocolversion)
+				}
+				tmp_protocolversion := runtime.BitString{Bytes: bsBytes_protocolversion, BitLength: bsBitLength_protocolversion}
 				v.ProtocolVersion = &tmp_protocolversion
 				offset += n_protocolversion
 			}

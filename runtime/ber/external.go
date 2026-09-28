@@ -2,7 +2,6 @@ package ber
 
 import (
 	"fmt"
-	"math"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/tag"
@@ -211,15 +210,5 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 // X.690 (02/2021) §8.6 represents a BIT STRING with an unused-bit count.
 // The public BitString length uses int, so reject wire lengths beyond it.
 func externalBitLength(octets, unused int) (int, error) {
-	if octets < 0 || unused < 0 || unused > 7 || octets == 0 && unused != 0 {
-		return 0, fmt.Errorf("%w: EXTERNAL arbitrary bit length exceeds host int", ErrInvalidValue)
-	}
-	if octets == 0 {
-		return 0, nil
-	}
-	lastOctetBits := 8 - unused
-	if octets-1 > (math.MaxInt-lastOctetBits)/8 {
-		return 0, fmt.Errorf("%w: EXTERNAL arbitrary bit length exceeds host int", ErrInvalidValue)
-	}
-	return (octets-1)*8 + lastOctetBits, nil
+	return BitStringBitLength(octets, unused)
 }

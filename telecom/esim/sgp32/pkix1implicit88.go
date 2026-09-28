@@ -2924,7 +2924,11 @@ func (v *DistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 				if bsErr != nil {
 					return fmt.Errorf("decoding reasons: %w", bsErr)
 				}
-				tmp_reasons := runtime.BitString{Bytes: bsBytes_reasons, BitLength: len(bsBytes_reasons)*8 - bsUnused_reasons}
+				bsBitLength_reasons, bsLenErr_reasons := ber.BitStringBitLength(len(bsBytes_reasons), bsUnused_reasons)
+				if bsLenErr_reasons != nil {
+					return fmt.Errorf("decoding reasons: %w", bsLenErr_reasons)
+				}
+				tmp_reasons := runtime.BitString{Bytes: bsBytes_reasons, BitLength: bsBitLength_reasons}
 				v.Reasons = &tmp_reasons
 				offset += n_reasons
 			}
@@ -3611,7 +3615,11 @@ func (v *IssuingDistributionPoint) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if bsErr != nil {
 					return fmt.Errorf("decoding onlySomeReasons: %w", bsErr)
 				}
-				tmp_onlysomereasons := runtime.BitString{Bytes: bsBytes_onlysomereasons, BitLength: len(bsBytes_onlysomereasons)*8 - bsUnused_onlysomereasons}
+				bsBitLength_onlysomereasons, bsLenErr_onlysomereasons := ber.BitStringBitLength(len(bsBytes_onlysomereasons), bsUnused_onlysomereasons)
+				if bsLenErr_onlysomereasons != nil {
+					return fmt.Errorf("decoding onlySomeReasons: %w", bsLenErr_onlysomereasons)
+				}
+				tmp_onlysomereasons := runtime.BitString{Bytes: bsBytes_onlysomereasons, BitLength: bsBitLength_onlysomereasons}
 				v.OnlySomeReasons = &tmp_onlysomereasons
 				offset += n_onlysomereasons
 			}

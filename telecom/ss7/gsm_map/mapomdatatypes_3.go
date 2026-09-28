@@ -1098,7 +1098,11 @@ func (v *ActivateTraceModeArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if bsErr != nil {
 					return fmt.Errorf("decoding traceNE-TypeList: %w", bsErr)
 				}
-				tmp_tracenetypelist := runtime.BitString{Bytes: bsBytes_tracenetypelist, BitLength: len(bsBytes_tracenetypelist)*8 - bsUnused_tracenetypelist}
+				bsBitLength_tracenetypelist, bsLenErr_tracenetypelist := ber.BitStringBitLength(len(bsBytes_tracenetypelist), bsUnused_tracenetypelist)
+				if bsLenErr_tracenetypelist != nil {
+					return fmt.Errorf("decoding traceNE-TypeList: %w", bsLenErr_tracenetypelist)
+				}
+				tmp_tracenetypelist := runtime.BitString{Bytes: bsBytes_tracenetypelist, BitLength: bsBitLength_tracenetypelist}
 				v.TraceNETypeList = &tmp_tracenetypelist
 				offset += n_tracenetypelist
 			}
@@ -3753,7 +3757,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding msc-s-List: %w", bsErr)
 				}
-				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: len(bsBytes_mscslist)*8 - bsUnused_mscslist}
+				bsBitLength_mscslist, bsLenErr_mscslist := ber.BitStringBitLength(len(bsBytes_mscslist), bsUnused_mscslist)
+				if bsLenErr_mscslist != nil {
+					return fmt.Errorf("decoding msc-s-List: %w", bsLenErr_mscslist)
+				}
+				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
 				offset += n_mscslist
 			}
@@ -3775,7 +3783,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding mgw-List: %w", bsErr)
 				}
-				tmp_mgwlist := runtime.BitString{Bytes: bsBytes_mgwlist, BitLength: len(bsBytes_mgwlist)*8 - bsUnused_mgwlist}
+				bsBitLength_mgwlist, bsLenErr_mgwlist := ber.BitStringBitLength(len(bsBytes_mgwlist), bsUnused_mgwlist)
+				if bsLenErr_mgwlist != nil {
+					return fmt.Errorf("decoding mgw-List: %w", bsLenErr_mgwlist)
+				}
+				tmp_mgwlist := runtime.BitString{Bytes: bsBytes_mgwlist, BitLength: bsBitLength_mgwlist}
 				v.MgwList = &tmp_mgwlist
 				offset += n_mgwlist
 			}
@@ -3797,7 +3809,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding sgsn-List: %w", bsErr)
 				}
-				tmp_sgsnlist := runtime.BitString{Bytes: bsBytes_sgsnlist, BitLength: len(bsBytes_sgsnlist)*8 - bsUnused_sgsnlist}
+				bsBitLength_sgsnlist, bsLenErr_sgsnlist := ber.BitStringBitLength(len(bsBytes_sgsnlist), bsUnused_sgsnlist)
+				if bsLenErr_sgsnlist != nil {
+					return fmt.Errorf("decoding sgsn-List: %w", bsLenErr_sgsnlist)
+				}
+				tmp_sgsnlist := runtime.BitString{Bytes: bsBytes_sgsnlist, BitLength: bsBitLength_sgsnlist}
 				v.SgsnList = &tmp_sgsnlist
 				offset += n_sgsnlist
 			}
@@ -3819,7 +3835,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding ggsn-List: %w", bsErr)
 				}
-				tmp_ggsnlist := runtime.BitString{Bytes: bsBytes_ggsnlist, BitLength: len(bsBytes_ggsnlist)*8 - bsUnused_ggsnlist}
+				bsBitLength_ggsnlist, bsLenErr_ggsnlist := ber.BitStringBitLength(len(bsBytes_ggsnlist), bsUnused_ggsnlist)
+				if bsLenErr_ggsnlist != nil {
+					return fmt.Errorf("decoding ggsn-List: %w", bsLenErr_ggsnlist)
+				}
+				tmp_ggsnlist := runtime.BitString{Bytes: bsBytes_ggsnlist, BitLength: bsBitLength_ggsnlist}
 				v.GgsnList = &tmp_ggsnlist
 				offset += n_ggsnlist
 			}
@@ -3841,7 +3861,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding rnc-List: %w", bsErr)
 				}
-				tmp_rnclist := runtime.BitString{Bytes: bsBytes_rnclist, BitLength: len(bsBytes_rnclist)*8 - bsUnused_rnclist}
+				bsBitLength_rnclist, bsLenErr_rnclist := ber.BitStringBitLength(len(bsBytes_rnclist), bsUnused_rnclist)
+				if bsLenErr_rnclist != nil {
+					return fmt.Errorf("decoding rnc-List: %w", bsLenErr_rnclist)
+				}
+				tmp_rnclist := runtime.BitString{Bytes: bsBytes_rnclist, BitLength: bsBitLength_rnclist}
 				v.RncList = &tmp_rnclist
 				offset += n_rnclist
 			}
@@ -3863,7 +3887,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding bmsc-List: %w", bsErr)
 				}
-				tmp_bmsclist := runtime.BitString{Bytes: bsBytes_bmsclist, BitLength: len(bsBytes_bmsclist)*8 - bsUnused_bmsclist}
+				bsBitLength_bmsclist, bsLenErr_bmsclist := ber.BitStringBitLength(len(bsBytes_bmsclist), bsUnused_bmsclist)
+				if bsLenErr_bmsclist != nil {
+					return fmt.Errorf("decoding bmsc-List: %w", bsLenErr_bmsclist)
+				}
+				tmp_bmsclist := runtime.BitString{Bytes: bsBytes_bmsclist, BitLength: bsBitLength_bmsclist}
 				v.BmscList = &tmp_bmsclist
 				offset += n_bmsclist
 			}
@@ -3885,7 +3913,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding mme-List: %w", bsErr)
 				}
-				tmp_mmelist := runtime.BitString{Bytes: bsBytes_mmelist, BitLength: len(bsBytes_mmelist)*8 - bsUnused_mmelist}
+				bsBitLength_mmelist, bsLenErr_mmelist := ber.BitStringBitLength(len(bsBytes_mmelist), bsUnused_mmelist)
+				if bsLenErr_mmelist != nil {
+					return fmt.Errorf("decoding mme-List: %w", bsLenErr_mmelist)
+				}
+				tmp_mmelist := runtime.BitString{Bytes: bsBytes_mmelist, BitLength: bsBitLength_mmelist}
 				v.MmeList = &tmp_mmelist
 				offset += n_mmelist
 			}
@@ -3907,7 +3939,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding sgw-List: %w", bsErr)
 				}
-				tmp_sgwlist := runtime.BitString{Bytes: bsBytes_sgwlist, BitLength: len(bsBytes_sgwlist)*8 - bsUnused_sgwlist}
+				bsBitLength_sgwlist, bsLenErr_sgwlist := ber.BitStringBitLength(len(bsBytes_sgwlist), bsUnused_sgwlist)
+				if bsLenErr_sgwlist != nil {
+					return fmt.Errorf("decoding sgw-List: %w", bsLenErr_sgwlist)
+				}
+				tmp_sgwlist := runtime.BitString{Bytes: bsBytes_sgwlist, BitLength: bsBitLength_sgwlist}
 				v.SgwList = &tmp_sgwlist
 				offset += n_sgwlist
 			}
@@ -3929,7 +3965,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding pgw-List: %w", bsErr)
 				}
-				tmp_pgwlist := runtime.BitString{Bytes: bsBytes_pgwlist, BitLength: len(bsBytes_pgwlist)*8 - bsUnused_pgwlist}
+				bsBitLength_pgwlist, bsLenErr_pgwlist := ber.BitStringBitLength(len(bsBytes_pgwlist), bsUnused_pgwlist)
+				if bsLenErr_pgwlist != nil {
+					return fmt.Errorf("decoding pgw-List: %w", bsLenErr_pgwlist)
+				}
+				tmp_pgwlist := runtime.BitString{Bytes: bsBytes_pgwlist, BitLength: bsBitLength_pgwlist}
 				v.PgwList = &tmp_pgwlist
 				offset += n_pgwlist
 			}
@@ -3951,7 +3991,11 @@ func (v *TraceInterfaceList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if bsErr != nil {
 					return fmt.Errorf("decoding eNB-List: %w", bsErr)
 				}
-				tmp_enblist := runtime.BitString{Bytes: bsBytes_enblist, BitLength: len(bsBytes_enblist)*8 - bsUnused_enblist}
+				bsBitLength_enblist, bsLenErr_enblist := ber.BitStringBitLength(len(bsBytes_enblist), bsUnused_enblist)
+				if bsLenErr_enblist != nil {
+					return fmt.Errorf("decoding eNB-List: %w", bsLenErr_enblist)
+				}
+				tmp_enblist := runtime.BitString{Bytes: bsBytes_enblist, BitLength: bsBitLength_enblist}
 				v.ENBList = &tmp_enblist
 				offset += n_enblist
 			}
@@ -4179,7 +4223,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding msc-s-List: %w", bsErr)
 				}
-				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: len(bsBytes_mscslist)*8 - bsUnused_mscslist}
+				bsBitLength_mscslist, bsLenErr_mscslist := ber.BitStringBitLength(len(bsBytes_mscslist), bsUnused_mscslist)
+				if bsLenErr_mscslist != nil {
+					return fmt.Errorf("decoding msc-s-List: %w", bsLenErr_mscslist)
+				}
+				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
 				offset += n_mscslist
 			}
@@ -4201,7 +4249,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding mgw-List: %w", bsErr)
 				}
-				tmp_mgwlist := runtime.BitString{Bytes: bsBytes_mgwlist, BitLength: len(bsBytes_mgwlist)*8 - bsUnused_mgwlist}
+				bsBitLength_mgwlist, bsLenErr_mgwlist := ber.BitStringBitLength(len(bsBytes_mgwlist), bsUnused_mgwlist)
+				if bsLenErr_mgwlist != nil {
+					return fmt.Errorf("decoding mgw-List: %w", bsLenErr_mgwlist)
+				}
+				tmp_mgwlist := runtime.BitString{Bytes: bsBytes_mgwlist, BitLength: bsBitLength_mgwlist}
 				v.MgwList = &tmp_mgwlist
 				offset += n_mgwlist
 			}
@@ -4223,7 +4275,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding sgsn-List: %w", bsErr)
 				}
-				tmp_sgsnlist := runtime.BitString{Bytes: bsBytes_sgsnlist, BitLength: len(bsBytes_sgsnlist)*8 - bsUnused_sgsnlist}
+				bsBitLength_sgsnlist, bsLenErr_sgsnlist := ber.BitStringBitLength(len(bsBytes_sgsnlist), bsUnused_sgsnlist)
+				if bsLenErr_sgsnlist != nil {
+					return fmt.Errorf("decoding sgsn-List: %w", bsLenErr_sgsnlist)
+				}
+				tmp_sgsnlist := runtime.BitString{Bytes: bsBytes_sgsnlist, BitLength: bsBitLength_sgsnlist}
 				v.SgsnList = &tmp_sgsnlist
 				offset += n_sgsnlist
 			}
@@ -4245,7 +4301,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding ggsn-List: %w", bsErr)
 				}
-				tmp_ggsnlist := runtime.BitString{Bytes: bsBytes_ggsnlist, BitLength: len(bsBytes_ggsnlist)*8 - bsUnused_ggsnlist}
+				bsBitLength_ggsnlist, bsLenErr_ggsnlist := ber.BitStringBitLength(len(bsBytes_ggsnlist), bsUnused_ggsnlist)
+				if bsLenErr_ggsnlist != nil {
+					return fmt.Errorf("decoding ggsn-List: %w", bsLenErr_ggsnlist)
+				}
+				tmp_ggsnlist := runtime.BitString{Bytes: bsBytes_ggsnlist, BitLength: bsBitLength_ggsnlist}
 				v.GgsnList = &tmp_ggsnlist
 				offset += n_ggsnlist
 			}
@@ -4267,7 +4327,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding bmsc-List: %w", bsErr)
 				}
-				tmp_bmsclist := runtime.BitString{Bytes: bsBytes_bmsclist, BitLength: len(bsBytes_bmsclist)*8 - bsUnused_bmsclist}
+				bsBitLength_bmsclist, bsLenErr_bmsclist := ber.BitStringBitLength(len(bsBytes_bmsclist), bsUnused_bmsclist)
+				if bsLenErr_bmsclist != nil {
+					return fmt.Errorf("decoding bmsc-List: %w", bsLenErr_bmsclist)
+				}
+				tmp_bmsclist := runtime.BitString{Bytes: bsBytes_bmsclist, BitLength: bsBitLength_bmsclist}
 				v.BmscList = &tmp_bmsclist
 				offset += n_bmsclist
 			}
@@ -4289,7 +4353,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding mme-List: %w", bsErr)
 				}
-				tmp_mmelist := runtime.BitString{Bytes: bsBytes_mmelist, BitLength: len(bsBytes_mmelist)*8 - bsUnused_mmelist}
+				bsBitLength_mmelist, bsLenErr_mmelist := ber.BitStringBitLength(len(bsBytes_mmelist), bsUnused_mmelist)
+				if bsLenErr_mmelist != nil {
+					return fmt.Errorf("decoding mme-List: %w", bsLenErr_mmelist)
+				}
+				tmp_mmelist := runtime.BitString{Bytes: bsBytes_mmelist, BitLength: bsBitLength_mmelist}
 				v.MmeList = &tmp_mmelist
 				offset += n_mmelist
 			}
@@ -4311,7 +4379,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding sgw-List: %w", bsErr)
 				}
-				tmp_sgwlist := runtime.BitString{Bytes: bsBytes_sgwlist, BitLength: len(bsBytes_sgwlist)*8 - bsUnused_sgwlist}
+				bsBitLength_sgwlist, bsLenErr_sgwlist := ber.BitStringBitLength(len(bsBytes_sgwlist), bsUnused_sgwlist)
+				if bsLenErr_sgwlist != nil {
+					return fmt.Errorf("decoding sgw-List: %w", bsLenErr_sgwlist)
+				}
+				tmp_sgwlist := runtime.BitString{Bytes: bsBytes_sgwlist, BitLength: bsBitLength_sgwlist}
 				v.SgwList = &tmp_sgwlist
 				offset += n_sgwlist
 			}
@@ -4333,7 +4405,11 @@ func (v *TraceEventList3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding pgw-List: %w", bsErr)
 				}
-				tmp_pgwlist := runtime.BitString{Bytes: bsBytes_pgwlist, BitLength: len(bsBytes_pgwlist)*8 - bsUnused_pgwlist}
+				bsBitLength_pgwlist, bsLenErr_pgwlist := ber.BitStringBitLength(len(bsBytes_pgwlist), bsUnused_pgwlist)
+				if bsLenErr_pgwlist != nil {
+					return fmt.Errorf("decoding pgw-List: %w", bsLenErr_pgwlist)
+				}
+				tmp_pgwlist := runtime.BitString{Bytes: bsBytes_pgwlist, BitLength: bsBitLength_pgwlist}
 				v.PgwList = &tmp_pgwlist
 				offset += n_pgwlist
 			}
@@ -4785,7 +4861,11 @@ func (v *TracePropagationList3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if bsErr != nil {
 					return fmt.Errorf("decoding rnc-InterfaceList: %w", bsErr)
 				}
-				tmp_rncinterfacelist := runtime.BitString{Bytes: bsBytes_rncinterfacelist, BitLength: len(bsBytes_rncinterfacelist)*8 - bsUnused_rncinterfacelist}
+				bsBitLength_rncinterfacelist, bsLenErr_rncinterfacelist := ber.BitStringBitLength(len(bsBytes_rncinterfacelist), bsUnused_rncinterfacelist)
+				if bsLenErr_rncinterfacelist != nil {
+					return fmt.Errorf("decoding rnc-InterfaceList: %w", bsLenErr_rncinterfacelist)
+				}
+				tmp_rncinterfacelist := runtime.BitString{Bytes: bsBytes_rncinterfacelist, BitLength: bsBitLength_rncinterfacelist}
 				v.RncInterfaceList = &tmp_rncinterfacelist
 				offset += n_rncinterfacelist
 			}
@@ -4829,7 +4909,11 @@ func (v *TracePropagationList3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if bsErr != nil {
 					return fmt.Errorf("decoding msc-s-InterfaceList: %w", bsErr)
 				}
-				tmp_mscsinterfacelist := runtime.BitString{Bytes: bsBytes_mscsinterfacelist, BitLength: len(bsBytes_mscsinterfacelist)*8 - bsUnused_mscsinterfacelist}
+				bsBitLength_mscsinterfacelist, bsLenErr_mscsinterfacelist := ber.BitStringBitLength(len(bsBytes_mscsinterfacelist), bsUnused_mscsinterfacelist)
+				if bsLenErr_mscsinterfacelist != nil {
+					return fmt.Errorf("decoding msc-s-InterfaceList: %w", bsLenErr_mscsinterfacelist)
+				}
+				tmp_mscsinterfacelist := runtime.BitString{Bytes: bsBytes_mscsinterfacelist, BitLength: bsBitLength_mscsinterfacelist}
 				v.MscSInterfaceList = &tmp_mscsinterfacelist
 				offset += n_mscsinterfacelist
 			}
@@ -4851,7 +4935,11 @@ func (v *TracePropagationList3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if bsErr != nil {
 					return fmt.Errorf("decoding msc-s-EventList: %w", bsErr)
 				}
-				tmp_mscseventlist := runtime.BitString{Bytes: bsBytes_mscseventlist, BitLength: len(bsBytes_mscseventlist)*8 - bsUnused_mscseventlist}
+				bsBitLength_mscseventlist, bsLenErr_mscseventlist := ber.BitStringBitLength(len(bsBytes_mscseventlist), bsUnused_mscseventlist)
+				if bsLenErr_mscseventlist != nil {
+					return fmt.Errorf("decoding msc-s-EventList: %w", bsLenErr_mscseventlist)
+				}
+				tmp_mscseventlist := runtime.BitString{Bytes: bsBytes_mscseventlist, BitLength: bsBitLength_mscseventlist}
 				v.MscSEventList = &tmp_mscseventlist
 				offset += n_mscseventlist
 			}
@@ -4895,7 +4983,11 @@ func (v *TracePropagationList3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if bsErr != nil {
 					return fmt.Errorf("decoding mgw-InterfaceList: %w", bsErr)
 				}
-				tmp_mgwinterfacelist := runtime.BitString{Bytes: bsBytes_mgwinterfacelist, BitLength: len(bsBytes_mgwinterfacelist)*8 - bsUnused_mgwinterfacelist}
+				bsBitLength_mgwinterfacelist, bsLenErr_mgwinterfacelist := ber.BitStringBitLength(len(bsBytes_mgwinterfacelist), bsUnused_mgwinterfacelist)
+				if bsLenErr_mgwinterfacelist != nil {
+					return fmt.Errorf("decoding mgw-InterfaceList: %w", bsLenErr_mgwinterfacelist)
+				}
+				tmp_mgwinterfacelist := runtime.BitString{Bytes: bsBytes_mgwinterfacelist, BitLength: bsBitLength_mgwinterfacelist}
 				v.MgwInterfaceList = &tmp_mgwinterfacelist
 				offset += n_mgwinterfacelist
 			}
@@ -4917,7 +5009,11 @@ func (v *TracePropagationList3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if bsErr != nil {
 					return fmt.Errorf("decoding mgw-EventList: %w", bsErr)
 				}
-				tmp_mgweventlist := runtime.BitString{Bytes: bsBytes_mgweventlist, BitLength: len(bsBytes_mgweventlist)*8 - bsUnused_mgweventlist}
+				bsBitLength_mgweventlist, bsLenErr_mgweventlist := ber.BitStringBitLength(len(bsBytes_mgweventlist), bsUnused_mgweventlist)
+				if bsLenErr_mgweventlist != nil {
+					return fmt.Errorf("decoding mgw-EventList: %w", bsLenErr_mgweventlist)
+				}
+				tmp_mgweventlist := runtime.BitString{Bytes: bsBytes_mgweventlist, BitLength: bsBitLength_mgweventlist}
 				v.MgwEventList = &tmp_mgweventlist
 				offset += n_mgweventlist
 			}

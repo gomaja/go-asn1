@@ -507,7 +507,11 @@ func (v *EnhancedCheckIMEIArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if err != nil {
 					return fmt.Errorf("decoding requestedEquipmentInfo: %w", err)
 				}
-				tmp_requestedequipmentinfo := runtime.BitString{Bytes: bsBytes_requestedequipmentinfo, BitLength: len(bsBytes_requestedequipmentinfo)*8 - bsUnused_requestedequipmentinfo}
+				bsBitLength_requestedequipmentinfo, bsLenErr_requestedequipmentinfo := ber.BitStringBitLength(len(bsBytes_requestedequipmentinfo), bsUnused_requestedequipmentinfo)
+				if bsLenErr_requestedequipmentinfo != nil {
+					return fmt.Errorf("decoding requestedEquipmentInfo: %w", bsLenErr_requestedequipmentinfo)
+				}
+				tmp_requestedequipmentinfo := runtime.BitString{Bytes: bsBytes_requestedequipmentinfo, BitLength: bsBitLength_requestedequipmentinfo}
 				v.RequestedEquipmentInfo = &tmp_requestedequipmentinfo
 				offset += n
 			}

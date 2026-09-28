@@ -8715,7 +8715,11 @@ func (v *COSFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding customerGroupID: %w", bsErr)
 				}
-				tmp_customergroupid := runtime.BitString{Bytes: bsBytes_customergroupid, BitLength: len(bsBytes_customergroupid)*8 - bsUnused_customergroupid}
+				bsBitLength_customergroupid, bsLenErr_customergroupid := ber.BitStringBitLength(len(bsBytes_customergroupid), bsUnused_customergroupid)
+				if bsLenErr_customergroupid != nil {
+					return fmt.Errorf("decoding customerGroupID: %w", bsLenErr_customergroupid)
+				}
+				tmp_customergroupid := runtime.BitString{Bytes: bsBytes_customergroupid, BitLength: bsBitLength_customergroupid}
 				v.CustomerGroupID = &tmp_customergroupid
 				offset += n_customergroupid
 			}
@@ -8737,7 +8741,11 @@ func (v *COSFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding subGroupID: %w", bsErr)
 				}
-				tmp_subgroupid := runtime.BitString{Bytes: bsBytes_subgroupid, BitLength: len(bsBytes_subgroupid)*8 - bsUnused_subgroupid}
+				bsBitLength_subgroupid, bsLenErr_subgroupid := ber.BitStringBitLength(len(bsBytes_subgroupid), bsUnused_subgroupid)
+				if bsLenErr_subgroupid != nil {
+					return fmt.Errorf("decoding subGroupID: %w", bsLenErr_subgroupid)
+				}
+				tmp_subgroupid := runtime.BitString{Bytes: bsBytes_subgroupid, BitLength: bsBitLength_subgroupid}
 				v.SubGroupID = &tmp_subgroupid
 				offset += n_subgroupid
 			}
@@ -8759,7 +8767,11 @@ func (v *COSFeature) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding classOfServiceID: %w", bsErr)
 				}
-				tmp_classofserviceid := runtime.BitString{Bytes: bsBytes_classofserviceid, BitLength: len(bsBytes_classofserviceid)*8 - bsUnused_classofserviceid}
+				bsBitLength_classofserviceid, bsLenErr_classofserviceid := ber.BitStringBitLength(len(bsBytes_classofserviceid), bsUnused_classofserviceid)
+				if bsLenErr_classofserviceid != nil {
+					return fmt.Errorf("decoding classOfServiceID: %w", bsLenErr_classofserviceid)
+				}
+				tmp_classofserviceid := runtime.BitString{Bytes: bsBytes_classofserviceid, BitLength: bsBitLength_classofserviceid}
 				v.ClassOfServiceID = &tmp_classofserviceid
 				offset += n_classofserviceid
 			}

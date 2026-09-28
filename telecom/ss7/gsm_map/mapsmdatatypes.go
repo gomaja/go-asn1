@@ -5395,7 +5395,11 @@ func (v *InformServiceCentreArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if err != nil {
 					return fmt.Errorf("decoding mw-Status: %w", err)
 				}
-				tmp_mwstatus := runtime.BitString{Bytes: bsBytes_mwstatus, BitLength: len(bsBytes_mwstatus)*8 - bsUnused_mwstatus}
+				bsBitLength_mwstatus, bsLenErr_mwstatus := ber.BitStringBitLength(len(bsBytes_mwstatus), bsUnused_mwstatus)
+				if bsLenErr_mwstatus != nil {
+					return fmt.Errorf("decoding mw-Status: %w", bsLenErr_mwstatus)
+				}
+				tmp_mwstatus := runtime.BitString{Bytes: bsBytes_mwstatus, BitLength: bsBitLength_mwstatus}
 				v.MwStatus = &tmp_mwstatus
 				offset += n
 			}

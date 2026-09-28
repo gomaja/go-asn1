@@ -1652,7 +1652,11 @@ func (v *LCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsErr)
 				}
-				tmp_supportedlcscapabilitysets := runtime.BitString{Bytes: bsBytes_supportedlcscapabilitysets, BitLength: len(bsBytes_supportedlcscapabilitysets)*8 - bsUnused_supportedlcscapabilitysets}
+				bsBitLength_supportedlcscapabilitysets, bsLenErr_supportedlcscapabilitysets := ber.BitStringBitLength(len(bsBytes_supportedlcscapabilitysets), bsUnused_supportedlcscapabilitysets)
+				if bsLenErr_supportedlcscapabilitysets != nil {
+					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsLenErr_supportedlcscapabilitysets)
+				}
+				tmp_supportedlcscapabilitysets := runtime.BitString{Bytes: bsBytes_supportedlcscapabilitysets, BitLength: bsBitLength_supportedlcscapabilitysets}
 				v.SupportedLCSCapabilitySets = &tmp_supportedlcscapabilitysets
 				offset += n_supportedlcscapabilitysets
 			}
@@ -1674,7 +1678,11 @@ func (v *LCSLocationInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding additional-LCS-CapabilitySets: %w", bsErr)
 				}
-				tmp_additionallcscapabilitysets := runtime.BitString{Bytes: bsBytes_additionallcscapabilitysets, BitLength: len(bsBytes_additionallcscapabilitysets)*8 - bsUnused_additionallcscapabilitysets}
+				bsBitLength_additionallcscapabilitysets, bsLenErr_additionallcscapabilitysets := ber.BitStringBitLength(len(bsBytes_additionallcscapabilitysets), bsUnused_additionallcscapabilitysets)
+				if bsLenErr_additionallcscapabilitysets != nil {
+					return fmt.Errorf("decoding additional-LCS-CapabilitySets: %w", bsLenErr_additionallcscapabilitysets)
+				}
+				tmp_additionallcscapabilitysets := runtime.BitString{Bytes: bsBytes_additionallcscapabilitysets, BitLength: bsBitLength_additionallcscapabilitysets}
 				v.AdditionalLCSCapabilitySets = &tmp_additionallcscapabilitysets
 				offset += n_additionallcscapabilitysets
 			}
@@ -2433,7 +2441,11 @@ func (v *ProvideSubscriberLocationArg) UnmarshalBER(data []byte, opts ...ber.Dec
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedGADShapes: %w", bsErr)
 				}
-				tmp_supportedgadshapes := runtime.BitString{Bytes: bsBytes_supportedgadshapes, BitLength: len(bsBytes_supportedgadshapes)*8 - bsUnused_supportedgadshapes}
+				bsBitLength_supportedgadshapes, bsLenErr_supportedgadshapes := ber.BitStringBitLength(len(bsBytes_supportedgadshapes), bsUnused_supportedgadshapes)
+				if bsLenErr_supportedgadshapes != nil {
+					return fmt.Errorf("decoding supportedGADShapes: %w", bsLenErr_supportedgadshapes)
+				}
+				tmp_supportedgadshapes := runtime.BitString{Bytes: bsBytes_supportedgadshapes, BitLength: bsBitLength_supportedgadshapes}
 				v.SupportedGADShapes = &tmp_supportedgadshapes
 				offset += n_supportedgadshapes
 			}
@@ -2759,7 +2771,11 @@ func (v *LocationType) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error
 				if bsErr != nil {
 					return fmt.Errorf("decoding deferredLocationEventType: %w", bsErr)
 				}
-				tmp_deferredlocationeventtype := runtime.BitString{Bytes: bsBytes_deferredlocationeventtype, BitLength: len(bsBytes_deferredlocationeventtype)*8 - bsUnused_deferredlocationeventtype}
+				bsBitLength_deferredlocationeventtype, bsLenErr_deferredlocationeventtype := ber.BitStringBitLength(len(bsBytes_deferredlocationeventtype), bsUnused_deferredlocationeventtype)
+				if bsLenErr_deferredlocationeventtype != nil {
+					return fmt.Errorf("decoding deferredLocationEventType: %w", bsLenErr_deferredlocationeventtype)
+				}
+				tmp_deferredlocationeventtype := runtime.BitString{Bytes: bsBytes_deferredlocationeventtype, BitLength: bsBitLength_deferredlocationeventtype}
 				v.DeferredLocationEventType = &tmp_deferredlocationeventtype
 				offset += n_deferredlocationeventtype
 			}
@@ -7322,7 +7338,11 @@ func (v *DeferredmtLrData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 	if err != nil {
 		return fmt.Errorf("decoding deferredLocationEventType: %w", err)
 	}
-	v.DeferredLocationEventType = runtime.BitString{Bytes: bsBytes_deferredlocationeventtype, BitLength: len(bsBytes_deferredlocationeventtype)*8 - bsUnused_deferredlocationeventtype}
+	bsBitLength_deferredlocationeventtype, bsLenErr_deferredlocationeventtype := ber.BitStringBitLength(len(bsBytes_deferredlocationeventtype), bsUnused_deferredlocationeventtype)
+	if bsLenErr_deferredlocationeventtype != nil {
+		return fmt.Errorf("decoding deferredLocationEventType: %w", bsLenErr_deferredlocationeventtype)
+	}
+	v.DeferredLocationEventType = runtime.BitString{Bytes: bsBytes_deferredlocationeventtype, BitLength: bsBitLength_deferredlocationeventtype}
 	offset += n
 	// Decode terminationCause
 	if offset < len(content) {

@@ -4436,7 +4436,11 @@ func (v *CCBSData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding serviceIndicator: %w", bsErr)
 				}
-				tmp_serviceindicator := runtime.BitString{Bytes: bsBytes_serviceindicator, BitLength: len(bsBytes_serviceindicator)*8 - bsUnused_serviceindicator}
+				bsBitLength_serviceindicator, bsLenErr_serviceindicator := ber.BitStringBitLength(len(bsBytes_serviceindicator), bsUnused_serviceindicator)
+				if bsLenErr_serviceindicator != nil {
+					return fmt.Errorf("decoding serviceIndicator: %w", bsLenErr_serviceindicator)
+				}
+				tmp_serviceindicator := runtime.BitString{Bytes: bsBytes_serviceindicator, BitLength: bsBitLength_serviceindicator}
 				v.ServiceIndicator = &tmp_serviceindicator
 				offset += n_serviceindicator
 			}

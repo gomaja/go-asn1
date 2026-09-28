@@ -238,11 +238,22 @@ func EncodeRealValue(value runtime.Real) ([]byte, error) {
 	}
 
 	if canonical.Base == 10 {
+		// X.690 (02/2021) §8.5.8: decimal REAL uses an NR3 character form.
 		exponent := canonical.Exponent.String()
 		if canonical.Exponent.Sign() == 0 {
 			exponent = "+0"
 		}
-		return []byte("\x03" + canonical.Mantissa.String() + ".E" + exponent), nil
+		mantissa := canonical.Mantissa.String()
+		capacity, err := decimalRealCapacity(len(mantissa), len(exponent))
+		if err != nil {
+			return nil, err
+		}
+		contents := make([]byte, 0, capacity)
+		contents = append(contents, 0x03)
+		contents = append(contents, mantissa...)
+		contents = append(contents, '.', 'E')
+		contents = append(contents, exponent...)
+		return contents, nil
 	}
 
 	mantissa := new(big.Int).Set(canonical.Mantissa)
@@ -271,6 +282,14 @@ func EncodeRealValue(value runtime.Real) ([]byte, error) {
 	contents = append(contents, exponent...)
 	contents = append(contents, mantissa.Bytes()...)
 	return contents, nil
+}
+
+func decimalRealCapacity(mantissa, exponent int) (int, error) {
+	const overhead = 3 // NR3 identifier, decimal point, and exponent marker.
+	if mantissa < 0 || exponent < 0 || mantissa > math.MaxInt-overhead || exponent > math.MaxInt-overhead-mantissa {
+		return 0, fmt.Errorf("%w: decimal REAL exceeds host int", ErrInvalidValue)
+	}
+	return overhead + mantissa + exponent, nil
 }
 
 // EncodeUTF8String encodes a UTF8String.
@@ -321,7 +340,11 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		if !utf8.ValidString(v) {
 			return nil, fmt.Errorf("BMPString contains invalid UTF-8")
 		}
-		value := make([]byte, 0, len(v)*2)
+		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 2)
+		if err != nil {
+			return nil, err
+		}
+		value := make([]byte, 0, capacity)
 		for _, r := range v {
 			if r > 0xffff || !utf8.ValidRune(r) {
 				return nil, fmt.Errorf("BMPString character U+%04X is outside the Basic Multilingual Plane", r)
@@ -333,7 +356,11 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		if !utf8.ValidString(v) {
 			return nil, fmt.Errorf("UniversalString contains invalid UTF-8")
 		}
-		value := make([]byte, 0, len(v)*4)
+		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 4)
+		if err != nil {
+			return nil, err
+		}
+		value := make([]byte, 0, capacity)
 		for _, r := range v {
 			if !utf8.ValidRune(r) {
 				return nil, fmt.Errorf("UniversalString character U+%04X is not a Unicode scalar value", r)
@@ -344,6 +371,13 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	default:
 		return []byte(v), nil
 	}
+}
+
+func fixedWidthStringCapacity(octets, width int) (int, error) {
+	if octets < 0 || width <= 0 || octets > math.MaxInt/width {
+		return 0, fmt.Errorf("%w: fixed-width string exceeds host int", ErrInvalidValue)
+	}
+	return octets * width, nil
 }
 
 // EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
@@ -493,10 +527,21 @@ func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 		return nil, fmt.Errorf("%w: implicit value has %d trailing octets", ErrInvalidValue, len(content)-total)
 	}
 	replacement := tag.Tag{Class: tagClass, Number: tagNum, Constructed: decodedTag.Constructed}.Encode()
-	encoded := make([]byte, 0, len(replacement)+len(content)-tagLength)
+	capacity, err := retagCapacity(len(replacement), len(content), tagLength)
+	if err != nil {
+		return nil, err
+	}
+	encoded := make([]byte, 0, capacity)
 	encoded = append(encoded, replacement...)
 	encoded = append(encoded, content[tagLength:]...)
 	return encoded, nil
+}
+
+func retagCapacity(replacement, content, oldTag int) (int, error) {
+	if replacement < 0 || content < 0 || oldTag < 0 || oldTag > content || replacement > math.MaxInt-(content-oldTag) {
+		return 0, fmt.Errorf("%w: retagged TLV length exceeds host int", ErrInvalidValue)
+	}
+	return replacement + (content - oldTag), nil
 }
 
 // EncodeConstructed encodes a constructed TLV with a custom tag.

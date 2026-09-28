@@ -1980,7 +1980,11 @@ func (v *SendRoutingInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if bsErr != nil {
 					return fmt.Errorf("decoding suppressMTSS: %w", bsErr)
 				}
-				tmp_suppressmtss := runtime.BitString{Bytes: bsBytes_suppressmtss, BitLength: len(bsBytes_suppressmtss)*8 - bsUnused_suppressmtss}
+				bsBitLength_suppressmtss, bsLenErr_suppressmtss := ber.BitStringBitLength(len(bsBytes_suppressmtss), bsUnused_suppressmtss)
+				if bsLenErr_suppressmtss != nil {
+					return fmt.Errorf("decoding suppressMTSS: %w", bsLenErr_suppressmtss)
+				}
+				tmp_suppressmtss := runtime.BitString{Bytes: bsBytes_suppressmtss, BitLength: bsBitLength_suppressmtss}
 				v.SuppressMTSS = &tmp_suppressmtss
 				offset += n_suppressmtss
 			}
@@ -2920,7 +2924,11 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhasesInVMSC: %w", bsErr)
 				}
-				tmp_supportedcamelphasesinvmsc := runtime.BitString{Bytes: bsBytes_supportedcamelphasesinvmsc, BitLength: len(bsBytes_supportedcamelphasesinvmsc)*8 - bsUnused_supportedcamelphasesinvmsc}
+				bsBitLength_supportedcamelphasesinvmsc, bsLenErr_supportedcamelphasesinvmsc := ber.BitStringBitLength(len(bsBytes_supportedcamelphasesinvmsc), bsUnused_supportedcamelphasesinvmsc)
+				if bsLenErr_supportedcamelphasesinvmsc != nil {
+					return fmt.Errorf("decoding supportedCamelPhasesInVMSC: %w", bsLenErr_supportedcamelphasesinvmsc)
+				}
+				tmp_supportedcamelphasesinvmsc := runtime.BitString{Bytes: bsBytes_supportedcamelphasesinvmsc, BitLength: bsBitLength_supportedcamelphasesinvmsc}
 				v.SupportedCamelPhasesInVMSC = &tmp_supportedcamelphasesinvmsc
 				offset += n_supportedcamelphasesinvmsc
 			}
@@ -2942,7 +2950,11 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInVMSC: %w", bsErr)
 				}
-				tmp_offeredcamel4csisinvmsc := runtime.BitString{Bytes: bsBytes_offeredcamel4csisinvmsc, BitLength: len(bsBytes_offeredcamel4csisinvmsc)*8 - bsUnused_offeredcamel4csisinvmsc}
+				bsBitLength_offeredcamel4csisinvmsc, bsLenErr_offeredcamel4csisinvmsc := ber.BitStringBitLength(len(bsBytes_offeredcamel4csisinvmsc), bsUnused_offeredcamel4csisinvmsc)
+				if bsLenErr_offeredcamel4csisinvmsc != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIsInVMSC: %w", bsLenErr_offeredcamel4csisinvmsc)
+				}
+				tmp_offeredcamel4csisinvmsc := runtime.BitString{Bytes: bsBytes_offeredcamel4csisinvmsc, BitLength: bsBitLength_offeredcamel4csisinvmsc}
 				v.OfferedCamel4CSIsInVMSC = &tmp_offeredcamel4csisinvmsc
 				offset += n_offeredcamel4csisinvmsc
 			}
@@ -3037,7 +3049,11 @@ func (v *SendRoutingInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if bsErr != nil {
 					return fmt.Errorf("decoding allowedServices: %w", bsErr)
 				}
-				tmp_allowedservices := runtime.BitString{Bytes: bsBytes_allowedservices, BitLength: len(bsBytes_allowedservices)*8 - bsUnused_allowedservices}
+				bsBitLength_allowedservices, bsLenErr_allowedservices := ber.BitStringBitLength(len(bsBytes_allowedservices), bsUnused_allowedservices)
+				if bsLenErr_allowedservices != nil {
+					return fmt.Errorf("decoding allowedServices: %w", bsLenErr_allowedservices)
+				}
+				tmp_allowedservices := runtime.BitString{Bytes: bsBytes_allowedservices, BitLength: bsBitLength_allowedservices}
 				v.AllowedServices = &tmp_allowedservices
 				offset += n_allowedservices
 			}
@@ -4465,7 +4481,11 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhasesInInterrogatingNode: %w", bsErr)
 				}
-				tmp_supportedcamelphasesininterrogatingnode := runtime.BitString{Bytes: bsBytes_supportedcamelphasesininterrogatingnode, BitLength: len(bsBytes_supportedcamelphasesininterrogatingnode)*8 - bsUnused_supportedcamelphasesininterrogatingnode}
+				bsBitLength_supportedcamelphasesininterrogatingnode, bsLenErr_supportedcamelphasesininterrogatingnode := ber.BitStringBitLength(len(bsBytes_supportedcamelphasesininterrogatingnode), bsUnused_supportedcamelphasesininterrogatingnode)
+				if bsLenErr_supportedcamelphasesininterrogatingnode != nil {
+					return fmt.Errorf("decoding supportedCamelPhasesInInterrogatingNode: %w", bsLenErr_supportedcamelphasesininterrogatingnode)
+				}
+				tmp_supportedcamelphasesininterrogatingnode := runtime.BitString{Bytes: bsBytes_supportedcamelphasesininterrogatingnode, BitLength: bsBitLength_supportedcamelphasesininterrogatingnode}
 				v.SupportedCamelPhasesInInterrogatingNode = &tmp_supportedcamelphasesininterrogatingnode
 				offset += n_supportedcamelphasesininterrogatingnode
 			}
@@ -4589,7 +4609,11 @@ func (v *ProvideRoamingNumberArg) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInInterrogatingNode: %w", bsErr)
 				}
-				tmp_offeredcamel4csisininterrogatingnode := runtime.BitString{Bytes: bsBytes_offeredcamel4csisininterrogatingnode, BitLength: len(bsBytes_offeredcamel4csisininterrogatingnode)*8 - bsUnused_offeredcamel4csisininterrogatingnode}
+				bsBitLength_offeredcamel4csisininterrogatingnode, bsLenErr_offeredcamel4csisininterrogatingnode := ber.BitStringBitLength(len(bsBytes_offeredcamel4csisininterrogatingnode), bsUnused_offeredcamel4csisininterrogatingnode)
+				if bsLenErr_offeredcamel4csisininterrogatingnode != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIsInInterrogatingNode: %w", bsLenErr_offeredcamel4csisininterrogatingnode)
+				}
+				tmp_offeredcamel4csisininterrogatingnode := runtime.BitString{Bytes: bsBytes_offeredcamel4csisininterrogatingnode, BitLength: bsBitLength_offeredcamel4csisininterrogatingnode}
 				v.OfferedCamel4CSIsInInterrogatingNode = &tmp_offeredcamel4csisininterrogatingnode
 				offset += n_offeredcamel4csisininterrogatingnode
 			}
@@ -6001,7 +6025,11 @@ func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if err != nil {
 		return fmt.Errorf("decoding supportedCamelPhases: %w", err)
 	}
-	v.SupportedCamelPhases = runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: len(bsBytes_supportedcamelphases)*8 - bsUnused_supportedcamelphases}
+	bsBitLength_supportedcamelphases, bsLenErr_supportedcamelphases := ber.BitStringBitLength(len(bsBytes_supportedcamelphases), bsUnused_supportedcamelphases)
+	if bsLenErr_supportedcamelphases != nil {
+		return fmt.Errorf("decoding supportedCamelPhases: %w", bsLenErr_supportedcamelphases)
+	}
+	v.SupportedCamelPhases = runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: bsBitLength_supportedcamelphases}
 	offset += n
 	// Decode suppress-T-CSI
 	if offset < len(content) {
@@ -6052,7 +6080,11 @@ func (v *CamelInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
-				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: len(bsBytes_offeredcamel4csis)*8 - bsUnused_offeredcamel4csis}
+				bsBitLength_offeredcamel4csis, bsLenErr_offeredcamel4csis := ber.BitStringBitLength(len(bsBytes_offeredcamel4csis), bsUnused_offeredcamel4csis)
+				if bsLenErr_offeredcamel4csis != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsLenErr_offeredcamel4csis)
+				}
+				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: bsBitLength_offeredcamel4csis}
 				v.OfferedCamel4CSIs = &tmp_offeredcamel4csis
 				offset += n_offeredcamel4csis
 			}

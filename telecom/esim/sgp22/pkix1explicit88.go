@@ -3123,7 +3123,11 @@ func (v *Certificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 	if err != nil {
 		return fmt.Errorf("decoding signature: %w", err)
 	}
-	v.Signature = runtime.BitString{Bytes: bsBytes_signature, BitLength: len(bsBytes_signature)*8 - bsUnused_signature}
+	bsBitLength_signature, bsLenErr_signature := ber.BitStringBitLength(len(bsBytes_signature), bsUnused_signature)
+	if bsLenErr_signature != nil {
+		return fmt.Errorf("decoding signature: %w", bsLenErr_signature)
+	}
+	v.Signature = runtime.BitString{Bytes: bsBytes_signature, BitLength: bsBitLength_signature}
 	offset += n
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Certificate", Cause: ber.ErrExtraData}
@@ -3400,7 +3404,11 @@ func (v *TBSCertificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				if bsErr != nil {
 					return fmt.Errorf("decoding issuerUniqueID: %w", bsErr)
 				}
-				tmp_issueruniqueid := runtime.BitString{Bytes: bsBytes_issueruniqueid, BitLength: len(bsBytes_issueruniqueid)*8 - bsUnused_issueruniqueid}
+				bsBitLength_issueruniqueid, bsLenErr_issueruniqueid := ber.BitStringBitLength(len(bsBytes_issueruniqueid), bsUnused_issueruniqueid)
+				if bsLenErr_issueruniqueid != nil {
+					return fmt.Errorf("decoding issuerUniqueID: %w", bsLenErr_issueruniqueid)
+				}
+				tmp_issueruniqueid := runtime.BitString{Bytes: bsBytes_issueruniqueid, BitLength: bsBitLength_issueruniqueid}
 				v.IssuerUniqueID = &tmp_issueruniqueid
 				offset += n_issueruniqueid
 			}
@@ -3422,7 +3430,11 @@ func (v *TBSCertificate) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 				if bsErr != nil {
 					return fmt.Errorf("decoding subjectUniqueID: %w", bsErr)
 				}
-				tmp_subjectuniqueid := runtime.BitString{Bytes: bsBytes_subjectuniqueid, BitLength: len(bsBytes_subjectuniqueid)*8 - bsUnused_subjectuniqueid}
+				bsBitLength_subjectuniqueid, bsLenErr_subjectuniqueid := ber.BitStringBitLength(len(bsBytes_subjectuniqueid), bsUnused_subjectuniqueid)
+				if bsLenErr_subjectuniqueid != nil {
+					return fmt.Errorf("decoding subjectUniqueID: %w", bsLenErr_subjectuniqueid)
+				}
+				tmp_subjectuniqueid := runtime.BitString{Bytes: bsBytes_subjectuniqueid, BitLength: bsBitLength_subjectuniqueid}
 				v.SubjectUniqueID = &tmp_subjectuniqueid
 				offset += n_subjectuniqueid
 			}
@@ -3679,7 +3691,11 @@ func (v *SubjectPublicKeyInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if err != nil {
 		return fmt.Errorf("decoding subjectPublicKey: %w", err)
 	}
-	v.SubjectPublicKey = runtime.BitString{Bytes: bsBytes_subjectpublickey, BitLength: len(bsBytes_subjectpublickey)*8 - bsUnused_subjectpublickey}
+	bsBitLength_subjectpublickey, bsLenErr_subjectpublickey := ber.BitStringBitLength(len(bsBytes_subjectpublickey), bsUnused_subjectpublickey)
+	if bsLenErr_subjectpublickey != nil {
+		return fmt.Errorf("decoding subjectPublicKey: %w", bsLenErr_subjectpublickey)
+	}
+	v.SubjectPublicKey = runtime.BitString{Bytes: bsBytes_subjectpublickey, BitLength: bsBitLength_subjectpublickey}
 	offset += n
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "SubjectPublicKeyInfo", Cause: ber.ErrExtraData}
@@ -3941,7 +3957,11 @@ func (v *CertificateList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 	if err != nil {
 		return fmt.Errorf("decoding signature: %w", err)
 	}
-	v.Signature = runtime.BitString{Bytes: bsBytes_signature, BitLength: len(bsBytes_signature)*8 - bsUnused_signature}
+	bsBitLength_signature, bsLenErr_signature := ber.BitStringBitLength(len(bsBytes_signature), bsUnused_signature)
+	if bsLenErr_signature != nil {
+		return fmt.Errorf("decoding signature: %w", bsLenErr_signature)
+	}
+	v.Signature = runtime.BitString{Bytes: bsBytes_signature, BitLength: bsBitLength_signature}
 	offset += n
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "CertificateList", Cause: ber.ErrExtraData}

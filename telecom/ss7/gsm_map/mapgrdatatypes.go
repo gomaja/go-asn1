@@ -946,7 +946,11 @@ func (v *SendGroupCallEndSignalArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
-				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: len(bsBytes_additionalinfo)*8 - bsUnused_additionalinfo}
+				bsBitLength_additionalinfo, bsLenErr_additionalinfo := ber.BitStringBitLength(len(bsBytes_additionalinfo), bsUnused_additionalinfo)
+				if bsLenErr_additionalinfo != nil {
+					return fmt.Errorf("decoding additionalInfo: %w", bsLenErr_additionalinfo)
+				}
+				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: bsBitLength_additionalinfo}
 				v.AdditionalInfo = &tmp_additionalinfo
 				offset += n_additionalinfo
 			}
@@ -1535,7 +1539,11 @@ func (v *ForwardGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
-				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: len(bsBytes_additionalinfo)*8 - bsUnused_additionalinfo}
+				bsBitLength_additionalinfo, bsLenErr_additionalinfo := ber.BitStringBitLength(len(bsBytes_additionalinfo), bsUnused_additionalinfo)
+				if bsLenErr_additionalinfo != nil {
+					return fmt.Errorf("decoding additionalInfo: %w", bsLenErr_additionalinfo)
+				}
+				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: bsBitLength_additionalinfo}
 				v.AdditionalInfo = &tmp_additionalinfo
 				offset += n_additionalinfo
 			}
@@ -1926,7 +1934,11 @@ func (v *ProcessGroupCallSignallingArg) UnmarshalBER(data []byte, opts ...ber.De
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
-				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: len(bsBytes_additionalinfo)*8 - bsUnused_additionalinfo}
+				bsBitLength_additionalinfo, bsLenErr_additionalinfo := ber.BitStringBitLength(len(bsBytes_additionalinfo), bsUnused_additionalinfo)
+				if bsLenErr_additionalinfo != nil {
+					return fmt.Errorf("decoding additionalInfo: %w", bsLenErr_additionalinfo)
+				}
+				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: bsBitLength_additionalinfo}
 				v.AdditionalInfo = &tmp_additionalinfo
 				offset += n_additionalinfo
 			}
@@ -2468,7 +2480,11 @@ func (v *SendGroupCallInfoArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
-				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: len(bsBytes_additionalinfo)*8 - bsUnused_additionalinfo}
+				bsBitLength_additionalinfo, bsLenErr_additionalinfo := ber.BitStringBitLength(len(bsBytes_additionalinfo), bsUnused_additionalinfo)
+				if bsLenErr_additionalinfo != nil {
+					return fmt.Errorf("decoding additionalInfo: %w", bsLenErr_additionalinfo)
+				}
+				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: bsBitLength_additionalinfo}
 				v.AdditionalInfo = &tmp_additionalinfo
 				offset += n_additionalinfo
 			}
@@ -2800,7 +2816,11 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
-				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: len(bsBytes_additionalinfo)*8 - bsUnused_additionalinfo}
+				bsBitLength_additionalinfo, bsLenErr_additionalinfo := ber.BitStringBitLength(len(bsBytes_additionalinfo), bsUnused_additionalinfo)
+				if bsLenErr_additionalinfo != nil {
+					return fmt.Errorf("decoding additionalInfo: %w", bsLenErr_additionalinfo)
+				}
+				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: bsBitLength_additionalinfo}
 				v.AdditionalInfo = &tmp_additionalinfo
 				offset += n_additionalinfo
 			}
@@ -2822,7 +2842,11 @@ func (v *SendGroupCallInfoRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalSubscriptions: %w", bsErr)
 				}
-				tmp_additionalsubscriptions := runtime.BitString{Bytes: bsBytes_additionalsubscriptions, BitLength: len(bsBytes_additionalsubscriptions)*8 - bsUnused_additionalsubscriptions}
+				bsBitLength_additionalsubscriptions, bsLenErr_additionalsubscriptions := ber.BitStringBitLength(len(bsBytes_additionalsubscriptions), bsUnused_additionalsubscriptions)
+				if bsLenErr_additionalsubscriptions != nil {
+					return fmt.Errorf("decoding additionalSubscriptions: %w", bsLenErr_additionalsubscriptions)
+				}
+				tmp_additionalsubscriptions := runtime.BitString{Bytes: bsBytes_additionalsubscriptions, BitLength: bsBitLength_additionalsubscriptions}
 				v.AdditionalSubscriptions = &tmp_additionalsubscriptions
 				offset += n_additionalsubscriptions
 			}

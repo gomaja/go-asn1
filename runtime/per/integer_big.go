@@ -2,6 +2,7 @@ package per
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 )
 
@@ -317,7 +318,10 @@ func encodeConstrainedBig(bb *BitBuffer, value, lower, upper *big.Int, aligned b
 		bb.AlignToOctetWrite()
 		return bb.WriteBits(offset.Uint64(), 16)
 	}
-	maximumLength := (rangeValue.BitLen() + 7) / 8
+	maximumLength, err := constrainedBigMaximumLength(rangeValue.BitLen())
+	if err != nil {
+		return err
+	}
 	data := minimalBigUnsignedBytes(offset)
 	// X.691 (02/2021), 13.2.6 delegates to 11.9.3 when the maximum
 	// content length is at least 64K, including fragmentation when needed.
@@ -366,7 +370,10 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		}
 		offset = new(big.Int).SetUint64(decoded)
 	} else {
-		maximumLength := (rangeValue.BitLen() + 7) / 8
+		maximumLength, err := constrainedBigMaximumLength(rangeValue.BitLen())
+		if err != nil {
+			return nil, err
+		}
 		if maximumLength >= 4*perFragmentUnit {
 			data, err := decodeLengthDelimitedOctets(bb, true)
 			if err != nil {
@@ -431,7 +438,11 @@ func readBigBits(bb *BitBuffer, bitCount int) (*big.Int, error) {
 }
 
 func encodeBigTwosComplement(bb *BitBuffer, value *big.Int, aligned bool) error {
-	return encodeLengthDelimitedOctets(bb, minimalBigTwosComplement(value), aligned)
+	data, err := minimalBigTwosComplement(value)
+	if err != nil {
+		return err
+	}
+	return encodeLengthDelimitedOctets(bb, data, aligned)
 }
 
 func decodeBigTwosComplement(bb *BitBuffer, aligned bool) (*big.Int, error) {
@@ -458,23 +469,41 @@ func minimalBigUnsignedBytes(value *big.Int) []byte {
 	return data
 }
 
-func minimalBigTwosComplement(value *big.Int) []byte {
+func minimalBigTwosComplement(value *big.Int) ([]byte, error) {
 	if value.Sign() >= 0 {
 		data := minimalBigUnsignedBytes(value)
 		if data[0]&0x80 != 0 {
-			return append([]byte{0}, data...)
+			if len(data) == math.MaxInt {
+				return nil, fmt.Errorf("%w: INTEGER width exceeds host int", ErrInvalidValue)
+			}
+			return append([]byte{0}, data...), nil
 		}
-		return data
+		return data, nil
 	}
 
 	complement := new(big.Int).Sub(new(big.Int).Neg(new(big.Int).Set(value)), big.NewInt(1))
-	width := (complement.BitLen() + 1 + 7) / 8
-	if width == 0 {
-		width = 1
+	width, err := negativeTwosComplementWidth(complement.BitLen())
+	if err != nil {
+		return nil, err
 	}
+	// X.691 (02/2021) §§11.4, 11.7-11.9: signed INTEGER contents use
+	// minimal two's-complement octets. The shift fits the host's int.
 	modulus := new(big.Int).Lsh(big.NewInt(1), uint(width*8))
 	encoded := new(big.Int).Add(modulus, value)
-	return encoded.FillBytes(make([]byte, width))
+	return encoded.FillBytes(make([]byte, width)), nil
+}
+
+func negativeTwosComplementWidth(bitLen int) (int, error) {
+	if bitLen < 0 || bitLen/8 >= math.MaxInt/8 {
+		return 0, fmt.Errorf("%w: INTEGER bit width exceeds host int", ErrInvalidValue)
+	}
+	return bitLen/8 + 1, nil
+}
+
+// X.691 (02/2021) §§11.4, 11.7-11.9, 13 encode a constrained INTEGER
+// using a whole-octet maximum; divide before rounding to preserve MaxInt bits.
+func constrainedBigMaximumLength(bitLen int) (int, error) {
+	return octetsForBitLength(bitLen)
 }
 
 func validateMinimalUnsigned(data []byte) error {

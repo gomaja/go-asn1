@@ -3921,7 +3921,11 @@ func (v *MSVLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhases: %w", bsErr)
 				}
-				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: len(bsBytes_supportedcamelphases)*8 - bsUnused_supportedcamelphases}
+				bsBitLength_supportedcamelphases, bsLenErr_supportedcamelphases := ber.BitStringBitLength(len(bsBytes_supportedcamelphases), bsUnused_supportedcamelphases)
+				if bsLenErr_supportedcamelphases != nil {
+					return fmt.Errorf("decoding supportedCamelPhases: %w", bsLenErr_supportedcamelphases)
+				}
+				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: bsBitLength_supportedcamelphases}
 				v.SupportedCamelPhases = &tmp_supportedcamelphases
 				offset += n_supportedcamelphases
 			}
@@ -4046,7 +4050,11 @@ func (v *MSVLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsErr)
 				}
-				tmp_supportedlcscapabilitysets := runtime.BitString{Bytes: bsBytes_supportedlcscapabilitysets, BitLength: len(bsBytes_supportedlcscapabilitysets)*8 - bsUnused_supportedlcscapabilitysets}
+				bsBitLength_supportedlcscapabilitysets, bsLenErr_supportedlcscapabilitysets := ber.BitStringBitLength(len(bsBytes_supportedlcscapabilitysets), bsUnused_supportedlcscapabilitysets)
+				if bsLenErr_supportedlcscapabilitysets != nil {
+					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsLenErr_supportedlcscapabilitysets)
+				}
+				tmp_supportedlcscapabilitysets := runtime.BitString{Bytes: bsBytes_supportedlcscapabilitysets, BitLength: bsBitLength_supportedlcscapabilitysets}
 				v.SupportedLCSCapabilitySets = &tmp_supportedlcscapabilitysets
 				offset += n_supportedlcscapabilitysets
 			}
@@ -4068,7 +4076,11 @@ func (v *MSVLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
-				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: len(bsBytes_offeredcamel4csis)*8 - bsUnused_offeredcamel4csis}
+				bsBitLength_offeredcamel4csis, bsLenErr_offeredcamel4csis := ber.BitStringBitLength(len(bsBytes_offeredcamel4csis), bsUnused_offeredcamel4csis)
+				if bsLenErr_offeredcamel4csis != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsLenErr_offeredcamel4csis)
+				}
+				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: bsBitLength_offeredcamel4csis}
 				v.OfferedCamel4CSIs = &tmp_offeredcamel4csis
 				offset += n_offeredcamel4csis
 			}
@@ -4090,7 +4102,11 @@ func (v *MSVLRCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w", bsErr)
 				}
-				tmp_supportedrattypesindicator := runtime.BitString{Bytes: bsBytes_supportedrattypesindicator, BitLength: len(bsBytes_supportedrattypesindicator)*8 - bsUnused_supportedrattypesindicator}
+				bsBitLength_supportedrattypesindicator, bsLenErr_supportedrattypesindicator := ber.BitStringBitLength(len(bsBytes_supportedrattypesindicator), bsUnused_supportedrattypesindicator)
+				if bsLenErr_supportedrattypesindicator != nil {
+					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w", bsLenErr_supportedrattypesindicator)
+				}
+				tmp_supportedrattypesindicator := runtime.BitString{Bytes: bsBytes_supportedrattypesindicator, BitLength: bsBitLength_supportedrattypesindicator}
 				v.SupportedRATTypesIndicator = &tmp_supportedrattypesindicator
 				offset += n_supportedrattypesindicator
 			}
@@ -7701,7 +7717,11 @@ func (v *MSSGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhases: %w", bsErr)
 				}
-				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: len(bsBytes_supportedcamelphases)*8 - bsUnused_supportedcamelphases}
+				bsBitLength_supportedcamelphases, bsLenErr_supportedcamelphases := ber.BitStringBitLength(len(bsBytes_supportedcamelphases), bsUnused_supportedcamelphases)
+				if bsLenErr_supportedcamelphases != nil {
+					return fmt.Errorf("decoding supportedCamelPhases: %w", bsLenErr_supportedcamelphases)
+				}
+				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: bsBitLength_supportedcamelphases}
 				v.SupportedCamelPhases = &tmp_supportedcamelphases
 				offset += n_supportedcamelphases
 			}
@@ -7723,7 +7743,11 @@ func (v *MSSGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsErr)
 				}
-				tmp_supportedlcscapabilitysets := runtime.BitString{Bytes: bsBytes_supportedlcscapabilitysets, BitLength: len(bsBytes_supportedlcscapabilitysets)*8 - bsUnused_supportedlcscapabilitysets}
+				bsBitLength_supportedlcscapabilitysets, bsLenErr_supportedlcscapabilitysets := ber.BitStringBitLength(len(bsBytes_supportedlcscapabilitysets), bsUnused_supportedlcscapabilitysets)
+				if bsLenErr_supportedlcscapabilitysets != nil {
+					return fmt.Errorf("decoding supportedLCS-CapabilitySets: %w", bsLenErr_supportedlcscapabilitysets)
+				}
+				tmp_supportedlcscapabilitysets := runtime.BitString{Bytes: bsBytes_supportedlcscapabilitysets, BitLength: bsBitLength_supportedlcscapabilitysets}
 				v.SupportedLCSCapabilitySets = &tmp_supportedlcscapabilitysets
 				offset += n_supportedlcscapabilitysets
 			}
@@ -7745,7 +7769,11 @@ func (v *MSSGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
-				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: len(bsBytes_offeredcamel4csis)*8 - bsUnused_offeredcamel4csis}
+				bsBitLength_offeredcamel4csis, bsLenErr_offeredcamel4csis := ber.BitStringBitLength(len(bsBytes_offeredcamel4csis), bsUnused_offeredcamel4csis)
+				if bsLenErr_offeredcamel4csis != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsLenErr_offeredcamel4csis)
+				}
+				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: bsBitLength_offeredcamel4csis}
 				v.OfferedCamel4CSIs = &tmp_offeredcamel4csis
 				offset += n_offeredcamel4csis
 			}
@@ -7787,7 +7815,11 @@ func (v *MSSGSNCapability) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w", bsErr)
 				}
-				tmp_supportedrattypesindicator := runtime.BitString{Bytes: bsBytes_supportedrattypesindicator, BitLength: len(bsBytes_supportedrattypesindicator)*8 - bsUnused_supportedrattypesindicator}
+				bsBitLength_supportedrattypesindicator, bsLenErr_supportedrattypesindicator := ber.BitStringBitLength(len(bsBytes_supportedrattypesindicator), bsUnused_supportedrattypesindicator)
+				if bsLenErr_supportedrattypesindicator != nil {
+					return fmt.Errorf("decoding supportedRAT-TypesIndicator: %w", bsLenErr_supportedrattypesindicator)
+				}
+				tmp_supportedrattypesindicator := runtime.BitString{Bytes: bsBytes_supportedrattypesindicator, BitLength: bsBitLength_supportedrattypesindicator}
 				v.SupportedRATTypesIndicator = &tmp_supportedrattypesindicator
 				offset += n_supportedrattypesindicator
 			}
@@ -13781,7 +13813,11 @@ func (v *MSCheckIMEIArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	if err != nil {
 		return fmt.Errorf("decoding requestedEquipmentInfo: %w", err)
 	}
-	v.RequestedEquipmentInfo = runtime.BitString{Bytes: bsBytes_requestedequipmentinfo, BitLength: len(bsBytes_requestedequipmentinfo)*8 - bsUnused_requestedequipmentinfo}
+	bsBitLength_requestedequipmentinfo, bsLenErr_requestedequipmentinfo := ber.BitStringBitLength(len(bsBytes_requestedequipmentinfo), bsUnused_requestedequipmentinfo)
+	if bsLenErr_requestedequipmentinfo != nil {
+		return fmt.Errorf("decoding requestedEquipmentInfo: %w", bsLenErr_requestedequipmentinfo)
+	}
+	v.RequestedEquipmentInfo = runtime.BitString{Bytes: bsBytes_requestedequipmentinfo, BitLength: bsBitLength_requestedequipmentinfo}
 	offset += n
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -14080,7 +14116,11 @@ func (v *MSUESBIIu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding uesbi-IuA: %w", bsErr)
 				}
-				tmp_uesbiiua := runtime.BitString{Bytes: bsBytes_uesbiiua, BitLength: len(bsBytes_uesbiiua)*8 - bsUnused_uesbiiua}
+				bsBitLength_uesbiiua, bsLenErr_uesbiiua := ber.BitStringBitLength(len(bsBytes_uesbiiua), bsUnused_uesbiiua)
+				if bsLenErr_uesbiiua != nil {
+					return fmt.Errorf("decoding uesbi-IuA: %w", bsLenErr_uesbiiua)
+				}
+				tmp_uesbiiua := runtime.BitString{Bytes: bsBytes_uesbiiua, BitLength: bsBitLength_uesbiiua}
 				v.UesbiIuA = &tmp_uesbiiua
 				offset += n_uesbiiua
 			}
@@ -14102,7 +14142,11 @@ func (v *MSUESBIIu) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding uesbi-IuB: %w", bsErr)
 				}
-				tmp_uesbiiub := runtime.BitString{Bytes: bsBytes_uesbiiub, BitLength: len(bsBytes_uesbiiub)*8 - bsUnused_uesbiiub}
+				bsBitLength_uesbiiub, bsLenErr_uesbiiub := ber.BitStringBitLength(len(bsBytes_uesbiiub), bsUnused_uesbiiub)
+				if bsLenErr_uesbiiub != nil {
+					return fmt.Errorf("decoding uesbi-IuB: %w", bsLenErr_uesbiiub)
+				}
+				tmp_uesbiiub := runtime.BitString{Bytes: bsBytes_uesbiiub, BitLength: bsBitLength_uesbiiub}
 				v.UesbiIuB = &tmp_uesbiiub
 				offset += n_uesbiiub
 			}
@@ -15440,7 +15484,11 @@ func (v *MSInsertSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if bsErr != nil {
 					return fmt.Errorf("decoding accessRestrictionData: %w", bsErr)
 				}
-				tmp_accessrestrictiondata := runtime.BitString{Bytes: bsBytes_accessrestrictiondata, BitLength: len(bsBytes_accessrestrictiondata)*8 - bsUnused_accessrestrictiondata}
+				bsBitLength_accessrestrictiondata, bsLenErr_accessrestrictiondata := ber.BitStringBitLength(len(bsBytes_accessrestrictiondata), bsUnused_accessrestrictiondata)
+				if bsLenErr_accessrestrictiondata != nil {
+					return fmt.Errorf("decoding accessRestrictionData: %w", bsLenErr_accessrestrictiondata)
+				}
+				tmp_accessrestrictiondata := runtime.BitString{Bytes: bsBytes_accessrestrictiondata, BitLength: bsBitLength_accessrestrictiondata}
 				v.AccessRestrictionData = &tmp_accessrestrictiondata
 				offset += n_accessrestrictiondata
 			}
@@ -18811,7 +18859,11 @@ func (v *MSODBData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if err != nil {
 		return fmt.Errorf("decoding odb-GeneralData: %w", err)
 	}
-	v.OdbGeneralData = runtime.BitString{Bytes: bsBytes_odbgeneraldata, BitLength: len(bsBytes_odbgeneraldata)*8 - bsUnused_odbgeneraldata}
+	bsBitLength_odbgeneraldata, bsLenErr_odbgeneraldata := ber.BitStringBitLength(len(bsBytes_odbgeneraldata), bsUnused_odbgeneraldata)
+	if bsLenErr_odbgeneraldata != nil {
+		return fmt.Errorf("decoding odb-GeneralData: %w", bsLenErr_odbgeneraldata)
+	}
+	v.OdbGeneralData = runtime.BitString{Bytes: bsBytes_odbgeneraldata, BitLength: bsBitLength_odbgeneraldata}
 	offset += n
 	// Decode odb-HPLMN-Data
 	if offset < len(content) {
@@ -18822,7 +18874,11 @@ func (v *MSODBData) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if err != nil {
 					return fmt.Errorf("decoding odb-HPLMN-Data: %w", err)
 				}
-				tmp_odbhplmndata := runtime.BitString{Bytes: bsBytes_odbhplmndata, BitLength: len(bsBytes_odbhplmndata)*8 - bsUnused_odbhplmndata}
+				bsBitLength_odbhplmndata, bsLenErr_odbhplmndata := ber.BitStringBitLength(len(bsBytes_odbhplmndata), bsUnused_odbhplmndata)
+				if bsLenErr_odbhplmndata != nil {
+					return fmt.Errorf("decoding odb-HPLMN-Data: %w", bsLenErr_odbhplmndata)
+				}
+				tmp_odbhplmndata := runtime.BitString{Bytes: bsBytes_odbhplmndata, BitLength: bsBitLength_odbhplmndata}
 				v.OdbHPLMNData = &tmp_odbhplmndata
 				offset += n
 			}
@@ -22925,7 +22981,11 @@ func (v *MSInsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				if bsErr != nil {
 					return fmt.Errorf("decoding odb-GeneralData: %w", bsErr)
 				}
-				tmp_odbgeneraldata := runtime.BitString{Bytes: bsBytes_odbgeneraldata, BitLength: len(bsBytes_odbgeneraldata)*8 - bsUnused_odbgeneraldata}
+				bsBitLength_odbgeneraldata, bsLenErr_odbgeneraldata := ber.BitStringBitLength(len(bsBytes_odbgeneraldata), bsUnused_odbgeneraldata)
+				if bsLenErr_odbgeneraldata != nil {
+					return fmt.Errorf("decoding odb-GeneralData: %w", bsLenErr_odbgeneraldata)
+				}
+				tmp_odbgeneraldata := runtime.BitString{Bytes: bsBytes_odbgeneraldata, BitLength: bsBitLength_odbgeneraldata}
 				v.OdbGeneralData = &tmp_odbgeneraldata
 				offset += n_odbgeneraldata
 			}
@@ -22969,7 +23029,11 @@ func (v *MSInsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCamelPhases: %w", bsErr)
 				}
-				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: len(bsBytes_supportedcamelphases)*8 - bsUnused_supportedcamelphases}
+				bsBitLength_supportedcamelphases, bsLenErr_supportedcamelphases := ber.BitStringBitLength(len(bsBytes_supportedcamelphases), bsUnused_supportedcamelphases)
+				if bsLenErr_supportedcamelphases != nil {
+					return fmt.Errorf("decoding supportedCamelPhases: %w", bsLenErr_supportedcamelphases)
+				}
+				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: bsBitLength_supportedcamelphases}
 				v.SupportedCamelPhases = &tmp_supportedcamelphases
 				offset += n_supportedcamelphases
 			}
@@ -23013,7 +23077,11 @@ func (v *MSInsertSubscriberDataRes) UnmarshalBER(data []byte, opts ...ber.Decode
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsErr)
 				}
-				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: len(bsBytes_offeredcamel4csis)*8 - bsUnused_offeredcamel4csis}
+				bsBitLength_offeredcamel4csis, bsLenErr_offeredcamel4csis := ber.BitStringBitLength(len(bsBytes_offeredcamel4csis), bsUnused_offeredcamel4csis)
+				if bsLenErr_offeredcamel4csis != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIs: %w", bsLenErr_offeredcamel4csis)
+				}
+				tmp_offeredcamel4csis := runtime.BitString{Bytes: bsBytes_offeredcamel4csis, BitLength: bsBitLength_offeredcamel4csis}
 				v.OfferedCamel4CSIs = &tmp_offeredcamel4csis
 				offset += n_offeredcamel4csis
 			}
@@ -23713,7 +23781,11 @@ func (v *MSDeleteSubscriberDataArg) UnmarshalBER(data []byte, opts ...ber.Decode
 				if bsErr != nil {
 					return fmt.Errorf("decoding specificCSI-Withdraw: %w", bsErr)
 				}
-				tmp_specificcsiwithdraw := runtime.BitString{Bytes: bsBytes_specificcsiwithdraw, BitLength: len(bsBytes_specificcsiwithdraw)*8 - bsUnused_specificcsiwithdraw}
+				bsBitLength_specificcsiwithdraw, bsLenErr_specificcsiwithdraw := ber.BitStringBitLength(len(bsBytes_specificcsiwithdraw), bsUnused_specificcsiwithdraw)
+				if bsLenErr_specificcsiwithdraw != nil {
+					return fmt.Errorf("decoding specificCSI-Withdraw: %w", bsLenErr_specificcsiwithdraw)
+				}
+				tmp_specificcsiwithdraw := runtime.BitString{Bytes: bsBytes_specificcsiwithdraw, BitLength: bsBitLength_specificcsiwithdraw}
 				v.SpecificCSIWithdraw = &tmp_specificcsiwithdraw
 				offset += n_specificcsiwithdraw
 			}
@@ -31318,7 +31390,11 @@ func (v *MSVoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if err != nil {
 					return fmt.Errorf("decoding additionalSubscriptions: %w", err)
 				}
-				tmp_additionalsubscriptions := runtime.BitString{Bytes: bsBytes_additionalsubscriptions, BitLength: len(bsBytes_additionalsubscriptions)*8 - bsUnused_additionalsubscriptions}
+				bsBitLength_additionalsubscriptions, bsLenErr_additionalsubscriptions := ber.BitStringBitLength(len(bsBytes_additionalsubscriptions), bsUnused_additionalsubscriptions)
+				if bsLenErr_additionalsubscriptions != nil {
+					return fmt.Errorf("decoding additionalSubscriptions: %w", bsLenErr_additionalsubscriptions)
+				}
+				tmp_additionalsubscriptions := runtime.BitString{Bytes: bsBytes_additionalsubscriptions, BitLength: bsBitLength_additionalsubscriptions}
 				v.AdditionalSubscriptions = &tmp_additionalsubscriptions
 				offset += n
 			}
@@ -31340,7 +31416,11 @@ func (v *MSVoiceGroupCallData) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if bsErr != nil {
 					return fmt.Errorf("decoding additionalInfo: %w", bsErr)
 				}
-				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: len(bsBytes_additionalinfo)*8 - bsUnused_additionalinfo}
+				bsBitLength_additionalinfo, bsLenErr_additionalinfo := ber.BitStringBitLength(len(bsBytes_additionalinfo), bsUnused_additionalinfo)
+				if bsLenErr_additionalinfo != nil {
+					return fmt.Errorf("decoding additionalInfo: %w", bsLenErr_additionalinfo)
+				}
+				tmp_additionalinfo := runtime.BitString{Bytes: bsBytes_additionalinfo, BitLength: bsBitLength_additionalinfo}
 				v.AdditionalInfo = &tmp_additionalinfo
 				offset += n_additionalinfo
 			}
@@ -36113,7 +36193,11 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts .
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedVLR-CAMEL-Phases: %w", bsErr)
 				}
-				tmp_supportedvlrcamelphases := runtime.BitString{Bytes: bsBytes_supportedvlrcamelphases, BitLength: len(bsBytes_supportedvlrcamelphases)*8 - bsUnused_supportedvlrcamelphases}
+				bsBitLength_supportedvlrcamelphases, bsLenErr_supportedvlrcamelphases := ber.BitStringBitLength(len(bsBytes_supportedvlrcamelphases), bsUnused_supportedvlrcamelphases)
+				if bsLenErr_supportedvlrcamelphases != nil {
+					return fmt.Errorf("decoding supportedVLR-CAMEL-Phases: %w", bsLenErr_supportedvlrcamelphases)
+				}
+				tmp_supportedvlrcamelphases := runtime.BitString{Bytes: bsBytes_supportedvlrcamelphases, BitLength: bsBitLength_supportedvlrcamelphases}
 				v.SupportedVLRCAMELPhases = &tmp_supportedvlrcamelphases
 				offset += n_supportedvlrcamelphases
 			}
@@ -36135,7 +36219,11 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts .
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedSGSN-CAMEL-Phases: %w", bsErr)
 				}
-				tmp_supportedsgsncamelphases := runtime.BitString{Bytes: bsBytes_supportedsgsncamelphases, BitLength: len(bsBytes_supportedsgsncamelphases)*8 - bsUnused_supportedsgsncamelphases}
+				bsBitLength_supportedsgsncamelphases, bsLenErr_supportedsgsncamelphases := ber.BitStringBitLength(len(bsBytes_supportedsgsncamelphases), bsUnused_supportedsgsncamelphases)
+				if bsLenErr_supportedsgsncamelphases != nil {
+					return fmt.Errorf("decoding supportedSGSN-CAMEL-Phases: %w", bsLenErr_supportedsgsncamelphases)
+				}
+				tmp_supportedsgsncamelphases := runtime.BitString{Bytes: bsBytes_supportedsgsncamelphases, BitLength: bsBitLength_supportedsgsncamelphases}
 				v.SupportedSGSNCAMELPhases = &tmp_supportedsgsncamelphases
 				offset += n_supportedsgsncamelphases
 			}
@@ -36179,7 +36267,11 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts .
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInVLR: %w", bsErr)
 				}
-				tmp_offeredcamel4csisinvlr := runtime.BitString{Bytes: bsBytes_offeredcamel4csisinvlr, BitLength: len(bsBytes_offeredcamel4csisinvlr)*8 - bsUnused_offeredcamel4csisinvlr}
+				bsBitLength_offeredcamel4csisinvlr, bsLenErr_offeredcamel4csisinvlr := ber.BitStringBitLength(len(bsBytes_offeredcamel4csisinvlr), bsUnused_offeredcamel4csisinvlr)
+				if bsLenErr_offeredcamel4csisinvlr != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIsInVLR: %w", bsLenErr_offeredcamel4csisinvlr)
+				}
+				tmp_offeredcamel4csisinvlr := runtime.BitString{Bytes: bsBytes_offeredcamel4csisinvlr, BitLength: bsBitLength_offeredcamel4csisinvlr}
 				v.OfferedCamel4CSIsInVLR = &tmp_offeredcamel4csisinvlr
 				offset += n_offeredcamel4csisinvlr
 			}
@@ -36201,7 +36293,11 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) UnmarshalBER(data []byte, opts .
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4CSIsInSGSN: %w", bsErr)
 				}
-				tmp_offeredcamel4csisinsgsn := runtime.BitString{Bytes: bsBytes_offeredcamel4csisinsgsn, BitLength: len(bsBytes_offeredcamel4csisinsgsn)*8 - bsUnused_offeredcamel4csisinsgsn}
+				bsBitLength_offeredcamel4csisinsgsn, bsLenErr_offeredcamel4csisinsgsn := ber.BitStringBitLength(len(bsBytes_offeredcamel4csisinsgsn), bsUnused_offeredcamel4csisinsgsn)
+				if bsLenErr_offeredcamel4csisinsgsn != nil {
+					return fmt.Errorf("decoding offeredCamel4CSIsInSGSN: %w", bsLenErr_offeredcamel4csisinsgsn)
+				}
+				tmp_offeredcamel4csisinsgsn := runtime.BitString{Bytes: bsBytes_offeredcamel4csisinsgsn, BitLength: bsBitLength_offeredcamel4csisinsgsn}
 				v.OfferedCamel4CSIsInSGSN = &tmp_offeredcamel4csisinsgsn
 				offset += n_offeredcamel4csisinsgsn
 			}
@@ -38372,7 +38468,11 @@ func (v *MSCAMELSubscriptionInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if bsErr != nil {
 					return fmt.Errorf("decoding specificCSIDeletedList: %w", bsErr)
 				}
-				tmp_specificcsideletedlist := runtime.BitString{Bytes: bsBytes_specificcsideletedlist, BitLength: len(bsBytes_specificcsideletedlist)*8 - bsUnused_specificcsideletedlist}
+				bsBitLength_specificcsideletedlist, bsLenErr_specificcsideletedlist := ber.BitStringBitLength(len(bsBytes_specificcsideletedlist), bsUnused_specificcsideletedlist)
+				if bsLenErr_specificcsideletedlist != nil {
+					return fmt.Errorf("decoding specificCSIDeletedList: %w", bsLenErr_specificcsideletedlist)
+				}
+				tmp_specificcsideletedlist := runtime.BitString{Bytes: bsBytes_specificcsideletedlist, BitLength: bsBitLength_specificcsideletedlist}
 				v.SpecificCSIDeletedList = &tmp_specificcsideletedlist
 				offset += n_specificcsideletedlist
 			}
@@ -41323,7 +41423,11 @@ func (v *MSNoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				if bsErr != nil {
 					return fmt.Errorf("decoding supportedCAMELPhases: %w", bsErr)
 				}
-				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: len(bsBytes_supportedcamelphases)*8 - bsUnused_supportedcamelphases}
+				bsBitLength_supportedcamelphases, bsLenErr_supportedcamelphases := ber.BitStringBitLength(len(bsBytes_supportedcamelphases), bsUnused_supportedcamelphases)
+				if bsLenErr_supportedcamelphases != nil {
+					return fmt.Errorf("decoding supportedCAMELPhases: %w", bsLenErr_supportedcamelphases)
+				}
+				tmp_supportedcamelphases := runtime.BitString{Bytes: bsBytes_supportedcamelphases, BitLength: bsBitLength_supportedcamelphases}
 				v.SupportedCAMELPhases = &tmp_supportedcamelphases
 				offset += n_supportedcamelphases
 			}
@@ -41389,7 +41493,11 @@ func (v *MSNoteMMEventArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				if bsErr != nil {
 					return fmt.Errorf("decoding offeredCamel4Functionalities: %w", bsErr)
 				}
-				tmp_offeredcamel4functionalities := runtime.BitString{Bytes: bsBytes_offeredcamel4functionalities, BitLength: len(bsBytes_offeredcamel4functionalities)*8 - bsUnused_offeredcamel4functionalities}
+				bsBitLength_offeredcamel4functionalities, bsLenErr_offeredcamel4functionalities := ber.BitStringBitLength(len(bsBytes_offeredcamel4functionalities), bsUnused_offeredcamel4functionalities)
+				if bsLenErr_offeredcamel4functionalities != nil {
+					return fmt.Errorf("decoding offeredCamel4Functionalities: %w", bsLenErr_offeredcamel4functionalities)
+				}
+				tmp_offeredcamel4functionalities := runtime.BitString{Bytes: bsBytes_offeredcamel4functionalities, BitLength: bsBitLength_offeredcamel4functionalities}
 				v.OfferedCamel4Functionalities = &tmp_offeredcamel4functionalities
 				offset += n_offeredcamel4functionalities
 			}

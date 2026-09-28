@@ -7235,7 +7235,11 @@ func (v *DeviceCapabilities) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if bsErr != nil {
 					return fmt.Errorf("decoding catSupportedClasses: %w", bsErr)
 				}
-				tmp_catsupportedclasses := runtime.BitString{Bytes: bsBytes_catsupportedclasses, BitLength: len(bsBytes_catsupportedclasses)*8 - bsUnused_catsupportedclasses}
+				bsBitLength_catsupportedclasses, bsLenErr_catsupportedclasses := ber.BitStringBitLength(len(bsBytes_catsupportedclasses), bsUnused_catsupportedclasses)
+				if bsLenErr_catsupportedclasses != nil {
+					return fmt.Errorf("decoding catSupportedClasses: %w", bsLenErr_catsupportedclasses)
+				}
+				tmp_catsupportedclasses := runtime.BitString{Bytes: bsBytes_catsupportedclasses, BitLength: bsBitLength_catsupportedclasses}
 				v.CatSupportedClasses = &tmp_catsupportedclasses
 				offset += n_catsupportedclasses
 			}
@@ -7934,7 +7938,11 @@ func (v *UpdateMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if bsErr != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", bsErr)
 				}
-				tmp_profilepolicyrules := runtime.BitString{Bytes: bsBytes_profilepolicyrules, BitLength: len(bsBytes_profilepolicyrules)*8 - bsUnused_profilepolicyrules}
+				bsBitLength_profilepolicyrules, bsLenErr_profilepolicyrules := ber.BitStringBitLength(len(bsBytes_profilepolicyrules), bsUnused_profilepolicyrules)
+				if bsLenErr_profilepolicyrules != nil {
+					return fmt.Errorf("decoding profilePolicyRules: %w", bsLenErr_profilepolicyrules)
+				}
+				tmp_profilepolicyrules := runtime.BitString{Bytes: bsBytes_profilepolicyrules, BitLength: bsBitLength_profilepolicyrules}
 				v.ProfilePolicyRules = &tmp_profilepolicyrules
 				offset += n_profilepolicyrules
 			}
@@ -9204,7 +9212,11 @@ func (v *StoreMetadataRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if bsErr != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", bsErr)
 				}
-				tmp_profilepolicyrules := runtime.BitString{Bytes: bsBytes_profilepolicyrules, BitLength: len(bsBytes_profilepolicyrules)*8 - bsUnused_profilepolicyrules}
+				bsBitLength_profilepolicyrules, bsLenErr_profilepolicyrules := ber.BitStringBitLength(len(bsBytes_profilepolicyrules), bsUnused_profilepolicyrules)
+				if bsLenErr_profilepolicyrules != nil {
+					return fmt.Errorf("decoding profilePolicyRules: %w", bsLenErr_profilepolicyrules)
+				}
+				tmp_profilepolicyrules := runtime.BitString{Bytes: bsBytes_profilepolicyrules, BitLength: bsBitLength_profilepolicyrules}
 				v.ProfilePolicyRules = &tmp_profilepolicyrules
 				offset += n_profilepolicyrules
 			}
@@ -9454,7 +9466,11 @@ func (v *NotificationConfigurationInformation) UnmarshalBER(data []byte, opts ..
 	if bsErr != nil {
 		return fmt.Errorf("decoding profileManagementOperation: %w", bsErr)
 	}
-	v.ProfileManagementOperation = runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: len(bsBytes_profilemanagementoperation)*8 - bsUnused_profilemanagementoperation}
+	bsBitLength_profilemanagementoperation, bsLenErr_profilemanagementoperation := ber.BitStringBitLength(len(bsBytes_profilemanagementoperation), bsUnused_profilemanagementoperation)
+	if bsLenErr_profilemanagementoperation != nil {
+		return fmt.Errorf("decoding profileManagementOperation: %w", bsLenErr_profilemanagementoperation)
+	}
+	v.ProfileManagementOperation = runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: bsBitLength_profilemanagementoperation}
 	offset += n_profilemanagementoperation
 	// Decode notificationAddress
 	if offset >= len(content) {
@@ -9822,7 +9838,11 @@ func (v *ISDRProprietaryApplicationTemplate) UnmarshalBER(data []byte, opts ...b
 				if err != nil {
 					return fmt.Errorf("decoding lpaeSupport: %w", err)
 				}
-				tmp_lpaesupport := runtime.BitString{Bytes: bsBytes_lpaesupport, BitLength: len(bsBytes_lpaesupport)*8 - bsUnused_lpaesupport}
+				bsBitLength_lpaesupport, bsLenErr_lpaesupport := ber.BitStringBitLength(len(bsBytes_lpaesupport), bsUnused_lpaesupport)
+				if bsLenErr_lpaesupport != nil {
+					return fmt.Errorf("decoding lpaeSupport: %w", bsLenErr_lpaesupport)
+				}
+				tmp_lpaesupport := runtime.BitString{Bytes: bsBytes_lpaesupport, BitLength: bsBitLength_lpaesupport}
 				v.LpaeSupport = &tmp_lpaesupport
 				offset += n
 			}
@@ -9932,7 +9952,11 @@ func (v *LpaeActivationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if bsErr != nil {
 		return fmt.Errorf("decoding lpaeOption: %w", bsErr)
 	}
-	v.LpaeOption = runtime.BitString{Bytes: bsBytes_lpaeoption, BitLength: len(bsBytes_lpaeoption)*8 - bsUnused_lpaeoption}
+	bsBitLength_lpaeoption, bsLenErr_lpaeoption := ber.BitStringBitLength(len(bsBytes_lpaeoption), bsUnused_lpaeoption)
+	if bsLenErr_lpaeoption != nil {
+		return fmt.Errorf("decoding lpaeOption: %w", bsLenErr_lpaeoption)
+	}
+	v.LpaeOption = runtime.BitString{Bytes: bsBytes_lpaeoption, BitLength: bsBitLength_lpaeoption}
 	offset += n_lpaeoption
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -12496,7 +12520,11 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if bsErr != nil {
 		return fmt.Errorf("decoding uiccCapability: %w", bsErr)
 	}
-	v.UiccCapability = runtime.BitString{Bytes: bsBytes_uicccapability, BitLength: len(bsBytes_uicccapability)*8 - bsUnused_uicccapability}
+	bsBitLength_uicccapability, bsLenErr_uicccapability := ber.BitStringBitLength(len(bsBytes_uicccapability), bsUnused_uicccapability)
+	if bsLenErr_uicccapability != nil {
+		return fmt.Errorf("decoding uiccCapability: %w", bsLenErr_uicccapability)
+	}
+	v.UiccCapability = runtime.BitString{Bytes: bsBytes_uicccapability, BitLength: bsBitLength_uicccapability}
 	offset += n_uicccapability
 	// Decode ts102241Version
 	if offset < len(content) {
@@ -12554,7 +12582,11 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 	if bsErr != nil {
 		return fmt.Errorf("decoding rspCapability: %w", bsErr)
 	}
-	v.RspCapability = runtime.BitString{Bytes: bsBytes_rspcapability, BitLength: len(bsBytes_rspcapability)*8 - bsUnused_rspcapability}
+	bsBitLength_rspcapability, bsLenErr_rspcapability := ber.BitStringBitLength(len(bsBytes_rspcapability), bsUnused_rspcapability)
+	if bsLenErr_rspcapability != nil {
+		return fmt.Errorf("decoding rspCapability: %w", bsLenErr_rspcapability)
+	}
+	v.RspCapability = runtime.BitString{Bytes: bsBytes_rspcapability, BitLength: bsBitLength_rspcapability}
 	offset += n_rspcapability
 	// Decode euiccCiPKIdListForVerification
 	if offset >= len(content) {
@@ -12657,7 +12689,11 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding forbiddenProfilePolicyRules: %w", bsErr)
 				}
-				tmp_forbiddenprofilepolicyrules := runtime.BitString{Bytes: bsBytes_forbiddenprofilepolicyrules, BitLength: len(bsBytes_forbiddenprofilepolicyrules)*8 - bsUnused_forbiddenprofilepolicyrules}
+				bsBitLength_forbiddenprofilepolicyrules, bsLenErr_forbiddenprofilepolicyrules := ber.BitStringBitLength(len(bsBytes_forbiddenprofilepolicyrules), bsUnused_forbiddenprofilepolicyrules)
+				if bsLenErr_forbiddenprofilepolicyrules != nil {
+					return fmt.Errorf("decoding forbiddenProfilePolicyRules: %w", bsLenErr_forbiddenprofilepolicyrules)
+				}
+				tmp_forbiddenprofilepolicyrules := runtime.BitString{Bytes: bsBytes_forbiddenprofilepolicyrules, BitLength: bsBitLength_forbiddenprofilepolicyrules}
 				v.ForbiddenProfilePolicyRules = &tmp_forbiddenprofilepolicyrules
 				offset += n_forbiddenprofilepolicyrules
 			}
@@ -12721,7 +12757,11 @@ func (v *EUICCInfo2) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if bsErr != nil {
 					return fmt.Errorf("decoding treProperties: %w", bsErr)
 				}
-				tmp_treproperties := runtime.BitString{Bytes: bsBytes_treproperties, BitLength: len(bsBytes_treproperties)*8 - bsUnused_treproperties}
+				bsBitLength_treproperties, bsLenErr_treproperties := ber.BitStringBitLength(len(bsBytes_treproperties), bsUnused_treproperties)
+				if bsLenErr_treproperties != nil {
+					return fmt.Errorf("decoding treProperties: %w", bsLenErr_treproperties)
+				}
+				tmp_treproperties := runtime.BitString{Bytes: bsBytes_treproperties, BitLength: bsBitLength_treproperties}
 				v.TreProperties = &tmp_treproperties
 				offset += n_treproperties
 			}
@@ -13215,7 +13255,11 @@ func (v *ListNotificationRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if bsErr != nil {
 					return fmt.Errorf("decoding profileManagementOperation: %w", bsErr)
 				}
-				tmp_profilemanagementoperation := runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: len(bsBytes_profilemanagementoperation)*8 - bsUnused_profilemanagementoperation}
+				bsBitLength_profilemanagementoperation, bsLenErr_profilemanagementoperation := ber.BitStringBitLength(len(bsBytes_profilemanagementoperation), bsUnused_profilemanagementoperation)
+				if bsLenErr_profilemanagementoperation != nil {
+					return fmt.Errorf("decoding profileManagementOperation: %w", bsLenErr_profilemanagementoperation)
+				}
+				tmp_profilemanagementoperation := runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: bsBitLength_profilemanagementoperation}
 				v.ProfileManagementOperation = &tmp_profilemanagementoperation
 				offset += n_profilemanagementoperation
 			}
@@ -13525,7 +13569,11 @@ func (v *NotificationMetadata) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if bsErr != nil {
 		return fmt.Errorf("decoding profileManagementOperation: %w", bsErr)
 	}
-	v.ProfileManagementOperation = runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: len(bsBytes_profilemanagementoperation)*8 - bsUnused_profilemanagementoperation}
+	bsBitLength_profilemanagementoperation, bsLenErr_profilemanagementoperation := ber.BitStringBitLength(len(bsBytes_profilemanagementoperation), bsUnused_profilemanagementoperation)
+	if bsLenErr_profilemanagementoperation != nil {
+		return fmt.Errorf("decoding profileManagementOperation: %w", bsLenErr_profilemanagementoperation)
+	}
+	v.ProfileManagementOperation = runtime.BitString{Bytes: bsBytes_profilemanagementoperation, BitLength: bsBitLength_profilemanagementoperation}
 	offset += n_profilemanagementoperation
 	// Decode notificationAddress
 	if offset >= len(content) {
@@ -17568,7 +17616,11 @@ func (v *ProfileInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 				if bsErr != nil {
 					return fmt.Errorf("decoding profilePolicyRules: %w", bsErr)
 				}
-				tmp_profilepolicyrules := runtime.BitString{Bytes: bsBytes_profilepolicyrules, BitLength: len(bsBytes_profilepolicyrules)*8 - bsUnused_profilepolicyrules}
+				bsBitLength_profilepolicyrules, bsLenErr_profilepolicyrules := ber.BitStringBitLength(len(bsBytes_profilepolicyrules), bsUnused_profilepolicyrules)
+				if bsLenErr_profilepolicyrules != nil {
+					return fmt.Errorf("decoding profilePolicyRules: %w", bsLenErr_profilepolicyrules)
+				}
+				tmp_profilepolicyrules := runtime.BitString{Bytes: bsBytes_profilepolicyrules, BitLength: bsBitLength_profilepolicyrules}
 				v.ProfilePolicyRules = &tmp_profilepolicyrules
 				offset += n_profilepolicyrules
 			}
@@ -18527,7 +18579,11 @@ func (v *EuiccMemoryResetRequest) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if bsErr != nil {
 		return fmt.Errorf("decoding resetOptions: %w", bsErr)
 	}
-	v.ResetOptions = runtime.BitString{Bytes: bsBytes_resetoptions, BitLength: len(bsBytes_resetoptions)*8 - bsUnused_resetoptions}
+	bsBitLength_resetoptions, bsLenErr_resetoptions := ber.BitStringBitLength(len(bsBytes_resetoptions), bsUnused_resetoptions)
+	if bsLenErr_resetoptions != nil {
+		return fmt.Errorf("decoding resetOptions: %w", bsLenErr_resetoptions)
+	}
+	v.ResetOptions = runtime.BitString{Bytes: bsBytes_resetoptions, BitLength: bsBitLength_resetoptions}
 	offset += n_resetoptions
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -19494,7 +19550,11 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte, opts ...ber.D
 	if bsErr != nil {
 		return fmt.Errorf("decoding pprIds: %w", bsErr)
 	}
-	v.PprIds = runtime.BitString{Bytes: bsBytes_pprids, BitLength: len(bsBytes_pprids)*8 - bsUnused_pprids}
+	bsBitLength_pprids, bsLenErr_pprids := ber.BitStringBitLength(len(bsBytes_pprids), bsUnused_pprids)
+	if bsLenErr_pprids != nil {
+		return fmt.Errorf("decoding pprIds: %w", bsLenErr_pprids)
+	}
+	v.PprIds = runtime.BitString{Bytes: bsBytes_pprids, BitLength: bsBitLength_pprids}
 	offset += n_pprids
 	// Decode allowedOperators
 	if offset >= len(content) {
@@ -19546,7 +19606,11 @@ func (v *ProfilePolicyAuthorisationRule) UnmarshalBER(data []byte, opts ...ber.D
 	if bsErr != nil {
 		return fmt.Errorf("decoding pprFlags: %w", bsErr)
 	}
-	v.PprFlags = runtime.BitString{Bytes: bsBytes_pprflags, BitLength: len(bsBytes_pprflags)*8 - bsUnused_pprflags}
+	bsBitLength_pprflags, bsLenErr_pprflags := ber.BitStringBitLength(len(bsBytes_pprflags), bsUnused_pprflags)
+	if bsLenErr_pprflags != nil {
+		return fmt.Errorf("decoding pprFlags: %w", bsLenErr_pprflags)
+	}
+	v.PprFlags = runtime.BitString{Bytes: bsBytes_pprflags, BitLength: bsBitLength_pprflags}
 	offset += n_pprflags
 	v.ExtCount_ = 0
 	v.ExtPresent_ = v.ExtPresent_[:0]
@@ -23402,7 +23466,11 @@ func (v *RetrieveNotificationsListRequestSearchCriteria) UnmarshalBER(data []byt
 		if bsErr != nil {
 			return fmt.Errorf("decoding profileManagementOperation: %w", bsErr)
 		}
-		tmp := runtime.BitString{Bytes: bsBytes, BitLength: len(bsBytes)*8 - bsUnused}
+		bsBitLength, bsLenErr := ber.BitStringBitLength(len(bsBytes), bsUnused)
+		if bsLenErr != nil {
+			return fmt.Errorf("decoding BIT STRING: %w", bsLenErr)
+		}
+		tmp := runtime.BitString{Bytes: bsBytes, BitLength: bsBitLength}
 		v.ProfileManagementOperation = &tmp
 	} else {
 		return fmt.Errorf("unknown tag %s for RetrieveNotificationsListRequestSearchCriteria CHOICE", peekTag)
