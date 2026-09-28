@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "50120762f71e0278cd8054151521606a774ffa94",
-  "target_base_commit": "bf831999083889d232eadadcc3d4470aebb222b9",
+  "compiler_commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+  "target_base_commit": "446bb7a05e0b0a314fccd8d11856086e17facf62",
   "inputs": {
     "sha256": "f550293ecd58e5109feeb727fdb6dc8f442cc6fb8e0d4b3772eb8c8f51e24c37",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -1869,7 +1869,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -1963,8 +1963,8 @@
         "outputs": [
           {
             "path": "lppa/asn1_wire_vectors_test.go",
-            "sha256": "c306e29c0f66e46b55c72a4baf891268ec1f7a0a14b18efb9c30351f9246c038",
-            "size_bytes": 7578
+            "sha256": "c22b541011665cfdb82be5e1bcca7feb09d70659fcbb0d3d49d9fa3b4c6ffc29",
+            "size_bytes": 22832
           },
           {
             "path": "lppa/dispatch.go",
@@ -2314,7 +2314,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -2719,7 +2719,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -3068,7 +3068,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -3463,7 +3463,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -3824,7 +3824,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -4209,7 +4209,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -4570,7 +4570,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "50120762f71e0278cd8054151521606a774ffa94",
+          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
           "dirty": false
         },
         "frontend": {
@@ -4938,7 +4938,7 @@
     }
   ],
   "outputs": {
-    "sha256": "e8ad5631b5bf43a7376db8b770a4b0394e13b025ea8e30c87efce1f2a6e973c6",
+    "sha256": "bafd5f7300b5dbfc43a7810b38b0695f9bc7c4d7cf5a6707306b24c17ce8d593",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
@@ -5297,8 +5297,8 @@
       {
         "path": "telecom/lte/lppa/asn1_wire_vectors_test.go",
         "mode": "0644",
-        "sha256": "c306e29c0f66e46b55c72a4baf891268ec1f7a0a14b18efb9c30351f9246c038",
-        "size_bytes": 7578
+        "sha256": "c22b541011665cfdb82be5e1bcca7feb09d70659fcbb0d3d49d9fa3b4c6ffc29",
+        "size_bytes": 22832
       },
       {
         "path": "telecom/lte/lppa/dispatch.go",
