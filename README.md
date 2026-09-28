@@ -74,6 +74,9 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 | `umts/nbap` | NBAP | Iub (Node B ↔ RNC) | APER | planned |
 | `umts/sabp` | SABP | Iu-BC (RNC ↔ CBC) | APER | planned |
 
+Compiling `telecom/umts/rrc` needs about 4 GB in one Go compiler process.
+On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
+
 #### `telecom/gsm/` — 2G
 
 | Package | Spec | Interface | Status |
