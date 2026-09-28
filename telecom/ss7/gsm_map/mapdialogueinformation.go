@@ -525,7 +525,10 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 		if tlvErr != nil {
 			return fmt.Errorf("decoding map-open: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec MAPOpenInfo
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding map-open: %w", unmErr)
@@ -537,7 +540,10 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 		if tlvErr != nil {
 			return fmt.Errorf("decoding map-accept: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec MAPAcceptInfo
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding map-accept: %w", unmErr)
@@ -549,7 +555,10 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 		if tlvErr != nil {
 			return fmt.Errorf("decoding map-close: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec MAPCloseInfo
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding map-close: %w", unmErr)
@@ -561,7 +570,10 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 		if tlvErr != nil {
 			return fmt.Errorf("decoding map-refuse: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec MAPRefuseInfo
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding map-refuse: %w", unmErr)
@@ -573,7 +585,10 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 		if tlvErr != nil {
 			return fmt.Errorf("decoding map-userAbort: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec MAPUserAbortInfo
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding map-userAbort: %w", unmErr)
@@ -585,7 +600,10 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 		if tlvErr != nil {
 			return fmt.Errorf("decoding map-providerAbort: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec MAPProviderAbortInfo
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding map-providerAbort: %w", unmErr)
@@ -601,7 +619,10 @@ func (v *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 func (v *MAPOpenInfo) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
-		enc_destinationreference := ber.EncodeOctetString([]byte(*v.DestinationReference))
+		enc_destinationreference, encodeErr_enc_destinationreference := ber.EncodeOctetString([]byte(*v.DestinationReference))
+		if encodeErr_enc_destinationreference != nil {
+			return nil, fmt.Errorf("encoding destinationReference: %w", encodeErr_enc_destinationreference)
+		}
 		retagged_enc_destinationreference, tagErr_enc_destinationreference := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_destinationreference)
 		if tagErr_enc_destinationreference != nil {
 			return nil, fmt.Errorf("encoding destinationReference: %w", tagErr_enc_destinationreference)
@@ -610,7 +631,10 @@ func (v *MAPOpenInfo) MarshalBER() ([]byte, error) {
 		children = append(children, enc_destinationreference...)
 	}
 	if v.OriginationReference != nil {
-		enc_originationreference := ber.EncodeOctetString([]byte(*v.OriginationReference))
+		enc_originationreference, encodeErr_enc_originationreference := ber.EncodeOctetString([]byte(*v.OriginationReference))
+		if encodeErr_enc_originationreference != nil {
+			return nil, fmt.Errorf("encoding originationReference: %w", encodeErr_enc_originationreference)
+		}
 		retagged_enc_originationreference, tagErr_enc_originationreference := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_originationreference)
 		if tagErr_enc_originationreference != nil {
 			return nil, fmt.Errorf("encoding originationReference: %w", tagErr_enc_originationreference)
@@ -635,14 +659,17 @@ func (v *MAPOpenInfo) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MAPOpenInfo to DER format.
 func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
-		enc_destinationreference := ber.EncodeOctetString([]byte(*v.DestinationReference))
+		enc_destinationreference, encodeErr_enc_destinationreference := ber.EncodeOctetString([]byte(*v.DestinationReference))
+		if encodeErr_enc_destinationreference != nil {
+			return nil, fmt.Errorf("encoding destinationReference: %w", encodeErr_enc_destinationreference)
+		}
 		retagged_enc_destinationreference, tagErr_enc_destinationreference := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_destinationreference)
 		if tagErr_enc_destinationreference != nil {
 			return nil, fmt.Errorf("encoding destinationReference: %w", tagErr_enc_destinationreference)
@@ -651,7 +678,10 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_destinationreference...)
 	}
 	if v.OriginationReference != nil {
-		enc_originationreference := ber.EncodeOctetString([]byte(*v.OriginationReference))
+		enc_originationreference, encodeErr_enc_originationreference := ber.EncodeOctetString([]byte(*v.OriginationReference))
+		if encodeErr_enc_originationreference != nil {
+			return nil, fmt.Errorf("encoding originationReference: %w", encodeErr_enc_originationreference)
+		}
 		retagged_enc_originationreference, tagErr_enc_originationreference := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_originationreference)
 		if tagErr_enc_originationreference != nil {
 			return nil, fmt.Errorf("encoding originationReference: %w", tagErr_enc_originationreference)
@@ -672,7 +702,10 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPOpenInfo as DER: %w", err)
 	}
@@ -784,7 +817,7 @@ func (v *MAPAcceptInfo) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MAPAcceptInfo to DER format.
@@ -803,7 +836,10 @@ func (v *MAPAcceptInfo) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPAcceptInfo as DER: %w", err)
 	}
@@ -879,7 +915,7 @@ func (v *MAPCloseInfo) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MAPCloseInfo to DER format.
@@ -898,7 +934,10 @@ func (v *MAPCloseInfo) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPCloseInfo as DER: %w", err)
 	}
@@ -983,7 +1022,7 @@ func (v *MAPRefuseInfo) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MAPRefuseInfo to DER format.
@@ -1011,7 +1050,10 @@ func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPRefuseInfo as DER: %w", err)
 	}
@@ -1117,7 +1159,7 @@ func (v *MAPUserAbortInfo) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MAPUserAbortInfo to DER format.
@@ -1141,7 +1183,10 @@ func (v *MAPUserAbortInfo) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPUserAbortInfo as DER: %w", err)
 	}
@@ -1363,7 +1408,7 @@ func (v *MAPProviderAbortInfo) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MAPProviderAbortInfo to DER format.
@@ -1384,7 +1429,10 @@ func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MAPProviderAbortInfo as DER: %w", err)
 	}

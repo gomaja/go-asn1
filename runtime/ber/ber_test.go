@@ -206,7 +206,7 @@ func TestValidateDERElement(t *testing.T) {
 	// A universal SET tag does not reveal whether the schema is SET or SET OF,
 	// whose DER ordering rules differ. Generic validation therefore checks each
 	// child but leaves ordering to the schema-aware encoders.
-	unsortedSetOf := EncodeSet(append(EncodeOctetString([]byte("z")), EncodeOctetString([]byte("a"))...))
+	unsortedSetOf := mustEncode(t)(EncodeSet(append(mustEncode(t)(EncodeOctetString([]byte("z"))), mustEncode(t)(EncodeOctetString([]byte("a")))...)))
 	if err := ValidateDERElement(unsortedSetOf); err != nil {
 		t.Fatalf("ValidateDERElement structurally valid SET OF: %v", err)
 	}
@@ -325,7 +325,7 @@ func TestValidateDERUTF8AndEmbeddedPDV(t *testing.T) {
 		if err := ValidateDERElement(data); err == nil || !strings.Contains(err.Error(), tc.reason) {
 			t.Fatalf("invalid DER %s: error=%v, want %q", tc.wire, err, tc.reason)
 		}
-		wrapped := EncodeSequence(data)
+		wrapped := mustEncode(t)(EncodeSequence(data))
 		if err := ValidateDERElement(wrapped); err == nil || !strings.Contains(err.Error(), tc.reason) {
 			t.Fatalf("invalid raw child %s: error=%v, want %q", tc.wire, err, tc.reason)
 		}
@@ -354,13 +354,13 @@ func TestDERRejectsNonMinimalIdentifierAndLength(t *testing.T) {
 }
 
 func TestDERSetUsesTagOrderAcrossLongTagWidths(t *testing.T) {
-	lower := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16383}, []byte{0})
-	higher := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16384}, []byte{0})
+	lower := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16383}, []byte{0}))
+	higher := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16384}, []byte{0}))
 	encoded, err := EncodeDERSet(append(append([]byte(nil), higher...), lower...))
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := EncodeSet(append(append([]byte(nil), lower...), higher...))
+	want := mustEncode(t)(EncodeSet(append(append([]byte(nil), lower...), higher...)))
 	if !bytes.Equal(encoded, want) {
 		t.Fatalf("DER SET = %x, want %x", encoded, want)
 	}
@@ -375,7 +375,7 @@ func FuzzValidateDERElementNoPanic(f *testing.F) {
 		{0x02, 0x81, 0x01, 0x00},
 		{0x1f, 0x02, 0x01, 0x00},
 		{0x04, 0x84, 0x7f, 0xff, 0xff, 0xff},
-		EncodeSet(EncodeOctetString([]byte("value"))),
+		{0x31, 0x07, 0x04, 0x05, 'v', 'a', 'l', 'u', 'e'},
 	} {
 		f.Add(seed)
 	}
@@ -397,18 +397,18 @@ func TestEncodeDERSetOrdering(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	wantSet := EncodeSet(append(low, high...))
+	wantSet := mustEncode(t)(EncodeSet(append(low, high...)))
 	if !bytes.Equal(gotSet, wantSet) {
 		t.Fatalf("EncodeDERSet = %x, want %x", gotSet, wantSet)
 	}
 
-	z := EncodeOctetString([]byte("z"))
-	a := EncodeOctetString([]byte("a"))
+	z := mustEncode(t)(EncodeOctetString([]byte("z")))
+	a := mustEncode(t)(EncodeOctetString([]byte("a")))
 	gotSetOf, err := EncodeDERSetOf(append(z, a...))
 	if err != nil {
 		t.Fatal(err)
 	}
-	wantSetOf := EncodeSet(append(a, z...))
+	wantSetOf := mustEncode(t)(EncodeSet(append(a, z...)))
 	if !bytes.Equal(gotSetOf, wantSetOf) {
 		t.Fatalf("EncodeDERSetOf = %x, want %x", gotSetOf, wantSetOf)
 	}
@@ -484,7 +484,7 @@ func TestEncodeDecodeBigInt(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			encoded := EncodeBigInt(tc.value)
+			encoded := mustEncode(t)(EncodeBigInt(tc.value))
 			decoded, consumed, err := DecodeBigInt(encoded)
 			if err != nil {
 				t.Fatalf("decode error: %v", err)
@@ -513,7 +513,7 @@ func TestEncodeDecodeBitString(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			encoded := EncodeBitString(tc.bytes, tc.unusedBits)
+			encoded := mustEncode(t)(EncodeBitString(tc.bytes, tc.unusedBits))
 			decoded, unusedBits, consumed, err := DecodeBitString(encoded)
 			if err != nil {
 				t.Fatalf("decode error: %v", err)
@@ -549,7 +549,7 @@ func TestEncodeDecodeOctetString(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			encoded := EncodeOctetString(tc.value)
+			encoded := mustEncode(t)(EncodeOctetString(tc.value))
 			decoded, consumed, err := DecodeOctetString(encoded)
 			if err != nil {
 				t.Fatalf("decode error: %v", err)
@@ -592,7 +592,7 @@ func TestEncodeDecodeOID(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			encoded := EncodeObjectIdentifier(tc.oid)
+			encoded := mustEncode(t)(EncodeObjectIdentifier(tc.oid))
 			expected, _ := hex.DecodeString(tc.hex)
 			if !bytes.Equal(encoded, expected) {
 				t.Errorf("encode: got %x, want %s", encoded, tc.hex)
@@ -787,7 +787,7 @@ func TestEncodeStringTag(t *testing.T) {
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			encoded := EncodeStringTag(c.tagNum, "hello")
+			encoded := mustEncode(t)(EncodeStringTag(c.tagNum, "hello"))
 			decoded, n, err := DecodeString(encoded, c.tagNum)
 			if err != nil {
 				t.Fatalf("decode error: %v", err)
@@ -805,7 +805,7 @@ func TestEncodeStringTag(t *testing.T) {
 func TestEncodeDecodeSequence(t *testing.T) {
 	// Build a SEQUENCE { INTEGER 42, BOOLEAN true }
 	children := append(EncodeInteger(42), EncodeBoolean(true)...)
-	encoded := EncodeSequence(children)
+	encoded := mustEncode(t)(EncodeSequence(children))
 
 	// Decode the outer TLV.
 	outerTag, total, value, err := DecodeTLV(encoded)
@@ -848,7 +848,7 @@ func TestEncodeDecodeSequence(t *testing.T) {
 func TestExplicitTag(t *testing.T) {
 	// Encode INTEGER 42, then wrap in EXPLICIT [0].
 	inner := EncodeInteger(42)
-	wrapped := EncodeExplicitTag(0, inner)
+	wrapped := mustEncode(t)(EncodeExplicitTag(0, inner))
 
 	// Decode outer tag.
 	outerTag, _, value, err := DecodeTLV(wrapped)
@@ -871,7 +871,7 @@ func TestExplicitTag(t *testing.T) {
 
 func TestImplicitTag(t *testing.T) {
 	// Encode OCTET STRING, then re-tag as IMPLICIT [1].
-	inner := EncodeOctetString([]byte("hello"))
+	inner := mustEncode(t)(EncodeOctetString([]byte("hello")))
 	retagged, err := EncodeImplicitTag(1, inner)
 	if err != nil {
 		t.Fatalf("EncodeImplicitTag: %v", err)
@@ -891,10 +891,10 @@ func TestImplicitTag(t *testing.T) {
 }
 
 func TestImplicitTagPreservesFormAndLength(t *testing.T) {
-	indefinite := EncodeConstructedIndefinite(
+	indefinite := mustEncode(t)(EncodeConstructedIndefinite(
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence},
 		EncodeNull(),
-	)
+	))
 	got, err := EncodeImplicitTagWithClass(tag.ClassApplication, 12, indefinite)
 	if err != nil {
 		t.Fatalf("EncodeImplicitTagWithClass: %v", err)

@@ -451,7 +451,10 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		if tlvErr != nil {
 			return fmt.Errorf("decoding invoke: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Invoke
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
@@ -466,7 +469,10 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
@@ -478,7 +484,10 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnError: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnError
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
@@ -490,7 +499,10 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error 
 		if tlvErr != nil {
 			return fmt.Errorf("decoding reject: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Reject
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding reject: %w", unmErr)
@@ -683,7 +695,10 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding invoke: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Invoke
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
@@ -698,7 +713,10 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
@@ -710,7 +728,10 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnError: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnError
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
@@ -722,7 +743,10 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding reject: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Reject
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding reject: %w", unmErr)
@@ -915,7 +939,10 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding invoke: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Invoke
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
@@ -930,7 +957,10 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
@@ -942,7 +972,10 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnError: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnError
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
@@ -954,7 +987,10 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) erro
 		if tlvErr != nil {
 			return fmt.Errorf("decoding reject: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Reject
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding reject: %w", unmErr)
@@ -973,7 +1009,10 @@ func (v *ROSSingleASInvokeLinkedId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice ROSSingleASInvokeLinkedId: present is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
@@ -1065,7 +1104,7 @@ func (v *ROSSingleASReturnResultResult) MarshalBER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ROSSingleASReturnResultResult to DER format.
@@ -1078,7 +1117,10 @@ func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSSingleASReturnResultResult as DER: %w", err)
 	}
@@ -1135,7 +1177,10 @@ func (v *ROSConsumerASInvokeLinkedId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice ROSConsumerASInvokeLinkedId: present is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
@@ -1227,7 +1272,7 @@ func (v *ROSConsumerASReturnResultResult) MarshalBER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ROSConsumerASReturnResultResult to DER format.
@@ -1240,7 +1285,10 @@ func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSConsumerASReturnResultResult as DER: %w", err)
 	}
@@ -1297,7 +1345,10 @@ func (v *ROSSupplierASInvokeLinkedId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice ROSSupplierASInvokeLinkedId: present is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
@@ -1389,7 +1440,7 @@ func (v *ROSSupplierASReturnResultResult) MarshalBER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ROSSupplierASReturnResultResult to DER format.
@@ -1402,7 +1453,10 @@ func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSSupplierASReturnResultResult as DER: %w", err)
 	}

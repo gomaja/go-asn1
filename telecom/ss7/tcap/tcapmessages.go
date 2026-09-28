@@ -489,7 +489,10 @@ func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding unidirectional: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Unidirectional
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding unidirectional: %w", unmErr)
@@ -501,7 +504,10 @@ func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding begin: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Begin
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding begin: %w", unmErr)
@@ -513,7 +519,10 @@ func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding end: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec End
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding end: %w", unmErr)
@@ -525,7 +534,10 @@ func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding continue: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Continue
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding continue: %w", unmErr)
@@ -537,7 +549,10 @@ func (v *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding abort: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Abort
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding abort: %w", unmErr)
@@ -568,10 +583,16 @@ func (v *Unidirectional) MarshalBER() ([]byte, error) {
 		if tlvErr_ != nil {
 			return nil, tlvErr_
 		}
-		enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+		{
+			var encodeErr error
+			enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+			if encodeErr != nil {
+				return nil, fmt.Errorf("encoding Components: %w", encodeErr)
+			}
+		}
 	}
 	children = append(children, enc_components...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes Unidirectional to DER format.
@@ -589,7 +610,10 @@ func (v *Unidirectional) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding components: %w", err)
 	}
 	children = append(children, enc_components...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Unidirectional as DER: %w", err)
 	}
@@ -665,7 +689,10 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 // MarshalBER encodes Begin to BER format.
 func (v *Begin) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	if encodeErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
+	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
@@ -689,17 +716,26 @@ func (v *Begin) MarshalBER() ([]byte, error) {
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
-			enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+			{
+				var encodeErr error
+				enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+				if encodeErr != nil {
+					return nil, fmt.Errorf("encoding Components: %w", encodeErr)
+				}
+			}
 		}
 		children = append(children, enc_components...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes Begin to DER format.
 func (v *Begin) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	if encodeErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
+	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
@@ -720,7 +756,10 @@ func (v *Begin) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_components...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Begin as DER: %w", err)
 	}
@@ -813,7 +852,10 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes End to BER format.
 func (v *End) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	if encodeErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
+	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
@@ -837,17 +879,26 @@ func (v *End) MarshalBER() ([]byte, error) {
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
-			enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+			{
+				var encodeErr error
+				enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+				if encodeErr != nil {
+					return nil, fmt.Errorf("encoding Components: %w", encodeErr)
+				}
+			}
 		}
 		children = append(children, enc_components...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes End to DER format.
 func (v *End) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	if encodeErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
+	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
@@ -868,7 +919,10 @@ func (v *End) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_components...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding End as DER: %w", err)
 	}
@@ -961,14 +1015,20 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes Continue to BER format.
 func (v *Continue) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	if encodeErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
+	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
 	}
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
-	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	if encodeErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
+	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
@@ -992,24 +1052,36 @@ func (v *Continue) MarshalBER() ([]byte, error) {
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
-			enc_components = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+			{
+				var encodeErr error
+				enc_components, encodeErr = ber.EncodeConstructedIndefinite(indefTag_, indefContent_)
+				if encodeErr != nil {
+					return nil, fmt.Errorf("encoding Components: %w", encodeErr)
+				}
+			}
 		}
 		children = append(children, enc_components...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes Continue to DER format.
 func (v *Continue) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	enc_otid, encodeErr_enc_otid := ber.EncodeOctetString([]byte(v.Otid))
+	if encodeErr_enc_otid != nil {
+		return nil, fmt.Errorf("encoding otid: %w", encodeErr_enc_otid)
+	}
 	retagged_enc_otid, tagErr_enc_otid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 8, enc_otid)
 	if tagErr_enc_otid != nil {
 		return nil, fmt.Errorf("encoding otid: %w", tagErr_enc_otid)
 	}
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
-	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	if encodeErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
+	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
@@ -1030,7 +1102,10 @@ func (v *Continue) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_components...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Continue as DER: %w", err)
 	}
@@ -1141,7 +1216,10 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes Abort to BER format.
 func (v *Abort) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	if encodeErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
+	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
@@ -1155,13 +1233,16 @@ func (v *Abort) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_reason...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes Abort to DER format.
 func (v *Abort) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	enc_dtid, encodeErr_enc_dtid := ber.EncodeOctetString([]byte(v.Dtid))
+	if encodeErr_enc_dtid != nil {
+		return nil, fmt.Errorf("encoding dtid: %w", encodeErr_enc_dtid)
+	}
 	retagged_enc_dtid, tagErr_enc_dtid := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 9, enc_dtid)
 	if tagErr_enc_dtid != nil {
 		return nil, fmt.Errorf("encoding dtid: %w", tagErr_enc_dtid)
@@ -1175,7 +1256,10 @@ func (v *Abort) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_reason...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Abort as DER: %w", err)
 	}
@@ -1250,7 +1334,10 @@ func (v *DialoguePortion) MarshalBER() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	encoded = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, encoded)
+	encoded, err = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, encoded)
+	if err != nil {
+		return nil, err
+	}
 	return encoded, nil
 }
 func (v *DialoguePortion) MarshalDER() ([]byte, error) {
@@ -1261,7 +1348,10 @@ func (v *DialoguePortion) MarshalDER() ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	encoded = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, encoded)
+	encoded, err = ber.EncodeExplicitTagWithClass(tag.ClassApplication, 11, encoded)
+	if err != nil {
+		return nil, err
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, err
 	}
@@ -1309,7 +1399,7 @@ func MarshalBERComponentPortion(list ComponentPortion) ([]byte, error) {
 		}
 		children = append(children, enc...)
 	}
-	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassApplication, Number: 12, Constructed: true}, children), nil
+	return ber.EncodeConstructed(tag.Tag{Class: tag.ClassApplication, Number: 12, Constructed: true}, children)
 }
 
 // MarshalDERComponentPortion encodes a ComponentPortion list to DER.
@@ -1325,7 +1415,10 @@ func MarshalDERComponentPortion(list ComponentPortion) ([]byte, error) {
 		}
 		children = append(children, enc...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	retagged_encoded, tagErr_encoded := ber.EncodeImplicitTagWithClass(tag.ClassApplication, 12, encoded)
 	if tagErr_encoded != nil {
 		return nil, fmt.Errorf("encoding ComponentPortion: %w", tagErr_encoded)
@@ -1475,7 +1568,10 @@ func (v *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResultNotLast: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnResultNotLast: %w", unmErr)
@@ -1691,7 +1787,10 @@ func (v *ComponentBasicROSInvokeLinkedId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice ComponentBasicROSInvokeLinkedId: present is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
@@ -1783,7 +1882,7 @@ func (v *ComponentBasicROSReturnResultResult) MarshalBER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ComponentBasicROSReturnResultResult to DER format.
@@ -1796,7 +1895,10 @@ func (v *ComponentBasicROSReturnResultResult) MarshalDER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ComponentBasicROSReturnResultResult as DER: %w", err)
 	}
@@ -1856,7 +1958,7 @@ func (v *ComponentReturnResultNotLastResult) MarshalBER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ComponentReturnResultNotLastResult to DER format.
@@ -1869,7 +1971,10 @@ func (v *ComponentReturnResultNotLastResult) MarshalDER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ComponentReturnResultNotLastResult as DER: %w", err)
 	}

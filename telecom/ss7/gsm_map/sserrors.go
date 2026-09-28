@@ -29,8 +29,17 @@ type PruAssociationRejParam struct {
 func (v *PruAssociationRejParam) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.NewLmfRoutingId != nil {
-		enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
-		enc_newlmfroutingid = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_newlmfroutingid)
+		enc_newlmfroutingid, encodeErr_enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
+		if encodeErr_enc_newlmfroutingid != nil {
+			return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr_enc_newlmfroutingid)
+		}
+		{
+			var encodeErr error
+			enc_newlmfroutingid, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_newlmfroutingid)
+			if encodeErr != nil {
+				return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr)
+			}
+		}
 		children = append(children, enc_newlmfroutingid...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -43,15 +52,24 @@ func (v *PruAssociationRejParam) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes PruAssociationRejParam to DER format.
 func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.NewLmfRoutingId != nil {
-		enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
-		enc_newlmfroutingid = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_newlmfroutingid)
+		enc_newlmfroutingid, encodeErr_enc_newlmfroutingid := ber.EncodeOctetString(v.NewLmfRoutingId)
+		if encodeErr_enc_newlmfroutingid != nil {
+			return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr_enc_newlmfroutingid)
+		}
+		{
+			var encodeErr error
+			enc_newlmfroutingid, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 0, enc_newlmfroutingid)
+			if encodeErr != nil {
+				return nil, fmt.Errorf("encoding newLmfRoutingId: %w", encodeErr)
+			}
+		}
 		children = append(children, enc_newlmfroutingid...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -60,7 +78,10 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding PruAssociationRejParam as DER: %w", err)
 	}

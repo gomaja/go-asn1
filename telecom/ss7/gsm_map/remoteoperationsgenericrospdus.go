@@ -1263,7 +1263,10 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding invoke: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Invoke
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding invoke: %w", unmErr)
@@ -1278,7 +1281,10 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnResult
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnResult: %w", unmErr)
@@ -1290,7 +1296,10 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding returnError: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec ReturnError
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding returnError: %w", unmErr)
@@ -1302,7 +1311,10 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		if tlvErr != nil {
 			return fmt.Errorf("decoding reject: %w", tlvErr)
 		}
-		reconstructed := ber.EncodeSequence(rawVal)
+		reconstructed, reconstructionErr := ber.EncodeSequence(rawVal)
+		if reconstructionErr != nil {
+			return reconstructionErr
+		}
 		var dec Reject
 		if unmErr := dec.UnmarshalBER(reconstructed, opts...); unmErr != nil {
 			return fmt.Errorf("decoding reject: %w", unmErr)
@@ -1341,7 +1353,7 @@ func (v *Invoke) MarshalBER() ([]byte, error) {
 		enc_argument := v.Argument.Bytes
 		children = append(children, enc_argument...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes Invoke to DER format.
@@ -1371,7 +1383,10 @@ func (v *Invoke) MarshalDER() ([]byte, error) {
 		enc_argument := v.Argument.Bytes
 		children = append(children, enc_argument...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Invoke as DER: %w", err)
 	}
@@ -1471,7 +1486,7 @@ func (v *ReturnResult) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, enc_result...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ReturnResult to DER format.
@@ -1489,7 +1504,10 @@ func (v *ReturnResult) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, enc_result...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReturnResult as DER: %w", err)
 	}
@@ -1565,7 +1583,7 @@ func (v *ReturnError) MarshalBER() ([]byte, error) {
 		enc_parameter := v.Parameter.Bytes
 		children = append(children, enc_parameter...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ReturnError to DER format.
@@ -1585,7 +1603,10 @@ func (v *ReturnError) MarshalDER() ([]byte, error) {
 		enc_parameter := v.Parameter.Bytes
 		children = append(children, enc_parameter...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReturnError as DER: %w", err)
 	}
@@ -1661,7 +1682,7 @@ func (v *Reject) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding problem: %w", err)
 	}
 	children = append(children, enc_problem...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes Reject to DER format.
@@ -1677,7 +1698,10 @@ func (v *Reject) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding problem: %w", err)
 	}
 	children = append(children, enc_problem...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding Reject as DER: %w", err)
 	}
@@ -1737,7 +1761,10 @@ func (v *InvokeId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice InvokeId: present is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+		}
 		return enc_0, nil
 	case InvokeIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
@@ -1996,7 +2023,10 @@ func (v *ROSInvokeLinkedId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice ROSInvokeLinkedId: present is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
@@ -2088,7 +2118,7 @@ func (v *ROSReturnResultResult) MarshalBER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ROSReturnResultResult to DER format.
@@ -2101,7 +2131,10 @@ func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ROSReturnResultResult as DER: %w", err)
 	}
@@ -2158,7 +2191,10 @@ func (v *InvokeLinkedId) MarshalBER() ([]byte, error) {
 		if v.Present == nil {
 			return nil, fmt.Errorf("choice InvokeLinkedId: present is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.Present)
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding present: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding present: %w", tagErr_enc_0)
@@ -2250,7 +2286,7 @@ func (v *ReturnResultResult) MarshalBER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ReturnResultResult to DER format.
@@ -2263,7 +2299,10 @@ func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
 	children = append(children, enc_result...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReturnResultResult as DER: %w", err)
 	}
@@ -2320,7 +2359,10 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		if v.General == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: general is nil")
 		}
-		enc_0 := ber.EncodeBigInt(v.General.BigInt())
+		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.General.BigInt())
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding general: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding general: %w", tagErr_enc_0)
@@ -2331,7 +2373,10 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		if v.Invoke == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: invoke is nil")
 		}
-		enc_1 := ber.EncodeBigInt(v.Invoke.BigInt())
+		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.Invoke.BigInt())
+		if encodeErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding invoke: %w", encodeErr_enc_1)
+		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding invoke: %w", tagErr_enc_1)
@@ -2342,7 +2387,10 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		if v.ReturnResult == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: returnResult is nil")
 		}
-		enc_2 := ber.EncodeBigInt(v.ReturnResult.BigInt())
+		enc_2, encodeErr_enc_2 := ber.EncodeBigInt(v.ReturnResult.BigInt())
+		if encodeErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding returnResult: %w", encodeErr_enc_2)
+		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_2)
 		if tagErr_enc_2 != nil {
 			return nil, fmt.Errorf("encoding returnResult: %w", tagErr_enc_2)
@@ -2353,7 +2401,10 @@ func (v *OperationsRejectProblem) MarshalBER() ([]byte, error) {
 		if v.ReturnError == nil {
 			return nil, fmt.Errorf("choice OperationsRejectProblem: returnError is nil")
 		}
-		enc_3 := ber.EncodeBigInt(v.ReturnError.BigInt())
+		enc_3, encodeErr_enc_3 := ber.EncodeBigInt(v.ReturnError.BigInt())
+		if encodeErr_enc_3 != nil {
+			return nil, fmt.Errorf("encoding returnError: %w", encodeErr_enc_3)
+		}
 		retagged_enc_3, tagErr_enc_3 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_3)
 		if tagErr_enc_3 != nil {
 			return nil, fmt.Errorf("encoding returnError: %w", tagErr_enc_3)

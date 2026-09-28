@@ -19,10 +19,11 @@ type berWorkBudget struct {
 }
 
 func (budget *berWorkBudget) charge(size int) error {
-	budget.elements++
-	if budget.elements > budget.limits.MaxElements || size > budget.limits.MaxWork-budget.bytes {
+	if size < 0 || budget.elements < 0 || budget.elements >= budget.limits.MaxElements ||
+		budget.bytes < 0 || budget.bytes > budget.limits.MaxWork || size > budget.limits.MaxWork-budget.bytes {
 		return fmt.Errorf("%w: BER element or total-work limit exceeded", ErrInvalidValue)
 	}
+	budget.elements++
 	budget.bytes += size
 	return nil
 }
@@ -1150,7 +1151,10 @@ func DecodeImplicitStringValue(tagNum int, constructed bool, value []byte, optio
 	if !constructed {
 		return DecodeStringValueTag(tagNum, value)
 	}
-	reconstructed := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value)
+	reconstructed, err := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value)
+	if err != nil {
+		return "", err
+	}
 	decoded, total, err := DecodeString(reconstructed, tagNum, options...)
 	if err != nil {
 		return "", err

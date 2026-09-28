@@ -6,8 +6,15 @@ import (
 	"testing"
 )
 
-func nestedOctets(depth int, leaf []byte) []byte {
-	wire := EncodeOctetString(leaf)
+func nestedOctets(tb interface {
+	Helper()
+	Fatalf(string, ...any)
+}, depth int, leaf []byte) []byte {
+	tb.Helper()
+	wire, err := EncodeOctetString(leaf)
+	if err != nil {
+		tb.Fatalf("encode nested octets: %v", err)
+	}
 	for range depth {
 		wire = append(append([]byte{0x24, 0x80}, wire...), 0, 0)
 	}
@@ -20,9 +27,9 @@ func TestConstructedBERWorkLimits(t *testing.T) {
 		wire  []byte
 		limit DecodeLimits
 	}{
-		{"depth", nestedOctets(65, []byte{1}), DecodeLimits{MaxDepth: 64}},
+		{"depth", nestedOctets(t, 65, []byte{1}), DecodeLimits{MaxDepth: 64}},
 		{"elements", append(append([]byte{0x24, 0x80}, bytes.Repeat([]byte{0x04, 0x00}, 100001)...), 0, 0), DecodeLimits{MaxElements: 100000}},
-		{"total work", nestedOctets(60, bytes.Repeat([]byte{0x5a}, 300000)), DecodeLimits{MaxWork: 16 << 20}},
+		{"total work", nestedOctets(t, 60, bytes.Repeat([]byte{0x5a}, 300000)), DecodeLimits{MaxWork: 16 << 20}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			if _, _, err := DecodeOctetString(tc.wire, WithDecodeLimits(tc.limit)); !errors.Is(err, ErrInvalidValue) {
@@ -33,7 +40,7 @@ func TestConstructedBERWorkLimits(t *testing.T) {
 }
 
 func TestBERDecodeLimitsCanBeRaised(t *testing.T) {
-	wire := nestedOctets(65, []byte{'A'}) // 263 bytes, X.690 §§8.1.3, 8.7.
+	wire := nestedOctets(t, 65, []byte{'A'}) // 263 bytes, X.690 §§8.1.3, 8.7.
 	if len(wire) != 263 {
 		t.Fatalf("wire size = %d", len(wire))
 	}
@@ -54,7 +61,7 @@ func TestBERDecodeLimitsCanBeRaised(t *testing.T) {
 func TestDERDepthLimit(t *testing.T) {
 	wire := EncodeNull()
 	for range 129 {
-		wire = EncodeSequence(wire)
+		wire = mustEncode(t)(EncodeSequence(wire))
 	}
 	if err := ValidateDERElement(wire); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("ValidateDERElement depth error = %v", err)
@@ -62,7 +69,7 @@ func TestDERDepthLimit(t *testing.T) {
 }
 
 func TestValidateBERElementLimits(t *testing.T) {
-	tooMany := EncodeSequence(bytes.Repeat(EncodeNull(), 4))
+	tooMany := mustEncode(t)(EncodeSequence(bytes.Repeat(EncodeNull(), 4)))
 	if err := ValidateBERElement(tooMany, WithDecodeLimits(DecodeLimits{MaxElements: 4})); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("element limit error = %v", err)
 	}
@@ -81,7 +88,7 @@ func TestValidateBERElementLimits(t *testing.T) {
 
 func FuzzValidateBERElement(f *testing.F) {
 	for _, wire := range [][]byte{
-		EncodeNull(), nestedOctets(65, []byte{'A'}), {0x30, 0x80, 0x05, 0x00, 0, 0},
+		EncodeNull(), nestedOctets(f, 65, []byte{'A'}), {0x30, 0x80, 0x05, 0x00, 0, 0},
 		{}, {0, 0}, {0x30, 0x80, 0x05, 0x00},
 		{0x04, 0x84, 0x7f, 0xff, 0xff, 0xff},
 		{0x30, 0x80, 0x04, 0x84, 0x7f, 0xff, 0xff, 0xff, 0, 0},
@@ -100,7 +107,7 @@ func FuzzValidateBERElement(f *testing.F) {
 }
 
 func BenchmarkConstructedBEROctetString(b *testing.B) {
-	wire := nestedOctets(32, bytes.Repeat([]byte{0x5a}, 4096))
+	wire := nestedOctets(b, 32, bytes.Repeat([]byte{0x5a}, 4096))
 	b.SetBytes(int64(len(wire)))
 	for range b.N {
 		if _, _, err := DecodeOctetString(wire); err != nil {

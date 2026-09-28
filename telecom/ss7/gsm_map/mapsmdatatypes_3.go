@@ -486,7 +486,10 @@ type AdditionalDispatcherList3 = []ISDNAddressString3
 // MarshalBER encodes RoutingInfoForSMArg3 to BER format.
 func (v *RoutingInfoForSMArg3) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	if encodeErr_enc_msisdn != nil {
+		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
+	}
 	retagged_enc_msisdn, tagErr_enc_msisdn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_msisdn)
 	if tagErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", tagErr_enc_msisdn)
@@ -505,7 +508,10 @@ func (v *RoutingInfoForSMArg3) MarshalBER() ([]byte, error) {
 	}
 	enc_smrppri = retagged_enc_smrppri
 	children = append(children, enc_smrppri...)
-	enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	if encodeErr_enc_servicecentreaddress != nil {
+		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
+	}
 	retagged_enc_servicecentreaddress, tagErr_enc_servicecentreaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_servicecentreaddress)
 	if tagErr_enc_servicecentreaddress != nil {
 		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", tagErr_enc_servicecentreaddress)
@@ -543,7 +549,10 @@ func (v *RoutingInfoForSMArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_smrpmti...)
 	}
 	if v.SmRPSMEA != nil {
-		enc_smrpsmea := ber.EncodeOctetString([]byte(*v.SmRPSMEA))
+		enc_smrpsmea, encodeErr_enc_smrpsmea := ber.EncodeOctetString([]byte(*v.SmRPSMEA))
+		if encodeErr_enc_smrpsmea != nil {
+			return nil, fmt.Errorf("encoding sm-RP-SMEA: %w", encodeErr_enc_smrpsmea)
+		}
 		retagged_enc_smrpsmea, tagErr_enc_smrpsmea := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_smrpsmea)
 		if tagErr_enc_smrpsmea != nil {
 			return nil, fmt.Errorf("encoding sm-RP-SMEA: %w", tagErr_enc_smrpsmea)
@@ -570,7 +579,10 @@ func (v *RoutingInfoForSMArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ipsmgwguidanceindicator...)
 	}
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_imsi)
 		if tagErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
@@ -627,13 +639,16 @@ func (v *RoutingInfoForSMArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes RoutingInfoForSMArg3 to DER format.
 func (v *RoutingInfoForSMArg3) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	if encodeErr_enc_msisdn != nil {
+		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
+	}
 	retagged_enc_msisdn, tagErr_enc_msisdn := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_msisdn)
 	if tagErr_enc_msisdn != nil {
 		return nil, fmt.Errorf("encoding msisdn: %w", tagErr_enc_msisdn)
@@ -647,7 +662,10 @@ func (v *RoutingInfoForSMArg3) MarshalDER() ([]byte, error) {
 	}
 	enc_smrppri = retagged_enc_smrppri
 	children = append(children, enc_smrppri...)
-	enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	if encodeErr_enc_servicecentreaddress != nil {
+		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
+	}
 	retagged_enc_servicecentreaddress, tagErr_enc_servicecentreaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_servicecentreaddress)
 	if tagErr_enc_servicecentreaddress != nil {
 		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", tagErr_enc_servicecentreaddress)
@@ -685,7 +703,10 @@ func (v *RoutingInfoForSMArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_smrpmti...)
 	}
 	if v.SmRPSMEA != nil {
-		enc_smrpsmea := ber.EncodeOctetString([]byte(*v.SmRPSMEA))
+		enc_smrpsmea, encodeErr_enc_smrpsmea := ber.EncodeOctetString([]byte(*v.SmRPSMEA))
+		if encodeErr_enc_smrpsmea != nil {
+			return nil, fmt.Errorf("encoding sm-RP-SMEA: %w", encodeErr_enc_smrpsmea)
+		}
 		retagged_enc_smrpsmea, tagErr_enc_smrpsmea := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_smrpsmea)
 		if tagErr_enc_smrpsmea != nil {
 			return nil, fmt.Errorf("encoding sm-RP-SMEA: %w", tagErr_enc_smrpsmea)
@@ -712,7 +733,10 @@ func (v *RoutingInfoForSMArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ipsmgwguidanceindicator...)
 	}
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_imsi)
 		if tagErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
@@ -765,7 +789,10 @@ func (v *RoutingInfoForSMArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RoutingInfoForSMArg3 as DER: %w", err)
 	}
@@ -859,7 +886,10 @@ func (v *RoutingInfoForSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 6 || decodedTag_extensioncontainer.Constructed != true {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
-				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				if reconstructionErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
+				}
 				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
@@ -1041,7 +1071,10 @@ func (v *RoutingInfoForSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 15 || decodedTag_correlationid.Constructed != true {
 					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
-				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				reconstructed_correlationid, reconstructionErr_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				if reconstructionErr_correlationid != nil {
+					return fmt.Errorf("decoding correlationID: %w", reconstructionErr_correlationid)
+				}
 				var dec_correlationid CorrelationID3
 				if unmErr := dec_correlationid.UnmarshalBER(reconstructed_correlationid, opts...); unmErr != nil {
 					return fmt.Errorf("decoding correlationID: %w", unmErr)
@@ -1090,7 +1123,10 @@ func (v *RoutingInfoForSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 // MarshalBER encodes RoutingInfoForSMRes3 to BER format.
 func (v *RoutingInfoForSMRes3) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	if encodeErr_enc_imsi != nil {
+		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+	}
 	children = append(children, enc_imsi...)
 	enc_locationinfowithlmsi, err := v.LocationInfoWithLMSI.MarshalBER()
 	if err != nil {
@@ -1136,13 +1172,16 @@ func (v *RoutingInfoForSMRes3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes RoutingInfoForSMRes3 to DER format.
 func (v *RoutingInfoForSMRes3) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	if encodeErr_enc_imsi != nil {
+		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+	}
 	children = append(children, enc_imsi...)
 	enc_locationinfowithlmsi, err := v.LocationInfoWithLMSI.MarshalDER()
 	if err != nil {
@@ -1184,7 +1223,10 @@ func (v *RoutingInfoForSMRes3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding RoutingInfoForSMRes3 as DER: %w", err)
 	}
@@ -1231,7 +1273,10 @@ func (v *RoutingInfoForSMRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	if decodedTag_locationinfowithlmsi.Class != tag.ClassContextSpecific || decodedTag_locationinfowithlmsi.Number != 0 || decodedTag_locationinfowithlmsi.Constructed != true {
 		return fmt.Errorf("decoding locationInfoWithLMSI: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationinfowithlmsi)
 	}
-	reconstructed_locationinfowithlmsi := ber.EncodeSequence(rawVal_locationinfowithlmsi)
+	reconstructed_locationinfowithlmsi, reconstructionErr_locationinfowithlmsi := ber.EncodeSequence(rawVal_locationinfowithlmsi)
+	if reconstructionErr_locationinfowithlmsi != nil {
+		return fmt.Errorf("decoding locationInfoWithLMSI: %w", reconstructionErr_locationinfowithlmsi)
+	}
 	if unmErr := v.LocationInfoWithLMSI.UnmarshalBER(reconstructed_locationinfowithlmsi, opts...); unmErr != nil {
 		return fmt.Errorf("decoding locationInfoWithLMSI: %w", unmErr)
 	}
@@ -1248,7 +1293,10 @@ func (v *RoutingInfoForSMRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 || decodedTag_extensioncontainer.Constructed != true {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
-				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				if reconstructionErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
+				}
 				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
@@ -1270,7 +1318,10 @@ func (v *RoutingInfoForSMRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_ipsmgwguidance.Class != tag.ClassContextSpecific || decodedTag_ipsmgwguidance.Number != 5 || decodedTag_ipsmgwguidance.Constructed != true {
 					return fmt.Errorf("decoding ip-sm-gwGuidance: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_ipsmgwguidance)
 				}
-				reconstructed_ipsmgwguidance := ber.EncodeSequence(rawVal_ipsmgwguidance)
+				reconstructed_ipsmgwguidance, reconstructionErr_ipsmgwguidance := ber.EncodeSequence(rawVal_ipsmgwguidance)
+				if reconstructionErr_ipsmgwguidance != nil {
+					return fmt.Errorf("decoding ip-sm-gwGuidance: %w", reconstructionErr_ipsmgwguidance)
+				}
 				var dec_ipsmgwguidance IPSMGWGuidance3
 				if unmErr := dec_ipsmgwguidance.UnmarshalBER(reconstructed_ipsmgwguidance, opts...); unmErr != nil {
 					return fmt.Errorf("decoding ip-sm-gwGuidance: %w", unmErr)
@@ -1320,7 +1371,7 @@ func (v *IPSMGWGuidance3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes IPSMGWGuidance3 to DER format.
@@ -1343,7 +1394,10 @@ func (v *IPSMGWGuidance3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding IPSMGWGuidance3 as DER: %w", err)
 	}
@@ -1422,7 +1476,10 @@ func (v *IPSMGWGuidance3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 // MarshalBER encodes LocationInfoWithLMSI3 to BER format.
 func (v *LocationInfoWithLMSI3) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_networknodenumber := ber.EncodeOctetString([]byte(v.NetworkNodeNumber))
+	enc_networknodenumber, encodeErr_enc_networknodenumber := ber.EncodeOctetString([]byte(v.NetworkNodeNumber))
+	if encodeErr_enc_networknodenumber != nil {
+		return nil, fmt.Errorf("encoding networkNode-Number: %w", encodeErr_enc_networknodenumber)
+	}
 	retagged_enc_networknodenumber, tagErr_enc_networknodenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_networknodenumber)
 	if tagErr_enc_networknodenumber != nil {
 		return nil, fmt.Errorf("encoding networkNode-Number: %w", tagErr_enc_networknodenumber)
@@ -1430,7 +1487,10 @@ func (v *LocationInfoWithLMSI3) MarshalBER() ([]byte, error) {
 	enc_networknodenumber = retagged_enc_networknodenumber
 	children = append(children, enc_networknodenumber...)
 	if v.Lmsi != nil {
-		enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
+		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
+		if encodeErr_enc_lmsi != nil {
+			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
+		}
 		children = append(children, enc_lmsi...)
 	}
 	if v.ExtensionContainer != nil {
@@ -1454,7 +1514,13 @@ func (v *LocationInfoWithLMSI3) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding additional-Number: %w", err)
 		}
-		enc_additionalnumber = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 6, enc_additionalnumber)
+		{
+			var encodeErr error
+			enc_additionalnumber, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 6, enc_additionalnumber)
+			if encodeErr != nil {
+				return nil, fmt.Errorf("encoding additional-Number: %w", encodeErr)
+			}
+		}
 		children = append(children, enc_additionalnumber...)
 	}
 	if v.NetworkNodeDiameterAddress != nil {
@@ -1486,7 +1552,13 @@ func (v *LocationInfoWithLMSI3) MarshalBER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding thirdNumber: %w", err)
 		}
-		enc_thirdnumber = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 9, enc_thirdnumber)
+		{
+			var encodeErr error
+			enc_thirdnumber, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 9, enc_thirdnumber)
+			if encodeErr != nil {
+				return nil, fmt.Errorf("encoding thirdNumber: %w", encodeErr)
+			}
+		}
 		children = append(children, enc_thirdnumber...)
 	}
 	if v.ThirdNetworkNodeDiameterAddress != nil {
@@ -1511,7 +1583,10 @@ func (v *LocationInfoWithLMSI3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_imsnodeindicator...)
 	}
 	if v.Smsf3gppNumber != nil {
-		enc_smsf3gppnumber := ber.EncodeOctetString([]byte(*v.Smsf3gppNumber))
+		enc_smsf3gppnumber, encodeErr_enc_smsf3gppnumber := ber.EncodeOctetString([]byte(*v.Smsf3gppNumber))
+		if encodeErr_enc_smsf3gppnumber != nil {
+			return nil, fmt.Errorf("encoding smsf-3gpp-Number: %w", encodeErr_enc_smsf3gppnumber)
+		}
 		retagged_enc_smsf3gppnumber, tagErr_enc_smsf3gppnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_smsf3gppnumber)
 		if tagErr_enc_smsf3gppnumber != nil {
 			return nil, fmt.Errorf("encoding smsf-3gpp-Number: %w", tagErr_enc_smsf3gppnumber)
@@ -1532,7 +1607,10 @@ func (v *LocationInfoWithLMSI3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_smsf3gppdiameteraddress...)
 	}
 	if v.SmsfNon3gppNumber != nil {
-		enc_smsfnon3gppnumber := ber.EncodeOctetString([]byte(*v.SmsfNon3gppNumber))
+		enc_smsfnon3gppnumber, encodeErr_enc_smsfnon3gppnumber := ber.EncodeOctetString([]byte(*v.SmsfNon3gppNumber))
+		if encodeErr_enc_smsfnon3gppnumber != nil {
+			return nil, fmt.Errorf("encoding smsf-non-3gpp-Number: %w", encodeErr_enc_smsfnon3gppnumber)
+		}
 		retagged_enc_smsfnon3gppnumber, tagErr_enc_smsfnon3gppnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_smsfnon3gppnumber)
 		if tagErr_enc_smsfnon3gppnumber != nil {
 			return nil, fmt.Errorf("encoding smsf-non-3gpp-Number: %w", tagErr_enc_smsfnon3gppnumber)
@@ -1580,13 +1658,16 @@ func (v *LocationInfoWithLMSI3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes LocationInfoWithLMSI3 to DER format.
 func (v *LocationInfoWithLMSI3) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_networknodenumber := ber.EncodeOctetString([]byte(v.NetworkNodeNumber))
+	enc_networknodenumber, encodeErr_enc_networknodenumber := ber.EncodeOctetString([]byte(v.NetworkNodeNumber))
+	if encodeErr_enc_networknodenumber != nil {
+		return nil, fmt.Errorf("encoding networkNode-Number: %w", encodeErr_enc_networknodenumber)
+	}
 	retagged_enc_networknodenumber, tagErr_enc_networknodenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_networknodenumber)
 	if tagErr_enc_networknodenumber != nil {
 		return nil, fmt.Errorf("encoding networkNode-Number: %w", tagErr_enc_networknodenumber)
@@ -1594,7 +1675,10 @@ func (v *LocationInfoWithLMSI3) MarshalDER() ([]byte, error) {
 	enc_networknodenumber = retagged_enc_networknodenumber
 	children = append(children, enc_networknodenumber...)
 	if v.Lmsi != nil {
-		enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
+		enc_lmsi, encodeErr_enc_lmsi := ber.EncodeOctetString([]byte(*v.Lmsi))
+		if encodeErr_enc_lmsi != nil {
+			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_lmsi)
+		}
 		children = append(children, enc_lmsi...)
 	}
 	if v.ExtensionContainer != nil {
@@ -1618,7 +1702,13 @@ func (v *LocationInfoWithLMSI3) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding additional-Number: %w", err)
 		}
-		enc_additionalnumber = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 6, enc_additionalnumber)
+		{
+			var encodeErr error
+			enc_additionalnumber, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 6, enc_additionalnumber)
+			if encodeErr != nil {
+				return nil, fmt.Errorf("encoding additional-Number: %w", encodeErr)
+			}
+		}
 		children = append(children, enc_additionalnumber...)
 	}
 	if v.NetworkNodeDiameterAddress != nil {
@@ -1650,7 +1740,13 @@ func (v *LocationInfoWithLMSI3) MarshalDER() ([]byte, error) {
 		if err != nil {
 			return nil, fmt.Errorf("encoding thirdNumber: %w", err)
 		}
-		enc_thirdnumber = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 9, enc_thirdnumber)
+		{
+			var encodeErr error
+			enc_thirdnumber, encodeErr = ber.EncodeExplicitTagWithClass(tag.ClassContextSpecific, 9, enc_thirdnumber)
+			if encodeErr != nil {
+				return nil, fmt.Errorf("encoding thirdNumber: %w", encodeErr)
+			}
+		}
 		children = append(children, enc_thirdnumber...)
 	}
 	if v.ThirdNetworkNodeDiameterAddress != nil {
@@ -1675,7 +1771,10 @@ func (v *LocationInfoWithLMSI3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsnodeindicator...)
 	}
 	if v.Smsf3gppNumber != nil {
-		enc_smsf3gppnumber := ber.EncodeOctetString([]byte(*v.Smsf3gppNumber))
+		enc_smsf3gppnumber, encodeErr_enc_smsf3gppnumber := ber.EncodeOctetString([]byte(*v.Smsf3gppNumber))
+		if encodeErr_enc_smsf3gppnumber != nil {
+			return nil, fmt.Errorf("encoding smsf-3gpp-Number: %w", encodeErr_enc_smsf3gppnumber)
+		}
 		retagged_enc_smsf3gppnumber, tagErr_enc_smsf3gppnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 12, enc_smsf3gppnumber)
 		if tagErr_enc_smsf3gppnumber != nil {
 			return nil, fmt.Errorf("encoding smsf-3gpp-Number: %w", tagErr_enc_smsf3gppnumber)
@@ -1696,7 +1795,10 @@ func (v *LocationInfoWithLMSI3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_smsf3gppdiameteraddress...)
 	}
 	if v.SmsfNon3gppNumber != nil {
-		enc_smsfnon3gppnumber := ber.EncodeOctetString([]byte(*v.SmsfNon3gppNumber))
+		enc_smsfnon3gppnumber, encodeErr_enc_smsfnon3gppnumber := ber.EncodeOctetString([]byte(*v.SmsfNon3gppNumber))
+		if encodeErr_enc_smsfnon3gppnumber != nil {
+			return nil, fmt.Errorf("encoding smsf-non-3gpp-Number: %w", encodeErr_enc_smsfnon3gppnumber)
+		}
 		retagged_enc_smsfnon3gppnumber, tagErr_enc_smsfnon3gppnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 14, enc_smsfnon3gppnumber)
 		if tagErr_enc_smsfnon3gppnumber != nil {
 			return nil, fmt.Errorf("encoding smsf-non-3gpp-Number: %w", tagErr_enc_smsfnon3gppnumber)
@@ -1740,7 +1842,10 @@ func (v *LocationInfoWithLMSI3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding LocationInfoWithLMSI3 as DER: %w", err)
 	}
@@ -1867,7 +1972,10 @@ func (v *LocationInfoWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_networknodediameteraddress.Class != tag.ClassContextSpecific || decodedTag_networknodediameteraddress.Number != 7 || decodedTag_networknodediameteraddress.Constructed != true {
 					return fmt.Errorf("decoding networkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_networknodediameteraddress)
 				}
-				reconstructed_networknodediameteraddress := ber.EncodeSequence(rawVal_networknodediameteraddress)
+				reconstructed_networknodediameteraddress, reconstructionErr_networknodediameteraddress := ber.EncodeSequence(rawVal_networknodediameteraddress)
+				if reconstructionErr_networknodediameteraddress != nil {
+					return fmt.Errorf("decoding networkNodeDiameterAddress: %w", reconstructionErr_networknodediameteraddress)
+				}
 				var dec_networknodediameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_networknodediameteraddress.UnmarshalBER(reconstructed_networknodediameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding networkNodeDiameterAddress: %w", unmErr)
@@ -1889,7 +1997,10 @@ func (v *LocationInfoWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_additionalnetworknodediameteraddress.Class != tag.ClassContextSpecific || decodedTag_additionalnetworknodediameteraddress.Number != 8 || decodedTag_additionalnetworknodediameteraddress.Constructed != true {
 					return fmt.Errorf("decoding additionalNetworkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionalnetworknodediameteraddress)
 				}
-				reconstructed_additionalnetworknodediameteraddress := ber.EncodeSequence(rawVal_additionalnetworknodediameteraddress)
+				reconstructed_additionalnetworknodediameteraddress, reconstructionErr_additionalnetworknodediameteraddress := ber.EncodeSequence(rawVal_additionalnetworknodediameteraddress)
+				if reconstructionErr_additionalnetworknodediameteraddress != nil {
+					return fmt.Errorf("decoding additionalNetworkNodeDiameterAddress: %w", reconstructionErr_additionalnetworknodediameteraddress)
+				}
 				var dec_additionalnetworknodediameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_additionalnetworknodediameteraddress.UnmarshalBER(reconstructed_additionalnetworknodediameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding additionalNetworkNodeDiameterAddress: %w", unmErr)
@@ -1933,7 +2044,10 @@ func (v *LocationInfoWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_thirdnetworknodediameteraddress.Class != tag.ClassContextSpecific || decodedTag_thirdnetworknodediameteraddress.Number != 10 || decodedTag_thirdnetworknodediameteraddress.Constructed != true {
 					return fmt.Errorf("decoding thirdNetworkNodeDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_thirdnetworknodediameteraddress)
 				}
-				reconstructed_thirdnetworknodediameteraddress := ber.EncodeSequence(rawVal_thirdnetworknodediameteraddress)
+				reconstructed_thirdnetworknodediameteraddress, reconstructionErr_thirdnetworknodediameteraddress := ber.EncodeSequence(rawVal_thirdnetworknodediameteraddress)
+				if reconstructionErr_thirdnetworknodediameteraddress != nil {
+					return fmt.Errorf("decoding thirdNetworkNodeDiameterAddress: %w", reconstructionErr_thirdnetworknodediameteraddress)
+				}
 				var dec_thirdnetworknodediameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_thirdnetworknodediameteraddress.UnmarshalBER(reconstructed_thirdnetworknodediameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding thirdNetworkNodeDiameterAddress: %w", unmErr)
@@ -1993,7 +2107,10 @@ func (v *LocationInfoWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_smsf3gppdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsf3gppdiameteraddress.Number != 13 || decodedTag_smsf3gppdiameteraddress.Constructed != true {
 					return fmt.Errorf("decoding smsf-3gpp-DiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsf3gppdiameteraddress)
 				}
-				reconstructed_smsf3gppdiameteraddress := ber.EncodeSequence(rawVal_smsf3gppdiameteraddress)
+				reconstructed_smsf3gppdiameteraddress, reconstructionErr_smsf3gppdiameteraddress := ber.EncodeSequence(rawVal_smsf3gppdiameteraddress)
+				if reconstructionErr_smsf3gppdiameteraddress != nil {
+					return fmt.Errorf("decoding smsf-3gpp-DiameterAddress: %w", reconstructionErr_smsf3gppdiameteraddress)
+				}
 				var dec_smsf3gppdiameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_smsf3gppdiameteraddress.UnmarshalBER(reconstructed_smsf3gppdiameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding smsf-3gpp-DiameterAddress: %w", unmErr)
@@ -2033,7 +2150,10 @@ func (v *LocationInfoWithLMSI3) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 				if decodedTag_smsfnon3gppdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsfnon3gppdiameteraddress.Number != 15 || decodedTag_smsfnon3gppdiameteraddress.Constructed != true {
 					return fmt.Errorf("decoding smsf-non-3gpp-DiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsfnon3gppdiameteraddress)
 				}
-				reconstructed_smsfnon3gppdiameteraddress := ber.EncodeSequence(rawVal_smsfnon3gppdiameteraddress)
+				reconstructed_smsfnon3gppdiameteraddress, reconstructionErr_smsfnon3gppdiameteraddress := ber.EncodeSequence(rawVal_smsfnon3gppdiameteraddress)
+				if reconstructionErr_smsfnon3gppdiameteraddress != nil {
+					return fmt.Errorf("decoding smsf-non-3gpp-DiameterAddress: %w", reconstructionErr_smsfnon3gppdiameteraddress)
+				}
 				var dec_smsfnon3gppdiameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_smsfnon3gppdiameteraddress.UnmarshalBER(reconstructed_smsfnon3gppdiameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding smsf-non-3gpp-DiameterAddress: %w", unmErr)
@@ -2106,7 +2226,10 @@ func (v *AdditionalNumber3) MarshalBER() ([]byte, error) {
 		if v.MscNumber == nil {
 			return nil, fmt.Errorf("choice AdditionalNumber3: msc-Number is nil")
 		}
-		enc_0 := ber.EncodeOctetString([]byte(*v.MscNumber))
+		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.MscNumber))
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding msc-Number: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding msc-Number: %w", tagErr_enc_0)
@@ -2117,7 +2240,10 @@ func (v *AdditionalNumber3) MarshalBER() ([]byte, error) {
 		if v.SgsnNumber == nil {
 			return nil, fmt.Errorf("choice AdditionalNumber3: sgsn-Number is nil")
 		}
-		enc_1 := ber.EncodeOctetString([]byte(*v.SgsnNumber))
+		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.SgsnNumber))
+		if encodeErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding sgsn-Number: %w", encodeErr_enc_1)
+		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding sgsn-Number: %w", tagErr_enc_1)
@@ -2199,7 +2325,10 @@ func (v *MOForwardSMArg3) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding sm-RP-OA: %w", err)
 	}
 	children = append(children, enc_smrpoa...)
-	enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	if encodeErr_enc_smrpui != nil {
+		return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+	}
 	children = append(children, enc_smrpui...)
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
@@ -2209,7 +2338,10 @@ func (v *MOForwardSMArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		children = append(children, enc_imsi...)
 	}
 	if v.CorrelationID != nil {
@@ -2243,7 +2375,7 @@ func (v *MOForwardSMArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MOForwardSMArg3 to DER format.
@@ -2259,7 +2391,10 @@ func (v *MOForwardSMArg3) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding sm-RP-OA: %w", err)
 	}
 	children = append(children, enc_smrpoa...)
-	enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	if encodeErr_enc_smrpui != nil {
+		return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+	}
 	children = append(children, enc_smrpui...)
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -2269,7 +2404,10 @@ func (v *MOForwardSMArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		children = append(children, enc_imsi...)
 	}
 	if v.CorrelationID != nil {
@@ -2299,7 +2437,10 @@ func (v *MOForwardSMArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MOForwardSMArg3 as DER: %w", err)
 	}
@@ -2402,7 +2543,10 @@ func (v *MOForwardSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 0 || decodedTag_correlationid.Constructed != true {
 					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
-				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				reconstructed_correlationid, reconstructionErr_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				if reconstructionErr_correlationid != nil {
+					return fmt.Errorf("decoding correlationID: %w", reconstructionErr_correlationid)
+				}
 				var dec_correlationid CorrelationID3
 				if unmErr := dec_correlationid.UnmarshalBER(reconstructed_correlationid, opts...); unmErr != nil {
 					return fmt.Errorf("decoding correlationID: %w", unmErr)
@@ -2454,7 +2598,10 @@ func (v *MOForwardSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 func (v *MOForwardSMRes3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
-		enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		if encodeErr_enc_smrpui != nil {
+			return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+		}
 		children = append(children, enc_smrpui...)
 	}
 	if v.ExtensionContainer != nil {
@@ -2474,14 +2621,17 @@ func (v *MOForwardSMRes3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MOForwardSMRes3 to DER format.
 func (v *MOForwardSMRes3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
-		enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		if encodeErr_enc_smrpui != nil {
+			return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+		}
 		children = append(children, enc_smrpui...)
 	}
 	if v.ExtensionContainer != nil {
@@ -2497,7 +2647,10 @@ func (v *MOForwardSMRes3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MOForwardSMRes3 as DER: %w", err)
 	}
@@ -2581,7 +2734,10 @@ func (v *MTForwardSMArg3) MarshalBER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding sm-RP-OA: %w", err)
 	}
 	children = append(children, enc_smrpoa...)
-	enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	if encodeErr_enc_smrpui != nil {
+		return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+	}
 	children = append(children, enc_smrpui...)
 	if v.MoreMessagesToSend != nil {
 		enc_moremessagestosend := ber.EncodeNull()
@@ -2599,7 +2755,10 @@ func (v *MTForwardSMArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_smdeliverytimer...)
 	}
 	if v.SmDeliveryStartTime != nil {
-		enc_smdeliverystarttime := ber.EncodeOctetString([]byte(*v.SmDeliveryStartTime))
+		enc_smdeliverystarttime, encodeErr_enc_smdeliverystarttime := ber.EncodeOctetString([]byte(*v.SmDeliveryStartTime))
+		if encodeErr_enc_smdeliverystarttime != nil {
+			return nil, fmt.Errorf("encoding smDeliveryStartTime: %w", encodeErr_enc_smdeliverystarttime)
+		}
 		children = append(children, enc_smdeliverystarttime...)
 	}
 	if v.SmsOverIPOnlyIndicator != nil {
@@ -2624,7 +2783,10 @@ func (v *MTForwardSMArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_correlationid...)
 	}
 	if v.MaximumRetransmissionTime != nil {
-		enc_maximumretransmissiontime := ber.EncodeOctetString([]byte(*v.MaximumRetransmissionTime))
+		enc_maximumretransmissiontime, encodeErr_enc_maximumretransmissiontime := ber.EncodeOctetString([]byte(*v.MaximumRetransmissionTime))
+		if encodeErr_enc_maximumretransmissiontime != nil {
+			return nil, fmt.Errorf("encoding maximumRetransmissionTime: %w", encodeErr_enc_maximumretransmissiontime)
+		}
 		retagged_enc_maximumretransmissiontime, tagErr_enc_maximumretransmissiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_maximumretransmissiontime)
 		if tagErr_enc_maximumretransmissiontime != nil {
 			return nil, fmt.Errorf("encoding maximumRetransmissionTime: %w", tagErr_enc_maximumretransmissiontime)
@@ -2633,7 +2795,10 @@ func (v *MTForwardSMArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_maximumretransmissiontime...)
 	}
 	if v.SmsGmscAddress != nil {
-		enc_smsgmscaddress := ber.EncodeOctetString([]byte(*v.SmsGmscAddress))
+		enc_smsgmscaddress, encodeErr_enc_smsgmscaddress := ber.EncodeOctetString([]byte(*v.SmsGmscAddress))
+		if encodeErr_enc_smsgmscaddress != nil {
+			return nil, fmt.Errorf("encoding smsGmscAddress: %w", encodeErr_enc_smsgmscaddress)
+		}
 		retagged_enc_smsgmscaddress, tagErr_enc_smsgmscaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_smsgmscaddress)
 		if tagErr_enc_smsgmscaddress != nil {
 			return nil, fmt.Errorf("encoding smsGmscAddress: %w", tagErr_enc_smsgmscaddress)
@@ -2663,7 +2828,7 @@ func (v *MTForwardSMArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MTForwardSMArg3 to DER format.
@@ -2679,7 +2844,10 @@ func (v *MTForwardSMArg3) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("encoding sm-RP-OA: %w", err)
 	}
 	children = append(children, enc_smrpoa...)
-	enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	if encodeErr_enc_smrpui != nil {
+		return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+	}
 	children = append(children, enc_smrpui...)
 	if v.MoreMessagesToSend != nil {
 		enc_moremessagestosend := ber.EncodeNull()
@@ -2697,7 +2865,10 @@ func (v *MTForwardSMArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_smdeliverytimer...)
 	}
 	if v.SmDeliveryStartTime != nil {
-		enc_smdeliverystarttime := ber.EncodeOctetString([]byte(*v.SmDeliveryStartTime))
+		enc_smdeliverystarttime, encodeErr_enc_smdeliverystarttime := ber.EncodeOctetString([]byte(*v.SmDeliveryStartTime))
+		if encodeErr_enc_smdeliverystarttime != nil {
+			return nil, fmt.Errorf("encoding smDeliveryStartTime: %w", encodeErr_enc_smdeliverystarttime)
+		}
 		children = append(children, enc_smdeliverystarttime...)
 	}
 	if v.SmsOverIPOnlyIndicator != nil {
@@ -2722,7 +2893,10 @@ func (v *MTForwardSMArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_correlationid...)
 	}
 	if v.MaximumRetransmissionTime != nil {
-		enc_maximumretransmissiontime := ber.EncodeOctetString([]byte(*v.MaximumRetransmissionTime))
+		enc_maximumretransmissiontime, encodeErr_enc_maximumretransmissiontime := ber.EncodeOctetString([]byte(*v.MaximumRetransmissionTime))
+		if encodeErr_enc_maximumretransmissiontime != nil {
+			return nil, fmt.Errorf("encoding maximumRetransmissionTime: %w", encodeErr_enc_maximumretransmissiontime)
+		}
 		retagged_enc_maximumretransmissiontime, tagErr_enc_maximumretransmissiontime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_maximumretransmissiontime)
 		if tagErr_enc_maximumretransmissiontime != nil {
 			return nil, fmt.Errorf("encoding maximumRetransmissionTime: %w", tagErr_enc_maximumretransmissiontime)
@@ -2731,7 +2905,10 @@ func (v *MTForwardSMArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_maximumretransmissiontime...)
 	}
 	if v.SmsGmscAddress != nil {
-		enc_smsgmscaddress := ber.EncodeOctetString([]byte(*v.SmsGmscAddress))
+		enc_smsgmscaddress, encodeErr_enc_smsgmscaddress := ber.EncodeOctetString([]byte(*v.SmsGmscAddress))
+		if encodeErr_enc_smsgmscaddress != nil {
+			return nil, fmt.Errorf("encoding smsGmscAddress: %w", encodeErr_enc_smsgmscaddress)
+		}
 		retagged_enc_smsgmscaddress, tagErr_enc_smsgmscaddress := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_smsgmscaddress)
 		if tagErr_enc_smsgmscaddress != nil {
 			return nil, fmt.Errorf("encoding smsGmscAddress: %w", tagErr_enc_smsgmscaddress)
@@ -2757,7 +2934,10 @@ func (v *MTForwardSMArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MTForwardSMArg3 as DER: %w", err)
 	}
@@ -2909,7 +3089,10 @@ func (v *MTForwardSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 1 || decodedTag_correlationid.Constructed != true {
 					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
-				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				reconstructed_correlationid, reconstructionErr_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				if reconstructionErr_correlationid != nil {
+					return fmt.Errorf("decoding correlationID: %w", reconstructionErr_correlationid)
+				}
 				var dec_correlationid CorrelationID3
 				if unmErr := dec_correlationid.UnmarshalBER(reconstructed_correlationid, opts...); unmErr != nil {
 					return fmt.Errorf("decoding correlationID: %w", unmErr)
@@ -2967,7 +3150,10 @@ func (v *MTForwardSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 				if decodedTag_smsgmscdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsgmscdiameteraddress.Number != 4 || decodedTag_smsgmscdiameteraddress.Constructed != true {
 					return fmt.Errorf("decoding smsGmscDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsgmscdiameteraddress)
 				}
-				reconstructed_smsgmscdiameteraddress := ber.EncodeSequence(rawVal_smsgmscdiameteraddress)
+				reconstructed_smsgmscdiameteraddress, reconstructionErr_smsgmscdiameteraddress := ber.EncodeSequence(rawVal_smsgmscdiameteraddress)
+				if reconstructionErr_smsgmscdiameteraddress != nil {
+					return fmt.Errorf("decoding smsGmscDiameterAddress: %w", reconstructionErr_smsgmscdiameteraddress)
+				}
 				var dec_smsgmscdiameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_smsgmscdiameteraddress.UnmarshalBER(reconstructed_smsgmscdiameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding smsGmscDiameterAddress: %w", unmErr)
@@ -2997,7 +3183,10 @@ func (v *MTForwardSMArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) er
 func (v *CorrelationID3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.HlrId != nil {
-		enc_hlrid := ber.EncodeOctetString([]byte(*v.HlrId))
+		enc_hlrid, encodeErr_enc_hlrid := ber.EncodeOctetString([]byte(*v.HlrId))
+		if encodeErr_enc_hlrid != nil {
+			return nil, fmt.Errorf("encoding hlr-id: %w", encodeErr_enc_hlrid)
+		}
 		retagged_enc_hlrid, tagErr_enc_hlrid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_hlrid)
 		if tagErr_enc_hlrid != nil {
 			return nil, fmt.Errorf("encoding hlr-id: %w", tagErr_enc_hlrid)
@@ -3006,7 +3195,10 @@ func (v *CorrelationID3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_hlrid...)
 	}
 	if v.SipUriA != nil {
-		enc_sipuria := ber.EncodeOctetString([]byte(*v.SipUriA))
+		enc_sipuria, encodeErr_enc_sipuria := ber.EncodeOctetString([]byte(*v.SipUriA))
+		if encodeErr_enc_sipuria != nil {
+			return nil, fmt.Errorf("encoding sip-uri-A: %w", encodeErr_enc_sipuria)
+		}
 		retagged_enc_sipuria, tagErr_enc_sipuria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_sipuria)
 		if tagErr_enc_sipuria != nil {
 			return nil, fmt.Errorf("encoding sip-uri-A: %w", tagErr_enc_sipuria)
@@ -3014,21 +3206,27 @@ func (v *CorrelationID3) MarshalBER() ([]byte, error) {
 		enc_sipuria = retagged_enc_sipuria
 		children = append(children, enc_sipuria...)
 	}
-	enc_sipurib := ber.EncodeOctetString([]byte(v.SipUriB))
+	enc_sipurib, encodeErr_enc_sipurib := ber.EncodeOctetString([]byte(v.SipUriB))
+	if encodeErr_enc_sipurib != nil {
+		return nil, fmt.Errorf("encoding sip-uri-B: %w", encodeErr_enc_sipurib)
+	}
 	retagged_enc_sipurib, tagErr_enc_sipurib := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_sipurib)
 	if tagErr_enc_sipurib != nil {
 		return nil, fmt.Errorf("encoding sip-uri-B: %w", tagErr_enc_sipurib)
 	}
 	enc_sipurib = retagged_enc_sipurib
 	children = append(children, enc_sipurib...)
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes CorrelationID3 to DER format.
 func (v *CorrelationID3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.HlrId != nil {
-		enc_hlrid := ber.EncodeOctetString([]byte(*v.HlrId))
+		enc_hlrid, encodeErr_enc_hlrid := ber.EncodeOctetString([]byte(*v.HlrId))
+		if encodeErr_enc_hlrid != nil {
+			return nil, fmt.Errorf("encoding hlr-id: %w", encodeErr_enc_hlrid)
+		}
 		retagged_enc_hlrid, tagErr_enc_hlrid := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_hlrid)
 		if tagErr_enc_hlrid != nil {
 			return nil, fmt.Errorf("encoding hlr-id: %w", tagErr_enc_hlrid)
@@ -3037,7 +3235,10 @@ func (v *CorrelationID3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_hlrid...)
 	}
 	if v.SipUriA != nil {
-		enc_sipuria := ber.EncodeOctetString([]byte(*v.SipUriA))
+		enc_sipuria, encodeErr_enc_sipuria := ber.EncodeOctetString([]byte(*v.SipUriA))
+		if encodeErr_enc_sipuria != nil {
+			return nil, fmt.Errorf("encoding sip-uri-A: %w", encodeErr_enc_sipuria)
+		}
 		retagged_enc_sipuria, tagErr_enc_sipuria := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_sipuria)
 		if tagErr_enc_sipuria != nil {
 			return nil, fmt.Errorf("encoding sip-uri-A: %w", tagErr_enc_sipuria)
@@ -3045,14 +3246,20 @@ func (v *CorrelationID3) MarshalDER() ([]byte, error) {
 		enc_sipuria = retagged_enc_sipuria
 		children = append(children, enc_sipuria...)
 	}
-	enc_sipurib := ber.EncodeOctetString([]byte(v.SipUriB))
+	enc_sipurib, encodeErr_enc_sipurib := ber.EncodeOctetString([]byte(v.SipUriB))
+	if encodeErr_enc_sipurib != nil {
+		return nil, fmt.Errorf("encoding sip-uri-B: %w", encodeErr_enc_sipurib)
+	}
 	retagged_enc_sipurib, tagErr_enc_sipurib := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_sipurib)
 	if tagErr_enc_sipurib != nil {
 		return nil, fmt.Errorf("encoding sip-uri-B: %w", tagErr_enc_sipurib)
 	}
 	enc_sipurib = retagged_enc_sipurib
 	children = append(children, enc_sipurib...)
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding CorrelationID3 as DER: %w", err)
 	}
@@ -3137,7 +3344,10 @@ func (v *CorrelationID3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 func (v *MTForwardSMRes3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
-		enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		if encodeErr_enc_smrpui != nil {
+			return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+		}
 		children = append(children, enc_smrpui...)
 	}
 	if v.ExtensionContainer != nil {
@@ -3157,14 +3367,17 @@ func (v *MTForwardSMRes3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MTForwardSMRes3 to DER format.
 func (v *MTForwardSMRes3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
-		enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		if encodeErr_enc_smrpui != nil {
+			return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+		}
 		children = append(children, enc_smrpui...)
 	}
 	if v.ExtensionContainer != nil {
@@ -3180,7 +3393,10 @@ func (v *MTForwardSMRes3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MTForwardSMRes3 as DER: %w", err)
 	}
@@ -3258,7 +3474,10 @@ func (v *SMRPDA3) MarshalBER() ([]byte, error) {
 		if v.Imsi == nil {
 			return nil, fmt.Errorf("choice SMRPDA3: imsi is nil")
 		}
-		enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_0)
@@ -3269,7 +3488,10 @@ func (v *SMRPDA3) MarshalBER() ([]byte, error) {
 		if v.Lmsi == nil {
 			return nil, fmt.Errorf("choice SMRPDA3: lmsi is nil")
 		}
-		enc_1 := ber.EncodeOctetString([]byte(*v.Lmsi))
+		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.Lmsi))
+		if encodeErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding lmsi: %w", encodeErr_enc_1)
+		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
 		if tagErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding lmsi: %w", tagErr_enc_1)
@@ -3280,7 +3502,10 @@ func (v *SMRPDA3) MarshalBER() ([]byte, error) {
 		if v.ServiceCentreAddressDA == nil {
 			return nil, fmt.Errorf("choice SMRPDA3: serviceCentreAddressDA is nil")
 		}
-		enc_2 := ber.EncodeOctetString([]byte(*v.ServiceCentreAddressDA))
+		enc_2, encodeErr_enc_2 := ber.EncodeOctetString([]byte(*v.ServiceCentreAddressDA))
+		if encodeErr_enc_2 != nil {
+			return nil, fmt.Errorf("encoding serviceCentreAddressDA: %w", encodeErr_enc_2)
+		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_2)
 		if tagErr_enc_2 != nil {
 			return nil, fmt.Errorf("encoding serviceCentreAddressDA: %w", tagErr_enc_2)
@@ -3382,7 +3607,10 @@ func (v *SMRPOA3) MarshalBER() ([]byte, error) {
 		if v.Msisdn == nil {
 			return nil, fmt.Errorf("choice SMRPOA3: msisdn is nil")
 		}
-		enc_0 := ber.EncodeOctetString([]byte(*v.Msisdn))
+		enc_0, encodeErr_enc_0 := ber.EncodeOctetString([]byte(*v.Msisdn))
+		if encodeErr_enc_0 != nil {
+			return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_0)
+		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 2, enc_0)
 		if tagErr_enc_0 != nil {
 			return nil, fmt.Errorf("encoding msisdn: %w", tagErr_enc_0)
@@ -3393,7 +3621,10 @@ func (v *SMRPOA3) MarshalBER() ([]byte, error) {
 		if v.ServiceCentreAddressOA == nil {
 			return nil, fmt.Errorf("choice SMRPOA3: serviceCentreAddressOA is nil")
 		}
-		enc_1 := ber.EncodeOctetString([]byte(*v.ServiceCentreAddressOA))
+		enc_1, encodeErr_enc_1 := ber.EncodeOctetString([]byte(*v.ServiceCentreAddressOA))
+		if encodeErr_enc_1 != nil {
+			return nil, fmt.Errorf("encoding serviceCentreAddressOA: %w", encodeErr_enc_1)
+		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 4, enc_1)
 		if tagErr_enc_1 != nil {
 			return nil, fmt.Errorf("encoding serviceCentreAddressOA: %w", tagErr_enc_1)
@@ -3483,9 +3714,15 @@ func (v *SMRPOA3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 // MarshalBER encodes ReportSMDeliveryStatusArg3 to BER format.
 func (v *ReportSMDeliveryStatusArg3) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	if encodeErr_enc_msisdn != nil {
+		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
+	}
 	children = append(children, enc_msisdn...)
-	enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	if encodeErr_enc_servicecentreaddress != nil {
+		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
+	}
 	children = append(children, enc_servicecentreaddress...)
 	enc_smdeliveryoutcome := ber.EncodeEnumerated(int64(v.SmDeliveryOutcome))
 	children = append(children, enc_smdeliveryoutcome...)
@@ -3574,7 +3811,10 @@ func (v *ReportSMDeliveryStatusArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ipsmgwabsentsubscriberdiagnosticsm...)
 	}
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_imsi)
 		if tagErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
@@ -3667,15 +3907,21 @@ func (v *ReportSMDeliveryStatusArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ReportSMDeliveryStatusArg3 to DER format.
 func (v *ReportSMDeliveryStatusArg3) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	if encodeErr_enc_msisdn != nil {
+		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
+	}
 	children = append(children, enc_msisdn...)
-	enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	if encodeErr_enc_servicecentreaddress != nil {
+		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
+	}
 	children = append(children, enc_servicecentreaddress...)
 	enc_smdeliveryoutcome := ber.EncodeEnumerated(int64(v.SmDeliveryOutcome))
 	children = append(children, enc_smdeliveryoutcome...)
@@ -3764,7 +4010,10 @@ func (v *ReportSMDeliveryStatusArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ipsmgwabsentsubscriberdiagnosticsm...)
 	}
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 9, enc_imsi)
 		if tagErr_enc_imsi != nil {
 			return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
@@ -3853,7 +4102,10 @@ func (v *ReportSMDeliveryStatusArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReportSMDeliveryStatusArg3 as DER: %w", err)
 	}
@@ -3938,7 +4190,10 @@ func (v *ReportSMDeliveryStatusArg3) UnmarshalBER(data []byte, opts ...ber.Decod
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
-				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				if reconstructionErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
+				}
 				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
@@ -4146,7 +4401,10 @@ func (v *ReportSMDeliveryStatusArg3) UnmarshalBER(data []byte, opts ...ber.Decod
 				if decodedTag_correlationid.Class != tag.ClassContextSpecific || decodedTag_correlationid.Number != 11 || decodedTag_correlationid.Constructed != true {
 					return fmt.Errorf("decoding correlationID: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_correlationid)
 				}
-				reconstructed_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				reconstructed_correlationid, reconstructionErr_correlationid := ber.EncodeSequence(rawVal_correlationid)
+				if reconstructionErr_correlationid != nil {
+					return fmt.Errorf("decoding correlationID: %w", reconstructionErr_correlationid)
+				}
 				var dec_correlationid CorrelationID3
 				if unmErr := dec_correlationid.UnmarshalBER(reconstructed_correlationid, opts...); unmErr != nil {
 					return fmt.Errorf("decoding correlationID: %w", unmErr)
@@ -4304,7 +4562,10 @@ func (v *ReportSMDeliveryStatusArg3) UnmarshalBER(data []byte, opts ...ber.Decod
 func (v *ReportSMDeliveryStatusRes3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.StoredMSISDN != nil {
-		enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		enc_storedmsisdn, encodeErr_enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		if encodeErr_enc_storedmsisdn != nil {
+			return nil, fmt.Errorf("encoding storedMSISDN: %w", encodeErr_enc_storedmsisdn)
+		}
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.ExtensionContainer != nil {
@@ -4324,14 +4585,17 @@ func (v *ReportSMDeliveryStatusRes3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ReportSMDeliveryStatusRes3 to DER format.
 func (v *ReportSMDeliveryStatusRes3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.StoredMSISDN != nil {
-		enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		enc_storedmsisdn, encodeErr_enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		if encodeErr_enc_storedmsisdn != nil {
+			return nil, fmt.Errorf("encoding storedMSISDN: %w", encodeErr_enc_storedmsisdn)
+		}
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.ExtensionContainer != nil {
@@ -4347,7 +4611,10 @@ func (v *ReportSMDeliveryStatusRes3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReportSMDeliveryStatusRes3 as DER: %w", err)
 	}
@@ -4421,12 +4688,21 @@ func (v *ReportSMDeliveryStatusRes3) UnmarshalBER(data []byte, opts ...ber.Decod
 // MarshalBER encodes AlertServiceCentreArg3 to BER format.
 func (v *AlertServiceCentreArg3) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	if encodeErr_enc_msisdn != nil {
+		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
+	}
 	children = append(children, enc_msisdn...)
-	enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	if encodeErr_enc_servicecentreaddress != nil {
+		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
+	}
 	children = append(children, enc_servicecentreaddress...)
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		children = append(children, enc_imsi...)
 	}
 	if v.CorrelationID != nil {
@@ -4437,7 +4713,10 @@ func (v *AlertServiceCentreArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_correlationid...)
 	}
 	if v.MaximumUeAvailabilityTime != nil {
-		enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		enc_maximumueavailabilitytime, encodeErr_enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		if encodeErr_enc_maximumueavailabilitytime != nil {
+			return nil, fmt.Errorf("encoding maximumUeAvailabilityTime: %w", encodeErr_enc_maximumueavailabilitytime)
+		}
 		retagged_enc_maximumueavailabilitytime, tagErr_enc_maximumueavailabilitytime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_maximumueavailabilitytime)
 		if tagErr_enc_maximumueavailabilitytime != nil {
 			return nil, fmt.Errorf("encoding maximumUeAvailabilityTime: %w", tagErr_enc_maximumueavailabilitytime)
@@ -4467,7 +4746,10 @@ func (v *AlertServiceCentreArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_smsgmscdiameteraddress...)
 	}
 	if v.NewSGSNNumber != nil {
-		enc_newsgsnnumber := ber.EncodeOctetString([]byte(*v.NewSGSNNumber))
+		enc_newsgsnnumber, encodeErr_enc_newsgsnnumber := ber.EncodeOctetString([]byte(*v.NewSGSNNumber))
+		if encodeErr_enc_newsgsnnumber != nil {
+			return nil, fmt.Errorf("encoding newSGSNNumber: %w", encodeErr_enc_newsgsnnumber)
+		}
 		retagged_enc_newsgsnnumber, tagErr_enc_newsgsnnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_newsgsnnumber)
 		if tagErr_enc_newsgsnnumber != nil {
 			return nil, fmt.Errorf("encoding newSGSNNumber: %w", tagErr_enc_newsgsnnumber)
@@ -4488,7 +4770,10 @@ func (v *AlertServiceCentreArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_newsgsndiameteraddress...)
 	}
 	if v.NewMMENumber != nil {
-		enc_newmmenumber := ber.EncodeOctetString([]byte(*v.NewMMENumber))
+		enc_newmmenumber, encodeErr_enc_newmmenumber := ber.EncodeOctetString([]byte(*v.NewMMENumber))
+		if encodeErr_enc_newmmenumber != nil {
+			return nil, fmt.Errorf("encoding newMMENumber: %w", encodeErr_enc_newmmenumber)
+		}
 		retagged_enc_newmmenumber, tagErr_enc_newmmenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_newmmenumber)
 		if tagErr_enc_newmmenumber != nil {
 			return nil, fmt.Errorf("encoding newMMENumber: %w", tagErr_enc_newmmenumber)
@@ -4509,7 +4794,10 @@ func (v *AlertServiceCentreArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_newmmediameteraddress...)
 	}
 	if v.NewMSCNumber != nil {
-		enc_newmscnumber := ber.EncodeOctetString([]byte(*v.NewMSCNumber))
+		enc_newmscnumber, encodeErr_enc_newmscnumber := ber.EncodeOctetString([]byte(*v.NewMSCNumber))
+		if encodeErr_enc_newmscnumber != nil {
+			return nil, fmt.Errorf("encoding newMSCNumber: %w", encodeErr_enc_newmscnumber)
+		}
 		retagged_enc_newmscnumber, tagErr_enc_newmscnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_newmscnumber)
 		if tagErr_enc_newmscnumber != nil {
 			return nil, fmt.Errorf("encoding newMSCNumber: %w", tagErr_enc_newmscnumber)
@@ -4527,18 +4815,27 @@ func (v *AlertServiceCentreArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes AlertServiceCentreArg3 to DER format.
 func (v *AlertServiceCentreArg3) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	enc_msisdn, encodeErr_enc_msisdn := ber.EncodeOctetString([]byte(v.Msisdn))
+	if encodeErr_enc_msisdn != nil {
+		return nil, fmt.Errorf("encoding msisdn: %w", encodeErr_enc_msisdn)
+	}
 	children = append(children, enc_msisdn...)
-	enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	enc_servicecentreaddress, encodeErr_enc_servicecentreaddress := ber.EncodeOctetString([]byte(v.ServiceCentreAddress))
+	if encodeErr_enc_servicecentreaddress != nil {
+		return nil, fmt.Errorf("encoding serviceCentreAddress: %w", encodeErr_enc_servicecentreaddress)
+	}
 	children = append(children, enc_servicecentreaddress...)
 	if v.Imsi != nil {
-		enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(*v.Imsi))
+		if encodeErr_enc_imsi != nil {
+			return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+		}
 		children = append(children, enc_imsi...)
 	}
 	if v.CorrelationID != nil {
@@ -4549,7 +4846,10 @@ func (v *AlertServiceCentreArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_correlationid...)
 	}
 	if v.MaximumUeAvailabilityTime != nil {
-		enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		enc_maximumueavailabilitytime, encodeErr_enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		if encodeErr_enc_maximumueavailabilitytime != nil {
+			return nil, fmt.Errorf("encoding maximumUeAvailabilityTime: %w", encodeErr_enc_maximumueavailabilitytime)
+		}
 		retagged_enc_maximumueavailabilitytime, tagErr_enc_maximumueavailabilitytime := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_maximumueavailabilitytime)
 		if tagErr_enc_maximumueavailabilitytime != nil {
 			return nil, fmt.Errorf("encoding maximumUeAvailabilityTime: %w", tagErr_enc_maximumueavailabilitytime)
@@ -4579,7 +4879,10 @@ func (v *AlertServiceCentreArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_smsgmscdiameteraddress...)
 	}
 	if v.NewSGSNNumber != nil {
-		enc_newsgsnnumber := ber.EncodeOctetString([]byte(*v.NewSGSNNumber))
+		enc_newsgsnnumber, encodeErr_enc_newsgsnnumber := ber.EncodeOctetString([]byte(*v.NewSGSNNumber))
+		if encodeErr_enc_newsgsnnumber != nil {
+			return nil, fmt.Errorf("encoding newSGSNNumber: %w", encodeErr_enc_newsgsnnumber)
+		}
 		retagged_enc_newsgsnnumber, tagErr_enc_newsgsnnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_newsgsnnumber)
 		if tagErr_enc_newsgsnnumber != nil {
 			return nil, fmt.Errorf("encoding newSGSNNumber: %w", tagErr_enc_newsgsnnumber)
@@ -4600,7 +4903,10 @@ func (v *AlertServiceCentreArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_newsgsndiameteraddress...)
 	}
 	if v.NewMMENumber != nil {
-		enc_newmmenumber := ber.EncodeOctetString([]byte(*v.NewMMENumber))
+		enc_newmmenumber, encodeErr_enc_newmmenumber := ber.EncodeOctetString([]byte(*v.NewMMENumber))
+		if encodeErr_enc_newmmenumber != nil {
+			return nil, fmt.Errorf("encoding newMMENumber: %w", encodeErr_enc_newmmenumber)
+		}
 		retagged_enc_newmmenumber, tagErr_enc_newmmenumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 5, enc_newmmenumber)
 		if tagErr_enc_newmmenumber != nil {
 			return nil, fmt.Errorf("encoding newMMENumber: %w", tagErr_enc_newmmenumber)
@@ -4621,7 +4927,10 @@ func (v *AlertServiceCentreArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_newmmediameteraddress...)
 	}
 	if v.NewMSCNumber != nil {
-		enc_newmscnumber := ber.EncodeOctetString([]byte(*v.NewMSCNumber))
+		enc_newmscnumber, encodeErr_enc_newmscnumber := ber.EncodeOctetString([]byte(*v.NewMSCNumber))
+		if encodeErr_enc_newmscnumber != nil {
+			return nil, fmt.Errorf("encoding newMSCNumber: %w", encodeErr_enc_newmscnumber)
+		}
 		retagged_enc_newmscnumber, tagErr_enc_newmscnumber := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 7, enc_newmscnumber)
 		if tagErr_enc_newmscnumber != nil {
 			return nil, fmt.Errorf("encoding newMSCNumber: %w", tagErr_enc_newmscnumber)
@@ -4635,7 +4944,10 @@ func (v *AlertServiceCentreArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding AlertServiceCentreArg3 as DER: %w", err)
 	}
@@ -4762,7 +5074,10 @@ func (v *AlertServiceCentreArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_smsgmscdiameteraddress.Class != tag.ClassContextSpecific || decodedTag_smsgmscdiameteraddress.Number != 2 || decodedTag_smsgmscdiameteraddress.Constructed != true {
 					return fmt.Errorf("decoding smsGmscDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_smsgmscdiameteraddress)
 				}
-				reconstructed_smsgmscdiameteraddress := ber.EncodeSequence(rawVal_smsgmscdiameteraddress)
+				reconstructed_smsgmscdiameteraddress, reconstructionErr_smsgmscdiameteraddress := ber.EncodeSequence(rawVal_smsgmscdiameteraddress)
+				if reconstructionErr_smsgmscdiameteraddress != nil {
+					return fmt.Errorf("decoding smsGmscDiameterAddress: %w", reconstructionErr_smsgmscdiameteraddress)
+				}
 				var dec_smsgmscdiameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_smsgmscdiameteraddress.UnmarshalBER(reconstructed_smsgmscdiameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding smsGmscDiameterAddress: %w", unmErr)
@@ -4802,7 +5117,10 @@ func (v *AlertServiceCentreArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_newsgsndiameteraddress.Class != tag.ClassContextSpecific || decodedTag_newsgsndiameteraddress.Number != 4 || decodedTag_newsgsndiameteraddress.Constructed != true {
 					return fmt.Errorf("decoding newSGSNDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newsgsndiameteraddress)
 				}
-				reconstructed_newsgsndiameteraddress := ber.EncodeSequence(rawVal_newsgsndiameteraddress)
+				reconstructed_newsgsndiameteraddress, reconstructionErr_newsgsndiameteraddress := ber.EncodeSequence(rawVal_newsgsndiameteraddress)
+				if reconstructionErr_newsgsndiameteraddress != nil {
+					return fmt.Errorf("decoding newSGSNDiameterAddress: %w", reconstructionErr_newsgsndiameteraddress)
+				}
 				var dec_newsgsndiameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_newsgsndiameteraddress.UnmarshalBER(reconstructed_newsgsndiameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding newSGSNDiameterAddress: %w", unmErr)
@@ -4842,7 +5160,10 @@ func (v *AlertServiceCentreArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_newmmediameteraddress.Class != tag.ClassContextSpecific || decodedTag_newmmediameteraddress.Number != 6 || decodedTag_newmmediameteraddress.Constructed != true {
 					return fmt.Errorf("decoding newMMEDiameterAddress: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_newmmediameteraddress)
 				}
-				reconstructed_newmmediameteraddress := ber.EncodeSequence(rawVal_newmmediameteraddress)
+				reconstructed_newmmediameteraddress, reconstructionErr_newmmediameteraddress := ber.EncodeSequence(rawVal_newmmediameteraddress)
+				if reconstructionErr_newmmediameteraddress != nil {
+					return fmt.Errorf("decoding newMMEDiameterAddress: %w", reconstructionErr_newmmediameteraddress)
+				}
 				var dec_newmmediameteraddress CommonDataTypesNetworkNodeDiameterAddress
 				if unmErr := dec_newmmediameteraddress.UnmarshalBER(reconstructed_newmmediameteraddress, opts...); unmErr != nil {
 					return fmt.Errorf("decoding newMMEDiameterAddress: %w", unmErr)
@@ -4890,11 +5211,17 @@ func (v *AlertServiceCentreArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 func (v *InformServiceCentreArg3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.StoredMSISDN != nil {
-		enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		enc_storedmsisdn, encodeErr_enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		if encodeErr_enc_storedmsisdn != nil {
+			return nil, fmt.Errorf("encoding storedMSISDN: %w", encodeErr_enc_storedmsisdn)
+		}
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.MwStatus != nil {
-		enc_mwstatus := ber.EncodeBitString(v.MwStatus.Bytes, (8-(v.MwStatus.BitLength%8))%8)
+		enc_mwstatus, encodeErr_enc_mwstatus := ber.EncodeBitString(v.MwStatus.Bytes, (8-(v.MwStatus.BitLength%8))%8)
+		if encodeErr_enc_mwstatus != nil {
+			return nil, fmt.Errorf("encoding mw-Status: %w", encodeErr_enc_mwstatus)
+		}
 		children = append(children, enc_mwstatus...)
 	}
 	if v.ExtensionContainer != nil {
@@ -4945,18 +5272,24 @@ func (v *InformServiceCentreArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes InformServiceCentreArg3 to DER format.
 func (v *InformServiceCentreArg3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.StoredMSISDN != nil {
-		enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		enc_storedmsisdn, encodeErr_enc_storedmsisdn := ber.EncodeOctetString([]byte(*v.StoredMSISDN))
+		if encodeErr_enc_storedmsisdn != nil {
+			return nil, fmt.Errorf("encoding storedMSISDN: %w", encodeErr_enc_storedmsisdn)
+		}
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.MwStatus != nil {
-		enc_mwstatus := ber.EncodeBitString(v.MwStatus.Bytes, (8-(v.MwStatus.BitLength%8))%8)
+		enc_mwstatus, encodeErr_enc_mwstatus := ber.EncodeBitString(v.MwStatus.Bytes, (8-(v.MwStatus.BitLength%8))%8)
+		if encodeErr_enc_mwstatus != nil {
+			return nil, fmt.Errorf("encoding mw-Status: %w", encodeErr_enc_mwstatus)
+		}
 		children = append(children, enc_mwstatus...)
 	}
 	if v.ExtensionContainer != nil {
@@ -5003,7 +5336,10 @@ func (v *InformServiceCentreArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding InformServiceCentreArg3 as DER: %w", err)
 	}
@@ -5177,7 +5513,10 @@ func (v *InformServiceCentreArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 // MarshalBER encodes ReadyForSMArg3 to BER format.
 func (v *ReadyForSMArg3) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	if encodeErr_enc_imsi != nil {
+		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+	}
 	retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_imsi)
 	if tagErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
@@ -5207,7 +5546,10 @@ func (v *ReadyForSMArg3) MarshalBER() ([]byte, error) {
 		children = append(children, enc_additionalalertreasonindicator...)
 	}
 	if v.MaximumUeAvailabilityTime != nil {
-		enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		enc_maximumueavailabilitytime, encodeErr_enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		if encodeErr_enc_maximumueavailabilitytime != nil {
+			return nil, fmt.Errorf("encoding maximumUeAvailabilityTime: %w", encodeErr_enc_maximumueavailabilitytime)
+		}
 		children = append(children, enc_maximumueavailabilitytime...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5220,13 +5562,16 @@ func (v *ReadyForSMArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ReadyForSMArg3 to DER format.
 func (v *ReadyForSMArg3) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	enc_imsi, encodeErr_enc_imsi := ber.EncodeOctetString([]byte(v.Imsi))
+	if encodeErr_enc_imsi != nil {
+		return nil, fmt.Errorf("encoding imsi: %w", encodeErr_enc_imsi)
+	}
 	retagged_enc_imsi, tagErr_enc_imsi := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_imsi)
 	if tagErr_enc_imsi != nil {
 		return nil, fmt.Errorf("encoding imsi: %w", tagErr_enc_imsi)
@@ -5256,7 +5601,10 @@ func (v *ReadyForSMArg3) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionalalertreasonindicator...)
 	}
 	if v.MaximumUeAvailabilityTime != nil {
-		enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		enc_maximumueavailabilitytime, encodeErr_enc_maximumueavailabilitytime := ber.EncodeOctetString([]byte(*v.MaximumUeAvailabilityTime))
+		if encodeErr_enc_maximumueavailabilitytime != nil {
+			return nil, fmt.Errorf("encoding maximumUeAvailabilityTime: %w", encodeErr_enc_maximumueavailabilitytime)
+		}
 		children = append(children, enc_maximumueavailabilitytime...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -5265,7 +5613,10 @@ func (v *ReadyForSMArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReadyForSMArg3 as DER: %w", err)
 	}
@@ -5418,7 +5769,7 @@ func (v *ReadyForSMRes3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes ReadyForSMRes3 to DER format.
@@ -5437,7 +5788,10 @@ func (v *ReadyForSMRes3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding ReadyForSMRes3 as DER: %w", err)
 	}
@@ -5496,14 +5850,20 @@ func (v *ReadyForSMRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 // MarshalBER encodes MTForwardSMVGCSArg3 to BER format.
 func (v *MTForwardSMVGCSArg3) MarshalBER() ([]byte, error) {
 	var children []byte
-	enc_ascicallreference := ber.EncodeOctetString([]byte(v.AsciCallReference))
+	enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(v.AsciCallReference))
+	if encodeErr_enc_ascicallreference != nil {
+		return nil, fmt.Errorf("encoding asciCallReference: %w", encodeErr_enc_ascicallreference)
+	}
 	children = append(children, enc_ascicallreference...)
 	enc_smrpoa, err := v.SmRPOA.MarshalBER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding sm-RP-OA: %w", err)
 	}
 	children = append(children, enc_smrpoa...)
-	enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	if encodeErr_enc_smrpui != nil {
+		return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+	}
 	children = append(children, enc_smrpui...)
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalBER()
@@ -5522,20 +5882,26 @@ func (v *MTForwardSMVGCSArg3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MTForwardSMVGCSArg3 to DER format.
 func (v *MTForwardSMVGCSArg3) MarshalDER() ([]byte, error) {
 	var children []byte
-	enc_ascicallreference := ber.EncodeOctetString([]byte(v.AsciCallReference))
+	enc_ascicallreference, encodeErr_enc_ascicallreference := ber.EncodeOctetString([]byte(v.AsciCallReference))
+	if encodeErr_enc_ascicallreference != nil {
+		return nil, fmt.Errorf("encoding asciCallReference: %w", encodeErr_enc_ascicallreference)
+	}
 	children = append(children, enc_ascicallreference...)
 	enc_smrpoa, err := v.SmRPOA.MarshalDER()
 	if err != nil {
 		return nil, fmt.Errorf("encoding sm-RP-OA: %w", err)
 	}
 	children = append(children, enc_smrpoa...)
-	enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(v.SmRPUI))
+	if encodeErr_enc_smrpui != nil {
+		return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+	}
 	children = append(children, enc_smrpui...)
 	if v.ExtensionContainer != nil {
 		enc_extensioncontainer, err := v.ExtensionContainer.MarshalDER()
@@ -5550,7 +5916,10 @@ func (v *MTForwardSMVGCSArg3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MTForwardSMVGCSArg3 as DER: %w", err)
 	}
@@ -5643,7 +6012,10 @@ func (v *MTForwardSMVGCSArg3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 func (v *MTForwardSMVGCSRes3) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
-		enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		if encodeErr_enc_smrpui != nil {
+			return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+		}
 		retagged_enc_smrpui, tagErr_enc_smrpui := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_smrpui)
 		if tagErr_enc_smrpui != nil {
 			return nil, fmt.Errorf("encoding sm-RP-UI: %w", tagErr_enc_smrpui)
@@ -5662,7 +6034,13 @@ func (v *MTForwardSMVGCSRes3) MarshalBER() ([]byte, error) {
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
-			enc_dispatcherlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
+			{
+				var encodeErr error
+				enc_dispatcherlist, encodeErr = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, seqContent_)
+				if encodeErr != nil {
+					return nil, fmt.Errorf("encoding dispatcherList: %w", encodeErr)
+				}
+			}
 		} else {
 			retagged_enc_dispatcherlist, tagErr_enc_dispatcherlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_dispatcherlist)
 			if tagErr_enc_dispatcherlist != nil {
@@ -5699,7 +6077,13 @@ func (v *MTForwardSMVGCSRes3) MarshalBER() ([]byte, error) {
 			if tlvErr_ != nil {
 				return nil, tlvErr_
 			}
-			enc_additionaldispatcherlist = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
+			{
+				var encodeErr error
+				enc_additionaldispatcherlist, encodeErr = ber.EncodeConstructedIndefinite(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, seqContent_)
+				if encodeErr != nil {
+					return nil, fmt.Errorf("encoding additionalDispatcherList: %w", encodeErr)
+				}
+			}
 		} else {
 			retagged_enc_additionaldispatcherlist, tagErr_enc_additionaldispatcherlist := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 3, enc_additionaldispatcherlist)
 			if tagErr_enc_additionaldispatcherlist != nil {
@@ -5719,14 +6103,17 @@ func (v *MTForwardSMVGCSRes3) MarshalBER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDER encodes MTForwardSMVGCSRes3 to DER format.
 func (v *MTForwardSMVGCSRes3) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
-		enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		enc_smrpui, encodeErr_enc_smrpui := ber.EncodeOctetString([]byte(*v.SmRPUI))
+		if encodeErr_enc_smrpui != nil {
+			return nil, fmt.Errorf("encoding sm-RP-UI: %w", encodeErr_enc_smrpui)
+		}
 		retagged_enc_smrpui, tagErr_enc_smrpui := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_smrpui)
 		if tagErr_enc_smrpui != nil {
 			return nil, fmt.Errorf("encoding sm-RP-UI: %w", tagErr_enc_smrpui)
@@ -5780,7 +6167,10 @@ func (v *MTForwardSMVGCSRes3) MarshalDER() ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding MTForwardSMVGCSRes3 as DER: %w", err)
 	}
@@ -5832,7 +6222,10 @@ func (v *MTForwardSMVGCSRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_dispatcherlist.Class != tag.ClassContextSpecific || decodedTag_dispatcherlist.Number != 1 || decodedTag_dispatcherlist.Constructed != true {
 					return fmt.Errorf("decoding dispatcherList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dispatcherlist)
 				}
-				reconstructed_dispatcherlist := ber.EncodeSequence(rawVal_dispatcherlist)
+				reconstructed_dispatcherlist, reconstructionErr_dispatcherlist := ber.EncodeSequence(rawVal_dispatcherlist)
+				if reconstructionErr_dispatcherlist != nil {
+					return fmt.Errorf("decoding dispatcherList: %w", reconstructionErr_dispatcherlist)
+				}
 				dec_dispatcherlist, unmErr := UnmarshalBERDispatcherList3(reconstructed_dispatcherlist, opts...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding dispatcherList: %w", unmErr)
@@ -5874,7 +6267,10 @@ func (v *MTForwardSMVGCSRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 || decodedTag_extensioncontainer.Constructed != true {
 					return fmt.Errorf("decoding extensionContainer: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer)
 				}
-				reconstructed_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				if reconstructionErr_extensioncontainer != nil {
+					return fmt.Errorf("decoding extensionContainer: %w", reconstructionErr_extensioncontainer)
+				}
 				var dec_extensioncontainer ExtensionContainer3
 				if unmErr := dec_extensioncontainer.UnmarshalBER(reconstructed_extensioncontainer, opts...); unmErr != nil {
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
@@ -5897,7 +6293,10 @@ func (v *MTForwardSMVGCSRes3) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 				if decodedTag_additionaldispatcherlist.Class != tag.ClassContextSpecific || decodedTag_additionaldispatcherlist.Number != 3 || decodedTag_additionaldispatcherlist.Constructed != true {
 					return fmt.Errorf("decoding additionalDispatcherList: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_additionaldispatcherlist)
 				}
-				reconstructed_additionaldispatcherlist := ber.EncodeSequence(rawVal_additionaldispatcherlist)
+				reconstructed_additionaldispatcherlist, reconstructionErr_additionaldispatcherlist := ber.EncodeSequence(rawVal_additionaldispatcherlist)
+				if reconstructionErr_additionaldispatcherlist != nil {
+					return fmt.Errorf("decoding additionalDispatcherList: %w", reconstructionErr_additionaldispatcherlist)
+				}
 				dec_additionaldispatcherlist, unmErr := UnmarshalBERAdditionalDispatcherList3(reconstructed_additionaldispatcherlist, opts...)
 				if unmErr != nil {
 					return fmt.Errorf("decoding additionalDispatcherList: %w", unmErr)
@@ -5936,9 +6335,13 @@ func MarshalBERDispatcherList3(list DispatcherList3) ([]byte, error) {
 	}
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
+		if encodeErr_encodedElem != nil {
+			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
+		}
+		children = append(children, encodedElem...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDERDispatcherList3 encodes a DispatcherList3 list to DER.
@@ -5948,9 +6351,16 @@ func MarshalDERDispatcherList3(list DispatcherList3) ([]byte, error) {
 	}
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
+		if encodeErr_encodedElem != nil {
+			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
+		}
+		children = append(children, encodedElem...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding DispatcherList3 as DER: %w", err)
 	}
@@ -5995,9 +6405,13 @@ func MarshalBERAdditionalDispatcherList3(list AdditionalDispatcherList3) ([]byte
 	}
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
+		if encodeErr_encodedElem != nil {
+			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
+		}
+		children = append(children, encodedElem...)
 	}
-	return ber.EncodeSequence(children), nil
+	return ber.EncodeSequence(children)
 }
 
 // MarshalDERAdditionalDispatcherList3 encodes a AdditionalDispatcherList3 list to DER.
@@ -6007,9 +6421,16 @@ func MarshalDERAdditionalDispatcherList3(list AdditionalDispatcherList3) ([]byte
 	}
 	var children []byte
 	for _, elem := range list {
-		children = append(children, ber.EncodeOctetString([]byte(elem))...)
+		encodedElem, encodeErr_encodedElem := ber.EncodeOctetString([]byte(elem))
+		if encodeErr_encodedElem != nil {
+			return nil, fmt.Errorf("encoding element: %w", encodeErr_encodedElem)
+		}
+		children = append(children, encodedElem...)
 	}
-	encoded := ber.EncodeSequence(children)
+	encoded, setErr := ber.EncodeSequence(children)
+	if setErr != nil {
+		return nil, setErr
+	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		return nil, fmt.Errorf("encoding AdditionalDispatcherList3 as DER: %w", err)
 	}

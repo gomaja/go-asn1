@@ -103,7 +103,10 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 		result.Encoding = runtime.ExternalSingleASN1Type
 		result.SingleASN1Type = runtime.RawValue{Bytes: append([]byte(nil), choice...)}
 	case 1:
-		reconstructed := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagOctetString, Constructed: t.Constructed}, choice)
+		reconstructed, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagOctetString, Constructed: t.Constructed}, choice)
+		if err != nil {
+			return result, err
+		}
 		octets, _, err := DecodeOctetString(reconstructed, options...)
 		if err != nil {
 			return result, err
@@ -111,7 +114,10 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 		result.Encoding = runtime.ExternalOctetAligned
 		result.OctetAligned = append([]byte(nil), octets...)
 	case 2:
-		reconstructed := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString, Constructed: t.Constructed}, choice)
+		reconstructed, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString, Constructed: t.Constructed}, choice)
+		if err != nil {
+			return result, err
+		}
 		bits, unused, _, err := DecodeBitString(reconstructed, options...)
 		if err != nil {
 			return result, err
@@ -154,7 +160,11 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 		children = append(children, oid...)
 	}
 	if value.IndirectReference != nil {
-		children = append(children, EncodeBigInt(value.IndirectReference)...)
+		integer, err := EncodeBigInt(value.IndirectReference)
+		if err != nil {
+			return nil, err
+		}
+		children = append(children, integer...)
 	}
 	if value.DataValueDescriptor != nil {
 		descriptor, err := EncodeStringTagChecked(tag.TagObjectDesc, *value.DataValueDescriptor)
@@ -174,9 +184,17 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 				return nil, err
 			}
 		}
-		children = append(children, EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 0, Constructed: true}, inner)...)
+		encoded, err := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 0, Constructed: true}, inner)
+		if err != nil {
+			return nil, err
+		}
+		children = append(children, encoded...)
 	case runtime.ExternalOctetAligned:
-		children = append(children, EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, value.OctetAligned)...)
+		encoded, err := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, value.OctetAligned)
+		if err != nil {
+			return nil, err
+		}
+		children = append(children, encoded...)
 	case runtime.ExternalArbitrary:
 		bits := value.Arbitrary
 		if bits.BitLength < 0 {
@@ -194,11 +212,22 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 		if unused > 0 && bits.Bytes[len(bits.Bytes)-1]&byte((1<<unused)-1) != 0 {
 			return nil, fmt.Errorf("%w: nonzero unused EXTERNAL bits", ErrInvalidValue)
 		}
-		children = append(children, EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, EncodeBitStringValue(bits.Bytes, unused))...)
+		bitValue, err := EncodeBitStringValue(bits.Bytes, unused)
+		if err != nil {
+			return nil, err
+		}
+		encoded, err := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, bitValue)
+		if err != nil {
+			return nil, err
+		}
+		children = append(children, encoded...)
 	default:
 		return nil, fmt.Errorf("%w: EXTERNAL encoding choice %d", ErrInvalidValue, value.Encoding)
 	}
-	encoded := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagExternal, Constructed: true}, children)
+	encoded, err := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagExternal, Constructed: true}, children)
+	if err != nil {
+		return nil, err
+	}
 	if der {
 		if err := ValidateDEREncodedElement(encoded); err != nil {
 			return nil, err

@@ -24,7 +24,7 @@ func TestBigIntValueRoundTrip(t *testing.T) {
 		if !ok {
 			t.Fatalf("bad literal %s", s)
 		}
-		enc := EncodeBigIntValue(want)
+		enc := mustEncode(t)(EncodeBigIntValue(want))
 		got, err := DecodeBigIntValue(enc)
 		if err != nil {
 			t.Errorf("%s: decode: %v", s, err)
@@ -36,14 +36,14 @@ func TestBigIntValueRoundTrip(t *testing.T) {
 		}
 		// Re-encoding the decoded value must reproduce the same octets, or a
 		// decode/encode cycle would not be byte-exact.
-		if again := EncodeBigIntValue(got); !bytes.Equal(enc, again) {
+		if again := mustEncode(t)(EncodeBigIntValue(got)); !bytes.Equal(enc, again) {
 			t.Errorf("%s: re-encode differs: % x vs % x", s, enc, again)
 		}
 	}
 
 	// Agreement with the int64 path on values both can represent.
 	for _, v := range []int64{0, 1, -1, 127, -128, 255, 1 << 40, -(1 << 40)} {
-		if a, b := EncodeIntegerValue(v), EncodeBigIntValue(big.NewInt(v)); !bytes.Equal(a, b) {
+		if a, b := EncodeIntegerValue(v), mustEncode(t)(EncodeBigIntValue(big.NewInt(v))); !bytes.Equal(a, b) {
 			t.Errorf("%d: int64 encodes % x, big encodes % x", v, a, b)
 		}
 	}

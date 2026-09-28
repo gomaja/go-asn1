@@ -10,9 +10,9 @@ import (
 
 func TestExternalRaisedLimitReachesIndirectBigInteger(t *testing.T) {
 	integer := append([]byte{1}, bytes.Repeat([]byte{0}, 16<<20)...)
-	children := append(EncodeObjectIdentifier([]uint64{1, 2}), EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, integer)...)
-	children = append(children, EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, []byte{'A'})...)
-	wire := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagExternal, Constructed: true}, children)
+	children := append(mustEncode(t)(EncodeObjectIdentifier([]uint64{1, 2})), mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger}, integer))...)
+	children = append(children, mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, []byte{'A'}))...)
+	wire := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagExternal, Constructed: true}, children))
 	if _, _, err := DecodeExternal(wire); err == nil {
 		t.Fatal("default work limit accepted oversized EXTERNAL")
 	}
@@ -23,7 +23,7 @@ func TestExternalRaisedLimitReachesIndirectBigInteger(t *testing.T) {
 }
 
 func TestExternalEditedRawChildDoesNotUseDecodeLimit(t *testing.T) {
-	inner := EncodeOctetString(bytes.Repeat([]byte{'A'}, (16<<20)+1))
+	inner := mustEncode(t)(EncodeOctetString(bytes.Repeat([]byte{'A'}, (16<<20)+1)))
 	value := runtime.External{DirectReference: runtime.ObjectIdentifier{1, 2}, Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
 	wire, err := EncodeExternal(value)
 	if err != nil {
@@ -50,7 +50,7 @@ func TestExternalEditedRawChildDoesNotUseDecodeLimit(t *testing.T) {
 func TestExternalDEREncodeValidatesBeyondDecodeDepth(t *testing.T) {
 	inner := EncodeNull()
 	for range 129 {
-		inner = EncodeSequence(inner)
+		inner = mustEncode(t)(EncodeSequence(inner))
 	}
 	value := runtime.External{DirectReference: runtime.ObjectIdentifier{1, 2}, Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
 	if _, err := EncodeExternalDER(value); err != nil {
@@ -60,7 +60,7 @@ func TestExternalDEREncodeValidatesBeyondDecodeDepth(t *testing.T) {
 
 func TestExternalDEREncodeValidatesBeyondDecodeWorkLimit(t *testing.T) {
 	// X.690 (02/2021) §8.18 has no size ceiling for EXTERNAL.
-	inner := EncodeOctetString(bytes.Repeat([]byte{'A'}, (16<<20)+1))
+	inner := mustEncode(t)(EncodeOctetString(bytes.Repeat([]byte{'A'}, (16<<20)+1)))
 	value := runtime.External{DirectReference: runtime.ObjectIdentifier{1, 2}, Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Bytes: inner}}
 	wire, err := EncodeExternalDER(value)
 	if err != nil {
@@ -74,9 +74,9 @@ func TestExternalDEREncodeValidatesBeyondDecodeWorkLimit(t *testing.T) {
 func TestDEREncodedEmbeddedPDVBeyondDecodeWorkLimit(t *testing.T) {
 	// X.690 (02/2021) §8.17 and X.680 (02/2021) §36.5:
 	// fixed identification [5] and a primitive [2] data-value.
-	data := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, bytes.Repeat([]byte{'A'}, (16<<20)+1))
+	data := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, bytes.Repeat([]byte{'A'}, (16<<20)+1)))
 	value := append([]byte{0xa0, 0x02, 0x85, 0x00}, data...)
-	wire := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagEmbeddedPDV, Constructed: true}, value)
+	wire := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagEmbeddedPDV, Constructed: true}, value))
 	if err := ValidateDEREncodedElement(wire); err != nil {
 		t.Fatalf("validate canonical large EMBEDDED PDV: %v", err)
 	}
