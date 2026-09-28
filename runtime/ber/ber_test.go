@@ -154,6 +154,39 @@ func TestIndefiniteLength(t *testing.T) {
 	}
 }
 
+func TestDecodeLengthRejectsIntOverflow(t *testing.T) {
+	wire := []byte{0x84, 0x80, 0, 0, 0} // 2^31 octets
+	got, indefinite, consumed, err := DecodeLength(wire)
+	if uint64(^uint(0)>>1) < 1<<31 {
+		if err == nil {
+			t.Fatalf("accepted unrepresentable length %d (indefinite=%v, consumed=%d)", got, indefinite, consumed)
+		}
+		return
+	}
+	if err != nil || indefinite || consumed != len(wire) || uint64(got) != 1<<31 {
+		t.Fatalf("length = %d, indefinite=%v, consumed=%d, error=%v", got, indefinite, consumed, err)
+	}
+}
+
+func TestBERLengthCannotWrapSliceBounds(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		wire []byte
+	}{
+		{"definite", []byte{0x04, 0x84, 0x7f, 0xff, 0xff, 0xff}},
+		{"nested indefinite", []byte{0x30, 0x80, 0x04, 0x84, 0x7f, 0xff, 0xff, 0xff, 0, 0}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if _, _, _, err := DecodeTLV(tc.wire); err == nil {
+				t.Fatal("accepted length beyond input")
+			}
+			if _, err := ValidateDERTLV(tc.wire); err == nil {
+				t.Fatal("accepted truncated DER input")
+			}
+		})
+	}
+}
+
 func TestValidateDERElement(t *testing.T) {
 	if err := ValidateDERElement([]byte{0x30, 0x03, 0x80, 0x01, 0x00}); err != nil {
 		t.Fatalf("ValidateDERElement definite constructed: %v", err)
@@ -338,6 +371,7 @@ func FuzzValidateDERElementNoPanic(f *testing.F) {
 		{0x02, 0x01, 0x00},
 		{0x02, 0x81, 0x01, 0x00},
 		{0x1f, 0x02, 0x01, 0x00},
+		{0x04, 0x84, 0x7f, 0xff, 0xff, 0xff},
 		EncodeSet(EncodeOctetString([]byte("value"))),
 	} {
 		f.Add(seed)

@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
   "release_set": "go-asn1",
-  "compiler_commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
-  "target_base_commit": "446bb7a05e0b0a314fccd8d11856086e17facf62",
+  "compiler_commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
+  "target_base_commit": "be78a27d19261056afc2020777077711f03b8202",
   "inputs": {
     "sha256": "f550293ecd58e5109feeb727fdb6dc8f442cc6fb8e0d4b3772eb8c8f51e24c37",
     "files": [
@@ -30,7 +30,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -1869,7 +1869,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -2314,7 +2314,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -2719,7 +2719,7 @@
         "encoding": "uper",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -3068,7 +3068,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -3463,7 +3463,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -3824,7 +3824,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -4209,7 +4209,7 @@
         "encoding": "ber",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -4570,7 +4570,7 @@
         "encoding": "aper",
         "version": 1,
         "compiler": {
-          "commit": "653c434af7dfff84fc4ea0a3c03a85075bdbcbf7",
+          "commit": "29234b000fb38da07ab85f4e70e1414636c620b2",
           "dirty": false
         },
         "frontend": {
@@ -4938,13 +4938,13 @@
     }
   ],
   "outputs": {
-    "sha256": "bafd5f7300b5dbfc43a7810b38b0695f9bc7c4d7cf5a6707306b24c17ce8d593",
+    "sha256": "e1778643701f1f4c591cfac4dea477261b1246562c77b8f0988a17bf8deeb5d1",
     "files": [
       {
         "path": "runtime/ber/ber_test.go",
         "mode": "0644",
-        "sha256": "aeca683bedf1305cae6428cbc9de750418059233dc05a11817e3e51bdd8ebe97",
-        "size_bytes": 35142
+        "sha256": "da602fc4aedf653ec69439812162d3330aea547c63881a14c0b57b819ed735d5",
+        "size_bytes": 36227
       },
       {
         "path": "runtime/ber/bigint_value_test.go",
@@ -4961,8 +4961,8 @@
       {
         "path": "runtime/ber/decoder.go",
         "mode": "0644",
-        "sha256": "5bc285dab7156d1ba7abdd92b5005b49fcefe3c1a5d9f915e5fb31e095d9f056",
-        "size_bytes": 47043
+        "sha256": "79ed845064d04ff1363423087c6ab1c1f2ed356f157a4fd8b2a2738b4ddf43c5",
+        "size_bytes": 47436
       },
       {
         "path": "runtime/ber/encoder.go",
@@ -5027,8 +5027,8 @@
       {
         "path": "runtime/ber/work_limit_test.go",
         "mode": "0644",
-        "sha256": "d412db5ee4d7ddea70886c5b8dfa5e4a0b765bf512e49360f7d9ab02ee74e944",
-        "size_bytes": 3584
+        "sha256": "c3ba4400687147a98dcc219fd78c7fe7d54230eea453849786f635807e3acb32",
+        "size_bytes": 3682
       },
       {
         "path": "runtime/constraint/constraint.go",
@@ -6577,7 +6577,7 @@
       ],
       "dir": "$STAGE",
       "exit_code": 0,
-      "stdout": "$STAGE/runtime/ber/work_limit_test.go:103:6-15: b.N can be modernized using b.Loop()\n"
+      "stdout": "$STAGE/runtime/ber/work_limit_test.go:105:6-15: b.N can be modernized using b.Loop()\n"
     },
     {
       "name": "/Users/marwanjadid/go/bin/staticcheck",

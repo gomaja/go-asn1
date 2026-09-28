@@ -95,11 +95,16 @@ func DecodeLength(data []byte) (length int, indefinite bool, consumed int, err e
 		return 0, false, 0, ErrTruncated
 	}
 
-	length = 0
+	// X.690 (02/2021) §8.1.3: keep the definite length unsigned until it
+	// has been checked against the host's slice-index range.
+	var decoded uint64
 	for i := 1; i <= numBytes; i++ {
-		length = (length << 8) | int(data[i])
+		decoded = decoded<<8 | uint64(data[i])
 	}
-	return length, false, 1 + numBytes, nil
+	if decoded > uint64(math.MaxInt) {
+		return 0, false, 0, fmt.Errorf("%w: length %d exceeds host int", ErrInvalidLength, decoded)
+	}
+	return int(decoded), false, 1 + numBytes, nil
 }
 
 // DecodeTLV reads one complete TLV element from data.
@@ -133,7 +138,7 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 			if pos-headerLen > limits.MaxWork || elements > limits.MaxElements {
 				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan work limit exceeded", ErrInvalidValue)
 			}
-			if pos+2 > len(data) {
+			if len(data)-pos < 2 {
 				return tag.Tag{}, 0, nil, ErrTruncated
 			}
 			if data[pos] == 0x00 && data[pos+1] == 0x00 {
@@ -155,22 +160,26 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 			if err != nil {
 				return tag.Tag{}, 0, nil, err
 			}
+			start := pos + innerTagLen + innerLenLen
 			if innerIndef {
 				depth++
 				if depth > limits.MaxDepth {
 					return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
 				}
-				pos += innerTagLen + innerLenLen
+				pos = start
 			} else {
-				pos += innerTagLen + innerLenLen + innerLen
+				if innerLen > len(data)-start {
+					return tag.Tag{}, 0, nil, ErrTruncated
+				}
+				pos = start + innerLen
 			}
 		}
 	}
 
-	end := headerLen + length
-	if end > len(data) {
+	if length > len(data)-headerLen {
 		return tag.Tag{}, 0, nil, ErrTruncated
 	}
+	end := headerLen + length
 	if end > limits.MaxWork {
 		return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER total-work limit exceeded", ErrInvalidValue)
 	}
@@ -235,10 +244,10 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 	}
 
 	headerLen := tagLen + lenLen
-	end := headerLen + length
-	if end > len(data) {
+	if length > len(data)-headerLen {
 		return 0, ErrTruncated
 	}
+	end := headerLen + length
 	value := data[headerLen:end]
 	if t.Class == tag.ClassUniversal {
 		if err := validateDERUniversalValue(t, value); err != nil {
