@@ -8,9 +8,12 @@ Compiled ASN.1 specifications as native Go packages with generated marshal/unmar
 go get github.com/gomaja/go-asn1@main
 ```
 
-No tagged releases are published. Depend on the `main` branch and update with
-`go get github.com/gomaja/go-asn1@main`; do not use `@latest` or `go get -u`,
-which resolve older tagged versions still cached by the Go module proxy.
+No releases are published. Depend on the `main` branch and update with
+`go get github.com/gomaja/go-asn1@main`.
+
+All earlier tagged versions (v0.1.0–v0.4.2) are retracted. The `v0.5.0` tag
+exists only to publish that retraction and is retracted too; do not depend on
+any tagged version.
 
 ## Usage
 
