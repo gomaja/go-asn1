@@ -9,21 +9,21 @@ import (
 )
 
 func TestDecodeBitStringPrimitiveAndConstructedForms(t *testing.T) {
-	primitiveFirst := EncodeBitString([]byte{0x0a, 0x3b}, 0)
-	primitiveLast := EncodeBitString([]byte{0x5f, 0x29, 0x1c, 0xd0}, 4)
-	definite := EncodeConstructed(
+	primitiveFirst := mustEncode(t)(EncodeBitString([]byte{0x0a, 0x3b}, 0))
+	primitiveLast := mustEncode(t)(EncodeBitString([]byte{0x5f, 0x29, 0x1c, 0xd0}, 4))
+	definite := mustEncode(t)(EncodeConstructed(
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString},
 		append(append([]byte(nil), primitiveFirst...), primitiveLast...),
-	)
+	))
 	indefinite := []byte{0x23, 0x80, 0x03, 0x03, 0x00, 0x0a, 0x3b, 0x03, 0x05, 0x04, 0x5f, 0x29, 0x1c, 0xd0, 0x00, 0x00}
-	nested := EncodeConstructed(
+	nested := mustEncode(t)(EncodeConstructed(
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString},
-		append(append([]byte(nil), primitiveFirst...), EncodeConstructed(
+		append(append([]byte(nil), primitiveFirst...), mustEncode(t)(EncodeConstructed(
 			tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString},
 			primitiveLast,
-		)...),
-	)
-	empty := EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, nil)
+		))...),
+	))
+	empty := mustEncode(t)(EncodeConstructed(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, nil))
 
 	for _, tc := range []struct {
 		name       string
@@ -61,25 +61,25 @@ func TestDecodeConstructedBitStringRejectsInvalidSegments(t *testing.T) {
 	}{
 		{
 			name:    "different child tag",
-			wire:    EncodeConstructed(bitStringTag, EncodeOctetString([]byte{0x00, 0xaa})),
+			wire:    mustEncode(t)(EncodeConstructed(bitStringTag, mustEncode(t)(EncodeOctetString([]byte{0x00, 0xaa})))),
 			wantErr: ErrInvalidTag,
 		},
 		{
 			name:    "non-final segment has unused bits",
-			wire:    EncodeConstructed(bitStringTag, append(EncodeBitString([]byte{0xa0}, 4), EncodeBitString([]byte{0xbb}, 0)...)),
+			wire:    mustEncode(t)(EncodeConstructed(bitStringTag, append(mustEncode(t)(EncodeBitString([]byte{0xa0}, 4)), mustEncode(t)(EncodeBitString([]byte{0xbb}, 0))...))),
 			wantErr: ErrInvalidValue,
 		},
 		{
 			name: "nested non-final segment has unused bits",
-			wire: EncodeConstructed(bitStringTag, append(
-				EncodeConstructed(bitStringTag, EncodeBitString([]byte{0xa0}, 4)),
-				EncodeBitString([]byte{0xbb}, 0)...,
-			)),
+			wire: mustEncode(t)(EncodeConstructed(bitStringTag, append(
+				mustEncode(t)(EncodeConstructed(bitStringTag, mustEncode(t)(EncodeBitString([]byte{0xa0}, 4)))),
+				mustEncode(t)(EncodeBitString([]byte{0xbb}, 0))...,
+			))),
 			wantErr: ErrInvalidValue,
 		},
 		{
 			name:    "truncated child",
-			wire:    EncodeConstructed(bitStringTag, []byte{0x03, 0x02, 0x00}),
+			wire:    mustEncode(t)(EncodeConstructed(bitStringTag, []byte{0x03, 0x02, 0x00})),
 			wantErr: ErrTruncated,
 		},
 	} {
@@ -92,7 +92,7 @@ func TestDecodeConstructedBitStringRejectsInvalidSegments(t *testing.T) {
 }
 
 func TestDecodeImplicitBitStringValuePreservesConstructedForm(t *testing.T) {
-	children := append(EncodeBitString([]byte{0xaa}, 0), EncodeBitString([]byte{0xb0}, 4)...)
+	children := append(mustEncode(t)(EncodeBitString([]byte{0xaa}, 0)), mustEncode(t)(EncodeBitString([]byte{0xb0}, 4))...)
 	got, unused, err := DecodeImplicitBitStringValue(true, children)
 	if err != nil {
 		t.Fatal(err)

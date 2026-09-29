@@ -29,7 +29,7 @@ func TestDecodeRealDecimalForms(t *testing.T) {
 	}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			wire := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, []byte(test.contents))
+			wire := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, []byte(test.contents)))
 			got, consumed, err := DecodeReal(wire)
 			if err != nil {
 				t.Fatal(err)
@@ -64,7 +64,7 @@ func TestDecodeRealRejectsNR3ZeroExponentWithoutPlusSign(t *testing.T) {
 				t.Fatalf("DecodeRealValue(%q) error = %v, want ErrInvalidValue", test.text, err)
 			}
 
-			wire := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
+			wire := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents))
 			if _, _, err := DecodeReal(wire); !errors.Is(err, ErrInvalidValue) {
 				t.Fatalf("DecodeReal(%q) error = %v, want ErrInvalidValue", test.text, err)
 			}
@@ -74,7 +74,7 @@ func TestDecodeRealRejectsNR3ZeroExponentWithoutPlusSign(t *testing.T) {
 
 func TestDecodeRealBinaryArbitraryWidth(t *testing.T) {
 	exponent := new(big.Int).Lsh(big.NewInt(1), 520)
-	exponentBytes := EncodeBigIntValue(exponent)
+	exponentBytes := mustEncode(t)(EncodeBigIntValue(exponent))
 	contents := append([]byte{0x83, byte(len(exponentBytes))}, exponentBytes...)
 	contents = append(contents, 0x01, 0x00, 0x00, 0x00, 0x00)
 	got, err := DecodeRealValue(contents)
@@ -104,7 +104,7 @@ func TestDecodeRealAcceptsBERValueWithoutDERRepresentation(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if decoded.Base != 2 || decoded.Exponent == nil || len(EncodeBigIntValue(decoded.Exponent)) != 256 {
+	if decoded.Base != 2 || decoded.Exponent == nil || len(mustEncode(t)(EncodeBigIntValue(decoded.Exponent))) != 256 {
 		t.Fatalf("decoded REAL = %#v, want a base-2 exponent requiring 256 octets", decoded)
 	}
 
@@ -177,7 +177,7 @@ func TestDecodeRealRejectsMalformedValues(t *testing.T) {
 		})
 	}
 
-	constructed := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal, Constructed: true}, nil)
+	constructed := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal, Constructed: true}, nil))
 	if _, _, err := DecodeReal(constructed); !errors.Is(err, ErrInvalidTag) {
 		t.Fatalf("constructed REAL error = %v, want ErrInvalidTag", err)
 	}
@@ -192,7 +192,7 @@ func TestEncodeRealCanonicalDER(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	wantDecimal := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, []byte("\x03-125.E-1"))
+	wantDecimal := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, []byte("\x03-125.E-1")))
 	if !bytes.Equal(decimalWire, wantDecimal) {
 		t.Fatalf("decimal DER = %x, want %x", decimalWire, wantDecimal)
 	}
@@ -208,7 +208,7 @@ func TestEncodeRealCanonicalDER(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	wantBinary := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, []byte{0xc0, 0xfe, 0x05})
+	wantBinary := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, []byte{0xc0, 0xfe, 0x05}))
 	if !bytes.Equal(binaryWire, wantBinary) {
 		t.Fatalf("binary DER = %x, want %x", binaryWire, wantBinary)
 	}
@@ -234,7 +234,7 @@ func TestValidateDERRejectsNonCanonicalReal(t *testing.T) {
 		{0x80, 0x00, 0x00, 0x01},
 	}
 	for _, contents := range tests {
-		wire := EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
+		wire := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents))
 		if err := ValidateDERElement(wire); err == nil {
 			t.Errorf("ValidateDERElement(%x) accepted non-canonical REAL", wire)
 		}
@@ -255,7 +255,7 @@ func FuzzDecodeRealValueNoPanic(f *testing.F) {
 			// X.690 (02/2021) 8.5.4 permits base-8/base-16 BER values whose
 			// canonical base-2 exponent cannot fit the 255-octet DER limit.
 			if !errors.Is(err, ErrInvalidValue) || decoded.Kind != runtime.RealFinite || decoded.Base != 2 ||
-				decoded.Exponent == nil || len(EncodeBigIntValue(decoded.Exponent)) <= 255 {
+				decoded.Exponent == nil || len(mustEncode(t)(EncodeBigIntValue(decoded.Exponent))) <= 255 {
 				t.Fatalf("decoded REAL cannot be re-encoded: %v", err)
 			}
 			return

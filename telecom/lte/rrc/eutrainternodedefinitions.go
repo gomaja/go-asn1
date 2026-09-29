@@ -24,17 +24,20 @@ const (
 // HandoverCommand represents the ASN.1 type HandoverCommand (SEQUENCE).
 type HandoverCommand struct {
 	CriticalExtensions HandoverCommandCriticalExtensions `asn1:"tag:0,context,explicit"`
+	PERPadding_        per.CompletePadding               `asn1:"-" json:"-"`
 }
 
 // HandoverCommandR8IEs represents the ASN.1 type HandoverCommand-r8-IEs (SEQUENCE).
 type HandoverCommandR8IEs struct {
 	HandoverCommandMessage DLDCCHMessage                             `asn1:"tag:0,context,implicit"`
 	NonCriticalExtension   *HandoverCommandR8IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_            per.CompletePadding                       `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformation represents the ASN.1 type HandoverPreparationInformation (SEQUENCE).
 type HandoverPreparationInformation struct {
 	CriticalExtensions HandoverPreparationInformationCriticalExtensions `asn1:"tag:0,context,explicit"`
+	PERPadding_        per.CompletePadding                              `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationR8IEs represents the ASN.1 type HandoverPreparationInformation-r8-IEs (SEQUENCE).
@@ -45,54 +48,63 @@ type HandoverPreparationInformationR8IEs struct {
 	RrmConfig                         *RRMConfig                             `asn1:"tag:2,context,implicit,optional" json:"RrmConfig,omitempty"`
 	AsContext                         *ASContext                             `asn1:"tag:3,context,implicit,optional" json:"AsContext,omitempty"`
 	NonCriticalExtension              *HandoverPreparationInformationV920IEs `asn1:"tag:4,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                       per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV920IEs represents the ASN.1 type HandoverPreparationInformation-v920-IEs (SEQUENCE).
 type HandoverPreparationInformationV920IEs struct {
 	UeConfigReleaseR9    *int64                                 `asn1:"tag:0,context,implicit,optional" json:"UeConfigReleaseR9,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV9d0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV9d0IEs represents the ASN.1 type HandoverPreparationInformation-v9d0-IEs (SEQUENCE).
 type HandoverPreparationInformationV9d0IEs struct {
 	LateNonCriticalExtension *HandoverPreparationInformationV9j0IEs `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *HandoverPreparationInformationV9e0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_              per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV9j0IEs represents the ASN.1 type HandoverPreparationInformation-v9j0-IEs (SEQUENCE).
 type HandoverPreparationInformationV9j0IEs struct {
 	LateNonCriticalExtension []byte                                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *HandoverPreparationInformationV10j0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_              per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV10j0IEs represents the ASN.1 type HandoverPreparationInformation-v10j0-IEs (SEQUENCE).
 type HandoverPreparationInformationV10j0IEs struct {
 	AsConfigV10j0        *ASConfigV10j0                          `asn1:"tag:0,context,implicit,optional" json:"AsConfigV10j0,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV10x0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV10x0IEs represents the ASN.1 type HandoverPreparationInformation-v10x0-IEs (SEQUENCE).
 type HandoverPreparationInformationV10x0IEs struct {
 	LateNonCriticalExtension []byte                                  `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *HandoverPreparationInformationV13c0IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_              per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV13c0IEs represents the ASN.1 type HandoverPreparationInformation-v13c0-IEs (SEQUENCE).
 type HandoverPreparationInformationV13c0IEs struct {
 	AsConfigV13c0        *ASConfigV13c0                                              `asn1:"tag:0,context,implicit,optional" json:"AsConfigV13c0,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV13c0IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                                         `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV9e0IEs represents the ASN.1 type HandoverPreparationInformation-v9e0-IEs (SEQUENCE).
 type HandoverPreparationInformationV9e0IEs struct {
 	AsConfigV9e0         *ASConfigV9e0                           `asn1:"tag:0,context,implicit,optional" json:"AsConfigV9e0,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1130IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1130IEs represents the ASN.1 type HandoverPreparationInformation-v1130-IEs (SEQUENCE).
 type HandoverPreparationInformationV1130IEs struct {
 	AsContextV1130       *ASContextV1130                         `asn1:"tag:0,context,implicit,optional" json:"AsContextV1130,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1250IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1250IEs represents the ASN.1 type HandoverPreparationInformation-v1250-IEs (SEQUENCE).
@@ -100,6 +112,7 @@ type HandoverPreparationInformationV1250IEs struct {
 	UeSupportedEARFCNR12 *ARFCNValueEUTRAR9                      `asn1:"tag:0,context,implicit,optional" json:"UeSupportedEARFCNR12,omitempty"`
 	AsConfigV1250        *ASConfigV1250                          `asn1:"tag:1,context,implicit,optional" json:"AsConfigV1250,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1320IEs `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1320IEs represents the ASN.1 type HandoverPreparationInformation-v1320-IEs (SEQUENCE).
@@ -107,6 +120,7 @@ type HandoverPreparationInformationV1320IEs struct {
 	AsConfigV1320        *ASConfigV1320                          `asn1:"tag:0,context,implicit,optional" json:"AsConfigV1320,omitempty"`
 	AsContextV1320       *ASContextV1320                         `asn1:"tag:1,context,implicit,optional" json:"AsContextV1320,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1430IEs `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1430IEs represents the ASN.1 type HandoverPreparationInformation-v1430-IEs (SEQUENCE).
@@ -114,76 +128,89 @@ type HandoverPreparationInformationV1430IEs struct {
 	AsConfigV1430         *ASConfigV1430                          `asn1:"tag:0,context,implicit,optional" json:"AsConfigV1430,omitempty"`
 	MakeBeforeBreakReqR14 *int64                                  `asn1:"tag:1,context,implicit,optional" json:"MakeBeforeBreakReqR14,omitempty"`
 	NonCriticalExtension  *HandoverPreparationInformationV1530IEs `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_           per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1530IEs represents the ASN.1 type HandoverPreparationInformation-v1530-IEs (SEQUENCE).
 type HandoverPreparationInformationV1530IEs struct {
 	RanNotificationAreaInfoR15 *RANNotificationAreaInfoR15             `asn1:"tag:0,context,explicit,optional" json:"RanNotificationAreaInfoR15,omitempty"`
 	NonCriticalExtension       *HandoverPreparationInformationV1540IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1540IEs represents the ASN.1 type HandoverPreparationInformation-v1540-IEs (SEQUENCE).
 type HandoverPreparationInformationV1540IEs struct {
 	SourceRBConfigIntra5GCR15 []byte                                  `asn1:"tag:0,context,implicit,optional" json:"SourceRBConfigIntra5GCR15,omitempty"`
 	NonCriticalExtension      *HandoverPreparationInformationV1610IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_               per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1610IEs represents the ASN.1 type HandoverPreparationInformation-v1610-IEs (SEQUENCE).
 type HandoverPreparationInformationV1610IEs struct {
 	AsContextV1610       *ASContextV1610                         `asn1:"tag:0,context,implicit,optional" json:"AsContextV1610,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1620IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1620IEs represents the ASN.1 type HandoverPreparationInformation-v1620-IEs (SEQUENCE).
 type HandoverPreparationInformationV1620IEs struct {
 	AsContextV1620       *ASContextV1620                         `asn1:"tag:0,context,implicit,optional" json:"AsContextV1620,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1630IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1630IEs represents the ASN.1 type HandoverPreparationInformation-v1630-IEs (SEQUENCE).
 type HandoverPreparationInformationV1630IEs struct {
 	AsContextV1630       *ASContextV1630                         `asn1:"tag:0,context,implicit,optional" json:"AsContextV1630,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1700IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1700IEs represents the ASN.1 type HandoverPreparationInformation-v1700-IEs (SEQUENCE).
 type HandoverPreparationInformationV1700IEs struct {
 	AsConfigV1700        *ASConfigV1700                                              `asn1:"tag:0,context,implicit,optional" json:"AsConfigV1700,omitempty"`
 	NonCriticalExtension *HandoverPreparationInformationV1700IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                                         `asn1:"-" json:"-"`
 }
 
 // SCGConfigR12 represents the ASN.1 type SCG-Config-r12 (SEQUENCE).
 type SCGConfigR12 struct {
 	CriticalExtensions SCGConfigR12CriticalExtensions `asn1:"tag:0,context,explicit"`
+	PERPadding_        per.CompletePadding            `asn1:"-" json:"-"`
 }
 
 // SCGConfigR12IEs represents the ASN.1 type SCG-Config-r12-IEs (SEQUENCE).
 type SCGConfigR12IEs struct {
 	ScgRadioConfigR12    *SCGConfigPartSCGR12 `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigR12,omitempty"`
 	NonCriticalExtension *SCGConfigV12i0aIEs  `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // SCGConfigV12i0aIEs represents the ASN.1 type SCG-Config-v12i0a-IEs (SEQUENCE).
 type SCGConfigV12i0aIEs struct {
 	LateNonCriticalExtension *SCGConfigV12i0bIEs `asn1:"tag:0,context,implicit,optional" json:"LateNonCriticalExtension,omitempty"`
 	NonCriticalExtension     *SCGConfigV13c0IEs  `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_              per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGConfigV12i0bIEs represents the ASN.1 type SCG-Config-v12i0b-IEs (SEQUENCE).
 type SCGConfigV12i0bIEs struct {
 	ScgRadioConfigV12i0  *SCGConfigPartSCGV12f0                  `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigV12i0,omitempty"`
 	NonCriticalExtension *SCGConfigV12i0bIEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                     `asn1:"-" json:"-"`
 }
 
 // SCGConfigV13c0IEs represents the ASN.1 type SCG-Config-v13c0-IEs (SEQUENCE).
 type SCGConfigV13c0IEs struct {
 	ScgRadioConfigV13c0  *SCGConfigPartSCGV13c0                 `asn1:"tag:0,context,implicit,optional" json:"ScgRadioConfigV13c0,omitempty"`
 	NonCriticalExtension *SCGConfigV13c0IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoR12 represents the ASN.1 type SCG-ConfigInfo-r12 (SEQUENCE).
 type SCGConfigInfoR12 struct {
 	CriticalExtensions SCGConfigInfoR12CriticalExtensions `asn1:"tag:0,context,explicit"`
+	PERPadding_        per.CompletePadding                `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoR12IEs represents the ASN.1 type SCG-ConfigInfo-r12-IEs (SEQUENCE).
@@ -209,6 +236,7 @@ type SCGConfigInfoR12IEs struct {
 	SCellToReleaseListSCGR12Indef_     bool                          `asn1:"-" json:"-"`
 	PMaxR12                            *PMax                         `asn1:"tag:13,context,implicit,optional" json:"PMaxR12,omitempty"`
 	NonCriticalExtension               *SCGConfigInfoV1310IEs        `asn1:"tag:14,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                        per.CompletePadding           `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoV1310IEs represents the ASN.1 type SCG-ConfigInfo-v1310-IEs (SEQUENCE).
@@ -223,6 +251,7 @@ type SCGConfigInfoV1310IEs struct {
 	SCellToReleaseListSCGExtR13           SCellToReleaseListExtR13        `asn1:"tag:4,context,implicit,optional" json:"SCellToReleaseListSCGExtR13,omitempty"`
 	SCellToReleaseListSCGExtR13Indef_     bool                            `asn1:"-" json:"-"`
 	NonCriticalExtension                  *SCGConfigInfoV1330IEs          `asn1:"tag:5,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                           per.CompletePadding             `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoV1330IEs represents the ASN.1 type SCG-ConfigInfo-v1330-IEs (SEQUENCE).
@@ -230,6 +259,7 @@ type SCGConfigInfoV1330IEs struct {
 	MeasResultListRSSISCGR13       MeasResultListRSSISCGR13 `asn1:"tag:0,context,implicit,optional" json:"MeasResultListRSSISCGR13,omitempty"`
 	MeasResultListRSSISCGR13Indef_ bool                     `asn1:"-" json:"-"`
 	NonCriticalExtension           *SCGConfigInfoV1430IEs   `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                    per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoV1430IEs represents the ASN.1 type SCG-ConfigInfo-v1430-IEs (SEQUENCE).
@@ -237,6 +267,7 @@ type SCGConfigInfoV1430IEs struct {
 	MakeBeforeBreakSCGReqR14 *int64                     `asn1:"tag:0,context,implicit,optional" json:"MakeBeforeBreakSCGReqR14,omitempty"`
 	MeasGapConfigPerCCList   *MeasGapConfigPerCCListR14 `asn1:"tag:1,context,explicit,optional" json:"MeasGapConfigPerCCList,omitempty"`
 	NonCriticalExtension     *SCGConfigInfoV1530IEs     `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_              per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoV1530IEs represents the ASN.1 type SCG-ConfigInfo-v1530-IEs (SEQUENCE).
@@ -246,6 +277,7 @@ type SCGConfigInfoV1530IEs struct {
 	DrbToReleaseListSCGR15       DRBToReleaseListR15                        `asn1:"tag:1,context,implicit,optional" json:"DrbToReleaseListSCGR15,omitempty"`
 	DrbToReleaseListSCGR15Indef_ bool                                       `asn1:"-" json:"-"`
 	NonCriticalExtension         *SCGConfigInfoV1530IEsNonCriticalExtension `asn1:"tag:2,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                  per.CompletePadding                        `asn1:"-" json:"-"`
 }
 
 // DRBInfoListSCGR12 represents the ASN.1 type DRB-InfoListSCG-r12 (SEQUENCE_OF).
@@ -256,12 +288,14 @@ type DRBInfoListSCGR15 = []DRBInfoSCGR12
 
 // DRBInfoSCGR12 represents the ASN.1 type DRB-InfoSCG-r12 (SEQUENCE).
 type DRBInfoSCGR12 struct {
-	EpsBearerIdentityR12 *int64      `asn1:"tag:0,context,implicit,optional" json:"EpsBearerIdentityR12,omitempty"`
-	DrbIdentityR12       DRBIdentity `asn1:"tag:1,context,implicit"`
-	DrbTypeR12           *int64      `asn1:"tag:2,context,implicit,optional" json:"DrbTypeR12,omitempty"`
-	ExtCount_            int64       `asn1:"-" json:"-"`
-	ExtPresent_          []bool      `asn1:"-" json:"-"`
-	ExtData_             [][]byte    `asn1:"-" json:"-"`
+	EpsBearerIdentityR12 *int64                `asn1:"tag:0,context,implicit,optional" json:"EpsBearerIdentityR12,omitempty"`
+	DrbIdentityR12       DRBIdentity           `asn1:"tag:1,context,implicit"`
+	DrbTypeR12           *int64                `asn1:"tag:2,context,implicit,optional" json:"DrbTypeR12,omitempty"`
+	ExtCount_            int64                 `asn1:"-" json:"-"`
+	ExtPresent_          []bool                `asn1:"-" json:"-"`
+	ExtData_             [][]byte              `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCellToAddModListSCGR12 represents the ASN.1 type SCellToAddModListSCG-r12 (SEQUENCE_OF).
@@ -280,6 +314,8 @@ type CellToAddModR12 struct {
 	ExtCount_                int64                                    `asn1:"-" json:"-"`
 	ExtPresent_              []bool                                   `asn1:"-" json:"-"`
 	ExtData_                 [][]byte                                 `asn1:"-" json:"-"`
+	PERPadding_              per.CompletePadding                      `asn1:"-" json:"-"`
+	PERExtPadding_           []per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // MeasResultServCellListSCGR12 represents the ASN.1 type MeasResultServCellListSCG-r12 (SEQUENCE_OF).
@@ -297,6 +333,8 @@ type MeasResultServCellSCGR12 struct {
 	ExtCount_            int64                                         `asn1:"-" json:"-"`
 	ExtPresent_          []bool                                        `asn1:"-" json:"-"`
 	ExtData_             [][]byte                                      `asn1:"-" json:"-"`
+	PERPadding_          per.CompletePadding                           `asn1:"-" json:"-"`
+	PERExtPadding_       []per.CompletePadding                         `asn1:"-" json:"-"`
 }
 
 // MeasResultListRSSISCGR13 represents the ASN.1 type MeasResultListRSSI-SCG-r13 (SEQUENCE_OF).
@@ -306,45 +344,53 @@ type MeasResultListRSSISCGR13 = []MeasResultRSSISCGR13
 type MeasResultRSSISCGR13 struct {
 	ServCellIdR13        ServCellIndexR13     `asn1:"tag:0,context,implicit"`
 	MeasResultForRSSIR13 MeasResultForRSSIR13 `asn1:"tag:1,context,implicit"`
+	PERPadding_          per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // SCGConfigRestrictInfoR12 represents the ASN.1 type SCG-ConfigRestrictInfo-r12 (SEQUENCE).
 type SCGConfigRestrictInfoR12 struct {
-	MaxSCHTBBitsDLR12 int64 `asn1:"tag:0,context,implicit"`
-	MaxSCHTBBitsULR12 int64 `asn1:"tag:1,context,implicit"`
+	MaxSCHTBBitsDLR12 int64               `asn1:"tag:0,context,implicit"`
+	MaxSCHTBBitsULR12 int64               `asn1:"tag:1,context,implicit"`
+	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEPagingCoverageInformation represents the ASN.1 type UEPagingCoverageInformation (SEQUENCE).
 type UEPagingCoverageInformation struct {
 	CriticalExtensions UEPagingCoverageInformationCriticalExtensions `asn1:"tag:0,context,explicit"`
+	PERPadding_        per.CompletePadding                           `asn1:"-" json:"-"`
 }
 
 // UEPagingCoverageInformationR13IEs represents the ASN.1 type UEPagingCoverageInformation-r13-IEs (SEQUENCE).
 type UEPagingCoverageInformationR13IEs struct {
 	MpdcchNumRepetitionR13 *int64                                                 `asn1:"tag:0,context,implicit,optional" json:"MpdcchNumRepetitionR13,omitempty"`
 	NonCriticalExtension   *UEPagingCoverageInformationR13IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_            per.CompletePadding                                    `asn1:"-" json:"-"`
 }
 
 // UERadioAccessCapabilityInformation represents the ASN.1 type UERadioAccessCapabilityInformation (SEQUENCE).
 type UERadioAccessCapabilityInformation struct {
 	CriticalExtensions UERadioAccessCapabilityInformationCriticalExtensions `asn1:"tag:0,context,explicit"`
+	PERPadding_        per.CompletePadding                                  `asn1:"-" json:"-"`
 }
 
 // UERadioAccessCapabilityInformationR8IEs represents the ASN.1 type UERadioAccessCapabilityInformation-r8-IEs (SEQUENCE).
 type UERadioAccessCapabilityInformationR8IEs struct {
 	UeRadioAccessCapabilityInfo UECapabilityInformation                                      `asn1:"tag:0,context,implicit"`
 	NonCriticalExtension        *UERadioAccessCapabilityInformationR8IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                 per.CompletePadding                                          `asn1:"-" json:"-"`
 }
 
 // UERadioPagingInformation represents the ASN.1 type UERadioPagingInformation (SEQUENCE).
 type UERadioPagingInformation struct {
 	CriticalExtensions UERadioPagingInformationCriticalExtensions `asn1:"tag:0,context,explicit"`
+	PERPadding_        per.CompletePadding                        `asn1:"-" json:"-"`
 }
 
 // UERadioPagingInformationR12IEs represents the ASN.1 type UERadioPagingInformation-r12-IEs (SEQUENCE).
 type UERadioPagingInformationR12IEs struct {
 	UeRadioPagingInfoR12 UERadioPagingInfoR12              `asn1:"tag:0,context,implicit"`
 	NonCriticalExtension *UERadioPagingInformationV1310IEs `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_          per.CompletePadding               `asn1:"-" json:"-"`
 }
 
 // UERadioPagingInformationV1310IEs represents the ASN.1 type UERadioPagingInformation-v1310-IEs (SEQUENCE).
@@ -352,12 +398,14 @@ type UERadioPagingInformationV1310IEs struct {
 	SupportedBandListEUTRAForPagingR13       UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 `asn1:"tag:0,context,implicit,optional" json:"SupportedBandListEUTRAForPagingR13,omitempty"`
 	SupportedBandListEUTRAForPagingR13Indef_ bool                                                               `asn1:"-" json:"-"`
 	NonCriticalExtension                     *UERadioPagingInformationV1610IEs                                  `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_                              per.CompletePadding                                                `asn1:"-" json:"-"`
 }
 
 // UERadioPagingInformationV1610IEs represents the ASN.1 type UERadioPagingInformation-v1610-IEs (SEQUENCE).
 type UERadioPagingInformationV1610IEs struct {
 	AccessStratumReleaseR16 *int64                                                `asn1:"tag:0,context,implicit,optional" json:"AccessStratumReleaseR16,omitempty"`
 	NonCriticalExtension    *UERadioPagingInformationV1610IEsNonCriticalExtension `asn1:"tag:1,context,implicit,optional" json:"NonCriticalExtension,omitempty"`
+	PERPadding_             per.CompletePadding                                   `asn1:"-" json:"-"`
 }
 
 // ASConfig represents the ASN.1 type AS-Config (SEQUENCE).
@@ -383,16 +431,20 @@ type ASConfig struct {
 	ExtCount_                            int64                               `asn1:"-" json:"-"`
 	ExtPresent_                          []bool                              `asn1:"-" json:"-"`
 	ExtData_                             [][]byte                            `asn1:"-" json:"-"`
+	PERPadding_                          per.CompletePadding                 `asn1:"-" json:"-"`
+	PERExtPadding_                       []per.CompletePadding               `asn1:"-" json:"-"`
 }
 
 // ASConfigV9e0 represents the ASN.1 type AS-Config-v9e0 (SEQUENCE).
 type ASConfigV9e0 struct {
 	SourceDlCarrierFreqV9e0 ARFCNValueEUTRAV9e0 `asn1:"tag:0,context,implicit"`
+	PERPadding_             per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ASConfigV10j0 represents the ASN.1 type AS-Config-v10j0 (SEQUENCE).
 type ASConfigV10j0 struct {
 	AntennaInfoDedicatedPCellV10i0 *AntennaInfoDedicatedV10i0 `asn1:"tag:0,context,implicit,optional" json:"AntennaInfoDedicatedPCellV10i0,omitempty"`
+	PERPadding_                    per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // ASConfigV1250 represents the ASN.1 type AS-Config-v1250 (SEQUENCE).
@@ -400,6 +452,7 @@ type ASConfigV1250 struct {
 	SourceWlanOffloadConfigR12 *WLANOffloadConfigR12 `asn1:"tag:0,context,implicit,optional" json:"SourceWlanOffloadConfigR12,omitempty"`
 	SourceSLCommConfigR12      *SLCommConfigR12      `asn1:"tag:1,context,implicit,optional" json:"SourceSLCommConfigR12,omitempty"`
 	SourceSLDiscConfigR12      *SLDiscConfigR12      `asn1:"tag:2,context,implicit,optional" json:"SourceSLDiscConfigR12,omitempty"`
+	PERPadding_                per.CompletePadding   `asn1:"-" json:"-"`
 }
 
 // ASConfigV1320 represents the ASN.1 type AS-Config-v1320 (SEQUENCE).
@@ -407,6 +460,7 @@ type ASConfigV1320 struct {
 	SourceSCellConfigListR13       SCellToAddModListExtR13 `asn1:"tag:0,context,implicit,optional" json:"SourceSCellConfigListR13,omitempty"`
 	SourceSCellConfigListR13Indef_ bool                    `asn1:"-" json:"-"`
 	SourceRCLWIConfigurationR13    *RCLWIConfigurationR13  `asn1:"tag:1,context,explicit,optional" json:"SourceRCLWIConfigurationR13,omitempty"`
+	PERPadding_                    per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // ASConfigV13c0 represents the ASN.1 type AS-Config-v13c0 (SEQUENCE).
@@ -417,6 +471,7 @@ type ASConfigV13c0 struct {
 	SCellToAddModListV13c0Indef_       bool                               `asn1:"-" json:"-"`
 	SCellToAddModListExtV13c0          SCellToAddModListExtV13c0          `asn1:"tag:3,context,implicit,optional" json:"SCellToAddModListExtV13c0,omitempty"`
 	SCellToAddModListExtV13c0Indef_    bool                               `asn1:"-" json:"-"`
+	PERPadding_                        per.CompletePadding                `asn1:"-" json:"-"`
 }
 
 // ASConfigV1430 represents the ASN.1 type AS-Config-v1430 (SEQUENCE).
@@ -425,39 +480,46 @@ type ASConfigV1430 struct {
 	SourceLWAConfigR14            *LWAConfigR13            `asn1:"tag:1,context,implicit,optional" json:"SourceLWAConfigR14,omitempty"`
 	SourceWLANMeasResultR14       MeasResultListWLANR13    `asn1:"tag:2,context,implicit,optional" json:"SourceWLANMeasResultR14,omitempty"`
 	SourceWLANMeasResultR14Indef_ bool                     `asn1:"-" json:"-"`
+	PERPadding_                   per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ASConfigNRR15 represents the ASN.1 type AS-ConfigNR-r15 (SEQUENCE).
 type ASConfigNRR15 struct {
-	SourceRBConfigNRR15      []byte `asn1:"tag:0,context,implicit,optional" json:"SourceRBConfigNRR15,omitempty"`
-	SourceRBConfigSNNRR15    []byte `asn1:"tag:1,context,implicit,optional" json:"SourceRBConfigSNNRR15,omitempty"`
-	SourceOtherConfigSNNRR15 []byte `asn1:"tag:2,context,implicit,optional" json:"SourceOtherConfigSNNRR15,omitempty"`
+	SourceRBConfigNRR15      []byte              `asn1:"tag:0,context,implicit,optional" json:"SourceRBConfigNRR15,omitempty"`
+	SourceRBConfigSNNRR15    []byte              `asn1:"tag:1,context,implicit,optional" json:"SourceRBConfigSNNRR15,omitempty"`
+	SourceOtherConfigSNNRR15 []byte              `asn1:"tag:2,context,implicit,optional" json:"SourceOtherConfigSNNRR15,omitempty"`
+	PERPadding_              per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ASConfigNRV1570 represents the ASN.1 type AS-ConfigNR-v1570 (SEQUENCE).
 type ASConfigNRV1570 struct {
-	SourceSCGConfiguredNRR15 int64 `asn1:"tag:0,context,implicit"`
+	SourceSCGConfiguredNRR15 int64               `asn1:"tag:0,context,implicit"`
+	PERPadding_              per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ASConfigV1550 represents the ASN.1 type AS-Config-v1550 (SEQUENCE).
 type ASConfigV1550 struct {
 	TdmPatternConfigR15 *ASConfigV1550TdmPatternConfigR15 `asn1:"tag:0,context,implicit,optional" json:"TdmPatternConfigR15,omitempty"`
 	PMaxEUTRAR15        *PMax                             `asn1:"tag:1,context,implicit,optional" json:"PMaxEUTRAR15,omitempty"`
+	PERPadding_         per.CompletePadding               `asn1:"-" json:"-"`
 }
 
 // ASConfigNRV1620 represents the ASN.1 type AS-ConfigNR-v1620 (SEQUENCE).
 type ASConfigNRV1620 struct {
 	TdmPatternConfig2R16 TDMPatternConfigR15 `asn1:"tag:0,context,explicit"`
+	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ASConfigV1700 represents the ASN.1 type AS-Config-v1700 (SEQUENCE).
 type ASConfigV1700 struct {
-	ScgStateR17 *int64 `asn1:"tag:0,context,implicit,optional" json:"ScgStateR17,omitempty"`
+	ScgStateR17 *int64              `asn1:"tag:0,context,implicit,optional" json:"ScgStateR17,omitempty"`
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ASContext represents the ASN.1 type AS-Context (SEQUENCE).
 type ASContext struct {
 	ReestablishmentInfo *ReestablishmentInfo `asn1:"tag:0,context,implicit,optional" json:"ReestablishmentInfo,omitempty"`
+	PERPadding_         per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // ASContextV1130 represents the ASN.1 type AS-Context-v1130 (SEQUENCE).
@@ -471,11 +533,14 @@ type ASContextV1130 struct {
 	ExtCount_                            int64                       `asn1:"-" json:"-"`
 	ExtPresent_                          []bool                      `asn1:"-" json:"-"`
 	ExtData_                             [][]byte                    `asn1:"-" json:"-"`
+	PERPadding_                          per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_                       []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // ASContextV1320 represents the ASN.1 type AS-Context-v1320 (SEQUENCE).
 type ASContextV1320 struct {
 	WlanConnectionStatusReportR13 *WLANConnectionStatusReportR13 `asn1:"tag:0,context,implicit,optional" json:"WlanConnectionStatusReportR13,omitempty"`
+	PERPadding_                   per.CompletePadding            `asn1:"-" json:"-"`
 }
 
 // ASContextV1610 represents the ASN.1 type AS-Context-v1610 (SEQUENCE).
@@ -483,27 +548,32 @@ type ASContextV1610 struct {
 	SidelinkUEInformationNRR16   []byte                     `asn1:"tag:0,context,implicit,optional" json:"SidelinkUEInformationNRR16,omitempty"`
 	UeAssistanceInformationNRR16 []byte                     `asn1:"tag:1,context,implicit,optional" json:"UeAssistanceInformationNRR16,omitempty"`
 	ConfigRestrictInfoDAPSR16    *ConfigRestrictInfoDAPSR16 `asn1:"tag:2,context,implicit,optional" json:"ConfigRestrictInfoDAPSR16,omitempty"`
+	PERPadding_                  per.CompletePadding        `asn1:"-" json:"-"`
 }
 
 // ASContextV1620 represents the ASN.1 type AS-Context-v1620 (SEQUENCE).
 type ASContextV1620 struct {
-	UeAssistanceInformationNRSCGR16 []byte `asn1:"tag:0,context,implicit,optional" json:"UeAssistanceInformationNRSCGR16,omitempty"`
+	UeAssistanceInformationNRSCGR16 []byte              `asn1:"tag:0,context,implicit,optional" json:"UeAssistanceInformationNRSCGR16,omitempty"`
+	PERPadding_                     per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ASContextV1630 represents the ASN.1 type AS-Context-v1630 (SEQUENCE).
 type ASContextV1630 struct {
 	ConfigRestrictInfoDAPSV1630 *ConfigRestrictInfoDAPSV1630 `asn1:"tag:0,context,implicit,optional" json:"ConfigRestrictInfoDAPSV1630,omitempty"`
+	PERPadding_                 per.CompletePadding          `asn1:"-" json:"-"`
 }
 
 // ConfigRestrictInfoDAPSR16 represents the ASN.1 type ConfigRestrictInfoDAPS-r16 (SEQUENCE).
 type ConfigRestrictInfoDAPSR16 struct {
-	MaxSCHTBBitsDLR16 *int64 `asn1:"tag:0,context,implicit,optional" json:"MaxSCHTBBitsDLR16,omitempty"`
-	MaxSCHTBBitsULR16 *int64 `asn1:"tag:1,context,implicit,optional" json:"MaxSCHTBBitsULR16,omitempty"`
+	MaxSCHTBBitsDLR16 *int64              `asn1:"tag:0,context,implicit,optional" json:"MaxSCHTBBitsDLR16,omitempty"`
+	MaxSCHTBBitsULR16 *int64              `asn1:"tag:1,context,implicit,optional" json:"MaxSCHTBBitsULR16,omitempty"`
+	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ConfigRestrictInfoDAPSV1630 represents the ASN.1 type ConfigRestrictInfoDAPS-v1630 (SEQUENCE).
 type ConfigRestrictInfoDAPSV1630 struct {
 	DapsPowerCoordinationInfoR16 *DAPSPowerCoordinationInfoR16 `asn1:"tag:0,context,implicit,optional" json:"DapsPowerCoordinationInfoR16,omitempty"`
+	PERPadding_                  per.CompletePadding           `asn1:"-" json:"-"`
 }
 
 // ReestablishmentInfo represents the ASN.1 type ReestablishmentInfo (SEQUENCE).
@@ -515,6 +585,8 @@ type ReestablishmentInfo struct {
 	ExtCount_                       int64                     `asn1:"-" json:"-"`
 	ExtPresent_                     []bool                    `asn1:"-" json:"-"`
 	ExtData_                        [][]byte                  `asn1:"-" json:"-"`
+	PERPadding_                     per.CompletePadding       `asn1:"-" json:"-"`
+	PERExtPadding_                  []per.CompletePadding     `asn1:"-" json:"-"`
 }
 
 // AdditionalReestabInfoList represents the ASN.1 type AdditionalReestabInfoList (SEQUENCE_OF).
@@ -522,9 +594,10 @@ type AdditionalReestabInfoList = []AdditionalReestabInfo
 
 // AdditionalReestabInfo represents the ASN.1 type AdditionalReestabInfo (SEQUENCE).
 type AdditionalReestabInfo struct {
-	CellIdentity  CellIdentity  `asn1:"tag:0,context,implicit"`
-	KeyENodeBStar KeyENodeBStar `asn1:"tag:1,context,implicit"`
-	ShortMACI     ShortMACI     `asn1:"tag:2,context,implicit"`
+	CellIdentity  CellIdentity        `asn1:"tag:0,context,implicit"`
+	KeyENodeBStar KeyENodeBStar       `asn1:"tag:1,context,implicit"`
+	ShortMACI     ShortMACI           `asn1:"tag:2,context,implicit"`
+	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // KeyENodeBStar represents the ASN.1 type Key-eNodeB-Star (BIT_STRING).
@@ -540,6 +613,8 @@ type RRMConfig struct {
 	ExtCount_                        int64                       `asn1:"-" json:"-"`
 	ExtPresent_                      []bool                      `asn1:"-" json:"-"`
 	ExtData_                         [][]byte                    `asn1:"-" json:"-"`
+	PERPadding_                      per.CompletePadding         `asn1:"-" json:"-"`
+	PERExtPadding_                   []per.CompletePadding       `asn1:"-" json:"-"`
 }
 
 // CandidateCellInfoListR10 represents the ASN.1 type CandidateCellInfoList-r10 (SEQUENCE_OF).
@@ -547,16 +622,18 @@ type CandidateCellInfoListR10 = []CandidateCellInfoR10
 
 // CandidateCellInfoR10 represents the ASN.1 type CandidateCellInfo-r10 (SEQUENCE).
 type CandidateCellInfoR10 struct {
-	PhysCellIdR10      PhysCellId           `asn1:"tag:0,context,implicit"`
-	DlCarrierFreqR10   ARFCNValueEUTRA      `asn1:"tag:1,context,implicit"`
-	RsrpResultR10      *RSRPRange           `asn1:"tag:2,context,implicit,optional" json:"RsrpResultR10,omitempty"`
-	RsrqResultR10      *RSRQRange           `asn1:"tag:3,context,implicit,optional" json:"RsrqResultR10,omitempty"`
-	DlCarrierFreqV1090 *ARFCNValueEUTRAV9e0 `asn1:"tag:4,context,implicit,optional" json:"DlCarrierFreqV1090,omitempty"`
-	RsrqResultV1250    *RSRQRangeV1250      `asn1:"tag:5,context,implicit,optional" json:"RsrqResultV1250,omitempty"`
-	RsSinrResultR13    *RSSINRRangeR13      `asn1:"tag:6,context,implicit,optional" json:"RsSinrResultR13,omitempty"`
-	ExtCount_          int64                `asn1:"-" json:"-"`
-	ExtPresent_        []bool               `asn1:"-" json:"-"`
-	ExtData_           [][]byte             `asn1:"-" json:"-"`
+	PhysCellIdR10      PhysCellId            `asn1:"tag:0,context,implicit"`
+	DlCarrierFreqR10   ARFCNValueEUTRA       `asn1:"tag:1,context,implicit"`
+	RsrpResultR10      *RSRPRange            `asn1:"tag:2,context,implicit,optional" json:"RsrpResultR10,omitempty"`
+	RsrqResultR10      *RSRQRange            `asn1:"tag:3,context,implicit,optional" json:"RsrqResultR10,omitempty"`
+	DlCarrierFreqV1090 *ARFCNValueEUTRAV9e0  `asn1:"tag:4,context,implicit,optional" json:"DlCarrierFreqV1090,omitempty"`
+	RsrqResultV1250    *RSRQRangeV1250       `asn1:"tag:5,context,implicit,optional" json:"RsrqResultV1250,omitempty"`
+	RsSinrResultR13    *RSSINRRangeR13       `asn1:"tag:6,context,implicit,optional" json:"RsSinrResultR13,omitempty"`
+	ExtCount_          int64                 `asn1:"-" json:"-"`
+	ExtPresent_        []bool                `asn1:"-" json:"-"`
+	ExtData_           [][]byte              `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverCommandCriticalExtensions choice constants.
@@ -568,6 +645,8 @@ const (
 // HandoverCommandCriticalExtensions represents the ASN.1 CHOICE type HandoverCommand-criticalExtensions.
 type HandoverCommandCriticalExtensions struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding                                        `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding                                        `json:"-"`
 	C1                       *HandoverCommandCriticalExtensionsC1                       `json:"C1,omitempty"`
 	CriticalExtensionsFuture *HandoverCommandCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
@@ -602,15 +681,17 @@ const (
 
 // HandoverCommandCriticalExtensionsC1 represents the ASN.1 CHOICE type HandoverCommand-criticalExtensions-c1.
 type HandoverCommandCriticalExtensionsC1 struct {
-	Choice            int
-	HandoverCommandR8 *HandoverCommandR8IEs `json:"HandoverCommandR8,omitempty"`
-	Spare7            *struct{}             `json:"Spare7,omitempty"`
-	Spare6            *struct{}             `json:"Spare6,omitempty"`
-	Spare5            *struct{}             `json:"Spare5,omitempty"`
-	Spare4            *struct{}             `json:"Spare4,omitempty"`
-	Spare3            *struct{}             `json:"Spare3,omitempty"`
-	Spare2            *struct{}             `json:"Spare2,omitempty"`
-	Spare1            *struct{}             `json:"Spare1,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding   `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding   `json:"-"`
+	HandoverCommandR8   *HandoverCommandR8IEs `json:"HandoverCommandR8,omitempty"`
+	Spare7              *struct{}             `json:"Spare7,omitempty"`
+	Spare6              *struct{}             `json:"Spare6,omitempty"`
+	Spare5              *struct{}             `json:"Spare5,omitempty"`
+	Spare4              *struct{}             `json:"Spare4,omitempty"`
+	Spare3              *struct{}             `json:"Spare3,omitempty"`
+	Spare2              *struct{}             `json:"Spare2,omitempty"`
+	Spare1              *struct{}             `json:"Spare1,omitempty"`
 }
 
 // NewHandoverCommandCriticalExtensionsC1HandoverCommandR8 creates a HandoverCommandCriticalExtensionsC1 with the handoverCommand-r8 alternative.
@@ -679,10 +760,12 @@ func NewHandoverCommandCriticalExtensionsC1Spare1(v struct{}) HandoverCommandCri
 
 // HandoverCommandCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type HandoverCommand-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type HandoverCommandCriticalExtensionsCriticalExtensionsFuture struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverCommandR8IEsNonCriticalExtension represents the ASN.1 type HandoverCommand-r8-IEs-nonCriticalExtension (SEQUENCE).
 type HandoverCommandR8IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationCriticalExtensions choice constants.
@@ -694,6 +777,8 @@ const (
 // HandoverPreparationInformationCriticalExtensions represents the ASN.1 CHOICE type HandoverPreparationInformation-criticalExtensions.
 type HandoverPreparationInformationCriticalExtensions struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding                                                       `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding                                                       `json:"-"`
 	C1                       *HandoverPreparationInformationCriticalExtensionsC1                       `json:"C1,omitempty"`
 	CriticalExtensionsFuture *HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
@@ -729,6 +814,8 @@ const (
 // HandoverPreparationInformationCriticalExtensionsC1 represents the ASN.1 CHOICE type HandoverPreparationInformation-criticalExtensions-c1.
 type HandoverPreparationInformationCriticalExtensionsC1 struct {
 	Choice                           int
+	PERPadding_                      per.CompletePadding                  `json:"-"`
+	PEROpenTypePadding_              per.CompletePadding                  `json:"-"`
 	HandoverPreparationInformationR8 *HandoverPreparationInformationR8IEs `json:"HandoverPreparationInformationR8,omitempty"`
 	Spare7                           *struct{}                            `json:"Spare7,omitempty"`
 	Spare6                           *struct{}                            `json:"Spare6,omitempty"`
@@ -805,14 +892,17 @@ func NewHandoverPreparationInformationCriticalExtensionsC1Spare1(v struct{}) Han
 
 // HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type HandoverPreparationInformation-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFuture struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV13c0IEsNonCriticalExtension represents the ASN.1 type HandoverPreparationInformation-v13c0-IEs-nonCriticalExtension (SEQUENCE).
 type HandoverPreparationInformationV13c0IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationInformationV1700IEsNonCriticalExtension represents the ASN.1 type HandoverPreparationInformation-v1700-IEs-nonCriticalExtension (SEQUENCE).
 type HandoverPreparationInformationV1700IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGConfigR12CriticalExtensions choice constants.
@@ -824,6 +914,8 @@ const (
 // SCGConfigR12CriticalExtensions represents the ASN.1 CHOICE type SCG-Config-r12-criticalExtensions.
 type SCGConfigR12CriticalExtensions struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding                                     `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding                                     `json:"-"`
 	C1                       *SCGConfigR12CriticalExtensionsC1                       `json:"C1,omitempty"`
 	CriticalExtensionsFuture *SCGConfigR12CriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
@@ -858,15 +950,17 @@ const (
 
 // SCGConfigR12CriticalExtensionsC1 represents the ASN.1 CHOICE type SCG-Config-r12-criticalExtensions-c1.
 type SCGConfigR12CriticalExtensionsC1 struct {
-	Choice       int
-	ScgConfigR12 *SCGConfigR12IEs `json:"ScgConfigR12,omitempty"`
-	Spare7       *struct{}        `json:"Spare7,omitempty"`
-	Spare6       *struct{}        `json:"Spare6,omitempty"`
-	Spare5       *struct{}        `json:"Spare5,omitempty"`
-	Spare4       *struct{}        `json:"Spare4,omitempty"`
-	Spare3       *struct{}        `json:"Spare3,omitempty"`
-	Spare2       *struct{}        `json:"Spare2,omitempty"`
-	Spare1       *struct{}        `json:"Spare1,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding `json:"-"`
+	ScgConfigR12        *SCGConfigR12IEs    `json:"ScgConfigR12,omitempty"`
+	Spare7              *struct{}           `json:"Spare7,omitempty"`
+	Spare6              *struct{}           `json:"Spare6,omitempty"`
+	Spare5              *struct{}           `json:"Spare5,omitempty"`
+	Spare4              *struct{}           `json:"Spare4,omitempty"`
+	Spare3              *struct{}           `json:"Spare3,omitempty"`
+	Spare2              *struct{}           `json:"Spare2,omitempty"`
+	Spare1              *struct{}           `json:"Spare1,omitempty"`
 }
 
 // NewSCGConfigR12CriticalExtensionsC1ScgConfigR12 creates a SCGConfigR12CriticalExtensionsC1 with the scg-Config-r12 alternative.
@@ -935,14 +1029,17 @@ func NewSCGConfigR12CriticalExtensionsC1Spare1(v struct{}) SCGConfigR12CriticalE
 
 // SCGConfigR12CriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type SCG-Config-r12-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type SCGConfigR12CriticalExtensionsCriticalExtensionsFuture struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGConfigV12i0bIEsNonCriticalExtension represents the ASN.1 type SCG-Config-v12i0b-IEs-nonCriticalExtension (SEQUENCE).
 type SCGConfigV12i0bIEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGConfigV13c0IEsNonCriticalExtension represents the ASN.1 type SCG-Config-v13c0-IEs-nonCriticalExtension (SEQUENCE).
 type SCGConfigV13c0IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoR12CriticalExtensions choice constants.
@@ -954,6 +1051,8 @@ const (
 // SCGConfigInfoR12CriticalExtensions represents the ASN.1 CHOICE type SCG-ConfigInfo-r12-criticalExtensions.
 type SCGConfigInfoR12CriticalExtensions struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding                                         `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding                                         `json:"-"`
 	C1                       *SCGConfigInfoR12CriticalExtensionsC1                       `json:"C1,omitempty"`
 	CriticalExtensionsFuture *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
@@ -988,15 +1087,17 @@ const (
 
 // SCGConfigInfoR12CriticalExtensionsC1 represents the ASN.1 CHOICE type SCG-ConfigInfo-r12-criticalExtensions-c1.
 type SCGConfigInfoR12CriticalExtensionsC1 struct {
-	Choice           int
-	ScgConfigInfoR12 *SCGConfigInfoR12IEs `json:"ScgConfigInfoR12,omitempty"`
-	Spare7           *struct{}            `json:"Spare7,omitempty"`
-	Spare6           *struct{}            `json:"Spare6,omitempty"`
-	Spare5           *struct{}            `json:"Spare5,omitempty"`
-	Spare4           *struct{}            `json:"Spare4,omitempty"`
-	Spare3           *struct{}            `json:"Spare3,omitempty"`
-	Spare2           *struct{}            `json:"Spare2,omitempty"`
-	Spare1           *struct{}            `json:"Spare1,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding  `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding  `json:"-"`
+	ScgConfigInfoR12    *SCGConfigInfoR12IEs `json:"ScgConfigInfoR12,omitempty"`
+	Spare7              *struct{}            `json:"Spare7,omitempty"`
+	Spare6              *struct{}            `json:"Spare6,omitempty"`
+	Spare5              *struct{}            `json:"Spare5,omitempty"`
+	Spare4              *struct{}            `json:"Spare4,omitempty"`
+	Spare3              *struct{}            `json:"Spare3,omitempty"`
+	Spare2              *struct{}            `json:"Spare2,omitempty"`
+	Spare1              *struct{}            `json:"Spare1,omitempty"`
 }
 
 // NewSCGConfigInfoR12CriticalExtensionsC1ScgConfigInfoR12 creates a SCGConfigInfoR12CriticalExtensionsC1 with the scg-ConfigInfo-r12 alternative.
@@ -1065,38 +1166,45 @@ func NewSCGConfigInfoR12CriticalExtensionsC1Spare1(v struct{}) SCGConfigInfoR12C
 
 // SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type SCG-ConfigInfo-r12-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SCGConfigInfoV1530IEsNonCriticalExtension represents the ASN.1 type SCG-ConfigInfo-v1530-IEs-nonCriticalExtension (SEQUENCE).
 type SCGConfigInfoV1530IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellToAddModR12CellIdentificationR12 represents the ASN.1 type Cell-ToAddMod-r12-cellIdentification-r12 (SEQUENCE).
 type CellToAddModR12CellIdentificationR12 struct {
-	PhysCellIdR12    PhysCellId        `asn1:"tag:0,context,implicit"`
-	DlCarrierFreqR12 ARFCNValueEUTRAR9 `asn1:"tag:1,context,implicit"`
+	PhysCellIdR12    PhysCellId          `asn1:"tag:0,context,implicit"`
+	DlCarrierFreqR12 ARFCNValueEUTRAR9   `asn1:"tag:1,context,implicit"`
+	PERPadding_      per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellToAddModR12MeasResultCellToAddR12 represents the ASN.1 type Cell-ToAddMod-r12-measResultCellToAdd-r12 (SEQUENCE).
 type CellToAddModR12MeasResultCellToAddR12 struct {
-	RsrpResultR12 RSRPRange `asn1:"tag:0,context,implicit"`
-	RsrqResultR12 RSRQRange `asn1:"tag:1,context,implicit"`
+	RsrpResultR12 RSRPRange           `asn1:"tag:0,context,implicit"`
+	RsrqResultR12 RSRQRange           `asn1:"tag:1,context,implicit"`
+	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellToAddModR12MeasResultCellToAddV1310 represents the ASN.1 type Cell-ToAddMod-r12-measResultCellToAdd-v1310 (SEQUENCE).
 type CellToAddModR12MeasResultCellToAddV1310 struct {
-	RsSinrResultR13 RSSINRRangeR13 `asn1:"tag:0,context,implicit"`
+	RsSinrResultR13 RSSINRRangeR13      `asn1:"tag:0,context,implicit"`
+	PERPadding_     per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MeasResultServCellSCGR12MeasResultSCellR12 represents the ASN.1 type MeasResultServCellSCG-r12-measResultSCell-r12 (SEQUENCE).
 type MeasResultServCellSCGR12MeasResultSCellR12 struct {
-	RsrpResultSCellR12 RSRPRange `asn1:"tag:0,context,implicit"`
-	RsrqResultSCellR12 RSRQRange `asn1:"tag:1,context,implicit"`
+	RsrpResultSCellR12 RSRPRange           `asn1:"tag:0,context,implicit"`
+	RsrqResultSCellR12 RSRQRange           `asn1:"tag:1,context,implicit"`
+	PERPadding_        per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MeasResultServCellSCGR12MeasResultSCellV1310 represents the ASN.1 type MeasResultServCellSCG-r12-measResultSCell-v1310 (SEQUENCE).
 type MeasResultServCellSCGR12MeasResultSCellV1310 struct {
-	RsSinrResultSCellR13 RSSINRRangeR13 `asn1:"tag:0,context,implicit"`
+	RsSinrResultSCellR13 RSSINRRangeR13      `asn1:"tag:0,context,implicit"`
+	PERPadding_          per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEPagingCoverageInformationCriticalExtensions choice constants.
@@ -1108,6 +1216,8 @@ const (
 // UEPagingCoverageInformationCriticalExtensions represents the ASN.1 CHOICE type UEPagingCoverageInformation-criticalExtensions.
 type UEPagingCoverageInformationCriticalExtensions struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding                                                    `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding                                                    `json:"-"`
 	C1                       *UEPagingCoverageInformationCriticalExtensionsC1                       `json:"C1,omitempty"`
 	CriticalExtensionsFuture *UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
@@ -1143,6 +1253,8 @@ const (
 // UEPagingCoverageInformationCriticalExtensionsC1 represents the ASN.1 CHOICE type UEPagingCoverageInformation-criticalExtensions-c1.
 type UEPagingCoverageInformationCriticalExtensionsC1 struct {
 	Choice                         int
+	PERPadding_                    per.CompletePadding                `json:"-"`
+	PEROpenTypePadding_            per.CompletePadding                `json:"-"`
 	UePagingCoverageInformationR13 *UEPagingCoverageInformationR13IEs `json:"UePagingCoverageInformationR13,omitempty"`
 	Spare7                         *struct{}                          `json:"Spare7,omitempty"`
 	Spare6                         *struct{}                          `json:"Spare6,omitempty"`
@@ -1219,10 +1331,12 @@ func NewUEPagingCoverageInformationCriticalExtensionsC1Spare1(v struct{}) UEPagi
 
 // UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UEPagingCoverageInformation-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEPagingCoverageInformationR13IEsNonCriticalExtension represents the ASN.1 type UEPagingCoverageInformation-r13-IEs-nonCriticalExtension (SEQUENCE).
 type UEPagingCoverageInformationR13IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioAccessCapabilityInformationCriticalExtensions choice constants.
@@ -1234,6 +1348,8 @@ const (
 // UERadioAccessCapabilityInformationCriticalExtensions represents the ASN.1 CHOICE type UERadioAccessCapabilityInformation-criticalExtensions.
 type UERadioAccessCapabilityInformationCriticalExtensions struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding                                                           `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding                                                           `json:"-"`
 	C1                       *UERadioAccessCapabilityInformationCriticalExtensionsC1                       `json:"C1,omitempty"`
 	CriticalExtensionsFuture *UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
@@ -1269,6 +1385,8 @@ const (
 // UERadioAccessCapabilityInformationCriticalExtensionsC1 represents the ASN.1 CHOICE type UERadioAccessCapabilityInformation-criticalExtensions-c1.
 type UERadioAccessCapabilityInformationCriticalExtensionsC1 struct {
 	Choice                               int
+	PERPadding_                          per.CompletePadding                      `json:"-"`
+	PEROpenTypePadding_                  per.CompletePadding                      `json:"-"`
 	UeRadioAccessCapabilityInformationR8 *UERadioAccessCapabilityInformationR8IEs `json:"UeRadioAccessCapabilityInformationR8,omitempty"`
 	Spare7                               *struct{}                                `json:"Spare7,omitempty"`
 	Spare6                               *struct{}                                `json:"Spare6,omitempty"`
@@ -1345,10 +1463,12 @@ func NewUERadioAccessCapabilityInformationCriticalExtensionsC1Spare1(v struct{})
 
 // UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UERadioAccessCapabilityInformation-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsFuture struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioAccessCapabilityInformationR8IEsNonCriticalExtension represents the ASN.1 type UERadioAccessCapabilityInformation-r8-IEs-nonCriticalExtension (SEQUENCE).
 type UERadioAccessCapabilityInformationR8IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioPagingInformationCriticalExtensions choice constants.
@@ -1360,6 +1480,8 @@ const (
 // UERadioPagingInformationCriticalExtensions represents the ASN.1 CHOICE type UERadioPagingInformation-criticalExtensions.
 type UERadioPagingInformationCriticalExtensions struct {
 	Choice                   int
+	PERPadding_              per.CompletePadding                                                 `json:"-"`
+	PEROpenTypePadding_      per.CompletePadding                                                 `json:"-"`
 	C1                       *UERadioPagingInformationCriticalExtensionsC1                       `json:"C1,omitempty"`
 	CriticalExtensionsFuture *UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture `json:"CriticalExtensionsFuture,omitempty"`
 }
@@ -1395,6 +1517,8 @@ const (
 // UERadioPagingInformationCriticalExtensionsC1 represents the ASN.1 CHOICE type UERadioPagingInformation-criticalExtensions-c1.
 type UERadioPagingInformationCriticalExtensionsC1 struct {
 	Choice                      int
+	PERPadding_                 per.CompletePadding             `json:"-"`
+	PEROpenTypePadding_         per.CompletePadding             `json:"-"`
 	UeRadioPagingInformationR12 *UERadioPagingInformationR12IEs `json:"UeRadioPagingInformationR12,omitempty"`
 	Spare7                      *struct{}                       `json:"Spare7,omitempty"`
 	Spare6                      *struct{}                       `json:"Spare6,omitempty"`
@@ -1471,6 +1595,7 @@ func NewUERadioPagingInformationCriticalExtensionsC1Spare1(v struct{}) UERadioPa
 
 // UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture represents the ASN.1 type UERadioPagingInformation-criticalExtensions-criticalExtensionsFuture (SEQUENCE).
 type UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 represents the ASN.1 type UERadioPagingInformation-v1310-IEs-supportedBandListEUTRAForPaging-r13 (SEQUENCE_OF).
@@ -1478,12 +1603,14 @@ type UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 = []Freq
 
 // UERadioPagingInformationV1610IEsNonCriticalExtension represents the ASN.1 type UERadioPagingInformation-v1610-IEs-nonCriticalExtension (SEQUENCE).
 type UERadioPagingInformationV1610IEsNonCriticalExtension struct {
+	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ASConfigV1550TdmPatternConfigR15 represents the ASN.1 type AS-Config-v1550-tdm-PatternConfig-r15 (SEQUENCE).
 type ASConfigV1550TdmPatternConfigR15 struct {
 	SubframeAssignmentR15 SubframeAssignmentR15 `asn1:"tag:0,context,implicit"`
 	HarqOffsetR15         int64                 `asn1:"tag:1,context,implicit"`
+	PERPadding_           per.CompletePadding   `asn1:"-" json:"-"`
 }
 
 // MarshalUPER encodes HandoverCommand to UPER format.
@@ -1492,7 +1619,7 @@ func (v *HandoverCommand) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCommand) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1508,9 +1635,11 @@ func (v *HandoverCommand) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommand")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommand")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1528,7 +1657,7 @@ func (v *HandoverCommandR8IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCommandR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1536,11 +1665,11 @@ func (v *HandoverCommandR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
 		return err
 	}
-	containedBB_handovercommandmessage := per.NewBitBuffer()
-	if err := (v.HandoverCommandMessage).MarshalUPERTo(containedBB_handovercommandmessage); err != nil {
+	containedBytes_handovercommandmessage, err := (v.HandoverCommandMessage).MarshalUPER()
+	if err != nil {
 		return fmt.Errorf("encoding contained handoverCommandMessage: %w", err)
 	}
-	if err := per.EncodeOctetStringExt(bb, containedBB_handovercommandmessage.Bytes(), 0, 0, false, false); err != nil {
+	if err := per.EncodeOctetStringExt(bb, containedBytes_handovercommandmessage, 0, 0, false, false); err != nil {
 		return fmt.Errorf("encoding handoverCommandMessage: %w", err)
 	}
 	if v.NonCriticalExtension != nil {
@@ -1557,9 +1686,11 @@ func (v *HandoverCommandR8IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandR8IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandR8IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1576,7 +1707,7 @@ func (v *HandoverCommandR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	var contained_handovercommandmessage DLDCCHMessage
 	if err := contained_handovercommandmessage.UnmarshalUPER(containedBytes_handovercommandmessage); err != nil {
-		return fmt.Errorf("decoding contained handoverCommandMessage: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("decoding contained handoverCommandMessage: %w", err), "HandoverCommandMessage")
 	}
 	v.HandoverCommandMessage = contained_handovercommandmessage
 	if opt_noncriticalextension {
@@ -1595,7 +1726,7 @@ func (v *HandoverPreparationInformation) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformation) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1611,9 +1742,11 @@ func (v *HandoverPreparationInformation) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1631,7 +1764,7 @@ func (v *HandoverPreparationInformationR8IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1649,6 +1782,10 @@ func (v *HandoverPreparationInformationR8IEs) MarshalUPERTo(bb *per.BitBuffer) e
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityInfo)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityinfo, fragmentLength_ueradioaccesscapabilityinfo int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_ueradioaccesscapabilityinfo < 0 || fragmentOffset_ueradioaccesscapabilityinfo > int64(len(v.UeRadioAccessCapabilityInfo)) || fragmentLength_ueradioaccesscapabilityinfo < 0 || fragmentLength_ueradioaccesscapabilityinfo > int64(len(v.UeRadioAccessCapabilityInfo[fragmentOffset_ueradioaccesscapabilityinfo:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.UeRadioAccessCapabilityInfo[fragmentOffset_ueradioaccesscapabilityinfo : fragmentOffset_ueradioaccesscapabilityinfo+fragmentLength_ueradioaccesscapabilityinfo] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo element: %w", err)
@@ -1687,9 +1824,11 @@ func (v *HandoverPreparationInformationR8IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationR8IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationR8IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1714,6 +1853,10 @@ func (v *HandoverPreparationInformationR8IEs) UnmarshalUPERFrom(bb *per.BitBuffe
 	}
 	v.UeRadioAccessCapabilityInfo = make(UECapabilityRATContainerList, 0)
 	_, errCollection_ueradioaccesscapabilityinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityinfo, fragmentLength_ueradioaccesscapabilityinfo int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_ueradioaccesscapabilityinfo < 0 || fragmentLength_ueradioaccesscapabilityinfo < 0 || fragmentLength_ueradioaccesscapabilityinfo > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityinfo > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityinfo {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_ueradioaccesscapabilityinfo; i++ {
 			var elem UECapabilityRATContainer
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -1763,7 +1906,7 @@ func (v *HandoverPreparationInformationV920IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV920IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1793,9 +1936,11 @@ func (v *HandoverPreparationInformationV920IEs) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV920IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV920IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1833,7 +1978,7 @@ func (v *HandoverPreparationInformationV9d0IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV9d0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1845,11 +1990,11 @@ func (v *HandoverPreparationInformationV9d0IEs) MarshalUPERTo(bb *per.BitBuffer)
 		return err
 	}
 	if v.LateNonCriticalExtension != nil {
-		containedBB_latenoncriticalextension := per.NewBitBuffer()
-		if err := (*v.LateNonCriticalExtension).MarshalUPERTo(containedBB_latenoncriticalextension); err != nil {
+		containedBytes_latenoncriticalextension, err := (*v.LateNonCriticalExtension).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained lateNonCriticalExtension: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_latenoncriticalextension.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_latenoncriticalextension, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
 		}
 	}
@@ -1867,9 +2012,11 @@ func (v *HandoverPreparationInformationV9d0IEs) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV9d0IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV9d0IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1891,7 +2038,7 @@ func (v *HandoverPreparationInformationV9d0IEs) UnmarshalUPERFrom(bb *per.BitBuf
 		}
 		var contained_latenoncriticalextension HandoverPreparationInformationV9j0IEs
 		if err := contained_latenoncriticalextension.UnmarshalUPER(containedBytes_latenoncriticalextension); err != nil {
-			return fmt.Errorf("decoding contained lateNonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained lateNonCriticalExtension: %w", err), "LateNonCriticalExtension")
 		}
 		v.LateNonCriticalExtension = &contained_latenoncriticalextension
 	}
@@ -1911,7 +2058,7 @@ func (v *HandoverPreparationInformationV9j0IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV9j0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -1941,9 +2088,11 @@ func (v *HandoverPreparationInformationV9j0IEs) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV9j0IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV9j0IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1982,7 +2131,7 @@ func (v *HandoverPreparationInformationV10j0IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV10j0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2012,9 +2161,11 @@ func (v *HandoverPreparationInformationV10j0IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV10j0IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV10j0IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2052,7 +2203,7 @@ func (v *HandoverPreparationInformationV10x0IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV10x0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2082,9 +2233,11 @@ func (v *HandoverPreparationInformationV10x0IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV10x0IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV10x0IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2123,7 +2276,7 @@ func (v *HandoverPreparationInformationV13c0IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV13c0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2153,9 +2306,11 @@ func (v *HandoverPreparationInformationV13c0IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV13c0IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV13c0IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2193,7 +2348,7 @@ func (v *HandoverPreparationInformationV9e0IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV9e0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2223,9 +2378,11 @@ func (v *HandoverPreparationInformationV9e0IEs) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV9e0IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV9e0IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2263,7 +2420,7 @@ func (v *HandoverPreparationInformationV1130IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1130IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2293,9 +2450,11 @@ func (v *HandoverPreparationInformationV1130IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1130IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1130IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2333,7 +2492,7 @@ func (v *HandoverPreparationInformationV1250IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1250IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2371,9 +2530,11 @@ func (v *HandoverPreparationInformationV1250IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1250IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1250IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2423,7 +2584,7 @@ func (v *HandoverPreparationInformationV1320IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1320IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2461,9 +2622,11 @@ func (v *HandoverPreparationInformationV1320IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1320IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1320IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2512,7 +2675,7 @@ func (v *HandoverPreparationInformationV1430IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1430IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2550,9 +2713,11 @@ func (v *HandoverPreparationInformationV1430IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1430IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1430IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2601,7 +2766,7 @@ func (v *HandoverPreparationInformationV1530IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2631,9 +2796,11 @@ func (v *HandoverPreparationInformationV1530IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1530IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1530IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2671,7 +2838,7 @@ func (v *HandoverPreparationInformationV1540IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1540IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2701,9 +2868,11 @@ func (v *HandoverPreparationInformationV1540IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1540IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1540IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2742,7 +2911,7 @@ func (v *HandoverPreparationInformationV1610IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1610IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2772,9 +2941,11 @@ func (v *HandoverPreparationInformationV1610IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1610IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1610IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2812,7 +2983,7 @@ func (v *HandoverPreparationInformationV1620IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1620IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2842,9 +3013,11 @@ func (v *HandoverPreparationInformationV1620IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1620IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1620IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2882,7 +3055,7 @@ func (v *HandoverPreparationInformationV1630IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1630IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2912,9 +3085,11 @@ func (v *HandoverPreparationInformationV1630IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1630IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1630IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2952,7 +3127,7 @@ func (v *HandoverPreparationInformationV1700IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1700IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -2982,9 +3157,11 @@ func (v *HandoverPreparationInformationV1700IEs) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1700IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1700IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3022,7 +3199,7 @@ func (v *SCGConfigR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3038,9 +3215,11 @@ func (v *SCGConfigR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3058,7 +3237,7 @@ func (v *SCGConfigR12IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3088,9 +3267,11 @@ func (v *SCGConfigR12IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3128,7 +3309,7 @@ func (v *SCGConfigV12i0aIEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigV12i0aIEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3140,11 +3321,11 @@ func (v *SCGConfigV12i0aIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.LateNonCriticalExtension != nil {
-		containedBB_latenoncriticalextension := per.NewBitBuffer()
-		if err := (*v.LateNonCriticalExtension).MarshalUPERTo(containedBB_latenoncriticalextension); err != nil {
+		containedBytes_latenoncriticalextension, err := (*v.LateNonCriticalExtension).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained lateNonCriticalExtension: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_latenoncriticalextension.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_latenoncriticalextension, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding lateNonCriticalExtension: %w", err)
 		}
 	}
@@ -3162,9 +3343,11 @@ func (v *SCGConfigV12i0aIEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV12i0aIEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV12i0aIEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3186,7 +3369,7 @@ func (v *SCGConfigV12i0aIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_latenoncriticalextension SCGConfigV12i0bIEs
 		if err := contained_latenoncriticalextension.UnmarshalUPER(containedBytes_latenoncriticalextension); err != nil {
-			return fmt.Errorf("decoding contained lateNonCriticalExtension: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained lateNonCriticalExtension: %w", err), "LateNonCriticalExtension")
 		}
 		v.LateNonCriticalExtension = &contained_latenoncriticalextension
 	}
@@ -3206,7 +3389,7 @@ func (v *SCGConfigV12i0bIEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigV12i0bIEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3236,9 +3419,11 @@ func (v *SCGConfigV12i0bIEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV12i0bIEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV12i0bIEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3276,7 +3461,7 @@ func (v *SCGConfigV13c0IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigV13c0IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3306,9 +3491,11 @@ func (v *SCGConfigV13c0IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV13c0IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV13c0IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3346,7 +3533,7 @@ func (v *SCGConfigInfoR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3362,9 +3549,11 @@ func (v *SCGConfigInfoR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3382,7 +3571,7 @@ func (v *SCGConfigInfoR12IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3439,6 +3628,10 @@ func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToAddModListMCGR12 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToAddModListMCGR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistmcgr12, fragmentLength_scelltoaddmodlistmcgr12 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoaddmodlistmcgr12 < 0 || fragmentOffset_scelltoaddmodlistmcgr12 > int64(len(v.SCellToAddModListMCGR12)) || fragmentLength_scelltoaddmodlistmcgr12 < 0 || fragmentLength_scelltoaddmodlistmcgr12 > int64(len(v.SCellToAddModListMCGR12[fragmentOffset_scelltoaddmodlistmcgr12:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToAddModListMCGR12[fragmentOffset_scelltoaddmodlistmcgr12 : fragmentOffset_scelltoaddmodlistmcgr12+fragmentLength_scelltoaddmodlistmcgr12] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sCellToAddModListMCG-r12 element: %w", err)
@@ -3465,11 +3658,11 @@ func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.EutraCapabilityInfoR12 != nil {
-		containedBB_eutracapabilityinfor12 := per.NewBitBuffer()
-		if err := (*v.EutraCapabilityInfoR12).MarshalUPERTo(containedBB_eutracapabilityinfor12); err != nil {
+		containedBytes_eutracapabilityinfor12, err := (*v.EutraCapabilityInfoR12).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained eutra-CapabilityInfo-r12: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_eutracapabilityinfor12.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_eutracapabilityinfor12, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding eutra-CapabilityInfo-r12: %w", err)
 		}
 	}
@@ -3479,16 +3672,20 @@ func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if v.MbmsInterestIndicationR12 != nil {
-		containedBB_mbmsinterestindicationr12 := per.NewBitBuffer()
-		if err := (*v.MbmsInterestIndicationR12).MarshalUPERTo(containedBB_mbmsinterestindicationr12); err != nil {
+		containedBytes_mbmsinterestindicationr12, err := (*v.MbmsInterestIndicationR12).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained mbmsInterestIndication-r12: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_mbmsinterestindicationr12.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_mbmsinterestindicationr12, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding mbmsInterestIndication-r12: %w", err)
 		}
 	}
 	if v.MeasResultServCellListSCGR12 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.MeasResultServCellListSCGR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_measresultservcelllistscgr12, fragmentLength_measresultservcelllistscgr12 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_measresultservcelllistscgr12 < 0 || fragmentOffset_measresultservcelllistscgr12 > int64(len(v.MeasResultServCellListSCGR12)) || fragmentLength_measresultservcelllistscgr12 < 0 || fragmentLength_measresultservcelllistscgr12 > int64(len(v.MeasResultServCellListSCGR12[fragmentOffset_measresultservcelllistscgr12:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.MeasResultServCellListSCGR12[fragmentOffset_measresultservcelllistscgr12 : fragmentOffset_measresultservcelllistscgr12+fragmentLength_measresultservcelllistscgr12] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding measResultServCellListSCG-r12 element: %w", err)
@@ -3501,6 +3698,10 @@ func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DrbToAddModListSCGR12 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DrbToAddModListSCGR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 11, HasUpper: true}, false, func(fragmentOffset_drbtoaddmodlistscgr12, fragmentLength_drbtoaddmodlistscgr12 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_drbtoaddmodlistscgr12 < 0 || fragmentOffset_drbtoaddmodlistscgr12 > int64(len(v.DrbToAddModListSCGR12)) || fragmentLength_drbtoaddmodlistscgr12 < 0 || fragmentLength_drbtoaddmodlistscgr12 > int64(len(v.DrbToAddModListSCGR12[fragmentOffset_drbtoaddmodlistscgr12:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DrbToAddModListSCGR12[fragmentOffset_drbtoaddmodlistscgr12 : fragmentOffset_drbtoaddmodlistscgr12+fragmentLength_drbtoaddmodlistscgr12] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding drb-ToAddModListSCG-r12 element: %w", err)
@@ -3513,6 +3714,10 @@ func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DrbToReleaseListSCGR12 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DrbToReleaseListSCGR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 11, HasUpper: true}, false, func(fragmentOffset_drbtoreleaselistscgr12, fragmentLength_drbtoreleaselistscgr12 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_drbtoreleaselistscgr12 < 0 || fragmentOffset_drbtoreleaselistscgr12 > int64(len(v.DrbToReleaseListSCGR12)) || fragmentLength_drbtoreleaselistscgr12 < 0 || fragmentLength_drbtoreleaselistscgr12 > int64(len(v.DrbToReleaseListSCGR12[fragmentOffset_drbtoreleaselistscgr12:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DrbToReleaseListSCGR12[fragmentOffset_drbtoreleaselistscgr12 : fragmentOffset_drbtoreleaselistscgr12+fragmentLength_drbtoreleaselistscgr12] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding drb-ToReleaseListSCG-r12 element: %w", err)
@@ -3525,6 +3730,10 @@ func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToAddModListSCGR12 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToAddModListSCGR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistscgr12, fragmentLength_scelltoaddmodlistscgr12 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoaddmodlistscgr12 < 0 || fragmentOffset_scelltoaddmodlistscgr12 > int64(len(v.SCellToAddModListSCGR12)) || fragmentLength_scelltoaddmodlistscgr12 < 0 || fragmentLength_scelltoaddmodlistscgr12 > int64(len(v.SCellToAddModListSCGR12[fragmentOffset_scelltoaddmodlistscgr12:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToAddModListSCGR12[fragmentOffset_scelltoaddmodlistscgr12 : fragmentOffset_scelltoaddmodlistscgr12+fragmentLength_scelltoaddmodlistscgr12] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sCellToAddModListSCG-r12 element: %w", err)
@@ -3537,6 +3746,10 @@ func (v *SCGConfigInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToReleaseListSCGR12 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToReleaseListSCGR12)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoreleaselistscgr12, fragmentLength_scelltoreleaselistscgr12 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoreleaselistscgr12 < 0 || fragmentOffset_scelltoreleaselistscgr12 > int64(len(v.SCellToReleaseListSCGR12)) || fragmentLength_scelltoreleaselistscgr12 < 0 || fragmentLength_scelltoreleaselistscgr12 > int64(len(v.SCellToReleaseListSCGR12[fragmentOffset_scelltoreleaselistscgr12:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToReleaseListSCGR12[fragmentOffset_scelltoreleaselistscgr12 : fragmentOffset_scelltoreleaselistscgr12+fragmentLength_scelltoreleaselistscgr12] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(7), false); err != nil {
 					return fmt.Errorf("encoding sCellToReleaseListSCG-r12 element: %w", err)
@@ -3566,9 +3779,11 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3645,6 +3860,10 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoaddmodlistmcgr12 {
 		tmp_scelltoaddmodlistmcgr12 := make(SCellToAddModListR10, 0)
 		_, errCollection_scelltoaddmodlistmcgr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistmcgr12, fragmentLength_scelltoaddmodlistmcgr12 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_scelltoaddmodlistmcgr12 < 0 || fragmentLength_scelltoaddmodlistmcgr12 < 0 || fragmentLength_scelltoaddmodlistmcgr12 > int64(^uint(0)>>1) || fragmentOffset_scelltoaddmodlistmcgr12 > int64(^uint(0)>>1)-fragmentLength_scelltoaddmodlistmcgr12 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoaddmodlistmcgr12; i++ {
 				var elem SCellToAddModR10
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -3687,7 +3906,7 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_eutracapabilityinfor12 UECapabilityInformation
 		if err := contained_eutracapabilityinfor12.UnmarshalUPER(containedBytes_eutracapabilityinfor12); err != nil {
-			return fmt.Errorf("decoding contained eutra-CapabilityInfo-r12: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained eutra-CapabilityInfo-r12: %w", err), "EutraCapabilityInfoR12")
 		}
 		v.EutraCapabilityInfoR12 = &contained_eutracapabilityinfor12
 	}
@@ -3705,13 +3924,17 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_mbmsinterestindicationr12 MBMSInterestIndicationR11
 		if err := contained_mbmsinterestindicationr12.UnmarshalUPER(containedBytes_mbmsinterestindicationr12); err != nil {
-			return fmt.Errorf("decoding contained mbmsInterestIndication-r12: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained mbmsInterestIndication-r12: %w", err), "MbmsInterestIndicationR12")
 		}
 		v.MbmsInterestIndicationR12 = &contained_mbmsinterestindicationr12
 	}
 	if opt_measresultservcelllistscgr12 {
 		tmp_measresultservcelllistscgr12 := make(MeasResultServCellListSCGR12, 0)
 		_, errCollection_measresultservcelllistscgr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_measresultservcelllistscgr12, fragmentLength_measresultservcelllistscgr12 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_measresultservcelllistscgr12 < 0 || fragmentLength_measresultservcelllistscgr12 < 0 || fragmentLength_measresultservcelllistscgr12 > int64(^uint(0)>>1) || fragmentOffset_measresultservcelllistscgr12 > int64(^uint(0)>>1)-fragmentLength_measresultservcelllistscgr12 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_measresultservcelllistscgr12; i++ {
 				var elem MeasResultServCellSCGR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -3729,6 +3952,10 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_drbtoaddmodlistscgr12 {
 		tmp_drbtoaddmodlistscgr12 := make(DRBInfoListSCGR12, 0)
 		_, errCollection_drbtoaddmodlistscgr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 11, HasUpper: true}, false, func(fragmentOffset_drbtoaddmodlistscgr12, fragmentLength_drbtoaddmodlistscgr12 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_drbtoaddmodlistscgr12 < 0 || fragmentLength_drbtoaddmodlistscgr12 < 0 || fragmentLength_drbtoaddmodlistscgr12 > int64(^uint(0)>>1) || fragmentOffset_drbtoaddmodlistscgr12 > int64(^uint(0)>>1)-fragmentLength_drbtoaddmodlistscgr12 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_drbtoaddmodlistscgr12; i++ {
 				var elem DRBInfoSCGR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -3746,6 +3973,10 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_drbtoreleaselistscgr12 {
 		tmp_drbtoreleaselistscgr12 := make(DRBToReleaseList, 0)
 		_, errCollection_drbtoreleaselistscgr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 11, HasUpper: true}, false, func(fragmentOffset_drbtoreleaselistscgr12, fragmentLength_drbtoreleaselistscgr12 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			if fragmentOffset_drbtoreleaselistscgr12 < 0 || fragmentLength_drbtoreleaselistscgr12 < 0 || fragmentLength_drbtoreleaselistscgr12 > int64(^uint(0)>>1) || fragmentOffset_drbtoreleaselistscgr12 > int64(^uint(0)>>1)-fragmentLength_drbtoreleaselistscgr12 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_drbtoreleaselistscgr12; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -3763,6 +3994,10 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoaddmodlistscgr12 {
 		tmp_scelltoaddmodlistscgr12 := make(SCellToAddModListSCGR12, 0)
 		_, errCollection_scelltoaddmodlistscgr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistscgr12, fragmentLength_scelltoaddmodlistscgr12 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_scelltoaddmodlistscgr12 < 0 || fragmentLength_scelltoaddmodlistscgr12 < 0 || fragmentLength_scelltoaddmodlistscgr12 > int64(^uint(0)>>1) || fragmentOffset_scelltoaddmodlistscgr12 > int64(^uint(0)>>1)-fragmentLength_scelltoaddmodlistscgr12 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoaddmodlistscgr12; i++ {
 				var elem CellToAddModR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -3780,6 +4015,10 @@ func (v *SCGConfigInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoreleaselistscgr12 {
 		tmp_scelltoreleaselistscgr12 := make(SCellToReleaseListR10, 0)
 		_, errCollection_scelltoreleaselistscgr12 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoreleaselistscgr12, fragmentLength_scelltoreleaselistscgr12 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			if fragmentOffset_scelltoreleaselistscgr12 < 0 || fragmentLength_scelltoreleaselistscgr12 < 0 || fragmentLength_scelltoreleaselistscgr12 > int64(^uint(0)>>1) || fragmentOffset_scelltoreleaselistscgr12 > int64(^uint(0)>>1)-fragmentLength_scelltoreleaselistscgr12 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoreleaselistscgr12; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(7), false)
 				if err != nil {
@@ -3818,7 +4057,7 @@ func (v *SCGConfigInfoV1310IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -3848,6 +4087,10 @@ func (v *SCGConfigInfoV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToAddModListMCGExtR13 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToAddModListMCGExtR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistmcgextr13, fragmentLength_scelltoaddmodlistmcgextr13 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoaddmodlistmcgextr13 < 0 || fragmentOffset_scelltoaddmodlistmcgextr13 > int64(len(v.SCellToAddModListMCGExtR13)) || fragmentLength_scelltoaddmodlistmcgextr13 < 0 || fragmentLength_scelltoaddmodlistmcgextr13 > int64(len(v.SCellToAddModListMCGExtR13[fragmentOffset_scelltoaddmodlistmcgextr13:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToAddModListMCGExtR13[fragmentOffset_scelltoaddmodlistmcgextr13 : fragmentOffset_scelltoaddmodlistmcgextr13+fragmentLength_scelltoaddmodlistmcgextr13] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sCellToAddModListMCG-Ext-r13 element: %w", err)
@@ -3860,6 +4103,10 @@ func (v *SCGConfigInfoV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.MeasResultServCellListSCGExtR13 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.MeasResultServCellListSCGExtR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measresultservcelllistscgextr13, fragmentLength_measresultservcelllistscgextr13 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_measresultservcelllistscgextr13 < 0 || fragmentOffset_measresultservcelllistscgextr13 > int64(len(v.MeasResultServCellListSCGExtR13)) || fragmentLength_measresultservcelllistscgextr13 < 0 || fragmentLength_measresultservcelllistscgextr13 > int64(len(v.MeasResultServCellListSCGExtR13[fragmentOffset_measresultservcelllistscgextr13:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.MeasResultServCellListSCGExtR13[fragmentOffset_measresultservcelllistscgextr13 : fragmentOffset_measresultservcelllistscgextr13+fragmentLength_measresultservcelllistscgextr13] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding measResultServCellListSCG-Ext-r13 element: %w", err)
@@ -3872,6 +4119,10 @@ func (v *SCGConfigInfoV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToAddModListSCGExtR13 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToAddModListSCGExtR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistscgextr13, fragmentLength_scelltoaddmodlistscgextr13 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoaddmodlistscgextr13 < 0 || fragmentOffset_scelltoaddmodlistscgextr13 > int64(len(v.SCellToAddModListSCGExtR13)) || fragmentLength_scelltoaddmodlistscgextr13 < 0 || fragmentLength_scelltoaddmodlistscgextr13 > int64(len(v.SCellToAddModListSCGExtR13[fragmentOffset_scelltoaddmodlistscgextr13:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToAddModListSCGExtR13[fragmentOffset_scelltoaddmodlistscgextr13 : fragmentOffset_scelltoaddmodlistscgextr13+fragmentLength_scelltoaddmodlistscgextr13] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sCellToAddModListSCG-Ext-r13 element: %w", err)
@@ -3884,6 +4135,10 @@ func (v *SCGConfigInfoV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToReleaseListSCGExtR13 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToReleaseListSCGExtR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoreleaselistscgextr13, fragmentLength_scelltoreleaselistscgextr13 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoreleaselistscgextr13 < 0 || fragmentOffset_scelltoreleaselistscgextr13 > int64(len(v.SCellToReleaseListSCGExtR13)) || fragmentLength_scelltoreleaselistscgextr13 < 0 || fragmentLength_scelltoreleaselistscgextr13 > int64(len(v.SCellToReleaseListSCGExtR13[fragmentOffset_scelltoreleaselistscgextr13:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToReleaseListSCGExtR13[fragmentOffset_scelltoreleaselistscgextr13 : fragmentOffset_scelltoreleaselistscgextr13+fragmentLength_scelltoreleaselistscgextr13] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(31), false); err != nil {
 					return fmt.Errorf("encoding sCellToReleaseListSCG-Ext-r13 element: %w", err)
@@ -3908,9 +4163,11 @@ func (v *SCGConfigInfoV1310IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1310IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1310IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3951,6 +4208,10 @@ func (v *SCGConfigInfoV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoaddmodlistmcgextr13 {
 		tmp_scelltoaddmodlistmcgextr13 := make(SCellToAddModListExtR13, 0)
 		_, errCollection_scelltoaddmodlistmcgextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistmcgextr13, fragmentLength_scelltoaddmodlistmcgextr13 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_scelltoaddmodlistmcgextr13 < 0 || fragmentLength_scelltoaddmodlistmcgextr13 < 0 || fragmentLength_scelltoaddmodlistmcgextr13 > int64(^uint(0)>>1) || fragmentOffset_scelltoaddmodlistmcgextr13 > int64(^uint(0)>>1)-fragmentLength_scelltoaddmodlistmcgextr13 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoaddmodlistmcgextr13; i++ {
 				var elem SCellToAddModExtR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -3968,6 +4229,10 @@ func (v *SCGConfigInfoV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measresultservcelllistscgextr13 {
 		tmp_measresultservcelllistscgextr13 := make(MeasResultServCellListSCGExtR13, 0)
 		_, errCollection_measresultservcelllistscgextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measresultservcelllistscgextr13, fragmentLength_measresultservcelllistscgextr13 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_measresultservcelllistscgextr13 < 0 || fragmentLength_measresultservcelllistscgextr13 < 0 || fragmentLength_measresultservcelllistscgextr13 > int64(^uint(0)>>1) || fragmentOffset_measresultservcelllistscgextr13 > int64(^uint(0)>>1)-fragmentLength_measresultservcelllistscgextr13 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_measresultservcelllistscgextr13; i++ {
 				var elem MeasResultServCellSCGR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -3985,6 +4250,10 @@ func (v *SCGConfigInfoV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoaddmodlistscgextr13 {
 		tmp_scelltoaddmodlistscgextr13 := make(SCellToAddModListSCGExtR13, 0)
 		_, errCollection_scelltoaddmodlistscgextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistscgextr13, fragmentLength_scelltoaddmodlistscgextr13 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_scelltoaddmodlistscgextr13 < 0 || fragmentLength_scelltoaddmodlistscgextr13 < 0 || fragmentLength_scelltoaddmodlistscgextr13 > int64(^uint(0)>>1) || fragmentOffset_scelltoaddmodlistscgextr13 > int64(^uint(0)>>1)-fragmentLength_scelltoaddmodlistscgextr13 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoaddmodlistscgextr13; i++ {
 				var elem CellToAddModR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4002,6 +4271,10 @@ func (v *SCGConfigInfoV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoreleaselistscgextr13 {
 		tmp_scelltoreleaselistscgextr13 := make(SCellToReleaseListExtR13, 0)
 		_, errCollection_scelltoreleaselistscgextr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoreleaselistscgextr13, fragmentLength_scelltoreleaselistscgextr13 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			if fragmentOffset_scelltoreleaselistscgextr13 < 0 || fragmentLength_scelltoreleaselistscgextr13 < 0 || fragmentLength_scelltoreleaselistscgextr13 > int64(^uint(0)>>1) || fragmentOffset_scelltoreleaselistscgextr13 > int64(^uint(0)>>1)-fragmentLength_scelltoreleaselistscgextr13 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoreleaselistscgextr13; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(31), false)
 				if err != nil {
@@ -4032,7 +4305,7 @@ func (v *SCGConfigInfoV1330IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoV1330IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4045,6 +4318,10 @@ func (v *SCGConfigInfoV1330IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.MeasResultListRSSISCGR13 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.MeasResultListRSSISCGR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measresultlistrssiscgr13, fragmentLength_measresultlistrssiscgr13 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_measresultlistrssiscgr13 < 0 || fragmentOffset_measresultlistrssiscgr13 > int64(len(v.MeasResultListRSSISCGR13)) || fragmentLength_measresultlistrssiscgr13 < 0 || fragmentLength_measresultlistrssiscgr13 > int64(len(v.MeasResultListRSSISCGR13[fragmentOffset_measresultlistrssiscgr13:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.MeasResultListRSSISCGR13[fragmentOffset_measresultlistrssiscgr13 : fragmentOffset_measresultlistrssiscgr13+fragmentLength_measresultlistrssiscgr13] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding measResultListRSSI-SCG-r13 element: %w", err)
@@ -4069,9 +4346,11 @@ func (v *SCGConfigInfoV1330IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1330IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1330IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4089,6 +4368,10 @@ func (v *SCGConfigInfoV1330IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_measresultlistrssiscgr13 {
 		tmp_measresultlistrssiscgr13 := make(MeasResultListRSSISCGR13, 0)
 		_, errCollection_measresultlistrssiscgr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_measresultlistrssiscgr13, fragmentLength_measresultlistrssiscgr13 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_measresultlistrssiscgr13 < 0 || fragmentLength_measresultlistrssiscgr13 < 0 || fragmentLength_measresultlistrssiscgr13 > int64(^uint(0)>>1) || fragmentOffset_measresultlistrssiscgr13 > int64(^uint(0)>>1)-fragmentLength_measresultlistrssiscgr13 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_measresultlistrssiscgr13; i++ {
 				var elem MeasResultRSSISCGR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4119,7 +4402,7 @@ func (v *SCGConfigInfoV1430IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoV1430IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4157,9 +4440,11 @@ func (v *SCGConfigInfoV1430IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1430IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1430IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4208,7 +4493,7 @@ func (v *SCGConfigInfoV1530IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4224,6 +4509,10 @@ func (v *SCGConfigInfoV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DrbToAddModListSCGR15 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DrbToAddModListSCGR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_drbtoaddmodlistscgr15, fragmentLength_drbtoaddmodlistscgr15 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_drbtoaddmodlistscgr15 < 0 || fragmentOffset_drbtoaddmodlistscgr15 > int64(len(v.DrbToAddModListSCGR15)) || fragmentLength_drbtoaddmodlistscgr15 < 0 || fragmentLength_drbtoaddmodlistscgr15 > int64(len(v.DrbToAddModListSCGR15[fragmentOffset_drbtoaddmodlistscgr15:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DrbToAddModListSCGR15[fragmentOffset_drbtoaddmodlistscgr15 : fragmentOffset_drbtoaddmodlistscgr15+fragmentLength_drbtoaddmodlistscgr15] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding drb-ToAddModListSCG-r15 element: %w", err)
@@ -4236,6 +4525,10 @@ func (v *SCGConfigInfoV1530IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DrbToReleaseListSCGR15 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DrbToReleaseListSCGR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_drbtoreleaselistscgr15, fragmentLength_drbtoreleaselistscgr15 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_drbtoreleaselistscgr15 < 0 || fragmentOffset_drbtoreleaselistscgr15 > int64(len(v.DrbToReleaseListSCGR15)) || fragmentLength_drbtoreleaselistscgr15 < 0 || fragmentLength_drbtoreleaselistscgr15 > int64(len(v.DrbToReleaseListSCGR15[fragmentOffset_drbtoreleaselistscgr15:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DrbToReleaseListSCGR15[fragmentOffset_drbtoreleaselistscgr15 : fragmentOffset_drbtoreleaselistscgr15+fragmentLength_drbtoreleaselistscgr15] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding drb-ToReleaseListSCG-r15 element: %w", err)
@@ -4260,9 +4553,11 @@ func (v *SCGConfigInfoV1530IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1530IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1530IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4284,6 +4579,10 @@ func (v *SCGConfigInfoV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_drbtoaddmodlistscgr15 {
 		tmp_drbtoaddmodlistscgr15 := make(DRBInfoListSCGR15, 0)
 		_, errCollection_drbtoaddmodlistscgr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_drbtoaddmodlistscgr15, fragmentLength_drbtoaddmodlistscgr15 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_drbtoaddmodlistscgr15 < 0 || fragmentLength_drbtoaddmodlistscgr15 < 0 || fragmentLength_drbtoaddmodlistscgr15 > int64(^uint(0)>>1) || fragmentOffset_drbtoaddmodlistscgr15 > int64(^uint(0)>>1)-fragmentLength_drbtoaddmodlistscgr15 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_drbtoaddmodlistscgr15; i++ {
 				var elem DRBInfoSCGR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4301,6 +4600,10 @@ func (v *SCGConfigInfoV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_drbtoreleaselistscgr15 {
 		tmp_drbtoreleaselistscgr15 := make(DRBToReleaseListR15, 0)
 		_, errCollection_drbtoreleaselistscgr15 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_drbtoreleaselistscgr15, fragmentLength_drbtoreleaselistscgr15 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			if fragmentOffset_drbtoreleaselistscgr15 < 0 || fragmentLength_drbtoreleaselistscgr15 < 0 || fragmentLength_drbtoreleaselistscgr15 > int64(^uint(0)>>1) || fragmentOffset_drbtoreleaselistscgr15 > int64(^uint(0)>>1)-fragmentLength_drbtoreleaselistscgr15 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_drbtoreleaselistscgr15; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -4327,19 +4630,48 @@ func (v *SCGConfigInfoV1530IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERDRBInfoListSCGR12ListValue struct{ Value DRBInfoListSCGR12 }
 
-// MarshalUPERDRBInfoListSCGR12 encodes a DRBInfoListSCGR12 list to UPER.
-func MarshalUPERDRBInfoListSCGR12(list DRBInfoListSCGR12) ([]byte, error) {
+// DRBInfoListSCGR12Complete carries a complete DRBInfoListSCGR12 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type DRBInfoListSCGR12Complete struct {
+	Value       DRBInfoListSCGR12
+	PERPadding_ per.CompletePadding
+}
+
+func (v *DRBInfoListSCGR12Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERDRBInfoListSCGR12To(list, bb); err != nil {
+	if err := MarshalUPERDRBInfoListSCGR12To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *DRBInfoListSCGR12Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERDRBInfoListSCGR12From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "DRBInfoListSCGR12")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "DRBInfoListSCGR12")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERDRBInfoListSCGR12 encodes a DRBInfoListSCGR12 list to UPER.
+func MarshalUPERDRBInfoListSCGR12(list DRBInfoListSCGR12Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERDRBInfoListSCGR12To appends a DRBInfoListSCGR12 list to bb.
 func MarshalUPERDRBInfoListSCGR12To(list DRBInfoListSCGR12, bb *per.BitBuffer) error {
 	v := asn1cUPERDRBInfoListSCGR12ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 11, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -4353,14 +4685,10 @@ func MarshalUPERDRBInfoListSCGR12To(list DRBInfoListSCGR12, bb *per.BitBuffer) e
 }
 
 // UnmarshalUPERDRBInfoListSCGR12 decodes a DRBInfoListSCGR12 list from UPER.
-func UnmarshalUPERDRBInfoListSCGR12(data []byte) (DRBInfoListSCGR12, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERDRBInfoListSCGR12From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "DRBInfoListSCGR12")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "DRBInfoListSCGR12")
+func UnmarshalUPERDRBInfoListSCGR12(data []byte) (DRBInfoListSCGR12Complete, error) {
+	var value DRBInfoListSCGR12Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4377,6 +4705,10 @@ func UnmarshalUPERDRBInfoListSCGR12From(bb *per.BitBuffer) (DRBInfoListSCGR12, e
 func unmarshalUPERDRBInfoListSCGR12Into(v *asn1cUPERDRBInfoListSCGR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(DRBInfoListSCGR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 11, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem DRBInfoSCGR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4394,19 +4726,48 @@ func unmarshalUPERDRBInfoListSCGR12Into(v *asn1cUPERDRBInfoListSCGR12ListValue, 
 
 type asn1cUPERDRBInfoListSCGR15ListValue struct{ Value DRBInfoListSCGR15 }
 
-// MarshalUPERDRBInfoListSCGR15 encodes a DRBInfoListSCGR15 list to UPER.
-func MarshalUPERDRBInfoListSCGR15(list DRBInfoListSCGR15) ([]byte, error) {
+// DRBInfoListSCGR15Complete carries a complete DRBInfoListSCGR15 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type DRBInfoListSCGR15Complete struct {
+	Value       DRBInfoListSCGR15
+	PERPadding_ per.CompletePadding
+}
+
+func (v *DRBInfoListSCGR15Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERDRBInfoListSCGR15To(list, bb); err != nil {
+	if err := MarshalUPERDRBInfoListSCGR15To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *DRBInfoListSCGR15Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERDRBInfoListSCGR15From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "DRBInfoListSCGR15")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "DRBInfoListSCGR15")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERDRBInfoListSCGR15 encodes a DRBInfoListSCGR15 list to UPER.
+func MarshalUPERDRBInfoListSCGR15(list DRBInfoListSCGR15Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERDRBInfoListSCGR15To appends a DRBInfoListSCGR15 list to bb.
 func MarshalUPERDRBInfoListSCGR15To(list DRBInfoListSCGR15, bb *per.BitBuffer) error {
 	v := asn1cUPERDRBInfoListSCGR15ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -4420,14 +4781,10 @@ func MarshalUPERDRBInfoListSCGR15To(list DRBInfoListSCGR15, bb *per.BitBuffer) e
 }
 
 // UnmarshalUPERDRBInfoListSCGR15 decodes a DRBInfoListSCGR15 list from UPER.
-func UnmarshalUPERDRBInfoListSCGR15(data []byte) (DRBInfoListSCGR15, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERDRBInfoListSCGR15From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "DRBInfoListSCGR15")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "DRBInfoListSCGR15")
+func UnmarshalUPERDRBInfoListSCGR15(data []byte) (DRBInfoListSCGR15Complete, error) {
+	var value DRBInfoListSCGR15Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4444,6 +4801,10 @@ func UnmarshalUPERDRBInfoListSCGR15From(bb *per.BitBuffer) (DRBInfoListSCGR15, e
 func unmarshalUPERDRBInfoListSCGR15Into(v *asn1cUPERDRBInfoListSCGR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(DRBInfoListSCGR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem DRBInfoSCGR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4465,7 +4826,7 @@ func (v *DRBInfoSCGR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DRBInfoSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4494,16 +4855,25 @@ func (v *DRBInfoSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegative(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegative(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:442
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:449
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4524,9 +4894,11 @@ func (v *DRBInfoSCGR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DRBInfoSCGR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DRBInfoSCGR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4570,8 +4942,16 @@ func (v *DRBInfoSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:623
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -4587,19 +4967,48 @@ func (v *DRBInfoSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERSCellToAddModListSCGR12ListValue struct{ Value SCellToAddModListSCGR12 }
 
-// MarshalUPERSCellToAddModListSCGR12 encodes a SCellToAddModListSCGR12 list to UPER.
-func MarshalUPERSCellToAddModListSCGR12(list SCellToAddModListSCGR12) ([]byte, error) {
+// SCellToAddModListSCGR12Complete carries a complete SCellToAddModListSCGR12 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SCellToAddModListSCGR12Complete struct {
+	Value       SCellToAddModListSCGR12
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SCellToAddModListSCGR12Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSCellToAddModListSCGR12To(list, bb); err != nil {
+	if err := MarshalUPERSCellToAddModListSCGR12To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SCellToAddModListSCGR12Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSCellToAddModListSCGR12From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SCellToAddModListSCGR12")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SCellToAddModListSCGR12")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSCellToAddModListSCGR12 encodes a SCellToAddModListSCGR12 list to UPER.
+func MarshalUPERSCellToAddModListSCGR12(list SCellToAddModListSCGR12Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSCellToAddModListSCGR12To appends a SCellToAddModListSCGR12 list to bb.
 func MarshalUPERSCellToAddModListSCGR12To(list SCellToAddModListSCGR12, bb *per.BitBuffer) error {
 	v := asn1cUPERSCellToAddModListSCGR12ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -4613,14 +5022,10 @@ func MarshalUPERSCellToAddModListSCGR12To(list SCellToAddModListSCGR12, bb *per.
 }
 
 // UnmarshalUPERSCellToAddModListSCGR12 decodes a SCellToAddModListSCGR12 list from UPER.
-func UnmarshalUPERSCellToAddModListSCGR12(data []byte) (SCellToAddModListSCGR12, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSCellToAddModListSCGR12From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SCellToAddModListSCGR12")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SCellToAddModListSCGR12")
+func UnmarshalUPERSCellToAddModListSCGR12(data []byte) (SCellToAddModListSCGR12Complete, error) {
+	var value SCellToAddModListSCGR12Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4637,6 +5042,10 @@ func UnmarshalUPERSCellToAddModListSCGR12From(bb *per.BitBuffer) (SCellToAddModL
 func unmarshalUPERSCellToAddModListSCGR12Into(v *asn1cUPERSCellToAddModListSCGR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SCellToAddModListSCGR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CellToAddModR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4654,19 +5063,48 @@ func unmarshalUPERSCellToAddModListSCGR12Into(v *asn1cUPERSCellToAddModListSCGR1
 
 type asn1cUPERSCellToAddModListSCGExtR13ListValue struct{ Value SCellToAddModListSCGExtR13 }
 
-// MarshalUPERSCellToAddModListSCGExtR13 encodes a SCellToAddModListSCGExtR13 list to UPER.
-func MarshalUPERSCellToAddModListSCGExtR13(list SCellToAddModListSCGExtR13) ([]byte, error) {
+// SCellToAddModListSCGExtR13Complete carries a complete SCellToAddModListSCGExtR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type SCellToAddModListSCGExtR13Complete struct {
+	Value       SCellToAddModListSCGExtR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *SCellToAddModListSCGExtR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERSCellToAddModListSCGExtR13To(list, bb); err != nil {
+	if err := MarshalUPERSCellToAddModListSCGExtR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *SCellToAddModListSCGExtR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERSCellToAddModListSCGExtR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SCellToAddModListSCGExtR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SCellToAddModListSCGExtR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERSCellToAddModListSCGExtR13 encodes a SCellToAddModListSCGExtR13 list to UPER.
+func MarshalUPERSCellToAddModListSCGExtR13(list SCellToAddModListSCGExtR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERSCellToAddModListSCGExtR13To appends a SCellToAddModListSCGExtR13 list to bb.
 func MarshalUPERSCellToAddModListSCGExtR13To(list SCellToAddModListSCGExtR13, bb *per.BitBuffer) error {
 	v := asn1cUPERSCellToAddModListSCGExtR13ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -4680,14 +5118,10 @@ func MarshalUPERSCellToAddModListSCGExtR13To(list SCellToAddModListSCGExtR13, bb
 }
 
 // UnmarshalUPERSCellToAddModListSCGExtR13 decodes a SCellToAddModListSCGExtR13 list from UPER.
-func UnmarshalUPERSCellToAddModListSCGExtR13(data []byte) (SCellToAddModListSCGExtR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERSCellToAddModListSCGExtR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "SCellToAddModListSCGExtR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "SCellToAddModListSCGExtR13")
+func UnmarshalUPERSCellToAddModListSCGExtR13(data []byte) (SCellToAddModListSCGExtR13Complete, error) {
+	var value SCellToAddModListSCGExtR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4704,6 +5138,10 @@ func UnmarshalUPERSCellToAddModListSCGExtR13From(bb *per.BitBuffer) (SCellToAddM
 func unmarshalUPERSCellToAddModListSCGExtR13Into(v *asn1cUPERSCellToAddModListSCGExtR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(SCellToAddModListSCGExtR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CellToAddModR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4725,7 +5163,7 @@ func (v *CellToAddModR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellToAddModR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -4781,6 +5219,10 @@ func (v *CellToAddModR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(1); i <= extHighest; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
@@ -4805,9 +5247,21 @@ func (v *CellToAddModR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding measResultCellToAdd-v1310: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
 				return err
 			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(1); i <= extHighest; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -4830,9 +5284,11 @@ func (v *CellToAddModR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4877,7 +5333,16 @@ func (v *CellToAddModR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -4908,9 +5373,15 @@ func (v *CellToAddModR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.MeasResultCellToAddV1310 = &dec_measresultcelltoaddv1310
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
+		}
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -4927,19 +5398,48 @@ func (v *CellToAddModR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERMeasResultServCellListSCGR12ListValue struct{ Value MeasResultServCellListSCGR12 }
 
-// MarshalUPERMeasResultServCellListSCGR12 encodes a MeasResultServCellListSCGR12 list to UPER.
-func MarshalUPERMeasResultServCellListSCGR12(list MeasResultServCellListSCGR12) ([]byte, error) {
+// MeasResultServCellListSCGR12Complete carries a complete MeasResultServCellListSCGR12 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type MeasResultServCellListSCGR12Complete struct {
+	Value       MeasResultServCellListSCGR12
+	PERPadding_ per.CompletePadding
+}
+
+func (v *MeasResultServCellListSCGR12Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERMeasResultServCellListSCGR12To(list, bb); err != nil {
+	if err := MarshalUPERMeasResultServCellListSCGR12To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *MeasResultServCellListSCGR12Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERMeasResultServCellListSCGR12From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MeasResultServCellListSCGR12")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MeasResultServCellListSCGR12")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERMeasResultServCellListSCGR12 encodes a MeasResultServCellListSCGR12 list to UPER.
+func MarshalUPERMeasResultServCellListSCGR12(list MeasResultServCellListSCGR12Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERMeasResultServCellListSCGR12To appends a MeasResultServCellListSCGR12 list to bb.
 func MarshalUPERMeasResultServCellListSCGR12To(list MeasResultServCellListSCGR12, bb *per.BitBuffer) error {
 	v := asn1cUPERMeasResultServCellListSCGR12ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -4953,14 +5453,10 @@ func MarshalUPERMeasResultServCellListSCGR12To(list MeasResultServCellListSCGR12
 }
 
 // UnmarshalUPERMeasResultServCellListSCGR12 decodes a MeasResultServCellListSCGR12 list from UPER.
-func UnmarshalUPERMeasResultServCellListSCGR12(data []byte) (MeasResultServCellListSCGR12, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERMeasResultServCellListSCGR12From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "MeasResultServCellListSCGR12")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "MeasResultServCellListSCGR12")
+func UnmarshalUPERMeasResultServCellListSCGR12(data []byte) (MeasResultServCellListSCGR12Complete, error) {
+	var value MeasResultServCellListSCGR12Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4977,6 +5473,10 @@ func UnmarshalUPERMeasResultServCellListSCGR12From(bb *per.BitBuffer) (MeasResul
 func unmarshalUPERMeasResultServCellListSCGR12Into(v *asn1cUPERMeasResultServCellListSCGR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(MeasResultServCellListSCGR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 5, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem MeasResultServCellSCGR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4996,19 +5496,48 @@ type asn1cUPERMeasResultServCellListSCGExtR13ListValue struct {
 	Value MeasResultServCellListSCGExtR13
 }
 
-// MarshalUPERMeasResultServCellListSCGExtR13 encodes a MeasResultServCellListSCGExtR13 list to UPER.
-func MarshalUPERMeasResultServCellListSCGExtR13(list MeasResultServCellListSCGExtR13) ([]byte, error) {
+// MeasResultServCellListSCGExtR13Complete carries a complete MeasResultServCellListSCGExtR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type MeasResultServCellListSCGExtR13Complete struct {
+	Value       MeasResultServCellListSCGExtR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *MeasResultServCellListSCGExtR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERMeasResultServCellListSCGExtR13To(list, bb); err != nil {
+	if err := MarshalUPERMeasResultServCellListSCGExtR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *MeasResultServCellListSCGExtR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERMeasResultServCellListSCGExtR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MeasResultServCellListSCGExtR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MeasResultServCellListSCGExtR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERMeasResultServCellListSCGExtR13 encodes a MeasResultServCellListSCGExtR13 list to UPER.
+func MarshalUPERMeasResultServCellListSCGExtR13(list MeasResultServCellListSCGExtR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERMeasResultServCellListSCGExtR13To appends a MeasResultServCellListSCGExtR13 list to bb.
 func MarshalUPERMeasResultServCellListSCGExtR13To(list MeasResultServCellListSCGExtR13, bb *per.BitBuffer) error {
 	v := asn1cUPERMeasResultServCellListSCGExtR13ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -5022,14 +5551,10 @@ func MarshalUPERMeasResultServCellListSCGExtR13To(list MeasResultServCellListSCG
 }
 
 // UnmarshalUPERMeasResultServCellListSCGExtR13 decodes a MeasResultServCellListSCGExtR13 list from UPER.
-func UnmarshalUPERMeasResultServCellListSCGExtR13(data []byte) (MeasResultServCellListSCGExtR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERMeasResultServCellListSCGExtR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "MeasResultServCellListSCGExtR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "MeasResultServCellListSCGExtR13")
+func UnmarshalUPERMeasResultServCellListSCGExtR13(data []byte) (MeasResultServCellListSCGExtR13Complete, error) {
+	var value MeasResultServCellListSCGExtR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -5046,6 +5571,10 @@ func UnmarshalUPERMeasResultServCellListSCGExtR13From(bb *per.BitBuffer) (MeasRe
 func unmarshalUPERMeasResultServCellListSCGExtR13Into(v *asn1cUPERMeasResultServCellListSCGExtR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(MeasResultServCellListSCGExtR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem MeasResultServCellSCGR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5067,7 +5596,7 @@ func (v *MeasResultServCellSCGR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MeasResultServCellSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5109,6 +5638,10 @@ func (v *MeasResultServCellSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(1); i <= extHighest; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
@@ -5133,9 +5666,21 @@ func (v *MeasResultServCellSCGR12) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding measResultSCell-v1310: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
 				return err
 			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(1); i <= extHighest; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -5158,9 +5703,11 @@ func (v *MeasResultServCellSCGR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultServCellSCGR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultServCellSCGR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5185,7 +5732,16 @@ func (v *MeasResultServCellSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -5216,9 +5772,15 @@ func (v *MeasResultServCellSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.MeasResultSCellV1310 = &dec_measresultscellv1310
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
+		}
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(1); i <= extCount; i++ {
 			if extPresent[i] {
@@ -5235,19 +5797,48 @@ func (v *MeasResultServCellSCGR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERMeasResultListRSSISCGR13ListValue struct{ Value MeasResultListRSSISCGR13 }
 
-// MarshalUPERMeasResultListRSSISCGR13 encodes a MeasResultListRSSISCGR13 list to UPER.
-func MarshalUPERMeasResultListRSSISCGR13(list MeasResultListRSSISCGR13) ([]byte, error) {
+// MeasResultListRSSISCGR13Complete carries a complete MeasResultListRSSISCGR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type MeasResultListRSSISCGR13Complete struct {
+	Value       MeasResultListRSSISCGR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *MeasResultListRSSISCGR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERMeasResultListRSSISCGR13To(list, bb); err != nil {
+	if err := MarshalUPERMeasResultListRSSISCGR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *MeasResultListRSSISCGR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERMeasResultListRSSISCGR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MeasResultListRSSISCGR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "MeasResultListRSSISCGR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERMeasResultListRSSISCGR13 encodes a MeasResultListRSSISCGR13 list to UPER.
+func MarshalUPERMeasResultListRSSISCGR13(list MeasResultListRSSISCGR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERMeasResultListRSSISCGR13To appends a MeasResultListRSSISCGR13 list to bb.
 func MarshalUPERMeasResultListRSSISCGR13To(list MeasResultListRSSISCGR13, bb *per.BitBuffer) error {
 	v := asn1cUPERMeasResultListRSSISCGR13ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -5261,14 +5852,10 @@ func MarshalUPERMeasResultListRSSISCGR13To(list MeasResultListRSSISCGR13, bb *pe
 }
 
 // UnmarshalUPERMeasResultListRSSISCGR13 decodes a MeasResultListRSSISCGR13 list from UPER.
-func UnmarshalUPERMeasResultListRSSISCGR13(data []byte) (MeasResultListRSSISCGR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERMeasResultListRSSISCGR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "MeasResultListRSSISCGR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "MeasResultListRSSISCGR13")
+func UnmarshalUPERMeasResultListRSSISCGR13(data []byte) (MeasResultListRSSISCGR13Complete, error) {
+	var value MeasResultListRSSISCGR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -5285,6 +5872,10 @@ func UnmarshalUPERMeasResultListRSSISCGR13From(bb *per.BitBuffer) (MeasResultLis
 func unmarshalUPERMeasResultListRSSISCGR13Into(v *asn1cUPERMeasResultListRSSISCGR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(MeasResultListRSSISCGR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem MeasResultRSSISCGR13
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5306,7 +5897,7 @@ func (v *MeasResultRSSISCGR13) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MeasResultRSSISCGR13) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5325,9 +5916,11 @@ func (v *MeasResultRSSISCGR13) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultRSSISCGR13")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultRSSISCGR13")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5350,7 +5943,7 @@ func (v *SCGConfigRestrictInfoR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigRestrictInfoR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5369,9 +5962,11 @@ func (v *SCGConfigRestrictInfoR12) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigRestrictInfoR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigRestrictInfoR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5396,7 +5991,7 @@ func (v *UEPagingCoverageInformation) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEPagingCoverageInformation) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5412,9 +6007,11 @@ func (v *UEPagingCoverageInformation) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5432,7 +6029,7 @@ func (v *UEPagingCoverageInformationR13IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEPagingCoverageInformationR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5462,9 +6059,11 @@ func (v *UEPagingCoverageInformationR13IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationR13IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationR13IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5502,7 +6101,7 @@ func (v *UERadioAccessCapabilityInformation) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioAccessCapabilityInformation) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5518,9 +6117,11 @@ func (v *UERadioAccessCapabilityInformation) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5538,7 +6139,7 @@ func (v *UERadioAccessCapabilityInformationR8IEs) MarshalUPER() ([]byte, error) 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioAccessCapabilityInformationR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5546,11 +6147,11 @@ func (v *UERadioAccessCapabilityInformationR8IEs) MarshalUPERTo(bb *per.BitBuffe
 	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
 		return err
 	}
-	containedBB_ueradioaccesscapabilityinfo := per.NewBitBuffer()
-	if err := (v.UeRadioAccessCapabilityInfo).MarshalUPERTo(containedBB_ueradioaccesscapabilityinfo); err != nil {
+	containedBytes_ueradioaccesscapabilityinfo, err := (v.UeRadioAccessCapabilityInfo).MarshalUPER()
+	if err != nil {
 		return fmt.Errorf("encoding contained ue-RadioAccessCapabilityInfo: %w", err)
 	}
-	if err := per.EncodeOctetStringExt(bb, containedBB_ueradioaccesscapabilityinfo.Bytes(), 0, 0, false, false); err != nil {
+	if err := per.EncodeOctetStringExt(bb, containedBytes_ueradioaccesscapabilityinfo, 0, 0, false, false); err != nil {
 		return fmt.Errorf("encoding ue-RadioAccessCapabilityInfo: %w", err)
 	}
 	if v.NonCriticalExtension != nil {
@@ -5567,9 +6168,11 @@ func (v *UERadioAccessCapabilityInformationR8IEs) UnmarshalUPER(data []byte) err
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationR8IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationR8IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5586,7 +6189,7 @@ func (v *UERadioAccessCapabilityInformationR8IEs) UnmarshalUPERFrom(bb *per.BitB
 	}
 	var contained_ueradioaccesscapabilityinfo UECapabilityInformation
 	if err := contained_ueradioaccesscapabilityinfo.UnmarshalUPER(containedBytes_ueradioaccesscapabilityinfo); err != nil {
-		return fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioAccessCapabilityInfo: %w", err), "UeRadioAccessCapabilityInfo")
 	}
 	v.UeRadioAccessCapabilityInfo = contained_ueradioaccesscapabilityinfo
 	if opt_noncriticalextension {
@@ -5605,7 +6208,7 @@ func (v *UERadioPagingInformation) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformation) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5621,9 +6224,11 @@ func (v *UERadioPagingInformation) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5641,7 +6246,7 @@ func (v *UERadioPagingInformationR12IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformationR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5649,11 +6254,11 @@ func (v *UERadioPagingInformationR12IEs) MarshalUPERTo(bb *per.BitBuffer) error 
 	if err := per.EncodeBoolean(bb, v.NonCriticalExtension != nil); err != nil {
 		return err
 	}
-	containedBB_ueradiopaginginfor12 := per.NewBitBuffer()
-	if err := (v.UeRadioPagingInfoR12).MarshalUPERTo(containedBB_ueradiopaginginfor12); err != nil {
+	containedBytes_ueradiopaginginfor12, err := (v.UeRadioPagingInfoR12).MarshalUPER()
+	if err != nil {
 		return fmt.Errorf("encoding contained ue-RadioPagingInfo-r12: %w", err)
 	}
-	if err := per.EncodeOctetStringExt(bb, containedBB_ueradiopaginginfor12.Bytes(), 0, 0, false, false); err != nil {
+	if err := per.EncodeOctetStringExt(bb, containedBytes_ueradiopaginginfor12, 0, 0, false, false); err != nil {
 		return fmt.Errorf("encoding ue-RadioPagingInfo-r12: %w", err)
 	}
 	if v.NonCriticalExtension != nil {
@@ -5670,9 +6275,11 @@ func (v *UERadioPagingInformationR12IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationR12IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationR12IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5689,7 +6296,7 @@ func (v *UERadioPagingInformationR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) er
 	}
 	var contained_ueradiopaginginfor12 UERadioPagingInfoR12
 	if err := contained_ueradiopaginginfor12.UnmarshalUPER(containedBytes_ueradiopaginginfor12); err != nil {
-		return fmt.Errorf("decoding contained ue-RadioPagingInfo-r12: %w", err)
+		return runtime.WrapDecodePath(fmt.Errorf("decoding contained ue-RadioPagingInfo-r12: %w", err), "UeRadioPagingInfoR12")
 	}
 	v.UeRadioPagingInfoR12 = contained_ueradiopaginginfor12
 	if opt_noncriticalextension {
@@ -5708,7 +6315,7 @@ func (v *UERadioPagingInformationV1310IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformationV1310IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5721,6 +6328,10 @@ func (v *UERadioPagingInformationV1310IEs) MarshalUPERTo(bb *per.BitBuffer) erro
 	}
 	if v.SupportedBandListEUTRAForPagingR13 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SupportedBandListEUTRAForPagingR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlisteutraforpagingr13, fragmentLength_supportedbandlisteutraforpagingr13 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_supportedbandlisteutraforpagingr13 < 0 || fragmentOffset_supportedbandlisteutraforpagingr13 > int64(len(v.SupportedBandListEUTRAForPagingR13)) || fragmentLength_supportedbandlisteutraforpagingr13 < 0 || fragmentLength_supportedbandlisteutraforpagingr13 > int64(len(v.SupportedBandListEUTRAForPagingR13[fragmentOffset_supportedbandlisteutraforpagingr13:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SupportedBandListEUTRAForPagingR13[fragmentOffset_supportedbandlisteutraforpagingr13 : fragmentOffset_supportedbandlisteutraforpagingr13+fragmentLength_supportedbandlisteutraforpagingr13] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(256), false); err != nil {
 					return fmt.Errorf("encoding supportedBandListEUTRAForPaging-r13 element: %w", err)
@@ -5745,9 +6356,11 @@ func (v *UERadioPagingInformationV1310IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1310IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1310IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5765,6 +6378,10 @@ func (v *UERadioPagingInformationV1310IEs) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	if opt_supportedbandlisteutraforpagingr13 {
 		tmp_supportedbandlisteutraforpagingr13 := make(UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13, 0)
 		_, errCollection_supportedbandlisteutraforpagingr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_supportedbandlisteutraforpagingr13, fragmentLength_supportedbandlisteutraforpagingr13 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+			if fragmentOffset_supportedbandlisteutraforpagingr13 < 0 || fragmentLength_supportedbandlisteutraforpagingr13 < 0 || fragmentLength_supportedbandlisteutraforpagingr13 > int64(^uint(0)>>1) || fragmentOffset_supportedbandlisteutraforpagingr13 > int64(^uint(0)>>1)-fragmentLength_supportedbandlisteutraforpagingr13 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_supportedbandlisteutraforpagingr13; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(256), false)
 				if err != nil {
@@ -5795,7 +6412,7 @@ func (v *UERadioPagingInformationV1610IEs) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformationV1610IEs) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5825,9 +6442,11 @@ func (v *UERadioPagingInformationV1610IEs) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1610IEs")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1610IEs")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5865,7 +6484,7 @@ func (v *ASConfig) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -5985,6 +6604,10 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(7); i <= extHighest; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
@@ -5997,18 +6620,26 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.SourceSystemInformationBlockType1Ext != nil {
-				containedBB_sourcesysteminformationblocktype1ext := per.NewBitBuffer()
-				if err := (*v.SourceSystemInformationBlockType1Ext).MarshalUPERTo(containedBB_sourcesysteminformationblocktype1ext); err != nil {
+				containedBytes_sourcesysteminformationblocktype1ext, err := (*v.SourceSystemInformationBlockType1Ext).MarshalUPER()
+				if err != nil {
 					return fmt.Errorf("encoding contained sourceSystemInformationBlockType1Ext: %w", err)
 				}
-				if err := per.EncodeOctetStringExt(extBuf, containedBB_sourcesysteminformationblocktype1ext.Bytes(), 0, 0, false, false); err != nil {
+				if err := per.EncodeOctetStringExt(extBuf, containedBytes_sourcesysteminformationblocktype1ext, 0, 0, false, false); err != nil {
 					return fmt.Errorf("encoding sourceSystemInformationBlockType1Ext: %w", err)
 				}
 			}
 			if err := v.SourceOtherConfigR9.MarshalUPERTo(extBuf); err != nil {
 				return fmt.Errorf("encoding sourceOtherConfig-r9: %w", err)
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -6019,6 +6650,10 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 			if v.SourceSCellConfigListR10 != nil {
 				if err := per.EncodeCollection(extBuf, int64(len(v.SourceSCellConfigListR10)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_sourcescellconfiglistr10, fragmentLength_sourcescellconfiglistr10 int64) error {
+					// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+					if fragmentOffset_sourcescellconfiglistr10 < 0 || fragmentOffset_sourcescellconfiglistr10 > int64(len(v.SourceSCellConfigListR10)) || fragmentLength_sourcescellconfiglistr10 < 0 || fragmentLength_sourcescellconfiglistr10 > int64(len(v.SourceSCellConfigListR10[fragmentOffset_sourcescellconfiglistr10:])) {
+						return fmt.Errorf("collection fragment outside value")
+					}
 					for _, elem := range v.SourceSCellConfigListR10[fragmentOffset_sourcescellconfiglistr10 : fragmentOffset_sourcescellconfiglistr10+fragmentLength_sourcescellconfiglistr10] {
 						if err := elem.MarshalUPERTo(extBuf); err != nil {
 							return fmt.Errorf("encoding sourceSCellConfigList-r10 element: %w", err)
@@ -6029,7 +6664,15 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding sourceSCellConfigList-r10: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 1 {
+				extPadding = v.PERExtPadding_[1]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -6043,7 +6686,15 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding sourceConfigSCG-r12: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 2 {
+				extPadding = v.PERExtPadding_[2]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -6057,7 +6708,15 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding as-ConfigNR-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 3 {
+				extPadding = v.PERExtPadding_[3]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -6071,7 +6730,15 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding as-Config-v1550: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 4 {
+				extPadding = v.PERExtPadding_[4]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -6085,7 +6752,15 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding as-ConfigNR-v1570: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 5 {
+				extPadding = v.PERExtPadding_[5]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -6099,9 +6774,21 @@ func (v *ASConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding as-ConfigNR-v1620: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 6 {
+				extPadding = v.PERExtPadding_[6]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
 				return err
 			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(7); i <= extHighest; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -6124,9 +6811,11 @@ func (v *ASConfig) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfig")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfig")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6177,7 +6866,16 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -6196,7 +6894,7 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				var contained_sourcesysteminformationblocktype1ext SystemInformationBlockType1V890IEs
 				if err := contained_sourcesysteminformationblocktype1ext.UnmarshalUPER(containedBytes_sourcesysteminformationblocktype1ext); err != nil {
-					return fmt.Errorf("decoding contained sourceSystemInformationBlockType1Ext: %w", err)
+					return runtime.WrapDecodePath(fmt.Errorf("decoding contained sourceSystemInformationBlockType1Ext: %w", err), "SourceSystemInformationBlockType1Ext")
 				}
 				v.SourceSystemInformationBlockType1Ext = &contained_sourcesysteminformationblocktype1ext
 			}
@@ -6205,9 +6903,11 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				return runtime.WrapDecodePath(err, "SourceOtherConfigR9")
 			}
 			v.SourceOtherConfigR9 = &dec_sourceotherconfigr9
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		if int64(1) <= extCount && extPresent[1] {
 			extData, err := per.DecodeOpenType(bb)
@@ -6223,6 +6923,10 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_sourcescellconfiglistr10 {
 				tmp_sourcescellconfiglistr10 := make(SCellToAddModListR10, 0)
 				_, errCollection_sourcescellconfiglistr10 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_sourcescellconfiglistr10, fragmentLength_sourcescellconfiglistr10 int64) error {
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+					if fragmentOffset_sourcescellconfiglistr10 < 0 || fragmentLength_sourcescellconfiglistr10 < 0 || fragmentLength_sourcescellconfiglistr10 > int64(^uint(0)>>1) || fragmentOffset_sourcescellconfiglistr10 > int64(^uint(0)>>1)-fragmentLength_sourcescellconfiglistr10 {
+						return fmt.Errorf("collection fragment count out of range")
+					}
 					for i := int64(0); i < fragmentLength_sourcescellconfiglistr10; i++ {
 						var elem SCellToAddModR10
 						if err := elem.UnmarshalUPERFrom(extBB); err != nil {
@@ -6237,9 +6941,11 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.SourceSCellConfigListR10 = tmp_sourcescellconfiglistr10
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
+			v.PERExtPadding_[1] = padding
 		}
 		if int64(2) <= extCount && extPresent[2] {
 			extData, err := per.DecodeOpenType(bb)
@@ -6259,9 +6965,11 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.SourceConfigSCGR12 = &dec_sourceconfigscgr12
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[2]")
 			}
+			v.PERExtPadding_[2] = padding
 		}
 		if int64(3) <= extCount && extPresent[3] {
 			extData, err := per.DecodeOpenType(bb)
@@ -6281,9 +6989,11 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.AsConfigNRR15 = &dec_asconfignrr15
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[3]")
 			}
+			v.PERExtPadding_[3] = padding
 		}
 		if int64(4) <= extCount && extPresent[4] {
 			extData, err := per.DecodeOpenType(bb)
@@ -6303,9 +7013,11 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.AsConfigV1550 = &dec_asconfigv1550
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[4]")
 			}
+			v.PERExtPadding_[4] = padding
 		}
 		if int64(5) <= extCount && extPresent[5] {
 			extData, err := per.DecodeOpenType(bb)
@@ -6325,9 +7037,11 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.AsConfigNRV1570 = &dec_asconfignrv1570
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[5]")
 			}
+			v.PERExtPadding_[5] = padding
 		}
 		if int64(6) <= extCount && extPresent[6] {
 			extData, err := per.DecodeOpenType(bb)
@@ -6347,9 +7061,15 @@ func (v *ASConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.AsConfigNRV1620 = &dec_asconfignrv1620
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[6]")
 			}
+			v.PERExtPadding_[6] = padding
+		}
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(7); i <= extCount; i++ {
 			if extPresent[i] {
@@ -6370,7 +7090,7 @@ func (v *ASConfigV9e0) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV9e0) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6386,9 +7106,11 @@ func (v *ASConfigV9e0) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV9e0")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV9e0")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6408,7 +7130,7 @@ func (v *ASConfigV10j0) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV10j0) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6430,9 +7152,11 @@ func (v *ASConfigV10j0) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV10j0")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV10j0")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6459,7 +7183,7 @@ func (v *ASConfigV1250) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV1250) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6497,9 +7221,11 @@ func (v *ASConfigV1250) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1250")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1250")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6548,7 +7274,7 @@ func (v *ASConfigV1320) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV1320) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6561,6 +7287,10 @@ func (v *ASConfigV1320) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SourceSCellConfigListR13 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SourceSCellConfigListR13)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_sourcescellconfiglistr13, fragmentLength_sourcescellconfiglistr13 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_sourcescellconfiglistr13 < 0 || fragmentOffset_sourcescellconfiglistr13 > int64(len(v.SourceSCellConfigListR13)) || fragmentLength_sourcescellconfiglistr13 < 0 || fragmentLength_sourcescellconfiglistr13 > int64(len(v.SourceSCellConfigListR13[fragmentOffset_sourcescellconfiglistr13:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SourceSCellConfigListR13[fragmentOffset_sourcescellconfiglistr13 : fragmentOffset_sourcescellconfiglistr13+fragmentLength_sourcescellconfiglistr13] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sourceSCellConfigList-r13 element: %w", err)
@@ -6585,9 +7315,11 @@ func (v *ASConfigV1320) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1320")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1320")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6605,6 +7337,10 @@ func (v *ASConfigV1320) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_sourcescellconfiglistr13 {
 		tmp_sourcescellconfiglistr13 := make(SCellToAddModListExtR13, 0)
 		_, errCollection_sourcescellconfiglistr13 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_sourcescellconfiglistr13, fragmentLength_sourcescellconfiglistr13 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_sourcescellconfiglistr13 < 0 || fragmentLength_sourcescellconfiglistr13 < 0 || fragmentLength_sourcescellconfiglistr13 > int64(^uint(0)>>1) || fragmentOffset_sourcescellconfiglistr13 > int64(^uint(0)>>1)-fragmentLength_sourcescellconfiglistr13 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_sourcescellconfiglistr13; i++ {
 				var elem SCellToAddModExtR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6635,7 +7371,7 @@ func (v *ASConfigV13c0) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV13c0) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6664,6 +7400,10 @@ func (v *ASConfigV13c0) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToAddModListV13c0 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToAddModListV13c0)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistv13c0, fragmentLength_scelltoaddmodlistv13c0 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoaddmodlistv13c0 < 0 || fragmentOffset_scelltoaddmodlistv13c0 > int64(len(v.SCellToAddModListV13c0)) || fragmentLength_scelltoaddmodlistv13c0 < 0 || fragmentLength_scelltoaddmodlistv13c0 > int64(len(v.SCellToAddModListV13c0[fragmentOffset_scelltoaddmodlistv13c0:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToAddModListV13c0[fragmentOffset_scelltoaddmodlistv13c0 : fragmentOffset_scelltoaddmodlistv13c0+fragmentLength_scelltoaddmodlistv13c0] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sCellToAddModList-v13c0 element: %w", err)
@@ -6676,6 +7416,10 @@ func (v *ASConfigV13c0) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SCellToAddModListExtV13c0 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SCellToAddModListExtV13c0)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistextv13c0, fragmentLength_scelltoaddmodlistextv13c0 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_scelltoaddmodlistextv13c0 < 0 || fragmentOffset_scelltoaddmodlistextv13c0 > int64(len(v.SCellToAddModListExtV13c0)) || fragmentLength_scelltoaddmodlistextv13c0 < 0 || fragmentLength_scelltoaddmodlistextv13c0 > int64(len(v.SCellToAddModListExtV13c0[fragmentOffset_scelltoaddmodlistextv13c0:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SCellToAddModListExtV13c0[fragmentOffset_scelltoaddmodlistextv13c0 : fragmentOffset_scelltoaddmodlistextv13c0+fragmentLength_scelltoaddmodlistextv13c0] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sCellToAddModListExt-v13c0 element: %w", err)
@@ -6695,9 +7439,11 @@ func (v *ASConfigV13c0) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV13c0")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV13c0")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6737,6 +7483,10 @@ func (v *ASConfigV13c0) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoaddmodlistv13c0 {
 		tmp_scelltoaddmodlistv13c0 := make(SCellToAddModListV13c0, 0)
 		_, errCollection_scelltoaddmodlistv13c0 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistv13c0, fragmentLength_scelltoaddmodlistv13c0 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_scelltoaddmodlistv13c0 < 0 || fragmentLength_scelltoaddmodlistv13c0 < 0 || fragmentLength_scelltoaddmodlistv13c0 > int64(^uint(0)>>1) || fragmentOffset_scelltoaddmodlistv13c0 > int64(^uint(0)>>1)-fragmentLength_scelltoaddmodlistv13c0 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoaddmodlistv13c0; i++ {
 				var elem SCellToAddModV13c0
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6754,6 +7504,10 @@ func (v *ASConfigV13c0) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_scelltoaddmodlistextv13c0 {
 		tmp_scelltoaddmodlistextv13c0 := make(SCellToAddModListExtV13c0, 0)
 		_, errCollection_scelltoaddmodlistextv13c0 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 31, HasUpper: true}, false, func(fragmentOffset_scelltoaddmodlistextv13c0, fragmentLength_scelltoaddmodlistextv13c0 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_scelltoaddmodlistextv13c0 < 0 || fragmentLength_scelltoaddmodlistextv13c0 < 0 || fragmentLength_scelltoaddmodlistextv13c0 > int64(^uint(0)>>1) || fragmentOffset_scelltoaddmodlistextv13c0 > int64(^uint(0)>>1)-fragmentLength_scelltoaddmodlistextv13c0 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_scelltoaddmodlistextv13c0; i++ {
 				var elem SCellToAddModV13c0
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6777,7 +7531,7 @@ func (v *ASConfigV1430) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV1430) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6803,6 +7557,10 @@ func (v *ASConfigV1430) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SourceWLANMeasResultR14 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SourceWLANMeasResultR14)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_sourcewlanmeasresultr14, fragmentLength_sourcewlanmeasresultr14 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_sourcewlanmeasresultr14 < 0 || fragmentOffset_sourcewlanmeasresultr14 > int64(len(v.SourceWLANMeasResultR14)) || fragmentLength_sourcewlanmeasresultr14 < 0 || fragmentLength_sourcewlanmeasresultr14 > int64(len(v.SourceWLANMeasResultR14[fragmentOffset_sourcewlanmeasresultr14:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SourceWLANMeasResultR14[fragmentOffset_sourcewlanmeasresultr14 : fragmentOffset_sourcewlanmeasresultr14+fragmentLength_sourcewlanmeasresultr14] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sourceWLAN-MeasResult-r14 element: %w", err)
@@ -6822,9 +7580,11 @@ func (v *ASConfigV1430) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1430")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1430")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6860,6 +7620,10 @@ func (v *ASConfigV1430) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_sourcewlanmeasresultr14 {
 		tmp_sourcewlanmeasresultr14 := make(MeasResultListWLANR13, 0)
 		_, errCollection_sourcewlanmeasresultr14 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_sourcewlanmeasresultr14, fragmentLength_sourcewlanmeasresultr14 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_sourcewlanmeasresultr14 < 0 || fragmentLength_sourcewlanmeasresultr14 < 0 || fragmentLength_sourcewlanmeasresultr14 > int64(^uint(0)>>1) || fragmentOffset_sourcewlanmeasresultr14 > int64(^uint(0)>>1)-fragmentLength_sourcewlanmeasresultr14 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_sourcewlanmeasresultr14; i++ {
 				var elem MeasResultWLANR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6883,7 +7647,7 @@ func (v *ASConfigNRR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigNRR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6921,9 +7685,11 @@ func (v *ASConfigNRR15) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigNRR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigNRR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6975,7 +7741,7 @@ func (v *ASConfigNRV1570) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigNRV1570) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -6991,9 +7757,11 @@ func (v *ASConfigNRV1570) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigNRV1570")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigNRV1570")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7013,7 +7781,7 @@ func (v *ASConfigV1550) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV1550) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7043,9 +7811,11 @@ func (v *ASConfigV1550) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1550")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1550")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7084,7 +7854,7 @@ func (v *ASConfigNRV1620) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigNRV1620) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7100,9 +7870,11 @@ func (v *ASConfigNRV1620) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigNRV1620")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigNRV1620")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7120,7 +7892,7 @@ func (v *ASConfigV1700) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV1700) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7142,9 +7914,11 @@ func (v *ASConfigV1700) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1700")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1700")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7171,7 +7945,7 @@ func (v *ASContext) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASContext) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7193,9 +7967,11 @@ func (v *ASContext) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASContext")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASContext")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7222,7 +7998,7 @@ func (v *ASContextV1130) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASContextV1130) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7241,29 +8017,29 @@ func (v *ASContextV1130) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.IdcIndicationR11 != nil {
-		containedBB_idcindicationr11 := per.NewBitBuffer()
-		if err := (*v.IdcIndicationR11).MarshalUPERTo(containedBB_idcindicationr11); err != nil {
+		containedBytes_idcindicationr11, err := (*v.IdcIndicationR11).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained idc-Indication-r11: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_idcindicationr11.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_idcindicationr11, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding idc-Indication-r11: %w", err)
 		}
 	}
 	if v.MbmsInterestIndicationR11 != nil {
-		containedBB_mbmsinterestindicationr11 := per.NewBitBuffer()
-		if err := (*v.MbmsInterestIndicationR11).MarshalUPERTo(containedBB_mbmsinterestindicationr11); err != nil {
+		containedBytes_mbmsinterestindicationr11, err := (*v.MbmsInterestIndicationR11).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained mbmsInterestIndication-r11: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_mbmsinterestindicationr11.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_mbmsinterestindicationr11, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding mbmsInterestIndication-r11: %w", err)
 		}
 	}
 	if v.UeAssistanceInformationR11 != nil {
-		containedBB_ueassistanceinformationr11 := per.NewBitBuffer()
-		if err := (*v.UeAssistanceInformationR11).MarshalUPERTo(containedBB_ueassistanceinformationr11); err != nil {
+		containedBytes_ueassistanceinformationr11, err := (*v.UeAssistanceInformationR11).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained ueAssistanceInformation-r11: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_ueassistanceinformationr11.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_ueassistanceinformationr11, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding ueAssistanceInformation-r11: %w", err)
 		}
 	}
@@ -7313,6 +8089,10 @@ func (v *ASContextV1130) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(3); i <= extHighest; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
@@ -7325,15 +8105,23 @@ func (v *ASContextV1130) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 			if v.SidelinkUEInformationR12 != nil {
-				containedBB_sidelinkueinformationr12 := per.NewBitBuffer()
-				if err := (*v.SidelinkUEInformationR12).MarshalUPERTo(containedBB_sidelinkueinformationr12); err != nil {
+				containedBytes_sidelinkueinformationr12, err := (*v.SidelinkUEInformationR12).MarshalUPER()
+				if err != nil {
 					return fmt.Errorf("encoding contained sidelinkUEInformation-r12: %w", err)
 				}
-				if err := per.EncodeOctetStringExt(extBuf, containedBB_sidelinkueinformationr12.Bytes(), 0, 0, false, false); err != nil {
+				if err := per.EncodeOctetStringExt(extBuf, containedBytes_sidelinkueinformationr12, 0, 0, false, false); err != nil {
 					return fmt.Errorf("encoding sidelinkUEInformation-r12: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -7347,7 +8135,15 @@ func (v *ASContextV1130) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding sourceContextEN-DC-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 1 {
+				extPadding = v.PERExtPadding_[1]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -7361,9 +8157,21 @@ func (v *ASContextV1130) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding selectedbandCombinationInfoEN-DC-v1540: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 2 {
+				extPadding = v.PERExtPadding_[2]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
 				return err
 			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(3); i <= extHighest; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -7386,9 +8194,11 @@ func (v *ASContextV1130) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1130")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1130")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7418,7 +8228,7 @@ func (v *ASContextV1130) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_idcindicationr11 InDeviceCoexIndicationR11
 		if err := contained_idcindicationr11.UnmarshalUPER(containedBytes_idcindicationr11); err != nil {
-			return fmt.Errorf("decoding contained idc-Indication-r11: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained idc-Indication-r11: %w", err), "IdcIndicationR11")
 		}
 		v.IdcIndicationR11 = &contained_idcindicationr11
 	}
@@ -7429,7 +8239,7 @@ func (v *ASContextV1130) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_mbmsinterestindicationr11 MBMSInterestIndicationR11
 		if err := contained_mbmsinterestindicationr11.UnmarshalUPER(containedBytes_mbmsinterestindicationr11); err != nil {
-			return fmt.Errorf("decoding contained mbmsInterestIndication-r11: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained mbmsInterestIndication-r11: %w", err), "MbmsInterestIndicationR11")
 		}
 		v.MbmsInterestIndicationR11 = &contained_mbmsinterestindicationr11
 	}
@@ -7440,7 +8250,7 @@ func (v *ASContextV1130) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_ueassistanceinformationr11 UEAssistanceInformationR11
 		if err := contained_ueassistanceinformationr11.UnmarshalUPER(containedBytes_ueassistanceinformationr11); err != nil {
-			return fmt.Errorf("decoding contained ueAssistanceInformation-r11: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained ueAssistanceInformation-r11: %w", err), "UeAssistanceInformationR11")
 		}
 		v.UeAssistanceInformationR11 = &contained_ueassistanceinformationr11
 	}
@@ -7451,7 +8261,16 @@ func (v *ASContextV1130) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -7470,13 +8289,15 @@ func (v *ASContextV1130) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				var contained_sidelinkueinformationr12 SidelinkUEInformationR12
 				if err := contained_sidelinkueinformationr12.UnmarshalUPER(containedBytes_sidelinkueinformationr12); err != nil {
-					return fmt.Errorf("decoding contained sidelinkUEInformation-r12: %w", err)
+					return runtime.WrapDecodePath(fmt.Errorf("decoding contained sidelinkUEInformation-r12: %w", err), "SidelinkUEInformationR12")
 				}
 				v.SidelinkUEInformationR12 = &contained_sidelinkueinformationr12
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		if int64(1) <= extCount && extPresent[1] {
 			extData, err := per.DecodeOpenType(bb)
@@ -7497,9 +8318,11 @@ func (v *ASContextV1130) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				tmp_sourcecontextendcr15 := val_sourcecontextendcr15
 				v.SourceContextENDCR15 = tmp_sourcecontextendcr15
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
+			v.PERExtPadding_[1] = padding
 		}
 		if int64(2) <= extCount && extPresent[2] {
 			extData, err := per.DecodeOpenType(bb)
@@ -7520,9 +8343,15 @@ func (v *ASContextV1130) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				tmp_selectedbandcombinationinfoendcv1540 := val_selectedbandcombinationinfoendcv1540
 				v.SelectedbandCombinationInfoENDCV1540 = tmp_selectedbandcombinationinfoendcv1540
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[2]")
 			}
+			v.PERExtPadding_[2] = padding
+		}
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(3); i <= extCount; i++ {
 			if extPresent[i] {
@@ -7543,7 +8372,7 @@ func (v *ASContextV1320) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASContextV1320) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7552,11 +8381,11 @@ func (v *ASContextV1320) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if v.WlanConnectionStatusReportR13 != nil {
-		containedBB_wlanconnectionstatusreportr13 := per.NewBitBuffer()
-		if err := (*v.WlanConnectionStatusReportR13).MarshalUPERTo(containedBB_wlanconnectionstatusreportr13); err != nil {
+		containedBytes_wlanconnectionstatusreportr13, err := (*v.WlanConnectionStatusReportR13).MarshalUPER()
+		if err != nil {
 			return fmt.Errorf("encoding contained wlanConnectionStatusReport-r13: %w", err)
 		}
-		if err := per.EncodeOctetStringExt(bb, containedBB_wlanconnectionstatusreportr13.Bytes(), 0, 0, false, false); err != nil {
+		if err := per.EncodeOctetStringExt(bb, containedBytes_wlanconnectionstatusreportr13, 0, 0, false, false); err != nil {
 			return fmt.Errorf("encoding wlanConnectionStatusReport-r13: %w", err)
 		}
 	}
@@ -7569,9 +8398,11 @@ func (v *ASContextV1320) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1320")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1320")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7589,7 +8420,7 @@ func (v *ASContextV1320) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		var contained_wlanconnectionstatusreportr13 WLANConnectionStatusReportR13
 		if err := contained_wlanconnectionstatusreportr13.UnmarshalUPER(containedBytes_wlanconnectionstatusreportr13); err != nil {
-			return fmt.Errorf("decoding contained wlanConnectionStatusReport-r13: %w", err)
+			return runtime.WrapDecodePath(fmt.Errorf("decoding contained wlanConnectionStatusReport-r13: %w", err), "WlanConnectionStatusReportR13")
 		}
 		v.WlanConnectionStatusReportR13 = &contained_wlanconnectionstatusreportr13
 	}
@@ -7602,7 +8433,7 @@ func (v *ASContextV1610) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASContextV1610) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7640,9 +8471,11 @@ func (v *ASContextV1610) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1610")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1610")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7693,7 +8526,7 @@ func (v *ASContextV1620) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASContextV1620) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7715,9 +8548,11 @@ func (v *ASContextV1620) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1620")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1620")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7745,7 +8580,7 @@ func (v *ASContextV1630) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASContextV1630) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7767,9 +8602,11 @@ func (v *ASContextV1630) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1630")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASContextV1630")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7796,7 +8633,7 @@ func (v *ConfigRestrictInfoDAPSR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ConfigRestrictInfoDAPSR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7826,9 +8663,11 @@ func (v *ConfigRestrictInfoDAPSR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ConfigRestrictInfoDAPSR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ConfigRestrictInfoDAPSR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7866,7 +8705,7 @@ func (v *ConfigRestrictInfoDAPSV1630) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ConfigRestrictInfoDAPSV1630) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7888,9 +8727,11 @@ func (v *ConfigRestrictInfoDAPSV1630) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ConfigRestrictInfoDAPSV1630")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ConfigRestrictInfoDAPSV1630")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7917,7 +8758,7 @@ func (v *ReestablishmentInfo) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ReestablishmentInfo) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -7937,6 +8778,10 @@ func (v *ReestablishmentInfo) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalReestabInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalReestabInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolist, fragmentLength_additionalreestabinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalreestabinfolist < 0 || fragmentOffset_additionalreestabinfolist > int64(len(v.AdditionalReestabInfoList)) || fragmentLength_additionalreestabinfolist < 0 || fragmentLength_additionalreestabinfolist > int64(len(v.AdditionalReestabInfoList[fragmentOffset_additionalreestabinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalReestabInfoList[fragmentOffset_additionalreestabinfolist : fragmentOffset_additionalreestabinfolist+fragmentLength_additionalreestabinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding additionalReestabInfoList element: %w", err)
@@ -7948,16 +8793,25 @@ func (v *ReestablishmentInfo) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegative(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegative(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern UPER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_uper.go:442
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern UPER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_uper.go:449
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7978,9 +8832,11 @@ func (v *ReestablishmentInfo) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ReestablishmentInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ReestablishmentInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8008,6 +8864,10 @@ func (v *ReestablishmentInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalreestabinfolist {
 		tmp_additionalreestabinfolist := make(AdditionalReestabInfoList, 0)
 		_, errCollection_additionalreestabinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_additionalreestabinfolist, fragmentLength_additionalreestabinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+			if fragmentOffset_additionalreestabinfolist < 0 || fragmentLength_additionalreestabinfolist < 0 || fragmentLength_additionalreestabinfolist > int64(^uint(0)>>1) || fragmentOffset_additionalreestabinfolist > int64(^uint(0)>>1)-fragmentLength_additionalreestabinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalreestabinfolist; i++ {
 				var elem AdditionalReestabInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8028,8 +8888,16 @@ func (v *ReestablishmentInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_uper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_uper.go:623
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenType(bb)
@@ -8045,19 +8913,48 @@ func (v *ReestablishmentInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERAdditionalReestabInfoListListValue struct{ Value AdditionalReestabInfoList }
 
-// MarshalUPERAdditionalReestabInfoList encodes a AdditionalReestabInfoList list to UPER.
-func MarshalUPERAdditionalReestabInfoList(list AdditionalReestabInfoList) ([]byte, error) {
+// AdditionalReestabInfoListComplete carries a complete AdditionalReestabInfoList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type AdditionalReestabInfoListComplete struct {
+	Value       AdditionalReestabInfoList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *AdditionalReestabInfoListComplete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERAdditionalReestabInfoListTo(list, bb); err != nil {
+	if err := MarshalUPERAdditionalReestabInfoListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *AdditionalReestabInfoListComplete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERAdditionalReestabInfoListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "AdditionalReestabInfoList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "AdditionalReestabInfoList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERAdditionalReestabInfoList encodes a AdditionalReestabInfoList list to UPER.
+func MarshalUPERAdditionalReestabInfoList(list AdditionalReestabInfoListComplete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERAdditionalReestabInfoListTo appends a AdditionalReestabInfoList list to bb.
 func MarshalUPERAdditionalReestabInfoListTo(list AdditionalReestabInfoList, bb *per.BitBuffer) error {
 	v := asn1cUPERAdditionalReestabInfoListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -8071,14 +8968,10 @@ func MarshalUPERAdditionalReestabInfoListTo(list AdditionalReestabInfoList, bb *
 }
 
 // UnmarshalUPERAdditionalReestabInfoList decodes a AdditionalReestabInfoList list from UPER.
-func UnmarshalUPERAdditionalReestabInfoList(data []byte) (AdditionalReestabInfoList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERAdditionalReestabInfoListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "AdditionalReestabInfoList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "AdditionalReestabInfoList")
+func UnmarshalUPERAdditionalReestabInfoList(data []byte) (AdditionalReestabInfoListComplete, error) {
+	var value AdditionalReestabInfoListComplete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -8095,6 +8988,10 @@ func UnmarshalUPERAdditionalReestabInfoListFrom(bb *per.BitBuffer) (AdditionalRe
 func unmarshalUPERAdditionalReestabInfoListInto(v *asn1cUPERAdditionalReestabInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(AdditionalReestabInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem AdditionalReestabInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8116,7 +9013,7 @@ func (v *AdditionalReestabInfo) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *AdditionalReestabInfo) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -8138,9 +9035,11 @@ func (v *AdditionalReestabInfo) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalReestabInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "AdditionalReestabInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8170,7 +9069,7 @@ func (v *RRMConfig) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RRMConfig) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -8224,6 +9123,10 @@ func (v *RRMConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(2); i <= extHighest; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
@@ -8237,6 +9140,10 @@ func (v *RRMConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 			if v.CandidateCellInfoListR10 != nil {
 				if err := per.EncodeCollection(extBuf, int64(len(v.CandidateCellInfoListR10)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_candidatecellinfolistr10, fragmentLength_candidatecellinfolistr10 int64) error {
+					// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+					if fragmentOffset_candidatecellinfolistr10 < 0 || fragmentOffset_candidatecellinfolistr10 > int64(len(v.CandidateCellInfoListR10)) || fragmentLength_candidatecellinfolistr10 < 0 || fragmentLength_candidatecellinfolistr10 > int64(len(v.CandidateCellInfoListR10[fragmentOffset_candidatecellinfolistr10:])) {
+						return fmt.Errorf("collection fragment outside value")
+					}
 					for _, elem := range v.CandidateCellInfoListR10[fragmentOffset_candidatecellinfolistr10 : fragmentOffset_candidatecellinfolistr10+fragmentLength_candidatecellinfolistr10] {
 						if err := elem.MarshalUPERTo(extBuf); err != nil {
 							return fmt.Errorf("encoding candidateCellInfoList-r10 element: %w", err)
@@ -8247,7 +9154,15 @@ func (v *RRMConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding candidateCellInfoList-r10: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -8258,6 +9173,10 @@ func (v *RRMConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 			}
 			if v.CandidateCellInfoListNRR15 != nil {
 				if err := per.EncodeCollection(extBuf, int64(len(v.CandidateCellInfoListNRR15)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_candidatecellinfolistnrr15, fragmentLength_candidatecellinfolistnrr15 int64) error {
+					// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+					if fragmentOffset_candidatecellinfolistnrr15 < 0 || fragmentOffset_candidatecellinfolistnrr15 > int64(len(v.CandidateCellInfoListNRR15)) || fragmentLength_candidatecellinfolistnrr15 < 0 || fragmentLength_candidatecellinfolistnrr15 > int64(len(v.CandidateCellInfoListNRR15[fragmentOffset_candidatecellinfolistnrr15:])) {
+						return fmt.Errorf("collection fragment outside value")
+					}
 					for _, elem := range v.CandidateCellInfoListNRR15[fragmentOffset_candidatecellinfolistnrr15 : fragmentOffset_candidatecellinfolistnrr15+fragmentLength_candidatecellinfolistnrr15] {
 						if err := elem.MarshalUPERTo(extBuf); err != nil {
 							return fmt.Errorf("encoding candidateCellInfoListNR-r15 element: %w", err)
@@ -8268,9 +9187,21 @@ func (v *RRMConfig) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding candidateCellInfoListNR-r15: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 1 {
+				extPadding = v.PERExtPadding_[1]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
 				return err
 			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(2); i <= extHighest; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -8293,9 +9224,11 @@ func (v *RRMConfig) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RRMConfig")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RRMConfig")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8324,7 +9257,16 @@ func (v *RRMConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -8339,6 +9281,10 @@ func (v *RRMConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_candidatecellinfolistr10 {
 				tmp_candidatecellinfolistr10 := make(CandidateCellInfoListR10, 0)
 				_, errCollection_candidatecellinfolistr10 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_candidatecellinfolistr10, fragmentLength_candidatecellinfolistr10 int64) error {
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+					if fragmentOffset_candidatecellinfolistr10 < 0 || fragmentLength_candidatecellinfolistr10 < 0 || fragmentLength_candidatecellinfolistr10 > int64(^uint(0)>>1) || fragmentOffset_candidatecellinfolistr10 > int64(^uint(0)>>1)-fragmentLength_candidatecellinfolistr10 {
+						return fmt.Errorf("collection fragment count out of range")
+					}
 					for i := int64(0); i < fragmentLength_candidatecellinfolistr10; i++ {
 						var elem CandidateCellInfoR10
 						if err := elem.UnmarshalUPERFrom(extBB); err != nil {
@@ -8353,9 +9299,11 @@ func (v *RRMConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.CandidateCellInfoListR10 = tmp_candidatecellinfolistr10
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		if int64(1) <= extCount && extPresent[1] {
 			extData, err := per.DecodeOpenType(bb)
@@ -8371,6 +9319,10 @@ func (v *RRMConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 			if ext_opt_candidatecellinfolistnrr15 {
 				tmp_candidatecellinfolistnrr15 := make(MeasResultServFreqListNRR15, 0)
 				_, errCollection_candidatecellinfolistnrr15 := per.DecodeCollection(extBB, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_candidatecellinfolistnrr15, fragmentLength_candidatecellinfolistnrr15 int64) error {
+					// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+					if fragmentOffset_candidatecellinfolistnrr15 < 0 || fragmentLength_candidatecellinfolistnrr15 < 0 || fragmentLength_candidatecellinfolistnrr15 > int64(^uint(0)>>1) || fragmentOffset_candidatecellinfolistnrr15 > int64(^uint(0)>>1)-fragmentLength_candidatecellinfolistnrr15 {
+						return fmt.Errorf("collection fragment count out of range")
+					}
 					for i := int64(0); i < fragmentLength_candidatecellinfolistnrr15; i++ {
 						var elem MeasResultServFreqNRR15
 						if err := elem.UnmarshalUPERFrom(extBB); err != nil {
@@ -8385,9 +9337,15 @@ func (v *RRMConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				}
 				v.CandidateCellInfoListNRR15 = tmp_candidatecellinfolistnrr15
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
+			v.PERExtPadding_[1] = padding
+		}
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(2); i <= extCount; i++ {
 			if extPresent[i] {
@@ -8404,19 +9362,48 @@ func (v *RRMConfig) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 type asn1cUPERCandidateCellInfoListR10ListValue struct{ Value CandidateCellInfoListR10 }
 
-// MarshalUPERCandidateCellInfoListR10 encodes a CandidateCellInfoListR10 list to UPER.
-func MarshalUPERCandidateCellInfoListR10(list CandidateCellInfoListR10) ([]byte, error) {
+// CandidateCellInfoListR10Complete carries a complete CandidateCellInfoListR10 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type CandidateCellInfoListR10Complete struct {
+	Value       CandidateCellInfoListR10
+	PERPadding_ per.CompletePadding
+}
+
+func (v *CandidateCellInfoListR10Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERCandidateCellInfoListR10To(list, bb); err != nil {
+	if err := MarshalUPERCandidateCellInfoListR10To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *CandidateCellInfoListR10Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERCandidateCellInfoListR10From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CandidateCellInfoListR10")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "CandidateCellInfoListR10")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERCandidateCellInfoListR10 encodes a CandidateCellInfoListR10 list to UPER.
+func MarshalUPERCandidateCellInfoListR10(list CandidateCellInfoListR10Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERCandidateCellInfoListR10To appends a CandidateCellInfoListR10 list to bb.
 func MarshalUPERCandidateCellInfoListR10To(list CandidateCellInfoListR10, bb *per.BitBuffer) error {
 	v := asn1cUPERCandidateCellInfoListR10ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -8430,14 +9417,10 @@ func MarshalUPERCandidateCellInfoListR10To(list CandidateCellInfoListR10, bb *pe
 }
 
 // UnmarshalUPERCandidateCellInfoListR10 decodes a CandidateCellInfoListR10 list from UPER.
-func UnmarshalUPERCandidateCellInfoListR10(data []byte) (CandidateCellInfoListR10, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERCandidateCellInfoListR10From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "CandidateCellInfoListR10")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "CandidateCellInfoListR10")
+func UnmarshalUPERCandidateCellInfoListR10(data []byte) (CandidateCellInfoListR10Complete, error) {
+	var value CandidateCellInfoListR10Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -8454,6 +9437,10 @@ func UnmarshalUPERCandidateCellInfoListR10From(bb *per.BitBuffer) (CandidateCell
 func unmarshalUPERCandidateCellInfoListR10Into(v *asn1cUPERCandidateCellInfoListR10ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CandidateCellInfoListR10, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CandidateCellInfoR10
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8475,7 +9462,7 @@ func (v *CandidateCellInfoR10) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -8552,6 +9539,10 @@ func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
 				return err
 			}
 		}
+		// arithmetic pattern UPER_EXT_HIGHEST_1: 0 <= extHighest < max int; gen/codegen_uper.go:368
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(3); i <= extHighest; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
@@ -8568,7 +9559,15 @@ func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding dl-CarrierFreq-v1090: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 0 {
+				extPadding = v.PERExtPadding_[0]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -8582,7 +9581,15 @@ func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding rsrqResult-v1250: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 1 {
+				extPadding = v.PERExtPadding_[1]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
+				return err
+			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
 				return err
 			}
 		}
@@ -8596,9 +9603,21 @@ func (v *CandidateCellInfoR10) MarshalUPERTo(bb *per.BitBuffer) error {
 					return fmt.Errorf("encoding rs-sinr-Result-r13: %w", err)
 				}
 			}
-			if err := per.EncodeOpenType(bb, extBuf.CompleteBytes()); err != nil {
+			var extPadding per.CompletePadding
+			if len(v.PERExtPadding_) > 2 {
+				extPadding = v.PERExtPadding_[2]
+			}
+			extBytes, err := extBuf.CompleteBytesWithPadding(extPadding)
+			if err != nil {
 				return err
 			}
+			if err := per.EncodeOpenType(bb, extBytes); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern UPER_EXT_HIGHEST_2: 0 <= extHighest < max int; gen/codegen_uper.go:424
+		if extHighest < 0 || extHighest >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(3); i <= extHighest; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -8621,9 +9640,11 @@ func (v *CandidateCellInfoR10) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CandidateCellInfoR10")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CandidateCellInfoR10")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8675,7 +9696,16 @@ func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 		}
 		v.ExtCount_ = extCount
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_1: 0 <= extCount < max int; gen/codegen_uper.go:548
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
+		// arithmetic pattern UPER_EXT_COUNT_ALLOC_2: 0 <= extCount < max int; gen/codegen_uper.go:550
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		v.PERExtPadding_ = make([]per.CompletePadding, extCount+1)
 		if int64(0) <= extCount && extPresent[0] {
 			extData, err := per.DecodeOpenType(bb)
 			if err != nil {
@@ -8695,9 +9725,11 @@ func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				tmp_dlcarrierfreqv1090 := ARFCNValueEUTRAV9e0(val_dlcarrierfreqv1090)
 				v.DlCarrierFreqV1090 = &tmp_dlcarrierfreqv1090
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[0]")
 			}
+			v.PERExtPadding_[0] = padding
 		}
 		if int64(1) <= extCount && extPresent[1] {
 			extData, err := per.DecodeOpenType(bb)
@@ -8718,9 +9750,11 @@ func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				tmp_rsrqresultv1250 := RSRQRangeV1250(val_rsrqresultv1250)
 				v.RsrqResultV1250 = &tmp_rsrqresultv1250
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[1]")
 			}
+			v.PERExtPadding_[1] = padding
 		}
 		if int64(2) <= extCount && extPresent[2] {
 			extData, err := per.DecodeOpenType(bb)
@@ -8741,9 +9775,15 @@ func (v *CandidateCellInfoR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 				tmp_rssinrresultr13 := RSSINRRangeR13(val_rssinrresultr13)
 				v.RsSinrResultR13 = &tmp_rssinrresultr13
 			}
-			if err := per.ValidateOpenTypePadding(extBB); err != nil {
+			padding, err := per.CaptureOpenTypePadding(extBB)
+			if err != nil {
 				return runtime.WrapDecodePath(err, "ExtData_[2]")
 			}
+			v.PERExtPadding_[2] = padding
+		}
+		// arithmetic pattern UPER_EXT_COUNT_LOOP_1: 0 <= extCount < max int; gen/codegen_uper.go:601
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(3); i <= extCount; i++ {
 			if extPresent[i] {
@@ -8764,10 +9804,17 @@ func (v *HandoverCommandCriticalExtensions) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCommandCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverCommandCriticalExtensions: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -8798,9 +9845,11 @@ func (v *HandoverCommandCriticalExtensions) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandCriticalExtensions")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandCriticalExtensions")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8809,6 +9858,10 @@ func (v *HandoverCommandCriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer)
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -8834,10 +9887,17 @@ func (v *HandoverCommandCriticalExtensionsC1) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCommandCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverCommandCriticalExtensionsC1: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -8868,9 +9928,11 @@ func (v *HandoverCommandCriticalExtensionsC1) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandCriticalExtensionsC1")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandCriticalExtensionsC1")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8879,6 +9941,10 @@ func (v *HandoverCommandCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffe
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -8889,12 +9955,19 @@ func (v *HandoverCommandCriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffe
 		}
 		v.HandoverCommandR8 = &dec_handovercommandr8
 	case HandoverCommandCriticalExtensionsC1ChoiceSpare7:
+		v.Spare7 = new(struct{})
 	case HandoverCommandCriticalExtensionsC1ChoiceSpare6:
+		v.Spare6 = new(struct{})
 	case HandoverCommandCriticalExtensionsC1ChoiceSpare5:
+		v.Spare5 = new(struct{})
 	case HandoverCommandCriticalExtensionsC1ChoiceSpare4:
+		v.Spare4 = new(struct{})
 	case HandoverCommandCriticalExtensionsC1ChoiceSpare3:
+		v.Spare3 = new(struct{})
 	case HandoverCommandCriticalExtensionsC1ChoiceSpare2:
+		v.Spare2 = new(struct{})
 	case HandoverCommandCriticalExtensionsC1ChoiceSpare1:
+		v.Spare1 = new(struct{})
 	}
 	return nil
 }
@@ -8905,7 +9978,7 @@ func (v *HandoverCommandCriticalExtensionsCriticalExtensionsFuture) MarshalUPER(
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCommandCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -8918,9 +9991,11 @@ func (v *HandoverCommandCriticalExtensionsCriticalExtensionsFuture) UnmarshalUPE
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandCriticalExtensionsCriticalExtensionsFuture")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandCriticalExtensionsCriticalExtensionsFuture")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8935,7 +10010,7 @@ func (v *HandoverCommandR8IEsNonCriticalExtension) MarshalUPER() ([]byte, error)
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCommandR8IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -8948,9 +10023,11 @@ func (v *HandoverCommandR8IEsNonCriticalExtension) UnmarshalUPER(data []byte) er
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandR8IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommandR8IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8965,10 +10042,17 @@ func (v *HandoverPreparationInformationCriticalExtensions) MarshalUPER() ([]byte
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverPreparationInformationCriticalExtensions: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -8999,9 +10083,11 @@ func (v *HandoverPreparationInformationCriticalExtensions) UnmarshalUPER(data []
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationCriticalExtensions")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationCriticalExtensions")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9010,6 +10096,10 @@ func (v *HandoverPreparationInformationCriticalExtensions) UnmarshalUPERFrom(bb 
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9035,10 +10125,17 @@ func (v *HandoverPreparationInformationCriticalExtensionsC1) MarshalUPER() ([]by
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("HandoverPreparationInformationCriticalExtensionsC1: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -9069,9 +10166,11 @@ func (v *HandoverPreparationInformationCriticalExtensionsC1) UnmarshalUPER(data 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationCriticalExtensionsC1")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationCriticalExtensionsC1")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9080,6 +10179,10 @@ func (v *HandoverPreparationInformationCriticalExtensionsC1) UnmarshalUPERFrom(b
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9090,12 +10193,19 @@ func (v *HandoverPreparationInformationCriticalExtensionsC1) UnmarshalUPERFrom(b
 		}
 		v.HandoverPreparationInformationR8 = &dec_handoverpreparationinformationr8
 	case HandoverPreparationInformationCriticalExtensionsC1ChoiceSpare7:
+		v.Spare7 = new(struct{})
 	case HandoverPreparationInformationCriticalExtensionsC1ChoiceSpare6:
+		v.Spare6 = new(struct{})
 	case HandoverPreparationInformationCriticalExtensionsC1ChoiceSpare5:
+		v.Spare5 = new(struct{})
 	case HandoverPreparationInformationCriticalExtensionsC1ChoiceSpare4:
+		v.Spare4 = new(struct{})
 	case HandoverPreparationInformationCriticalExtensionsC1ChoiceSpare3:
+		v.Spare3 = new(struct{})
 	case HandoverPreparationInformationCriticalExtensionsC1ChoiceSpare2:
+		v.Spare2 = new(struct{})
 	case HandoverPreparationInformationCriticalExtensionsC1ChoiceSpare1:
+		v.Spare1 = new(struct{})
 	}
 	return nil
 }
@@ -9106,7 +10216,7 @@ func (v *HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFutur
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9119,9 +10229,11 @@ func (v *HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFutur
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9136,7 +10248,7 @@ func (v *HandoverPreparationInformationV13c0IEsNonCriticalExtension) MarshalUPER
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV13c0IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9149,9 +10261,11 @@ func (v *HandoverPreparationInformationV13c0IEsNonCriticalExtension) UnmarshalUP
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV13c0IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV13c0IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9166,7 +10280,7 @@ func (v *HandoverPreparationInformationV1700IEsNonCriticalExtension) MarshalUPER
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationInformationV1700IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9179,9 +10293,11 @@ func (v *HandoverPreparationInformationV1700IEsNonCriticalExtension) UnmarshalUP
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1700IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationInformationV1700IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9196,10 +10312,17 @@ func (v *SCGConfigR12CriticalExtensions) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigR12CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SCGConfigR12CriticalExtensions: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -9230,9 +10353,11 @@ func (v *SCGConfigR12CriticalExtensions) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12CriticalExtensions")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12CriticalExtensions")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9241,6 +10366,10 @@ func (v *SCGConfigR12CriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer) er
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9266,10 +10395,17 @@ func (v *SCGConfigR12CriticalExtensionsC1) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigR12CriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SCGConfigR12CriticalExtensionsC1: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -9300,9 +10436,11 @@ func (v *SCGConfigR12CriticalExtensionsC1) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12CriticalExtensionsC1")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12CriticalExtensionsC1")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9311,6 +10449,10 @@ func (v *SCGConfigR12CriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) 
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9321,12 +10463,19 @@ func (v *SCGConfigR12CriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuffer) 
 		}
 		v.ScgConfigR12 = &dec_scgconfigr12
 	case SCGConfigR12CriticalExtensionsC1ChoiceSpare7:
+		v.Spare7 = new(struct{})
 	case SCGConfigR12CriticalExtensionsC1ChoiceSpare6:
+		v.Spare6 = new(struct{})
 	case SCGConfigR12CriticalExtensionsC1ChoiceSpare5:
+		v.Spare5 = new(struct{})
 	case SCGConfigR12CriticalExtensionsC1ChoiceSpare4:
+		v.Spare4 = new(struct{})
 	case SCGConfigR12CriticalExtensionsC1ChoiceSpare3:
+		v.Spare3 = new(struct{})
 	case SCGConfigR12CriticalExtensionsC1ChoiceSpare2:
+		v.Spare2 = new(struct{})
 	case SCGConfigR12CriticalExtensionsC1ChoiceSpare1:
+		v.Spare1 = new(struct{})
 	}
 	return nil
 }
@@ -9337,7 +10486,7 @@ func (v *SCGConfigR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPER() (
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9350,9 +10499,11 @@ func (v *SCGConfigR12CriticalExtensionsCriticalExtensionsFuture) UnmarshalUPER(d
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12CriticalExtensionsCriticalExtensionsFuture")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigR12CriticalExtensionsCriticalExtensionsFuture")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9367,7 +10518,7 @@ func (v *SCGConfigV12i0bIEsNonCriticalExtension) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigV12i0bIEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9380,9 +10531,11 @@ func (v *SCGConfigV12i0bIEsNonCriticalExtension) UnmarshalUPER(data []byte) erro
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV12i0bIEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV12i0bIEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9397,7 +10550,7 @@ func (v *SCGConfigV13c0IEsNonCriticalExtension) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigV13c0IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9410,9 +10563,11 @@ func (v *SCGConfigV13c0IEsNonCriticalExtension) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV13c0IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigV13c0IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9427,10 +10582,17 @@ func (v *SCGConfigInfoR12CriticalExtensions) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoR12CriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SCGConfigInfoR12CriticalExtensions: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -9461,9 +10623,11 @@ func (v *SCGConfigInfoR12CriticalExtensions) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12CriticalExtensions")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12CriticalExtensions")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9472,6 +10636,10 @@ func (v *SCGConfigInfoR12CriticalExtensions) UnmarshalUPERFrom(bb *per.BitBuffer
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9497,10 +10665,17 @@ func (v *SCGConfigInfoR12CriticalExtensionsC1) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoR12CriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("SCGConfigInfoR12CriticalExtensionsC1: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -9531,9 +10706,11 @@ func (v *SCGConfigInfoR12CriticalExtensionsC1) UnmarshalUPER(data []byte) error 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12CriticalExtensionsC1")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12CriticalExtensionsC1")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9542,6 +10719,10 @@ func (v *SCGConfigInfoR12CriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuff
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9552,12 +10733,19 @@ func (v *SCGConfigInfoR12CriticalExtensionsC1) UnmarshalUPERFrom(bb *per.BitBuff
 		}
 		v.ScgConfigInfoR12 = &dec_scgconfiginfor12
 	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare7:
+		v.Spare7 = new(struct{})
 	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare6:
+		v.Spare6 = new(struct{})
 	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare5:
+		v.Spare5 = new(struct{})
 	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare4:
+		v.Spare4 = new(struct{})
 	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare3:
+		v.Spare3 = new(struct{})
 	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare2:
+		v.Spare2 = new(struct{})
 	case SCGConfigInfoR12CriticalExtensionsC1ChoiceSpare1:
+		v.Spare1 = new(struct{})
 	}
 	return nil
 }
@@ -9568,7 +10756,7 @@ func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPER
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9581,9 +10769,11 @@ func (v *SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture) UnmarshalUP
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoR12CriticalExtensionsCriticalExtensionsFuture")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9598,7 +10788,7 @@ func (v *SCGConfigInfoV1530IEsNonCriticalExtension) MarshalUPER() ([]byte, error
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SCGConfigInfoV1530IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9611,9 +10801,11 @@ func (v *SCGConfigInfoV1530IEsNonCriticalExtension) UnmarshalUPER(data []byte) e
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1530IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SCGConfigInfoV1530IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9628,7 +10820,7 @@ func (v *CellToAddModR12CellIdentificationR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellToAddModR12CellIdentificationR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9647,9 +10839,11 @@ func (v *CellToAddModR12CellIdentificationR12) UnmarshalUPER(data []byte) error 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12CellIdentificationR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12CellIdentificationR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9674,7 +10868,7 @@ func (v *CellToAddModR12MeasResultCellToAddR12) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellToAddModR12MeasResultCellToAddR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9693,9 +10887,11 @@ func (v *CellToAddModR12MeasResultCellToAddR12) UnmarshalUPER(data []byte) error
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12MeasResultCellToAddR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12MeasResultCellToAddR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9720,7 +10916,7 @@ func (v *CellToAddModR12MeasResultCellToAddV1310) MarshalUPER() ([]byte, error) 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellToAddModR12MeasResultCellToAddV1310) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9736,9 +10932,11 @@ func (v *CellToAddModR12MeasResultCellToAddV1310) UnmarshalUPER(data []byte) err
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12MeasResultCellToAddV1310")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellToAddModR12MeasResultCellToAddV1310")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9758,7 +10956,7 @@ func (v *MeasResultServCellSCGR12MeasResultSCellR12) MarshalUPER() ([]byte, erro
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MeasResultServCellSCGR12MeasResultSCellR12) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9777,9 +10975,11 @@ func (v *MeasResultServCellSCGR12MeasResultSCellR12) UnmarshalUPER(data []byte) 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultServCellSCGR12MeasResultSCellR12")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultServCellSCGR12MeasResultSCellR12")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9804,7 +11004,7 @@ func (v *MeasResultServCellSCGR12MeasResultSCellV1310) MarshalUPER() ([]byte, er
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MeasResultServCellSCGR12MeasResultSCellV1310) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9820,9 +11020,11 @@ func (v *MeasResultServCellSCGR12MeasResultSCellV1310) UnmarshalUPER(data []byte
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultServCellSCGR12MeasResultSCellV1310")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasResultServCellSCGR12MeasResultSCellV1310")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9842,10 +11044,17 @@ func (v *UEPagingCoverageInformationCriticalExtensions) MarshalUPER() ([]byte, e
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEPagingCoverageInformationCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UEPagingCoverageInformationCriticalExtensions: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -9876,9 +11085,11 @@ func (v *UEPagingCoverageInformationCriticalExtensions) UnmarshalUPER(data []byt
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationCriticalExtensions")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationCriticalExtensions")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9887,6 +11098,10 @@ func (v *UEPagingCoverageInformationCriticalExtensions) UnmarshalUPERFrom(bb *pe
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9912,10 +11127,17 @@ func (v *UEPagingCoverageInformationCriticalExtensionsC1) MarshalUPER() ([]byte,
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEPagingCoverageInformationCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UEPagingCoverageInformationCriticalExtensionsC1: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -9946,9 +11168,11 @@ func (v *UEPagingCoverageInformationCriticalExtensionsC1) UnmarshalUPER(data []b
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationCriticalExtensionsC1")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationCriticalExtensionsC1")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9957,6 +11181,10 @@ func (v *UEPagingCoverageInformationCriticalExtensionsC1) UnmarshalUPERFrom(bb *
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -9967,12 +11195,19 @@ func (v *UEPagingCoverageInformationCriticalExtensionsC1) UnmarshalUPERFrom(bb *
 		}
 		v.UePagingCoverageInformationR13 = &dec_uepagingcoverageinformationr13
 	case UEPagingCoverageInformationCriticalExtensionsC1ChoiceSpare7:
+		v.Spare7 = new(struct{})
 	case UEPagingCoverageInformationCriticalExtensionsC1ChoiceSpare6:
+		v.Spare6 = new(struct{})
 	case UEPagingCoverageInformationCriticalExtensionsC1ChoiceSpare5:
+		v.Spare5 = new(struct{})
 	case UEPagingCoverageInformationCriticalExtensionsC1ChoiceSpare4:
+		v.Spare4 = new(struct{})
 	case UEPagingCoverageInformationCriticalExtensionsC1ChoiceSpare3:
+		v.Spare3 = new(struct{})
 	case UEPagingCoverageInformationCriticalExtensionsC1ChoiceSpare2:
+		v.Spare2 = new(struct{})
 	case UEPagingCoverageInformationCriticalExtensionsC1ChoiceSpare1:
+		v.Spare1 = new(struct{})
 	}
 	return nil
 }
@@ -9983,7 +11218,7 @@ func (v *UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture) 
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -9996,9 +11231,11 @@ func (v *UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture) 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10013,7 +11250,7 @@ func (v *UEPagingCoverageInformationR13IEsNonCriticalExtension) MarshalUPER() ([
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEPagingCoverageInformationR13IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -10026,9 +11263,11 @@ func (v *UEPagingCoverageInformationR13IEsNonCriticalExtension) UnmarshalUPER(da
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationR13IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEPagingCoverageInformationR13IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10043,10 +11282,17 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensions) MarshalUPER() ([]
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioAccessCapabilityInformationCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UERadioAccessCapabilityInformationCriticalExtensions: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -10077,9 +11323,11 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensions) UnmarshalUPER(dat
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationCriticalExtensions")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationCriticalExtensions")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10088,6 +11336,10 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensions) UnmarshalUPERFrom
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -10113,10 +11365,17 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensionsC1) MarshalUPER() (
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioAccessCapabilityInformationCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UERadioAccessCapabilityInformationCriticalExtensionsC1: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -10147,9 +11406,11 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensionsC1) UnmarshalUPER(d
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationCriticalExtensionsC1")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationCriticalExtensionsC1")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10158,6 +11419,10 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensionsC1) UnmarshalUPERFr
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -10168,12 +11433,19 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensionsC1) UnmarshalUPERFr
 		}
 		v.UeRadioAccessCapabilityInformationR8 = &dec_ueradioaccesscapabilityinformationr8
 	case UERadioAccessCapabilityInformationCriticalExtensionsC1ChoiceSpare7:
+		v.Spare7 = new(struct{})
 	case UERadioAccessCapabilityInformationCriticalExtensionsC1ChoiceSpare6:
+		v.Spare6 = new(struct{})
 	case UERadioAccessCapabilityInformationCriticalExtensionsC1ChoiceSpare5:
+		v.Spare5 = new(struct{})
 	case UERadioAccessCapabilityInformationCriticalExtensionsC1ChoiceSpare4:
+		v.Spare4 = new(struct{})
 	case UERadioAccessCapabilityInformationCriticalExtensionsC1ChoiceSpare3:
+		v.Spare3 = new(struct{})
 	case UERadioAccessCapabilityInformationCriticalExtensionsC1ChoiceSpare2:
+		v.Spare2 = new(struct{})
 	case UERadioAccessCapabilityInformationCriticalExtensionsC1ChoiceSpare1:
+		v.Spare1 = new(struct{})
 	}
 	return nil
 }
@@ -10184,7 +11456,7 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsF
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -10197,9 +11469,11 @@ func (v *UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsF
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10214,7 +11488,7 @@ func (v *UERadioAccessCapabilityInformationR8IEsNonCriticalExtension) MarshalUPE
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioAccessCapabilityInformationR8IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -10227,9 +11501,11 @@ func (v *UERadioAccessCapabilityInformationR8IEsNonCriticalExtension) UnmarshalU
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationR8IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioAccessCapabilityInformationR8IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10244,10 +11520,17 @@ func (v *UERadioPagingInformationCriticalExtensions) MarshalUPER() ([]byte, erro
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformationCriticalExtensions) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UERadioPagingInformationCriticalExtensions: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -10278,9 +11561,11 @@ func (v *UERadioPagingInformationCriticalExtensions) UnmarshalUPER(data []byte) 
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationCriticalExtensions")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationCriticalExtensions")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10289,6 +11574,10 @@ func (v *UERadioPagingInformationCriticalExtensions) UnmarshalUPERFrom(bb *per.B
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -10314,10 +11603,17 @@ func (v *UERadioPagingInformationCriticalExtensionsC1) MarshalUPER() ([]byte, er
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformationCriticalExtensionsC1) MarshalUPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("UERadioPagingInformationCriticalExtensionsC1: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
 	}
@@ -10348,9 +11644,11 @@ func (v *UERadioPagingInformationCriticalExtensionsC1) UnmarshalUPER(data []byte
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationCriticalExtensionsC1")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationCriticalExtensionsC1")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10359,6 +11657,10 @@ func (v *UERadioPagingInformationCriticalExtensionsC1) UnmarshalUPERFrom(bb *per
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 7)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -10369,12 +11671,19 @@ func (v *UERadioPagingInformationCriticalExtensionsC1) UnmarshalUPERFrom(bb *per
 		}
 		v.UeRadioPagingInformationR12 = &dec_ueradiopaginginformationr12
 	case UERadioPagingInformationCriticalExtensionsC1ChoiceSpare7:
+		v.Spare7 = new(struct{})
 	case UERadioPagingInformationCriticalExtensionsC1ChoiceSpare6:
+		v.Spare6 = new(struct{})
 	case UERadioPagingInformationCriticalExtensionsC1ChoiceSpare5:
+		v.Spare5 = new(struct{})
 	case UERadioPagingInformationCriticalExtensionsC1ChoiceSpare4:
+		v.Spare4 = new(struct{})
 	case UERadioPagingInformationCriticalExtensionsC1ChoiceSpare3:
+		v.Spare3 = new(struct{})
 	case UERadioPagingInformationCriticalExtensionsC1ChoiceSpare2:
+		v.Spare2 = new(struct{})
 	case UERadioPagingInformationCriticalExtensionsC1ChoiceSpare1:
+		v.Spare1 = new(struct{})
 	}
 	return nil
 }
@@ -10385,7 +11694,7 @@ func (v *UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture) Mar
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -10398,9 +11707,11 @@ func (v *UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture) Unm
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationCriticalExtensionsCriticalExtensionsFuture")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10413,19 +11724,48 @@ type asn1cUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13
 	Value UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13
 }
 
-// MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 encodes a UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 list to UPER.
-func MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13(list UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13) ([]byte, error) {
+// UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Complete carries a complete UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Complete struct {
+	Value       UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13
+	PERPadding_ per.CompletePadding
+}
+
+func (v *UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13To(list, bb); err != nil {
+	if err := MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 encodes a UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 list to UPER.
+func MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13(list UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13To appends a UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 list to bb.
 func MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13To(list UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13, bb *per.BitBuffer) error {
 	v := asn1cUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(256), false); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -10439,14 +11779,10 @@ func MarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR
 }
 
 // UnmarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 decodes a UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13 list from UPER.
-func UnmarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13(data []byte) (UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13")
+func UnmarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13(data []byte) (UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Complete, error) {
+	var value UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -10463,6 +11799,10 @@ func UnmarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagin
 func unmarshalUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13Into(v *asn1cUPERUERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(UERadioPagingInformationV1310IEsSupportedBandListEUTRAForPagingR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
@@ -10484,7 +11824,7 @@ func (v *UERadioPagingInformationV1610IEsNonCriticalExtension) MarshalUPER() ([]
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioPagingInformationV1610IEsNonCriticalExtension) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -10497,9 +11837,11 @@ func (v *UERadioPagingInformationV1610IEsNonCriticalExtension) UnmarshalUPER(dat
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1610IEsNonCriticalExtension")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioPagingInformationV1610IEsNonCriticalExtension")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10514,7 +11856,7 @@ func (v *ASConfigV1550TdmPatternConfigR15) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ASConfigV1550TdmPatternConfigR15) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -10533,9 +11875,11 @@ func (v *ASConfigV1550TdmPatternConfigR15) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1550TdmPatternConfigR15")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ASConfigV1550TdmPatternConfigR15")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 

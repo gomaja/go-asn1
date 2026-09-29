@@ -28,9 +28,15 @@ func EncodeLengthFragments(bb *BitBuffer, total int64, aligned bool, encodeFragm
 
 	var offset int64
 	for {
+		if offset < 0 || offset > total {
+			return fmt.Errorf("%w: fragmented offset %d exceeds length %d", ErrInvalidValue, offset, total)
+		}
 		length, more, err := encodeLengthFragmentDeterminant(bb, total-offset, aligned)
 		if err != nil {
 			return err
+		}
+		if length < 0 || length > total-offset {
+			return fmt.Errorf("%w: fragment length %d exceeds remaining %d", ErrInvalidValue, length, total-offset)
 		}
 		if err := encodeFragment(offset, length); err != nil {
 			return err
@@ -68,10 +74,16 @@ func decodeLengthFragmentsBounded(bb *BitBuffer, aligned bool, maximum int64, de
 		if more && previousFragmentMultiplier != 0 && previousFragmentMultiplier != 4 {
 			return 0, fmt.Errorf("%w: non-maximal PER fragment multiplier %d", ErrInvalidValue, previousFragmentMultiplier)
 		}
+		if offset < 0 || length < 0 {
+			return 0, fmt.Errorf("%w: negative fragmented offset %d or length %d", ErrInvalidValue, offset, length)
+		}
 		if length > math.MaxInt64-offset {
 			return 0, fmt.Errorf("%w: fragmented length exceeds int64", ErrInvalidValue)
 		}
-		if offset > maximum || length > maximum-offset {
+		if offset > maximum {
+			return 0, fmt.Errorf("%w: fragmented length exceeds upper bound %d", ErrConstraintViolation, maximum)
+		}
+		if length > maximum-offset {
 			return 0, fmt.Errorf("%w: fragmented length exceeds upper bound %d", ErrConstraintViolation, maximum)
 		}
 		if err := decodeFragment(offset, length); err != nil {
@@ -213,7 +225,9 @@ func encodeLengthFragmentDeterminant(bb *BitBuffer, remaining int64, aligned boo
 		return 0, false, fmt.Errorf("%w: negative remaining length %d", ErrInvalidValue, remaining)
 	}
 	if aligned {
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return 0, false, err
+		}
 	}
 	if remaining < perFragmentUnit {
 		if err := EncodeUnconstrainedLength(bb, remaining); err != nil {
@@ -225,6 +239,9 @@ func encodeLengthFragmentDeterminant(bb *BitBuffer, remaining int64, aligned boo
 	multiplier := remaining / perFragmentUnit
 	if multiplier > 4 {
 		multiplier = 4
+	}
+	if multiplier < 1 || multiplier > 4 {
+		return 0, false, fmt.Errorf("%w: invalid PER fragment multiplier %d", ErrInvalidValue, multiplier)
 	}
 	if err := bb.WriteBits(uint64(0xc0|multiplier), 8); err != nil {
 		return 0, false, err
@@ -242,6 +259,9 @@ func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool) (length int64,
 	if err != nil {
 		return 0, false, 0, err
 	}
+	if first > 0xff {
+		return 0, false, 0, fmt.Errorf("%w: invalid PER length octet %d", ErrInvalidValue, first)
+	}
 	switch {
 	case first&0x80 == 0:
 		return int64(first), false, 0, nil
@@ -250,17 +270,20 @@ func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool) (length int64,
 		if err != nil {
 			return 0, false, 0, err
 		}
-		length := int64(first&0x3f)<<8 | int64(second)
-		if length < 128 {
-			return 0, false, 0, fmt.Errorf("%w: non-minimal PER length determinant", ErrInvalidValue)
+		if second <= 0xff {
+			length := int64(first&0x3f)<<8 | int64(second)
+			if length < 128 {
+				return 0, false, 0, fmt.Errorf("%w: non-minimal PER length determinant", ErrInvalidValue)
+			}
+			return length, false, 0, nil
 		}
-		return length, false, 0, nil
+		return 0, false, 0, fmt.Errorf("%w: invalid PER length octet %d", ErrInvalidValue, second)
 	case first&0xc0 == 0xc0:
 		multiplier := int(first & 0x3f)
-		if multiplier < 1 || multiplier > 4 {
-			return 0, false, 0, fmt.Errorf("%w: invalid PER fragment multiplier %d", ErrInvalidValue, multiplier)
+		if multiplier >= 1 && multiplier <= 4 {
+			return int64(multiplier * perFragmentUnit), true, multiplier, nil
 		}
-		return int64(multiplier * perFragmentUnit), true, multiplier, nil
+		return 0, false, 0, fmt.Errorf("%w: invalid PER fragment multiplier %d", ErrInvalidValue, multiplier)
 	default:
 		return 0, false, 0, fmt.Errorf("%w: invalid PER length determinant", ErrInvalidValue)
 	}
@@ -268,6 +291,12 @@ func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool) (length int64,
 
 func encodeLengthDelimitedOctets(bb *BitBuffer, data []byte, aligned bool) error {
 	return EncodeLengthFragments(bb, int64(len(data)), aligned, func(offset, length int64) error {
+		if offset < 0 || length < 0 || offset > int64(len(data)) {
+			return fmt.Errorf("%w: fragment [%d:%d] exceeds %d octets", ErrInvalidValue, offset, length, len(data))
+		}
+		if length > int64(len(data))-offset {
+			return fmt.Errorf("%w: fragment [%d:%d] exceeds %d octets", ErrInvalidValue, offset, length, len(data))
+		}
 		return bb.WriteBytes(data[int(offset):int(offset+length)])
 	})
 }
@@ -279,7 +308,10 @@ func decodeLengthDelimitedOctets(bb *BitBuffer, aligned bool) ([]byte, error) {
 func decodeLengthDelimitedOctetsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, error) {
 	var result []byte
 	_, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
-		if length > int64(bb.BitsRemaining()/8) {
+		if length < 0 || length > int64(math.MaxInt) {
+			return fmt.Errorf("%w: fragment length %d exceeds host int", ErrInvalidValue, length)
+		}
+		if int(length) > bb.BitsRemaining()/8 {
 			return fmt.Errorf("%w: fragment requires %d octets with %d bits remaining", ErrTruncated, length, bb.BitsRemaining())
 		}
 		fragment, err := bb.ReadBytes(int(length))

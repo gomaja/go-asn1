@@ -41,7 +41,7 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 | `lte/m2ap` | M2AP | M2 (MCE ↔ eNB) | APER | planned |
 | `lte/m3ap` | M3AP | M3 (MCE ↔ MME) | APER | planned |
 | `lte/lpp` | LPP | LTE-Uu (UE ↔ E-SMLC) | — | planned |
-| `lte/lppa` | LPPa | SLs (eNB ↔ E-SMLC) | APER | planned |
+| `lte/lppa` | LPPa | SLs (eNB ↔ E-SMLC) | APER | **[compiled]** |
 | `lte/lppe` | LPPe | LTE-Uu (UE ↔ location server) | — | planned |
 | `lte/lcsap` | LCS-AP | SLg (MME ↔ E-SMLC) | APER | planned |
 | `lte/sabp` | SABP | Iu-BC (RNC ↔ CBC) | APER | planned |
@@ -68,11 +68,14 @@ Protocols marked with **[compiled]** have generated Go code. Others have placeho
 |---------|------|-----------|----------|--------|
 | `umts/ranap` | RANAP | Iu (RNC ↔ CN) | APER | planned |
 | `umts/rnsap` | RNSAP | Iur (RNC ↔ RNC) | APER | planned |
-| `umts/rrc` | UMTS-RRC | Uu (UE ↔ Node B) | UPER | planned |
+| `umts/rrc` | UMTS-RRC | Uu (UE ↔ Node B) | UPER | **[compiled]** |
 | `umts/hnbap` | HNBAP | Iuh (HNB ↔ HNB-GW) | APER | planned |
 | `umts/rua` | RUA | Iuh (HNB ↔ HNB-GW) | APER | planned |
 | `umts/nbap` | NBAP | Iub (Node B ↔ RNC) | APER | planned |
 | `umts/sabp` | SABP | Iu-BC (RNC ↔ CBC) | APER | planned |
+
+Compiling `telecom/umts/rrc` needs about 4 GB in one Go compiler process.
+On small CI runners, set `GOFLAGS=-p=2` or lower to limit concurrent builds.
 
 #### `telecom/gsm/` — 2G
 

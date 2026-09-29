@@ -2,8 +2,11 @@ package per
 
 import (
 	"fmt"
+	"math"
 	"math/big"
 )
+
+const bigFragmentThreshold = 64 * 1024 // X.691 (02/2021) 11.9.3.8: four 16K units.
 
 // EncodeIntegerBig encodes an arbitrary-width INTEGER using unaligned PER.
 // See ITU-T X.691 (02/2021), clauses 11.4, 11.7-11.9, and 13.
@@ -310,24 +313,33 @@ func encodeConstrainedBig(bb *BitBuffer, value, lower, upper *big.Int, aligned b
 	case -1:
 		return writeBigBits(bb, offset, rangeValue.BitLen())
 	case 0:
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset.Uint64(), 8)
 	}
 	if rangeValue.Cmp(big.NewInt(65536)) < 0 {
-		bb.AlignToOctetWrite()
+		if err := bb.AlignToOctetWrite(); err != nil {
+			return err
+		}
 		return bb.WriteBits(offset.Uint64(), 16)
 	}
-	maximumLength := (rangeValue.BitLen() + 7) / 8
+	maximumLength, err := constrainedBigMaximumLength(rangeValue.BitLen())
+	if err != nil {
+		return err
+	}
 	data := minimalBigUnsignedBytes(offset)
 	// X.691 (02/2021), 13.2.6 delegates to 11.9.3 when the maximum
 	// content length is at least 64K, including fragmentation when needed.
-	if maximumLength >= 4*perFragmentUnit {
+	if maximumLength >= bigFragmentThreshold {
 		return encodeLengthDelimitedOctets(bb, data, true)
 	}
 	if err := EncodeConstrainedWholeNumber(bb, int64(len(data)), 1, int64(maximumLength)); err != nil {
 		return err
 	}
-	bb.AlignToOctetWrite()
+	if err := bb.AlignToOctetWrite(); err != nil {
+		return err
+	}
 	return bb.WriteBytes(data)
 }
 
@@ -366,8 +378,11 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		}
 		offset = new(big.Int).SetUint64(decoded)
 	} else {
-		maximumLength := (rangeValue.BitLen() + 7) / 8
-		if maximumLength >= 4*perFragmentUnit {
+		maximumLength, err := constrainedBigMaximumLength(rangeValue.BitLen())
+		if err != nil {
+			return nil, err
+		}
+		if maximumLength >= bigFragmentThreshold {
 			data, err := decodeLengthDelimitedOctets(bb, true)
 			if err != nil {
 				return nil, err
@@ -388,6 +403,9 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		if err != nil {
 			return nil, err
 		}
+		if length < 0 || length > int64(math.MaxInt) {
+			return nil, fmt.Errorf("%w: constrained INTEGER length exceeds host int", ErrInvalidValue)
+		}
 		if err := bb.AlignToOctetRead(); err != nil {
 			return nil, err
 		}
@@ -407,8 +425,16 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 }
 
 func writeBigBits(bb *BitBuffer, value *big.Int, bitCount int) error {
-	for index := bitCount - 1; index >= 0; index-- {
-		if err := bb.WriteBit(uint8(value.Bit(index))); err != nil {
+	if bitCount < 0 {
+		return fmt.Errorf("%w: negative INTEGER bit count %d", ErrInvalidValue, bitCount)
+	}
+	for index := bitCount; index > 0; {
+		index--
+		bit := value.Bit(index)
+		if bit > 1 {
+			return fmt.Errorf("%w: invalid INTEGER bit %d", ErrInvalidValue, bit)
+		}
+		if err := bb.WriteBit(uint8(bit)); err != nil {
 			return err
 		}
 	}
@@ -416,8 +442,11 @@ func writeBigBits(bb *BitBuffer, value *big.Int, bitCount int) error {
 }
 
 func readBigBits(bb *BitBuffer, bitCount int) (*big.Int, error) {
+	if bitCount < 0 {
+		return nil, fmt.Errorf("%w: negative INTEGER bit count %d", ErrInvalidValue, bitCount)
+	}
 	value := new(big.Int)
-	for index := 0; index < bitCount; index++ {
+	for index := 0; index < bitCount; {
 		bit, err := bb.ReadBit()
 		if err != nil {
 			return nil, err
@@ -426,12 +455,17 @@ func readBigBits(bb *BitBuffer, bitCount int) (*big.Int, error) {
 		if bit != 0 {
 			value.SetBit(value, 0, 1)
 		}
+		index++
 	}
 	return value, nil
 }
 
 func encodeBigTwosComplement(bb *BitBuffer, value *big.Int, aligned bool) error {
-	return encodeLengthDelimitedOctets(bb, minimalBigTwosComplement(value), aligned)
+	data, err := minimalBigTwosComplement(value)
+	if err != nil {
+		return err
+	}
+	return encodeLengthDelimitedOctets(bb, data, aligned)
 }
 
 func decodeBigTwosComplement(bb *BitBuffer, aligned bool) (*big.Int, error) {
@@ -446,6 +480,9 @@ func decodeBigTwosComplement(bb *BitBuffer, aligned bool) (*big.Int, error) {
 	if data[0]&0x80 == 0 {
 		return value, nil
 	}
+	if len(data) > math.MaxInt/8 {
+		return nil, fmt.Errorf("%w: INTEGER bit length exceeds host int", ErrInvalidValue)
+	}
 	modulus := new(big.Int).Lsh(big.NewInt(1), uint(len(data)*8))
 	return value.Sub(value, modulus), nil
 }
@@ -458,23 +495,41 @@ func minimalBigUnsignedBytes(value *big.Int) []byte {
 	return data
 }
 
-func minimalBigTwosComplement(value *big.Int) []byte {
+func minimalBigTwosComplement(value *big.Int) ([]byte, error) {
 	if value.Sign() >= 0 {
 		data := minimalBigUnsignedBytes(value)
 		if data[0]&0x80 != 0 {
-			return append([]byte{0}, data...)
+			if len(data) == math.MaxInt {
+				return nil, fmt.Errorf("%w: INTEGER width exceeds host int", ErrInvalidValue)
+			}
+			return append([]byte{0}, data...), nil
 		}
-		return data
+		return data, nil
 	}
 
 	complement := new(big.Int).Sub(new(big.Int).Neg(new(big.Int).Set(value)), big.NewInt(1))
-	width := (complement.BitLen() + 1 + 7) / 8
-	if width == 0 {
-		width = 1
+	width, err := negativeTwosComplementWidth(complement.BitLen())
+	if err != nil {
+		return nil, err
 	}
+	// X.691 (02/2021) §§11.4, 11.7-11.9: signed INTEGER contents use
+	// minimal two's-complement octets. The shift fits the host's int.
 	modulus := new(big.Int).Lsh(big.NewInt(1), uint(width*8))
 	encoded := new(big.Int).Add(modulus, value)
-	return encoded.FillBytes(make([]byte, width))
+	return encoded.FillBytes(make([]byte, width)), nil
+}
+
+func negativeTwosComplementWidth(bitLen int) (int, error) {
+	if bitLen < 0 || bitLen/8 >= math.MaxInt/8 {
+		return 0, fmt.Errorf("%w: INTEGER bit width exceeds host int", ErrInvalidValue)
+	}
+	return bitLen/8 + 1, nil
+}
+
+// X.691 (02/2021) §§11.4, 11.7-11.9, 13 encode a constrained INTEGER
+// using a whole-octet maximum; divide before rounding to preserve MaxInt bits.
+func constrainedBigMaximumLength(bitLen int) (int, error) {
+	return octetsForBitLength(bitLen)
 }
 
 func validateMinimalUnsigned(data []byte) error {

@@ -98,6 +98,9 @@ func DecodeNormallySmallNonNegative(bb *BitBuffer) (int64, error) {
 		if err != nil {
 			return 0, err
 		}
+		if val > 63 {
+			return 0, fmt.Errorf("%w: normally small INTEGER exceeds six bits", ErrInvalidValue)
+		}
 		return int64(val), nil
 	}
 	return DecodeSemiConstrainedWholeNumber(bb, 0)
@@ -114,6 +117,9 @@ func DecodeExtensionBitmap(bb *BitBuffer) (int64, []bool, error) {
 
 func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error) {
 	remaining := bb.BitsRemaining()
+	if remaining < 0 {
+		return 0, nil, fmt.Errorf("%w: negative remaining PER bits %d", ErrInvalidValue, remaining)
+	}
 	if count < 0 {
 		return 0, nil, fmt.Errorf("%w: negative extension bitmap index %d", ErrInvalidValue, count)
 	}
@@ -176,18 +182,16 @@ func EncodeUnconstrainedWholeNumber(bb *BitBuffer, v int64) error {
 
 // DecodeUnconstrainedWholeNumber decodes an unconstrained signed integer.
 func DecodeUnconstrainedWholeNumber(bb *BitBuffer) (int64, error) {
-	length, err := DecodeUnconstrainedLength(bb)
+	// X.691 (02/2021) §11.8 permits values outside int64. Decode through
+	// the arbitrary-precision path before applying this API's range limit.
+	value, err := decodeBigTwosComplement(bb, false)
 	if err != nil {
 		return 0, err
 	}
-	if length == 0 {
-		return 0, nil
+	if !value.IsInt64() {
+		return 0, fmt.Errorf("%w: unconstrained INTEGER %s exceeds int64", ErrInvalidValue, value)
 	}
-	data, err := bb.ReadBytes(int(length))
-	if err != nil {
-		return 0, err
-	}
-	return twosComplementToInt64(data), nil
+	return value.Int64(), nil
 }
 
 // EncodeUnconstrainedLength encodes a length determinant with no constraints.
@@ -269,12 +273,23 @@ func DecodeInteger(bb *BitBuffer, lb, ub *int64, extensible bool) (int64, error)
 // EncodeEnumerated encodes an enumerated value.
 // rootCount = number of root enumeration values, extensible = has "..." marker.
 func EncodeEnumerated(bb *BitBuffer, v int64, rootCount int, extensible bool) error {
+	// X.680 (02/2021) §20.1 requires a root EnumerationItem; X.691
+	// (02/2021) §§14.2, 13.2.1 omit the index only for a singleton root.
+	if rootCount <= 0 {
+		return fmt.Errorf("%w: nonpositive ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	}
+	if v < 0 || !extensible && v >= int64(rootCount) {
+		return fmt.Errorf("%w: ENUMERATED index %d outside %d root values", ErrInvalidValue, v, rootCount)
+	}
 	if extensible {
 		isExtension := v >= int64(rootCount)
 		if err := EncodeBoolean(bb, isExtension); err != nil {
 			return err
 		}
 		if isExtension {
+			if v < int64(rootCount) {
+				return fmt.Errorf("%w: ENUMERATED extension index below root", ErrInvalidValue)
+			}
 			return EncodeNormallySmallNonNegative(bb, v-int64(rootCount))
 		}
 	}
@@ -286,6 +301,9 @@ func EncodeEnumerated(bb *BitBuffer, v int64, rootCount int, extensible bool) er
 
 // DecodeEnumerated decodes an enumerated value.
 func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, error) {
+	if rootCount <= 0 {
+		return 0, fmt.Errorf("%w: nonpositive ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -296,7 +314,7 @@ func DecodeEnumerated(bb *BitBuffer, rootCount int, extensible bool) (int64, err
 			if err != nil {
 				return 0, err
 			}
-			return int64(rootCount) + extIdx, nil
+			return addExtensionIndex(rootCount, extIdx)
 		}
 	}
 	if rootCount <= 1 {
@@ -335,6 +353,9 @@ func EncodeBitStringExt(bb *BitBuffer, data []byte, bitLen int, lb, ub int64, co
 		if int64(bitLen) != lb {
 			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
 		}
+		if lb < 0 || lb > int64(math.MaxInt) {
+			return fmt.Errorf("%w: BIT STRING length exceeds host int", ErrInvalidValue)
+		}
 		return bb.WriteBitsFromBytes(data, int(lb))
 	}
 	if constrained && ub < 65536 {
@@ -366,6 +387,9 @@ func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible boo
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
+		if lb < 0 || lb > int64(math.MaxInt) {
+			return nil, 0, fmt.Errorf("%w: BIT STRING length exceeds host int", ErrInvalidValue)
+		}
 		data, err := bb.ReadBitsToBytes(int(lb))
 		return data, int(lb), err
 	}
@@ -388,6 +412,9 @@ func DecodeBitStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible boo
 	}
 	if err := validateRootSize(bitLen, lb, ub, constrained); err != nil {
 		return nil, 0, err
+	}
+	if bitLen < 0 || bitLen > int64(math.MaxInt) {
+		return nil, 0, fmt.Errorf("%w: BIT STRING length exceeds host int", ErrInvalidValue)
 	}
 	data, err := bb.ReadBitsToBytes(int(bitLen))
 	return data, int(bitLen), err
@@ -457,6 +484,9 @@ func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible b
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
+		if lb < 0 || lb > int64(math.MaxInt) {
+			return nil, fmt.Errorf("%w: OCTET STRING length exceeds host int", ErrInvalidValue)
+		}
 		return bb.ReadBytes(int(lb))
 	}
 	var length int64
@@ -477,6 +507,9 @@ func DecodeOctetStringExt(bb *BitBuffer, lb, ub int64, constrained, extensible b
 	}
 	if err := validateRootSize(length, lb, ub, constrained); err != nil {
 		return nil, err
+	}
+	if length < 0 || length > int64(math.MaxInt) {
+		return nil, fmt.Errorf("%w: OCTET STRING length exceeds host int", ErrInvalidValue)
 	}
 	return bb.ReadBytes(int(length))
 }
@@ -611,12 +644,23 @@ func DecodeOpenType(bb *BitBuffer) ([]byte, error) {
 
 // EncodeChoiceIndex encodes a CHOICE index for root alternatives.
 func EncodeChoiceIndex(bb *BitBuffer, index int64, numAlternatives int, extensible bool) error {
+	// X.680 (02/2021) §29.1 requires a root NamedType; X.691
+	// (02/2021) §23.4 omits the index only for a singleton root.
+	if numAlternatives <= 0 {
+		return fmt.Errorf("%w: nonpositive CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	}
+	if index < 0 || !extensible && index >= int64(numAlternatives) {
+		return fmt.Errorf("%w: CHOICE index %d outside %d root alternatives", ErrInvalidValue, index, numAlternatives)
+	}
 	if extensible {
 		isExtension := index >= int64(numAlternatives)
 		if err := EncodeBoolean(bb, isExtension); err != nil {
 			return err
 		}
 		if isExtension {
+			if index < int64(numAlternatives) {
+				return fmt.Errorf("%w: CHOICE extension index below root", ErrInvalidValue)
+			}
 			return EncodeNormallySmallNonNegative(bb, index-int64(numAlternatives))
 		}
 	}
@@ -628,6 +672,9 @@ func EncodeChoiceIndex(bb *BitBuffer, index int64, numAlternatives int, extensib
 
 // DecodeChoiceIndex decodes a CHOICE index.
 func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int64, bool, error) {
+	if numAlternatives <= 0 {
+		return 0, false, fmt.Errorf("%w: nonpositive CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -638,7 +685,8 @@ func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int
 			if err != nil {
 				return 0, true, err
 			}
-			return int64(numAlternatives) + idx, true, nil
+			index, err := addExtensionIndex(numAlternatives, idx)
+			return index, true, err
 		}
 	}
 	if numAlternatives <= 1 {
@@ -646,6 +694,19 @@ func DecodeChoiceIndex(bb *BitBuffer, numAlternatives int, extensible bool) (int
 	}
 	idx, err := DecodeConstrainedWholeNumber(bb, 0, int64(numAlternatives-1))
 	return idx, false, err
+}
+
+// X.691 (02/2021) §§14, 23 encode extension alternatives as a normally
+// small index following the root alternatives. Reject indexes that the API's
+// int64 representation cannot hold.
+func addExtensionIndex(rootCount int, extensionIndex int64) (int64, error) {
+	if rootCount < 0 || extensionIndex < 0 {
+		return 0, fmt.Errorf("%w: extension index %d exceeds int64 range with %d root alternatives", ErrInvalidValue, extensionIndex, rootCount)
+	}
+	if extensionIndex > math.MaxInt64-int64(rootCount) {
+		return 0, fmt.Errorf("%w: extension index %d exceeds int64 range with %d root alternatives", ErrInvalidValue, extensionIndex, rootCount)
+	}
+	return int64(rootCount) + extensionIndex, nil
 }
 
 // --- internal helpers ---
@@ -657,10 +718,15 @@ func encodeLengthDelimitedBits(bb *BitBuffer, data []byte, bitLength int, aligne
 	}
 	return EncodeLengthFragments(bb, int64(bitLength), aligned, func(offset, length int64) error {
 		if aligned {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
 		}
 		if offset%8 != 0 {
 			return fmt.Errorf("%w: BIT STRING fragment offset %d is not octet-aligned", ErrInvalidValue, offset)
+		}
+		if offset < 0 || offset/8 > int64(len(data)) || length < 0 || length > int64(math.MaxInt) {
+			return fmt.Errorf("%w: BIT STRING fragment exceeds source or host bounds", ErrInvalidValue)
 		}
 		return bb.WriteBitsFromBytes(data[int(offset/8):], int(length))
 	})
@@ -678,7 +744,11 @@ func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64
 				return err
 			}
 		}
-		if length > int64(bb.BitsRemaining()) {
+		remaining := bb.BitsRemaining()
+		if remaining < 0 {
+			return fmt.Errorf("%w: negative remaining PER bits %d", ErrInvalidValue, remaining)
+		}
+		if length < 0 || length > int64(remaining) || length > int64(math.MaxInt) {
 			return fmt.Errorf("%w: BIT STRING fragment requires %d bits with %d remaining", ErrTruncated, length, bb.BitsRemaining())
 		}
 		fragment, err := bb.ReadBitsToBytes(int(length))
@@ -709,12 +779,33 @@ func encodeLengthDelimitedKnownMultiplierString(bb *BitBuffer, value string, bit
 	}
 	return EncodeLengthFragments(bb, length, aligned, func(offset, fragmentLength int64) error {
 		if aligned {
-			bb.AlignToOctetWrite()
+			if err := bb.AlignToOctetWrite(); err != nil {
+				return err
+			}
+		}
+		var limit int64
+		if bitsPerChar <= 8 {
+			limit = int64(len(value))
+		} else {
+			limit = int64(len(runes))
+		}
+		if offset < 0 || fragmentLength < 0 || offset > limit {
+			return fmt.Errorf("%w: character fragment exceeds source bounds", ErrInvalidValue)
+		}
+		if fragmentLength > limit-offset {
+			return fmt.Errorf("%w: character fragment exceeds source bounds", ErrInvalidValue)
+		}
+		end := offset + fragmentLength
+		if end < 0 || end > int64(math.MaxInt) {
+			return fmt.Errorf("%w: character fragment exceeds host int", ErrInvalidValue)
 		}
 		if bitsPerChar <= 8 {
-			return writeKnownMultiplierString(bb, value[int(offset):int(offset+fragmentLength)], bitsPerChar)
+			return writeKnownMultiplierString(bb, value[int(offset):int(end)], bitsPerChar)
 		}
-		for _, character := range runes[int(offset):int(offset+fragmentLength)] {
+		for _, character := range runes[int(offset):int(end)] {
+			if character < 0 {
+				return fmt.Errorf("%w: negative character value", ErrInvalidValue)
+			}
 			if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
 				return err
 			}
@@ -764,15 +855,19 @@ func decodeNonNegativeBinaryIntegerWithLength(bb *BitBuffer) (uint64, error) {
 	if length == 0 {
 		return 0, nil
 	}
-	if length > 8 {
+	if length < 0 || length > 8 {
 		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
 	}
-	data, err := bb.ReadBytes(int(length))
+	var data []byte
+	data, err = bb.ReadBytes(int(length))
 	if err != nil {
 		return 0, err
 	}
 	var val uint64
 	for _, b := range data {
+		if val > math.MaxUint64>>8 {
+			return 0, fmt.Errorf("%w: non-negative integer exceeds uint64", ErrInvalidValue)
+		}
 		val = (val << 8) | uint64(b)
 	}
 	return val, nil
@@ -791,8 +886,18 @@ func addNonNegativeOffset(lb int64, offset uint64) (int64, error) {
 	if offset <= math.MaxInt64 {
 		return lb + int64(offset), nil
 	}
+	if lb >= 0 {
+		return 0, fmt.Errorf("%w: non-negative offset %d overflows int64 lower bound %d", ErrInvalidValue, offset, lb)
+	}
 	absLowerBound := uint64(-(lb + 1)) + 1
-	return int64(offset - absLowerBound), nil
+	if offset < absLowerBound {
+		return 0, fmt.Errorf("%w: offset %d below absolute lower bound %d", ErrInvalidValue, offset, absLowerBound)
+	}
+	delta := offset - absLowerBound
+	if delta > math.MaxInt64 {
+		return 0, fmt.Errorf("%w: offset %d exceeds int64", ErrInvalidValue, offset)
+	}
+	return int64(delta), nil
 }
 
 func validateSizeBounds(lb, ub int64, constrained bool) error {
@@ -843,6 +948,9 @@ func knownMultiplierPayloadBits(length int64, bitsPerChar int) (int, error) {
 	if err := validateKnownMultiplierWidth(bitsPerChar); err != nil {
 		return 0, err
 	}
+	if bitsPerChar < 1 || bitsPerChar > 32 {
+		return 0, fmt.Errorf("%w: character width %d bits is outside [1..32]", ErrInvalidValue, bitsPerChar)
+	}
 	maximumInt := int64(^uint(0) >> 1)
 	if length > maximumInt/int64(bitsPerChar) {
 		return 0, fmt.Errorf("%w: character-string payload length overflows int", ErrInvalidValue)
@@ -864,6 +972,9 @@ func writeKnownMultiplierString(bb *BitBuffer, value string, bitsPerChar int) er
 		return nil
 	}
 	for _, character := range value {
+		if character < 0 {
+			return fmt.Errorf("%w: negative character value", ErrInvalidValue)
+		}
 		if err := bb.WriteBits(uint64(character), bitsPerChar); err != nil {
 			return err
 		}
@@ -878,6 +989,9 @@ func validateKnownMultiplierStringValue(value string, bitsPerChar int) error {
 	if bitsPerChar > 8 && !utf8.ValidString(value) {
 		return fmt.Errorf("%w: wide character string is not valid UTF-8", ErrInvalidValue)
 	}
+	if bitsPerChar < 1 || bitsPerChar > 32 {
+		return fmt.Errorf("%w: character width %d bits is outside [1..32]", ErrInvalidValue, bitsPerChar)
+	}
 	maximum := uint64(1) << bitsPerChar
 	if bitsPerChar <= 8 {
 		for _, character := range []byte(value) {
@@ -888,6 +1002,9 @@ func validateKnownMultiplierStringValue(value string, bitsPerChar int) error {
 		return nil
 	}
 	for _, character := range value {
+		if character < 0 {
+			return fmt.Errorf("%w: negative character value", ErrInvalidValue)
+		}
 		if uint64(character) >= maximum {
 			return fmt.Errorf("%w: character %U does not fit in %d bits", ErrConstraintViolation, character, bitsPerChar)
 		}
@@ -903,12 +1020,18 @@ func readKnownMultiplierString(bb *BitBuffer, length int64, bitsPerChar int) (st
 	if payloadBits > bb.BitsRemaining() {
 		return "", fmt.Errorf("%w: character string requires %d bits with %d remaining", ErrTruncated, payloadBits, bb.BitsRemaining())
 	}
+	if length < 0 || length > int64(math.MaxInt) {
+		return "", fmt.Errorf("%w: character string length exceeds host int", ErrInvalidValue)
+	}
 	if bitsPerChar <= 8 {
 		result := make([]byte, int(length))
 		for index := range result {
 			value, err := bb.ReadBits(bitsPerChar)
 			if err != nil {
 				return "", err
+			}
+			if value > math.MaxUint8 {
+				return "", fmt.Errorf("%w: character exceeds byte", ErrInvalidValue)
 			}
 			result[index] = byte(value)
 		}
@@ -919,6 +1042,9 @@ func readKnownMultiplierString(bb *BitBuffer, length int64, bitsPerChar int) (st
 		value, err := bb.ReadBits(bitsPerChar)
 		if err != nil {
 			return "", err
+		}
+		if value > math.MaxInt32 {
+			return "", fmt.Errorf("%w: character exceeds rune", ErrInvalidValue)
 		}
 		character := rune(value)
 		if !utf8.ValidRune(character) {
@@ -933,10 +1059,15 @@ func minimalUnsignedBytes(v uint64) []byte {
 	if v == 0 {
 		return []byte{0}
 	}
-	n := (bits.Len64(v) + 7) / 8
+	width := bits.Len64(v)
+	if width < 1 || width > 64 {
+		return []byte{0}
+	}
+	n := (width + 7) / 8
 	buf := make([]byte, n)
-	for i := n - 1; i >= 0; i-- {
-		buf[i] = byte(v)
+	for i := n; i > 0; {
+		i--
+		buf[i] = byte(v & 0xff)
 		v >>= 8
 	}
 	return buf
@@ -944,34 +1075,27 @@ func minimalUnsignedBytes(v uint64) []byte {
 
 func minimalSignedNegBytes(v int64) []byte {
 	// Encode negative v as minimal 2's complement.
+	if v >= 0 {
+		return nil
+	}
 	uv := uint64(v)
 	// Find minimal byte count: start from 1 and check sign extension.
-	for n := 1; n <= 8; n++ {
+	for n := 1; n <= 8; {
 		// Check if n bytes can represent v.
 		shift := uint(n * 8)
+		if shift < 8 || shift > 64 {
+			return nil
+		}
 		if n == 8 || (int64(uv<<(64-shift))>>(64-shift)) == v {
 			buf := make([]byte, n)
-			for i := n - 1; i >= 0; i-- {
-				buf[i] = byte(uv)
+			for i := n; i > 0; {
+				i--
+				buf[i] = byte(uv & 0xff)
 				uv >>= 8
 			}
 			return buf
 		}
+		n++
 	}
 	return nil
-}
-
-func twosComplementToInt64(data []byte) int64 {
-	if len(data) == 0 {
-		return 0
-	}
-	// Sign extend.
-	var val int64
-	if data[0]&0x80 != 0 {
-		val = -1
-	}
-	for _, b := range data {
-		val = (val << 8) | int64(b)
-	}
-	return val
 }

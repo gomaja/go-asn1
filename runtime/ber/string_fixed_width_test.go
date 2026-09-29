@@ -39,7 +39,7 @@ func TestFixedWidthStringTagsUseX690CodeUnits(t *testing.T) {
 			if !bytes.Equal(got, want) {
 				t.Fatalf("EncodeStringTagChecked() = %x, want %x", got, want)
 			}
-			if legacy := EncodeStringTag(test.tagNum, test.value); !bytes.Equal(legacy, want) {
+			if legacy := mustEncode(t)(EncodeStringTag(test.tagNum, test.value)); !bytes.Equal(legacy, want) {
 				t.Fatalf("EncodeStringTag() = %x, want %x", legacy, want)
 			}
 			decoded, consumed, err := DecodeString(got, test.tagNum)

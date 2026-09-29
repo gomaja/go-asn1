@@ -211,24 +211,39 @@ func TestVectorBeginIndefiniteComponentPortion(t *testing.T) {
 	}
 }
 
-// TestVectorBeginDialogueExplicitExternal verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin dialoguePortion [APPLICATION 11] EXPLICIT EXTERNAL.
+// TestVectorBeginDialogueExplicitExternal verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin dialoguePortion [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1.
 // Regression: go-asn1-v0.5.0.tcap.begin-dialogue-explicit-external
 func TestVectorBeginDialogueExplicitExternal(t *testing.T) {
 	t.Parallel()
-	input := asn1VectorHex(t, "30144801016b0f280d06070011860501010180026000")
+	input := asn1VectorHex(t, "30144801016b0f280d060700118605010101a0026000")
 	var decoded Begin
 	err := decoded.UnmarshalBER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
 	asn1VectorAssertPath(t, decoded, "Otid", "\"AQ==\"")
-	asn1VectorAssertPath(t, decoded, "DialoguePortion.Bytes", "\"KA0GBwARhgUBAQGAAmAA\"")
+	asn1VectorAssertPath(t, decoded, "DialoguePortion.Encoding", "1")
+	asn1VectorAssertPath(t, decoded, "DialoguePortion.SingleASN1Type.Bytes", "\"YAA=\"")
 	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(wire, input) {
 		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorBeginDialoguePrimitiveSingleAsn1TypeRejected verifies ITU-T X.690 (02/2021), clause 8.18.1; primitive context tag 0 is invalid for EXTERNAL single-ASN1-type.
+func TestVectorBeginDialoguePrimitiveSingleAsn1TypeRejected(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "30144801016b0f280d06070011860501010180026000")
+	var decoded Begin
+	err := decoded.UnmarshalBER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "single-ASN1-type must be explicit") {
+		t.Fatalf("decode error = %q, want substring %q", err, "single-ASN1-type must be explicit")
 	}
 }
 
@@ -253,24 +268,39 @@ func TestVectorAbortReasonPAbortApplicationTag(t *testing.T) {
 	}
 }
 
-// TestVectorAbortReasonUAbortApplicationTag verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason u-abortCause [APPLICATION 11] EXPLICIT EXTERNAL.
+// TestVectorAbortReasonUAbortApplicationTag verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason u-abortCause [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1.
 // Regression: go-asn1-v0.5.0.tcap.abort-reason-u-abort-application-tag
 func TestVectorAbortReasonUAbortApplicationTag(t *testing.T) {
 	t.Parallel()
-	input := asn1VectorHex(t, "6b0f280d06070011860501010180026000")
+	input := asn1VectorHex(t, "6b0f280d060700118605010101a0026000")
 	var decoded AbortReason
 	err := decoded.UnmarshalBER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
 	asn1VectorAssertPath(t, decoded, "Choice", "2")
-	asn1VectorAssertPath(t, decoded, "UAbortCause.Bytes", "\"KA0GBwARhgUBAQGAAmAA\"")
+	asn1VectorAssertPath(t, decoded, "UAbortCause.Encoding", "1")
+	asn1VectorAssertPath(t, decoded, "UAbortCause.SingleASN1Type.Bytes", "\"YAA=\"")
 	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(wire, input) {
 		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorAbortReasonPrimitiveSingleAsn1TypeRejected verifies ITU-T X.690 (02/2021), clause 8.18.1; primitive context tag 0 is invalid for EXTERNAL single-ASN1-type.
+func TestVectorAbortReasonPrimitiveSingleAsn1TypeRejected(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "6b0f280d06070011860501010180026000")
+	var decoded AbortReason
+	err := decoded.UnmarshalBER(input)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
+	}
+	if !strings.Contains(err.Error(), "single-ASN1-type must be explicit") {
+		t.Fatalf("decode error = %q, want substring %q", err, "single-ASN1-type must be explicit")
 	}
 }
 
@@ -321,6 +351,7 @@ func FuzzBERTCMessage(f *testing.F) {
 }
 
 func FuzzBERBegin(f *testing.F) {
+	f.Add(asn1VectorHexForFuzz("30144801016b0f280d060700118605010101a0026000"))
 	f.Add(asn1VectorHexForFuzz("30144801016b0f280d06070011860501010180026000"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded Begin
@@ -330,6 +361,7 @@ func FuzzBERBegin(f *testing.F) {
 
 func FuzzBERAbortReason(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("4a0102"))
+	f.Add(asn1VectorHexForFuzz("6b0f280d060700118605010101a0026000"))
 	f.Add(asn1VectorHexForFuzz("6b0f280d06070011860501010180026000"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded AbortReason

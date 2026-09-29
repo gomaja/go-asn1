@@ -26,20 +26,24 @@ type ProtocolErrorIEContainerList = []ProtocolIESingleContainer
 
 // HandoverRequired represents the ASN.1 type HandoverRequired (SEQUENCE).
 type HandoverRequired struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverCommand represents the ASN.1 type HandoverCommand (SEQUENCE).
 type HandoverCommand struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABSubjecttoDataForwardingList represents the ASN.1 type E-RABSubjecttoDataForwardingList (SEQUENCE_OF).
@@ -57,24 +61,30 @@ type ERABDataForwardingItem struct {
 	ExtCount_               int64                      `asn1:"-" json:"-"`
 	ExtPresent_             []bool                     `asn1:"-" json:"-"`
 	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // HandoverPreparationFailure represents the ASN.1 type HandoverPreparationFailure (SEQUENCE).
 type HandoverPreparationFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverRequest represents the ASN.1 type HandoverRequest (SEQUENCE).
 type HandoverRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABToBeSetupListHOReq represents the ASN.1 type E-RABToBeSetupListHOReq (SEQUENCE_OF).
@@ -91,15 +101,19 @@ type ERABToBeSetupItemHOReq struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // HandoverRequestAcknowledge represents the ASN.1 type HandoverRequestAcknowledge (SEQUENCE).
 type HandoverRequestAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABAdmittedList represents the ASN.1 type E-RABAdmittedList (SEQUENCE_OF).
@@ -119,6 +133,8 @@ type ERABAdmittedItem struct {
 	ExtCount_               int64                      `asn1:"-" json:"-"`
 	ExtPresent_             []bool                     `asn1:"-" json:"-"`
 	ExtData_                [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_          []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABFailedtoSetupListHOReqAck represents the ASN.1 type E-RABFailedtoSetupListHOReqAck (SEQUENCE_OF).
@@ -133,33 +149,41 @@ type ERABFailedToSetupItemHOReqAck struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // HandoverFailure represents the ASN.1 type HandoverFailure (SEQUENCE).
 type HandoverFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverNotify represents the ASN.1 type HandoverNotify (SEQUENCE).
 type HandoverNotify struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // PathSwitchRequest represents the ASN.1 type PathSwitchRequest (SEQUENCE).
 type PathSwitchRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABToBeSwitchedDLList represents the ASN.1 type E-RABToBeSwitchedDLList (SEQUENCE_OF).
@@ -175,15 +199,19 @@ type ERABToBeSwitchedDLItem struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PathSwitchRequestAcknowledge represents the ASN.1 type PathSwitchRequestAcknowledge (SEQUENCE).
 type PathSwitchRequestAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABToBeSwitchedULList represents the ASN.1 type E-RABToBeSwitchedULList (SEQUENCE_OF).
@@ -199,6 +227,8 @@ type ERABToBeSwitchedULItem struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABToBeUpdatedList represents the ASN.1 type E-RABToBeUpdatedList (SEQUENCE_OF).
@@ -213,69 +243,85 @@ type ERABToBeUpdatedItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // PathSwitchRequestFailure represents the ASN.1 type PathSwitchRequestFailure (SEQUENCE).
 type PathSwitchRequestFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverCancel represents the ASN.1 type HandoverCancel (SEQUENCE).
 type HandoverCancel struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverCancelAcknowledge represents the ASN.1 type HandoverCancelAcknowledge (SEQUENCE).
 type HandoverCancelAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // HandoverSuccess represents the ASN.1 type HandoverSuccess (SEQUENCE).
 type HandoverSuccess struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBEarlyStatusTransfer represents the ASN.1 type ENBEarlyStatusTransfer (SEQUENCE).
 type ENBEarlyStatusTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MMEEarlyStatusTransfer represents the ASN.1 type MMEEarlyStatusTransfer (SEQUENCE).
 type MMEEarlyStatusTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABSetupRequest represents the ASN.1 type E-RABSetupRequest (SEQUENCE).
 type ERABSetupRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABToBeSetupListBearerSUReq represents the ASN.1 type E-RABToBeSetupListBearerSUReq (SEQUENCE_OF).
@@ -293,15 +339,19 @@ type ERABToBeSetupItemBearerSUReq struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABSetupResponse represents the ASN.1 type E-RABSetupResponse (SEQUENCE).
 type ERABSetupResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABSetupListBearerSURes represents the ASN.1 type E-RABSetupListBearerSURes (SEQUENCE_OF).
@@ -317,15 +367,19 @@ type ERABSetupItemBearerSURes struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABModifyRequest represents the ASN.1 type E-RABModifyRequest (SEQUENCE).
 type ERABModifyRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABToBeModifiedListBearerModReq represents the ASN.1 type E-RABToBeModifiedListBearerModReq (SEQUENCE_OF).
@@ -341,15 +395,19 @@ type ERABToBeModifiedItemBearerModReq struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABModifyResponse represents the ASN.1 type E-RABModifyResponse (SEQUENCE).
 type ERABModifyResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABModifyListBearerModRes represents the ASN.1 type E-RABModifyListBearerModRes (SEQUENCE_OF).
@@ -363,24 +421,30 @@ type ERABModifyItemBearerModRes struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABReleaseCommand represents the ASN.1 type E-RABReleaseCommand (SEQUENCE).
 type ERABReleaseCommand struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABReleaseResponse represents the ASN.1 type E-RABReleaseResponse (SEQUENCE).
 type ERABReleaseResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABReleaseListBearerRelComp represents the ASN.1 type E-RABReleaseListBearerRelComp (SEQUENCE_OF).
@@ -394,24 +458,30 @@ type ERABReleaseItemBearerRelComp struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABReleaseIndication represents the ASN.1 type E-RABReleaseIndication (SEQUENCE).
 type ERABReleaseIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // InitialContextSetupRequest represents the ASN.1 type InitialContextSetupRequest (SEQUENCE).
 type InitialContextSetupRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABToBeSetupListCtxtSUReq represents the ASN.1 type E-RABToBeSetupListCtxtSUReq (SEQUENCE_OF).
@@ -429,15 +499,19 @@ type ERABToBeSetupItemCtxtSUReq struct {
 	ExtCount_              int64                      `asn1:"-" json:"-"`
 	ExtPresent_            []bool                     `asn1:"-" json:"-"`
 	ExtData_               [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_            per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_         []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // InitialContextSetupResponse represents the ASN.1 type InitialContextSetupResponse (SEQUENCE).
 type InitialContextSetupResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABSetupListCtxtSURes represents the ASN.1 type E-RABSetupListCtxtSURes (SEQUENCE_OF).
@@ -453,24 +527,30 @@ type ERABSetupItemCtxtSURes struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // InitialContextSetupFailure represents the ASN.1 type InitialContextSetupFailure (SEQUENCE).
 type InitialContextSetupFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // Paging represents the ASN.1 type Paging (SEQUENCE).
 type Paging struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // TAIList represents the ASN.1 type TAIList (SEQUENCE_OF).
@@ -484,123 +564,151 @@ type TAIItem struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEContextReleaseRequest represents the ASN.1 type UEContextReleaseRequest (SEQUENCE).
 type UEContextReleaseRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextReleaseCommand represents the ASN.1 type UEContextReleaseCommand (SEQUENCE).
 type UEContextReleaseCommand struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextReleaseComplete represents the ASN.1 type UEContextReleaseComplete (SEQUENCE).
 type UEContextReleaseComplete struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextModificationRequest represents the ASN.1 type UEContextModificationRequest (SEQUENCE).
 type UEContextModificationRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextModificationResponse represents the ASN.1 type UEContextModificationResponse (SEQUENCE).
 type UEContextModificationResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextModificationFailure represents the ASN.1 type UEContextModificationFailure (SEQUENCE).
 type UEContextModificationFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityMatchRequest represents the ASN.1 type UERadioCapabilityMatchRequest (SEQUENCE).
 type UERadioCapabilityMatchRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityMatchResponse represents the ASN.1 type UERadioCapabilityMatchResponse (SEQUENCE).
 type UERadioCapabilityMatchResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // DownlinkNASTransport represents the ASN.1 type DownlinkNASTransport (SEQUENCE).
 type DownlinkNASTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // InitialUEMessage represents the ASN.1 type InitialUEMessage (SEQUENCE).
 type InitialUEMessage struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UplinkNASTransport represents the ASN.1 type UplinkNASTransport (SEQUENCE).
 type UplinkNASTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // NASNonDeliveryIndication represents the ASN.1 type NASNonDeliveryIndication (SEQUENCE).
 type NASNonDeliveryIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RerouteNASRequest represents the ASN.1 type RerouteNASRequest (SEQUENCE).
 type RerouteNASRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // S1Message represents the ASN.1 type S1-Message (OCTET_STRING).
@@ -608,20 +716,24 @@ type S1Message = []byte
 
 // NASDeliveryIndication represents the ASN.1 type NASDeliveryIndication (SEQUENCE).
 type NASDeliveryIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // Reset represents the ASN.1 type Reset (SEQUENCE).
 type Reset struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ResetType choice constants.
@@ -632,10 +744,12 @@ const (
 
 // ResetType represents the ASN.1 CHOICE type ResetType.
 type ResetType struct {
-	Choice            int
-	UnknownExtension  *runtime.PERChoiceExtension            `json:"UnknownExtension,omitempty"`
-	S1Interface       *ResetAll                              `json:"S1Interface,omitempty"`
-	PartOfS1Interface UEAssociatedLogicalS1ConnectionListRes `json:"PartOfS1Interface,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding                    `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding                    `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension            `json:"UnknownExtension,omitempty"`
+	S1Interface         *ResetAll                              `json:"S1Interface,omitempty"`
+	PartOfS1Interface   UEAssociatedLogicalS1ConnectionListRes `json:"PartOfS1Interface,omitempty"`
 }
 
 // NewResetTypeS1Interface creates a ResetType with the s1-Interface alternative.
@@ -675,11 +789,13 @@ type UEAssociatedLogicalS1ConnectionListRes = []ProtocolIESingleContainer
 
 // ResetAcknowledge represents the ASN.1 type ResetAcknowledge (SEQUENCE).
 type ResetAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEAssociatedLogicalS1ConnectionListResAck represents the ASN.1 type UE-associatedLogicalS1-ConnectionListResAck (SEQUENCE_OF).
@@ -687,245 +803,299 @@ type UEAssociatedLogicalS1ConnectionListResAck = []ProtocolIESingleContainer
 
 // ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
 type ErrorIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // S1SetupRequest represents the ASN.1 type S1SetupRequest (SEQUENCE).
 type S1SetupRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // S1SetupResponse represents the ASN.1 type S1SetupResponse (SEQUENCE).
 type S1SetupResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // S1SetupFailure represents the ASN.1 type S1SetupFailure (SEQUENCE).
 type S1SetupFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdate represents the ASN.1 type ENBConfigurationUpdate (SEQUENCE).
 type ENBConfigurationUpdate struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdateAcknowledge represents the ASN.1 type ENBConfigurationUpdateAcknowledge (SEQUENCE).
 type ENBConfigurationUpdateAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationUpdateFailure represents the ASN.1 type ENBConfigurationUpdateFailure (SEQUENCE).
 type ENBConfigurationUpdateFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationUpdate represents the ASN.1 type MMEConfigurationUpdate (SEQUENCE).
 type MMEConfigurationUpdate struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationUpdateAcknowledge represents the ASN.1 type MMEConfigurationUpdateAcknowledge (SEQUENCE).
 type MMEConfigurationUpdateAcknowledge struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationUpdateFailure represents the ASN.1 type MMEConfigurationUpdateFailure (SEQUENCE).
 type MMEConfigurationUpdateFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // DownlinkS1cdma2000tunnelling represents the ASN.1 type DownlinkS1cdma2000tunnelling (SEQUENCE).
 type DownlinkS1cdma2000tunnelling struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UplinkS1cdma2000tunnelling represents the ASN.1 type UplinkS1cdma2000tunnelling (SEQUENCE).
 type UplinkS1cdma2000tunnelling struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UECapabilityInfoIndication represents the ASN.1 type UECapabilityInfoIndication (SEQUENCE).
 type UECapabilityInfoIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBStatusTransfer represents the ASN.1 type ENBStatusTransfer (SEQUENCE).
 type ENBStatusTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MMEStatusTransfer represents the ASN.1 type MMEStatusTransfer (SEQUENCE).
 type MMEStatusTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // TraceStart represents the ASN.1 type TraceStart (SEQUENCE).
 type TraceStart struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // TraceFailureIndication represents the ASN.1 type TraceFailureIndication (SEQUENCE).
 type TraceFailureIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // DeactivateTrace represents the ASN.1 type DeactivateTrace (SEQUENCE).
 type DeactivateTrace struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // CellTrafficTrace represents the ASN.1 type CellTrafficTrace (SEQUENCE).
 type CellTrafficTrace struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // LocationReportingControl represents the ASN.1 type LocationReportingControl (SEQUENCE).
 type LocationReportingControl struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // LocationReportingFailureIndication represents the ASN.1 type LocationReportingFailureIndication (SEQUENCE).
 type LocationReportingFailureIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // LocationReport represents the ASN.1 type LocationReport (SEQUENCE).
 type LocationReport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // OverloadStart represents the ASN.1 type OverloadStart (SEQUENCE).
 type OverloadStart struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // OverloadStop represents the ASN.1 type OverloadStop (SEQUENCE).
 type OverloadStop struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // WriteReplaceWarningRequest represents the ASN.1 type WriteReplaceWarningRequest (SEQUENCE).
 type WriteReplaceWarningRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // WriteReplaceWarningResponse represents the ASN.1 type WriteReplaceWarningResponse (SEQUENCE).
 type WriteReplaceWarningResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBDirectInformationTransfer represents the ASN.1 type ENBDirectInformationTransfer (SEQUENCE).
 type ENBDirectInformationTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // InterSystemInformationTransferType choice constants.
@@ -935,9 +1105,11 @@ const (
 
 // InterSystemInformationTransferType represents the ASN.1 CHOICE type Inter-SystemInformationTransferType.
 type InterSystemInformationTransferType struct {
-	Choice           int
-	UnknownExtension *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
-	RIMTransfer      *RIMTransfer                `json:"RIMTransfer,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding         `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
+	RIMTransfer         *RIMTransfer                `json:"RIMTransfer,omitempty"`
 }
 
 // NewInterSystemInformationTransferTypeRIMTransfer creates a InterSystemInformationTransferType with the rIMTransfer alternative.
@@ -950,119 +1122,145 @@ func NewInterSystemInformationTransferTypeRIMTransfer(v RIMTransfer) InterSystem
 
 // MMEDirectInformationTransfer represents the ASN.1 type MMEDirectInformationTransfer (SEQUENCE).
 type MMEDirectInformationTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBConfigurationTransfer represents the ASN.1 type ENBConfigurationTransfer (SEQUENCE).
 type ENBConfigurationTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MMEConfigurationTransfer represents the ASN.1 type MMEConfigurationTransfer (SEQUENCE).
 type MMEConfigurationTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // PrivateMessage represents the ASN.1 type PrivateMessage (SEQUENCE).
 type PrivateMessage struct {
-	PrivateIEs       PrivateIEContainer `asn1:"tag:0,context,implicit"`
-	PrivateIEsIndef_ bool               `asn1:"-" json:"-"`
-	ExtCount_        int64              `asn1:"-" json:"-"`
-	ExtPresent_      []bool             `asn1:"-" json:"-"`
-	ExtData_         [][]byte           `asn1:"-" json:"-"`
+	PrivateIEs       PrivateIEContainer    `asn1:"tag:0,context,implicit"`
+	PrivateIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_        int64                 `asn1:"-" json:"-"`
+	ExtPresent_      []bool                `asn1:"-" json:"-"`
+	ExtData_         [][]byte              `asn1:"-" json:"-"`
+	PERPadding_      per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_   []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // KillRequest represents the ASN.1 type KillRequest (SEQUENCE).
 type KillRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // KillResponse represents the ASN.1 type KillResponse (SEQUENCE).
 type KillResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // PWSRestartIndication represents the ASN.1 type PWSRestartIndication (SEQUENCE).
 type PWSRestartIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // PWSFailureIndication represents the ASN.1 type PWSFailureIndication (SEQUENCE).
 type PWSFailureIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // DownlinkUEAssociatedLPPaTransport represents the ASN.1 type DownlinkUEAssociatedLPPaTransport (SEQUENCE).
 type DownlinkUEAssociatedLPPaTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UplinkUEAssociatedLPPaTransport represents the ASN.1 type UplinkUEAssociatedLPPaTransport (SEQUENCE).
 type UplinkUEAssociatedLPPaTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // DownlinkNonUEAssociatedLPPaTransport represents the ASN.1 type DownlinkNonUEAssociatedLPPaTransport (SEQUENCE).
 type DownlinkNonUEAssociatedLPPaTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UplinkNonUEAssociatedLPPaTransport represents the ASN.1 type UplinkNonUEAssociatedLPPaTransport (SEQUENCE).
 type UplinkNonUEAssociatedLPPaTransport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABModificationIndication represents the ASN.1 type E-RABModificationIndication (SEQUENCE).
 type ERABModificationIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABToBeModifiedListBearerModInd represents the ASN.1 type E-RABToBeModifiedListBearerModInd (SEQUENCE_OF).
@@ -1078,6 +1276,8 @@ type ERABToBeModifiedItemBearerModInd struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABNotToBeModifiedListBearerModInd represents the ASN.1 type E-RABNotToBeModifiedListBearerModInd (SEQUENCE_OF).
@@ -1093,6 +1293,8 @@ type ERABNotToBeModifiedItemBearerModInd struct {
 	ExtCount_             int64                      `asn1:"-" json:"-"`
 	ExtPresent_           []bool                     `asn1:"-" json:"-"`
 	ExtData_              [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_           per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // CSGMembershipInfo represents the ASN.1 type CSGMembershipInfo (SEQUENCE).
@@ -1106,15 +1308,19 @@ type CSGMembershipInfo struct {
 	ExtCount_           int64                      `asn1:"-" json:"-"`
 	ExtPresent_         []bool                     `asn1:"-" json:"-"`
 	ExtData_            [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_         per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_      []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // ERABModificationConfirm represents the ASN.1 type E-RABModificationConfirm (SEQUENCE).
 type ERABModificationConfirm struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABModifyListBearerModConf represents the ASN.1 type E-RABModifyListBearerModConf (SEQUENCE_OF).
@@ -1128,51 +1334,63 @@ type ERABModifyItemBearerModConf struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEContextModificationIndication represents the ASN.1 type UEContextModificationIndication (SEQUENCE).
 type UEContextModificationIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextModificationConfirm represents the ASN.1 type UEContextModificationConfirm (SEQUENCE).
 type UEContextModificationConfirm struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextSuspendRequest represents the ASN.1 type UEContextSuspendRequest (SEQUENCE).
 type UEContextSuspendRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextSuspendResponse represents the ASN.1 type UEContextSuspendResponse (SEQUENCE).
 type UEContextSuspendResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEContextResumeRequest represents the ASN.1 type UEContextResumeRequest (SEQUENCE).
 type UEContextResumeRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABFailedToResumeListResumeReq represents the ASN.1 type E-RABFailedToResumeListResumeReq (SEQUENCE_OF).
@@ -1187,15 +1405,19 @@ type ERABFailedToResumeItemResumeReq struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEContextResumeResponse represents the ASN.1 type UEContextResumeResponse (SEQUENCE).
 type UEContextResumeResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ERABFailedToResumeListResumeRes represents the ASN.1 type E-RABFailedToResumeListResumeRes (SEQUENCE_OF).
@@ -1210,131 +1432,186 @@ type ERABFailedToResumeItemResumeRes struct {
 	ExtCount_          int64                      `asn1:"-" json:"-"`
 	ExtPresent_        []bool                     `asn1:"-" json:"-"`
 	ExtData_           [][]byte                   `asn1:"-" json:"-"`
+	PERPadding_        per.CompletePadding        `asn1:"-" json:"-"`
+	PERExtPadding_     []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
 // UEContextResumeFailure represents the ASN.1 type UEContextResumeFailure (SEQUENCE).
 type UEContextResumeFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ConnectionEstablishmentIndication represents the ASN.1 type ConnectionEstablishmentIndication (SEQUENCE).
 type ConnectionEstablishmentIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // RetrieveUEInformation represents the ASN.1 type RetrieveUEInformation (SEQUENCE).
 type RetrieveUEInformation struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UEInformationTransfer represents the ASN.1 type UEInformationTransfer (SEQUENCE).
 type UEInformationTransfer struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ENBCPRelocationIndication represents the ASN.1 type ENBCPRelocationIndication (SEQUENCE).
 type ENBCPRelocationIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MMECPRelocationIndication represents the ASN.1 type MMECPRelocationIndication (SEQUENCE).
 type MMECPRelocationIndication struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SecondaryRATDataUsageReport represents the ASN.1 type SecondaryRATDataUsageReport (SEQUENCE).
 type SecondaryRATDataUsageReport struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityIDMappingRequest represents the ASN.1 type UERadioCapabilityIDMappingRequest (SEQUENCE).
 type UERadioCapabilityIDMappingRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UERadioCapabilityIDMappingResponse represents the ASN.1 type UERadioCapabilityIDMappingResponse (SEQUENCE).
 type UERadioCapabilityIDMappingResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // S1RemovalRequest represents the ASN.1 type S1RemovalRequest (SEQUENCE).
 type S1RemovalRequest struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // S1RemovalResponse represents the ASN.1 type S1RemovalResponse (SEQUENCE).
 type S1RemovalResponse struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // S1RemovalFailure represents the ASN.1 type S1RemovalFailure (SEQUENCE).
 type S1RemovalFailure struct {
-	ProtocolIEs       ProtocolIEContainer `asn1:"tag:0,context,implicit"`
-	ProtocolIEsIndef_ bool                `asn1:"-" json:"-"`
-	ExtCount_         int64               `asn1:"-" json:"-"`
-	ExtPresent_       []bool              `asn1:"-" json:"-"`
-	ExtData_          [][]byte            `asn1:"-" json:"-"`
+	ProtocolIEs       ProtocolIEContainer   `asn1:"tag:0,context,implicit"`
+	ProtocolIEsIndef_ bool                  `asn1:"-" json:"-"`
+	ExtCount_         int64                 `asn1:"-" json:"-"`
+	ExtPresent_       []bool                `asn1:"-" json:"-"`
+	ExtData_          [][]byte              `asn1:"-" json:"-"`
+	PERPadding_       per.CompletePadding   `asn1:"-" json:"-"`
+	PERExtPadding_    []per.CompletePadding `asn1:"-" json:"-"`
 }
 
 type asn1cAPERERABIEContainerListListValue struct{ Value ERABIEContainerList }
 
-// MarshalAPERERABIEContainerList encodes a ERABIEContainerList list to APER.
-func MarshalAPERERABIEContainerList(list ERABIEContainerList) ([]byte, error) {
+// ERABIEContainerListComplete carries a complete ERABIEContainerList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABIEContainerListComplete struct {
+	Value       ERABIEContainerList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABIEContainerListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABIEContainerListTo(list, bb); err != nil {
+	if err := MarshalAPERERABIEContainerListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABIEContainerListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABIEContainerListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABIEContainerList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABIEContainerList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABIEContainerList encodes a ERABIEContainerList list to APER.
+func MarshalAPERERABIEContainerList(list ERABIEContainerListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABIEContainerListTo appends a ERABIEContainerList list to bb.
 func MarshalAPERERABIEContainerListTo(list ERABIEContainerList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABIEContainerListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -1348,14 +1625,10 @@ func MarshalAPERERABIEContainerListTo(list ERABIEContainerList, bb *per.BitBuffe
 }
 
 // UnmarshalAPERERABIEContainerList decodes a ERABIEContainerList list from APER.
-func UnmarshalAPERERABIEContainerList(data []byte) (ERABIEContainerList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABIEContainerListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABIEContainerList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABIEContainerList")
+func UnmarshalAPERERABIEContainerList(data []byte) (ERABIEContainerListComplete, error) {
+	var value ERABIEContainerListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1372,6 +1645,10 @@ func UnmarshalAPERERABIEContainerListFrom(bb *per.BitBuffer) (ERABIEContainerLis
 func unmarshalAPERERABIEContainerListInto(v *asn1cAPERERABIEContainerListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABIEContainerList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -1389,19 +1666,48 @@ func unmarshalAPERERABIEContainerListInto(v *asn1cAPERERABIEContainerListListVal
 
 type asn1cAPERERABIEContainerPairListListValue struct{ Value ERABIEContainerPairList }
 
-// MarshalAPERERABIEContainerPairList encodes a ERABIEContainerPairList list to APER.
-func MarshalAPERERABIEContainerPairList(list ERABIEContainerPairList) ([]byte, error) {
+// ERABIEContainerPairListComplete carries a complete ERABIEContainerPairList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABIEContainerPairListComplete struct {
+	Value       ERABIEContainerPairList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABIEContainerPairListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABIEContainerPairListTo(list, bb); err != nil {
+	if err := MarshalAPERERABIEContainerPairListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABIEContainerPairListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABIEContainerPairListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABIEContainerPairList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABIEContainerPairList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABIEContainerPairList encodes a ERABIEContainerPairList list to APER.
+func MarshalAPERERABIEContainerPairList(list ERABIEContainerPairListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABIEContainerPairListTo appends a ERABIEContainerPairList list to bb.
 func MarshalAPERERABIEContainerPairListTo(list ERABIEContainerPairList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABIEContainerPairListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, outerElem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := MarshalAPERProtocolIEContainerPairTo(outerElem, bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -1415,14 +1721,10 @@ func MarshalAPERERABIEContainerPairListTo(list ERABIEContainerPairList, bb *per.
 }
 
 // UnmarshalAPERERABIEContainerPairList decodes a ERABIEContainerPairList list from APER.
-func UnmarshalAPERERABIEContainerPairList(data []byte) (ERABIEContainerPairList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABIEContainerPairListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABIEContainerPairList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABIEContainerPairList")
+func UnmarshalAPERERABIEContainerPairList(data []byte) (ERABIEContainerPairListComplete, error) {
+	var value ERABIEContainerPairListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1439,6 +1741,10 @@ func UnmarshalAPERERABIEContainerPairListFrom(bb *per.BitBuffer) (ERABIEContaine
 func unmarshalAPERERABIEContainerPairListInto(v *asn1cAPERERABIEContainerPairListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABIEContainerPairList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1244
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
 			elem, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
 			if err != nil {
@@ -1456,19 +1762,48 @@ func unmarshalAPERERABIEContainerPairListInto(v *asn1cAPERERABIEContainerPairLis
 
 type asn1cAPERProtocolErrorIEContainerListListValue struct{ Value ProtocolErrorIEContainerList }
 
-// MarshalAPERProtocolErrorIEContainerList encodes a ProtocolErrorIEContainerList list to APER.
-func MarshalAPERProtocolErrorIEContainerList(list ProtocolErrorIEContainerList) ([]byte, error) {
+// ProtocolErrorIEContainerListComplete carries a complete ProtocolErrorIEContainerList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ProtocolErrorIEContainerListComplete struct {
+	Value       ProtocolErrorIEContainerList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ProtocolErrorIEContainerListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERProtocolErrorIEContainerListTo(list, bb); err != nil {
+	if err := MarshalAPERProtocolErrorIEContainerListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ProtocolErrorIEContainerListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERProtocolErrorIEContainerListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolErrorIEContainerList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ProtocolErrorIEContainerList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERProtocolErrorIEContainerList encodes a ProtocolErrorIEContainerList list to APER.
+func MarshalAPERProtocolErrorIEContainerList(list ProtocolErrorIEContainerListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERProtocolErrorIEContainerListTo appends a ProtocolErrorIEContainerList list to bb.
 func MarshalAPERProtocolErrorIEContainerListTo(list ProtocolErrorIEContainerList, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolErrorIEContainerListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -1482,14 +1817,10 @@ func MarshalAPERProtocolErrorIEContainerListTo(list ProtocolErrorIEContainerList
 }
 
 // UnmarshalAPERProtocolErrorIEContainerList decodes a ProtocolErrorIEContainerList list from APER.
-func UnmarshalAPERProtocolErrorIEContainerList(data []byte) (ProtocolErrorIEContainerList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERProtocolErrorIEContainerListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolErrorIEContainerList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ProtocolErrorIEContainerList")
+func UnmarshalAPERProtocolErrorIEContainerList(data []byte) (ProtocolErrorIEContainerListComplete, error) {
+	var value ProtocolErrorIEContainerListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1506,6 +1837,10 @@ func UnmarshalAPERProtocolErrorIEContainerListFrom(bb *per.BitBuffer) (ProtocolE
 func unmarshalAPERProtocolErrorIEContainerListInto(v *asn1cAPERProtocolErrorIEContainerListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolErrorIEContainerList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -1527,7 +1862,7 @@ func (v *HandoverRequired) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverRequired) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1536,6 +1871,10 @@ func (v *HandoverRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -1546,16 +1885,25 @@ func (v *HandoverRequired) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -1576,9 +1924,11 @@ func (v *HandoverRequired) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequired")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequired")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1590,6 +1940,10 @@ func (v *HandoverRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -1608,8 +1962,16 @@ func (v *HandoverRequired) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -1629,7 +1991,7 @@ func (v *HandoverCommand) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCommand) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1638,6 +2000,10 @@ func (v *HandoverCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -1648,16 +2014,25 @@ func (v *HandoverCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -1678,9 +2053,11 @@ func (v *HandoverCommand) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommand")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommand")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1692,6 +2069,10 @@ func (v *HandoverCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -1710,8 +2091,16 @@ func (v *HandoverCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -1729,19 +2118,48 @@ type asn1cAPERERABSubjecttoDataForwardingListListValue struct {
 	Value ERABSubjecttoDataForwardingList
 }
 
-// MarshalAPERERABSubjecttoDataForwardingList encodes a ERABSubjecttoDataForwardingList list to APER.
-func MarshalAPERERABSubjecttoDataForwardingList(list ERABSubjecttoDataForwardingList) ([]byte, error) {
+// ERABSubjecttoDataForwardingListComplete carries a complete ERABSubjecttoDataForwardingList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABSubjecttoDataForwardingListComplete struct {
+	Value       ERABSubjecttoDataForwardingList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABSubjecttoDataForwardingListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABSubjecttoDataForwardingListTo(list, bb); err != nil {
+	if err := MarshalAPERERABSubjecttoDataForwardingListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABSubjecttoDataForwardingListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABSubjecttoDataForwardingListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSubjecttoDataForwardingList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSubjecttoDataForwardingList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABSubjecttoDataForwardingList encodes a ERABSubjecttoDataForwardingList list to APER.
+func MarshalAPERERABSubjecttoDataForwardingList(list ERABSubjecttoDataForwardingListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABSubjecttoDataForwardingListTo appends a ERABSubjecttoDataForwardingList list to bb.
 func MarshalAPERERABSubjecttoDataForwardingListTo(list ERABSubjecttoDataForwardingList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABSubjecttoDataForwardingListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -1755,14 +2173,10 @@ func MarshalAPERERABSubjecttoDataForwardingListTo(list ERABSubjecttoDataForwardi
 }
 
 // UnmarshalAPERERABSubjecttoDataForwardingList decodes a ERABSubjecttoDataForwardingList list from APER.
-func UnmarshalAPERERABSubjecttoDataForwardingList(data []byte) (ERABSubjecttoDataForwardingList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABSubjecttoDataForwardingListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSubjecttoDataForwardingList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSubjecttoDataForwardingList")
+func UnmarshalAPERERABSubjecttoDataForwardingList(data []byte) (ERABSubjecttoDataForwardingListComplete, error) {
+	var value ERABSubjecttoDataForwardingListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -1779,6 +2193,10 @@ func UnmarshalAPERERABSubjecttoDataForwardingListFrom(bb *per.BitBuffer) (ERABSu
 func unmarshalAPERERABSubjecttoDataForwardingListInto(v *asn1cAPERERABSubjecttoDataForwardingListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABSubjecttoDataForwardingList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -1800,7 +2218,7 @@ func (v *ERABDataForwardingItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABDataForwardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -1849,6 +2267,10 @@ func (v *ERABDataForwardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -1860,16 +2282,25 @@ func (v *ERABDataForwardingItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -1890,9 +2321,11 @@ func (v *ERABDataForwardingItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABDataForwardingItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABDataForwardingItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -1963,6 +2396,10 @@ func (v *ERABDataForwardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -1983,8 +2420,16 @@ func (v *ERABDataForwardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -2004,7 +2449,7 @@ func (v *HandoverPreparationFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverPreparationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2013,6 +2458,10 @@ func (v *HandoverPreparationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -2023,16 +2472,25 @@ func (v *HandoverPreparationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -2053,9 +2511,11 @@ func (v *HandoverPreparationFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverPreparationFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2067,6 +2527,10 @@ func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2085,8 +2549,16 @@ func (v *HandoverPreparationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -2106,7 +2578,7 @@ func (v *HandoverRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2115,6 +2587,10 @@ func (v *HandoverRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -2125,16 +2601,25 @@ func (v *HandoverRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -2155,9 +2640,11 @@ func (v *HandoverRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2169,6 +2656,10 @@ func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2187,8 +2678,16 @@ func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -2204,19 +2703,48 @@ func (v *HandoverRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABToBeSetupListHOReqListValue struct{ Value ERABToBeSetupListHOReq }
 
-// MarshalAPERERABToBeSetupListHOReq encodes a ERABToBeSetupListHOReq list to APER.
-func MarshalAPERERABToBeSetupListHOReq(list ERABToBeSetupListHOReq) ([]byte, error) {
+// ERABToBeSetupListHOReqComplete carries a complete ERABToBeSetupListHOReq encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeSetupListHOReqComplete struct {
+	Value       ERABToBeSetupListHOReq
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeSetupListHOReqComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeSetupListHOReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeSetupListHOReqTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeSetupListHOReqComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeSetupListHOReqFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSetupListHOReq")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSetupListHOReq")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeSetupListHOReq encodes a ERABToBeSetupListHOReq list to APER.
+func MarshalAPERERABToBeSetupListHOReq(list ERABToBeSetupListHOReqComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeSetupListHOReqTo appends a ERABToBeSetupListHOReq list to bb.
 func MarshalAPERERABToBeSetupListHOReqTo(list ERABToBeSetupListHOReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeSetupListHOReqListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -2230,14 +2758,10 @@ func MarshalAPERERABToBeSetupListHOReqTo(list ERABToBeSetupListHOReq, bb *per.Bi
 }
 
 // UnmarshalAPERERABToBeSetupListHOReq decodes a ERABToBeSetupListHOReq list from APER.
-func UnmarshalAPERERABToBeSetupListHOReq(data []byte) (ERABToBeSetupListHOReq, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeSetupListHOReqFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSetupListHOReq")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSetupListHOReq")
+func UnmarshalAPERERABToBeSetupListHOReq(data []byte) (ERABToBeSetupListHOReqComplete, error) {
+	var value ERABToBeSetupListHOReqComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2254,6 +2778,10 @@ func UnmarshalAPERERABToBeSetupListHOReqFrom(bb *per.BitBuffer) (ERABToBeSetupLi
 func unmarshalAPERERABToBeSetupListHOReqInto(v *asn1cAPERERABToBeSetupListHOReqListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeSetupListHOReq, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2275,7 +2803,7 @@ func (v *ERABToBeSetupItemHOReq) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeSetupItemHOReq) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2301,6 +2829,10 @@ func (v *ERABToBeSetupItemHOReq) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -2312,16 +2844,25 @@ func (v *ERABToBeSetupItemHOReq) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -2342,9 +2883,11 @@ func (v *ERABToBeSetupItemHOReq) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupItemHOReq")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupItemHOReq")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2380,6 +2923,10 @@ func (v *ERABToBeSetupItemHOReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2400,8 +2947,16 @@ func (v *ERABToBeSetupItemHOReq) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -2421,7 +2976,7 @@ func (v *HandoverRequestAcknowledge) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2430,6 +2985,10 @@ func (v *HandoverRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -2440,16 +2999,25 @@ func (v *HandoverRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -2470,9 +3038,11 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequestAcknowledge")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequestAcknowledge")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2484,6 +3054,10 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2502,8 +3076,16 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -2519,19 +3101,48 @@ func (v *HandoverRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 
 type asn1cAPERERABAdmittedListListValue struct{ Value ERABAdmittedList }
 
-// MarshalAPERERABAdmittedList encodes a ERABAdmittedList list to APER.
-func MarshalAPERERABAdmittedList(list ERABAdmittedList) ([]byte, error) {
+// ERABAdmittedListComplete carries a complete ERABAdmittedList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABAdmittedListComplete struct {
+	Value       ERABAdmittedList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABAdmittedListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABAdmittedListTo(list, bb); err != nil {
+	if err := MarshalAPERERABAdmittedListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABAdmittedListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABAdmittedListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABAdmittedList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABAdmittedList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABAdmittedList encodes a ERABAdmittedList list to APER.
+func MarshalAPERERABAdmittedList(list ERABAdmittedListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABAdmittedListTo appends a ERABAdmittedList list to bb.
 func MarshalAPERERABAdmittedListTo(list ERABAdmittedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABAdmittedListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -2545,14 +3156,10 @@ func MarshalAPERERABAdmittedListTo(list ERABAdmittedList, bb *per.BitBuffer) err
 }
 
 // UnmarshalAPERERABAdmittedList decodes a ERABAdmittedList list from APER.
-func UnmarshalAPERERABAdmittedList(data []byte) (ERABAdmittedList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABAdmittedListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABAdmittedList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABAdmittedList")
+func UnmarshalAPERERABAdmittedList(data []byte) (ERABAdmittedListComplete, error) {
+	var value ERABAdmittedListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2569,6 +3176,10 @@ func UnmarshalAPERERABAdmittedListFrom(bb *per.BitBuffer) (ERABAdmittedList, err
 func unmarshalAPERERABAdmittedListInto(v *asn1cAPERERABAdmittedListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABAdmittedList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2590,7 +3201,7 @@ func (v *ERABAdmittedItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABAdmittedItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2645,6 +3256,10 @@ func (v *ERABAdmittedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -2656,16 +3271,25 @@ func (v *ERABAdmittedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -2686,9 +3310,11 @@ func (v *ERABAdmittedItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABAdmittedItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABAdmittedItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2769,6 +3395,10 @@ func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2789,8 +3419,16 @@ func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -2806,19 +3444,48 @@ func (v *ERABAdmittedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABFailedtoSetupListHOReqAckListValue struct{ Value ERABFailedtoSetupListHOReqAck }
 
-// MarshalAPERERABFailedtoSetupListHOReqAck encodes a ERABFailedtoSetupListHOReqAck list to APER.
-func MarshalAPERERABFailedtoSetupListHOReqAck(list ERABFailedtoSetupListHOReqAck) ([]byte, error) {
+// ERABFailedtoSetupListHOReqAckComplete carries a complete ERABFailedtoSetupListHOReqAck encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABFailedtoSetupListHOReqAckComplete struct {
+	Value       ERABFailedtoSetupListHOReqAck
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABFailedtoSetupListHOReqAckComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABFailedtoSetupListHOReqAckTo(list, bb); err != nil {
+	if err := MarshalAPERERABFailedtoSetupListHOReqAckTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABFailedtoSetupListHOReqAckComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABFailedtoSetupListHOReqAckFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABFailedtoSetupListHOReqAck")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABFailedtoSetupListHOReqAck")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABFailedtoSetupListHOReqAck encodes a ERABFailedtoSetupListHOReqAck list to APER.
+func MarshalAPERERABFailedtoSetupListHOReqAck(list ERABFailedtoSetupListHOReqAckComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABFailedtoSetupListHOReqAckTo appends a ERABFailedtoSetupListHOReqAck list to bb.
 func MarshalAPERERABFailedtoSetupListHOReqAckTo(list ERABFailedtoSetupListHOReqAck, bb *per.BitBuffer) error {
 	v := asn1cAPERERABFailedtoSetupListHOReqAckListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -2832,14 +3499,10 @@ func MarshalAPERERABFailedtoSetupListHOReqAckTo(list ERABFailedtoSetupListHOReqA
 }
 
 // UnmarshalAPERERABFailedtoSetupListHOReqAck decodes a ERABFailedtoSetupListHOReqAck list from APER.
-func UnmarshalAPERERABFailedtoSetupListHOReqAck(data []byte) (ERABFailedtoSetupListHOReqAck, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABFailedtoSetupListHOReqAckFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABFailedtoSetupListHOReqAck")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABFailedtoSetupListHOReqAck")
+func UnmarshalAPERERABFailedtoSetupListHOReqAck(data []byte) (ERABFailedtoSetupListHOReqAckComplete, error) {
+	var value ERABFailedtoSetupListHOReqAckComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -2856,6 +3519,10 @@ func UnmarshalAPERERABFailedtoSetupListHOReqAckFrom(bb *per.BitBuffer) (ERABFail
 func unmarshalAPERERABFailedtoSetupListHOReqAckInto(v *asn1cAPERERABFailedtoSetupListHOReqAckListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABFailedtoSetupListHOReqAck, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2877,7 +3544,7 @@ func (v *ERABFailedToSetupItemHOReqAck) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABFailedToSetupItemHOReqAck) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -2897,6 +3564,10 @@ func (v *ERABFailedToSetupItemHOReqAck) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -2908,16 +3579,25 @@ func (v *ERABFailedToSetupItemHOReqAck) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -2938,9 +3618,11 @@ func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToSetupItemHOReqAck")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToSetupItemHOReqAck")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -2966,6 +3648,10 @@ func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -2986,8 +3672,16 @@ func (v *ERABFailedToSetupItemHOReqAck) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -3007,7 +3701,7 @@ func (v *HandoverFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3016,6 +3710,10 @@ func (v *HandoverFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -3026,16 +3724,25 @@ func (v *HandoverFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -3056,9 +3763,11 @@ func (v *HandoverFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3070,6 +3779,10 @@ func (v *HandoverFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3088,8 +3801,16 @@ func (v *HandoverFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -3109,7 +3830,7 @@ func (v *HandoverNotify) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverNotify) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3118,6 +3839,10 @@ func (v *HandoverNotify) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -3128,16 +3853,25 @@ func (v *HandoverNotify) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -3158,9 +3892,11 @@ func (v *HandoverNotify) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverNotify")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverNotify")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3172,6 +3908,10 @@ func (v *HandoverNotify) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3190,8 +3930,16 @@ func (v *HandoverNotify) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -3211,7 +3959,7 @@ func (v *PathSwitchRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PathSwitchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3220,6 +3968,10 @@ func (v *PathSwitchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -3230,16 +3982,25 @@ func (v *PathSwitchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -3260,9 +4021,11 @@ func (v *PathSwitchRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3274,6 +4037,10 @@ func (v *PathSwitchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3292,8 +4059,16 @@ func (v *PathSwitchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -3309,19 +4084,48 @@ func (v *PathSwitchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABToBeSwitchedDLListListValue struct{ Value ERABToBeSwitchedDLList }
 
-// MarshalAPERERABToBeSwitchedDLList encodes a ERABToBeSwitchedDLList list to APER.
-func MarshalAPERERABToBeSwitchedDLList(list ERABToBeSwitchedDLList) ([]byte, error) {
+// ERABToBeSwitchedDLListComplete carries a complete ERABToBeSwitchedDLList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeSwitchedDLListComplete struct {
+	Value       ERABToBeSwitchedDLList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeSwitchedDLListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeSwitchedDLListTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeSwitchedDLListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeSwitchedDLListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeSwitchedDLListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSwitchedDLList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSwitchedDLList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeSwitchedDLList encodes a ERABToBeSwitchedDLList list to APER.
+func MarshalAPERERABToBeSwitchedDLList(list ERABToBeSwitchedDLListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeSwitchedDLListTo appends a ERABToBeSwitchedDLList list to bb.
 func MarshalAPERERABToBeSwitchedDLListTo(list ERABToBeSwitchedDLList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeSwitchedDLListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -3335,14 +4139,10 @@ func MarshalAPERERABToBeSwitchedDLListTo(list ERABToBeSwitchedDLList, bb *per.Bi
 }
 
 // UnmarshalAPERERABToBeSwitchedDLList decodes a ERABToBeSwitchedDLList list from APER.
-func UnmarshalAPERERABToBeSwitchedDLList(data []byte) (ERABToBeSwitchedDLList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeSwitchedDLListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSwitchedDLList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSwitchedDLList")
+func UnmarshalAPERERABToBeSwitchedDLList(data []byte) (ERABToBeSwitchedDLListComplete, error) {
+	var value ERABToBeSwitchedDLListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -3359,6 +4159,10 @@ func UnmarshalAPERERABToBeSwitchedDLListFrom(bb *per.BitBuffer) (ERABToBeSwitche
 func unmarshalAPERERABToBeSwitchedDLListInto(v *asn1cAPERERABToBeSwitchedDLListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeSwitchedDLList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3380,7 +4184,7 @@ func (v *ERABToBeSwitchedDLItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeSwitchedDLItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3403,6 +4207,10 @@ func (v *ERABToBeSwitchedDLItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -3414,16 +4222,25 @@ func (v *ERABToBeSwitchedDLItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -3444,9 +4261,11 @@ func (v *ERABToBeSwitchedDLItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSwitchedDLItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSwitchedDLItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3479,6 +4298,10 @@ func (v *ERABToBeSwitchedDLItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3499,8 +4322,16 @@ func (v *ERABToBeSwitchedDLItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -3520,7 +4351,7 @@ func (v *PathSwitchRequestAcknowledge) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PathSwitchRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3529,6 +4360,10 @@ func (v *PathSwitchRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -3539,16 +4374,25 @@ func (v *PathSwitchRequestAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -3569,9 +4413,11 @@ func (v *PathSwitchRequestAcknowledge) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequestAcknowledge")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequestAcknowledge")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3583,6 +4429,10 @@ func (v *PathSwitchRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3601,8 +4451,16 @@ func (v *PathSwitchRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -3618,19 +4476,48 @@ func (v *PathSwitchRequestAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 
 type asn1cAPERERABToBeSwitchedULListListValue struct{ Value ERABToBeSwitchedULList }
 
-// MarshalAPERERABToBeSwitchedULList encodes a ERABToBeSwitchedULList list to APER.
-func MarshalAPERERABToBeSwitchedULList(list ERABToBeSwitchedULList) ([]byte, error) {
+// ERABToBeSwitchedULListComplete carries a complete ERABToBeSwitchedULList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeSwitchedULListComplete struct {
+	Value       ERABToBeSwitchedULList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeSwitchedULListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeSwitchedULListTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeSwitchedULListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeSwitchedULListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeSwitchedULListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSwitchedULList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSwitchedULList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeSwitchedULList encodes a ERABToBeSwitchedULList list to APER.
+func MarshalAPERERABToBeSwitchedULList(list ERABToBeSwitchedULListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeSwitchedULListTo appends a ERABToBeSwitchedULList list to bb.
 func MarshalAPERERABToBeSwitchedULListTo(list ERABToBeSwitchedULList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeSwitchedULListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -3644,14 +4531,10 @@ func MarshalAPERERABToBeSwitchedULListTo(list ERABToBeSwitchedULList, bb *per.Bi
 }
 
 // UnmarshalAPERERABToBeSwitchedULList decodes a ERABToBeSwitchedULList list from APER.
-func UnmarshalAPERERABToBeSwitchedULList(data []byte) (ERABToBeSwitchedULList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeSwitchedULListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSwitchedULList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSwitchedULList")
+func UnmarshalAPERERABToBeSwitchedULList(data []byte) (ERABToBeSwitchedULListComplete, error) {
+	var value ERABToBeSwitchedULListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -3668,6 +4551,10 @@ func UnmarshalAPERERABToBeSwitchedULListFrom(bb *per.BitBuffer) (ERABToBeSwitche
 func unmarshalAPERERABToBeSwitchedULListInto(v *asn1cAPERERABToBeSwitchedULListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeSwitchedULList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3689,7 +4576,7 @@ func (v *ERABToBeSwitchedULItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeSwitchedULItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3712,6 +4599,10 @@ func (v *ERABToBeSwitchedULItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -3723,16 +4614,25 @@ func (v *ERABToBeSwitchedULItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -3753,9 +4653,11 @@ func (v *ERABToBeSwitchedULItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSwitchedULItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSwitchedULItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3788,6 +4690,10 @@ func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3808,8 +4714,16 @@ func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -3825,19 +4739,48 @@ func (v *ERABToBeSwitchedULItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABToBeUpdatedListListValue struct{ Value ERABToBeUpdatedList }
 
-// MarshalAPERERABToBeUpdatedList encodes a ERABToBeUpdatedList list to APER.
-func MarshalAPERERABToBeUpdatedList(list ERABToBeUpdatedList) ([]byte, error) {
+// ERABToBeUpdatedListComplete carries a complete ERABToBeUpdatedList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeUpdatedListComplete struct {
+	Value       ERABToBeUpdatedList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeUpdatedListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeUpdatedListTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeUpdatedListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeUpdatedListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeUpdatedListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeUpdatedList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeUpdatedList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeUpdatedList encodes a ERABToBeUpdatedList list to APER.
+func MarshalAPERERABToBeUpdatedList(list ERABToBeUpdatedListComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeUpdatedListTo appends a ERABToBeUpdatedList list to bb.
 func MarshalAPERERABToBeUpdatedListTo(list ERABToBeUpdatedList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeUpdatedListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -3851,14 +4794,10 @@ func MarshalAPERERABToBeUpdatedListTo(list ERABToBeUpdatedList, bb *per.BitBuffe
 }
 
 // UnmarshalAPERERABToBeUpdatedList decodes a ERABToBeUpdatedList list from APER.
-func UnmarshalAPERERABToBeUpdatedList(data []byte) (ERABToBeUpdatedList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeUpdatedListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeUpdatedList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeUpdatedList")
+func UnmarshalAPERERABToBeUpdatedList(data []byte) (ERABToBeUpdatedListComplete, error) {
+	var value ERABToBeUpdatedListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -3875,6 +4814,10 @@ func UnmarshalAPERERABToBeUpdatedListFrom(bb *per.BitBuffer) (ERABToBeUpdatedLis
 func unmarshalAPERERABToBeUpdatedListInto(v *asn1cAPERERABToBeUpdatedListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeUpdatedList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -3896,7 +4839,7 @@ func (v *ERABToBeUpdatedItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeUpdatedItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -3921,6 +4864,10 @@ func (v *ERABToBeUpdatedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -3932,16 +4879,25 @@ func (v *ERABToBeUpdatedItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -3962,9 +4918,11 @@ func (v *ERABToBeUpdatedItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeUpdatedItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeUpdatedItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -3998,6 +4956,10 @@ func (v *ERABToBeUpdatedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4018,8 +4980,16 @@ func (v *ERABToBeUpdatedItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4039,7 +5009,7 @@ func (v *PathSwitchRequestFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PathSwitchRequestFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4048,6 +5018,10 @@ func (v *PathSwitchRequestFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4058,16 +5032,25 @@ func (v *PathSwitchRequestFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4088,9 +5071,11 @@ func (v *PathSwitchRequestFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequestFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequestFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4102,6 +5087,10 @@ func (v *PathSwitchRequestFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4120,8 +5109,16 @@ func (v *PathSwitchRequestFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4141,7 +5138,7 @@ func (v *HandoverCancel) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4150,6 +5147,10 @@ func (v *HandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4160,16 +5161,25 @@ func (v *HandoverCancel) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4190,9 +5200,11 @@ func (v *HandoverCancel) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCancel")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCancel")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4204,6 +5216,10 @@ func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4222,8 +5238,16 @@ func (v *HandoverCancel) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4243,7 +5267,7 @@ func (v *HandoverCancelAcknowledge) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverCancelAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4252,6 +5276,10 @@ func (v *HandoverCancelAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4262,16 +5290,25 @@ func (v *HandoverCancelAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4292,9 +5329,11 @@ func (v *HandoverCancelAcknowledge) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCancelAcknowledge")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCancelAcknowledge")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4306,6 +5345,10 @@ func (v *HandoverCancelAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4324,8 +5367,16 @@ func (v *HandoverCancelAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4345,7 +5396,7 @@ func (v *HandoverSuccess) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *HandoverSuccess) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4354,6 +5405,10 @@ func (v *HandoverSuccess) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4364,16 +5419,25 @@ func (v *HandoverSuccess) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4394,9 +5458,11 @@ func (v *HandoverSuccess) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverSuccess")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "HandoverSuccess")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4408,6 +5474,10 @@ func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4426,8 +5496,16 @@ func (v *HandoverSuccess) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4447,7 +5525,7 @@ func (v *ENBEarlyStatusTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4456,6 +5534,10 @@ func (v *ENBEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4466,16 +5548,25 @@ func (v *ENBEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4496,9 +5587,11 @@ func (v *ENBEarlyStatusTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBEarlyStatusTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBEarlyStatusTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4510,6 +5603,10 @@ func (v *ENBEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4528,8 +5625,16 @@ func (v *ENBEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4549,7 +5654,7 @@ func (v *MMEEarlyStatusTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4558,6 +5663,10 @@ func (v *MMEEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4568,16 +5677,25 @@ func (v *MMEEarlyStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4598,9 +5716,11 @@ func (v *MMEEarlyStatusTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEEarlyStatusTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEEarlyStatusTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4612,6 +5732,10 @@ func (v *MMEEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4630,8 +5754,16 @@ func (v *MMEEarlyStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4651,7 +5783,7 @@ func (v *ERABSetupRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4660,6 +5792,10 @@ func (v *ERABSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4670,16 +5806,25 @@ func (v *ERABSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4700,9 +5845,11 @@ func (v *ERABSetupRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4714,6 +5861,10 @@ func (v *ERABSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4732,8 +5883,16 @@ func (v *ERABSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4749,19 +5908,48 @@ func (v *ERABSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABToBeSetupListBearerSUReqListValue struct{ Value ERABToBeSetupListBearerSUReq }
 
-// MarshalAPERERABToBeSetupListBearerSUReq encodes a ERABToBeSetupListBearerSUReq list to APER.
-func MarshalAPERERABToBeSetupListBearerSUReq(list ERABToBeSetupListBearerSUReq) ([]byte, error) {
+// ERABToBeSetupListBearerSUReqComplete carries a complete ERABToBeSetupListBearerSUReq encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeSetupListBearerSUReqComplete struct {
+	Value       ERABToBeSetupListBearerSUReq
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeSetupListBearerSUReqComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeSetupListBearerSUReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeSetupListBearerSUReqTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeSetupListBearerSUReqComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeSetupListBearerSUReqFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSetupListBearerSUReq")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSetupListBearerSUReq")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeSetupListBearerSUReq encodes a ERABToBeSetupListBearerSUReq list to APER.
+func MarshalAPERERABToBeSetupListBearerSUReq(list ERABToBeSetupListBearerSUReqComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeSetupListBearerSUReqTo appends a ERABToBeSetupListBearerSUReq list to bb.
 func MarshalAPERERABToBeSetupListBearerSUReqTo(list ERABToBeSetupListBearerSUReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeSetupListBearerSUReqListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -4775,14 +5963,10 @@ func MarshalAPERERABToBeSetupListBearerSUReqTo(list ERABToBeSetupListBearerSUReq
 }
 
 // UnmarshalAPERERABToBeSetupListBearerSUReq decodes a ERABToBeSetupListBearerSUReq list from APER.
-func UnmarshalAPERERABToBeSetupListBearerSUReq(data []byte) (ERABToBeSetupListBearerSUReq, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeSetupListBearerSUReqFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSetupListBearerSUReq")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSetupListBearerSUReq")
+func UnmarshalAPERERABToBeSetupListBearerSUReq(data []byte) (ERABToBeSetupListBearerSUReqComplete, error) {
+	var value ERABToBeSetupListBearerSUReqComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -4799,6 +5983,10 @@ func UnmarshalAPERERABToBeSetupListBearerSUReqFrom(bb *per.BitBuffer) (ERABToBeS
 func unmarshalAPERERABToBeSetupListBearerSUReqInto(v *asn1cAPERERABToBeSetupListBearerSUReqListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeSetupListBearerSUReq, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4820,7 +6008,7 @@ func (v *ERABToBeSetupItemBearerSUReq) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeSetupItemBearerSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4849,6 +6037,10 @@ func (v *ERABToBeSetupItemBearerSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -4860,16 +6052,25 @@ func (v *ERABToBeSetupItemBearerSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -4890,9 +6091,11 @@ func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupItemBearerSUReq")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupItemBearerSUReq")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -4933,6 +6136,10 @@ func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -4953,8 +6160,16 @@ func (v *ERABToBeSetupItemBearerSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -4974,7 +6189,7 @@ func (v *ERABSetupResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -4983,6 +6198,10 @@ func (v *ERABSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -4993,16 +6212,25 @@ func (v *ERABSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -5023,9 +6251,11 @@ func (v *ERABSetupResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5037,6 +6267,10 @@ func (v *ERABSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5055,8 +6289,16 @@ func (v *ERABSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -5072,19 +6314,48 @@ func (v *ERABSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABSetupListBearerSUResListValue struct{ Value ERABSetupListBearerSURes }
 
-// MarshalAPERERABSetupListBearerSURes encodes a ERABSetupListBearerSURes list to APER.
-func MarshalAPERERABSetupListBearerSURes(list ERABSetupListBearerSURes) ([]byte, error) {
+// ERABSetupListBearerSUResComplete carries a complete ERABSetupListBearerSURes encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABSetupListBearerSUResComplete struct {
+	Value       ERABSetupListBearerSURes
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABSetupListBearerSUResComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABSetupListBearerSUResTo(list, bb); err != nil {
+	if err := MarshalAPERERABSetupListBearerSUResTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABSetupListBearerSUResComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABSetupListBearerSUResFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSetupListBearerSURes")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSetupListBearerSURes")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABSetupListBearerSURes encodes a ERABSetupListBearerSURes list to APER.
+func MarshalAPERERABSetupListBearerSURes(list ERABSetupListBearerSUResComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABSetupListBearerSUResTo appends a ERABSetupListBearerSURes list to bb.
 func MarshalAPERERABSetupListBearerSUResTo(list ERABSetupListBearerSURes, bb *per.BitBuffer) error {
 	v := asn1cAPERERABSetupListBearerSUResListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -5098,14 +6369,10 @@ func MarshalAPERERABSetupListBearerSUResTo(list ERABSetupListBearerSURes, bb *pe
 }
 
 // UnmarshalAPERERABSetupListBearerSURes decodes a ERABSetupListBearerSURes list from APER.
-func UnmarshalAPERERABSetupListBearerSURes(data []byte) (ERABSetupListBearerSURes, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABSetupListBearerSUResFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSetupListBearerSURes")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSetupListBearerSURes")
+func UnmarshalAPERERABSetupListBearerSURes(data []byte) (ERABSetupListBearerSUResComplete, error) {
+	var value ERABSetupListBearerSUResComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -5122,6 +6389,10 @@ func UnmarshalAPERERABSetupListBearerSUResFrom(bb *per.BitBuffer) (ERABSetupList
 func unmarshalAPERERABSetupListBearerSUResInto(v *asn1cAPERERABSetupListBearerSUResListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABSetupListBearerSURes, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5143,7 +6414,7 @@ func (v *ERABSetupItemBearerSURes) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABSetupItemBearerSURes) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5166,6 +6437,10 @@ func (v *ERABSetupItemBearerSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -5177,16 +6452,25 @@ func (v *ERABSetupItemBearerSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -5207,9 +6491,11 @@ func (v *ERABSetupItemBearerSURes) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemBearerSURes")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemBearerSURes")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5242,6 +6528,10 @@ func (v *ERABSetupItemBearerSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5262,8 +6552,16 @@ func (v *ERABSetupItemBearerSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -5283,7 +6581,7 @@ func (v *ERABModifyRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABModifyRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5292,6 +6590,10 @@ func (v *ERABModifyRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -5302,16 +6604,25 @@ func (v *ERABModifyRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -5332,9 +6643,11 @@ func (v *ERABModifyRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5346,6 +6659,10 @@ func (v *ERABModifyRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5364,8 +6681,16 @@ func (v *ERABModifyRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -5383,19 +6708,48 @@ type asn1cAPERERABToBeModifiedListBearerModReqListValue struct {
 	Value ERABToBeModifiedListBearerModReq
 }
 
-// MarshalAPERERABToBeModifiedListBearerModReq encodes a ERABToBeModifiedListBearerModReq list to APER.
-func MarshalAPERERABToBeModifiedListBearerModReq(list ERABToBeModifiedListBearerModReq) ([]byte, error) {
+// ERABToBeModifiedListBearerModReqComplete carries a complete ERABToBeModifiedListBearerModReq encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeModifiedListBearerModReqComplete struct {
+	Value       ERABToBeModifiedListBearerModReq
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeModifiedListBearerModReqComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeModifiedListBearerModReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeModifiedListBearerModReqTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeModifiedListBearerModReqComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeModifiedListBearerModReqFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModReq")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModReq")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeModifiedListBearerModReq encodes a ERABToBeModifiedListBearerModReq list to APER.
+func MarshalAPERERABToBeModifiedListBearerModReq(list ERABToBeModifiedListBearerModReqComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeModifiedListBearerModReqTo appends a ERABToBeModifiedListBearerModReq list to bb.
 func MarshalAPERERABToBeModifiedListBearerModReqTo(list ERABToBeModifiedListBearerModReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeModifiedListBearerModReqListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -5409,14 +6763,10 @@ func MarshalAPERERABToBeModifiedListBearerModReqTo(list ERABToBeModifiedListBear
 }
 
 // UnmarshalAPERERABToBeModifiedListBearerModReq decodes a ERABToBeModifiedListBearerModReq list from APER.
-func UnmarshalAPERERABToBeModifiedListBearerModReq(data []byte) (ERABToBeModifiedListBearerModReq, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeModifiedListBearerModReqFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModReq")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModReq")
+func UnmarshalAPERERABToBeModifiedListBearerModReq(data []byte) (ERABToBeModifiedListBearerModReqComplete, error) {
+	var value ERABToBeModifiedListBearerModReqComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -5433,6 +6783,10 @@ func UnmarshalAPERERABToBeModifiedListBearerModReqFrom(bb *per.BitBuffer) (ERABT
 func unmarshalAPERERABToBeModifiedListBearerModReqInto(v *asn1cAPERERABToBeModifiedListBearerModReqListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeModifiedListBearerModReq, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5454,7 +6808,7 @@ func (v *ERABToBeModifiedItemBearerModReq) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeModifiedItemBearerModReq) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5477,6 +6831,10 @@ func (v *ERABToBeModifiedItemBearerModReq) MarshalAPERTo(bb *per.BitBuffer) erro
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -5488,16 +6846,25 @@ func (v *ERABToBeModifiedItemBearerModReq) MarshalAPERTo(bb *per.BitBuffer) erro
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -5518,9 +6885,11 @@ func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedItemBearerModReq")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedItemBearerModReq")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5551,6 +6920,10 @@ func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5571,8 +6944,16 @@ func (v *ERABToBeModifiedItemBearerModReq) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -5592,7 +6973,7 @@ func (v *ERABModifyResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABModifyResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5601,6 +6982,10 @@ func (v *ERABModifyResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -5611,16 +6996,25 @@ func (v *ERABModifyResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -5641,9 +7035,11 @@ func (v *ERABModifyResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5655,6 +7051,10 @@ func (v *ERABModifyResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5673,8 +7073,16 @@ func (v *ERABModifyResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -5690,19 +7098,48 @@ func (v *ERABModifyResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABModifyListBearerModResListValue struct{ Value ERABModifyListBearerModRes }
 
-// MarshalAPERERABModifyListBearerModRes encodes a ERABModifyListBearerModRes list to APER.
-func MarshalAPERERABModifyListBearerModRes(list ERABModifyListBearerModRes) ([]byte, error) {
+// ERABModifyListBearerModResComplete carries a complete ERABModifyListBearerModRes encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABModifyListBearerModResComplete struct {
+	Value       ERABModifyListBearerModRes
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABModifyListBearerModResComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABModifyListBearerModResTo(list, bb); err != nil {
+	if err := MarshalAPERERABModifyListBearerModResTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABModifyListBearerModResComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABModifyListBearerModResFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABModifyListBearerModRes")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABModifyListBearerModRes")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABModifyListBearerModRes encodes a ERABModifyListBearerModRes list to APER.
+func MarshalAPERERABModifyListBearerModRes(list ERABModifyListBearerModResComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABModifyListBearerModResTo appends a ERABModifyListBearerModRes list to bb.
 func MarshalAPERERABModifyListBearerModResTo(list ERABModifyListBearerModRes, bb *per.BitBuffer) error {
 	v := asn1cAPERERABModifyListBearerModResListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -5716,14 +7153,10 @@ func MarshalAPERERABModifyListBearerModResTo(list ERABModifyListBearerModRes, bb
 }
 
 // UnmarshalAPERERABModifyListBearerModRes decodes a ERABModifyListBearerModRes list from APER.
-func UnmarshalAPERERABModifyListBearerModRes(data []byte) (ERABModifyListBearerModRes, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABModifyListBearerModResFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABModifyListBearerModRes")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABModifyListBearerModRes")
+func UnmarshalAPERERABModifyListBearerModRes(data []byte) (ERABModifyListBearerModResComplete, error) {
+	var value ERABModifyListBearerModResComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -5740,6 +7173,10 @@ func UnmarshalAPERERABModifyListBearerModResFrom(bb *per.BitBuffer) (ERABModifyL
 func unmarshalAPERERABModifyListBearerModResInto(v *asn1cAPERERABModifyListBearerModResListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABModifyListBearerModRes, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5761,7 +7198,7 @@ func (v *ERABModifyItemBearerModRes) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABModifyItemBearerModRes) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5778,6 +7215,10 @@ func (v *ERABModifyItemBearerModRes) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -5789,16 +7230,25 @@ func (v *ERABModifyItemBearerModRes) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -5819,9 +7269,11 @@ func (v *ERABModifyItemBearerModRes) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModRes")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModRes")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5844,6 +7296,10 @@ func (v *ERABModifyItemBearerModRes) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5864,8 +7320,16 @@ func (v *ERABModifyItemBearerModRes) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -5885,7 +7349,7 @@ func (v *ERABReleaseCommand) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5894,6 +7358,10 @@ func (v *ERABReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -5904,16 +7372,25 @@ func (v *ERABReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -5934,9 +7411,11 @@ func (v *ERABReleaseCommand) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseCommand")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseCommand")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -5948,6 +7427,10 @@ func (v *ERABReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -5966,8 +7449,16 @@ func (v *ERABReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -5987,7 +7478,7 @@ func (v *ERABReleaseResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABReleaseResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -5996,6 +7487,10 @@ func (v *ERABReleaseResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -6006,16 +7501,25 @@ func (v *ERABReleaseResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -6036,9 +7540,11 @@ func (v *ERABReleaseResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6050,6 +7556,10 @@ func (v *ERABReleaseResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6068,8 +7578,16 @@ func (v *ERABReleaseResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -6085,19 +7603,48 @@ func (v *ERABReleaseResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABReleaseListBearerRelCompListValue struct{ Value ERABReleaseListBearerRelComp }
 
-// MarshalAPERERABReleaseListBearerRelComp encodes a ERABReleaseListBearerRelComp list to APER.
-func MarshalAPERERABReleaseListBearerRelComp(list ERABReleaseListBearerRelComp) ([]byte, error) {
+// ERABReleaseListBearerRelCompComplete carries a complete ERABReleaseListBearerRelComp encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABReleaseListBearerRelCompComplete struct {
+	Value       ERABReleaseListBearerRelComp
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABReleaseListBearerRelCompComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABReleaseListBearerRelCompTo(list, bb); err != nil {
+	if err := MarshalAPERERABReleaseListBearerRelCompTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABReleaseListBearerRelCompComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABReleaseListBearerRelCompFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABReleaseListBearerRelComp")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABReleaseListBearerRelComp")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABReleaseListBearerRelComp encodes a ERABReleaseListBearerRelComp list to APER.
+func MarshalAPERERABReleaseListBearerRelComp(list ERABReleaseListBearerRelCompComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABReleaseListBearerRelCompTo appends a ERABReleaseListBearerRelComp list to bb.
 func MarshalAPERERABReleaseListBearerRelCompTo(list ERABReleaseListBearerRelComp, bb *per.BitBuffer) error {
 	v := asn1cAPERERABReleaseListBearerRelCompListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -6111,14 +7658,10 @@ func MarshalAPERERABReleaseListBearerRelCompTo(list ERABReleaseListBearerRelComp
 }
 
 // UnmarshalAPERERABReleaseListBearerRelComp decodes a ERABReleaseListBearerRelComp list from APER.
-func UnmarshalAPERERABReleaseListBearerRelComp(data []byte) (ERABReleaseListBearerRelComp, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABReleaseListBearerRelCompFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABReleaseListBearerRelComp")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABReleaseListBearerRelComp")
+func UnmarshalAPERERABReleaseListBearerRelComp(data []byte) (ERABReleaseListBearerRelCompComplete, error) {
+	var value ERABReleaseListBearerRelCompComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -6135,6 +7678,10 @@ func UnmarshalAPERERABReleaseListBearerRelCompFrom(bb *per.BitBuffer) (ERABRelea
 func unmarshalAPERERABReleaseListBearerRelCompInto(v *asn1cAPERERABReleaseListBearerRelCompListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABReleaseListBearerRelComp, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6156,7 +7703,7 @@ func (v *ERABReleaseItemBearerRelComp) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABReleaseItemBearerRelComp) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6173,6 +7720,10 @@ func (v *ERABReleaseItemBearerRelComp) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -6184,16 +7735,25 @@ func (v *ERABReleaseItemBearerRelComp) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -6214,9 +7774,11 @@ func (v *ERABReleaseItemBearerRelComp) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseItemBearerRelComp")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseItemBearerRelComp")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6239,6 +7801,10 @@ func (v *ERABReleaseItemBearerRelComp) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6259,8 +7825,16 @@ func (v *ERABReleaseItemBearerRelComp) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -6280,7 +7854,7 @@ func (v *ERABReleaseIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABReleaseIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6289,6 +7863,10 @@ func (v *ERABReleaseIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -6299,16 +7877,25 @@ func (v *ERABReleaseIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -6329,9 +7916,11 @@ func (v *ERABReleaseIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6343,6 +7932,10 @@ func (v *ERABReleaseIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6361,8 +7954,16 @@ func (v *ERABReleaseIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -6382,7 +7983,7 @@ func (v *InitialContextSetupRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InitialContextSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6391,6 +7992,10 @@ func (v *InitialContextSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -6401,16 +8006,25 @@ func (v *InitialContextSetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -6431,9 +8045,11 @@ func (v *InitialContextSetupRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6445,6 +8061,10 @@ func (v *InitialContextSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6463,8 +8083,16 @@ func (v *InitialContextSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -6480,19 +8108,48 @@ func (v *InitialContextSetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 
 type asn1cAPERERABToBeSetupListCtxtSUReqListValue struct{ Value ERABToBeSetupListCtxtSUReq }
 
-// MarshalAPERERABToBeSetupListCtxtSUReq encodes a ERABToBeSetupListCtxtSUReq list to APER.
-func MarshalAPERERABToBeSetupListCtxtSUReq(list ERABToBeSetupListCtxtSUReq) ([]byte, error) {
+// ERABToBeSetupListCtxtSUReqComplete carries a complete ERABToBeSetupListCtxtSUReq encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeSetupListCtxtSUReqComplete struct {
+	Value       ERABToBeSetupListCtxtSUReq
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeSetupListCtxtSUReqComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeSetupListCtxtSUReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeSetupListCtxtSUReqTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeSetupListCtxtSUReqComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeSetupListCtxtSUReqFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSetupListCtxtSUReq")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeSetupListCtxtSUReq")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeSetupListCtxtSUReq encodes a ERABToBeSetupListCtxtSUReq list to APER.
+func MarshalAPERERABToBeSetupListCtxtSUReq(list ERABToBeSetupListCtxtSUReqComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeSetupListCtxtSUReqTo appends a ERABToBeSetupListCtxtSUReq list to bb.
 func MarshalAPERERABToBeSetupListCtxtSUReqTo(list ERABToBeSetupListCtxtSUReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeSetupListCtxtSUReqListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -6506,14 +8163,10 @@ func MarshalAPERERABToBeSetupListCtxtSUReqTo(list ERABToBeSetupListCtxtSUReq, bb
 }
 
 // UnmarshalAPERERABToBeSetupListCtxtSUReq decodes a ERABToBeSetupListCtxtSUReq list from APER.
-func UnmarshalAPERERABToBeSetupListCtxtSUReq(data []byte) (ERABToBeSetupListCtxtSUReq, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeSetupListCtxtSUReqFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSetupListCtxtSUReq")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeSetupListCtxtSUReq")
+func UnmarshalAPERERABToBeSetupListCtxtSUReq(data []byte) (ERABToBeSetupListCtxtSUReqComplete, error) {
+	var value ERABToBeSetupListCtxtSUReqComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -6530,6 +8183,10 @@ func UnmarshalAPERERABToBeSetupListCtxtSUReqFrom(bb *per.BitBuffer) (ERABToBeSet
 func unmarshalAPERERABToBeSetupListCtxtSUReqInto(v *asn1cAPERERABToBeSetupListCtxtSUReqListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeSetupListCtxtSUReq, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6551,7 +8208,7 @@ func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6585,6 +8242,10 @@ func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -6596,16 +8257,25 @@ func (v *ERABToBeSetupItemCtxtSUReq) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -6626,9 +8296,11 @@ func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupItemCtxtSUReq")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupItemCtxtSUReq")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6676,6 +8348,10 @@ func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6696,8 +8372,16 @@ func (v *ERABToBeSetupItemCtxtSUReq) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -6717,7 +8401,7 @@ func (v *InitialContextSetupResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InitialContextSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6726,6 +8410,10 @@ func (v *InitialContextSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -6736,16 +8424,25 @@ func (v *InitialContextSetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -6766,9 +8463,11 @@ func (v *InitialContextSetupResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6780,6 +8479,10 @@ func (v *InitialContextSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6798,8 +8501,16 @@ func (v *InitialContextSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -6815,19 +8526,48 @@ func (v *InitialContextSetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 
 type asn1cAPERERABSetupListCtxtSUResListValue struct{ Value ERABSetupListCtxtSURes }
 
-// MarshalAPERERABSetupListCtxtSURes encodes a ERABSetupListCtxtSURes list to APER.
-func MarshalAPERERABSetupListCtxtSURes(list ERABSetupListCtxtSURes) ([]byte, error) {
+// ERABSetupListCtxtSUResComplete carries a complete ERABSetupListCtxtSURes encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABSetupListCtxtSUResComplete struct {
+	Value       ERABSetupListCtxtSURes
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABSetupListCtxtSUResComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABSetupListCtxtSUResTo(list, bb); err != nil {
+	if err := MarshalAPERERABSetupListCtxtSUResTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABSetupListCtxtSUResComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABSetupListCtxtSUResFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSetupListCtxtSURes")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABSetupListCtxtSURes")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABSetupListCtxtSURes encodes a ERABSetupListCtxtSURes list to APER.
+func MarshalAPERERABSetupListCtxtSURes(list ERABSetupListCtxtSUResComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABSetupListCtxtSUResTo appends a ERABSetupListCtxtSURes list to bb.
 func MarshalAPERERABSetupListCtxtSUResTo(list ERABSetupListCtxtSURes, bb *per.BitBuffer) error {
 	v := asn1cAPERERABSetupListCtxtSUResListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -6841,14 +8581,10 @@ func MarshalAPERERABSetupListCtxtSUResTo(list ERABSetupListCtxtSURes, bb *per.Bi
 }
 
 // UnmarshalAPERERABSetupListCtxtSURes decodes a ERABSetupListCtxtSURes list from APER.
-func UnmarshalAPERERABSetupListCtxtSURes(data []byte) (ERABSetupListCtxtSURes, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABSetupListCtxtSUResFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSetupListCtxtSURes")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABSetupListCtxtSURes")
+func UnmarshalAPERERABSetupListCtxtSURes(data []byte) (ERABSetupListCtxtSUResComplete, error) {
+	var value ERABSetupListCtxtSUResComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -6865,6 +8601,10 @@ func UnmarshalAPERERABSetupListCtxtSUResFrom(bb *per.BitBuffer) (ERABSetupListCt
 func unmarshalAPERERABSetupListCtxtSUResInto(v *asn1cAPERERABSetupListCtxtSUResListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABSetupListCtxtSURes, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6886,7 +8626,7 @@ func (v *ERABSetupItemCtxtSURes) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABSetupItemCtxtSURes) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -6909,6 +8649,10 @@ func (v *ERABSetupItemCtxtSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -6920,16 +8664,25 @@ func (v *ERABSetupItemCtxtSURes) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -6950,9 +8703,11 @@ func (v *ERABSetupItemCtxtSURes) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemCtxtSURes")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemCtxtSURes")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -6985,6 +8740,10 @@ func (v *ERABSetupItemCtxtSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7005,8 +8764,16 @@ func (v *ERABSetupItemCtxtSURes) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7026,7 +8793,7 @@ func (v *InitialContextSetupFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InitialContextSetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7035,6 +8802,10 @@ func (v *InitialContextSetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7045,16 +8816,25 @@ func (v *InitialContextSetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7075,9 +8855,11 @@ func (v *InitialContextSetupFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7089,6 +8871,10 @@ func (v *InitialContextSetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7107,8 +8893,16 @@ func (v *InitialContextSetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7128,7 +8922,7 @@ func (v *Paging) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *Paging) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7137,6 +8931,10 @@ func (v *Paging) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7147,16 +8945,25 @@ func (v *Paging) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7177,9 +8984,11 @@ func (v *Paging) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Paging")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "Paging")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7191,6 +9000,10 @@ func (v *Paging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7209,8 +9022,16 @@ func (v *Paging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7226,19 +9047,46 @@ func (v *Paging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERTAIListListValue struct{ Value TAIList }
 
-// MarshalAPERTAIList encodes a TAIList list to APER.
-func MarshalAPERTAIList(list TAIList) ([]byte, error) {
+// TAIListComplete carries a complete TAIList encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type TAIListComplete struct {
+	Value       TAIList
+	PERPadding_ per.CompletePadding
+}
+
+func (v *TAIListComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERTAIListTo(list, bb); err != nil {
+	if err := MarshalAPERTAIListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
+
+func (v *TAIListComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERTAIListFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIList")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "TAIList")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERTAIList encodes a TAIList list to APER.
+func MarshalAPERTAIList(list TAIListComplete) ([]byte, error) { return list.MarshalAPER() }
 
 // MarshalAPERTAIListTo appends a TAIList list to bb.
 func MarshalAPERTAIListTo(list TAIList, bb *per.BitBuffer) error {
 	v := asn1cAPERTAIListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -7252,14 +9100,10 @@ func MarshalAPERTAIListTo(list TAIList, bb *per.BitBuffer) error {
 }
 
 // UnmarshalAPERTAIList decodes a TAIList list from APER.
-func UnmarshalAPERTAIList(data []byte) (TAIList, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERTAIListFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIList")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "TAIList")
+func UnmarshalAPERTAIList(data []byte) (TAIListComplete, error) {
+	var value TAIListComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -7276,6 +9120,10 @@ func UnmarshalAPERTAIListFrom(bb *per.BitBuffer) (TAIList, error) {
 func unmarshalAPERTAIListInto(v *asn1cAPERTAIListListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAIList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7297,7 +9145,7 @@ func (v *TAIItem) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7314,6 +9162,10 @@ func (v *TAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -7325,16 +9177,25 @@ func (v *TAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7355,9 +9216,11 @@ func (v *TAIItem) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TAIItem")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TAIItem")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7378,6 +9241,10 @@ func (v *TAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7398,8 +9265,16 @@ func (v *TAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7419,7 +9294,7 @@ func (v *UEContextReleaseRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7428,6 +9303,10 @@ func (v *UEContextReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7438,16 +9317,25 @@ func (v *UEContextReleaseRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7468,9 +9356,11 @@ func (v *UEContextReleaseRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7482,6 +9372,10 @@ func (v *UEContextReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7500,8 +9394,16 @@ func (v *UEContextReleaseRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7521,7 +9423,7 @@ func (v *UEContextReleaseCommand) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7530,6 +9432,10 @@ func (v *UEContextReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7540,16 +9446,25 @@ func (v *UEContextReleaseCommand) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7570,9 +9485,11 @@ func (v *UEContextReleaseCommand) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseCommand")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseCommand")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7584,6 +9501,10 @@ func (v *UEContextReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7602,8 +9523,16 @@ func (v *UEContextReleaseCommand) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7623,7 +9552,7 @@ func (v *UEContextReleaseComplete) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextReleaseComplete) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7632,6 +9561,10 @@ func (v *UEContextReleaseComplete) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7642,16 +9575,25 @@ func (v *UEContextReleaseComplete) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7672,9 +9614,11 @@ func (v *UEContextReleaseComplete) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseComplete")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextReleaseComplete")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7686,6 +9630,10 @@ func (v *UEContextReleaseComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7704,8 +9652,16 @@ func (v *UEContextReleaseComplete) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7725,7 +9681,7 @@ func (v *UEContextModificationRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7734,6 +9690,10 @@ func (v *UEContextModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7744,16 +9704,25 @@ func (v *UEContextModificationRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7774,9 +9743,11 @@ func (v *UEContextModificationRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7788,6 +9759,10 @@ func (v *UEContextModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7806,8 +9781,16 @@ func (v *UEContextModificationRequest) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7827,7 +9810,7 @@ func (v *UEContextModificationResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextModificationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7836,6 +9819,10 @@ func (v *UEContextModificationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7846,16 +9833,25 @@ func (v *UEContextModificationResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7876,9 +9872,11 @@ func (v *UEContextModificationResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7890,6 +9888,10 @@ func (v *UEContextModificationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7908,8 +9910,16 @@ func (v *UEContextModificationResponse) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7929,7 +9939,7 @@ func (v *UEContextModificationFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextModificationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -7938,6 +9948,10 @@ func (v *UEContextModificationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -7948,16 +9962,25 @@ func (v *UEContextModificationFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -7978,9 +10001,11 @@ func (v *UEContextModificationFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -7992,6 +10017,10 @@ func (v *UEContextModificationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8010,8 +10039,16 @@ func (v *UEContextModificationFailure) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8031,7 +10068,7 @@ func (v *UERadioCapabilityMatchRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioCapabilityMatchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8040,6 +10077,10 @@ func (v *UERadioCapabilityMatchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8050,16 +10091,25 @@ func (v *UERadioCapabilityMatchRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8080,9 +10130,11 @@ func (v *UERadioCapabilityMatchRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityMatchRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityMatchRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8094,6 +10146,10 @@ func (v *UERadioCapabilityMatchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8112,8 +10168,16 @@ func (v *UERadioCapabilityMatchRequest) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8133,7 +10197,7 @@ func (v *UERadioCapabilityMatchResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioCapabilityMatchResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8142,6 +10206,10 @@ func (v *UERadioCapabilityMatchResponse) MarshalAPERTo(bb *per.BitBuffer) error 
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8152,16 +10220,25 @@ func (v *UERadioCapabilityMatchResponse) MarshalAPERTo(bb *per.BitBuffer) error 
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8182,9 +10259,11 @@ func (v *UERadioCapabilityMatchResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityMatchResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityMatchResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8196,6 +10275,10 @@ func (v *UERadioCapabilityMatchResponse) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8214,8 +10297,16 @@ func (v *UERadioCapabilityMatchResponse) UnmarshalAPERFrom(bb *per.BitBuffer) er
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8235,7 +10326,7 @@ func (v *DownlinkNASTransport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DownlinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8244,6 +10335,10 @@ func (v *DownlinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8254,16 +10349,25 @@ func (v *DownlinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8284,9 +10388,11 @@ func (v *DownlinkNASTransport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkNASTransport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkNASTransport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8298,6 +10404,10 @@ func (v *DownlinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8316,8 +10426,16 @@ func (v *DownlinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8337,7 +10455,7 @@ func (v *InitialUEMessage) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InitialUEMessage) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8346,6 +10464,10 @@ func (v *InitialUEMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8356,16 +10478,25 @@ func (v *InitialUEMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8386,9 +10517,11 @@ func (v *InitialUEMessage) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitialUEMessage")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InitialUEMessage")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8400,6 +10533,10 @@ func (v *InitialUEMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8418,8 +10555,16 @@ func (v *InitialUEMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8439,7 +10584,7 @@ func (v *UplinkNASTransport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UplinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8448,6 +10593,10 @@ func (v *UplinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8458,16 +10607,25 @@ func (v *UplinkNASTransport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8488,9 +10646,11 @@ func (v *UplinkNASTransport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UplinkNASTransport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UplinkNASTransport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8502,6 +10662,10 @@ func (v *UplinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8520,8 +10684,16 @@ func (v *UplinkNASTransport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8541,7 +10713,7 @@ func (v *NASNonDeliveryIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NASNonDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8550,6 +10722,10 @@ func (v *NASNonDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8560,16 +10736,25 @@ func (v *NASNonDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8590,9 +10775,11 @@ func (v *NASNonDeliveryIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NASNonDeliveryIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NASNonDeliveryIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8604,6 +10791,10 @@ func (v *NASNonDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8622,8 +10813,16 @@ func (v *NASNonDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8643,7 +10842,7 @@ func (v *RerouteNASRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RerouteNASRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8652,6 +10851,10 @@ func (v *RerouteNASRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8662,16 +10865,25 @@ func (v *RerouteNASRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8692,9 +10904,11 @@ func (v *RerouteNASRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RerouteNASRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RerouteNASRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8706,6 +10920,10 @@ func (v *RerouteNASRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8724,8 +10942,16 @@ func (v *RerouteNASRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8745,7 +10971,7 @@ func (v *NASDeliveryIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *NASDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8754,6 +10980,10 @@ func (v *NASDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8764,16 +10994,25 @@ func (v *NASDeliveryIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8794,9 +11033,11 @@ func (v *NASDeliveryIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "NASDeliveryIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "NASDeliveryIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8808,6 +11049,10 @@ func (v *NASDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8826,8 +11071,16 @@ func (v *NASDeliveryIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8847,7 +11100,7 @@ func (v *Reset) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *Reset) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8856,6 +11109,10 @@ func (v *Reset) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -8866,16 +11123,25 @@ func (v *Reset) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -8896,9 +11162,11 @@ func (v *Reset) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Reset")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "Reset")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -8910,6 +11178,10 @@ func (v *Reset) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8928,8 +11200,16 @@ func (v *Reset) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8949,7 +11229,7 @@ func (v *ResetType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ResetType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -8968,12 +11248,19 @@ func (v *ResetType) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
+	if v.Choice < 1 {
+		return fmt.Errorf("ResetType: choice %d must be positive", v.Choice)
+	}
 	isExtension := v.Choice > 2
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
 		return err
 	}
 	if isExtension {
 		return fmt.Errorf("ResetType: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -8988,6 +11275,10 @@ func (v *ResetType) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	case ResetTypeChoicePartOfS1Interface:
 		if err := per.EncodeCollection(bb, int64(len(v.PartOfS1Interface)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_partofs1interface, fragmentLength_partofs1interface int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_partofs1interface < 0 || fragmentOffset_partofs1interface > int64(len(v.PartOfS1Interface)) || fragmentLength_partofs1interface < 0 || fragmentLength_partofs1interface > int64(len(v.PartOfS1Interface[fragmentOffset_partofs1interface:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.PartOfS1Interface[fragmentOffset_partofs1interface : fragmentOffset_partofs1interface+fragmentLength_partofs1interface] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding partOfS1-Interface element: %w", err)
@@ -9009,9 +11300,11 @@ func (v *ResetType) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResetType")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ResetType")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9037,6 +11330,10 @@ func (v *ResetType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ResetTypeChoiceS1Interface:
@@ -9049,6 +11346,10 @@ func (v *ResetType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case ResetTypeChoicePartOfS1Interface:
 		tmp_partofs1interface := make(UEAssociatedLogicalS1ConnectionListRes, 0)
 		_, errCollection_partofs1interface := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_partofs1interface, fragmentLength_partofs1interface int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_partofs1interface < 0 || fragmentLength_partofs1interface < 0 || fragmentLength_partofs1interface > int64(^uint(0)>>1) || fragmentOffset_partofs1interface > int64(^uint(0)>>1)-fragmentLength_partofs1interface {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_partofs1interface; i++ {
 				var elem ProtocolIESingleContainer
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9070,19 +11371,48 @@ type asn1cAPERUEAssociatedLogicalS1ConnectionListResListValue struct {
 	Value UEAssociatedLogicalS1ConnectionListRes
 }
 
-// MarshalAPERUEAssociatedLogicalS1ConnectionListRes encodes a UEAssociatedLogicalS1ConnectionListRes list to APER.
-func MarshalAPERUEAssociatedLogicalS1ConnectionListRes(list UEAssociatedLogicalS1ConnectionListRes) ([]byte, error) {
+// UEAssociatedLogicalS1ConnectionListResComplete carries a complete UEAssociatedLogicalS1ConnectionListRes encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type UEAssociatedLogicalS1ConnectionListResComplete struct {
+	Value       UEAssociatedLogicalS1ConnectionListRes
+	PERPadding_ per.CompletePadding
+}
+
+func (v *UEAssociatedLogicalS1ConnectionListResComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERUEAssociatedLogicalS1ConnectionListResTo(list, bb); err != nil {
+	if err := MarshalAPERUEAssociatedLogicalS1ConnectionListResTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *UEAssociatedLogicalS1ConnectionListResComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERUEAssociatedLogicalS1ConnectionListResFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListRes")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListRes")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERUEAssociatedLogicalS1ConnectionListRes encodes a UEAssociatedLogicalS1ConnectionListRes list to APER.
+func MarshalAPERUEAssociatedLogicalS1ConnectionListRes(list UEAssociatedLogicalS1ConnectionListResComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERUEAssociatedLogicalS1ConnectionListResTo appends a UEAssociatedLogicalS1ConnectionListRes list to bb.
 func MarshalAPERUEAssociatedLogicalS1ConnectionListResTo(list UEAssociatedLogicalS1ConnectionListRes, bb *per.BitBuffer) error {
 	v := asn1cAPERUEAssociatedLogicalS1ConnectionListResListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -9096,14 +11426,10 @@ func MarshalAPERUEAssociatedLogicalS1ConnectionListResTo(list UEAssociatedLogica
 }
 
 // UnmarshalAPERUEAssociatedLogicalS1ConnectionListRes decodes a UEAssociatedLogicalS1ConnectionListRes list from APER.
-func UnmarshalAPERUEAssociatedLogicalS1ConnectionListRes(data []byte) (UEAssociatedLogicalS1ConnectionListRes, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERUEAssociatedLogicalS1ConnectionListResFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListRes")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListRes")
+func UnmarshalAPERUEAssociatedLogicalS1ConnectionListRes(data []byte) (UEAssociatedLogicalS1ConnectionListResComplete, error) {
+	var value UEAssociatedLogicalS1ConnectionListResComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -9120,6 +11446,10 @@ func UnmarshalAPERUEAssociatedLogicalS1ConnectionListResFrom(bb *per.BitBuffer) 
 func unmarshalAPERUEAssociatedLogicalS1ConnectionListResInto(v *asn1cAPERUEAssociatedLogicalS1ConnectionListResListValue, bb *per.BitBuffer) error {
 	v.Value = make(UEAssociatedLogicalS1ConnectionListRes, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9141,7 +11471,7 @@ func (v *ResetAcknowledge) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ResetAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9150,6 +11480,10 @@ func (v *ResetAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9160,16 +11494,25 @@ func (v *ResetAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9190,9 +11533,11 @@ func (v *ResetAcknowledge) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResetAcknowledge")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ResetAcknowledge")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9204,6 +11549,10 @@ func (v *ResetAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9222,8 +11571,16 @@ func (v *ResetAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9241,19 +11598,48 @@ type asn1cAPERUEAssociatedLogicalS1ConnectionListResAckListValue struct {
 	Value UEAssociatedLogicalS1ConnectionListResAck
 }
 
-// MarshalAPERUEAssociatedLogicalS1ConnectionListResAck encodes a UEAssociatedLogicalS1ConnectionListResAck list to APER.
-func MarshalAPERUEAssociatedLogicalS1ConnectionListResAck(list UEAssociatedLogicalS1ConnectionListResAck) ([]byte, error) {
+// UEAssociatedLogicalS1ConnectionListResAckComplete carries a complete UEAssociatedLogicalS1ConnectionListResAck encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type UEAssociatedLogicalS1ConnectionListResAckComplete struct {
+	Value       UEAssociatedLogicalS1ConnectionListResAck
+	PERPadding_ per.CompletePadding
+}
+
+func (v *UEAssociatedLogicalS1ConnectionListResAckComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERUEAssociatedLogicalS1ConnectionListResAckTo(list, bb); err != nil {
+	if err := MarshalAPERUEAssociatedLogicalS1ConnectionListResAckTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *UEAssociatedLogicalS1ConnectionListResAckComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAckFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListResAck")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListResAck")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERUEAssociatedLogicalS1ConnectionListResAck encodes a UEAssociatedLogicalS1ConnectionListResAck list to APER.
+func MarshalAPERUEAssociatedLogicalS1ConnectionListResAck(list UEAssociatedLogicalS1ConnectionListResAckComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERUEAssociatedLogicalS1ConnectionListResAckTo appends a UEAssociatedLogicalS1ConnectionListResAck list to bb.
 func MarshalAPERUEAssociatedLogicalS1ConnectionListResAckTo(list UEAssociatedLogicalS1ConnectionListResAck, bb *per.BitBuffer) error {
 	v := asn1cAPERUEAssociatedLogicalS1ConnectionListResAckListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -9267,14 +11653,10 @@ func MarshalAPERUEAssociatedLogicalS1ConnectionListResAckTo(list UEAssociatedLog
 }
 
 // UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAck decodes a UEAssociatedLogicalS1ConnectionListResAck list from APER.
-func UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAck(data []byte) (UEAssociatedLogicalS1ConnectionListResAck, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAckFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListResAck")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionListResAck")
+func UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAck(data []byte) (UEAssociatedLogicalS1ConnectionListResAckComplete, error) {
+	var value UEAssociatedLogicalS1ConnectionListResAckComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -9291,6 +11673,10 @@ func UnmarshalAPERUEAssociatedLogicalS1ConnectionListResAckFrom(bb *per.BitBuffe
 func unmarshalAPERUEAssociatedLogicalS1ConnectionListResAckInto(v *asn1cAPERUEAssociatedLogicalS1ConnectionListResAckListValue, bb *per.BitBuffer) error {
 	v.Value = make(UEAssociatedLogicalS1ConnectionListResAck, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9312,7 +11698,7 @@ func (v *ErrorIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9321,6 +11707,10 @@ func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9331,16 +11721,25 @@ func (v *ErrorIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9361,9 +11760,11 @@ func (v *ErrorIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ErrorIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ErrorIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9375,6 +11776,10 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9393,8 +11798,16 @@ func (v *ErrorIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9414,7 +11827,7 @@ func (v *S1SetupRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *S1SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9423,6 +11836,10 @@ func (v *S1SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9433,16 +11850,25 @@ func (v *S1SetupRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9463,9 +11889,11 @@ func (v *S1SetupRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9477,6 +11905,10 @@ func (v *S1SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9495,8 +11927,16 @@ func (v *S1SetupRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9516,7 +11956,7 @@ func (v *S1SetupResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *S1SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9525,6 +11965,10 @@ func (v *S1SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9535,16 +11979,25 @@ func (v *S1SetupResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9565,9 +12018,11 @@ func (v *S1SetupResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9579,6 +12034,10 @@ func (v *S1SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9597,8 +12056,16 @@ func (v *S1SetupResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9618,7 +12085,7 @@ func (v *S1SetupFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *S1SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9627,6 +12094,10 @@ func (v *S1SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9637,16 +12108,25 @@ func (v *S1SetupFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9667,9 +12147,11 @@ func (v *S1SetupFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9681,6 +12163,10 @@ func (v *S1SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9699,8 +12185,16 @@ func (v *S1SetupFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9720,7 +12214,7 @@ func (v *ENBConfigurationUpdate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9729,6 +12223,10 @@ func (v *ENBConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9739,16 +12237,25 @@ func (v *ENBConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9769,9 +12276,11 @@ func (v *ENBConfigurationUpdate) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationUpdate")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationUpdate")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9783,6 +12292,10 @@ func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9801,8 +12314,16 @@ func (v *ENBConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9822,7 +12343,7 @@ func (v *ENBConfigurationUpdateAcknowledge) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9831,6 +12352,10 @@ func (v *ENBConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9841,16 +12366,25 @@ func (v *ENBConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9871,9 +12405,11 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationUpdateAcknowledge")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationUpdateAcknowledge")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9885,6 +12421,10 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9903,8 +12443,16 @@ func (v *ENBConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9924,7 +12472,7 @@ func (v *ENBConfigurationUpdateFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -9933,6 +12481,10 @@ func (v *ENBConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -9943,16 +12495,25 @@ func (v *ENBConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -9973,9 +12534,11 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationUpdateFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationUpdateFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -9987,6 +12550,10 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10005,8 +12572,16 @@ func (v *ENBConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10026,7 +12601,7 @@ func (v *MMEConfigurationUpdate) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10035,6 +12610,10 @@ func (v *MMEConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10045,16 +12624,25 @@ func (v *MMEConfigurationUpdate) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10075,9 +12663,11 @@ func (v *MMEConfigurationUpdate) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationUpdate")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationUpdate")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10089,6 +12679,10 @@ func (v *MMEConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10107,8 +12701,16 @@ func (v *MMEConfigurationUpdate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10128,7 +12730,7 @@ func (v *MMEConfigurationUpdateAcknowledge) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10137,6 +12739,10 @@ func (v *MMEConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10147,16 +12753,25 @@ func (v *MMEConfigurationUpdateAcknowledge) MarshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10177,9 +12792,11 @@ func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationUpdateAcknowledge")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationUpdateAcknowledge")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10191,6 +12808,10 @@ func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10209,8 +12830,16 @@ func (v *MMEConfigurationUpdateAcknowledge) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10230,7 +12859,7 @@ func (v *MMEConfigurationUpdateFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10239,6 +12868,10 @@ func (v *MMEConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10249,16 +12882,25 @@ func (v *MMEConfigurationUpdateFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10279,9 +12921,11 @@ func (v *MMEConfigurationUpdateFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationUpdateFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationUpdateFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10293,6 +12937,10 @@ func (v *MMEConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10311,8 +12959,16 @@ func (v *MMEConfigurationUpdateFailure) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10332,7 +12988,7 @@ func (v *DownlinkS1cdma2000tunnelling) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DownlinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10341,6 +12997,10 @@ func (v *DownlinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10351,16 +13011,25 @@ func (v *DownlinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10381,9 +13050,11 @@ func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkS1cdma2000tunnelling")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkS1cdma2000tunnelling")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10395,6 +13066,10 @@ func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10413,8 +13088,16 @@ func (v *DownlinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10434,7 +13117,7 @@ func (v *UplinkS1cdma2000tunnelling) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UplinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10443,6 +13126,10 @@ func (v *UplinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10453,16 +13140,25 @@ func (v *UplinkS1cdma2000tunnelling) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10483,9 +13179,11 @@ func (v *UplinkS1cdma2000tunnelling) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UplinkS1cdma2000tunnelling")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UplinkS1cdma2000tunnelling")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10497,6 +13195,10 @@ func (v *UplinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10515,8 +13217,16 @@ func (v *UplinkS1cdma2000tunnelling) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10536,7 +13246,7 @@ func (v *UECapabilityInfoIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UECapabilityInfoIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10545,6 +13255,10 @@ func (v *UECapabilityInfoIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10555,16 +13269,25 @@ func (v *UECapabilityInfoIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10585,9 +13308,11 @@ func (v *UECapabilityInfoIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UECapabilityInfoIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UECapabilityInfoIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10599,6 +13324,10 @@ func (v *UECapabilityInfoIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10617,8 +13346,16 @@ func (v *UECapabilityInfoIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10638,7 +13375,7 @@ func (v *ENBStatusTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10647,6 +13384,10 @@ func (v *ENBStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10657,16 +13398,25 @@ func (v *ENBStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10687,9 +13437,11 @@ func (v *ENBStatusTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBStatusTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBStatusTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10701,6 +13453,10 @@ func (v *ENBStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10719,8 +13475,16 @@ func (v *ENBStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10740,7 +13504,7 @@ func (v *MMEStatusTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10749,6 +13513,10 @@ func (v *MMEStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10759,16 +13527,25 @@ func (v *MMEStatusTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10789,9 +13566,11 @@ func (v *MMEStatusTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEStatusTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEStatusTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10803,6 +13582,10 @@ func (v *MMEStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10821,8 +13604,16 @@ func (v *MMEStatusTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10842,7 +13633,7 @@ func (v *TraceStart) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TraceStart) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10851,6 +13642,10 @@ func (v *TraceStart) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10861,16 +13656,25 @@ func (v *TraceStart) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10891,9 +13695,11 @@ func (v *TraceStart) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TraceStart")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TraceStart")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -10905,6 +13711,10 @@ func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10923,8 +13733,16 @@ func (v *TraceStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10944,7 +13762,7 @@ func (v *TraceFailureIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *TraceFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -10953,6 +13771,10 @@ func (v *TraceFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -10963,16 +13785,25 @@ func (v *TraceFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -10993,9 +13824,11 @@ func (v *TraceFailureIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TraceFailureIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "TraceFailureIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11007,6 +13840,10 @@ func (v *TraceFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11025,8 +13862,16 @@ func (v *TraceFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11046,7 +13891,7 @@ func (v *DeactivateTrace) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DeactivateTrace) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11055,6 +13900,10 @@ func (v *DeactivateTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11065,16 +13914,25 @@ func (v *DeactivateTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11095,9 +13953,11 @@ func (v *DeactivateTrace) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DeactivateTrace")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DeactivateTrace")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11109,6 +13969,10 @@ func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11127,8 +13991,16 @@ func (v *DeactivateTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11148,7 +14020,7 @@ func (v *CellTrafficTrace) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CellTrafficTrace) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11157,6 +14029,10 @@ func (v *CellTrafficTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11167,16 +14043,25 @@ func (v *CellTrafficTrace) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11197,9 +14082,11 @@ func (v *CellTrafficTrace) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CellTrafficTrace")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CellTrafficTrace")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11211,6 +14098,10 @@ func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11229,8 +14120,16 @@ func (v *CellTrafficTrace) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11250,7 +14149,7 @@ func (v *LocationReportingControl) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LocationReportingControl) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11259,6 +14158,10 @@ func (v *LocationReportingControl) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11269,16 +14172,25 @@ func (v *LocationReportingControl) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11299,9 +14211,11 @@ func (v *LocationReportingControl) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LocationReportingControl")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LocationReportingControl")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11313,6 +14227,10 @@ func (v *LocationReportingControl) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11331,8 +14249,16 @@ func (v *LocationReportingControl) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11352,7 +14278,7 @@ func (v *LocationReportingFailureIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LocationReportingFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11361,6 +14287,10 @@ func (v *LocationReportingFailureIndication) MarshalAPERTo(bb *per.BitBuffer) er
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11371,16 +14301,25 @@ func (v *LocationReportingFailureIndication) MarshalAPERTo(bb *per.BitBuffer) er
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11401,9 +14340,11 @@ func (v *LocationReportingFailureIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LocationReportingFailureIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LocationReportingFailureIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11415,6 +14356,10 @@ func (v *LocationReportingFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11433,8 +14378,16 @@ func (v *LocationReportingFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11454,7 +14407,7 @@ func (v *LocationReport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *LocationReport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11463,6 +14416,10 @@ func (v *LocationReport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11473,16 +14430,25 @@ func (v *LocationReport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11503,9 +14469,11 @@ func (v *LocationReport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LocationReport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "LocationReport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11517,6 +14485,10 @@ func (v *LocationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11535,8 +14507,16 @@ func (v *LocationReport) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11556,7 +14536,7 @@ func (v *OverloadStart) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *OverloadStart) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11565,6 +14545,10 @@ func (v *OverloadStart) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11575,16 +14559,25 @@ func (v *OverloadStart) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11605,9 +14598,11 @@ func (v *OverloadStart) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OverloadStart")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "OverloadStart")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11619,6 +14614,10 @@ func (v *OverloadStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11637,8 +14636,16 @@ func (v *OverloadStart) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11658,7 +14665,7 @@ func (v *OverloadStop) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *OverloadStop) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11667,6 +14674,10 @@ func (v *OverloadStop) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11677,16 +14688,25 @@ func (v *OverloadStop) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11707,9 +14727,11 @@ func (v *OverloadStop) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OverloadStop")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "OverloadStop")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11721,6 +14743,10 @@ func (v *OverloadStop) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11739,8 +14765,16 @@ func (v *OverloadStop) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11760,7 +14794,7 @@ func (v *WriteReplaceWarningRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *WriteReplaceWarningRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11769,6 +14803,10 @@ func (v *WriteReplaceWarningRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11779,16 +14817,25 @@ func (v *WriteReplaceWarningRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11809,9 +14856,11 @@ func (v *WriteReplaceWarningRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WriteReplaceWarningRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "WriteReplaceWarningRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11823,6 +14872,10 @@ func (v *WriteReplaceWarningRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11841,8 +14894,16 @@ func (v *WriteReplaceWarningRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11862,7 +14923,7 @@ func (v *WriteReplaceWarningResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *WriteReplaceWarningResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11871,6 +14932,10 @@ func (v *WriteReplaceWarningResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11881,16 +14946,25 @@ func (v *WriteReplaceWarningResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -11911,9 +14985,11 @@ func (v *WriteReplaceWarningResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WriteReplaceWarningResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "WriteReplaceWarningResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -11925,6 +15001,10 @@ func (v *WriteReplaceWarningResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11943,8 +15023,16 @@ func (v *WriteReplaceWarningResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11964,7 +15052,7 @@ func (v *ENBDirectInformationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -11973,6 +15061,10 @@ func (v *ENBDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -11983,16 +15075,25 @@ func (v *ENBDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12013,9 +15114,11 @@ func (v *ENBDirectInformationTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBDirectInformationTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBDirectInformationTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12027,6 +15130,10 @@ func (v *ENBDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12045,8 +15152,16 @@ func (v *ENBDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12066,7 +15181,7 @@ func (v *InterSystemInformationTransferType) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *InterSystemInformationTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12084,6 +15199,9 @@ func (v *InterSystemInformationTransferType) MarshalAPERTo(bb *per.BitBuffer) er
 			return err
 		}
 		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("InterSystemInformationTransferType: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 1
 	if err := per.EncodeBoolean(bb, isExtension); err != nil {
@@ -12112,9 +15230,11 @@ func (v *InterSystemInformationTransferType) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemInformationTransferType")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "InterSystemInformationTransferType")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12154,7 +15274,7 @@ func (v *MMEDirectInformationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12163,6 +15283,10 @@ func (v *MMEDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12173,16 +15297,25 @@ func (v *MMEDirectInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12203,9 +15336,11 @@ func (v *MMEDirectInformationTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEDirectInformationTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEDirectInformationTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12217,6 +15352,10 @@ func (v *MMEDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12235,8 +15374,16 @@ func (v *MMEDirectInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12256,7 +15403,7 @@ func (v *ENBConfigurationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12265,6 +15412,10 @@ func (v *ENBConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12275,16 +15426,25 @@ func (v *ENBConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12305,9 +15465,11 @@ func (v *ENBConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12319,6 +15481,10 @@ func (v *ENBConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12337,8 +15503,16 @@ func (v *ENBConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12358,7 +15532,7 @@ func (v *MMEConfigurationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMEConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12367,6 +15541,10 @@ func (v *MMEConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12377,16 +15555,25 @@ func (v *MMEConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12407,9 +15594,11 @@ func (v *MMEConfigurationTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12421,6 +15610,10 @@ func (v *MMEConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12439,8 +15632,16 @@ func (v *MMEConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12460,7 +15661,7 @@ func (v *PrivateMessage) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12469,6 +15670,10 @@ func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PrivateIEs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_privateies, fragmentLength_privateies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_privateies < 0 || fragmentOffset_privateies > int64(len(v.PrivateIEs)) || fragmentLength_privateies < 0 || fragmentLength_privateies > int64(len(v.PrivateIEs[fragmentOffset_privateies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PrivateIEs[fragmentOffset_privateies : fragmentOffset_privateies+fragmentLength_privateies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding privateIEs element: %w", err)
@@ -12479,16 +15684,25 @@ func (v *PrivateMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding privateIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12509,9 +15723,11 @@ func (v *PrivateMessage) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateMessage")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateMessage")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12523,6 +15739,10 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PrivateIEs = make(PrivateIEContainer, 0)
 	_, errCollection_privateies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_privateies, fragmentLength_privateies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_privateies < 0 || fragmentLength_privateies < 0 || fragmentLength_privateies > int64(^uint(0)>>1) || fragmentOffset_privateies > int64(^uint(0)>>1)-fragmentLength_privateies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_privateies; i++ {
 			var elem PrivateIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12541,8 +15761,16 @@ func (v *PrivateMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12562,7 +15790,7 @@ func (v *KillRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *KillRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12571,6 +15799,10 @@ func (v *KillRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12581,16 +15813,25 @@ func (v *KillRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12611,9 +15852,11 @@ func (v *KillRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "KillRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "KillRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12625,6 +15868,10 @@ func (v *KillRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12643,8 +15890,16 @@ func (v *KillRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12664,7 +15919,7 @@ func (v *KillResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *KillResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12673,6 +15928,10 @@ func (v *KillResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12683,16 +15942,25 @@ func (v *KillResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12713,9 +15981,11 @@ func (v *KillResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "KillResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "KillResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12727,6 +15997,10 @@ func (v *KillResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12745,8 +16019,16 @@ func (v *KillResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12766,7 +16048,7 @@ func (v *PWSRestartIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PWSRestartIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12775,6 +16057,10 @@ func (v *PWSRestartIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12785,16 +16071,25 @@ func (v *PWSRestartIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12815,9 +16110,11 @@ func (v *PWSRestartIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PWSRestartIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PWSRestartIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12829,6 +16126,10 @@ func (v *PWSRestartIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12847,8 +16148,16 @@ func (v *PWSRestartIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12868,7 +16177,7 @@ func (v *PWSFailureIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PWSFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12877,6 +16186,10 @@ func (v *PWSFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12887,16 +16200,25 @@ func (v *PWSFailureIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -12917,9 +16239,11 @@ func (v *PWSFailureIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PWSFailureIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PWSFailureIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -12931,6 +16255,10 @@ func (v *PWSFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12949,8 +16277,16 @@ func (v *PWSFailureIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12970,7 +16306,7 @@ func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -12979,6 +16315,10 @@ func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -12989,16 +16329,25 @@ func (v *DownlinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13019,9 +16368,11 @@ func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkUEAssociatedLPPaTransport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkUEAssociatedLPPaTransport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13033,6 +16384,10 @@ func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13051,8 +16406,16 @@ func (v *DownlinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13072,7 +16435,7 @@ func (v *UplinkUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UplinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13081,6 +16444,10 @@ func (v *UplinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -13091,16 +16458,25 @@ func (v *UplinkUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13121,9 +16497,11 @@ func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UplinkUEAssociatedLPPaTransport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UplinkUEAssociatedLPPaTransport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13135,6 +16513,10 @@ func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13153,8 +16535,16 @@ func (v *UplinkUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13174,7 +16564,7 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13183,6 +16573,10 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) 
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -13193,16 +16587,25 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) 
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13223,9 +16626,11 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error 
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkNonUEAssociatedLPPaTransport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkNonUEAssociatedLPPaTransport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13237,6 +16642,10 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuff
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13255,8 +16664,16 @@ func (v *DownlinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuff
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13276,7 +16693,7 @@ func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13285,6 +16702,10 @@ func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) er
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -13295,16 +16716,25 @@ func (v *UplinkNonUEAssociatedLPPaTransport) MarshalAPERTo(bb *per.BitBuffer) er
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13325,9 +16755,11 @@ func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UplinkNonUEAssociatedLPPaTransport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UplinkNonUEAssociatedLPPaTransport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13339,6 +16771,10 @@ func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13357,8 +16793,16 @@ func (v *UplinkNonUEAssociatedLPPaTransport) UnmarshalAPERFrom(bb *per.BitBuffer
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13378,7 +16822,7 @@ func (v *ERABModificationIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13387,6 +16831,10 @@ func (v *ERABModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -13397,16 +16845,25 @@ func (v *ERABModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13427,9 +16884,11 @@ func (v *ERABModificationIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModificationIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABModificationIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13441,6 +16900,10 @@ func (v *ERABModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13459,8 +16922,16 @@ func (v *ERABModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13478,19 +16949,48 @@ type asn1cAPERERABToBeModifiedListBearerModIndListValue struct {
 	Value ERABToBeModifiedListBearerModInd
 }
 
-// MarshalAPERERABToBeModifiedListBearerModInd encodes a ERABToBeModifiedListBearerModInd list to APER.
-func MarshalAPERERABToBeModifiedListBearerModInd(list ERABToBeModifiedListBearerModInd) ([]byte, error) {
+// ERABToBeModifiedListBearerModIndComplete carries a complete ERABToBeModifiedListBearerModInd encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABToBeModifiedListBearerModIndComplete struct {
+	Value       ERABToBeModifiedListBearerModInd
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABToBeModifiedListBearerModIndComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABToBeModifiedListBearerModIndTo(list, bb); err != nil {
+	if err := MarshalAPERERABToBeModifiedListBearerModIndTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABToBeModifiedListBearerModIndComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABToBeModifiedListBearerModIndFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModInd")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModInd")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABToBeModifiedListBearerModInd encodes a ERABToBeModifiedListBearerModInd list to APER.
+func MarshalAPERERABToBeModifiedListBearerModInd(list ERABToBeModifiedListBearerModIndComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABToBeModifiedListBearerModIndTo appends a ERABToBeModifiedListBearerModInd list to bb.
 func MarshalAPERERABToBeModifiedListBearerModIndTo(list ERABToBeModifiedListBearerModInd, bb *per.BitBuffer) error {
 	v := asn1cAPERERABToBeModifiedListBearerModIndListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -13504,14 +17004,10 @@ func MarshalAPERERABToBeModifiedListBearerModIndTo(list ERABToBeModifiedListBear
 }
 
 // UnmarshalAPERERABToBeModifiedListBearerModInd decodes a ERABToBeModifiedListBearerModInd list from APER.
-func UnmarshalAPERERABToBeModifiedListBearerModInd(data []byte) (ERABToBeModifiedListBearerModInd, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABToBeModifiedListBearerModIndFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModInd")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModInd")
+func UnmarshalAPERERABToBeModifiedListBearerModInd(data []byte) (ERABToBeModifiedListBearerModIndComplete, error) {
+	var value ERABToBeModifiedListBearerModIndComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13528,6 +17024,10 @@ func UnmarshalAPERERABToBeModifiedListBearerModIndFrom(bb *per.BitBuffer) (ERABT
 func unmarshalAPERERABToBeModifiedListBearerModIndInto(v *asn1cAPERERABToBeModifiedListBearerModIndListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABToBeModifiedListBearerModInd, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13549,7 +17049,7 @@ func (v *ERABToBeModifiedItemBearerModInd) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13572,6 +17072,10 @@ func (v *ERABToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) erro
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -13583,16 +17087,25 @@ func (v *ERABToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) erro
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13613,9 +17126,11 @@ func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedItemBearerModInd")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedItemBearerModInd")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13648,6 +17163,10 @@ func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13668,8 +17187,16 @@ func (v *ERABToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13687,19 +17214,48 @@ type asn1cAPERERABNotToBeModifiedListBearerModIndListValue struct {
 	Value ERABNotToBeModifiedListBearerModInd
 }
 
-// MarshalAPERERABNotToBeModifiedListBearerModInd encodes a ERABNotToBeModifiedListBearerModInd list to APER.
-func MarshalAPERERABNotToBeModifiedListBearerModInd(list ERABNotToBeModifiedListBearerModInd) ([]byte, error) {
+// ERABNotToBeModifiedListBearerModIndComplete carries a complete ERABNotToBeModifiedListBearerModInd encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABNotToBeModifiedListBearerModIndComplete struct {
+	Value       ERABNotToBeModifiedListBearerModInd
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABNotToBeModifiedListBearerModIndComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABNotToBeModifiedListBearerModIndTo(list, bb); err != nil {
+	if err := MarshalAPERERABNotToBeModifiedListBearerModIndTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABNotToBeModifiedListBearerModIndComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABNotToBeModifiedListBearerModIndFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABNotToBeModifiedListBearerModInd")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABNotToBeModifiedListBearerModInd")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABNotToBeModifiedListBearerModInd encodes a ERABNotToBeModifiedListBearerModInd list to APER.
+func MarshalAPERERABNotToBeModifiedListBearerModInd(list ERABNotToBeModifiedListBearerModIndComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABNotToBeModifiedListBearerModIndTo appends a ERABNotToBeModifiedListBearerModInd list to bb.
 func MarshalAPERERABNotToBeModifiedListBearerModIndTo(list ERABNotToBeModifiedListBearerModInd, bb *per.BitBuffer) error {
 	v := asn1cAPERERABNotToBeModifiedListBearerModIndListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -13713,14 +17269,10 @@ func MarshalAPERERABNotToBeModifiedListBearerModIndTo(list ERABNotToBeModifiedLi
 }
 
 // UnmarshalAPERERABNotToBeModifiedListBearerModInd decodes a ERABNotToBeModifiedListBearerModInd list from APER.
-func UnmarshalAPERERABNotToBeModifiedListBearerModInd(data []byte) (ERABNotToBeModifiedListBearerModInd, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABNotToBeModifiedListBearerModIndFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABNotToBeModifiedListBearerModInd")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABNotToBeModifiedListBearerModInd")
+func UnmarshalAPERERABNotToBeModifiedListBearerModInd(data []byte) (ERABNotToBeModifiedListBearerModIndComplete, error) {
+	var value ERABNotToBeModifiedListBearerModIndComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -13737,6 +17289,10 @@ func UnmarshalAPERERABNotToBeModifiedListBearerModIndFrom(bb *per.BitBuffer) (ER
 func unmarshalAPERERABNotToBeModifiedListBearerModIndInto(v *asn1cAPERERABNotToBeModifiedListBearerModIndListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABNotToBeModifiedListBearerModInd, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13758,7 +17314,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13781,6 +17337,10 @@ func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) e
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -13792,16 +17352,25 @@ func (v *ERABNotToBeModifiedItemBearerModInd) MarshalAPERTo(bb *per.BitBuffer) e
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13822,9 +17391,11 @@ func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABNotToBeModifiedItemBearerModInd")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABNotToBeModifiedItemBearerModInd")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -13857,6 +17428,10 @@ func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffe
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13877,8 +17452,16 @@ func (v *ERABNotToBeModifiedItemBearerModInd) UnmarshalAPERFrom(bb *per.BitBuffe
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13898,7 +17481,7 @@ func (v *CSGMembershipInfo) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *CSGMembershipInfo) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -13934,6 +17517,10 @@ func (v *CSGMembershipInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -13945,16 +17532,25 @@ func (v *CSGMembershipInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -13975,9 +17571,11 @@ func (v *CSGMembershipInfo) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CSGMembershipInfo")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "CSGMembershipInfo")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14029,6 +17627,10 @@ func (v *CSGMembershipInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14049,8 +17651,16 @@ func (v *CSGMembershipInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14070,7 +17680,7 @@ func (v *ERABModificationConfirm) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14079,6 +17689,10 @@ func (v *ERABModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -14089,16 +17703,25 @@ func (v *ERABModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -14119,9 +17742,11 @@ func (v *ERABModificationConfirm) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModificationConfirm")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABModificationConfirm")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14133,6 +17758,10 @@ func (v *ERABModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14151,8 +17780,16 @@ func (v *ERABModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14168,19 +17805,48 @@ func (v *ERABModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 type asn1cAPERERABModifyListBearerModConfListValue struct{ Value ERABModifyListBearerModConf }
 
-// MarshalAPERERABModifyListBearerModConf encodes a ERABModifyListBearerModConf list to APER.
-func MarshalAPERERABModifyListBearerModConf(list ERABModifyListBearerModConf) ([]byte, error) {
+// ERABModifyListBearerModConfComplete carries a complete ERABModifyListBearerModConf encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABModifyListBearerModConfComplete struct {
+	Value       ERABModifyListBearerModConf
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABModifyListBearerModConfComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABModifyListBearerModConfTo(list, bb); err != nil {
+	if err := MarshalAPERERABModifyListBearerModConfTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABModifyListBearerModConfComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABModifyListBearerModConfFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABModifyListBearerModConf")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABModifyListBearerModConf")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABModifyListBearerModConf encodes a ERABModifyListBearerModConf list to APER.
+func MarshalAPERERABModifyListBearerModConf(list ERABModifyListBearerModConfComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABModifyListBearerModConfTo appends a ERABModifyListBearerModConf list to bb.
 func MarshalAPERERABModifyListBearerModConfTo(list ERABModifyListBearerModConf, bb *per.BitBuffer) error {
 	v := asn1cAPERERABModifyListBearerModConfListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14194,14 +17860,10 @@ func MarshalAPERERABModifyListBearerModConfTo(list ERABModifyListBearerModConf, 
 }
 
 // UnmarshalAPERERABModifyListBearerModConf decodes a ERABModifyListBearerModConf list from APER.
-func UnmarshalAPERERABModifyListBearerModConf(data []byte) (ERABModifyListBearerModConf, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABModifyListBearerModConfFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABModifyListBearerModConf")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABModifyListBearerModConf")
+func UnmarshalAPERERABModifyListBearerModConf(data []byte) (ERABModifyListBearerModConfComplete, error) {
+	var value ERABModifyListBearerModConfComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -14218,6 +17880,10 @@ func UnmarshalAPERERABModifyListBearerModConfFrom(bb *per.BitBuffer) (ERABModify
 func unmarshalAPERERABModifyListBearerModConfInto(v *asn1cAPERERABModifyListBearerModConfListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABModifyListBearerModConf, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14239,7 +17905,7 @@ func (v *ERABModifyItemBearerModConf) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABModifyItemBearerModConf) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14256,6 +17922,10 @@ func (v *ERABModifyItemBearerModConf) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -14267,16 +17937,25 @@ func (v *ERABModifyItemBearerModConf) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -14297,9 +17976,11 @@ func (v *ERABModifyItemBearerModConf) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModConf")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModConf")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14322,6 +18003,10 @@ func (v *ERABModifyItemBearerModConf) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14342,8 +18027,16 @@ func (v *ERABModifyItemBearerModConf) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14363,7 +18056,7 @@ func (v *UEContextModificationIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14372,6 +18065,10 @@ func (v *UEContextModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -14382,16 +18079,25 @@ func (v *UEContextModificationIndication) MarshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -14412,9 +18118,11 @@ func (v *UEContextModificationIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14426,6 +18134,10 @@ func (v *UEContextModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14444,8 +18156,16 @@ func (v *UEContextModificationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14465,7 +18185,7 @@ func (v *UEContextModificationConfirm) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14474,6 +18194,10 @@ func (v *UEContextModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -14484,16 +18208,25 @@ func (v *UEContextModificationConfirm) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -14514,9 +18247,11 @@ func (v *UEContextModificationConfirm) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationConfirm")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextModificationConfirm")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14528,6 +18263,10 @@ func (v *UEContextModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14546,8 +18285,16 @@ func (v *UEContextModificationConfirm) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14567,7 +18314,7 @@ func (v *UEContextSuspendRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextSuspendRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14576,6 +18323,10 @@ func (v *UEContextSuspendRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -14586,16 +18337,25 @@ func (v *UEContextSuspendRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -14616,9 +18376,11 @@ func (v *UEContextSuspendRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextSuspendRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextSuspendRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14630,6 +18392,10 @@ func (v *UEContextSuspendRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14648,8 +18414,16 @@ func (v *UEContextSuspendRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14669,7 +18443,7 @@ func (v *UEContextSuspendResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextSuspendResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14678,6 +18452,10 @@ func (v *UEContextSuspendResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -14688,16 +18466,25 @@ func (v *UEContextSuspendResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -14718,9 +18505,11 @@ func (v *UEContextSuspendResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextSuspendResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextSuspendResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14732,6 +18521,10 @@ func (v *UEContextSuspendResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14750,8 +18543,16 @@ func (v *UEContextSuspendResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14771,7 +18572,7 @@ func (v *UEContextResumeRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextResumeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14780,6 +18581,10 @@ func (v *UEContextResumeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -14790,16 +18595,25 @@ func (v *UEContextResumeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -14820,9 +18634,11 @@ func (v *UEContextResumeRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextResumeRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextResumeRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -14834,6 +18650,10 @@ func (v *UEContextResumeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14852,8 +18672,16 @@ func (v *UEContextResumeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14871,19 +18699,48 @@ type asn1cAPERERABFailedToResumeListResumeReqListValue struct {
 	Value ERABFailedToResumeListResumeReq
 }
 
-// MarshalAPERERABFailedToResumeListResumeReq encodes a ERABFailedToResumeListResumeReq list to APER.
-func MarshalAPERERABFailedToResumeListResumeReq(list ERABFailedToResumeListResumeReq) ([]byte, error) {
+// ERABFailedToResumeListResumeReqComplete carries a complete ERABFailedToResumeListResumeReq encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABFailedToResumeListResumeReqComplete struct {
+	Value       ERABFailedToResumeListResumeReq
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABFailedToResumeListResumeReqComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABFailedToResumeListResumeReqTo(list, bb); err != nil {
+	if err := MarshalAPERERABFailedToResumeListResumeReqTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABFailedToResumeListResumeReqComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABFailedToResumeListResumeReqFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeReq")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeReq")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABFailedToResumeListResumeReq encodes a ERABFailedToResumeListResumeReq list to APER.
+func MarshalAPERERABFailedToResumeListResumeReq(list ERABFailedToResumeListResumeReqComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABFailedToResumeListResumeReqTo appends a ERABFailedToResumeListResumeReq list to bb.
 func MarshalAPERERABFailedToResumeListResumeReqTo(list ERABFailedToResumeListResumeReq, bb *per.BitBuffer) error {
 	v := asn1cAPERERABFailedToResumeListResumeReqListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14897,14 +18754,10 @@ func MarshalAPERERABFailedToResumeListResumeReqTo(list ERABFailedToResumeListRes
 }
 
 // UnmarshalAPERERABFailedToResumeListResumeReq decodes a ERABFailedToResumeListResumeReq list from APER.
-func UnmarshalAPERERABFailedToResumeListResumeReq(data []byte) (ERABFailedToResumeListResumeReq, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABFailedToResumeListResumeReqFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeReq")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeReq")
+func UnmarshalAPERERABFailedToResumeListResumeReq(data []byte) (ERABFailedToResumeListResumeReqComplete, error) {
+	var value ERABFailedToResumeListResumeReqComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -14921,6 +18774,10 @@ func UnmarshalAPERERABFailedToResumeListResumeReqFrom(bb *per.BitBuffer) (ERABFa
 func unmarshalAPERERABFailedToResumeListResumeReqInto(v *asn1cAPERERABFailedToResumeListResumeReqListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABFailedToResumeListResumeReq, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14942,7 +18799,7 @@ func (v *ERABFailedToResumeItemResumeReq) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABFailedToResumeItemResumeReq) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -14962,6 +18819,10 @@ func (v *ERABFailedToResumeItemResumeReq) MarshalAPERTo(bb *per.BitBuffer) error
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -14973,16 +18834,25 @@ func (v *ERABFailedToResumeItemResumeReq) MarshalAPERTo(bb *per.BitBuffer) error
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15003,9 +18873,11 @@ func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToResumeItemResumeReq")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToResumeItemResumeReq")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15031,6 +18903,10 @@ func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15051,8 +18927,16 @@ func (v *ERABFailedToResumeItemResumeReq) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15072,7 +18956,7 @@ func (v *UEContextResumeResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextResumeResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15081,6 +18965,10 @@ func (v *UEContextResumeResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -15091,16 +18979,25 @@ func (v *UEContextResumeResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15121,9 +19018,11 @@ func (v *UEContextResumeResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextResumeResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextResumeResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15135,6 +19034,10 @@ func (v *UEContextResumeResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15153,8 +19056,16 @@ func (v *UEContextResumeResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15172,19 +19083,48 @@ type asn1cAPERERABFailedToResumeListResumeResListValue struct {
 	Value ERABFailedToResumeListResumeRes
 }
 
-// MarshalAPERERABFailedToResumeListResumeRes encodes a ERABFailedToResumeListResumeRes list to APER.
-func MarshalAPERERABFailedToResumeListResumeRes(list ERABFailedToResumeListResumeRes) ([]byte, error) {
+// ERABFailedToResumeListResumeResComplete carries a complete ERABFailedToResumeListResumeRes encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type ERABFailedToResumeListResumeResComplete struct {
+	Value       ERABFailedToResumeListResumeRes
+	PERPadding_ per.CompletePadding
+}
+
+func (v *ERABFailedToResumeListResumeResComplete) MarshalAPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalAPERERABFailedToResumeListResumeResTo(list, bb); err != nil {
+	if err := MarshalAPERERABFailedToResumeListResumeResTo(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *ERABFailedToResumeListResumeResComplete) UnmarshalAPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalAPERERABFailedToResumeListResumeResFrom(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeRes")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeRes")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalAPERERABFailedToResumeListResumeRes encodes a ERABFailedToResumeListResumeRes list to APER.
+func MarshalAPERERABFailedToResumeListResumeRes(list ERABFailedToResumeListResumeResComplete) ([]byte, error) {
+	return list.MarshalAPER()
 }
 
 // MarshalAPERERABFailedToResumeListResumeResTo appends a ERABFailedToResumeListResumeRes list to bb.
 func MarshalAPERERABFailedToResumeListResumeResTo(list ERABFailedToResumeListResumeRes, bb *per.BitBuffer) error {
 	v := asn1cAPERERABFailedToResumeListResumeResListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -15198,14 +19138,10 @@ func MarshalAPERERABFailedToResumeListResumeResTo(list ERABFailedToResumeListRes
 }
 
 // UnmarshalAPERERABFailedToResumeListResumeRes decodes a ERABFailedToResumeListResumeRes list from APER.
-func UnmarshalAPERERABFailedToResumeListResumeRes(data []byte) (ERABFailedToResumeListResumeRes, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalAPERERABFailedToResumeListResumeResFrom(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeRes")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "ERABFailedToResumeListResumeRes")
+func UnmarshalAPERERABFailedToResumeListResumeRes(data []byte) (ERABFailedToResumeListResumeResComplete, error) {
+	var value ERABFailedToResumeListResumeResComplete
+	if err := value.UnmarshalAPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -15222,6 +19158,10 @@ func UnmarshalAPERERABFailedToResumeListResumeResFrom(bb *per.BitBuffer) (ERABFa
 func unmarshalAPERERABFailedToResumeListResumeResInto(v *asn1cAPERERABFailedToResumeListResumeResListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABFailedToResumeListResumeRes, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15243,7 +19183,7 @@ func (v *ERABFailedToResumeItemResumeRes) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ERABFailedToResumeItemResumeRes) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15263,6 +19203,10 @@ func (v *ERABFailedToResumeItemResumeRes) MarshalAPERTo(bb *per.BitBuffer) error
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -15274,16 +19218,25 @@ func (v *ERABFailedToResumeItemResumeRes) MarshalAPERTo(bb *per.BitBuffer) error
 		}
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15304,9 +19257,11 @@ func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToResumeItemResumeRes")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToResumeItemResumeRes")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15332,6 +19287,10 @@ func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15352,8 +19311,16 @@ func (v *ERABFailedToResumeItemResumeRes) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15373,7 +19340,7 @@ func (v *UEContextResumeFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEContextResumeFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15382,6 +19349,10 @@ func (v *UEContextResumeFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -15392,16 +19363,25 @@ func (v *UEContextResumeFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15422,9 +19402,11 @@ func (v *UEContextResumeFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEContextResumeFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEContextResumeFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15436,6 +19418,10 @@ func (v *UEContextResumeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15454,8 +19440,16 @@ func (v *UEContextResumeFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15475,7 +19469,7 @@ func (v *ConnectionEstablishmentIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ConnectionEstablishmentIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15484,6 +19478,10 @@ func (v *ConnectionEstablishmentIndication) MarshalAPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -15494,16 +19492,25 @@ func (v *ConnectionEstablishmentIndication) MarshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15524,9 +19531,11 @@ func (v *ConnectionEstablishmentIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ConnectionEstablishmentIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ConnectionEstablishmentIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15538,6 +19547,10 @@ func (v *ConnectionEstablishmentIndication) UnmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15556,8 +19569,16 @@ func (v *ConnectionEstablishmentIndication) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15577,7 +19598,7 @@ func (v *RetrieveUEInformation) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *RetrieveUEInformation) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15586,6 +19607,10 @@ func (v *RetrieveUEInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -15596,16 +19621,25 @@ func (v *RetrieveUEInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15626,9 +19660,11 @@ func (v *RetrieveUEInformation) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RetrieveUEInformation")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "RetrieveUEInformation")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15640,6 +19676,10 @@ func (v *RetrieveUEInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15658,8 +19698,16 @@ func (v *RetrieveUEInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15679,7 +19727,7 @@ func (v *UEInformationTransfer) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UEInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15688,6 +19736,10 @@ func (v *UEInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -15698,16 +19750,25 @@ func (v *UEInformationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15728,9 +19789,11 @@ func (v *UEInformationTransfer) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEInformationTransfer")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UEInformationTransfer")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15742,6 +19805,10 @@ func (v *UEInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15760,8 +19827,16 @@ func (v *UEInformationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15781,7 +19856,7 @@ func (v *ENBCPRelocationIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *ENBCPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15790,6 +19865,10 @@ func (v *ENBCPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -15800,16 +19879,25 @@ func (v *ENBCPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15830,9 +19918,11 @@ func (v *ENBCPRelocationIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBCPRelocationIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "ENBCPRelocationIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15844,6 +19934,10 @@ func (v *ENBCPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15862,8 +19956,16 @@ func (v *ENBCPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15883,7 +19985,7 @@ func (v *MMECPRelocationIndication) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *MMECPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15892,6 +19994,10 @@ func (v *MMECPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -15902,16 +20008,25 @@ func (v *MMECPRelocationIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -15932,9 +20047,11 @@ func (v *MMECPRelocationIndication) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMECPRelocationIndication")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "MMECPRelocationIndication")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -15946,6 +20063,10 @@ func (v *MMECPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15964,8 +20085,16 @@ func (v *MMECPRelocationIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15985,7 +20114,7 @@ func (v *SecondaryRATDataUsageReport) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *SecondaryRATDataUsageReport) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -15994,6 +20123,10 @@ func (v *SecondaryRATDataUsageReport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -16004,16 +20137,25 @@ func (v *SecondaryRATDataUsageReport) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -16034,9 +20176,11 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReport")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "SecondaryRATDataUsageReport")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16048,6 +20192,10 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16066,8 +20214,16 @@ func (v *SecondaryRATDataUsageReport) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16087,7 +20243,7 @@ func (v *UERadioCapabilityIDMappingRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioCapabilityIDMappingRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16096,6 +20252,10 @@ func (v *UERadioCapabilityIDMappingRequest) MarshalAPERTo(bb *per.BitBuffer) err
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -16106,16 +20266,25 @@ func (v *UERadioCapabilityIDMappingRequest) MarshalAPERTo(bb *per.BitBuffer) err
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -16136,9 +20305,11 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityIDMappingRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityIDMappingRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16150,6 +20321,10 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer)
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16168,8 +20343,16 @@ func (v *UERadioCapabilityIDMappingRequest) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16189,7 +20372,7 @@ func (v *UERadioCapabilityIDMappingResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *UERadioCapabilityIDMappingResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16198,6 +20381,10 @@ func (v *UERadioCapabilityIDMappingResponse) MarshalAPERTo(bb *per.BitBuffer) er
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -16208,16 +20395,25 @@ func (v *UERadioCapabilityIDMappingResponse) MarshalAPERTo(bb *per.BitBuffer) er
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -16238,9 +20434,11 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityIDMappingResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "UERadioCapabilityIDMappingResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16252,6 +20450,10 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16270,8 +20472,16 @@ func (v *UERadioCapabilityIDMappingResponse) UnmarshalAPERFrom(bb *per.BitBuffer
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16291,7 +20501,7 @@ func (v *S1RemovalRequest) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *S1RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16300,6 +20510,10 @@ func (v *S1RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -16310,16 +20524,25 @@ func (v *S1RemovalRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -16340,9 +20563,11 @@ func (v *S1RemovalRequest) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalRequest")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalRequest")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16354,6 +20579,10 @@ func (v *S1RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16372,8 +20601,16 @@ func (v *S1RemovalRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16393,7 +20630,7 @@ func (v *S1RemovalResponse) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *S1RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16402,6 +20639,10 @@ func (v *S1RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -16412,16 +20653,25 @@ func (v *S1RemovalResponse) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -16442,9 +20692,11 @@ func (v *S1RemovalResponse) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalResponse")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalResponse")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16456,6 +20708,10 @@ func (v *S1RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16474,8 +20730,16 @@ func (v *S1RemovalResponse) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16495,7 +20759,7 @@ func (v *S1RemovalFailure) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *S1RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
@@ -16504,6 +20768,10 @@ func (v *S1RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ProtocolIEs)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
@@ -16514,16 +20782,25 @@ func (v *S1RemovalFailure) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
+		extCount := v.ExtCount_
+		if err := per.EncodeNormallySmallNonNegativeAligned(bb, extCount); err != nil {
 			return err
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:439
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
-		for i := int64(0); i <= v.ExtCount_; i++ {
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:446
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
 				var data []byte
 				if i < int64(len(v.ExtData_)) {
@@ -16544,9 +20821,11 @@ func (v *S1RemovalFailure) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalFailure")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalFailure")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -16558,6 +20837,10 @@ func (v *S1RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ProtocolIEs = make(ProtocolIEContainer, 0)
 	_, errCollection_protocolies := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1190
+		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16576,8 +20859,16 @@ func (v *S1RemovalFailure) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:617
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:620
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)

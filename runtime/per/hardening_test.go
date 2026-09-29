@@ -2,11 +2,215 @@ package per
 
 import (
 	"bytes"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"math"
+	"strings"
 	"testing"
 )
+
+func TestDecodedExtensionIndexRejectsInt64Overflow(t *testing.T) {
+	for _, tc := range []struct {
+		name    string
+		wire    string
+		aligned bool
+	}{
+		{name: "UPER", wire: "c21fffffffffffffffc0"},
+		{name: "APER", wire: "c0087fffffffffffffff", aligned: true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			wire, err := hex.DecodeString(tc.wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+			for _, kind := range []string{"CHOICE", "ENUMERATED"} {
+				t.Run(kind, func(t *testing.T) {
+					input := NewBitBufferFromBytes(wire)
+					if kind == "CHOICE" {
+						var extension bool
+						if tc.aligned {
+							_, extension, err = DecodeChoiceIndexAligned(input, 2, true)
+						} else {
+							_, extension, err = DecodeChoiceIndex(input, 2, true)
+						}
+						if !extension {
+							t.Fatal("extension bit was not decoded")
+						}
+					} else if tc.aligned {
+						_, err = DecodeEnumeratedAligned(input, 2, true)
+					} else {
+						_, err = DecodeEnumerated(input, 2, true)
+					}
+					if !errors.Is(err, ErrInvalidValue) {
+						t.Fatalf("decoded index overflow error = %v, want ErrInvalidValue", err)
+					}
+				})
+			}
+		})
+	}
+}
+
+func TestDecodedExtensionIndexAtInt64Boundary(t *testing.T) {
+	for _, aligned := range []bool{false, true} {
+		for _, enumerated := range []bool{false, true} {
+			bb := NewBitBuffer()
+			var err error
+			if enumerated && aligned {
+				err = EncodeEnumeratedAligned(bb, math.MaxInt64, 2, true)
+			} else if enumerated {
+				err = EncodeEnumerated(bb, math.MaxInt64, 2, true)
+			} else if aligned {
+				err = EncodeChoiceIndexAligned(bb, math.MaxInt64, 2, true)
+			} else {
+				err = EncodeChoiceIndex(bb, math.MaxInt64, 2, true)
+			}
+			if err != nil {
+				t.Fatal(err)
+			}
+			input := NewBitBufferFromBytes(bb.Bytes())
+			var got int64
+			if enumerated && aligned {
+				got, err = DecodeEnumeratedAligned(input, 2, true)
+			} else if enumerated {
+				got, err = DecodeEnumerated(input, 2, true)
+			} else if aligned {
+				got, _, err = DecodeChoiceIndexAligned(input, 2, true)
+			} else {
+				got, _, err = DecodeChoiceIndex(input, 2, true)
+			}
+			if err != nil || got != math.MaxInt64 {
+				t.Fatalf("aligned=%t enumerated=%t: decoded index %d, error %v", aligned, enumerated, got, err)
+			}
+		}
+	}
+}
+
+func TestNonpositiveRootCountsAreRejected(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		encode func(*BitBuffer, int, bool) error
+		decode func(*BitBuffer, int, bool) error
+	}{
+		{"UPER ENUMERATED", func(bb *BitBuffer, n int, ext bool) error { return EncodeEnumerated(bb, 7, n, ext) }, func(bb *BitBuffer, n int, ext bool) error { _, err := DecodeEnumerated(bb, n, ext); return err }},
+		{"APER ENUMERATED", func(bb *BitBuffer, n int, ext bool) error { return EncodeEnumeratedAligned(bb, 7, n, ext) }, func(bb *BitBuffer, n int, ext bool) error { _, err := DecodeEnumeratedAligned(bb, n, ext); return err }},
+		{"UPER CHOICE", func(bb *BitBuffer, n int, ext bool) error { return EncodeChoiceIndex(bb, 7, n, ext) }, func(bb *BitBuffer, n int, ext bool) error { _, _, err := DecodeChoiceIndex(bb, n, ext); return err }},
+		{"APER CHOICE", func(bb *BitBuffer, n int, ext bool) error { return EncodeChoiceIndexAligned(bb, 7, n, ext) }, func(bb *BitBuffer, n int, ext bool) error {
+			_, _, err := DecodeChoiceIndexAligned(bb, n, ext)
+			return err
+		}},
+	} {
+		for _, count := range []int{math.MinInt, -1, 0} {
+			for _, extensible := range []bool{false, true} {
+				t.Run(fmt.Sprintf("%s/count=%d/ext=%t", tc.name, count, extensible), func(t *testing.T) {
+					bb := NewBitBuffer()
+					if err := tc.encode(bb, count, extensible); !errors.Is(err, ErrInvalidValue) {
+						t.Fatalf("encode error = %v, want ErrInvalidValue", err)
+					}
+					if bb.BitsWritten() != 0 {
+						t.Fatalf("invalid root count wrote %d bits", bb.BitsWritten())
+					}
+					input := NewBitBufferFromBytes([]byte{0x80})
+					if err := tc.decode(input, count, extensible); !errors.Is(err, ErrInvalidValue) {
+						t.Fatalf("decode error = %v, want ErrInvalidValue", err)
+					}
+					if input.BitPos() != 0 {
+						t.Fatalf("invalid root count consumed %d bits", input.BitPos())
+					}
+				})
+			}
+		}
+	}
+}
+
+func TestSingleRootOmitsIndex(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		encode func(*BitBuffer, bool) error
+		decode func(*BitBuffer, bool) (int64, error)
+	}{
+		{"UPER ENUMERATED", func(bb *BitBuffer, ext bool) error { return EncodeEnumerated(bb, 0, 1, ext) }, func(bb *BitBuffer, ext bool) (int64, error) { return DecodeEnumerated(bb, 1, ext) }},
+		{"APER ENUMERATED", func(bb *BitBuffer, ext bool) error { return EncodeEnumeratedAligned(bb, 0, 1, ext) }, func(bb *BitBuffer, ext bool) (int64, error) { return DecodeEnumeratedAligned(bb, 1, ext) }},
+		{"UPER CHOICE", func(bb *BitBuffer, ext bool) error { return EncodeChoiceIndex(bb, 0, 1, ext) }, func(bb *BitBuffer, ext bool) (int64, error) {
+			v, _, err := DecodeChoiceIndex(bb, 1, ext)
+			return v, err
+		}},
+		{"APER CHOICE", func(bb *BitBuffer, ext bool) error { return EncodeChoiceIndexAligned(bb, 0, 1, ext) }, func(bb *BitBuffer, ext bool) (int64, error) {
+			v, _, err := DecodeChoiceIndexAligned(bb, 1, ext)
+			return v, err
+		}},
+	} {
+		for _, extensible := range []bool{false, true} {
+			t.Run(fmt.Sprintf("%s/ext=%t", tc.name, extensible), func(t *testing.T) {
+				bb := NewBitBuffer()
+				if err := tc.encode(bb, extensible); err != nil {
+					t.Fatal(err)
+				}
+				wantBits := 0
+				if extensible {
+					wantBits = 1
+				}
+				if bb.BitsWritten() != wantBits {
+					t.Fatalf("bits written = %d, want %d", bb.BitsWritten(), wantBits)
+				}
+				got, err := tc.decode(NewBitBufferFromBytes(bb.Bytes()), extensible)
+				if err != nil || got != 0 {
+					t.Fatalf("decoded %d, error %v", got, err)
+				}
+			})
+		}
+	}
+}
+
+func TestSingleRootRejectsNonrootIndex(t *testing.T) {
+	for _, encode := range []func(*BitBuffer, int64, bool) error{
+		func(bb *BitBuffer, v int64, ext bool) error { return EncodeEnumerated(bb, v, 1, ext) },
+		func(bb *BitBuffer, v int64, ext bool) error { return EncodeEnumeratedAligned(bb, v, 1, ext) },
+		func(bb *BitBuffer, v int64, ext bool) error { return EncodeChoiceIndex(bb, v, 1, ext) },
+		func(bb *BitBuffer, v int64, ext bool) error { return EncodeChoiceIndexAligned(bb, v, 1, ext) },
+	} {
+		for _, tc := range []struct {
+			value      int64
+			extensible bool
+		}{
+			{-1, false}, {-1, true}, {1, false},
+		} {
+			bb := NewBitBuffer()
+			if err := encode(bb, tc.value, tc.extensible); !errors.Is(err, ErrInvalidValue) {
+				t.Errorf("value %d, extensible %t: error = %v, want ErrInvalidValue", tc.value, tc.extensible, err)
+			}
+			if bb.BitsWritten() != 0 {
+				t.Errorf("value %d, extensible %t: wrote %d bits", tc.value, tc.extensible, bb.BitsWritten())
+			}
+		}
+	}
+}
+
+func FuzzDecodeExtendedIndexesNoPanic(f *testing.F) {
+	for _, seed := range []string{"c21fffffffffffffffc0", "c0087fffffffffffffff", "80", "00"} {
+		wire, err := hex.DecodeString(seed)
+		if err != nil {
+			f.Fatal(err)
+		}
+		f.Add(wire)
+	}
+	f.Fuzz(func(t *testing.T, wire []byte) {
+		for _, decode := range []func(*BitBuffer) (int64, error){
+			func(bb *BitBuffer) (int64, error) { value, _, err := DecodeChoiceIndex(bb, 2, true); return value, err },
+			func(bb *BitBuffer) (int64, error) {
+				value, _, err := DecodeChoiceIndexAligned(bb, 2, true)
+				return value, err
+			},
+			func(bb *BitBuffer) (int64, error) { return DecodeEnumerated(bb, 2, true) },
+			func(bb *BitBuffer) (int64, error) { return DecodeEnumeratedAligned(bb, 2, true) },
+		} {
+			value, err := decode(NewBitBufferFromBytes(wire))
+			if err == nil && value < 0 {
+				t.Fatalf("decoded negative extension index %d", value)
+			}
+		}
+	})
+}
 
 func TestNormallySmallNonNegativeRejectsInt64Overflow(t *testing.T) {
 	for _, tc := range []struct {
@@ -22,7 +226,9 @@ func TestNormallySmallNonNegativeRejectsInt64Overflow(t *testing.T) {
 				t.Fatal(err)
 			}
 			if tc.aligned {
-				bb.AlignToOctetWrite()
+				if err := bb.AlignToOctetWrite(); err != nil {
+					t.Fatal(err)
+				}
 			}
 			if err := bb.WriteBits(8, 8); err != nil {
 				t.Fatal(err)
@@ -400,7 +606,9 @@ func TestLargeRootSizeRejectsOutOfRangeValues(t *testing.T) {
 				if err := EncodeUnconstrainedLengthAligned(bb, 1); err != nil {
 					return err
 				}
-				bb.AlignToOctetWrite()
+				if err := bb.AlignToOctetWrite(); err != nil {
+					return err
+				}
 				return bb.WriteBit(1)
 			},
 			decodeRoot: func(bb *BitBuffer) error {
@@ -439,7 +647,9 @@ func TestLargeRootSizeRejectsOutOfRangeValues(t *testing.T) {
 				if err := EncodeUnconstrainedLengthAligned(bb, 1); err != nil {
 					return err
 				}
-				bb.AlignToOctetWrite()
+				if err := bb.AlignToOctetWrite(); err != nil {
+					return err
+				}
 				return bb.WriteBits('A', 7)
 			},
 			decodeRoot: func(bb *BitBuffer) error {
@@ -572,6 +782,26 @@ func TestDecodeExtensionBitmapRoundTrip(t *testing.T) {
 				t.Fatalf("extension bitmap = count %d, present %v", count, present)
 			}
 		})
+	}
+}
+
+func TestBitBufferRejectsNegativeCursor(t *testing.T) {
+	writer := NewBitBuffer()
+	writer.bitPos = -1
+	if err := writer.WriteBit(1); err == nil || !errors.Is(err, ErrInvalidValue) || !strings.Contains(err.Error(), "negative PER bit position") {
+		t.Fatalf("WriteBit with negative cursor = %v, want ErrInvalidValue", err)
+	}
+	if writer.bitPos != -1 || len(writer.data) != 0 {
+		t.Fatalf("WriteBit mutated invalid buffer: cursor=%d data=%x", writer.bitPos, writer.data)
+	}
+
+	reader := NewBitBufferFromBytes([]byte{0x80})
+	reader.bitPos = -1
+	if _, err := reader.ReadBit(); err == nil || !errors.Is(err, ErrInvalidValue) || !strings.Contains(err.Error(), "negative PER bit position") {
+		t.Fatalf("ReadBit with negative cursor = %v, want ErrInvalidValue", err)
+	}
+	if reader.bitPos != -1 {
+		t.Fatalf("ReadBit advanced invalid cursor to %d", reader.bitPos)
 	}
 }
 

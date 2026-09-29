@@ -79,9 +79,11 @@ const (
 
 // PrivateIEID represents the ASN.1 CHOICE type PrivateIE-ID.
 type PrivateIEID struct {
-	Choice int
-	Local  *int64                   `json:"Local,omitempty"`
-	Global runtime.ObjectIdentifier `json:"Global,omitempty"`
+	Choice              int
+	PERPadding_         per.CompletePadding      `json:"-"`
+	PEROpenTypePadding_ per.CompletePadding      `json:"-"`
+	Local               *int64                   `json:"Local,omitempty"`
+	Global              runtime.ObjectIdentifier `json:"Global,omitempty"`
 }
 
 // NewPrivateIEIDLocal creates a PrivateIEID with the local alternative.
@@ -134,10 +136,17 @@ func (v *PrivateIEID) MarshalAPER() ([]byte, error) {
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
+	if v.Choice < 1 {
+		return fmt.Errorf("PrivateIEID: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -165,9 +174,11 @@ func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -176,6 +187,10 @@ func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {

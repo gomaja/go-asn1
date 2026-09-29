@@ -20,6 +20,7 @@ type VarANRMeasConfigNBR16 struct {
 	AnrQualityThresholdR16  NRSRPRangeNBR14     `asn1:"tag:0,context,implicit"`
 	AnrCarrierListR16       ANRCarrierListNBR16 `asn1:"tag:1,context,implicit"`
 	AnrCarrierListR16Indef_ bool                `asn1:"-" json:"-"`
+	PERPadding_             per.CompletePadding `asn1:"-" json:"-"`
 }
 
 // VarANRMeasReportNBR16 represents the ASN.1 type VarANR-MeasReport-NB-r16 (SEQUENCE).
@@ -31,6 +32,7 @@ type VarANRMeasReportNBR16 struct {
 	RelativeTimeStampR16      int64                                  `asn1:"tag:3,context,implicit"`
 	MeasResultListR16         VarANRMeasReportNBR16MeasResultListR16 `asn1:"tag:4,context,implicit"`
 	MeasResultListR16Indef_   bool                                   `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding                    `asn1:"-" json:"-"`
 }
 
 // VarRLFReportNBR16 represents the ASN.1 type VarRLF-Report-NB-r16 (SEQUENCE).
@@ -38,6 +40,7 @@ type VarRLFReportNBR16 struct {
 	RlfReportR16              RLFReportNBR16       `asn1:"tag:0,context,implicit"`
 	PlmnIdentityListR16       PLMNIdentityList3R11 `asn1:"tag:1,context,implicit"`
 	PlmnIdentityListR16Indef_ bool                 `asn1:"-" json:"-"`
+	PERPadding_               per.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // VarShortMACInputNBR13 represents the ASN.1 type VarShortMAC-Input-NB-r13 (SEQUENCE).
@@ -55,7 +58,7 @@ func (v *VarANRMeasConfigNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -63,6 +66,10 @@ func (v *VarANRMeasConfigNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding anr-QualityThreshold-r16: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.AnrCarrierListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_anrcarrierlistr16, fragmentLength_anrcarrierlistr16 int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_anrcarrierlistr16 < 0 || fragmentOffset_anrcarrierlistr16 > int64(len(v.AnrCarrierListR16)) || fragmentLength_anrcarrierlistr16 < 0 || fragmentLength_anrcarrierlistr16 > int64(len(v.AnrCarrierListR16[fragmentOffset_anrcarrierlistr16:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.AnrCarrierListR16[fragmentOffset_anrcarrierlistr16 : fragmentOffset_anrcarrierlistr16+fragmentLength_anrcarrierlistr16] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding anr-CarrierList-r16 element: %w", err)
@@ -81,9 +88,11 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasConfigNBR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasConfigNBR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -96,6 +105,10 @@ func (v *VarANRMeasConfigNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.AnrQualityThresholdR16 = NRSRPRangeNBR14(val_anrqualitythresholdr16)
 	v.AnrCarrierListR16 = make(ANRCarrierListNBR16, 0)
 	_, errCollection_anrcarrierlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_anrcarrierlistr16, fragmentLength_anrcarrierlistr16 int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_anrcarrierlistr16 < 0 || fragmentLength_anrcarrierlistr16 < 0 || fragmentLength_anrcarrierlistr16 > int64(^uint(0)>>1) || fragmentOffset_anrcarrierlistr16 > int64(^uint(0)>>1)-fragmentLength_anrcarrierlistr16 {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_anrcarrierlistr16; i++ {
 			var elem ANRCarrierNBR16
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -117,11 +130,15 @@ func (v *VarANRMeasReportNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 	if err := per.EncodeCollection(bb, int64(len(v.PlmnIdentityListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_plmnidentitylistr16 < 0 || fragmentOffset_plmnidentitylistr16 > int64(len(v.PlmnIdentityListR16)) || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(len(v.PlmnIdentityListR16[fragmentOffset_plmnidentitylistr16:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PlmnIdentityListR16[fragmentOffset_plmnidentitylistr16 : fragmentOffset_plmnidentitylistr16+fragmentLength_plmnidentitylistr16] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding plmn-IdentityList-r16 element: %w", err)
@@ -141,6 +158,10 @@ func (v *VarANRMeasReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding relativeTimeStamp-r16: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.MeasResultListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_measresultlistr16, fragmentLength_measresultlistr16 int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_measresultlistr16 < 0 || fragmentOffset_measresultlistr16 > int64(len(v.MeasResultListR16)) || fragmentLength_measresultlistr16 < 0 || fragmentLength_measresultlistr16 > int64(len(v.MeasResultListR16[fragmentOffset_measresultlistr16:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.MeasResultListR16[fragmentOffset_measresultlistr16 : fragmentOffset_measresultlistr16+fragmentLength_measresultlistr16] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding measResultList-r16 element: %w", err)
@@ -159,9 +180,11 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -169,6 +192,10 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	*v = VarANRMeasReportNBR16{}
 	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr16 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr16 {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_plmnidentitylistr16; i++ {
 			var elem PLMNIdentity
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -194,6 +221,10 @@ func (v *VarANRMeasReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.RelativeTimeStampR16 = val_relativetimestampr16
 	v.MeasResultListR16 = make(VarANRMeasReportNBR16MeasResultListR16, 0)
 	_, errCollection_measresultlistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_measresultlistr16, fragmentLength_measresultlistr16 int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_measresultlistr16 < 0 || fragmentLength_measresultlistr16 < 0 || fragmentLength_measresultlistr16 > int64(^uint(0)>>1) || fragmentOffset_measresultlistr16 > int64(^uint(0)>>1)-fragmentLength_measresultlistr16 {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_measresultlistr16; i++ {
 			var elem ANRMeasResultNBR16
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -215,7 +246,7 @@ func (v *VarRLFReportNBR16) MarshalUPER() ([]byte, error) {
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
 func (v *VarRLFReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
@@ -223,6 +254,10 @@ func (v *VarRLFReportNBR16) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding rlf-Report-r16: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PlmnIdentityListR16)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_plmnidentitylistr16 < 0 || fragmentOffset_plmnidentitylistr16 > int64(len(v.PlmnIdentityListR16)) || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(len(v.PlmnIdentityListR16[fragmentOffset_plmnidentitylistr16:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PlmnIdentityListR16[fragmentOffset_plmnidentitylistr16 : fragmentOffset_plmnidentitylistr16+fragmentLength_plmnidentitylistr16] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding plmn-IdentityList-r16 element: %w", err)
@@ -241,9 +276,11 @@ func (v *VarRLFReportNBR16) UnmarshalUPER(data []byte) error {
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportNBR16")
 	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
 		return runtime.WrapDecodePath(err, "VarRLFReportNBR16")
 	}
+	v.PERPadding_ = padding
 	return nil
 }
 
@@ -254,6 +291,10 @@ func (v *VarRLFReportNBR16) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PlmnIdentityListR16 = make(PLMNIdentityList3R11, 0)
 	_, errCollection_plmnidentitylistr16 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_plmnidentitylistr16, fragmentLength_plmnidentitylistr16 int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 < 0 || fragmentLength_plmnidentitylistr16 > int64(^uint(0)>>1) || fragmentOffset_plmnidentitylistr16 > int64(^uint(0)>>1)-fragmentLength_plmnidentitylistr16 {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_plmnidentitylistr16; i++ {
 			var elem PLMNIdentity
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -273,19 +314,48 @@ type asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue struct {
 	Value VarANRMeasReportNBR16MeasResultListR16
 }
 
-// MarshalUPERVarANRMeasReportNBR16MeasResultListR16 encodes a VarANRMeasReportNBR16MeasResultListR16 list to UPER.
-func MarshalUPERVarANRMeasReportNBR16MeasResultListR16(list VarANRMeasReportNBR16MeasResultListR16) ([]byte, error) {
+// VarANRMeasReportNBR16MeasResultListR16Complete carries a complete VarANRMeasReportNBR16MeasResultListR16 encoding, including observed terminal bits.
+// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
+type VarANRMeasReportNBR16MeasResultListR16Complete struct {
+	Value       VarANRMeasReportNBR16MeasResultListR16
+	PERPadding_ per.CompletePadding
+}
+
+func (v *VarANRMeasReportNBR16MeasResultListR16Complete) MarshalUPER() ([]byte, error) {
 	bb := per.NewBitBuffer()
-	if err := MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list, bb); err != nil {
+	if err := MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(v.Value, bb); err != nil {
 		return nil, err
 	}
-	return bb.CompleteBytes(), nil
+	return bb.CompleteBytesWithPadding(v.PERPadding_)
+}
+
+func (v *VarANRMeasReportNBR16MeasResultListR16Complete) UnmarshalUPER(data []byte) error {
+	bb := per.NewBitBufferFromBytes(data)
+	value, err := UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
+	}
+	padding, err := per.CaptureFinalPadding(bb)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
+	}
+	v.Value, v.PERPadding_ = value, padding
+	return nil
+}
+
+// MarshalUPERVarANRMeasReportNBR16MeasResultListR16 encodes a VarANRMeasReportNBR16MeasResultListR16 list to UPER.
+func MarshalUPERVarANRMeasReportNBR16MeasResultListR16(list VarANRMeasReportNBR16MeasResultListR16Complete) ([]byte, error) {
+	return list.MarshalUPER()
 }
 
 // MarshalUPERVarANRMeasReportNBR16MeasResultListR16To appends a VarANRMeasReportNBR16MeasResultListR16 list to bb.
 func MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list VarANRMeasReportNBR16MeasResultListR16, bb *per.BitBuffer) error {
 	v := asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -299,14 +369,10 @@ func MarshalUPERVarANRMeasReportNBR16MeasResultListR16To(list VarANRMeasReportNB
 }
 
 // UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16 decodes a VarANRMeasReportNBR16MeasResultListR16 list from UPER.
-func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMeasReportNBR16MeasResultListR16, error) {
-	bb := per.NewBitBufferFromBytes(data)
-	value, err := UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb)
-	if err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
-	}
-	if err := per.ValidateFinalPadding(bb); err != nil {
-		return nil, runtime.WrapDecodePath(err, "VarANRMeasReportNBR16MeasResultListR16")
+func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16(data []byte) (VarANRMeasReportNBR16MeasResultListR16Complete, error) {
+	var value VarANRMeasReportNBR16MeasResultListR16Complete
+	if err := value.UnmarshalUPER(data); err != nil {
+		return value, err
 	}
 	return value, nil
 }
@@ -323,6 +389,10 @@ func UnmarshalUPERVarANRMeasReportNBR16MeasResultListR16From(bb *per.BitBuffer) 
 func unmarshalUPERVarANRMeasReportNBR16MeasResultListR16Into(v *asn1cUPERVarANRMeasReportNBR16MeasResultListR16ListValue, bb *per.BitBuffer) error {
 	v.Value = make(VarANRMeasReportNBR16MeasResultListR16, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1154
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ANRMeasResultNBR16
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {

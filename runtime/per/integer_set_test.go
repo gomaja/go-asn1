@@ -352,7 +352,9 @@ func TestDecodeIntegerUint64AlignedRejectsNonMinimalConstrainedValue(t *testing.
 	if err := EncodeConstrainedWholeNumber(bb, 2, 1, 3); err != nil {
 		t.Fatal(err)
 	}
-	bb.AlignToOctetWrite()
+	if err := bb.AlignToOctetWrite(); err != nil {
+		t.Fatal(err)
+	}
 	if err := bb.WriteBytes([]byte{0x00, 0x01}); err != nil {
 		t.Fatal(err)
 	}

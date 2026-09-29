@@ -30,32 +30,73 @@ func EncodeLength(length int) []byte {
 		buf = append([]byte{byte(n & 0xFF)}, buf...)
 		n >>= 8
 	}
-	return append([]byte{byte(0x80 | len(buf))}, buf...)
+	// A host int needs at most eight octets. Keep the length-of-length
+	// octet constant so its byte width is independent of the input value.
+	lengthPrefixes := [...]byte{0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88}
+	if len(buf) >= len(lengthPrefixes) {
+		panic("BER length exceeds host int width")
+	}
+	return append([]byte{lengthPrefixes[len(buf)]}, buf...)
+}
+
+// checkedBERCapacity rejects an output length that cannot be represented by
+// the host int before any slice allocation. X.690 (02/2021) §8.1.3 encodes
+// the length in octets; this check is about the host representation.
+func checkedBERCapacity(limit int, parts ...int) (int, error) {
+	if limit < 0 {
+		return 0, fmt.Errorf("%w: invalid BER output limit", ErrInvalidValue)
+	}
+	total := 0
+	for _, part := range parts {
+		if part < 0 || part > limit-total {
+			return 0, fmt.Errorf("%w: BER output exceeds host int or configured limit", ErrInvalidValue)
+		}
+		total += part
+	}
+	return total, nil
 }
 
 // EncodeTLV assembles a complete TLV (Tag-Length-Value).
-func EncodeTLV(t tag.Tag, value []byte) []byte {
+func EncodeTLV(t tag.Tag, value []byte) ([]byte, error) {
+	return encodeTLVWithLimit(t, value, math.MaxInt)
+}
+
+func encodeTLVWithLimit(t tag.Tag, value []byte, limit int) ([]byte, error) {
 	tagBytes := t.Encode()
 	lenBytes := EncodeLength(len(value))
-	result := make([]byte, 0, len(tagBytes)+len(lenBytes)+len(value))
+	capacity, err := checkedBERCapacity(limit, len(tagBytes), len(lenBytes), len(value))
+	if err != nil {
+		return nil, err
+	}
+	result := make([]byte, 0, capacity)
 	result = append(result, tagBytes...)
 	result = append(result, lenBytes...)
 	result = append(result, value...)
-	return result
+	return result, nil
+}
+
+// Fixed-size primitive encoders have a compile-time maximum output below 32
+// octets, so their checked TLV assembly cannot exceed the host int.
+func encodeFixedTLV(t tag.Tag, value []byte) []byte {
+	encoded, err := EncodeTLV(t, value)
+	if err != nil {
+		panic(err)
+	}
+	return encoded
 }
 
 // EncodeBoolean encodes a boolean value per X.690 section 8.2.
 func EncodeBoolean(v bool) []byte {
 	if v {
-		return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBoolean}, []byte{0xFF})
+		return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBoolean}, []byte{0xFF})
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBoolean}, []byte{0x00})
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBoolean}, []byte{0x00})
 }
 
 // EncodeInteger encodes an integer value per X.690 section 8.3.
 // Uses two's complement with minimal octets.
 func EncodeInteger(v int64) []byte {
-	return EncodeTLV(
+	return encodeFixedTLV(
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagInteger},
 		encodeIntBytes(v),
 	)
@@ -66,11 +107,18 @@ func encodeIntBytes(v int64) []byte {
 		return []byte{0x00}
 	}
 
-	// Work with big-endian two's complement bytes.
-	uv := uint64(v)
+	// Form the two's-complement bit pattern without a narrowing conversion
+	// of a negative integer.
+	var uv uint64
+	if v >= 0 {
+		uv = uint64(v)
+	} else {
+		uv = ^uint64(-(v + 1))
+	}
 
 	var buf [8]byte
-	for i := 7; i >= 0; i-- {
+	for i := len(buf); i > 0; {
+		i--
 		buf[i] = byte(uv & 0xFF)
 		uv >>= 8
 	}
@@ -78,11 +126,17 @@ func encodeIntBytes(v int64) []byte {
 	// Strip leading 0x00 or 0xFF bytes, keeping minimal encoding.
 	start := 0
 	if v >= 0 {
-		for start < 7 && buf[start] == 0 && buf[start+1]&0x80 == 0 {
+		for start < 7 {
+			if buf[start] != 0 || buf[start+1]&0x80 != 0 {
+				break
+			}
 			start++
 		}
 	} else {
-		for start < 7 && buf[start] == 0xFF && buf[start+1]&0x80 != 0 {
+		for start < 7 {
+			if buf[start] != 0xFF || buf[start+1]&0x80 == 0 {
+				break
+			}
 			start++
 		}
 	}
@@ -91,9 +145,9 @@ func encodeIntBytes(v int64) []byte {
 }
 
 // EncodeBigInt encodes a *big.Int per X.690 section 8.3.
-func EncodeBigInt(v *big.Int) []byte {
+func EncodeBigInt(v *big.Int) ([]byte, error) {
 	if v == nil {
-		return EncodeInteger(0)
+		return EncodeInteger(0), nil
 	}
 	b := v.Bytes() // absolute value, big-endian
 	if v.Sign() >= 0 {
@@ -112,13 +166,15 @@ func EncodeBigInt(v *big.Int) []byte {
 		tc := make([]byte, len(pb))
 		// Subtract 1 from positive, then invert all bits.
 		borrow := byte(1)
-		for i := len(pb) - 1; i >= 0; i-- {
-			val := pb[i] - borrow
+		for i := len(pb); i > 0; {
+			i--
+			var val byte
 			if pb[i] >= borrow {
+				val = pb[i] - borrow
 				borrow = 0
 			} else {
+				val = 0xFF
 				borrow = 1
-				val = 0xFF - (borrow - 1 - pb[i])
 			}
 			tc[i] = ^val
 		}
@@ -133,35 +189,42 @@ func EncodeBigInt(v *big.Int) []byte {
 
 // EncodeBitString encodes a bit string per X.690 section 8.6.
 // unusedBits is the number of unused bits in the last byte (0-7).
-func EncodeBitString(bytes []byte, unusedBits int) []byte {
-	if len(bytes) == 0 {
-		return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, []byte{0x00})
+func EncodeBitString(bytes []byte, unusedBits int) ([]byte, error) {
+	return encodeBitStringWithLimit(bytes, unusedBits, math.MaxInt)
+}
+
+func encodeBitStringWithLimit(bytes []byte, unusedBits, limit int) ([]byte, error) {
+	// X.690 (02/2021) §§8.6.2.2–8.6.2.3: the count is 0–7, and an
+	// empty BIT STRING has no unused bits.
+	if unusedBits < 0 || unusedBits > 7 || len(bytes) == 0 && unusedBits != 0 {
+		return nil, fmt.Errorf("%w: invalid BIT STRING unused-bit count", ErrInvalidValue)
 	}
-	value := make([]byte, 1+len(bytes))
+	if len(bytes) == 0 {
+		return encodeTLVWithLimit(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, []byte{0x00}, limit)
+	}
+	capacity, err := checkedBERCapacity(limit, 1, len(bytes))
+	if err != nil {
+		return nil, err
+	}
+	value := make([]byte, capacity)
 	value[0] = byte(unusedBits)
 	copy(value[1:], bytes)
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, value)
+	return encodeTLVWithLimit(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, value, limit)
 }
 
 // EncodeOctetString encodes an octet string per X.690 section 8.7.
-func EncodeOctetString(v []byte) []byte {
+func EncodeOctetString(v []byte) ([]byte, error) {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagOctetString}, v)
 }
 
 // EncodeNull encodes a NULL value per X.690 section 8.8.
 func EncodeNull() []byte {
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagNull}, nil)
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagNull}, nil)
 }
 
-// EncodeObjectIdentifier encodes an OID per X.690 section 8.19. Invalid
-// values return nil; generated code uses EncodeObjectIdentifierChecked so it
-// can report the validation error.
-func EncodeObjectIdentifier(oid []uint64) []byte {
-	encoded, err := EncodeObjectIdentifierChecked(oid)
-	if err != nil {
-		return nil
-	}
-	return encoded
+// EncodeObjectIdentifier encodes an OID per X.690 (02/2021) §8.19.
+func EncodeObjectIdentifier(oid []uint64) ([]byte, error) {
+	return EncodeObjectIdentifierChecked(oid)
 }
 
 // EncodeObjectIdentifierChecked encodes a validated OID per X.690
@@ -171,7 +234,7 @@ func EncodeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, value), nil
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagObjectID}, value)
 }
 
 // EncodeRelativeObjectIdentifierChecked encodes a validated RELATIVE-OID per
@@ -181,7 +244,7 @@ func EncodeRelativeObjectIdentifierChecked(oid []uint64) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagRelativeOID}, value), nil
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagRelativeOID}, value)
 }
 
 func encodeBase128(v uint64) []byte {
@@ -193,15 +256,16 @@ func encodeBase128(v uint64) []byte {
 		buf = append([]byte{byte(v & 0x7F)}, buf...)
 		v >>= 7
 	}
-	for i := 0; i < len(buf)-1; i++ {
+	for i := 0; i < len(buf)-1; {
 		buf[i] |= 0x80
+		i++
 	}
 	return buf
 }
 
 // EncodeEnumerated encodes an enumerated value per X.690 section 8.4.
 func EncodeEnumerated(v int64) []byte {
-	return EncodeTLV(
+	return encodeFixedTLV(
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagEnumerated},
 		encodeIntBytes(v),
 	)
@@ -214,7 +278,7 @@ func EncodeReal(value runtime.Real) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents), nil
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagReal}, contents)
 }
 
 // EncodeRealValue returns the canonical contents octets of an ASN.1 REAL.
@@ -238,11 +302,22 @@ func EncodeRealValue(value runtime.Real) ([]byte, error) {
 	}
 
 	if canonical.Base == 10 {
+		// X.690 (02/2021) §8.5.8: decimal REAL uses an NR3 character form.
 		exponent := canonical.Exponent.String()
 		if canonical.Exponent.Sign() == 0 {
 			exponent = "+0"
 		}
-		return []byte("\x03" + canonical.Mantissa.String() + ".E" + exponent), nil
+		mantissa := canonical.Mantissa.String()
+		capacity, err := decimalRealCapacity(len(mantissa), len(exponent))
+		if err != nil {
+			return nil, err
+		}
+		contents := make([]byte, 0, capacity)
+		contents = append(contents, 0x03)
+		contents = append(contents, mantissa...)
+		contents = append(contents, '.', 'E')
+		contents = append(contents, exponent...)
+		return contents, nil
 	}
 
 	mantissa := new(big.Int).Set(canonical.Mantissa)
@@ -251,7 +326,10 @@ func EncodeRealValue(value runtime.Real) ([]byte, error) {
 		info |= 0x40
 		mantissa.Abs(mantissa)
 	}
-	exponent := EncodeBigIntValue(canonical.Exponent)
+	exponent, err := EncodeBigIntValue(canonical.Exponent)
+	if err != nil {
+		return nil, err
+	}
 	if len(exponent) > 255 {
 		return nil, fmt.Errorf("%w: REAL exponent requires %d octets, maximum is 255", ErrInvalidValue, len(exponent))
 	}
@@ -273,30 +351,34 @@ func EncodeRealValue(value runtime.Real) ([]byte, error) {
 	return contents, nil
 }
 
+func decimalRealCapacity(mantissa, exponent int) (int, error) {
+	const overhead = 3 // NR3 identifier, decimal point, and exponent marker.
+	if mantissa < 0 || exponent < 0 || mantissa > math.MaxInt-overhead || exponent > math.MaxInt-overhead-mantissa {
+		return 0, fmt.Errorf("%w: decimal REAL exceeds host int", ErrInvalidValue)
+	}
+	return overhead + mantissa + exponent, nil
+}
+
 // EncodeUTF8String encodes a UTF8String.
-func EncodeUTF8String(v string) []byte {
+func EncodeUTF8String(v string) ([]byte, error) {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagUTF8String}, []byte(v))
 }
 
 // EncodeIA5String encodes an IA5String.
-func EncodeIA5String(v string) []byte {
+func EncodeIA5String(v string) ([]byte, error) {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagIA5String}, []byte(v))
 }
 
 // EncodePrintableString encodes a PrintableString.
-func EncodePrintableString(v string) []byte {
+func EncodePrintableString(v string) ([]byte, error) {
 	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagPrintableString}, []byte(v))
 }
 
 // EncodeStringTag encodes a character string value under an arbitrary
 // UNIVERSAL tag number. Invalid values return nil; generated code uses
 // EncodeStringTagChecked so it can report the validation error.
-func EncodeStringTag(tagNum int, v string) []byte {
-	encoded, err := EncodeStringTagChecked(tagNum, v)
-	if err != nil {
-		return nil
-	}
-	return encoded
+func EncodeStringTag(tagNum int, v string) ([]byte, error) {
+	return EncodeStringTagChecked(tagNum, v)
 }
 
 // EncodeStringTagChecked applies the fixed-width forms required by X.690
@@ -306,7 +388,7 @@ func EncodeStringTagChecked(tagNum int, v string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value), nil
+	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tagNum}, value)
 }
 
 // EncodeStringValueTagChecked returns the contents octets for a restricted
@@ -321,7 +403,11 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		if !utf8.ValidString(v) {
 			return nil, fmt.Errorf("BMPString contains invalid UTF-8")
 		}
-		value := make([]byte, 0, len(v)*2)
+		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 2)
+		if err != nil {
+			return nil, err
+		}
+		value := make([]byte, 0, capacity)
 		for _, r := range v {
 			if r > 0xffff || !utf8.ValidRune(r) {
 				return nil, fmt.Errorf("BMPString character U+%04X is outside the Basic Multilingual Plane", r)
@@ -333,9 +419,13 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		if !utf8.ValidString(v) {
 			return nil, fmt.Errorf("UniversalString contains invalid UTF-8")
 		}
-		value := make([]byte, 0, len(v)*4)
+		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 4)
+		if err != nil {
+			return nil, err
+		}
+		value := make([]byte, 0, capacity)
 		for _, r := range v {
-			if !utf8.ValidRune(r) {
+			if r < 0 || r > utf8.MaxRune || !utf8.ValidRune(r) {
 				return nil, fmt.Errorf("UniversalString character U+%04X is not a Unicode scalar value", r)
 			}
 			value = binary.BigEndian.AppendUint32(value, uint32(r))
@@ -346,22 +436,29 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	}
 }
 
+func fixedWidthStringCapacity(octets, width int) (int, error) {
+	if octets < 0 || width <= 0 || octets > math.MaxInt/width {
+		return 0, fmt.Errorf("%w: fixed-width string exceeds host int", ErrInvalidValue)
+	}
+	return octets * width, nil
+}
+
 // EncodeUTCTime encodes a UTCTime per X.690 section 11.8.
 func EncodeUTCTime(t time.Time) []byte {
 	utc := t.UTC()
 	s := utc.Format("060102150405Z")
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagUTCTime}, []byte(s))
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagUTCTime}, []byte(s))
 }
 
 // EncodeGeneralizedTime encodes a GeneralizedTime per X.690 section 11.7.
 func EncodeGeneralizedTime(t time.Time) []byte {
 	utc := t.UTC()
 	s := utc.Format("20060102150405Z")
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagGeneralizedTime}, []byte(s))
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagGeneralizedTime}, []byte(s))
 }
 
 // EncodeSequence encodes a SEQUENCE (constructed) from pre-encoded children.
-func EncodeSequence(children []byte) []byte {
+func EncodeSequence(children []byte) ([]byte, error) {
 	return EncodeTLV(
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence, Constructed: true},
 		children,
@@ -370,20 +467,28 @@ func EncodeSequence(children []byte) []byte {
 
 // EncodeConstructedIndefinite encodes a constructed TLV using BER indefinite length form.
 // This produces: tag bytes + 0x80 + children + 0x00 0x00.
-func EncodeConstructedIndefinite(t tag.Tag, children []byte) []byte {
+func EncodeConstructedIndefinite(t tag.Tag, children []byte) ([]byte, error) {
+	return encodeConstructedIndefiniteWithLimit(t, children, math.MaxInt)
+}
+
+func encodeConstructedIndefiniteWithLimit(t tag.Tag, children []byte, limit int) ([]byte, error) {
 	t.Constructed = true
 	tagBytes := t.Encode()
-	result := make([]byte, 0, len(tagBytes)+1+len(children)+2)
+	capacity, err := checkedBERCapacity(limit, len(tagBytes), 1, len(children), 2)
+	if err != nil {
+		return nil, err
+	}
+	result := make([]byte, 0, capacity)
 	result = append(result, tagBytes...)
 	result = append(result, 0x80) // indefinite length
 	result = append(result, children...)
 	result = append(result, 0x00, 0x00) // end-of-contents
-	return result
+	return result, nil
 }
 
 // EncodeSet encodes a SET (constructed) from pre-encoded children.
 // For DER, children should be sorted by tag before calling this.
-func EncodeSet(children []byte) []byte {
+func EncodeSet(children []byte) ([]byte, error) {
 	return EncodeTLV(
 		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSet, Constructed: true},
 		children,
@@ -403,7 +508,11 @@ func EncodeDERSet(children []byte) ([]byte, error) {
 		}
 		return elements[left].tag.Number < elements[right].tag.Number
 	})
-	return EncodeSet(joinDERElements(elements)), nil
+	joined, err := joinDERElements(elements)
+	if err != nil {
+		return nil, err
+	}
+	return EncodeSet(joined)
 }
 
 // EncodeDERSetOf orders complete DER element encodings as padded octet
@@ -416,7 +525,11 @@ func EncodeDERSetOf(children []byte) ([]byte, error) {
 	sort.SliceStable(elements, func(left, right int) bool {
 		return compareDEROctetStrings(elements[left].encoded, elements[right].encoded) < 0
 	})
-	return EncodeSet(joinDERElements(elements)), nil
+	joined, err := joinDERElements(elements)
+	if err != nil {
+		return nil, err
+	}
+	return EncodeSet(joined)
 }
 
 type derElement struct {
@@ -427,12 +540,15 @@ type derElement struct {
 func splitDERElements(children []byte) ([]derElement, error) {
 	var elements []derElement
 	for offset := 0; offset < len(children); {
-		decodedTag, total, _, err := DecodeTLV(children[offset:])
+		decodedTag, total, _, err := DecodeTLV(children[offset:], encodingStructureOption(children[offset:]))
 		if err != nil {
 			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
 		}
+		if total <= 0 || total > len(children)-offset {
+			return nil, ErrInvalidLength
+		}
 		encoded := children[offset : offset+total]
-		if err := ValidateDERElement(encoded); err != nil {
+		if err := ValidateDEREncodedElement(encoded); err != nil {
 			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
 		}
 		elements = append(elements, derElement{tag: decodedTag, encoded: encoded})
@@ -441,20 +557,24 @@ func splitDERElements(children []byte) ([]derElement, error) {
 	return elements, nil
 }
 
-func joinDERElements(elements []derElement) []byte {
+func joinDERElements(elements []derElement) ([]byte, error) {
 	length := 0
 	for _, element := range elements {
-		length += len(element.encoded)
+		next, err := checkedBERCapacity(math.MaxInt, length, len(element.encoded))
+		if err != nil {
+			return nil, err
+		}
+		length = next
 	}
 	joined := make([]byte, 0, length)
 	for _, element := range elements {
 		joined = append(joined, element.encoded...)
 	}
-	return joined
+	return joined, nil
 }
 
 // EncodeExplicitTag wraps encoded content in an explicit context-specific tag.
-func EncodeExplicitTag(tagNum int, content []byte) []byte {
+func EncodeExplicitTag(tagNum int, content []byte) ([]byte, error) {
 	return EncodeTLV(
 		tag.Tag{Class: tag.ClassContextSpecific, Number: tagNum, Constructed: true},
 		content,
@@ -462,7 +582,7 @@ func EncodeExplicitTag(tagNum int, content []byte) []byte {
 }
 
 // EncodeExplicitTagWithClass wraps encoded content in an explicit tag with the given class.
-func EncodeExplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) []byte {
+func EncodeExplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) ([]byte, error) {
 	return EncodeTLV(
 		tag.Tag{Class: tagClass, Number: tagNum, Constructed: true},
 		content,
@@ -485,22 +605,36 @@ func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 	if err != nil {
 		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}
-	_, total, _, err := DecodeTLV(content)
+	_, total, _, err := DecodeTLV(content, encodingStructureOption(content))
 	if err != nil {
 		return nil, fmt.Errorf("retag implicit value: %w", err)
+	}
+	if total < 0 || total > len(content) {
+		return nil, ErrInvalidLength
 	}
 	if total != len(content) {
 		return nil, fmt.Errorf("%w: implicit value has %d trailing octets", ErrInvalidValue, len(content)-total)
 	}
 	replacement := tag.Tag{Class: tagClass, Number: tagNum, Constructed: decodedTag.Constructed}.Encode()
-	encoded := make([]byte, 0, len(replacement)+len(content)-tagLength)
+	capacity, err := retagCapacity(len(replacement), len(content), tagLength)
+	if err != nil {
+		return nil, err
+	}
+	encoded := make([]byte, 0, capacity)
 	encoded = append(encoded, replacement...)
 	encoded = append(encoded, content[tagLength:]...)
 	return encoded, nil
 }
 
+func retagCapacity(replacement, content, oldTag int) (int, error) {
+	if replacement < 0 || content < 0 || oldTag < 0 || oldTag > content || replacement > math.MaxInt-(content-oldTag) {
+		return 0, fmt.Errorf("%w: retagged TLV length exceeds host int", ErrInvalidValue)
+	}
+	return replacement + (content - oldTag), nil
+}
+
 // EncodeConstructed encodes a constructed TLV with a custom tag.
-func EncodeConstructed(t tag.Tag, children []byte) []byte {
+func EncodeConstructed(t tag.Tag, children []byte) ([]byte, error) {
 	t.Constructed = true
 	return EncodeTLV(t, children)
 }
@@ -525,15 +659,27 @@ func EncodeBooleanValue(v bool) []byte {
 // EncodeBooleanRaw encodes a boolean TLV using the provided raw value byte.
 // This preserves byte-exact BER round-trip when TRUE was encoded as a non-0xFF value.
 func EncodeBooleanRaw(rawByte byte) []byte {
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBoolean}, []byte{rawByte})
+	return encodeFixedTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBoolean}, []byte{rawByte})
 }
 
 // EncodeBitStringValue returns the raw value bytes for a bit string.
-func EncodeBitStringValue(bytes []byte, unusedBits int) []byte {
-	result := make([]byte, 1+len(bytes))
+func EncodeBitStringValue(bytes []byte, unusedBits int) ([]byte, error) {
+	return encodeBitStringValueWithLimit(bytes, unusedBits, math.MaxInt)
+}
+
+func encodeBitStringValueWithLimit(bytes []byte, unusedBits, limit int) ([]byte, error) {
+	// X.690 (02/2021) §§8.6.2.2–8.6.2.3.
+	if unusedBits < 0 || unusedBits > 7 || len(bytes) == 0 && unusedBits != 0 {
+		return nil, fmt.Errorf("%w: invalid BIT STRING unused-bit count", ErrInvalidValue)
+	}
+	capacity, err := checkedBERCapacity(limit, 1, len(bytes))
+	if err != nil {
+		return nil, err
+	}
+	result := make([]byte, capacity)
 	result[0] = byte(unusedBits)
 	copy(result[1:], bytes)
-	return result
+	return result, nil
 }
 
 // EncodeOIDValue returns the raw value bytes for an OID. Invalid values return
@@ -592,16 +738,16 @@ func EncodeStringValue(s string) []byte {
 // arbitrary-width INTEGER, without the tag and length. Components inside a
 // SEQUENCE are assembled from value-level encoders, so this is the
 // arbitrary-precision counterpart to EncodeIntegerValue.
-func EncodeBigIntValue(v *big.Int) []byte {
-	full := EncodeBigInt(v)
+func EncodeBigIntValue(v *big.Int) ([]byte, error) {
+	full, err := EncodeBigInt(v)
+	if err != nil {
+		return nil, err
+	}
 	// EncodeBigInt emits tag + length + contents; the contents start after
 	// the 1-octet universal INTEGER tag and its length field.
-	_, _, value, err := DecodeTLV(full)
+	_, _, value, err := DecodeTLV(full, encodingStructureOption(full))
 	if err != nil {
-		// EncodeBigInt always produces a well-formed TLV, so this is
-		// unreachable; return the whole thing rather than silently dropping
-		// the value if that ever stops being true.
-		return full
+		return nil, err
 	}
-	return value
+	return value, nil
 }
