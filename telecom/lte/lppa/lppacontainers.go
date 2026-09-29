@@ -115,6 +115,10 @@ func MarshalAPERProtocolIEContainer(list ProtocolIEContainerComplete) ([]byte, e
 func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -148,6 +152,10 @@ func UnmarshalAPERProtocolIEContainerFrom(bb *per.BitBuffer) (ProtocolIEContaine
 func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainer, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -315,6 +323,10 @@ func MarshalAPERProtocolIEContainerPair(list ProtocolIEContainerPairComplete) ([
 func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerPairListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -348,6 +360,10 @@ func UnmarshalAPERProtocolIEContainerPairFrom(bb *per.BitBuffer) (ProtocolIECont
 func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPairListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerPair, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIEFieldPair
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -475,6 +491,10 @@ func MarshalAPERProtocolIEContainerList(list ProtocolIEContainerListComplete) ([
 func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, outerElem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := MarshalAPERProtocolIEContainerTo(outerElem, bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -508,6 +528,10 @@ func UnmarshalAPERProtocolIEContainerListFrom(bb *per.BitBuffer) (ProtocolIECont
 func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1243
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
 			elem, err := UnmarshalAPERProtocolIEContainerFrom(bb)
 			if err != nil {
@@ -563,6 +587,10 @@ func MarshalAPERProtocolIEContainerPairList(list ProtocolIEContainerPairListComp
 func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerPairListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, outerElem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := MarshalAPERProtocolIEContainerPairTo(outerElem, bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -596,6 +624,10 @@ func UnmarshalAPERProtocolIEContainerPairListFrom(bb *per.BitBuffer) (ProtocolIE
 func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContainerPairListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerPairList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1243
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i_value := int64(0); i_value < fragmentLength_value; i_value++ {
 			elem, err := UnmarshalAPERProtocolIEContainerPairFrom(bb)
 			if err != nil {
@@ -651,6 +683,10 @@ func MarshalAPERProtocolExtensionContainer(list ProtocolExtensionContainerComple
 func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb *per.BitBuffer) error {
 	v := asn1cAPERProtocolExtensionContainerListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -684,6 +720,10 @@ func UnmarshalAPERProtocolExtensionContainerFrom(bb *per.BitBuffer) (ProtocolExt
 func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionContainerListValue, bb *per.BitBuffer) error {
 	v.Value = make(ProtocolExtensionContainer, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolExtensionField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -795,6 +835,10 @@ func MarshalAPERPrivateIEContainer(list PrivateIEContainerComplete) ([]byte, err
 func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *per.BitBuffer) error {
 	v := asn1cAPERPrivateIEContainerListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -828,6 +872,10 @@ func UnmarshalAPERPrivateIEContainerFrom(bb *per.BitBuffer) (PrivateIEContainer,
 func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue, bb *per.BitBuffer) error {
 	v.Value = make(PrivateIEContainer, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem PrivateIEField
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {

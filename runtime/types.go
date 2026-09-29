@@ -22,6 +22,9 @@ func (bs BitString) Has(bit int) bool {
 		return false
 	}
 	bitIndex := 7 - (bit % 8)
+	if bitIndex < 0 || bitIndex > 7 {
+		return false
+	}
 	return bs.Bytes[byteIndex]&(1<<uint(bitIndex)) != 0
 }
 

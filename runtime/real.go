@@ -96,13 +96,13 @@ func NewRealFromFloat64(value float64) Real {
 	}
 
 	bits := math.Float64bits(value)
-	rawExponent := int64((bits >> 52) & 0x7ff)
+	rawExponent := (bits >> 52) & 0x7ff
 	mantissa := bits & 0x000fffffffffffff
-	var exponent int64
-	if rawExponent == 0 {
-		exponent = 1 - 1023 - 52
-	} else {
-		exponent = rawExponent - 1023 - 52
+	exponent, err := float64BinaryExponent(rawExponent)
+	if err != nil {
+		panic(err)
+	}
+	if rawExponent != 0 {
 		mantissa |= 0x0010000000000000
 	}
 	m := new(big.Int).SetUint64(mantissa)
@@ -114,6 +114,18 @@ func NewRealFromFloat64(value float64) Real {
 		panic(err)
 	}
 	return result
+}
+
+// float64BinaryExponent converts the IEEE 754-2019 binary64 exponent field
+// (sections 3.4 and 3.6, Table 3.5) to an integer mantissa exponent.
+func float64BinaryExponent(rawExponent uint64) (int64, error) {
+	if rawExponent > 0x7ff {
+		return 0, fmt.Errorf("%w: binary64 exponent field %d exceeds 11 bits", ErrInvalidReal, rawExponent)
+	}
+	if rawExponent == 0 {
+		return 1 - 1023 - 52, nil
+	}
+	return int64(rawExponent) - 1023 - 52, nil
 }
 
 // Validate checks that the value has one unambiguous ASN.1 REAL state.

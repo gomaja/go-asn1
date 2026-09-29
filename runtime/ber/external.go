@@ -2,6 +2,7 @@ package ber
 
 import (
 	"fmt"
+	"math"
 
 	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/tag"
@@ -39,6 +40,9 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 				return result, err
 			}
 			result.DirectReference = runtime.ObjectIdentifier(oid)
+			if n <= 0 || n > len(value)-offset {
+				return result, ErrInvalidLength
+			}
 			offset += n
 		}
 	}
@@ -53,6 +57,9 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 				return result, err
 			}
 			result.IndirectReference = integer
+			if n <= 0 || n > len(value)-offset {
+				return result, ErrInvalidLength
+			}
 			offset += n
 		}
 	}
@@ -67,6 +74,9 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 				return result, err
 			}
 			result.DataValueDescriptor = &descriptor
+			if n <= 0 || n > len(value)-offset {
+				return result, ErrInvalidLength
+			}
 			offset += n
 		}
 	}
@@ -81,6 +91,9 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 	t, n, choice, err := DecodeTLV(value[offset:], options...)
 	if err != nil {
 		return result, err
+	}
+	if n <= 0 || n > len(value)-offset {
+		return result, ErrInvalidLength
 	}
 	if offset+n != len(value) {
 		return result, ErrExtraData
@@ -196,31 +209,39 @@ func encodeExternal(value runtime.External, der bool) ([]byte, error) {
 		}
 		children = append(children, encoded...)
 	case runtime.ExternalArbitrary:
-		bits := value.Arbitrary
-		if bits.BitLength < 0 {
-			return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
+		{
+			bits := value.Arbitrary
+			if bits.BitLength < 0 {
+				return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
+			}
+			expectedOctets := bits.BitLength / 8
+			unused := 0
+			if rem := bits.BitLength % 8; rem != 0 {
+				if expectedOctets >= math.MaxInt {
+					return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
+				}
+				expectedOctets++
+				unused = 8 - rem
+			}
+			if unused < 0 || unused > 7 || unused > 0 && len(bits.Bytes) == 0 {
+				return nil, fmt.Errorf("%w: EXTERNAL arbitrary unused-bit count", ErrInvalidValue)
+			}
+			if len(bits.Bytes) != expectedOctets {
+				return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
+			}
+			if unused > 0 && bits.Bytes[len(bits.Bytes)-1]&byte((1<<unused)-1) != 0 {
+				return nil, fmt.Errorf("%w: nonzero unused EXTERNAL bits", ErrInvalidValue)
+			}
+			bitValue, err := EncodeBitStringValue(bits.Bytes, unused)
+			if err != nil {
+				return nil, err
+			}
+			encoded, err := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, bitValue)
+			if err != nil {
+				return nil, err
+			}
+			children = append(children, encoded...)
 		}
-		expectedOctets := bits.BitLength / 8
-		unused := 0
-		if rem := bits.BitLength % 8; rem != 0 {
-			expectedOctets++
-			unused = 8 - rem
-		}
-		if len(bits.Bytes) != expectedOctets {
-			return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
-		}
-		if unused > 0 && bits.Bytes[len(bits.Bytes)-1]&byte((1<<unused)-1) != 0 {
-			return nil, fmt.Errorf("%w: nonzero unused EXTERNAL bits", ErrInvalidValue)
-		}
-		bitValue, err := EncodeBitStringValue(bits.Bytes, unused)
-		if err != nil {
-			return nil, err
-		}
-		encoded, err := EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, bitValue)
-		if err != nil {
-			return nil, err
-		}
-		children = append(children, encoded...)
 	default:
 		return nil, fmt.Errorf("%w: EXTERNAL encoding choice %d", ErrInvalidValue, value.Encoding)
 	}

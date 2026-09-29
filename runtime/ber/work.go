@@ -35,7 +35,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 			stack = stack[:len(stack)-1]
 			continue
 		}
-		if pos > parent.end {
+		if pos < 0 || pos > parent.end {
 			return ErrInvalidLength
 		}
 		if len(stack) == 1 && elements > 0 {
@@ -50,17 +50,23 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 		if err != nil {
 			return err
 		}
+		if tagLen < 0 || tagLen > parent.end-pos {
+			return ErrInvalidLength
+		}
 		length, indefinite, lenLen, err := DecodeLength(data[pos+tagLen : parent.end])
 		if err != nil {
 			return err
 		}
+		if lenLen < 0 || lenLen > parent.end-pos-tagLen {
+			return ErrInvalidLength
+		}
 		if t.Class == tag.ClassUniversal && t.Number == 0 {
 			return fmt.Errorf("%w: standalone BER end-of-contents", ErrInvalidTag)
 		}
-		elements++
-		if elements > limits.MaxElements {
+		if elements >= limits.MaxElements {
 			return fmt.Errorf("%w: BER element limit exceeded", ErrInvalidValue)
 		}
+		elements++
 		start := pos + tagLen + lenLen
 		if indefinite {
 			if !t.Constructed {
@@ -72,6 +78,9 @@ func ValidateBERElement(data []byte, options ...DecodeOption) error {
 			stack = append(stack, frame{end: parent.end, indefinite: true})
 			pos = start
 			continue
+		}
+		if start > parent.end {
+			return ErrTruncated
 		}
 		if length > parent.end-start {
 			return ErrTruncated

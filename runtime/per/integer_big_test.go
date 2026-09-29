@@ -8,6 +8,19 @@ import (
 	"testing"
 )
 
+func TestBigBitHelpersRejectNegativeCount(t *testing.T) {
+	writer := NewBitBuffer()
+	if err := writeBigBits(writer, big.NewInt(1), -1); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("writeBigBits(-1) = %v, want ErrInvalidValue", err)
+	}
+	if writer.BitsWritten() != 0 {
+		t.Fatalf("writeBigBits(-1) wrote %d bits", writer.BitsWritten())
+	}
+	if _, err := readBigBits(NewBitBufferFromBytes([]byte{0x80}), -1); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("readBigBits(-1) = %v, want ErrInvalidValue", err)
+	}
+}
+
 func TestIntegerBigRootAndExtensionRoundTrip(t *testing.T) {
 	t.Parallel()
 

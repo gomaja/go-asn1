@@ -6890,6 +6890,10 @@ func (v *AdditionalGUTI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -6904,11 +6908,19 @@ func (v *AdditionalGUTI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -6961,6 +6973,10 @@ func (v *AdditionalGUTI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -6981,8 +6997,16 @@ func (v *AdditionalGUTI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7032,6 +7056,10 @@ func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 3 {
+			return fmt.Errorf("extension choice index outside root")
+		}
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-3-1)); err != nil {
 			return err
 		}
@@ -7055,6 +7083,10 @@ func (v *AreaScopeOfMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -7115,6 +7147,10 @@ func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return nil
 		}
 		inner := per.NewBitBufferFromBytes(openData)
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:205
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(3) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
 		v.Choice = int(extIdx) + 3 + 1
 		extensionPath := "UnknownExtension"
 		switch v.Choice {
@@ -7136,6 +7172,10 @@ func (v *AreaScopeOfMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -7191,6 +7231,10 @@ func (v *AreaScopeOfQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("AreaScopeOfQMC: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
@@ -7266,6 +7310,10 @@ func (v *AreaScopeOfQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case AreaScopeOfQMCChoiceCellBased:
@@ -7325,6 +7373,10 @@ func (v *AllocationAndRetentionPriority) MarshalAPERTo(bb *per.BitBuffer) error 
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -7339,11 +7391,19 @@ func (v *AllocationAndRetentionPriority) MarshalAPERTo(bb *per.BitBuffer) error 
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -7403,6 +7463,10 @@ func (v *AllocationAndRetentionPriority) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7423,8 +7487,16 @@ func (v *AllocationAndRetentionPriority) UnmarshalAPERFrom(bb *per.BitBuffer) er
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7461,6 +7533,10 @@ func (v *AssistanceDataForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -7475,11 +7551,19 @@ func (v *AssistanceDataForCECapableUEs) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -7527,6 +7611,10 @@ func (v *AssistanceDataForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) err
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7547,8 +7635,16 @@ func (v *AssistanceDataForCECapableUEs) UnmarshalAPERFrom(bb *per.BitBuffer) err
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7606,6 +7702,10 @@ func (v *AssistanceDataForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -7620,11 +7720,19 @@ func (v *AssistanceDataForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -7702,6 +7810,10 @@ func (v *AssistanceDataForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7722,8 +7834,16 @@ func (v *AssistanceDataForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7760,6 +7880,10 @@ func (v *AssistanceDataForRecommendedCells) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -7774,11 +7898,19 @@ func (v *AssistanceDataForRecommendedCells) MarshalAPERTo(bb *per.BitBuffer) err
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -7826,6 +7958,10 @@ func (v *AssistanceDataForRecommendedCells) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7846,8 +7982,16 @@ func (v *AssistanceDataForRecommendedCells) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -7903,6 +8047,10 @@ func MarshalAPERBearersSubjectToStatusTransferList(list BearersSubjectToStatusTr
 func MarshalAPERBearersSubjectToStatusTransferListTo(list BearersSubjectToStatusTransferList, bb *per.BitBuffer) error {
 	v := asn1cAPERBearersSubjectToStatusTransferListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -7936,6 +8084,10 @@ func UnmarshalAPERBearersSubjectToStatusTransferListFrom(bb *per.BitBuffer) (Bea
 func unmarshalAPERBearersSubjectToStatusTransferListInto(v *asn1cAPERBearersSubjectToStatusTransferListListValue, bb *per.BitBuffer) error {
 	v.Value = make(BearersSubjectToStatusTransferList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -7988,6 +8140,10 @@ func (v *BearersSubjectToStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) er
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -8002,11 +8158,19 @@ func (v *BearersSubjectToStatusTransferItem) MarshalAPERTo(bb *per.BitBuffer) er
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -8074,6 +8238,10 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8094,8 +8262,16 @@ func (v *BearersSubjectToStatusTransferItem) UnmarshalAPERFrom(bb *per.BitBuffer
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8151,6 +8327,10 @@ func MarshalAPERBearersSubjectToEarlyStatusTransferList(list BearersSubjectToEar
 func MarshalAPERBearersSubjectToEarlyStatusTransferListTo(list BearersSubjectToEarlyStatusTransferList, bb *per.BitBuffer) error {
 	v := asn1cAPERBearersSubjectToEarlyStatusTransferListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -8184,6 +8364,10 @@ func UnmarshalAPERBearersSubjectToEarlyStatusTransferListFrom(bb *per.BitBuffer)
 func unmarshalAPERBearersSubjectToEarlyStatusTransferListInto(v *asn1cAPERBearersSubjectToEarlyStatusTransferListListValue, bb *per.BitBuffer) error {
 	v.Value = make(BearersSubjectToEarlyStatusTransferList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8225,6 +8409,10 @@ func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPERTo(bb *per.BitBuffe
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -8239,11 +8427,19 @@ func (v *BearersSubjectToEarlyStatusTransferItem) MarshalAPERTo(bb *per.BitBuffe
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -8296,6 +8492,10 @@ func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitB
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8316,8 +8516,16 @@ func (v *BearersSubjectToEarlyStatusTransferItem) UnmarshalAPERFrom(bb *per.BitB
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8373,6 +8581,10 @@ func MarshalAPERBearersSubjectToDLDiscardingList(list BearersSubjectToDLDiscardi
 func MarshalAPERBearersSubjectToDLDiscardingListTo(list BearersSubjectToDLDiscardingList, bb *per.BitBuffer) error {
 	v := asn1cAPERBearersSubjectToDLDiscardingListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -8406,6 +8618,10 @@ func UnmarshalAPERBearersSubjectToDLDiscardingListFrom(bb *per.BitBuffer) (Beare
 func unmarshalAPERBearersSubjectToDLDiscardingListInto(v *asn1cAPERBearersSubjectToDLDiscardingListListValue, bb *per.BitBuffer) error {
 	v.Value = make(BearersSubjectToDLDiscardingList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8447,6 +8663,10 @@ func (v *BearersSubjectToDLDiscardingItem) MarshalAPERTo(bb *per.BitBuffer) erro
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -8461,11 +8681,19 @@ func (v *BearersSubjectToDLDiscardingItem) MarshalAPERTo(bb *per.BitBuffer) erro
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -8518,6 +8746,10 @@ func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8538,8 +8770,16 @@ func (v *BearersSubjectToDLDiscardingItem) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8582,6 +8822,10 @@ func (v *BluetoothMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	if v.BluetoothMeasConfigNameList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.BluetoothMeasConfigNameList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_bluetoothmeasconfignamelist, fragmentLength_bluetoothmeasconfignamelist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_bluetoothmeasconfignamelist < 0 || fragmentOffset_bluetoothmeasconfignamelist > int64(len(v.BluetoothMeasConfigNameList)) || fragmentLength_bluetoothmeasconfignamelist < 0 || fragmentLength_bluetoothmeasconfignamelist > int64(len(v.BluetoothMeasConfigNameList[fragmentOffset_bluetoothmeasconfignamelist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.BluetoothMeasConfigNameList[fragmentOffset_bluetoothmeasconfignamelist : fragmentOffset_bluetoothmeasconfignamelist+fragmentLength_bluetoothmeasconfignamelist] {
 				if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 248, true); err != nil {
 					return fmt.Errorf("encoding bluetoothMeasConfigNameList element: %w", err)
@@ -8599,6 +8843,10 @@ func (v *BluetoothMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -8613,11 +8861,19 @@ func (v *BluetoothMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) err
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -8675,6 +8931,10 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if opt_bluetoothmeasconfignamelist {
 		tmp_bluetoothmeasconfignamelist := make(BluetoothMeasConfigNameList, 0)
 		_, errCollection_bluetoothmeasconfignamelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_bluetoothmeasconfignamelist, fragmentLength_bluetoothmeasconfignamelist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+			if fragmentOffset_bluetoothmeasconfignamelist < 0 || fragmentLength_bluetoothmeasconfignamelist < 0 || fragmentLength_bluetoothmeasconfignamelist > int64(^uint(0)>>1) || fragmentOffset_bluetoothmeasconfignamelist > int64(^uint(0)>>1)-fragmentLength_bluetoothmeasconfignamelist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_bluetoothmeasconfignamelist; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 1, 248, true)
 				if err != nil {
@@ -8699,6 +8959,10 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -8719,8 +8983,16 @@ func (v *BluetoothMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -8774,6 +9046,10 @@ func MarshalAPERBluetoothMeasConfigNameList(list BluetoothMeasConfigNameListComp
 func MarshalAPERBluetoothMeasConfigNameListTo(list BluetoothMeasConfigNameList, bb *per.BitBuffer) error {
 	v := asn1cAPERBluetoothMeasConfigNameListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 248, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -8807,6 +9083,10 @@ func UnmarshalAPERBluetoothMeasConfigNameListFrom(bb *per.BitBuffer) (BluetoothM
 func unmarshalAPERBluetoothMeasConfigNameListInto(v *asn1cAPERBluetoothMeasConfigNameListListValue, bb *per.BitBuffer) error {
 	v.Value = make(BluetoothMeasConfigNameList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 248, true)
 			if err != nil {
@@ -8860,6 +9140,10 @@ func MarshalAPERBPLMNs(list BPLMNsComplete) ([]byte, error) { return list.Marsha
 func MarshalAPERBPLMNsTo(list BPLMNs, bb *per.BitBuffer) error {
 	v := asn1cAPERBPLMNsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -8893,6 +9177,10 @@ func UnmarshalAPERBPLMNsFrom(bb *per.BitBuffer) (BPLMNs, error) {
 func unmarshalAPERBPLMNsInto(v *asn1cAPERBPLMNsListValue, bb *per.BitBuffer) error {
 	v.Value = make(BPLMNs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -8943,12 +9231,20 @@ func (v *BroadcastCancelledAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 	if isExtension {
 		return fmt.Errorf("BroadcastCancelledAreaList: extension choice %d not supported", v.Choice)
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
 	switch v.Choice {
 	case BroadcastCancelledAreaListChoiceCellIDCancelled:
 		if err := per.EncodeCollection(bb, int64(len(v.CellIDCancelled)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cellidcancelled, fragmentLength_cellidcancelled int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cellidcancelled < 0 || fragmentOffset_cellidcancelled > int64(len(v.CellIDCancelled)) || fragmentLength_cellidcancelled < 0 || fragmentLength_cellidcancelled > int64(len(v.CellIDCancelled[fragmentOffset_cellidcancelled:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CellIDCancelled[fragmentOffset_cellidcancelled : fragmentOffset_cellidcancelled+fragmentLength_cellidcancelled] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cellID-Cancelled element: %w", err)
@@ -8960,6 +9256,10 @@ func (v *BroadcastCancelledAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	case BroadcastCancelledAreaListChoiceTAICancelled:
 		if err := per.EncodeCollection(bb, int64(len(v.TAICancelled)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_taicancelled, fragmentLength_taicancelled int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_taicancelled < 0 || fragmentOffset_taicancelled > int64(len(v.TAICancelled)) || fragmentLength_taicancelled < 0 || fragmentLength_taicancelled > int64(len(v.TAICancelled[fragmentOffset_taicancelled:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TAICancelled[fragmentOffset_taicancelled : fragmentOffset_taicancelled+fragmentLength_taicancelled] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tAI-Cancelled element: %w", err)
@@ -8971,6 +9271,10 @@ func (v *BroadcastCancelledAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	case BroadcastCancelledAreaListChoiceEmergencyAreaIDCancelled:
 		if err := per.EncodeCollection(bb, int64(len(v.EmergencyAreaIDCancelled)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_emergencyareaidcancelled, fragmentLength_emergencyareaidcancelled int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_emergencyareaidcancelled < 0 || fragmentOffset_emergencyareaidcancelled > int64(len(v.EmergencyAreaIDCancelled)) || fragmentLength_emergencyareaidcancelled < 0 || fragmentLength_emergencyareaidcancelled > int64(len(v.EmergencyAreaIDCancelled[fragmentOffset_emergencyareaidcancelled:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.EmergencyAreaIDCancelled[fragmentOffset_emergencyareaidcancelled : fragmentOffset_emergencyareaidcancelled+fragmentLength_emergencyareaidcancelled] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding emergencyAreaID-Cancelled element: %w", err)
@@ -9022,11 +9326,19 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case BroadcastCancelledAreaListChoiceCellIDCancelled:
 		tmp_cellidcancelled := make(CellIDCancelled, 0)
 		_, errCollection_cellidcancelled := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cellidcancelled, fragmentLength_cellidcancelled int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_cellidcancelled < 0 || fragmentLength_cellidcancelled < 0 || fragmentLength_cellidcancelled > int64(^uint(0)>>1) || fragmentOffset_cellidcancelled > int64(^uint(0)>>1)-fragmentLength_cellidcancelled {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cellidcancelled; i++ {
 				var elem CellIDCancelledItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9043,6 +9355,10 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	case BroadcastCancelledAreaListChoiceTAICancelled:
 		tmp_taicancelled := make(TAICancelled, 0)
 		_, errCollection_taicancelled := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_taicancelled, fragmentLength_taicancelled int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_taicancelled < 0 || fragmentLength_taicancelled < 0 || fragmentLength_taicancelled > int64(^uint(0)>>1) || fragmentOffset_taicancelled > int64(^uint(0)>>1)-fragmentLength_taicancelled {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_taicancelled; i++ {
 				var elem TAICancelledItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9059,6 +9375,10 @@ func (v *BroadcastCancelledAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	case BroadcastCancelledAreaListChoiceEmergencyAreaIDCancelled:
 		tmp_emergencyareaidcancelled := make(EmergencyAreaIDCancelled, 0)
 		_, errCollection_emergencyareaidcancelled := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_emergencyareaidcancelled, fragmentLength_emergencyareaidcancelled int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_emergencyareaidcancelled < 0 || fragmentLength_emergencyareaidcancelled < 0 || fragmentLength_emergencyareaidcancelled > int64(^uint(0)>>1) || fragmentOffset_emergencyareaidcancelled > int64(^uint(0)>>1)-fragmentLength_emergencyareaidcancelled {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_emergencyareaidcancelled; i++ {
 				var elem EmergencyAreaIDCancelledItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9111,12 +9431,20 @@ func (v *BroadcastCompletedAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 	if isExtension {
 		return fmt.Errorf("BroadcastCompletedAreaList: extension choice %d not supported", v.Choice)
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
 	switch v.Choice {
 	case BroadcastCompletedAreaListChoiceCellIDBroadcast:
 		if err := per.EncodeCollection(bb, int64(len(v.CellIDBroadcast)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cellidbroadcast, fragmentLength_cellidbroadcast int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cellidbroadcast < 0 || fragmentOffset_cellidbroadcast > int64(len(v.CellIDBroadcast)) || fragmentLength_cellidbroadcast < 0 || fragmentLength_cellidbroadcast > int64(len(v.CellIDBroadcast[fragmentOffset_cellidbroadcast:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CellIDBroadcast[fragmentOffset_cellidbroadcast : fragmentOffset_cellidbroadcast+fragmentLength_cellidbroadcast] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cellID-Broadcast element: %w", err)
@@ -9128,6 +9456,10 @@ func (v *BroadcastCompletedAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	case BroadcastCompletedAreaListChoiceTAIBroadcast:
 		if err := per.EncodeCollection(bb, int64(len(v.TAIBroadcast)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_taibroadcast, fragmentLength_taibroadcast int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_taibroadcast < 0 || fragmentOffset_taibroadcast > int64(len(v.TAIBroadcast)) || fragmentLength_taibroadcast < 0 || fragmentLength_taibroadcast > int64(len(v.TAIBroadcast[fragmentOffset_taibroadcast:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TAIBroadcast[fragmentOffset_taibroadcast : fragmentOffset_taibroadcast+fragmentLength_taibroadcast] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tAI-Broadcast element: %w", err)
@@ -9139,6 +9471,10 @@ func (v *BroadcastCompletedAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	case BroadcastCompletedAreaListChoiceEmergencyAreaIDBroadcast:
 		if err := per.EncodeCollection(bb, int64(len(v.EmergencyAreaIDBroadcast)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_emergencyareaidbroadcast, fragmentLength_emergencyareaidbroadcast int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_emergencyareaidbroadcast < 0 || fragmentOffset_emergencyareaidbroadcast > int64(len(v.EmergencyAreaIDBroadcast)) || fragmentLength_emergencyareaidbroadcast < 0 || fragmentLength_emergencyareaidbroadcast > int64(len(v.EmergencyAreaIDBroadcast[fragmentOffset_emergencyareaidbroadcast:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.EmergencyAreaIDBroadcast[fragmentOffset_emergencyareaidbroadcast : fragmentOffset_emergencyareaidbroadcast+fragmentLength_emergencyareaidbroadcast] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding emergencyAreaID-Broadcast element: %w", err)
@@ -9190,11 +9526,19 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case BroadcastCompletedAreaListChoiceCellIDBroadcast:
 		tmp_cellidbroadcast := make(CellIDBroadcast, 0)
 		_, errCollection_cellidbroadcast := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cellidbroadcast, fragmentLength_cellidbroadcast int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_cellidbroadcast < 0 || fragmentLength_cellidbroadcast < 0 || fragmentLength_cellidbroadcast > int64(^uint(0)>>1) || fragmentOffset_cellidbroadcast > int64(^uint(0)>>1)-fragmentLength_cellidbroadcast {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cellidbroadcast; i++ {
 				var elem CellIDBroadcastItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9211,6 +9555,10 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	case BroadcastCompletedAreaListChoiceTAIBroadcast:
 		tmp_taibroadcast := make(TAIBroadcast, 0)
 		_, errCollection_taibroadcast := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_taibroadcast, fragmentLength_taibroadcast int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_taibroadcast < 0 || fragmentLength_taibroadcast < 0 || fragmentLength_taibroadcast > int64(^uint(0)>>1) || fragmentOffset_taibroadcast > int64(^uint(0)>>1)-fragmentLength_taibroadcast {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_taibroadcast; i++ {
 				var elem TAIBroadcastItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9227,6 +9575,10 @@ func (v *BroadcastCompletedAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	case BroadcastCompletedAreaListChoiceEmergencyAreaIDBroadcast:
 		tmp_emergencyareaidbroadcast := make(EmergencyAreaIDBroadcast, 0)
 		_, errCollection_emergencyareaidbroadcast := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_emergencyareaidbroadcast, fragmentLength_emergencyareaidbroadcast int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_emergencyareaidbroadcast < 0 || fragmentLength_emergencyareaidbroadcast < 0 || fragmentLength_emergencyareaidbroadcast > int64(^uint(0)>>1) || fragmentOffset_emergencyareaidbroadcast > int64(^uint(0)>>1)-fragmentLength_emergencyareaidbroadcast {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_emergencyareaidbroadcast; i++ {
 				var elem EmergencyAreaIDBroadcastItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9284,6 +9636,10 @@ func MarshalAPERCancelledCellinEAI(list CancelledCellinEAIComplete) ([]byte, err
 func MarshalAPERCancelledCellinEAITo(list CancelledCellinEAI, bb *per.BitBuffer) error {
 	v := asn1cAPERCancelledCellinEAIListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -9317,6 +9673,10 @@ func UnmarshalAPERCancelledCellinEAIFrom(bb *per.BitBuffer) (CancelledCellinEAI,
 func unmarshalAPERCancelledCellinEAIInto(v *asn1cAPERCancelledCellinEAIListValue, bb *per.BitBuffer) error {
 	v.Value = make(CancelledCellinEAI, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CancelledCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9358,6 +9718,10 @@ func (v *CancelledCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -9372,11 +9736,19 @@ func (v *CancelledCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -9429,6 +9801,10 @@ func (v *CancelledCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9449,8 +9825,16 @@ func (v *CancelledCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9504,6 +9888,10 @@ func MarshalAPERCancelledCellinTAI(list CancelledCellinTAIComplete) ([]byte, err
 func MarshalAPERCancelledCellinTAITo(list CancelledCellinTAI, bb *per.BitBuffer) error {
 	v := asn1cAPERCancelledCellinTAIListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -9537,6 +9925,10 @@ func UnmarshalAPERCancelledCellinTAIFrom(bb *per.BitBuffer) (CancelledCellinTAI,
 func unmarshalAPERCancelledCellinTAIInto(v *asn1cAPERCancelledCellinTAIListValue, bb *per.BitBuffer) error {
 	v.Value = make(CancelledCellinTAI, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CancelledCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9578,6 +9970,10 @@ func (v *CancelledCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -9592,11 +9988,19 @@ func (v *CancelledCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -9649,6 +10053,10 @@ func (v *CancelledCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9669,8 +10077,16 @@ func (v *CancelledCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -9718,6 +10134,10 @@ func (v *Cause) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("Cause: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 4); err != nil {
 		return err
@@ -9800,6 +10220,10 @@ func (v *Cause) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case CauseChoiceRadioNetwork:
@@ -9867,6 +10291,10 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffe
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -9881,11 +10309,19 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) MarshalAPERTo(bb *per.BitBuffe
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -9938,6 +10374,10 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitB
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -9958,8 +10398,16 @@ func (v *CellIdentifierAndCELevelForCECapableUEs) UnmarshalAPERFrom(bb *per.BitB
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10013,6 +10461,10 @@ func MarshalAPERCellIDBroadcast(list CellIDBroadcastComplete) ([]byte, error) {
 func MarshalAPERCellIDBroadcastTo(list CellIDBroadcast, bb *per.BitBuffer) error {
 	v := asn1cAPERCellIDBroadcastListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -10046,6 +10498,10 @@ func UnmarshalAPERCellIDBroadcastFrom(bb *per.BitBuffer) (CellIDBroadcast, error
 func unmarshalAPERCellIDBroadcastInto(v *asn1cAPERCellIDBroadcastListValue, bb *per.BitBuffer) error {
 	v.Value = make(CellIDBroadcast, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CellIDBroadcastItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10084,6 +10540,10 @@ func (v *CellIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -10098,11 +10558,19 @@ func (v *CellIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -10150,6 +10618,10 @@ func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10170,8 +10642,16 @@ func (v *CellIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10225,6 +10705,10 @@ func MarshalAPERCellIDCancelled(list CellIDCancelledComplete) ([]byte, error) {
 func MarshalAPERCellIDCancelledTo(list CellIDCancelled, bb *per.BitBuffer) error {
 	v := asn1cAPERCellIDCancelledListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -10258,6 +10742,10 @@ func UnmarshalAPERCellIDCancelledFrom(bb *per.BitBuffer) (CellIDCancelled, error
 func unmarshalAPERCellIDCancelledInto(v *asn1cAPERCellIDCancelledListValue, bb *per.BitBuffer) error {
 	v.Value = make(CellIDCancelled, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CellIDCancelledItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10299,6 +10787,10 @@ func (v *CellIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -10313,11 +10805,19 @@ func (v *CellIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -10370,6 +10870,10 @@ func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10390,8 +10894,16 @@ func (v *CellIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10424,6 +10936,10 @@ func (v *CellBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CellIdListforMDT)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_cellidlistformdt, fragmentLength_cellidlistformdt int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cellidlistformdt < 0 || fragmentOffset_cellidlistformdt > int64(len(v.CellIdListforMDT)) || fragmentLength_cellidlistformdt < 0 || fragmentLength_cellidlistformdt > int64(len(v.CellIdListforMDT[fragmentOffset_cellidlistformdt:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CellIdListforMDT[fragmentOffset_cellidlistformdt : fragmentOffset_cellidlistformdt+fragmentLength_cellidlistformdt] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cellIdListforMDT element: %w", err)
@@ -10435,6 +10951,10 @@ func (v *CellBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -10449,11 +10969,19 @@ func (v *CellBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -10497,6 +11025,10 @@ func (v *CellBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CellIdListforMDT = make(CellIdListforMDT, 0)
 	_, errCollection_cellidlistformdt := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_cellidlistformdt, fragmentLength_cellidlistformdt int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_cellidlistformdt < 0 || fragmentLength_cellidlistformdt < 0 || fragmentLength_cellidlistformdt > int64(^uint(0)>>1) || fragmentOffset_cellidlistformdt > int64(^uint(0)>>1)-fragmentLength_cellidlistformdt {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cellidlistformdt; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10512,6 +11044,10 @@ func (v *CellBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10532,8 +11068,16 @@ func (v *CellBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10587,6 +11131,10 @@ func MarshalAPERCellIdListforMDT(list CellIdListforMDTComplete) ([]byte, error) 
 func MarshalAPERCellIdListforMDTTo(list CellIdListforMDT, bb *per.BitBuffer) error {
 	v := asn1cAPERCellIdListforMDTListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -10620,6 +11168,10 @@ func UnmarshalAPERCellIdListforMDTFrom(bb *per.BitBuffer) (CellIdListforMDT, err
 func unmarshalAPERCellIdListforMDTInto(v *asn1cAPERCellIdListforMDTListValue, bb *per.BitBuffer) error {
 	v.Value = make(CellIdListforMDT, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10654,6 +11206,10 @@ func (v *CellBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CellIdListforQMC)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_cellidlistforqmc, fragmentLength_cellidlistforqmc int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cellidlistforqmc < 0 || fragmentOffset_cellidlistforqmc > int64(len(v.CellIdListforQMC)) || fragmentLength_cellidlistforqmc < 0 || fragmentLength_cellidlistforqmc > int64(len(v.CellIdListforQMC[fragmentOffset_cellidlistforqmc:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CellIdListforQMC[fragmentOffset_cellidlistforqmc : fragmentOffset_cellidlistforqmc+fragmentLength_cellidlistforqmc] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cellIdListforQMC element: %w", err)
@@ -10665,6 +11221,10 @@ func (v *CellBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -10679,11 +11239,19 @@ func (v *CellBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -10727,6 +11295,10 @@ func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CellIdListforQMC = make(CellIdListforQMC, 0)
 	_, errCollection_cellidlistforqmc := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_cellidlistforqmc, fragmentLength_cellidlistforqmc int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_cellidlistforqmc < 0 || fragmentLength_cellidlistforqmc < 0 || fragmentLength_cellidlistforqmc > int64(^uint(0)>>1) || fragmentOffset_cellidlistforqmc > int64(^uint(0)>>1)-fragmentLength_cellidlistforqmc {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cellidlistforqmc; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10742,6 +11314,10 @@ func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10762,8 +11338,16 @@ func (v *CellBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -10817,6 +11401,10 @@ func MarshalAPERCellIdListforQMC(list CellIdListforQMCComplete) ([]byte, error) 
 func MarshalAPERCellIdListforQMCTo(list CellIdListforQMC, bb *per.BitBuffer) error {
 	v := asn1cAPERCellIdListforQMCListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -10850,6 +11438,10 @@ func UnmarshalAPERCellIdListforQMCFrom(bb *per.BitBuffer) (CellIdListforQMC, err
 func unmarshalAPERCellIdListforQMCInto(v *asn1cAPERCellIdListforQMCListValue, bb *per.BitBuffer) error {
 	v.Value = make(CellIdListforQMC, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10894,6 +11486,10 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -10908,11 +11504,19 @@ func (v *Cdma2000OneXSRVCCInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -10972,6 +11576,10 @@ func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -10992,8 +11600,16 @@ func (v *Cdma2000OneXSRVCCInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11030,6 +11646,10 @@ func (v *CellType) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -11044,11 +11664,19 @@ func (v *CellType) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -11098,6 +11726,10 @@ func (v *CellType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11118,8 +11750,16 @@ func (v *CellType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11170,6 +11810,10 @@ func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -11184,11 +11828,19 @@ func (v *CGI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -11260,6 +11912,10 @@ func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11280,8 +11936,16 @@ func (v *CGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11335,6 +11999,10 @@ func MarshalAPERCNTypeRestrictions(list CNTypeRestrictionsComplete) ([]byte, err
 func MarshalAPERCNTypeRestrictionsTo(list CNTypeRestrictions, bb *per.BitBuffer) error {
 	v := asn1cAPERCNTypeRestrictionsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -11368,6 +12036,10 @@ func UnmarshalAPERCNTypeRestrictionsFrom(bb *per.BitBuffer) (CNTypeRestrictions,
 func unmarshalAPERCNTypeRestrictionsInto(v *asn1cAPERCNTypeRestrictionsListValue, bb *per.BitBuffer) error {
 	v.Value = make(CNTypeRestrictions, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CNTypeRestrictionsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11409,6 +12081,10 @@ func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -11423,11 +12099,19 @@ func (v *CNTypeRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -11482,6 +12166,10 @@ func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11502,8 +12190,16 @@ func (v *CNTypeRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11557,6 +12253,10 @@ func MarshalAPERConnectedengNBList(list ConnectedengNBListComplete) ([]byte, err
 func MarshalAPERConnectedengNBListTo(list ConnectedengNBList, bb *per.BitBuffer) error {
 	v := asn1cAPERConnectedengNBListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -11590,6 +12290,10 @@ func UnmarshalAPERConnectedengNBListFrom(bb *per.BitBuffer) (ConnectedengNBList,
 func unmarshalAPERConnectedengNBListInto(v *asn1cAPERConnectedengNBListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ConnectedengNBList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ConnectedengNBItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11627,6 +12331,10 @@ func (v *ConnectedengNBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding en-gNB-ID: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SupportedTAs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_supportedtas, fragmentLength_supportedtas int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_supportedtas < 0 || fragmentOffset_supportedtas > int64(len(v.SupportedTAs)) || fragmentLength_supportedtas < 0 || fragmentLength_supportedtas > int64(len(v.SupportedTAs[fragmentOffset_supportedtas:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SupportedTAs[fragmentOffset_supportedtas : fragmentOffset_supportedtas+fragmentLength_supportedtas] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding supportedTAs element: %w", err)
@@ -11638,6 +12346,10 @@ func (v *ConnectedengNBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -11652,11 +12364,19 @@ func (v *ConnectedengNBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -11705,6 +12425,10 @@ func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.EnGNBID = runtime.BitString{Bytes: bsBytes_engnbid, BitLength: bsBitLen_engnbid}
 	v.SupportedTAs = make(SupportedTAs, 0)
 	_, errCollection_supportedtas := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_supportedtas, fragmentLength_supportedtas int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_supportedtas < 0 || fragmentLength_supportedtas < 0 || fragmentLength_supportedtas > int64(^uint(0)>>1) || fragmentOffset_supportedtas > int64(^uint(0)>>1)-fragmentLength_supportedtas {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_supportedtas; i++ {
 			var elem SupportedTAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11720,6 +12444,10 @@ func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11740,8 +12468,16 @@ func (v *ConnectedengNBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11781,6 +12517,10 @@ func (v *ContextatSource) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -11795,11 +12535,19 @@ func (v *ContextatSource) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -11852,6 +12600,10 @@ func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11872,8 +12624,16 @@ func (v *ContextatSource) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -11925,6 +12685,10 @@ func MarshalAPERCSGIdList(list CSGIdListComplete) ([]byte, error) { return list.
 func MarshalAPERCSGIdListTo(list CSGIdList, bb *per.BitBuffer) error {
 	v := asn1cAPERCSGIdListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -11958,6 +12722,10 @@ func UnmarshalAPERCSGIdListFrom(bb *per.BitBuffer) (CSGIdList, error) {
 func unmarshalAPERCSGIdListInto(v *asn1cAPERCSGIdListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CSGIdList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CSGIdListItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -11996,6 +12764,10 @@ func (v *CSGIdListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -12010,11 +12782,19 @@ func (v *CSGIdListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -12064,6 +12844,10 @@ func (v *CSGIdListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12084,8 +12868,16 @@ func (v *CSGIdListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12125,6 +12917,10 @@ func (v *COUNTvalue) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -12139,11 +12935,19 @@ func (v *COUNTvalue) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -12198,6 +13002,10 @@ func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12218,8 +13026,16 @@ func (v *COUNTvalue) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12259,6 +13075,10 @@ func (v *COUNTValueExtended) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -12273,11 +13093,19 @@ func (v *COUNTValueExtended) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -12332,6 +13160,10 @@ func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12352,8 +13184,16 @@ func (v *COUNTValueExtended) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12393,6 +13233,10 @@ func (v *COUNTvaluePDCPSNlength18) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -12407,11 +13251,19 @@ func (v *COUNTvaluePDCPSNlength18) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -12466,6 +13318,10 @@ func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12486,8 +13342,16 @@ func (v *COUNTvaluePDCPSNlength18) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12548,6 +13412,10 @@ func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEsCriticalityDiagnostics != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEsCriticalityDiagnostics)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_iescriticalitydiagnostics, fragmentLength_iescriticalitydiagnostics int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_iescriticalitydiagnostics < 0 || fragmentOffset_iescriticalitydiagnostics > int64(len(v.IEsCriticalityDiagnostics)) || fragmentLength_iescriticalitydiagnostics < 0 || fragmentLength_iescriticalitydiagnostics > int64(len(v.IEsCriticalityDiagnostics[fragmentOffset_iescriticalitydiagnostics:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEsCriticalityDiagnostics[fragmentOffset_iescriticalitydiagnostics : fragmentOffset_iescriticalitydiagnostics+fragmentLength_iescriticalitydiagnostics] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iEsCriticalityDiagnostics element: %w", err)
@@ -12560,6 +13428,10 @@ func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -12574,11 +13446,19 @@ func (v *CriticalityDiagnostics) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -12663,6 +13543,10 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_iescriticalitydiagnostics {
 		tmp_iescriticalitydiagnostics := make(CriticalityDiagnosticsIEList, 0)
 		_, errCollection_iescriticalitydiagnostics := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_iescriticalitydiagnostics, fragmentLength_iescriticalitydiagnostics int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_iescriticalitydiagnostics < 0 || fragmentLength_iescriticalitydiagnostics < 0 || fragmentLength_iescriticalitydiagnostics > int64(^uint(0)>>1) || fragmentOffset_iescriticalitydiagnostics > int64(^uint(0)>>1)-fragmentLength_iescriticalitydiagnostics {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_iescriticalitydiagnostics; i++ {
 				var elem CriticalityDiagnosticsIEItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12680,6 +13564,10 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12700,8 +13588,16 @@ func (v *CriticalityDiagnostics) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12755,6 +13651,10 @@ func MarshalAPERCriticalityDiagnosticsIEList(list CriticalityDiagnosticsIEListCo
 func MarshalAPERCriticalityDiagnosticsIEListTo(list CriticalityDiagnosticsIEList, bb *per.BitBuffer) error {
 	v := asn1cAPERCriticalityDiagnosticsIEListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -12788,6 +13688,10 @@ func UnmarshalAPERCriticalityDiagnosticsIEListFrom(bb *per.BitBuffer) (Criticali
 func unmarshalAPERCriticalityDiagnosticsIEListInto(v *asn1cAPERCriticalityDiagnosticsIEListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CriticalityDiagnosticsIEList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CriticalityDiagnosticsIEItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12832,6 +13736,10 @@ func (v *CriticalityDiagnosticsIEItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -12846,11 +13754,19 @@ func (v *CriticalityDiagnosticsIEItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -12910,6 +13826,10 @@ func (v *CriticalityDiagnosticsIEItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -12930,8 +13850,16 @@ func (v *CriticalityDiagnosticsIEItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -12968,6 +13896,10 @@ func (v *DAPSRequestInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -12982,11 +13914,19 @@ func (v *DAPSRequestInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -13036,6 +13976,10 @@ func (v *DAPSRequestInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13056,8 +14000,16 @@ func (v *DAPSRequestInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13111,6 +14063,10 @@ func MarshalAPERDAPSResponseInfoList(list DAPSResponseInfoListComplete) ([]byte,
 func MarshalAPERDAPSResponseInfoListTo(list DAPSResponseInfoList, bb *per.BitBuffer) error {
 	v := asn1cAPERDAPSResponseInfoListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -13144,6 +14100,10 @@ func UnmarshalAPERDAPSResponseInfoListFrom(bb *per.BitBuffer) (DAPSResponseInfoL
 func unmarshalAPERDAPSResponseInfoListInto(v *asn1cAPERDAPSResponseInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(DAPSResponseInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13185,6 +14145,10 @@ func (v *DAPSResponseInfoItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -13199,11 +14163,19 @@ func (v *DAPSResponseInfoItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -13256,6 +14228,10 @@ func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13276,8 +14252,16 @@ func (v *DAPSResponseInfoItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13314,6 +14298,10 @@ func (v *DAPSResponseInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -13328,11 +14316,19 @@ func (v *DAPSResponseInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -13382,6 +14378,10 @@ func (v *DAPSResponseInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13402,8 +14402,16 @@ func (v *DAPSResponseInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13455,6 +14463,10 @@ func MarshalAPERServedDCNs(list ServedDCNsComplete) ([]byte, error) { return lis
 func MarshalAPERServedDCNsTo(list ServedDCNs, bb *per.BitBuffer) error {
 	v := asn1cAPERServedDCNsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -13488,6 +14500,10 @@ func UnmarshalAPERServedDCNsFrom(bb *per.BitBuffer) (ServedDCNs, error) {
 func unmarshalAPERServedDCNsInto(v *asn1cAPERServedDCNsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ServedDCNs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ServedDCNsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13529,6 +14545,10 @@ func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -13543,11 +14563,19 @@ func (v *ServedDCNsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -13602,6 +14630,10 @@ func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13622,8 +14654,16 @@ func (v *ServedDCNsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13660,6 +14700,10 @@ func (v *DLCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -13674,11 +14718,19 @@ func (v *DLCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -13728,6 +14780,10 @@ func (v *DLCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -13748,8 +14804,16 @@ func (v *DLCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -13797,6 +14861,10 @@ func (v *DLCOUNTPDCPSNlength) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("DLCOUNTPDCPSNlength: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -13865,6 +14933,10 @@ func (v *DLCOUNTPDCPSNlength) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLCOUNTPDCPSNlengthChoiceDLCOUNTValuePDCPSNlength12:
@@ -13923,6 +14995,10 @@ func (v *DLDiscarding) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("DLDiscarding: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -13991,6 +15067,10 @@ func (v *DLDiscarding) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLDiscardingChoiceDiscardDLCOUNTValuePDCPSNlength12:
@@ -14053,6 +15133,10 @@ func MarshalAPERECGIList(list ECGIListComplete) ([]byte, error) { return list.Ma
 func MarshalAPERECGIListTo(list ECGIList, bb *per.BitBuffer) error {
 	v := asn1cAPERECGIListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14086,6 +15170,10 @@ func UnmarshalAPERECGIListFrom(bb *per.BitBuffer) (ECGIList, error) {
 func unmarshalAPERECGIListInto(v *asn1cAPERECGIListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ECGIList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14141,6 +15229,10 @@ func MarshalAPERPWSfailedECGIList(list PWSfailedECGIListComplete) ([]byte, error
 func MarshalAPERPWSfailedECGIListTo(list PWSfailedECGIList, bb *per.BitBuffer) error {
 	v := asn1cAPERPWSfailedECGIListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14174,6 +15266,10 @@ func UnmarshalAPERPWSfailedECGIListFrom(bb *per.BitBuffer) (PWSfailedECGIList, e
 func unmarshalAPERPWSfailedECGIListInto(v *asn1cAPERPWSfailedECGIListListValue, bb *per.BitBuffer) error {
 	v.Value = make(PWSfailedECGIList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14229,6 +15325,10 @@ func MarshalAPEREmergencyAreaIDList(list EmergencyAreaIDListComplete) ([]byte, e
 func MarshalAPEREmergencyAreaIDListTo(list EmergencyAreaIDList, bb *per.BitBuffer) error {
 	v := asn1cAPEREmergencyAreaIDListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14262,6 +15362,10 @@ func UnmarshalAPEREmergencyAreaIDListFrom(bb *per.BitBuffer) (EmergencyAreaIDLis
 func unmarshalAPEREmergencyAreaIDListInto(v *asn1cAPEREmergencyAreaIDListListValue, bb *per.BitBuffer) error {
 	v.Value = make(EmergencyAreaIDList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -14317,6 +15421,10 @@ func MarshalAPEREmergencyAreaIDBroadcast(list EmergencyAreaIDBroadcastComplete) 
 func MarshalAPEREmergencyAreaIDBroadcastTo(list EmergencyAreaIDBroadcast, bb *per.BitBuffer) error {
 	v := asn1cAPEREmergencyAreaIDBroadcastListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14350,6 +15458,10 @@ func UnmarshalAPEREmergencyAreaIDBroadcastFrom(bb *per.BitBuffer) (EmergencyArea
 func unmarshalAPEREmergencyAreaIDBroadcastInto(v *asn1cAPEREmergencyAreaIDBroadcastListValue, bb *per.BitBuffer) error {
 	v.Value = make(EmergencyAreaIDBroadcast, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EmergencyAreaIDBroadcastItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14387,6 +15499,10 @@ func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding emergencyAreaID: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CompletedCellinEAI)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_completedcellineai, fragmentLength_completedcellineai int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_completedcellineai < 0 || fragmentOffset_completedcellineai > int64(len(v.CompletedCellinEAI)) || fragmentLength_completedcellineai < 0 || fragmentLength_completedcellineai > int64(len(v.CompletedCellinEAI[fragmentOffset_completedcellineai:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CompletedCellinEAI[fragmentOffset_completedcellineai : fragmentOffset_completedcellineai+fragmentLength_completedcellineai] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding completedCellinEAI element: %w", err)
@@ -14398,6 +15514,10 @@ func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -14412,11 +15532,19 @@ func (v *EmergencyAreaIDBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -14465,6 +15593,10 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
 	v.CompletedCellinEAI = make(CompletedCellinEAI, 0)
 	_, errCollection_completedcellineai := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_completedcellineai, fragmentLength_completedcellineai int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_completedcellineai < 0 || fragmentLength_completedcellineai < 0 || fragmentLength_completedcellineai > int64(^uint(0)>>1) || fragmentOffset_completedcellineai > int64(^uint(0)>>1)-fragmentLength_completedcellineai {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_completedcellineai; i++ {
 			var elem CompletedCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14480,6 +15612,10 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14500,8 +15636,16 @@ func (v *EmergencyAreaIDBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14555,6 +15699,10 @@ func MarshalAPEREmergencyAreaIDCancelled(list EmergencyAreaIDCancelledComplete) 
 func MarshalAPEREmergencyAreaIDCancelledTo(list EmergencyAreaIDCancelled, bb *per.BitBuffer) error {
 	v := asn1cAPEREmergencyAreaIDCancelledListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14588,6 +15736,10 @@ func UnmarshalAPEREmergencyAreaIDCancelledFrom(bb *per.BitBuffer) (EmergencyArea
 func unmarshalAPEREmergencyAreaIDCancelledInto(v *asn1cAPEREmergencyAreaIDCancelledListValue, bb *per.BitBuffer) error {
 	v.Value = make(EmergencyAreaIDCancelled, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EmergencyAreaIDCancelledItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14625,6 +15777,10 @@ func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding emergencyAreaID: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CancelledCellinEAI)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cancelledcellineai, fragmentLength_cancelledcellineai int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cancelledcellineai < 0 || fragmentOffset_cancelledcellineai > int64(len(v.CancelledCellinEAI)) || fragmentLength_cancelledcellineai < 0 || fragmentLength_cancelledcellineai > int64(len(v.CancelledCellinEAI[fragmentOffset_cancelledcellineai:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CancelledCellinEAI[fragmentOffset_cancelledcellineai : fragmentOffset_cancelledcellineai+fragmentLength_cancelledcellineai] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cancelledCellinEAI element: %w", err)
@@ -14636,6 +15792,10 @@ func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -14650,11 +15810,19 @@ func (v *EmergencyAreaIDCancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -14703,6 +15871,10 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	v.EmergencyAreaID = EmergencyAreaID(val_emergencyareaid)
 	v.CancelledCellinEAI = make(CancelledCellinEAI, 0)
 	_, errCollection_cancelledcellineai := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cancelledcellineai, fragmentLength_cancelledcellineai int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_cancelledcellineai < 0 || fragmentLength_cancelledcellineai < 0 || fragmentLength_cancelledcellineai > int64(^uint(0)>>1) || fragmentOffset_cancelledcellineai > int64(^uint(0)>>1)-fragmentLength_cancelledcellineai {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cancelledcellineai; i++ {
 			var elem CancelledCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14718,6 +15890,10 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14738,8 +15914,16 @@ func (v *EmergencyAreaIDCancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -14793,6 +15977,10 @@ func MarshalAPERCompletedCellinEAI(list CompletedCellinEAIComplete) ([]byte, err
 func MarshalAPERCompletedCellinEAITo(list CompletedCellinEAI, bb *per.BitBuffer) error {
 	v := asn1cAPERCompletedCellinEAIListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -14826,6 +16014,10 @@ func UnmarshalAPERCompletedCellinEAIFrom(bb *per.BitBuffer) (CompletedCellinEAI,
 func unmarshalAPERCompletedCellinEAIInto(v *asn1cAPERCompletedCellinEAIListValue, bb *per.BitBuffer) error {
 	v.Value = make(CompletedCellinEAI, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CompletedCellinEAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14864,6 +16056,10 @@ func (v *CompletedCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -14878,11 +16074,19 @@ func (v *CompletedCellinEAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -14930,6 +16134,10 @@ func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -14950,8 +16158,16 @@ func (v *CompletedCellinEAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15003,6 +16219,10 @@ func MarshalAPERIEsECGIList(list IEsECGIListComplete) ([]byte, error) { return l
 func MarshalAPERIEsECGIListTo(list IEsECGIList, bb *per.BitBuffer) error {
 	v := asn1cAPERIEsECGIListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -15036,6 +16256,10 @@ func UnmarshalAPERIEsECGIListFrom(bb *per.BitBuffer) (IEsECGIList, error) {
 func unmarshalAPERIEsECGIListInto(v *asn1cAPERIEsECGIListListValue, bb *per.BitBuffer) error {
 	v.Value = make(IEsECGIList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15091,6 +16315,10 @@ func MarshalAPEREmergencyAreaIDListForRestart(list EmergencyAreaIDListForRestart
 func MarshalAPEREmergencyAreaIDListForRestartTo(list EmergencyAreaIDListForRestart, bb *per.BitBuffer) error {
 	v := asn1cAPEREmergencyAreaIDListForRestartListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -15124,6 +16352,10 @@ func UnmarshalAPEREmergencyAreaIDListForRestartFrom(bb *per.BitBuffer) (Emergenc
 func unmarshalAPEREmergencyAreaIDListForRestartInto(v *asn1cAPEREmergencyAreaIDListForRestartListValue, bb *per.BitBuffer) error {
 	v.Value = make(EmergencyAreaIDListForRestart, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -15158,6 +16390,10 @@ func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBu
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.BearersSubjectToEarlyStatusTransferList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_bearerssubjecttoearlystatustransferlist, fragmentLength_bearerssubjecttoearlystatustransferlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_bearerssubjecttoearlystatustransferlist < 0 || fragmentOffset_bearerssubjecttoearlystatustransferlist > int64(len(v.BearersSubjectToEarlyStatusTransferList)) || fragmentLength_bearerssubjecttoearlystatustransferlist < 0 || fragmentLength_bearerssubjecttoearlystatustransferlist > int64(len(v.BearersSubjectToEarlyStatusTransferList[fragmentOffset_bearerssubjecttoearlystatustransferlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.BearersSubjectToEarlyStatusTransferList[fragmentOffset_bearerssubjecttoearlystatustransferlist : fragmentOffset_bearerssubjecttoearlystatustransferlist+fragmentLength_bearerssubjecttoearlystatustransferlist] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding bearers-SubjectToEarlyStatusTransferList element: %w", err)
@@ -15169,6 +16405,10 @@ func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBu
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -15183,11 +16423,19 @@ func (v *ENBEarlyStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBu
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -15231,6 +16479,10 @@ func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.B
 	}
 	v.BearersSubjectToEarlyStatusTransferList = make(BearersSubjectToEarlyStatusTransferList, 0)
 	_, errCollection_bearerssubjecttoearlystatustransferlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_bearerssubjecttoearlystatustransferlist, fragmentLength_bearerssubjecttoearlystatustransferlist int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_bearerssubjecttoearlystatustransferlist < 0 || fragmentLength_bearerssubjecttoearlystatustransferlist < 0 || fragmentLength_bearerssubjecttoearlystatustransferlist > int64(^uint(0)>>1) || fragmentOffset_bearerssubjecttoearlystatustransferlist > int64(^uint(0)>>1)-fragmentLength_bearerssubjecttoearlystatustransferlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_bearerssubjecttoearlystatustransferlist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15246,6 +16498,10 @@ func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.B
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15266,8 +16522,16 @@ func (v *ENBEarlyStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.B
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15317,6 +16581,10 @@ func (v *ENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 2 {
+			return fmt.Errorf("extension choice index outside root")
+		}
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
 			return err
 		}
@@ -15347,6 +16615,10 @@ func (v *ENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -15406,6 +16678,10 @@ func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return nil
 		}
 		inner := per.NewBitBufferFromBytes(openData)
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:205
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(2) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
 		v.Choice = int(extIdx) + 2 + 1
 		extensionPath := "UnknownExtension"
 		switch v.Choice {
@@ -15436,6 +16712,10 @@ func (v *ENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -15486,6 +16766,10 @@ func (v *GERANCellID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -15500,11 +16784,19 @@ func (v *GERANCellID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -15562,6 +16854,10 @@ func (v *GERANCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15582,8 +16878,16 @@ func (v *GERANCellID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15623,6 +16927,10 @@ func (v *GlobalENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -15637,11 +16945,19 @@ func (v *GlobalENBID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -15694,6 +17010,10 @@ func (v *GlobalENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15714,8 +17034,16 @@ func (v *GlobalENBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15755,6 +17083,10 @@ func (v *GlobalEnGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -15769,11 +17101,19 @@ func (v *GlobalEnGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -15828,6 +17168,10 @@ func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15848,8 +17192,16 @@ func (v *GlobalEnGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -15901,6 +17253,10 @@ func MarshalAPERGUMMEIList(list GUMMEIListComplete) ([]byte, error) { return lis
 func MarshalAPERGUMMEIListTo(list GUMMEIList, bb *per.BitBuffer) error {
 	v := asn1cAPERGUMMEIListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -15934,6 +17290,10 @@ func UnmarshalAPERGUMMEIListFrom(bb *per.BitBuffer) (GUMMEIList, error) {
 func unmarshalAPERGUMMEIListInto(v *asn1cAPERGUMMEIListListValue, bb *per.BitBuffer) error {
 	v.Value = make(GUMMEIList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem GUMMEI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -15968,6 +17328,10 @@ func (v *ENBStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer)
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.BearersSubjectToStatusTransferList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_bearerssubjecttostatustransferlist, fragmentLength_bearerssubjecttostatustransferlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_bearerssubjecttostatustransferlist < 0 || fragmentOffset_bearerssubjecttostatustransferlist > int64(len(v.BearersSubjectToStatusTransferList)) || fragmentLength_bearerssubjecttostatustransferlist < 0 || fragmentLength_bearerssubjecttostatustransferlist > int64(len(v.BearersSubjectToStatusTransferList[fragmentOffset_bearerssubjecttostatustransferlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.BearersSubjectToStatusTransferList[fragmentOffset_bearerssubjecttostatustransferlist : fragmentOffset_bearerssubjecttostatustransferlist+fragmentLength_bearerssubjecttostatustransferlist] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding bearers-SubjectToStatusTransferList element: %w", err)
@@ -15979,6 +17343,10 @@ func (v *ENBStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer)
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -15993,11 +17361,19 @@ func (v *ENBStatusTransferTransparentContainer) MarshalAPERTo(bb *per.BitBuffer)
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -16041,6 +17417,10 @@ func (v *ENBStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuf
 	}
 	v.BearersSubjectToStatusTransferList = make(BearersSubjectToStatusTransferList, 0)
 	_, errCollection_bearerssubjecttostatustransferlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_bearerssubjecttostatustransferlist, fragmentLength_bearerssubjecttostatustransferlist int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_bearerssubjecttostatustransferlist < 0 || fragmentLength_bearerssubjecttostatustransferlist < 0 || fragmentLength_bearerssubjecttostatustransferlist > int64(^uint(0)>>1) || fragmentOffset_bearerssubjecttostatustransferlist > int64(^uint(0)>>1)-fragmentLength_bearerssubjecttostatustransferlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_bearerssubjecttostatustransferlist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16056,6 +17436,10 @@ func (v *ENBStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuf
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16076,8 +17460,16 @@ func (v *ENBStatusTransferTransparentContainer) UnmarshalAPERFrom(bb *per.BitBuf
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16129,6 +17521,10 @@ func MarshalAPERENBX2TLAs(list ENBX2TLAsComplete) ([]byte, error) { return list.
 func MarshalAPERENBX2TLAsTo(list ENBX2TLAs, bb *per.BitBuffer) error {
 	v := asn1cAPERENBX2TLAsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeBitStringAlignedExt(bb, elem.Bytes, elem.BitLength, 1, 160, true, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -16162,6 +17558,10 @@ func UnmarshalAPERENBX2TLAsFrom(bb *per.BitBuffer) (ENBX2TLAs, error) {
 func unmarshalAPERENBX2TLAsInto(v *asn1cAPERENBX2TLAsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ENBX2TLAs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1276
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
@@ -16211,6 +17611,10 @@ func (v *ENDCSONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -16225,11 +17629,19 @@ func (v *ENDCSONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -16291,6 +17703,10 @@ func (v *ENDCSONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16311,8 +17727,16 @@ func (v *ENDCSONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16360,6 +17784,10 @@ func (v *ENDCSONTransferType) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("ENDCSONTransferType: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -16420,6 +17848,10 @@ func (v *ENDCSONTransferType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -16489,6 +17921,10 @@ func (v *ENDCTransferTypeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -16503,11 +17939,19 @@ func (v *ENDCTransferTypeRequest) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -16591,6 +18035,10 @@ func (v *ENDCTransferTypeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16611,8 +18059,16 @@ func (v *ENDCTransferTypeRequest) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16652,6 +18108,10 @@ func (v *ENDCTransferTypeReply) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -16666,11 +18126,19 @@ func (v *ENDCTransferTypeReply) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -16721,6 +18189,10 @@ func (v *ENDCTransferTypeReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16741,8 +18213,16 @@ func (v *ENDCTransferTypeReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16782,6 +18262,10 @@ func (v *ENDCSONeNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -16796,11 +18280,19 @@ func (v *ENDCSONeNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -16851,6 +18343,10 @@ func (v *ENDCSONeNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -16871,8 +18367,16 @@ func (v *ENDCSONeNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -16912,6 +18416,10 @@ func (v *ENDCSONengNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -16926,11 +18434,19 @@ func (v *ENDCSONengNBIdentification) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -16981,6 +18497,10 @@ func (v *ENDCSONengNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17001,8 +18521,16 @@ func (v *ENDCSONengNBIdentification) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -17054,6 +18582,10 @@ func MarshalAPEREPLMNs(list EPLMNsComplete) ([]byte, error) { return list.Marsha
 func MarshalAPEREPLMNsTo(list EPLMNs, bb *per.BitBuffer) error {
 	v := asn1cAPEREPLMNsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -17087,6 +18619,10 @@ func UnmarshalAPEREPLMNsFrom(bb *per.BitBuffer) (EPLMNs, error) {
 func unmarshalAPEREPLMNsInto(v *asn1cAPEREPLMNsListValue, bb *per.BitBuffer) error {
 	v.Value = make(EPLMNs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -17142,6 +18678,10 @@ func MarshalAPERERABInformationList(list ERABInformationListComplete) ([]byte, e
 func MarshalAPERERABInformationListTo(list ERABInformationList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABInformationListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -17175,6 +18715,10 @@ func UnmarshalAPERERABInformationListFrom(bb *per.BitBuffer) (ERABInformationLis
 func unmarshalAPERERABInformationListInto(v *asn1cAPERERABInformationListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABInformationList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17221,6 +18765,10 @@ func (v *ERABInformationListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -17235,11 +18783,19 @@ func (v *ERABInformationListItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -17301,6 +18857,10 @@ func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17321,8 +18881,16 @@ func (v *ERABInformationListItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -17374,6 +18942,10 @@ func MarshalAPERERABList(list ERABListComplete) ([]byte, error) { return list.Ma
 func MarshalAPERERABListTo(list ERABList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -17407,6 +18979,10 @@ func UnmarshalAPERERABListFrom(bb *per.BitBuffer) (ERABList, error) {
 func unmarshalAPERERABListInto(v *asn1cAPERERABListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17448,6 +19024,10 @@ func (v *ERABItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -17462,11 +19042,19 @@ func (v *ERABItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -17519,6 +19107,10 @@ func (v *ERABItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17539,8 +19131,16 @@ func (v *ERABItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -17588,6 +19188,10 @@ func (v *ERABLevelQoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -17602,11 +19206,19 @@ func (v *ERABLevelQoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -17670,6 +19282,10 @@ func (v *ERABLevelQoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17690,8 +19306,16 @@ func (v *ERABLevelQoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -17745,6 +19369,10 @@ func MarshalAPERERABSecurityResultList(list ERABSecurityResultListComplete) ([]b
 func MarshalAPERERABSecurityResultListTo(list ERABSecurityResultList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABSecurityResultListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -17778,6 +19406,10 @@ func UnmarshalAPERERABSecurityResultListFrom(bb *per.BitBuffer) (ERABSecurityRes
 func unmarshalAPERERABSecurityResultListInto(v *asn1cAPERERABSecurityResultListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABSecurityResultList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17819,6 +19451,10 @@ func (v *ERABSecurityResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -17833,11 +19469,19 @@ func (v *ERABSecurityResultItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -17890,6 +19534,10 @@ func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -17910,8 +19558,16 @@ func (v *ERABSecurityResultItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -17965,6 +19621,10 @@ func MarshalAPERERABUsageReportList(list ERABUsageReportListComplete) ([]byte, e
 func MarshalAPERERABUsageReportListTo(list ERABUsageReportList, bb *per.BitBuffer) error {
 	v := asn1cAPERERABUsageReportListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -17998,6 +19658,10 @@ func UnmarshalAPERERABUsageReportListFrom(bb *per.BitBuffer) (ERABUsageReportLis
 func unmarshalAPERERABUsageReportListInto(v *asn1cAPERERABUsageReportListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERABUsageReportList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -18045,6 +19709,10 @@ func (v *ERABUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -18059,11 +19727,19 @@ func (v *ERABUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -18128,6 +19804,10 @@ func (v *ERABUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -18148,8 +19828,16 @@ func (v *ERABUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -18189,6 +19877,10 @@ func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -18203,11 +19895,19 @@ func (v *EUTRANCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -18262,6 +19962,10 @@ func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -18282,8 +19986,16 @@ func (v *EUTRANCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -18326,6 +20038,10 @@ func (v *EventL1LoggedMDTConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -18340,11 +20056,19 @@ func (v *EventL1LoggedMDTConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -18402,6 +20126,10 @@ func (v *EventL1LoggedMDTConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -18422,8 +20150,16 @@ func (v *EventL1LoggedMDTConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -18449,6 +20185,10 @@ func (v *EventTrigger) MarshalAPER() ([]byte, error) {
 func (v *EventTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("EventTrigger: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -18500,6 +20240,10 @@ func (v *EventTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -18561,6 +20305,10 @@ func (v *ExpectedUEBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -18575,11 +20323,19 @@ func (v *ExpectedUEBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -18647,6 +20403,10 @@ func (v *ExpectedUEBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -18667,8 +20427,16 @@ func (v *ExpectedUEBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -18726,6 +20494,10 @@ func (v *ExpectedUEActivityBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -18740,11 +20512,19 @@ func (v *ExpectedUEActivityBehaviour) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -18823,6 +20603,10 @@ func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -18843,8 +20627,16 @@ func (v *ExpectedUEActivityBehaviour) UnmarshalAPERFrom(bb *per.BitBuffer) error
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -18884,6 +20676,10 @@ func (v *FiveGSTAI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -18898,11 +20694,19 @@ func (v *FiveGSTAI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -18957,6 +20761,10 @@ func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -18977,8 +20785,16 @@ func (v *FiveGSTAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -19030,6 +20846,10 @@ func MarshalAPERForbiddenTAs(list ForbiddenTAsComplete) ([]byte, error) { return
 func MarshalAPERForbiddenTAsTo(list ForbiddenTAs, bb *per.BitBuffer) error {
 	v := asn1cAPERForbiddenTAsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -19063,6 +20883,10 @@ func UnmarshalAPERForbiddenTAsFrom(bb *per.BitBuffer) (ForbiddenTAs, error) {
 func unmarshalAPERForbiddenTAsInto(v *asn1cAPERForbiddenTAsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ForbiddenTAs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ForbiddenTAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -19100,6 +20924,10 @@ func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding pLMN-Identity: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ForbiddenTACs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_forbiddentacs, fragmentLength_forbiddentacs int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_forbiddentacs < 0 || fragmentOffset_forbiddentacs > int64(len(v.ForbiddenTACs)) || fragmentLength_forbiddentacs < 0 || fragmentLength_forbiddentacs > int64(len(v.ForbiddenTACs[fragmentOffset_forbiddentacs:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ForbiddenTACs[fragmentOffset_forbiddentacs : fragmentOffset_forbiddentacs+fragmentLength_forbiddentacs] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding forbiddenTACs element: %w", err)
@@ -19111,6 +20939,10 @@ func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -19125,11 +20957,19 @@ func (v *ForbiddenTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -19178,6 +21018,10 @@ func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	v.ForbiddenTACs = make(ForbiddenTACs, 0)
 	_, errCollection_forbiddentacs := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_forbiddentacs, fragmentLength_forbiddentacs int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_forbiddentacs < 0 || fragmentLength_forbiddentacs < 0 || fragmentLength_forbiddentacs > int64(^uint(0)>>1) || fragmentOffset_forbiddentacs > int64(^uint(0)>>1)-fragmentLength_forbiddentacs {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_forbiddentacs; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -19193,6 +21037,10 @@ func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -19213,8 +21061,16 @@ func (v *ForbiddenTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -19266,6 +21122,10 @@ func MarshalAPERForbiddenTACs(list ForbiddenTACsComplete) ([]byte, error) { retu
 func MarshalAPERForbiddenTACsTo(list ForbiddenTACs, bb *per.BitBuffer) error {
 	v := asn1cAPERForbiddenTACsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -19299,6 +21159,10 @@ func UnmarshalAPERForbiddenTACsFrom(bb *per.BitBuffer) (ForbiddenTACs, error) {
 func unmarshalAPERForbiddenTACsInto(v *asn1cAPERForbiddenTACsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ForbiddenTACs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -19352,6 +21216,10 @@ func MarshalAPERForbiddenLAs(list ForbiddenLAsComplete) ([]byte, error) { return
 func MarshalAPERForbiddenLAsTo(list ForbiddenLAs, bb *per.BitBuffer) error {
 	v := asn1cAPERForbiddenLAsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -19385,6 +21253,10 @@ func UnmarshalAPERForbiddenLAsFrom(bb *per.BitBuffer) (ForbiddenLAs, error) {
 func unmarshalAPERForbiddenLAsInto(v *asn1cAPERForbiddenLAsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ForbiddenLAs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ForbiddenLAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -19422,6 +21294,10 @@ func (v *ForbiddenLAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding pLMN-Identity: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ForbiddenLACs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_forbiddenlacs, fragmentLength_forbiddenlacs int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_forbiddenlacs < 0 || fragmentOffset_forbiddenlacs > int64(len(v.ForbiddenLACs)) || fragmentLength_forbiddenlacs < 0 || fragmentLength_forbiddenlacs > int64(len(v.ForbiddenLACs[fragmentOffset_forbiddenlacs:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ForbiddenLACs[fragmentOffset_forbiddenlacs : fragmentOffset_forbiddenlacs+fragmentLength_forbiddenlacs] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding forbiddenLACs element: %w", err)
@@ -19433,6 +21309,10 @@ func (v *ForbiddenLAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -19447,11 +21327,19 @@ func (v *ForbiddenLAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -19500,6 +21388,10 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.PLMNIdentity = PLMNidentity(val_plmnidentity)
 	v.ForbiddenLACs = make(ForbiddenLACs, 0)
 	_, errCollection_forbiddenlacs := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_forbiddenlacs, fragmentLength_forbiddenlacs int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_forbiddenlacs < 0 || fragmentLength_forbiddenlacs < 0 || fragmentLength_forbiddenlacs > int64(^uint(0)>>1) || fragmentOffset_forbiddenlacs > int64(^uint(0)>>1)-fragmentLength_forbiddenlacs {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_forbiddenlacs; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -19515,6 +21407,10 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -19535,8 +21431,16 @@ func (v *ForbiddenLAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -19588,6 +21492,10 @@ func MarshalAPERForbiddenLACs(list ForbiddenLACsComplete) ([]byte, error) { retu
 func MarshalAPERForbiddenLACsTo(list ForbiddenLACs, bb *per.BitBuffer) error {
 	v := asn1cAPERForbiddenLACsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -19621,6 +21529,10 @@ func UnmarshalAPERForbiddenLACsFrom(bb *per.BitBuffer) (ForbiddenLACs, error) {
 func unmarshalAPERForbiddenLACsInto(v *asn1cAPERForbiddenLACsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ForbiddenLACs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4096, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -19668,6 +21580,10 @@ func (v *GBRQosInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -19682,11 +21598,19 @@ func (v *GBRQosInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -19751,6 +21675,10 @@ func (v *GBRQosInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -19771,8 +21699,16 @@ func (v *GBRQosInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -19815,6 +21751,10 @@ func (v *GUMMEI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -19829,11 +21769,19 @@ func (v *GUMMEI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -19893,6 +21841,10 @@ func (v *GUMMEI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -19913,8 +21865,16 @@ func (v *GUMMEI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -19963,6 +21923,10 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.EquivalentPLMNs != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.EquivalentPLMNs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, true, func(fragmentOffset_equivalentplmns, fragmentLength_equivalentplmns int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_equivalentplmns < 0 || fragmentOffset_equivalentplmns > int64(len(v.EquivalentPLMNs)) || fragmentLength_equivalentplmns < 0 || fragmentLength_equivalentplmns > int64(len(v.EquivalentPLMNs[fragmentOffset_equivalentplmns:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.EquivalentPLMNs[fragmentOffset_equivalentplmns : fragmentOffset_equivalentplmns+fragmentLength_equivalentplmns] {
 				if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 					return fmt.Errorf("encoding equivalentPLMNs element: %w", err)
@@ -19975,6 +21939,10 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ForbiddenTAs != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ForbiddenTAs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_forbiddentas, fragmentLength_forbiddentas int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_forbiddentas < 0 || fragmentOffset_forbiddentas > int64(len(v.ForbiddenTAs)) || fragmentLength_forbiddentas < 0 || fragmentLength_forbiddentas > int64(len(v.ForbiddenTAs[fragmentOffset_forbiddentas:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ForbiddenTAs[fragmentOffset_forbiddentas : fragmentOffset_forbiddentas+fragmentLength_forbiddentas] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding forbiddenTAs element: %w", err)
@@ -19987,6 +21955,10 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ForbiddenLAs != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ForbiddenLAs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_forbiddenlas, fragmentLength_forbiddenlas int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_forbiddenlas < 0 || fragmentOffset_forbiddenlas > int64(len(v.ForbiddenLAs)) || fragmentLength_forbiddenlas < 0 || fragmentLength_forbiddenlas > int64(len(v.ForbiddenLAs[fragmentOffset_forbiddenlas:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ForbiddenLAs[fragmentOffset_forbiddenlas : fragmentOffset_forbiddenlas+fragmentLength_forbiddenlas] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding forbiddenLAs element: %w", err)
@@ -20004,6 +21976,10 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -20018,11 +21994,19 @@ func (v *HandoverRestrictionList) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -20088,6 +22072,10 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_equivalentplmns {
 		tmp_equivalentplmns := make(EPLMNs, 0)
 		_, errCollection_equivalentplmns := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 15, HasUpper: true}, true, func(fragmentOffset_equivalentplmns, fragmentLength_equivalentplmns int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+			if fragmentOffset_equivalentplmns < 0 || fragmentLength_equivalentplmns < 0 || fragmentLength_equivalentplmns > int64(^uint(0)>>1) || fragmentOffset_equivalentplmns > int64(^uint(0)>>1)-fragmentLength_equivalentplmns {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_equivalentplmns; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 				if err != nil {
@@ -20105,6 +22093,10 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_forbiddentas {
 		tmp_forbiddentas := make(ForbiddenTAs, 0)
 		_, errCollection_forbiddentas := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_forbiddentas, fragmentLength_forbiddentas int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_forbiddentas < 0 || fragmentLength_forbiddentas < 0 || fragmentLength_forbiddentas > int64(^uint(0)>>1) || fragmentOffset_forbiddentas > int64(^uint(0)>>1)-fragmentLength_forbiddentas {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_forbiddentas; i++ {
 				var elem ForbiddenTAsItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20122,6 +22114,10 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_forbiddenlas {
 		tmp_forbiddenlas := make(ForbiddenLAs, 0)
 		_, errCollection_forbiddenlas := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_forbiddenlas, fragmentLength_forbiddenlas int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_forbiddenlas < 0 || fragmentLength_forbiddenlas < 0 || fragmentLength_forbiddenlas > int64(^uint(0)>>1) || fragmentOffset_forbiddenlas > int64(^uint(0)>>1)-fragmentLength_forbiddenlas {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_forbiddenlas; i++ {
 				var elem ForbiddenLAsItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20147,6 +22143,10 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20167,8 +22167,16 @@ func (v *HandoverRestrictionList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -20224,6 +22232,10 @@ func (v *ImmediateMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -20238,11 +22250,19 @@ func (v *ImmediateMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -20319,6 +22339,10 @@ func (v *ImmediateMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20339,8 +22363,16 @@ func (v *ImmediateMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -20380,6 +22412,10 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) MarshalAPERTo(bb *per.Bi
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -20394,11 +22430,19 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) MarshalAPERTo(bb *per.Bi
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -20449,6 +22493,10 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPERFrom(bb *pe
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20469,8 +22517,16 @@ func (v *InformationOnRecommendedCellsAndENBsForPaging) UnmarshalAPERFrom(bb *pe
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -20531,6 +22587,10 @@ func (v *IntersystemMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) e
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -20545,11 +22605,19 @@ func (v *IntersystemMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) e
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -20630,6 +22698,10 @@ func (v *IntersystemMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffe
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20650,8 +22722,16 @@ func (v *IntersystemMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffe
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -20691,6 +22771,10 @@ func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) erro
 	}
 	if v.InterSystemMeasurementList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.InterSystemMeasurementList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_intersystemmeasurementlist, fragmentLength_intersystemmeasurementlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_intersystemmeasurementlist < 0 || fragmentOffset_intersystemmeasurementlist > int64(len(v.InterSystemMeasurementList)) || fragmentLength_intersystemmeasurementlist < 0 || fragmentLength_intersystemmeasurementlist > int64(len(v.InterSystemMeasurementList[fragmentOffset_intersystemmeasurementlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.InterSystemMeasurementList[fragmentOffset_intersystemmeasurementlist : fragmentOffset_intersystemmeasurementlist+fragmentLength_intersystemmeasurementlist] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding interSystemMeasurementList element: %w", err)
@@ -20703,6 +22787,10 @@ func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) erro
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -20717,11 +22805,19 @@ func (v *InterSystemMeasurementParameters) MarshalAPERTo(bb *per.BitBuffer) erro
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -20775,6 +22871,10 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if opt_intersystemmeasurementlist {
 		tmp_intersystemmeasurementlist := make(InterSystemMeasurementList, 0)
 		_, errCollection_intersystemmeasurementlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_intersystemmeasurementlist, fragmentLength_intersystemmeasurementlist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_intersystemmeasurementlist < 0 || fragmentLength_intersystemmeasurementlist < 0 || fragmentLength_intersystemmeasurementlist > int64(^uint(0)>>1) || fragmentOffset_intersystemmeasurementlist > int64(^uint(0)>>1)-fragmentLength_intersystemmeasurementlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_intersystemmeasurementlist; i++ {
 				var elem InterSystemMeasurementItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20792,6 +22892,10 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20812,8 +22916,16 @@ func (v *InterSystemMeasurementParameters) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -20867,6 +22979,10 @@ func MarshalAPERInterSystemMeasurementList(list InterSystemMeasurementListComple
 func MarshalAPERInterSystemMeasurementListTo(list InterSystemMeasurementList, bb *per.BitBuffer) error {
 	v := asn1cAPERInterSystemMeasurementListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -20900,6 +23016,10 @@ func UnmarshalAPERInterSystemMeasurementListFrom(bb *per.BitBuffer) (InterSystem
 func unmarshalAPERInterSystemMeasurementListInto(v *asn1cAPERInterSystemMeasurementListListValue, bb *per.BitBuffer) error {
 	v.Value = make(InterSystemMeasurementList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem InterSystemMeasurementItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -20996,6 +23116,10 @@ func (v *InterSystemMeasurementItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -21131,6 +23255,10 @@ func (v *InterSystemMeasurementItem) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -21174,6 +23302,10 @@ func (v *LAI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -21188,11 +23320,19 @@ func (v *LAI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -21247,6 +23387,10 @@ func (v *LAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -21267,8 +23411,16 @@ func (v *LAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -21318,6 +23470,10 @@ func (v *LastVisitedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 3 {
+			return fmt.Errorf("extension choice index outside root")
+		}
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-3-1)); err != nil {
 			return err
 		}
@@ -21341,6 +23497,10 @@ func (v *LastVisitedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -21407,6 +23567,10 @@ func (v *LastVisitedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return nil
 		}
 		inner := per.NewBitBufferFromBytes(openData)
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:205
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(3) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
 		v.Choice = int(extIdx) + 3 + 1
 		extensionPath := "UnknownExtension"
 		switch v.Choice {
@@ -21429,6 +23593,10 @@ func (v *LastVisitedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -21484,6 +23652,10 @@ func (v *LastVisitedEUTRANCellInformation) MarshalAPERTo(bb *per.BitBuffer) erro
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -21498,11 +23670,19 @@ func (v *LastVisitedEUTRANCellInformation) MarshalAPERTo(bb *per.BitBuffer) erro
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -21558,6 +23738,10 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -21578,8 +23762,16 @@ func (v *LastVisitedEUTRANCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -21633,6 +23825,10 @@ func MarshalAPERLastVisitedPSCellList(list LastVisitedPSCellListComplete) ([]byt
 func MarshalAPERLastVisitedPSCellListTo(list LastVisitedPSCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERLastVisitedPSCellListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -21666,6 +23862,10 @@ func UnmarshalAPERLastVisitedPSCellListFrom(bb *per.BitBuffer) (LastVisitedPSCel
 func unmarshalAPERLastVisitedPSCellListInto(v *asn1cAPERLastVisitedPSCellListListValue, bb *per.BitBuffer) error {
 	v.Value = make(LastVisitedPSCellList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem LastVisitedPSCellInformation
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -21712,6 +23912,10 @@ func (v *LastVisitedPSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -21726,11 +23930,19 @@ func (v *LastVisitedPSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -21791,6 +24003,10 @@ func (v *LastVisitedPSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -21811,8 +24027,16 @@ func (v *LastVisitedPSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -21935,6 +24159,10 @@ func (v *ListeningSubframePattern) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -21949,11 +24177,19 @@ func (v *ListeningSubframePattern) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -22008,6 +24244,10 @@ func (v *ListeningSubframePattern) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22028,8 +24268,16 @@ func (v *ListeningSubframePattern) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -22069,6 +24317,10 @@ func (v *LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -22083,11 +24335,19 @@ func (v *LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -22142,6 +24402,10 @@ func (v *LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22162,8 +24426,16 @@ func (v *LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -22206,6 +24478,10 @@ func (v *LoggedMBSFNMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.MBSFNResultToLog != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.MBSFNResultToLog)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_mbsfnresulttolog, fragmentLength_mbsfnresulttolog int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_mbsfnresulttolog < 0 || fragmentOffset_mbsfnresulttolog > int64(len(v.MBSFNResultToLog)) || fragmentLength_mbsfnresulttolog < 0 || fragmentLength_mbsfnresulttolog > int64(len(v.MBSFNResultToLog[fragmentOffset_mbsfnresulttolog:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.MBSFNResultToLog[fragmentOffset_mbsfnresulttolog : fragmentOffset_mbsfnresulttolog+fragmentLength_mbsfnresulttolog] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding mBSFN-ResultToLog element: %w", err)
@@ -22218,6 +24494,10 @@ func (v *LoggedMBSFNMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -22232,11 +24512,19 @@ func (v *LoggedMBSFNMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -22295,6 +24583,10 @@ func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_mbsfnresulttolog {
 		tmp_mbsfnresulttolog := make(MBSFNResultToLog, 0)
 		_, errCollection_mbsfnresulttolog := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_mbsfnresulttolog, fragmentLength_mbsfnresulttolog int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_mbsfnresulttolog < 0 || fragmentLength_mbsfnresulttolog < 0 || fragmentLength_mbsfnresulttolog > int64(^uint(0)>>1) || fragmentOffset_mbsfnresulttolog > int64(^uint(0)>>1)-fragmentLength_mbsfnresulttolog {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_mbsfnresulttolog; i++ {
 				var elem MBSFNResultToLogInfo
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22312,6 +24604,10 @@ func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22332,8 +24628,16 @@ func (v *LoggedMBSFNMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -22381,6 +24685,10 @@ func (v *LoggedMDTTrigger) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("LoggedMDTTrigger: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -22436,6 +24744,10 @@ func (v *LoggedMDTTrigger) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case LoggedMDTTriggerChoicePeriodical:
@@ -22475,6 +24787,10 @@ func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding servingPLMN: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.TACListInLTENTN)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, true, func(fragmentOffset_taclistinltentn, fragmentLength_taclistinltentn int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_taclistinltentn < 0 || fragmentOffset_taclistinltentn > int64(len(v.TACListInLTENTN)) || fragmentLength_taclistinltentn < 0 || fragmentLength_taclistinltentn > int64(len(v.TACListInLTENTN[fragmentOffset_taclistinltentn:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.TACListInLTENTN[fragmentOffset_taclistinltentn : fragmentOffset_taclistinltentn+fragmentLength_taclistinltentn] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding tACList-In-LTE-NTN element: %w", err)
@@ -22491,6 +24807,10 @@ func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -22505,11 +24825,19 @@ func (v *LTENTNTAIInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -22562,6 +24890,10 @@ func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.ServingPLMN = PLMNidentity(val_servingplmn)
 	v.TACListInLTENTN = make(TACListInLTENTN, 0)
 	_, errCollection_taclistinltentn := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, true, func(fragmentOffset_taclistinltentn, fragmentLength_taclistinltentn int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_taclistinltentn < 0 || fragmentLength_taclistinltentn < 0 || fragmentLength_taclistinltentn > int64(^uint(0)>>1) || fragmentOffset_taclistinltentn > int64(^uint(0)>>1)-fragmentLength_taclistinltentn {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_taclistinltentn; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -22585,6 +24917,10 @@ func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22605,8 +24941,16 @@ func (v *LTENTNTAIInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -22643,6 +24987,10 @@ func (v *M3Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -22657,11 +25005,19 @@ func (v *M3Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -22711,6 +25067,10 @@ func (v *M3Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22731,8 +25091,16 @@ func (v *M3Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -22772,6 +25140,10 @@ func (v *M4Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -22786,11 +25158,19 @@ func (v *M4Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -22845,6 +25225,10 @@ func (v *M4Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22865,8 +25249,16 @@ func (v *M4Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -22906,6 +25298,10 @@ func (v *M5Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -22920,11 +25316,19 @@ func (v *M5Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -22979,6 +25383,10 @@ func (v *M5Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -22999,8 +25407,16 @@ func (v *M5Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -23048,6 +25464,10 @@ func (v *M6Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -23062,11 +25482,19 @@ func (v *M6Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -23133,6 +25561,10 @@ func (v *M6Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -23153,8 +25585,16 @@ func (v *M6Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -23194,6 +25634,10 @@ func (v *M7Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -23208,11 +25652,19 @@ func (v *M7Configuration) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -23267,6 +25719,10 @@ func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -23287,8 +25743,16 @@ func (v *M7Configuration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -23331,6 +25795,10 @@ func (v *MDTConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -23345,11 +25813,19 @@ func (v *MDTConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -23405,6 +25881,10 @@ func (v *MDTConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -23425,8 +25905,16 @@ func (v *MDTConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -23480,6 +25968,10 @@ func MarshalAPERMBSFNResultToLog(list MBSFNResultToLogComplete) ([]byte, error) 
 func MarshalAPERMBSFNResultToLogTo(list MBSFNResultToLog, bb *per.BitBuffer) error {
 	v := asn1cAPERMBSFNResultToLogListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -23513,6 +26005,10 @@ func UnmarshalAPERMBSFNResultToLogFrom(bb *per.BitBuffer) (MBSFNResultToLog, err
 func unmarshalAPERMBSFNResultToLogInto(v *asn1cAPERMBSFNResultToLogListValue, bb *per.BitBuffer) error {
 	v.Value = make(MBSFNResultToLog, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem MBSFNResultToLogInfo
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -23559,6 +26055,10 @@ func (v *MBSFNResultToLogInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -23573,11 +26073,19 @@ func (v *MBSFNResultToLogInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -23638,6 +26146,10 @@ func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -23658,8 +26170,16 @@ func (v *MBSFNResultToLogInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -23711,6 +26231,10 @@ func MarshalAPERMDTPLMNList(list MDTPLMNListComplete) ([]byte, error) { return l
 func MarshalAPERMDTPLMNListTo(list MDTPLMNList, bb *per.BitBuffer) error {
 	v := asn1cAPERMDTPLMNListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -23744,6 +26268,10 @@ func UnmarshalAPERMDTPLMNListFrom(bb *per.BitBuffer) (MDTPLMNList, error) {
 func unmarshalAPERMDTPLMNListInto(v *asn1cAPERMDTPLMNListListValue, bb *per.BitBuffer) error {
 	v.Value = make(MDTPLMNList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -23795,6 +26323,10 @@ func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 2 {
+			return fmt.Errorf("extension choice index outside root")
+		}
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
 			return err
 		}
@@ -23818,6 +26350,10 @@ func (v *MDTMode) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -23877,6 +26413,10 @@ func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return nil
 		}
 		inner := per.NewBitBufferFromBytes(openData)
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:205
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(2) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
 		v.Choice = int(extIdx) + 2 + 1
 		extensionPath := "UnknownExtension"
 		switch v.Choice {
@@ -23898,6 +26438,10 @@ func (v *MDTMode) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -24008,6 +26552,10 @@ func (v *MeasurementThresholdA2) MarshalAPERTo(bb *per.BitBuffer) error {
 	if isExtension {
 		return fmt.Errorf("MeasurementThresholdA2: extension choice %d not supported", v.Choice)
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -24068,6 +26616,10 @@ func (v *MeasurementThresholdA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementThresholdA2ChoiceThresholdRSRP:
@@ -24100,6 +26652,10 @@ func (v *MeasurementThresholdL1LoggedMDT) MarshalAPER() ([]byte, error) {
 func (v *MeasurementThresholdL1LoggedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementThresholdL1LoggedMDT: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -24151,6 +26707,10 @@ func (v *MeasurementThresholdL1LoggedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -24213,6 +26773,10 @@ func (v *MMEPagingTarget) MarshalAPERTo(bb *per.BitBuffer) error {
 	if isExtension {
 		return fmt.Errorf("MMEPagingTarget: extension choice %d not supported", v.Choice)
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -24273,6 +26837,10 @@ func (v *MMEPagingTarget) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MMEPagingTargetChoiceGlobalENBID:
@@ -24322,6 +26890,10 @@ func (v *MutingPatternInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -24336,11 +26908,19 @@ func (v *MutingPatternInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -24401,6 +26981,10 @@ func (v *MutingPatternInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -24421,8 +27005,16 @@ func (v *MutingPatternInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -24467,6 +27059,10 @@ func (v *NBIoTPagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -24481,11 +27077,19 @@ func (v *NBIoTPagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -24547,6 +27151,10 @@ func (v *NBIoTPagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -24567,8 +27175,16 @@ func (v *NBIoTPagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -24608,6 +27224,10 @@ func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -24622,11 +27242,19 @@ func (v *NRCGI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -24681,6 +27309,10 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -24701,8 +27333,16 @@ func (v *NRCGI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -24742,6 +27382,10 @@ func (v *NRUESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -24756,11 +27400,19 @@ func (v *NRUESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -24815,6 +27467,10 @@ func (v *NRUESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -24835,8 +27491,16 @@ func (v *NRUESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -24886,6 +27550,10 @@ func (v *NRV2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -24900,11 +27568,19 @@ func (v *NRV2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -24973,6 +27649,10 @@ func (v *NRV2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -24993,8 +27673,16 @@ func (v *NRV2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -25031,6 +27719,10 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) e
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -25045,11 +27737,19 @@ func (v *NRUESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) e
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -25099,6 +27799,10 @@ func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffe
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -25119,8 +27823,16 @@ func (v *NRUESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffe
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -25262,6 +27974,10 @@ func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -25276,11 +27992,19 @@ func (v *PagingAttemptInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -25347,6 +28071,10 @@ func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -25367,8 +28095,16 @@ func (v *PagingAttemptInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -25413,6 +28149,10 @@ func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -25427,11 +28167,19 @@ func (v *PagingEDRXInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -25493,6 +28241,10 @@ func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -25513,8 +28265,16 @@ func (v *PagingEDRXInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -25550,6 +28310,10 @@ func (v *PC5QoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.Pc5QoSFlowList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2048, HasUpper: true}, true, func(fragmentOffset_pc5qosflowlist, fragmentLength_pc5qosflowlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_pc5qosflowlist < 0 || fragmentOffset_pc5qosflowlist > int64(len(v.Pc5QoSFlowList)) || fragmentLength_pc5qosflowlist < 0 || fragmentLength_pc5qosflowlist > int64(len(v.Pc5QoSFlowList[fragmentOffset_pc5qosflowlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Pc5QoSFlowList[fragmentOffset_pc5qosflowlist : fragmentOffset_pc5qosflowlist+fragmentLength_pc5qosflowlist] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding pc5QoSFlowList element: %w", err)
@@ -25566,6 +28330,10 @@ func (v *PC5QoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -25580,11 +28348,19 @@ func (v *PC5QoSParameters) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -25632,6 +28408,10 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.Pc5QoSFlowList = make(PC5QoSFlowList, 0)
 	_, errCollection_pc5qosflowlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2048, HasUpper: true}, true, func(fragmentOffset_pc5qosflowlist, fragmentLength_pc5qosflowlist int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_pc5qosflowlist < 0 || fragmentLength_pc5qosflowlist < 0 || fragmentLength_pc5qosflowlist > int64(^uint(0)>>1) || fragmentOffset_pc5qosflowlist > int64(^uint(0)>>1)-fragmentLength_pc5qosflowlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_pc5qosflowlist; i++ {
 			var elem PC5QoSFlowItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -25655,6 +28435,10 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -25675,8 +28459,16 @@ func (v *PC5QoSParameters) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -25730,6 +28522,10 @@ func MarshalAPERPC5QoSFlowList(list PC5QoSFlowListComplete) ([]byte, error) {
 func MarshalAPERPC5QoSFlowListTo(list PC5QoSFlowList, bb *per.BitBuffer) error {
 	v := asn1cAPERPC5QoSFlowListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2048, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -25763,6 +28559,10 @@ func UnmarshalAPERPC5QoSFlowListFrom(bb *per.BitBuffer) (PC5QoSFlowList, error) 
 func unmarshalAPERPC5QoSFlowListInto(v *asn1cAPERPC5QoSFlowListListValue, bb *per.BitBuffer) error {
 	v.Value = make(PC5QoSFlowList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2048, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem PC5QoSFlowItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -25817,6 +28617,10 @@ func (v *PC5QoSFlowItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -25831,11 +28635,19 @@ func (v *PC5QoSFlowItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -25908,6 +28720,10 @@ func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -25928,8 +28744,16 @@ func (v *PC5QoSFlowItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -25969,6 +28793,10 @@ func (v *PC5FlowBitRates) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -25983,11 +28811,19 @@ func (v *PC5FlowBitRates) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -26042,6 +28878,10 @@ func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26062,8 +28902,16 @@ func (v *PC5FlowBitRates) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -26103,6 +28951,10 @@ func (v *M1PeriodicReporting) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -26117,11 +28969,19 @@ func (v *M1PeriodicReporting) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -26176,6 +29036,10 @@ func (v *M1PeriodicReporting) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26196,8 +29060,16 @@ func (v *M1PeriodicReporting) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -26230,6 +29102,10 @@ func (v *PLMNAreaBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PlmnListforQMC)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_plmnlistforqmc, fragmentLength_plmnlistforqmc int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_plmnlistforqmc < 0 || fragmentOffset_plmnlistforqmc > int64(len(v.PlmnListforQMC)) || fragmentLength_plmnlistforqmc < 0 || fragmentLength_plmnlistforqmc > int64(len(v.PlmnListforQMC[fragmentOffset_plmnlistforqmc:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PlmnListforQMC[fragmentOffset_plmnlistforqmc : fragmentOffset_plmnlistforqmc+fragmentLength_plmnlistforqmc] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding plmnListforQMC element: %w", err)
@@ -26241,6 +29117,10 @@ func (v *PLMNAreaBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -26255,11 +29135,19 @@ func (v *PLMNAreaBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -26303,6 +29191,10 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PlmnListforQMC = make(PLMNListforQMC, 0)
 	_, errCollection_plmnlistforqmc := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_plmnlistforqmc, fragmentLength_plmnlistforqmc int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_plmnlistforqmc < 0 || fragmentLength_plmnlistforqmc < 0 || fragmentLength_plmnlistforqmc > int64(^uint(0)>>1) || fragmentOffset_plmnlistforqmc > int64(^uint(0)>>1)-fragmentLength_plmnlistforqmc {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_plmnlistforqmc; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -26318,6 +29210,10 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26338,8 +29234,16 @@ func (v *PLMNAreaBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -26393,6 +29297,10 @@ func MarshalAPERPLMNListforQMC(list PLMNListforQMCComplete) ([]byte, error) {
 func MarshalAPERPLMNListforQMCTo(list PLMNListforQMC, bb *per.BitBuffer) error {
 	v := asn1cAPERPLMNListforQMCListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26426,6 +29334,10 @@ func UnmarshalAPERPLMNListforQMCFrom(bb *per.BitBuffer) (PLMNListforQMC, error) 
 func unmarshalAPERPLMNListforQMCInto(v *asn1cAPERPLMNListforQMCListValue, bb *per.BitBuffer) error {
 	v.Value = make(PLMNListforQMC, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -26477,6 +29389,10 @@ func (v *ProSeAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -26491,11 +29407,19 @@ func (v *ProSeAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -26564,6 +29488,10 @@ func (v *ProSeAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26584,8 +29512,16 @@ func (v *ProSeAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -26622,6 +29558,10 @@ func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -26636,11 +29576,19 @@ func (v *PSCellInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -26688,6 +29636,10 @@ func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26708,8 +29660,16 @@ func (v *PSCellInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -26742,6 +29702,10 @@ func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.RecommendedCellList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_recommendedcelllist, fragmentLength_recommendedcelllist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_recommendedcelllist < 0 || fragmentOffset_recommendedcelllist > int64(len(v.RecommendedCellList)) || fragmentLength_recommendedcelllist < 0 || fragmentLength_recommendedcelllist > int64(len(v.RecommendedCellList[fragmentOffset_recommendedcelllist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.RecommendedCellList[fragmentOffset_recommendedcelllist : fragmentOffset_recommendedcelllist+fragmentLength_recommendedcelllist] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding recommendedCellList element: %w", err)
@@ -26753,6 +29717,10 @@ func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -26767,11 +29735,19 @@ func (v *RecommendedCellsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -26815,6 +29791,10 @@ func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RecommendedCellList = make(RecommendedCellList, 0)
 	_, errCollection_recommendedcelllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_recommendedcelllist, fragmentLength_recommendedcelllist int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_recommendedcelllist < 0 || fragmentLength_recommendedcelllist < 0 || fragmentLength_recommendedcelllist > int64(^uint(0)>>1) || fragmentOffset_recommendedcelllist > int64(^uint(0)>>1)-fragmentLength_recommendedcelllist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_recommendedcelllist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26830,6 +29810,10 @@ func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26850,8 +29834,16 @@ func (v *RecommendedCellsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -26905,6 +29897,10 @@ func MarshalAPERRecommendedCellList(list RecommendedCellListComplete) ([]byte, e
 func MarshalAPERRecommendedCellListTo(list RecommendedCellList, bb *per.BitBuffer) error {
 	v := asn1cAPERRecommendedCellListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26938,6 +29934,10 @@ func UnmarshalAPERRecommendedCellListFrom(bb *per.BitBuffer) (RecommendedCellLis
 func unmarshalAPERRecommendedCellListInto(v *asn1cAPERRecommendedCellListListValue, bb *per.BitBuffer) error {
 	v.Value = make(RecommendedCellList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -26984,6 +29984,10 @@ func (v *RecommendedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -26998,11 +30002,19 @@ func (v *RecommendedCellItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -27061,6 +30073,10 @@ func (v *RecommendedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27081,8 +30097,16 @@ func (v *RecommendedCellItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -27115,6 +30139,10 @@ func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.RecommendedENBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_recommendedenblist, fragmentLength_recommendedenblist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_recommendedenblist < 0 || fragmentOffset_recommendedenblist > int64(len(v.RecommendedENBList)) || fragmentLength_recommendedenblist < 0 || fragmentLength_recommendedenblist > int64(len(v.RecommendedENBList[fragmentOffset_recommendedenblist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.RecommendedENBList[fragmentOffset_recommendedenblist : fragmentOffset_recommendedenblist+fragmentLength_recommendedenblist] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding recommendedENBList element: %w", err)
@@ -27126,6 +30154,10 @@ func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -27140,11 +30172,19 @@ func (v *RecommendedENBsForPaging) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -27188,6 +30228,10 @@ func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RecommendedENBList = make(RecommendedENBList, 0)
 	_, errCollection_recommendedenblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_recommendedenblist, fragmentLength_recommendedenblist int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_recommendedenblist < 0 || fragmentLength_recommendedenblist < 0 || fragmentLength_recommendedenblist > int64(^uint(0)>>1) || fragmentOffset_recommendedenblist > int64(^uint(0)>>1)-fragmentLength_recommendedenblist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_recommendedenblist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27203,6 +30247,10 @@ func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27223,8 +30271,16 @@ func (v *RecommendedENBsForPaging) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -27278,6 +30334,10 @@ func MarshalAPERRecommendedENBList(list RecommendedENBListComplete) ([]byte, err
 func MarshalAPERRecommendedENBListTo(list RecommendedENBList, bb *per.BitBuffer) error {
 	v := asn1cAPERRecommendedENBListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -27311,6 +30371,10 @@ func UnmarshalAPERRecommendedENBListFrom(bb *per.BitBuffer) (RecommendedENBList,
 func unmarshalAPERRecommendedENBListInto(v *asn1cAPERRecommendedENBListListValue, bb *per.BitBuffer) error {
 	v.Value = make(RecommendedENBList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27349,6 +30413,10 @@ func (v *RecommendedENBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -27363,11 +30431,19 @@ func (v *RecommendedENBItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -27415,6 +30491,10 @@ func (v *RecommendedENBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27435,8 +30515,16 @@ func (v *RecommendedENBItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -27490,6 +30578,10 @@ func MarshalAPERRATRestrictions(list RATRestrictionsComplete) ([]byte, error) {
 func MarshalAPERRATRestrictionsTo(list RATRestrictions, bb *per.BitBuffer) error {
 	v := asn1cAPERRATRestrictionsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -27523,6 +30615,10 @@ func UnmarshalAPERRATRestrictionsFrom(bb *per.BitBuffer) (RATRestrictions, error
 func unmarshalAPERRATRestrictionsInto(v *asn1cAPERRATRestrictionsListValue, bb *per.BitBuffer) error {
 	v.Value = make(RATRestrictions, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem RATRestrictionsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27564,6 +30660,10 @@ func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -27578,11 +30678,19 @@ func (v *RATRestrictionsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -27637,6 +30745,10 @@ func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27657,8 +30769,16 @@ func (v *RATRestrictionsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -27695,6 +30815,10 @@ func (v *RequestedTNLInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -27709,11 +30833,19 @@ func (v *RequestedTNLInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -27763,6 +30895,10 @@ func (v *RequestedTNLInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27783,8 +30919,16 @@ func (v *RequestedTNLInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -27824,6 +30968,10 @@ func (v *RequestType) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -27838,11 +30986,19 @@ func (v *RequestType) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -27897,6 +31053,10 @@ func (v *RequestType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -27917,8 +31077,16 @@ func (v *RequestType) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -27963,6 +31131,10 @@ func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -27977,11 +31149,19 @@ func (v *RIMTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -28042,6 +31222,10 @@ func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28062,8 +31246,16 @@ func (v *RIMTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -28113,6 +31305,10 @@ func (v *RIMRoutingAddress) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 1 {
+			return fmt.Errorf("extension choice index outside root")
+		}
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-1-1)); err != nil {
 			return err
 		}
@@ -28189,6 +31385,10 @@ func (v *RIMRoutingAddress) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return nil
 		}
 		inner := per.NewBitBufferFromBytes(openData)
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:205
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(1) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
 		v.Choice = int(extIdx) + 1 + 1
 		extensionPath := "UnknownExtension"
 		switch v.Choice {
@@ -28258,6 +31458,10 @@ func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -28272,11 +31476,19 @@ func (v *RLFReportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -28338,6 +31550,10 @@ func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28358,8 +31574,16 @@ func (v *RLFReportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -28413,6 +31637,10 @@ func MarshalAPERECGIListForRestart(list ECGIListForRestartComplete) ([]byte, err
 func MarshalAPERECGIListForRestartTo(list ECGIListForRestart, bb *per.BitBuffer) error {
 	v := asn1cAPERECGIListForRestartListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -28446,6 +31674,10 @@ func UnmarshalAPERECGIListForRestartFrom(bb *per.BitBuffer) (ECGIListForRestart,
 func unmarshalAPERECGIListForRestartInto(v *asn1cAPERECGIListForRestartListValue, bb *per.BitBuffer) error {
 	v.Value = make(ECGIListForRestart, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem EUTRANCGI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28487,6 +31719,10 @@ func (v *SecurityContext) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -28501,11 +31737,19 @@ func (v *SecurityContext) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -28560,6 +31804,10 @@ func (v *SecurityContext) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28580,8 +31828,16 @@ func (v *SecurityContext) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -28637,6 +31893,10 @@ func MarshalAPERSecondaryRATDataUsageReportList(list SecondaryRATDataUsageReport
 func MarshalAPERSecondaryRATDataUsageReportListTo(list SecondaryRATDataUsageReportList, bb *per.BitBuffer) error {
 	v := asn1cAPERSecondaryRATDataUsageReportListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -28670,6 +31930,10 @@ func UnmarshalAPERSecondaryRATDataUsageReportListFrom(bb *per.BitBuffer) (Second
 func unmarshalAPERSecondaryRATDataUsageReportListInto(v *asn1cAPERSecondaryRATDataUsageReportListListValue, bb *per.BitBuffer) error {
 	v.Value = make(SecondaryRATDataUsageReportList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28710,6 +31974,10 @@ func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error
 		return fmt.Errorf("encoding secondaryRATType: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ERABUsageReportList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_erabusagereportlist, fragmentLength_erabusagereportlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_erabusagereportlist < 0 || fragmentOffset_erabusagereportlist > int64(len(v.ERABUsageReportList)) || fragmentLength_erabusagereportlist < 0 || fragmentLength_erabusagereportlist > int64(len(v.ERABUsageReportList[fragmentOffset_erabusagereportlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ERABUsageReportList[fragmentOffset_erabusagereportlist : fragmentOffset_erabusagereportlist+fragmentLength_erabusagereportlist] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding e-RABUsageReportList element: %w", err)
@@ -28721,6 +31989,10 @@ func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -28735,11 +32007,19 @@ func (v *SecondaryRATDataUsageReportItem) MarshalAPERTo(bb *per.BitBuffer) error
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -28793,6 +32073,10 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	v.SecondaryRATType = SecondaryRATType(val_secondaryrattype)
 	v.ERABUsageReportList = make(ERABUsageReportList, 0)
 	_, errCollection_erabusagereportlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_erabusagereportlist, fragmentLength_erabusagereportlist int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_erabusagereportlist < 0 || fragmentLength_erabusagereportlist < 0 || fragmentLength_erabusagereportlist > int64(^uint(0)>>1) || fragmentOffset_erabusagereportlist > int64(^uint(0)>>1)-fragmentLength_erabusagereportlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_erabusagereportlist; i++ {
 			var elem ProtocolIESingleContainer
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28808,6 +32092,10 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28828,8 +32116,16 @@ func (v *SecondaryRATDataUsageReportItem) UnmarshalAPERFrom(bb *per.BitBuffer) e
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -28866,6 +32162,10 @@ func (v *SecurityIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -28880,11 +32180,19 @@ func (v *SecurityIndication) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -28934,6 +32242,10 @@ func (v *SecurityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -28954,8 +32266,16 @@ func (v *SecurityIndication) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -28992,6 +32312,10 @@ func (v *SecurityResult) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -29006,11 +32330,19 @@ func (v *SecurityResult) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -29060,6 +32392,10 @@ func (v *SecurityResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -29080,8 +32416,16 @@ func (v *SecurityResult) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -29118,6 +32462,10 @@ func (v *SensorMeasConfigNameItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -29132,11 +32480,19 @@ func (v *SensorMeasConfigNameItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -29184,6 +32540,10 @@ func (v *SensorMeasConfigNameItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -29204,8 +32564,16 @@ func (v *SensorMeasConfigNameItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -29259,6 +32627,10 @@ func MarshalAPERSensorMeasConfigNameList(list SensorMeasConfigNameListComplete) 
 func MarshalAPERSensorMeasConfigNameListTo(list SensorMeasConfigNameList, bb *per.BitBuffer) error {
 	v := asn1cAPERSensorMeasConfigNameListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -29292,6 +32664,10 @@ func UnmarshalAPERSensorMeasConfigNameListFrom(bb *per.BitBuffer) (SensorMeasCon
 func unmarshalAPERSensorMeasConfigNameListInto(v *asn1cAPERSensorMeasConfigNameListListValue, bb *per.BitBuffer) error {
 	v.Value = make(SensorMeasConfigNameList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SensorMeasConfigNameItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -29333,6 +32709,10 @@ func (v *SensorMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error 
 	}
 	if v.SensorMeasConfigNameList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SensorMeasConfigNameList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, true, func(fragmentOffset_sensormeasconfignamelist, fragmentLength_sensormeasconfignamelist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_sensormeasconfignamelist < 0 || fragmentOffset_sensormeasconfignamelist > int64(len(v.SensorMeasConfigNameList)) || fragmentLength_sensormeasconfignamelist < 0 || fragmentLength_sensormeasconfignamelist > int64(len(v.SensorMeasConfigNameList[fragmentOffset_sensormeasconfignamelist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SensorMeasConfigNameList[fragmentOffset_sensormeasconfignamelist : fragmentOffset_sensormeasconfignamelist+fragmentLength_sensormeasconfignamelist] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding sensorMeasConfigNameList element: %w", err)
@@ -29345,6 +32725,10 @@ func (v *SensorMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error 
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -29359,11 +32743,19 @@ func (v *SensorMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error 
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -29417,6 +32809,10 @@ func (v *SensorMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if opt_sensormeasconfignamelist {
 		tmp_sensormeasconfignamelist := make(SensorMeasConfigNameList, 0)
 		_, errCollection_sensormeasconfignamelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 3, HasUpper: true}, true, func(fragmentOffset_sensormeasconfignamelist, fragmentLength_sensormeasconfignamelist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_sensormeasconfignamelist < 0 || fragmentLength_sensormeasconfignamelist < 0 || fragmentLength_sensormeasconfignamelist > int64(^uint(0)>>1) || fragmentOffset_sensormeasconfignamelist > int64(^uint(0)>>1)-fragmentLength_sensormeasconfignamelist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_sensormeasconfignamelist; i++ {
 				var elem SensorMeasConfigNameItem
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -29434,6 +32830,10 @@ func (v *SensorMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) er
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -29454,8 +32854,16 @@ func (v *SensorMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) er
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -29481,6 +32889,10 @@ func (v *SensorNameConfig) MarshalAPER() ([]byte, error) {
 func (v *SensorNameConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SensorNameConfig: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -29525,6 +32937,10 @@ func (v *SensorNameConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -29580,6 +32996,10 @@ func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 2 {
+			return fmt.Errorf("extension choice index outside root")
+		}
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
 			return err
 		}
@@ -29603,6 +33023,10 @@ func (v *SONInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -29662,6 +33086,10 @@ func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return nil
 		}
 		inner := per.NewBitBufferFromBytes(openData)
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:205
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(2) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
 		v.Choice = int(extIdx) + 2 + 1
 		extensionPath := "UnknownExtension"
 		switch v.Choice {
@@ -29683,6 +33111,10 @@ func (v *SONInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -29787,6 +33219,10 @@ func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -29801,11 +33237,19 @@ func (v *SONInformationReply) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -29861,6 +33305,10 @@ func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -29881,8 +33329,16 @@ func (v *SONInformationReply) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -30018,6 +33474,10 @@ func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -30032,11 +33492,19 @@ func (v *SONConfigurationTransfer) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -30090,6 +33558,10 @@ func (v *SONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30110,8 +33582,16 @@ func (v *SONConfigurationTransfer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -30164,6 +33644,10 @@ func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AggressoreCGIList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AggressoreCGIList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_aggressorecgilist, fragmentLength_aggressorecgilist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_aggressorecgilist < 0 || fragmentOffset_aggressorecgilist > int64(len(v.AggressoreCGIList)) || fragmentLength_aggressorecgilist < 0 || fragmentLength_aggressorecgilist > int64(len(v.AggressoreCGIList[fragmentOffset_aggressorecgilist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AggressoreCGIList[fragmentOffset_aggressorecgilist : fragmentOffset_aggressorecgilist+fragmentLength_aggressorecgilist] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding aggressoreCGI-List element: %w", err)
@@ -30176,6 +33660,10 @@ func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -30190,11 +33678,19 @@ func (v *SynchronisationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -30265,6 +33761,10 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_aggressorecgilist {
 		tmp_aggressorecgilist := make(IEsECGIList, 0)
 		_, errCollection_aggressorecgilist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_aggressorecgilist, fragmentLength_aggressorecgilist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_aggressorecgilist < 0 || fragmentLength_aggressorecgilist < 0 || fragmentLength_aggressorecgilist > int64(^uint(0)>>1) || fragmentOffset_aggressorecgilist > int64(^uint(0)>>1)-fragmentLength_aggressorecgilist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_aggressorecgilist; i++ {
 				var elem EUTRANCGI
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30282,6 +33782,10 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30302,8 +33806,16 @@ func (v *SynchronisationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -30339,6 +33851,10 @@ func (v *SourceeNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -30382,6 +33898,10 @@ func (v *SourceeNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30411,6 +33931,10 @@ func (v *SourceNodeID) MarshalAPER() ([]byte, error) {
 func (v *SourceNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SourceNodeID: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -30455,6 +33979,10 @@ func (v *SourceNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -30559,6 +34087,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 	}
 	if v.ERABInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERABInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabinformationlist, fragmentLength_erabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_erabinformationlist < 0 || fragmentOffset_erabinformationlist > int64(len(v.ERABInformationList)) || fragmentLength_erabinformationlist < 0 || fragmentLength_erabinformationlist > int64(len(v.ERABInformationList[fragmentOffset_erabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERABInformationList[fragmentOffset_erabinformationlist : fragmentOffset_erabinformationlist+fragmentLength_erabinformationlist] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RABInformationList element: %w", err)
@@ -30578,6 +34110,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.UEHistoryInformation)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_uehistoryinformation, fragmentLength_uehistoryinformation int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_uehistoryinformation < 0 || fragmentOffset_uehistoryinformation > int64(len(v.UEHistoryInformation)) || fragmentLength_uehistoryinformation < 0 || fragmentLength_uehistoryinformation > int64(len(v.UEHistoryInformation[fragmentOffset_uehistoryinformation:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.UEHistoryInformation[fragmentOffset_uehistoryinformation : fragmentOffset_uehistoryinformation+fragmentLength_uehistoryinformation] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding uE-HistoryInformation element: %w", err)
@@ -30589,6 +34125,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -30603,11 +34143,19 @@ func (v *SourceeNBToTargeteNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -30665,6 +34213,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	if opt_erabinformationlist {
 		tmp_erabinformationlist := make(ERABInformationList, 0)
 		_, errCollection_erabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_erabinformationlist, fragmentLength_erabinformationlist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_erabinformationlist < 0 || fragmentLength_erabinformationlist < 0 || fragmentLength_erabinformationlist > int64(^uint(0)>>1) || fragmentOffset_erabinformationlist > int64(^uint(0)>>1)-fragmentLength_erabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_erabinformationlist; i++ {
 				var elem ProtocolIESingleContainer
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30692,6 +34244,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	}
 	v.UEHistoryInformation = make(UEHistoryInformation, 0)
 	_, errCollection_uehistoryinformation := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_uehistoryinformation, fragmentLength_uehistoryinformation int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_uehistoryinformation < 0 || fragmentLength_uehistoryinformation < 0 || fragmentLength_uehistoryinformation > int64(^uint(0)>>1) || fragmentOffset_uehistoryinformation > int64(^uint(0)>>1)-fragmentLength_uehistoryinformation {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_uehistoryinformation; i++ {
 			var elem LastVisitedCellItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30707,6 +34263,10 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30727,8 +34287,16 @@ func (v *SourceeNBToTargeteNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -30768,6 +34336,10 @@ func (v *SourceNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -30782,11 +34354,19 @@ func (v *SourceNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -30837,6 +34417,10 @@ func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30857,8 +34441,16 @@ func (v *SourceNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -30910,6 +34502,10 @@ func MarshalAPERServedGUMMEIs(list ServedGUMMEIsComplete) ([]byte, error) { retu
 func MarshalAPERServedGUMMEIsTo(list ServedGUMMEIs, bb *per.BitBuffer) error {
 	v := asn1cAPERServedGUMMEIsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -30943,6 +34539,10 @@ func UnmarshalAPERServedGUMMEIsFrom(bb *per.BitBuffer) (ServedGUMMEIs, error) {
 func unmarshalAPERServedGUMMEIsInto(v *asn1cAPERServedGUMMEIsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ServedGUMMEIs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ServedGUMMEIsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -30977,6 +34577,10 @@ func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ServedPLMNs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_servedplmns, fragmentLength_servedplmns int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_servedplmns < 0 || fragmentOffset_servedplmns > int64(len(v.ServedPLMNs)) || fragmentLength_servedplmns < 0 || fragmentLength_servedplmns > int64(len(v.ServedPLMNs[fragmentOffset_servedplmns:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ServedPLMNs[fragmentOffset_servedplmns : fragmentOffset_servedplmns+fragmentLength_servedplmns] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding servedPLMNs element: %w", err)
@@ -30987,6 +34591,10 @@ func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding servedPLMNs: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ServedGroupIDs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_servedgroupids, fragmentLength_servedgroupids int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_servedgroupids < 0 || fragmentOffset_servedgroupids > int64(len(v.ServedGroupIDs)) || fragmentLength_servedgroupids < 0 || fragmentLength_servedgroupids > int64(len(v.ServedGroupIDs[fragmentOffset_servedgroupids:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ServedGroupIDs[fragmentOffset_servedgroupids : fragmentOffset_servedgroupids+fragmentLength_servedgroupids] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding servedGroupIDs element: %w", err)
@@ -30997,6 +34605,10 @@ func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding servedGroupIDs: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ServedMMECs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_servedmmecs, fragmentLength_servedmmecs int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_servedmmecs < 0 || fragmentOffset_servedmmecs > int64(len(v.ServedMMECs)) || fragmentLength_servedmmecs < 0 || fragmentLength_servedmmecs > int64(len(v.ServedMMECs[fragmentOffset_servedmmecs:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ServedMMECs[fragmentOffset_servedmmecs : fragmentOffset_servedmmecs+fragmentLength_servedmmecs] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 1, true); err != nil {
 				return fmt.Errorf("encoding servedMMECs element: %w", err)
@@ -31008,6 +34620,10 @@ func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -31022,11 +34638,19 @@ func (v *ServedGUMMEIsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -31070,6 +34694,10 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ServedPLMNs = make(ServedPLMNs, 0)
 	_, errCollection_servedplmns := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_servedplmns, fragmentLength_servedplmns int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_servedplmns < 0 || fragmentLength_servedplmns < 0 || fragmentLength_servedplmns > int64(^uint(0)>>1) || fragmentOffset_servedplmns > int64(^uint(0)>>1)-fragmentLength_servedplmns {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_servedplmns; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -31084,6 +34712,10 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ServedGroupIDs = make(ServedGroupIDs, 0)
 	_, errCollection_servedgroupids := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_servedgroupids, fragmentLength_servedgroupids int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_servedgroupids < 0 || fragmentLength_servedgroupids < 0 || fragmentLength_servedgroupids > int64(^uint(0)>>1) || fragmentOffset_servedgroupids > int64(^uint(0)>>1)-fragmentLength_servedgroupids {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_servedgroupids; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -31098,6 +34730,10 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ServedMMECs = make(ServedMMECs, 0)
 	_, errCollection_servedmmecs := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_servedmmecs, fragmentLength_servedmmecs int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_servedmmecs < 0 || fragmentLength_servedmmecs < 0 || fragmentLength_servedmmecs > int64(^uint(0)>>1) || fragmentOffset_servedmmecs > int64(^uint(0)>>1)-fragmentLength_servedmmecs {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_servedmmecs; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 			if err != nil {
@@ -31113,6 +34749,10 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -31133,8 +34773,16 @@ func (v *ServedGUMMEIsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -31188,6 +34836,10 @@ func MarshalAPERServedGroupIDs(list ServedGroupIDsComplete) ([]byte, error) {
 func MarshalAPERServedGroupIDsTo(list ServedGroupIDs, bb *per.BitBuffer) error {
 	v := asn1cAPERServedGroupIDsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -31221,6 +34873,10 @@ func UnmarshalAPERServedGroupIDsFrom(bb *per.BitBuffer) (ServedGroupIDs, error) 
 func unmarshalAPERServedGroupIDsInto(v *asn1cAPERServedGroupIDsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ServedGroupIDs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -31274,6 +34930,10 @@ func MarshalAPERServedMMECs(list ServedMMECsComplete) ([]byte, error) { return l
 func MarshalAPERServedMMECsTo(list ServedMMECs, bb *per.BitBuffer) error {
 	v := asn1cAPERServedMMECsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 1, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -31307,6 +34967,10 @@ func UnmarshalAPERServedMMECsFrom(bb *per.BitBuffer) (ServedMMECs, error) {
 func unmarshalAPERServedMMECsInto(v *asn1cAPERServedMMECsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ServedMMECs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 1, true)
 			if err != nil {
@@ -31360,6 +35024,10 @@ func MarshalAPERServedPLMNs(list ServedPLMNsComplete) ([]byte, error) { return l
 func MarshalAPERServedPLMNsTo(list ServedPLMNs, bb *per.BitBuffer) error {
 	v := asn1cAPERServedPLMNsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -31393,6 +35061,10 @@ func UnmarshalAPERServedPLMNsFrom(bb *per.BitBuffer) (ServedPLMNs, error) {
 func unmarshalAPERServedPLMNsInto(v *asn1cAPERServedPLMNsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ServedPLMNs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -31476,6 +35148,10 @@ func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPERTo(bb *per.BitBuffer
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -31490,11 +35166,19 @@ func (v *SubscriptionBasedUEDifferentiationInfo) MarshalAPERTo(bb *per.BitBuffer
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -31605,6 +35289,10 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPERFrom(bb *per.BitBu
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -31625,8 +35313,16 @@ func (v *SubscriptionBasedUEDifferentiationInfo) UnmarshalAPERFrom(bb *per.BitBu
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -31684,6 +35380,10 @@ func (v *ScheduledCommunicationTime) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -31698,11 +35398,19 @@ func (v *ScheduledCommunicationTime) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -31781,6 +35489,10 @@ func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -31801,8 +35513,16 @@ func (v *ScheduledCommunicationTime) UnmarshalAPERFrom(bb *per.BitBuffer) error 
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -31854,6 +35574,10 @@ func MarshalAPERSupportedTAs(list SupportedTAsComplete) ([]byte, error) { return
 func MarshalAPERSupportedTAsTo(list SupportedTAs, bb *per.BitBuffer) error {
 	v := asn1cAPERSupportedTAsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -31887,6 +35611,10 @@ func UnmarshalAPERSupportedTAsFrom(bb *per.BitBuffer) (SupportedTAs, error) {
 func unmarshalAPERSupportedTAsInto(v *asn1cAPERSupportedTAsListValue, bb *per.BitBuffer) error {
 	v.Value = make(SupportedTAs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SupportedTAsItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -31924,6 +35652,10 @@ func (v *SupportedTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding tAC: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.BroadcastPLMNs)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_broadcastplmns, fragmentLength_broadcastplmns int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_broadcastplmns < 0 || fragmentOffset_broadcastplmns > int64(len(v.BroadcastPLMNs)) || fragmentLength_broadcastplmns < 0 || fragmentLength_broadcastplmns > int64(len(v.BroadcastPLMNs[fragmentOffset_broadcastplmns:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.BroadcastPLMNs[fragmentOffset_broadcastplmns : fragmentOffset_broadcastplmns+fragmentLength_broadcastplmns] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 				return fmt.Errorf("encoding broadcastPLMNs element: %w", err)
@@ -31935,6 +35667,10 @@ func (v *SupportedTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -31949,11 +35685,19 @@ func (v *SupportedTAsItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -32002,6 +35746,10 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	v.TAC = TAC(val_tac)
 	v.BroadcastPLMNs = make(BPLMNs, 0)
 	_, errCollection_broadcastplmns := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, true, func(fragmentOffset_broadcastplmns, fragmentLength_broadcastplmns int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_broadcastplmns < 0 || fragmentLength_broadcastplmns < 0 || fragmentLength_broadcastplmns > int64(^uint(0)>>1) || fragmentOffset_broadcastplmns > int64(^uint(0)>>1)-fragmentLength_broadcastplmns {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_broadcastplmns; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
@@ -32017,6 +35765,10 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32037,8 +35789,16 @@ func (v *SupportedTAsItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -32078,6 +35838,10 @@ func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -32092,11 +35856,19 @@ func (v *TimeSynchronisationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -32151,6 +35923,10 @@ func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32171,8 +35947,16 @@ func (v *TimeSynchronisationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -32212,6 +35996,10 @@ func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -32226,11 +36014,19 @@ func (v *STMSI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -32285,6 +36081,10 @@ func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32305,8 +36105,16 @@ func (v *STMSI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -32360,6 +36168,10 @@ func MarshalAPERTACListInLTENTN(list TACListInLTENTNComplete) ([]byte, error) {
 func MarshalAPERTACListInLTENTNTo(list TACListInLTENTN, bb *per.BitBuffer) error {
 	v := asn1cAPERTACListInLTENTNListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -32393,6 +36205,10 @@ func UnmarshalAPERTACListInLTENTNFrom(bb *per.BitBuffer) (TACListInLTENTN, error
 func unmarshalAPERTACListInLTENTNInto(v *asn1cAPERTACListInLTENTNListValue, bb *per.BitBuffer) error {
 	v.Value = make(TACListInLTENTN, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 12, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -32427,6 +36243,10 @@ func (v *TAIBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.TAIListforMDT)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_tailistformdt, fragmentLength_tailistformdt int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_tailistformdt < 0 || fragmentOffset_tailistformdt > int64(len(v.TAIListforMDT)) || fragmentLength_tailistformdt < 0 || fragmentLength_tailistformdt > int64(len(v.TAIListforMDT[fragmentOffset_tailistformdt:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.TAIListforMDT[fragmentOffset_tailistformdt : fragmentOffset_tailistformdt+fragmentLength_tailistformdt] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding tAIListforMDT element: %w", err)
@@ -32438,6 +36258,10 @@ func (v *TAIBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -32452,11 +36276,19 @@ func (v *TAIBasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -32500,6 +36332,10 @@ func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TAIListforMDT = make(TAIListforMDT, 0)
 	_, errCollection_tailistformdt := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_tailistformdt, fragmentLength_tailistformdt int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_tailistformdt < 0 || fragmentLength_tailistformdt < 0 || fragmentLength_tailistformdt > int64(^uint(0)>>1) || fragmentOffset_tailistformdt > int64(^uint(0)>>1)-fragmentLength_tailistformdt {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_tailistformdt; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32515,6 +36351,10 @@ func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32535,8 +36375,16 @@ func (v *TAIBasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -32588,6 +36436,10 @@ func MarshalAPERTAIListforMDT(list TAIListforMDTComplete) ([]byte, error) { retu
 func MarshalAPERTAIListforMDTTo(list TAIListforMDT, bb *per.BitBuffer) error {
 	v := asn1cAPERTAIListforMDTListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -32621,6 +36473,10 @@ func UnmarshalAPERTAIListforMDTFrom(bb *per.BitBuffer) (TAIListforMDT, error) {
 func unmarshalAPERTAIListforMDTInto(v *asn1cAPERTAIListforMDTListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAIListforMDT, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32676,6 +36532,10 @@ func MarshalAPERTAIListforWarning(list TAIListforWarningComplete) ([]byte, error
 func MarshalAPERTAIListforWarningTo(list TAIListforWarning, bb *per.BitBuffer) error {
 	v := asn1cAPERTAIListforWarningListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -32709,6 +36569,10 @@ func UnmarshalAPERTAIListforWarningFrom(bb *per.BitBuffer) (TAIListforWarning, e
 func unmarshalAPERTAIListforWarningInto(v *asn1cAPERTAIListforWarningListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAIListforWarning, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32750,6 +36614,10 @@ func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -32764,11 +36632,19 @@ func (v *TAI) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -32823,6 +36699,10 @@ func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32843,8 +36723,16 @@ func (v *TAI) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -32896,6 +36784,10 @@ func MarshalAPERTAIBroadcast(list TAIBroadcastComplete) ([]byte, error) { return
 func MarshalAPERTAIBroadcastTo(list TAIBroadcast, bb *per.BitBuffer) error {
 	v := asn1cAPERTAIBroadcastListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -32929,6 +36821,10 @@ func UnmarshalAPERTAIBroadcastFrom(bb *per.BitBuffer) (TAIBroadcast, error) {
 func unmarshalAPERTAIBroadcastInto(v *asn1cAPERTAIBroadcastListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAIBroadcast, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAIBroadcastItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -32966,6 +36862,10 @@ func (v *TAIBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding tAI: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CompletedCellinTAI)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_completedcellintai, fragmentLength_completedcellintai int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_completedcellintai < 0 || fragmentOffset_completedcellintai > int64(len(v.CompletedCellinTAI)) || fragmentLength_completedcellintai < 0 || fragmentLength_completedcellintai > int64(len(v.CompletedCellinTAI[fragmentOffset_completedcellintai:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CompletedCellinTAI[fragmentOffset_completedcellintai : fragmentOffset_completedcellintai+fragmentLength_completedcellintai] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding completedCellinTAI element: %w", err)
@@ -32977,6 +36877,10 @@ func (v *TAIBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -32991,11 +36895,19 @@ func (v *TAIBroadcastItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -33042,6 +36954,10 @@ func (v *TAIBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CompletedCellinTAI = make(CompletedCellinTAI, 0)
 	_, errCollection_completedcellintai := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_completedcellintai, fragmentLength_completedcellintai int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_completedcellintai < 0 || fragmentLength_completedcellintai < 0 || fragmentLength_completedcellintai > int64(^uint(0)>>1) || fragmentOffset_completedcellintai > int64(^uint(0)>>1)-fragmentLength_completedcellintai {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_completedcellintai; i++ {
 			var elem CompletedCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33057,6 +36973,10 @@ func (v *TAIBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33077,8 +36997,16 @@ func (v *TAIBroadcastItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -33130,6 +37058,10 @@ func MarshalAPERTAICancelled(list TAICancelledComplete) ([]byte, error) { return
 func MarshalAPERTAICancelledTo(list TAICancelled, bb *per.BitBuffer) error {
 	v := asn1cAPERTAICancelledListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -33163,6 +37095,10 @@ func UnmarshalAPERTAICancelledFrom(bb *per.BitBuffer) (TAICancelled, error) {
 func unmarshalAPERTAICancelledInto(v *asn1cAPERTAICancelledListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAICancelled, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAICancelledItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33200,6 +37136,10 @@ func (v *TAICancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding tAI: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CancelledCellinTAI)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cancelledcellintai, fragmentLength_cancelledcellintai int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cancelledcellintai < 0 || fragmentOffset_cancelledcellintai > int64(len(v.CancelledCellinTAI)) || fragmentLength_cancelledcellintai < 0 || fragmentLength_cancelledcellintai > int64(len(v.CancelledCellinTAI[fragmentOffset_cancelledcellintai:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CancelledCellinTAI[fragmentOffset_cancelledcellintai : fragmentOffset_cancelledcellintai+fragmentLength_cancelledcellintai] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cancelledCellinTAI element: %w", err)
@@ -33211,6 +37151,10 @@ func (v *TAICancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -33225,11 +37169,19 @@ func (v *TAICancelledItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -33276,6 +37228,10 @@ func (v *TAICancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.CancelledCellinTAI = make(CancelledCellinTAI, 0)
 	_, errCollection_cancelledcellintai := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cancelledcellintai, fragmentLength_cancelledcellintai int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_cancelledcellintai < 0 || fragmentLength_cancelledcellintai < 0 || fragmentLength_cancelledcellintai > int64(^uint(0)>>1) || fragmentOffset_cancelledcellintai > int64(^uint(0)>>1)-fragmentLength_cancelledcellintai {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cancelledcellintai; i++ {
 			var elem CancelledCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33291,6 +37247,10 @@ func (v *TAICancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33311,8 +37271,16 @@ func (v *TAICancelledItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -33345,6 +37313,10 @@ func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.TAListforMDT)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_talistformdt, fragmentLength_talistformdt int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_talistformdt < 0 || fragmentOffset_talistformdt > int64(len(v.TAListforMDT)) || fragmentLength_talistformdt < 0 || fragmentLength_talistformdt > int64(len(v.TAListforMDT[fragmentOffset_talistformdt:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.TAListforMDT[fragmentOffset_talistformdt : fragmentOffset_talistformdt+fragmentLength_talistformdt] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding tAListforMDT element: %w", err)
@@ -33356,6 +37328,10 @@ func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -33370,11 +37346,19 @@ func (v *TABasedMDT) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -33418,6 +37402,10 @@ func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TAListforMDT = make(TAListforMDT, 0)
 	_, errCollection_talistformdt := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_talistformdt, fragmentLength_talistformdt int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_talistformdt < 0 || fragmentLength_talistformdt < 0 || fragmentLength_talistformdt > int64(^uint(0)>>1) || fragmentOffset_talistformdt > int64(^uint(0)>>1)-fragmentLength_talistformdt {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_talistformdt; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -33433,6 +37421,10 @@ func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33453,8 +37445,16 @@ func (v *TABasedMDT) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -33506,6 +37506,10 @@ func MarshalAPERTAListforMDT(list TAListforMDTComplete) ([]byte, error) { return
 func MarshalAPERTAListforMDTTo(list TAListforMDT, bb *per.BitBuffer) error {
 	v := asn1cAPERTAListforMDTListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -33539,6 +37543,10 @@ func UnmarshalAPERTAListforMDTFrom(bb *per.BitBuffer) (TAListforMDT, error) {
 func unmarshalAPERTAListforMDTInto(v *asn1cAPERTAListforMDTListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAListforMDT, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -33573,6 +37581,10 @@ func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.TAListforQMC)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_talistforqmc, fragmentLength_talistforqmc int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_talistforqmc < 0 || fragmentOffset_talistforqmc > int64(len(v.TAListforQMC)) || fragmentLength_talistforqmc < 0 || fragmentLength_talistforqmc > int64(len(v.TAListforQMC[fragmentOffset_talistforqmc:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.TAListforQMC[fragmentOffset_talistforqmc : fragmentOffset_talistforqmc+fragmentLength_talistforqmc] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding tAListforQMC element: %w", err)
@@ -33584,6 +37596,10 @@ func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -33598,11 +37614,19 @@ func (v *TABasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -33646,6 +37670,10 @@ func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TAListforQMC = make(TAListforQMC, 0)
 	_, errCollection_talistforqmc := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_talistforqmc, fragmentLength_talistforqmc int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_talistforqmc < 0 || fragmentLength_talistforqmc < 0 || fragmentLength_talistforqmc > int64(^uint(0)>>1) || fragmentOffset_talistforqmc > int64(^uint(0)>>1)-fragmentLength_talistforqmc {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_talistforqmc; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -33661,6 +37689,10 @@ func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33681,8 +37713,16 @@ func (v *TABasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -33734,6 +37774,10 @@ func MarshalAPERTAListforQMC(list TAListforQMCComplete) ([]byte, error) { return
 func MarshalAPERTAListforQMCTo(list TAListforQMC, bb *per.BitBuffer) error {
 	v := asn1cAPERTAListforQMCListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 2, 2, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -33767,6 +37811,10 @@ func UnmarshalAPERTAListforQMCFrom(bb *per.BitBuffer) (TAListforQMC, error) {
 func unmarshalAPERTAListforQMCInto(v *asn1cAPERTAListforQMCListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAListforQMC, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
@@ -33801,6 +37849,10 @@ func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.TAIListforQMC)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_tailistforqmc, fragmentLength_tailistforqmc int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_tailistforqmc < 0 || fragmentOffset_tailistforqmc > int64(len(v.TAIListforQMC)) || fragmentLength_tailistforqmc < 0 || fragmentLength_tailistforqmc > int64(len(v.TAIListforQMC[fragmentOffset_tailistforqmc:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.TAIListforQMC[fragmentOffset_tailistforqmc : fragmentOffset_tailistforqmc+fragmentLength_tailistforqmc] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding tAIListforQMC element: %w", err)
@@ -33812,6 +37864,10 @@ func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -33826,11 +37882,19 @@ func (v *TAIBasedQMC) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -33874,6 +37938,10 @@ func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.TAIListforQMC = make(TAIListforQMC, 0)
 	_, errCollection_tailistforqmc := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_tailistforqmc, fragmentLength_tailistforqmc int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_tailistforqmc < 0 || fragmentLength_tailistforqmc < 0 || fragmentLength_tailistforqmc > int64(^uint(0)>>1) || fragmentOffset_tailistforqmc > int64(^uint(0)>>1)-fragmentLength_tailistforqmc {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_tailistforqmc; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33889,6 +37957,10 @@ func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -33909,8 +37981,16 @@ func (v *TAIBasedQMC) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -33962,6 +38042,10 @@ func MarshalAPERTAIListforQMC(list TAIListforQMCComplete) ([]byte, error) { retu
 func MarshalAPERTAIListforQMCTo(list TAIListforQMC, bb *per.BitBuffer) error {
 	v := asn1cAPERTAIListforQMCListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -33995,6 +38079,10 @@ func UnmarshalAPERTAIListforQMCFrom(bb *per.BitBuffer) (TAIListforQMC, error) {
 func unmarshalAPERTAIListforQMCInto(v *asn1cAPERTAIListforQMCListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAIListforQMC, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -34050,6 +38138,10 @@ func MarshalAPERCompletedCellinTAI(list CompletedCellinTAIComplete) ([]byte, err
 func MarshalAPERCompletedCellinTAITo(list CompletedCellinTAI, bb *per.BitBuffer) error {
 	v := asn1cAPERCompletedCellinTAIListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -34083,6 +38175,10 @@ func UnmarshalAPERCompletedCellinTAIFrom(bb *per.BitBuffer) (CompletedCellinTAI,
 func unmarshalAPERCompletedCellinTAIInto(v *asn1cAPERCompletedCellinTAIListValue, bb *per.BitBuffer) error {
 	v.Value = make(CompletedCellinTAI, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CompletedCellinTAIItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -34121,6 +38217,10 @@ func (v *CompletedCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -34135,11 +38235,19 @@ func (v *CompletedCellinTAIItem) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -34187,6 +38295,10 @@ func (v *CompletedCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -34207,8 +38319,16 @@ func (v *CompletedCellinTAIItem) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -34258,6 +38378,10 @@ func (v *TargetID) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 3 {
+			return fmt.Errorf("extension choice index outside root")
+		}
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-3-1)); err != nil {
 			return err
 		}
@@ -34281,6 +38405,10 @@ func (v *TargetID) MarshalAPERTo(bb *per.BitBuffer) error {
 			return err
 		}
 		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -34347,6 +38475,10 @@ func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return nil
 		}
 		inner := per.NewBitBufferFromBytes(openData)
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:205
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(3) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
 		v.Choice = int(extIdx) + 3 + 1
 		extensionPath := "UnknownExtension"
 		switch v.Choice {
@@ -34368,6 +38500,10 @@ func (v *TargetID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -34419,6 +38555,10 @@ func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -34433,11 +38573,19 @@ func (v *TargeteNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -34488,6 +38636,10 @@ func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -34508,8 +38660,16 @@ func (v *TargeteNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -34565,6 +38725,10 @@ func (v *TargetRNCID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -34579,11 +38743,19 @@ func (v *TargetRNCID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -34660,6 +38832,10 @@ func (v *TargetRNCID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -34680,8 +38856,16 @@ func (v *TargetRNCID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -34721,6 +38905,10 @@ func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -34735,11 +38923,19 @@ func (v *TargetNgRanNodeID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -34790,6 +38986,10 @@ func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -34810,8 +39010,16 @@ func (v *TargetNgRanNodeID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -34859,6 +39067,10 @@ func (v *GlobalRANNODEID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("GlobalRANNODEID: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -34920,6 +39132,10 @@ func (v *GlobalRANNODEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case GlobalRANNODEIDChoiceGNB:
@@ -34961,6 +39177,10 @@ func (v *GNB) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -34975,11 +39195,19 @@ func (v *GNB) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -35027,6 +39255,10 @@ func (v *GNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -35047,8 +39279,16 @@ func (v *GNB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -35088,6 +39328,10 @@ func (v *GlobalGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -35102,11 +39346,19 @@ func (v *GlobalGNBID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -35159,6 +39411,10 @@ func (v *GlobalGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -35179,8 +39435,16 @@ func (v *GlobalGNBID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -35311,6 +39575,10 @@ func (v *NGENB) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -35325,11 +39593,19 @@ func (v *NGENB) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -35377,6 +39653,10 @@ func (v *NGENB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -35397,8 +39677,16 @@ func (v *NGENB) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -35435,6 +39723,10 @@ func (v *TargeteNBToSourceeNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -35449,11 +39741,19 @@ func (v *TargeteNBToSourceeNBTransparentContainer) MarshalAPERTo(bb *per.BitBuff
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -35503,6 +39803,10 @@ func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -35523,8 +39827,16 @@ func (v *TargeteNBToSourceeNBTransparentContainer) UnmarshalAPERFrom(bb *per.Bit
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -35561,6 +39873,10 @@ func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -35575,11 +39891,19 @@ func (v *M1ThresholdEventA2) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -35627,6 +39951,10 @@ func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -35647,8 +39975,16 @@ func (v *M1ThresholdEventA2) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -35688,6 +40024,10 @@ func (v *TimeBasedHandoverInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -35702,11 +40042,19 @@ func (v *TimeBasedHandoverInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -35761,6 +40109,10 @@ func (v *TimeBasedHandoverInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -35781,8 +40133,16 @@ func (v *TimeBasedHandoverInformation) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -35820,11 +40180,19 @@ func (v *TransportInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -35877,8 +40245,16 @@ func (v *TransportInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -35924,6 +40300,10 @@ func (v *TraceActivation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -35938,11 +40318,19 @@ func (v *TraceActivation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -36007,6 +40395,10 @@ func (v *TraceActivation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -36027,8 +40419,16 @@ func (v *TraceActivation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -36073,6 +40473,10 @@ func (v *TunnelInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -36087,11 +40491,19 @@ func (v *TunnelInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -36153,6 +40565,10 @@ func (v *TunnelInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -36173,8 +40589,16 @@ func (v *TunnelInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -36228,6 +40652,10 @@ func MarshalAPERTAIListForRestart(list TAIListForRestartComplete) ([]byte, error
 func MarshalAPERTAIListForRestartTo(list TAIListForRestart, bb *per.BitBuffer) error {
 	v := asn1cAPERTAIListForRestartListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2048, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -36261,6 +40689,10 @@ func UnmarshalAPERTAIListForRestartFrom(bb *per.BitBuffer) (TAIListForRestart, e
 func unmarshalAPERTAIListForRestartInto(v *asn1cAPERTAIListForRestartListValue, bb *per.BitBuffer) error {
 	v.Value = make(TAIListForRestart, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2048, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TAI
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -36302,6 +40734,10 @@ func (v *UEAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -36316,11 +40752,19 @@ func (v *UEAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -36375,6 +40819,10 @@ func (v *UEAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -36395,8 +40843,16 @@ func (v *UEAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -36436,6 +40892,10 @@ func (v *UEAppLayerMeasConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -36450,11 +40910,19 @@ func (v *UEAppLayerMeasConfig) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -36507,6 +40975,10 @@ func (v *UEAppLayerMeasConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -36527,8 +40999,16 @@ func (v *UEAppLayerMeasConfig) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -36576,6 +41056,10 @@ func (v *UES1APIDs) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("UES1APIDs: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -36637,6 +41121,10 @@ func (v *UES1APIDs) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case UES1APIDsChoiceUES1APIDPair:
@@ -36682,6 +41170,10 @@ func (v *UES1APIDPair) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -36696,11 +41188,19 @@ func (v *UES1APIDPair) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -36755,6 +41255,10 @@ func (v *UES1APIDPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -36775,8 +41279,16 @@ func (v *UES1APIDPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -36826,6 +41338,10 @@ func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPERTo(bb *per.BitBuffer) e
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -36840,11 +41356,19 @@ func (v *UEAssociatedLogicalS1ConnectionItem) MarshalAPERTo(bb *per.BitBuffer) e
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -36913,6 +41437,10 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -36933,8 +41461,16 @@ func (v *UEAssociatedLogicalS1ConnectionItem) UnmarshalAPERFrom(bb *per.BitBuffe
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -36988,6 +41524,10 @@ func MarshalAPERUEHistoryInformation(list UEHistoryInformationComplete) ([]byte,
 func MarshalAPERUEHistoryInformationTo(list UEHistoryInformation, bb *per.BitBuffer) error {
 	v := asn1cAPERUEHistoryInformationListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -37021,6 +41561,10 @@ func UnmarshalAPERUEHistoryInformationFrom(bb *per.BitBuffer) (UEHistoryInformat
 func unmarshalAPERUEHistoryInformationInto(v *asn1cAPERUEHistoryInformationListValue, bb *per.BitBuffer) error {
 	v.Value = make(UEHistoryInformation, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem LastVisitedCellItem
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37070,6 +41614,10 @@ func (v *UEPagingID) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if isExtension {
 		return fmt.Errorf("UEPagingID: extension choice %d not supported", v.Choice)
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -37131,6 +41679,10 @@ func (v *UEPagingID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case UEPagingIDChoiceSTMSI:
@@ -37176,6 +41728,10 @@ func (v *UESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -37190,11 +41746,19 @@ func (v *UESecurityCapabilities) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -37249,6 +41813,10 @@ func (v *UESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37269,8 +41837,16 @@ func (v *UESecurityCapabilities) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -37307,6 +41883,10 @@ func (v *UESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) err
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -37321,11 +41901,19 @@ func (v *UESidelinkAggregateMaximumBitrate) MarshalAPERTo(bb *per.BitBuffer) err
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -37375,6 +41963,10 @@ func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer)
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37395,8 +41987,16 @@ func (v *UESidelinkAggregateMaximumBitrate) UnmarshalAPERFrom(bb *per.BitBuffer)
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -37436,6 +42036,10 @@ func (v *ULCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -37450,11 +42054,19 @@ func (v *ULCPSecurityInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -37509,6 +42121,10 @@ func (v *ULCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37529,8 +42145,16 @@ func (v *ULCPSecurityInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -37570,6 +42194,10 @@ func (v *UserLocationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -37584,11 +42212,19 @@ func (v *UserLocationInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -37639,6 +42275,10 @@ func (v *UserLocationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37659,8 +42299,16 @@ func (v *UserLocationInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -37710,6 +42358,10 @@ func (v *V2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -37724,11 +42376,19 @@ func (v *V2XServicesAuthorized) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -37797,6 +42457,10 @@ func (v *V2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37817,8 +42481,16 @@ func (v *V2XServicesAuthorized) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -37867,12 +42539,20 @@ func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 	if isExtension {
 		return fmt.Errorf("WarningAreaList: extension choice %d not supported", v.Choice)
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
 	switch v.Choice {
 	case WarningAreaListChoiceCellIDList:
 		if err := per.EncodeCollection(bb, int64(len(v.CellIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cellidlist, fragmentLength_cellidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cellidlist < 0 || fragmentOffset_cellidlist > int64(len(v.CellIDList)) || fragmentLength_cellidlist < 0 || fragmentLength_cellidlist > int64(len(v.CellIDList[fragmentOffset_cellidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CellIDList[fragmentOffset_cellidlist : fragmentOffset_cellidlist+fragmentLength_cellidlist] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cellIDList element: %w", err)
@@ -37884,6 +42564,10 @@ func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	case WarningAreaListChoiceTrackingAreaListforWarning:
 		if err := per.EncodeCollection(bb, int64(len(v.TrackingAreaListforWarning)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_trackingarealistforwarning, fragmentLength_trackingarealistforwarning int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_trackingarealistforwarning < 0 || fragmentOffset_trackingarealistforwarning > int64(len(v.TrackingAreaListforWarning)) || fragmentLength_trackingarealistforwarning < 0 || fragmentLength_trackingarealistforwarning > int64(len(v.TrackingAreaListforWarning[fragmentOffset_trackingarealistforwarning:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TrackingAreaListforWarning[fragmentOffset_trackingarealistforwarning : fragmentOffset_trackingarealistforwarning+fragmentLength_trackingarealistforwarning] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding trackingAreaListforWarning element: %w", err)
@@ -37895,6 +42579,10 @@ func (v *WarningAreaList) MarshalAPERTo(bb *per.BitBuffer) error {
 		}
 	case WarningAreaListChoiceEmergencyAreaIDList:
 		if err := per.EncodeCollection(bb, int64(len(v.EmergencyAreaIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_emergencyareaidlist, fragmentLength_emergencyareaidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_emergencyareaidlist < 0 || fragmentOffset_emergencyareaidlist > int64(len(v.EmergencyAreaIDList)) || fragmentLength_emergencyareaidlist < 0 || fragmentLength_emergencyareaidlist > int64(len(v.EmergencyAreaIDList[fragmentOffset_emergencyareaidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.EmergencyAreaIDList[fragmentOffset_emergencyareaidlist : fragmentOffset_emergencyareaidlist+fragmentLength_emergencyareaidlist] {
 				if err := per.EncodeOctetStringAligned(bb, []byte(elem), 3, 3, true); err != nil {
 					return fmt.Errorf("encoding emergencyAreaIDList element: %w", err)
@@ -37946,11 +42634,19 @@ func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:235
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case WarningAreaListChoiceCellIDList:
 		tmp_cellidlist := make(ECGIList, 0)
 		_, errCollection_cellidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_cellidlist, fragmentLength_cellidlist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_cellidlist < 0 || fragmentLength_cellidlist < 0 || fragmentLength_cellidlist > int64(^uint(0)>>1) || fragmentOffset_cellidlist > int64(^uint(0)>>1)-fragmentLength_cellidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cellidlist; i++ {
 				var elem EUTRANCGI
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37967,6 +42663,10 @@ func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case WarningAreaListChoiceTrackingAreaListforWarning:
 		tmp_trackingarealistforwarning := make(TAIListforWarning, 0)
 		_, errCollection_trackingarealistforwarning := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_trackingarealistforwarning, fragmentLength_trackingarealistforwarning int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_trackingarealistforwarning < 0 || fragmentLength_trackingarealistforwarning < 0 || fragmentLength_trackingarealistforwarning > int64(^uint(0)>>1) || fragmentOffset_trackingarealistforwarning > int64(^uint(0)>>1)-fragmentLength_trackingarealistforwarning {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_trackingarealistforwarning; i++ {
 				var elem TAI
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -37983,6 +42683,10 @@ func (v *WarningAreaList) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	case WarningAreaListChoiceEmergencyAreaIDList:
 		tmp_emergencyareaidlist := make(EmergencyAreaIDList, 0)
 		_, errCollection_emergencyareaidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_emergencyareaidlist, fragmentLength_emergencyareaidlist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+			if fragmentOffset_emergencyareaidlist < 0 || fragmentLength_emergencyareaidlist < 0 || fragmentLength_emergencyareaidlist > int64(^uint(0)>>1) || fragmentOffset_emergencyareaidlist > int64(^uint(0)>>1)-fragmentLength_emergencyareaidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_emergencyareaidlist; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
 				if err != nil {
@@ -38032,6 +42736,10 @@ func (v *WLANMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.WlanMeasConfigNameList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.WlanMeasConfigNameList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_wlanmeasconfignamelist, fragmentLength_wlanmeasconfignamelist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_wlanmeasconfignamelist < 0 || fragmentOffset_wlanmeasconfignamelist > int64(len(v.WlanMeasConfigNameList)) || fragmentLength_wlanmeasconfignamelist < 0 || fragmentLength_wlanmeasconfignamelist > int64(len(v.WlanMeasConfigNameList[fragmentOffset_wlanmeasconfignamelist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.WlanMeasConfigNameList[fragmentOffset_wlanmeasconfignamelist : fragmentOffset_wlanmeasconfignamelist+fragmentLength_wlanmeasconfignamelist] {
 				if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 32, true); err != nil {
 					return fmt.Errorf("encoding wlanMeasConfigNameList element: %w", err)
@@ -38054,6 +42762,10 @@ func (v *WLANMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -38068,11 +42780,19 @@ func (v *WLANMeasurementConfiguration) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -38134,6 +42854,10 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_wlanmeasconfignamelist {
 		tmp_wlanmeasconfignamelist := make(WLANMeasConfigNameList, 0)
 		_, errCollection_wlanmeasconfignamelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_wlanmeasconfignamelist, fragmentLength_wlanmeasconfignamelist int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+			if fragmentOffset_wlanmeasconfignamelist < 0 || fragmentLength_wlanmeasconfignamelist < 0 || fragmentLength_wlanmeasconfignamelist > int64(^uint(0)>>1) || fragmentOffset_wlanmeasconfignamelist > int64(^uint(0)>>1)-fragmentLength_wlanmeasconfignamelist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_wlanmeasconfignamelist; i++ {
 				val, err := per.DecodeOctetStringAligned(bb, 1, 32, true)
 				if err != nil {
@@ -38165,6 +42889,10 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -38185,8 +42913,16 @@ func (v *WLANMeasurementConfiguration) UnmarshalAPERFrom(bb *per.BitBuffer) erro
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -38240,6 +42976,10 @@ func MarshalAPERWLANMeasConfigNameList(list WLANMeasConfigNameListComplete) ([]b
 func MarshalAPERWLANMeasConfigNameListTo(list WLANMeasConfigNameList, bb *per.BitBuffer) error {
 	v := asn1cAPERWLANMeasConfigNameListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeOctetStringAligned(bb, []byte(elem), 1, 32, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -38273,6 +43013,10 @@ func UnmarshalAPERWLANMeasConfigNameListFrom(bb *per.BitBuffer) (WLANMeasConfigN
 func unmarshalAPERWLANMeasConfigNameListInto(v *asn1cAPERWLANMeasConfigNameListListValue, bb *per.BitBuffer) error {
 	v.Value = make(WLANMeasConfigNameList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1265
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := per.DecodeOctetStringAligned(bb, 1, 32, true)
 			if err != nil {
@@ -38311,6 +43055,10 @@ func (v *WUSAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -38325,11 +43073,19 @@ func (v *WUSAssistanceInformation) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -38379,6 +43135,10 @@ func (v *WUSAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -38399,8 +43159,16 @@ func (v *WUSAssistanceInformation) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -38433,6 +43201,10 @@ func (v *X2TNLConfigurationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.ENBX2TransportLayerAddresses)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_enbx2transportlayeraddresses, fragmentLength_enbx2transportlayeraddresses int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_enbx2transportlayeraddresses < 0 || fragmentOffset_enbx2transportlayeraddresses > int64(len(v.ENBX2TransportLayerAddresses)) || fragmentLength_enbx2transportlayeraddresses < 0 || fragmentLength_enbx2transportlayeraddresses > int64(len(v.ENBX2TransportLayerAddresses[fragmentOffset_enbx2transportlayeraddresses:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.ENBX2TransportLayerAddresses[fragmentOffset_enbx2transportlayeraddresses : fragmentOffset_enbx2transportlayeraddresses+fragmentLength_enbx2transportlayeraddresses] {
 			if err := per.EncodeBitStringAlignedExt(bb, elem.Bytes, elem.BitLength, 1, 160, true, true); err != nil {
 				return fmt.Errorf("encoding eNBX2TransportLayerAddresses element: %w", err)
@@ -38444,6 +43216,10 @@ func (v *X2TNLConfigurationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -38458,11 +43234,19 @@ func (v *X2TNLConfigurationInfo) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -38506,6 +43290,10 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	}
 	v.ENBX2TransportLayerAddresses = make(ENBX2TLAs, 0)
 	_, errCollection_enbx2transportlayeraddresses := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_enbx2transportlayeraddresses, fragmentLength_enbx2transportlayeraddresses int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1276
+		if fragmentOffset_enbx2transportlayeraddresses < 0 || fragmentLength_enbx2transportlayeraddresses < 0 || fragmentLength_enbx2transportlayeraddresses > int64(^uint(0)>>1) || fragmentOffset_enbx2transportlayeraddresses > int64(^uint(0)>>1)-fragmentLength_enbx2transportlayeraddresses {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_enbx2transportlayeraddresses; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
@@ -38521,6 +43309,10 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -38541,8 +43333,16 @@ func (v *X2TNLConfigurationInfo) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -38594,6 +43394,10 @@ func MarshalAPERENBX2ExtTLAs(list ENBX2ExtTLAsComplete) ([]byte, error) { return
 func MarshalAPERENBX2ExtTLAsTo(list ENBX2ExtTLAs, bb *per.BitBuffer) error {
 	v := asn1cAPERENBX2ExtTLAsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalAPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -38627,6 +43431,10 @@ func UnmarshalAPERENBX2ExtTLAsFrom(bb *per.BitBuffer) (ENBX2ExtTLAs, error) {
 func unmarshalAPERENBX2ExtTLAsInto(v *asn1cAPERENBX2ExtTLAsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ENBX2ExtTLAs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ENBX2ExtTLA
 			if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -38673,6 +43481,10 @@ func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.GTPTLAa != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.GTPTLAa)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_gtptlaa, fragmentLength_gtptlaa int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_gtptlaa < 0 || fragmentOffset_gtptlaa > int64(len(v.GTPTLAa)) || fragmentLength_gtptlaa < 0 || fragmentLength_gtptlaa > int64(len(v.GTPTLAa[fragmentOffset_gtptlaa:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.GTPTLAa[fragmentOffset_gtptlaa : fragmentOffset_gtptlaa+fragmentLength_gtptlaa] {
 				if err := per.EncodeBitStringAlignedExt(bb, elem.Bytes, elem.BitLength, 1, 160, true, true); err != nil {
 					return fmt.Errorf("encoding gTPTLAa element: %w", err)
@@ -38685,6 +43497,10 @@ func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
 	}
 	if v.IEExtensions != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.IEExtensions)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
 				if err := elem.MarshalAPERTo(bb); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
@@ -38699,11 +43515,19 @@ func (v *ENBX2ExtTLA) MarshalAPERTo(bb *per.BitBuffer) error {
 		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.ExtCount_); err != nil {
 			return err
 		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:438
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			p := (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil)
 			if err := per.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= v.ExtCount_ < max int; gen/codegen_aper.go:445
+		if v.ExtCount_ < 0 || v.ExtCount_ >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= v.ExtCount_; i++ {
 			if (i < int64(len(v.ExtPresent_)) && v.ExtPresent_[i]) || (i < int64(len(v.ExtData_)) && v.ExtData_[i] != nil) {
@@ -38764,6 +43588,10 @@ func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_gtptlaa {
 		tmp_gtptlaa := make(ENBX2GTPTLAs, 0)
 		_, errCollection_gtptlaa := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_gtptlaa, fragmentLength_gtptlaa int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1276
+			if fragmentOffset_gtptlaa < 0 || fragmentLength_gtptlaa < 0 || fragmentLength_gtptlaa > int64(^uint(0)>>1) || fragmentOffset_gtptlaa > int64(^uint(0)>>1)-fragmentLength_gtptlaa {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_gtptlaa; i++ {
 				elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 				if err != nil {
@@ -38781,6 +43609,10 @@ func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if opt_ieextensions {
 		tmp_ieextensions := make(ProtocolExtensionContainer, 0)
 		_, errCollection_ieextensions := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1189
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem ProtocolExtensionField
 				if err := elem.UnmarshalAPERFrom(bb); err != nil {
@@ -38801,8 +43633,16 @@ func (v *ENBX2ExtTLA) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.ExtCount_ = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:616
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		v.ExtData_ = make([][]byte, extCount+1)
 		v.ExtPresent_ = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:619
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] {
 				data, err := per.DecodeOpenTypeAligned(bb)
@@ -38854,6 +43694,10 @@ func MarshalAPERENBX2GTPTLAs(list ENBX2GTPTLAsComplete) ([]byte, error) { return
 func MarshalAPERENBX2GTPTLAsTo(list ENBX2GTPTLAs, bb *per.BitBuffer) error {
 	v := asn1cAPERENBX2GTPTLAsListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeBitStringAlignedExt(bb, elem.Bytes, elem.BitLength, 1, 160, true, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -38887,6 +43731,10 @@ func UnmarshalAPERENBX2GTPTLAsFrom(bb *per.BitBuffer) (ENBX2GTPTLAs, error) {
 func unmarshalAPERENBX2GTPTLAsInto(v *asn1cAPERENBX2GTPTLAsListValue, bb *per.BitBuffer) error {
 	v.Value = make(ENBX2GTPTLAs, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1276
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
@@ -38944,6 +43792,10 @@ func MarshalAPERENBIndirectX2TransportLayerAddresses(list ENBIndirectX2Transport
 func MarshalAPERENBIndirectX2TransportLayerAddressesTo(list ENBIndirectX2TransportLayerAddresses, bb *per.BitBuffer) error {
 	v := asn1cAPERENBIndirectX2TransportLayerAddressesListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := per.EncodeBitStringAlignedExt(bb, elem.Bytes, elem.BitLength, 1, 160, true, true); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -38977,6 +43829,10 @@ func UnmarshalAPERENBIndirectX2TransportLayerAddressesFrom(bb *per.BitBuffer) (E
 func unmarshalAPERENBIndirectX2TransportLayerAddressesInto(v *asn1cAPERENBIndirectX2TransportLayerAddressesListValue, bb *per.BitBuffer) error {
 	v.Value = make(ENBIndirectX2TransportLayerAddresses, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 2, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_6: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1276
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			elemBytes, elemBitLength, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {

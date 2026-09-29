@@ -54,7 +54,7 @@ func parseCanonicalUTCTime(text string) (time.Time, error) {
 	if len(text) != 13 || text[12] != 'Z' {
 		return time.Time{}, fmt.Errorf("%w: noncanonical UTCTime %q", ErrInvalidValue, text)
 	}
-	for index := 0; index < 12; index++ {
+	for index := range 12 {
 		if text[index] < '0' || text[index] > '9' {
 			return time.Time{}, fmt.Errorf("%w: noncanonical UTCTime %q", ErrInvalidValue, text)
 		}

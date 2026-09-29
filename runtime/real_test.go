@@ -82,6 +82,29 @@ func TestRealFloat64Conversions(t *testing.T) {
 	}
 }
 
+func TestFloat64BinaryExponentBounds(t *testing.T) {
+	for _, test := range []struct {
+		raw  uint64
+		want int64
+	}{
+		{0, -1074},
+		{1, -1074},
+		{1023, -52},
+		{2046, 971},
+		{2047, 972},
+	} {
+		got, err := float64BinaryExponent(test.raw)
+		if err != nil || got != test.want {
+			t.Errorf("float64BinaryExponent(%d) = %d, %v; want %d", test.raw, got, err, test.want)
+		}
+	}
+	for _, raw := range []uint64{2048, math.MaxUint64} {
+		if _, err := float64BinaryExponent(raw); !errors.Is(err, ErrInvalidReal) {
+			t.Errorf("float64BinaryExponent(%d) error = %v; want ErrInvalidReal", raw, err)
+		}
+	}
+}
+
 func TestNewRealCopiesInputs(t *testing.T) {
 	mantissa := big.NewInt(3)
 	exponent := big.NewInt(4)

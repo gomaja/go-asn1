@@ -104,8 +104,10 @@ func integerSetBounds(value int64, ranges []IntegerRange) (int64, int64, bool, e
 		if item.Min > item.Max {
 			return 0, 0, false, fmt.Errorf("%w: invalid INTEGER value-set range [%d..%d]", ErrInvalidValue, item.Min, item.Max)
 		}
-		if index != 0 && item.Min <= ranges[index-1].Max {
-			return 0, 0, false, fmt.Errorf("%w: INTEGER value-set ranges overlap or are unsorted", ErrInvalidValue)
+		if index > 0 {
+			if item.Min <= ranges[index-1].Max {
+				return 0, 0, false, fmt.Errorf("%w: INTEGER value-set ranges overlap or are unsorted", ErrInvalidValue)
+			}
 		}
 	}
 	return ranges[0].Min, ranges[len(ranges)-1].Max, integerSetContains(value, ranges), nil

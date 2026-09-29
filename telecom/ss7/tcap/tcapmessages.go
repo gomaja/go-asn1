@@ -644,10 +644,22 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 					return fmt.Errorf("decoding dialoguePortion: %w", extErr)
 				}
 				var decoded_dialogueportion DialoguePortion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_dialogueportion
 			}
 		}
@@ -667,6 +679,12 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 	if tlvErr_components != nil {
 		return fmt.Errorf("decoding components: %w", tlvErr_components)
 	}
+	if offset < 0 || offset >
+		len(content) || n_components < 0 || n_components > len(
+		content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	tlv_components := content[offset : offset+n_components]
 	{
 		_, tagSz_, _ := ber.DecodeTag(tlv_components)
@@ -679,6 +697,12 @@ func (v *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeOption) err
 		return fmt.Errorf("decoding components: %w", unmErr)
 	}
 	v.Components = dec_components
+	if offset < 0 || offset >
+		len(content) || n_components < 0 || n_components > len(
+		content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_components
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Unidirectional", Cause: ber.ErrExtraData}
@@ -797,6 +821,11 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("decoding otid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid)
 	}
 	v.Otid = OrigTransactionID(rawVal_otid)
+	if offset < 0 || offset >
+		len(content) || n_otid < 0 || n_otid > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_otid
 	// Decode dialoguePortion
 	if offset < len(content) {
@@ -808,10 +837,22 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding dialoguePortion: %w", extErr)
 				}
 				var decoded_dialogueportion DialoguePortion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_dialogueportion
 			}
 		}
@@ -827,6 +868,12 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if tlvErr_components != nil {
 					return fmt.Errorf("decoding components: %w", tlvErr_components)
 				}
+				if offset < 0 || offset >
+					len(content) || n_components < 0 || n_components >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				tlv_components := content[offset : offset+n_components]
 				{
 					_, tagSz_, _ := ber.DecodeTag(tlv_components)
@@ -839,6 +886,12 @@ func (v *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
 				v.Components = dec_components
+				if offset < 0 || offset >
+					len(content) || n_components < 0 || n_components >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_components
 			}
 		}
@@ -960,6 +1013,11 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
 	v.Dtid = DestTransactionID(rawVal_dtid)
+	if offset < 0 || offset >
+		len(content) || n_dtid < 0 || n_dtid > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_dtid
 	// Decode dialoguePortion
 	if offset < len(content) {
@@ -971,10 +1029,22 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding dialoguePortion: %w", extErr)
 				}
 				var decoded_dialogueportion DialoguePortion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_dialogueportion
 			}
 		}
@@ -990,6 +1060,12 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if tlvErr_components != nil {
 					return fmt.Errorf("decoding components: %w", tlvErr_components)
 				}
+				if offset < 0 || offset >
+					len(content) || n_components < 0 || n_components >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				tlv_components := content[offset : offset+n_components]
 				{
 					_, tagSz_, _ := ber.DecodeTag(tlv_components)
@@ -1002,6 +1078,12 @@ func (v *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
 				v.Components = dec_components
+				if offset < 0 || offset >
+					len(content) || n_components < 0 || n_components >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_components
 			}
 		}
@@ -1143,6 +1225,11 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("decoding otid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_otid)
 	}
 	v.Otid = OrigTransactionID(rawVal_otid)
+	if offset < 0 || offset >
+		len(content) || n_otid < 0 || n_otid > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_otid
 	// Decode dtid
 	if offset >= len(content) {
@@ -1161,6 +1248,11 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
 	v.Dtid = DestTransactionID(rawVal_dtid)
+	if offset < 0 || offset >
+		len(content) || n_dtid < 0 || n_dtid > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_dtid
 	// Decode dialoguePortion
 	if offset < len(content) {
@@ -1172,10 +1264,22 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding dialoguePortion: %w", extErr)
 				}
 				var decoded_dialogueportion DialoguePortion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if offset < 0 || offset >
+					len(content) || n_dialogueportion < 0 || n_dialogueportion >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_dialogueportion
 			}
 		}
@@ -1191,6 +1295,12 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 				if tlvErr_components != nil {
 					return fmt.Errorf("decoding components: %w", tlvErr_components)
 				}
+				if offset < 0 || offset >
+					len(content) || n_components < 0 || n_components >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				tlv_components := content[offset : offset+n_components]
 				{
 					_, tagSz_, _ := ber.DecodeTag(tlv_components)
@@ -1203,6 +1313,12 @@ func (v *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding components: %w", unmErr)
 				}
 				v.Components = dec_components
+				if offset < 0 || offset >
+					len(content) || n_components < 0 || n_components >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_components
 			}
 		}
@@ -1297,6 +1413,11 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 		return fmt.Errorf("decoding dtid: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_dtid)
 	}
 	v.Dtid = DestTransactionID(rawVal_dtid)
+	if offset < 0 || offset >
+		len(content) || n_dtid < 0 || n_dtid > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_dtid
 	// Decode reason
 	if offset < len(content) {
@@ -1309,10 +1430,20 @@ func (v *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) error {
 					return fmt.Errorf("decoding reason: %w", tlvErr_reason)
 				}
 				var dec_reason AbortReason
+				if offset < 0 || offset >
+					len(content) || n_reason < 0 || n_reason > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				if unmErr := dec_reason.UnmarshalBER(content[offset:offset+n_reason], opts...); unmErr != nil {
 					return fmt.Errorf("decoding reason: %w", unmErr)
 				}
 				v.Reason = &dec_reason
+				if offset < 0 || offset >
+					len(content) || n_reason < 0 || n_reason > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_reason
 			}
 		}
@@ -1453,10 +1584,20 @@ func UnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (Compon
 		if tlvErr != nil {
 			return nil, fmt.Errorf("decoding element TLV: %w", tlvErr)
 		}
+		if offset < 0 || offset >
+			len(content) || n < 0 || n > len(content[offset:]) {
+			return nil, fmt.Errorf("invalid BER content window")
+		}
+
 		if unmErr := elem.UnmarshalBER(content[offset:offset+n], opts...); unmErr != nil {
 			return nil, fmt.Errorf("decoding element: %w", unmErr)
 		}
 		result = append(result, elem)
+		if offset < 0 || offset >
+			len(content) || n < 0 || n > len(content[offset:]) {
+			return nil, fmt.Errorf("invalid BER content window")
+		}
+
 		offset += n
 	}
 	if len(result) < 1 {
@@ -1928,9 +2069,19 @@ func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte, opts ...
 	if tlvErr_opcode != nil {
 		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
 	}
+	if offset < 0 || offset >
+		len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], opts...); unmErr != nil {
 		return fmt.Errorf("decoding opcode: %w", unmErr)
 	}
+	if offset < 0 || offset >
+		len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_opcode
 	// Decode result
 	if offset >= len(content) {
@@ -1940,7 +2091,17 @@ func (v *ComponentBasicROSReturnResultResult) UnmarshalBER(data []byte, opts ...
 	if tlvErr_result != nil {
 		return fmt.Errorf("decoding result: %w", tlvErr_result)
 	}
+	if offset < 0 || offset >
+		len(content) || n_result < 0 || n_result > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	if offset < 0 || offset >
+		len(content) || n_result < 0 || n_result > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_result
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ComponentBasicROSReturnResultResult", Cause: ber.ErrExtraData}
@@ -2004,9 +2165,19 @@ func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte, opts ...b
 	if tlvErr_opcode != nil {
 		return fmt.Errorf("decoding opcode: %w", tlvErr_opcode)
 	}
+	if offset < 0 || offset >
+		len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], opts...); unmErr != nil {
 		return fmt.Errorf("decoding opcode: %w", unmErr)
 	}
+	if offset < 0 || offset >
+		len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_opcode
 	// Decode result
 	if offset >= len(content) {
@@ -2016,7 +2187,17 @@ func (v *ComponentReturnResultNotLastResult) UnmarshalBER(data []byte, opts ...b
 	if tlvErr_result != nil {
 		return fmt.Errorf("decoding result: %w", tlvErr_result)
 	}
+	if offset < 0 || offset >
+		len(content) || n_result < 0 || n_result > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	v.Result = runtime.RawValue{Bytes: content[offset : offset+n_result]}
+	if offset < 0 || offset >
+		len(content) || n_result < 0 || n_result > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_result
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ComponentReturnResultNotLastResult", Cause: ber.ErrExtraData}

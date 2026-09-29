@@ -30,7 +30,13 @@ func EncodeLength(length int) []byte {
 		buf = append([]byte{byte(n & 0xFF)}, buf...)
 		n >>= 8
 	}
-	return append([]byte{byte(0x80 | len(buf))}, buf...)
+	// A host int needs at most eight octets. Keep the length-of-length
+	// octet constant so its byte width is independent of the input value.
+	lengthPrefixes := [...]byte{0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88}
+	if len(buf) >= len(lengthPrefixes) {
+		panic("BER length exceeds host int width")
+	}
+	return append([]byte{lengthPrefixes[len(buf)]}, buf...)
 }
 
 // checkedBERCapacity rejects an output length that cannot be represented by
@@ -101,11 +107,18 @@ func encodeIntBytes(v int64) []byte {
 		return []byte{0x00}
 	}
 
-	// Work with big-endian two's complement bytes.
-	uv := uint64(v)
+	// Form the two's-complement bit pattern without a narrowing conversion
+	// of a negative integer.
+	var uv uint64
+	if v >= 0 {
+		uv = uint64(v)
+	} else {
+		uv = ^uint64(-(v + 1))
+	}
 
 	var buf [8]byte
-	for i := 7; i >= 0; i-- {
+	for i := len(buf); i > 0; {
+		i--
 		buf[i] = byte(uv & 0xFF)
 		uv >>= 8
 	}
@@ -113,11 +126,17 @@ func encodeIntBytes(v int64) []byte {
 	// Strip leading 0x00 or 0xFF bytes, keeping minimal encoding.
 	start := 0
 	if v >= 0 {
-		for start < 7 && buf[start] == 0 && buf[start+1]&0x80 == 0 {
+		for start < 7 {
+			if buf[start] != 0 || buf[start+1]&0x80 != 0 {
+				break
+			}
 			start++
 		}
 	} else {
-		for start < 7 && buf[start] == 0xFF && buf[start+1]&0x80 != 0 {
+		for start < 7 {
+			if buf[start] != 0xFF || buf[start+1]&0x80 == 0 {
+				break
+			}
 			start++
 		}
 	}
@@ -147,13 +166,15 @@ func EncodeBigInt(v *big.Int) ([]byte, error) {
 		tc := make([]byte, len(pb))
 		// Subtract 1 from positive, then invert all bits.
 		borrow := byte(1)
-		for i := len(pb) - 1; i >= 0; i-- {
-			val := pb[i] - borrow
+		for i := len(pb); i > 0; {
+			i--
+			var val byte
 			if pb[i] >= borrow {
+				val = pb[i] - borrow
 				borrow = 0
 			} else {
+				val = 0xFF
 				borrow = 1
-				val = 0xFF - (borrow - 1 - pb[i])
 			}
 			tc[i] = ^val
 		}
@@ -173,6 +194,11 @@ func EncodeBitString(bytes []byte, unusedBits int) ([]byte, error) {
 }
 
 func encodeBitStringWithLimit(bytes []byte, unusedBits, limit int) ([]byte, error) {
+	// X.690 (02/2021) §§8.6.2.2–8.6.2.3: the count is 0–7, and an
+	// empty BIT STRING has no unused bits.
+	if unusedBits < 0 || unusedBits > 7 || len(bytes) == 0 && unusedBits != 0 {
+		return nil, fmt.Errorf("%w: invalid BIT STRING unused-bit count", ErrInvalidValue)
+	}
 	if len(bytes) == 0 {
 		return encodeTLVWithLimit(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, []byte{0x00}, limit)
 	}
@@ -230,8 +256,9 @@ func encodeBase128(v uint64) []byte {
 		buf = append([]byte{byte(v & 0x7F)}, buf...)
 		v >>= 7
 	}
-	for i := 0; i < len(buf)-1; i++ {
+	for i := 0; i < len(buf)-1; {
 		buf[i] |= 0x80
+		i++
 	}
 	return buf
 }
@@ -398,7 +425,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		}
 		value := make([]byte, 0, capacity)
 		for _, r := range v {
-			if !utf8.ValidRune(r) {
+			if r < 0 || r > utf8.MaxRune || !utf8.ValidRune(r) {
 				return nil, fmt.Errorf("UniversalString character U+%04X is not a Unicode scalar value", r)
 			}
 			value = binary.BigEndian.AppendUint32(value, uint32(r))
@@ -517,6 +544,9 @@ func splitDERElements(children []byte) ([]derElement, error) {
 		if err != nil {
 			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
 		}
+		if total <= 0 || total > len(children)-offset {
+			return nil, ErrInvalidLength
+		}
 		encoded := children[offset : offset+total]
 		if err := ValidateDEREncodedElement(encoded); err != nil {
 			return nil, fmt.Errorf("DER SET element at offset %d: %w", offset, err)
@@ -579,6 +609,9 @@ func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 	if err != nil {
 		return nil, fmt.Errorf("retag implicit value: %w", err)
 	}
+	if total < 0 || total > len(content) {
+		return nil, ErrInvalidLength
+	}
 	if total != len(content) {
 		return nil, fmt.Errorf("%w: implicit value has %d trailing octets", ErrInvalidValue, len(content)-total)
 	}
@@ -635,6 +668,10 @@ func EncodeBitStringValue(bytes []byte, unusedBits int) ([]byte, error) {
 }
 
 func encodeBitStringValueWithLimit(bytes []byte, unusedBits, limit int) ([]byte, error) {
+	// X.690 (02/2021) §§8.6.2.2–8.6.2.3.
+	if unusedBits < 0 || unusedBits > 7 || len(bytes) == 0 && unusedBits != 0 {
+		return nil, fmt.Errorf("%w: invalid BIT STRING unused-bit count", ErrInvalidValue)
+	}
 	capacity, err := checkedBERCapacity(limit, 1, len(bytes))
 	if err != nil {
 		return nil, err

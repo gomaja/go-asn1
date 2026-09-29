@@ -2,6 +2,7 @@ package per
 
 import (
 	"fmt"
+	"math"
 	"math/bits"
 )
 
@@ -20,6 +21,9 @@ func EncodeIntegerUint64(bb *BitBuffer, value, lower, upper uint64, extensible b
 			return encodeUnconstrainedUint64(bb, value, false)
 		}
 	} else if !inRoot {
+		return fmt.Errorf("%w: %d not in [%d..%d]", ErrConstraintViolation, value, lower, upper)
+	}
+	if value < lower || value > upper {
 		return fmt.Errorf("%w: %d not in [%d..%d]", ErrConstraintViolation, value, lower, upper)
 	}
 	rangeValue := upper - lower
@@ -74,6 +78,9 @@ func EncodeIntegerUint64Aligned(bb *BitBuffer, value, lower, upper uint64, exten
 	} else if !inRoot {
 		return fmt.Errorf("%w: %d not in [%d..%d]", ErrConstraintViolation, value, lower, upper)
 	}
+	if value < lower || value > upper {
+		return fmt.Errorf("%w: %d not in [%d..%d]", ErrConstraintViolation, value, lower, upper)
+	}
 	rangeValue := upper - lower
 	if rangeValue == 0 {
 		return nil
@@ -89,16 +96,36 @@ func EncodeIntegerUint64Aligned(bb *BitBuffer, value, lower, upper uint64, exten
 		bb.AlignToOctetWrite()
 		return bb.WriteBits(offset, 16)
 	default:
-		length := (bits.Len64(offset) + 7) / 8
+		bitWidth := bits.Len64(offset)
+		if bitWidth > 64 {
+			return fmt.Errorf("%w: uint64 offset exceeds 64 bits", ErrInvalidValue)
+		}
+		var length int
+		length, err := octetsForBitLength(bitWidth)
+		if err != nil {
+			return err
+		}
 		if length == 0 {
 			length = 1
 		}
-		maximumLength := (bits.Len64(rangeValue) + 7) / 8
+		rangeWidth := bits.Len64(rangeValue)
+		if rangeWidth > 64 {
+			return fmt.Errorf("%w: uint64 range exceeds 64 bits", ErrInvalidValue)
+		}
+		var maximumLength int
+		maximumLength, err = octetsForBitLength(rangeWidth)
+		if err != nil {
+			return err
+		}
 		if err := EncodeConstrainedWholeNumber(bb, int64(length), 1, int64(maximumLength)); err != nil {
 			return err
 		}
 		bb.AlignToOctetWrite()
-		for index := length - 1; index >= 0; index-- {
+		for index := length; index > 0; {
+			index--
+			if index >= 8 {
+				return fmt.Errorf("%w: uint64 octet index %d", ErrInvalidValue, index)
+			}
 			if err := bb.WriteBits((offset>>(uint(index)*8))&0xff, 8); err != nil {
 				return err
 			}
@@ -139,13 +166,24 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 			offset, err = bb.ReadBits(16)
 		}
 	default:
-		maximumLength := (bits.Len64(rangeValue) + 7) / 8
+		rangeWidth := bits.Len64(rangeValue)
+		if rangeWidth > 64 {
+			return 0, fmt.Errorf("%w: uint64 range exceeds 64 bits", ErrInvalidValue)
+		}
+		var maximumLength int
+		maximumLength, err = octetsForBitLength(rangeWidth)
+		if err != nil {
+			return 0, err
+		}
 		var length int64
 		length, err = DecodeConstrainedWholeNumber(bb, 1, int64(maximumLength))
 		if err == nil {
 			err = bb.AlignToOctetRead()
 		}
 		if err == nil {
+			if length < 1 || length > 8 {
+				return 0, fmt.Errorf("%w: uint64 length %d", ErrInvalidValue, length)
+			}
 			var data []byte
 			data, err = bb.ReadBytes(int(length))
 			if err == nil {
@@ -153,6 +191,9 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 			}
 			if err == nil {
 				for _, item := range data {
+					if offset > math.MaxUint64>>8 {
+						return 0, fmt.Errorf("%w: uint64 offset exceeds 64 bits", ErrInvalidValue)
+					}
 					offset = offset<<8 | uint64(item)
 				}
 			}
@@ -168,7 +209,8 @@ func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible b
 }
 
 func encodeUnconstrainedUint64(bb *BitBuffer, value uint64, aligned bool) error {
-	data := minimalUnsignedBytes(value)
+	var data []byte
+	data = minimalUnsignedBytes(value)
 	if data[0]&0x80 != 0 {
 		data = append([]byte{0}, data...)
 	}
@@ -196,7 +238,8 @@ func decodeUnconstrainedUint64(bb *BitBuffer, aligned bool) (uint64, error) {
 	if length < 1 || length > 9 {
 		return 0, fmt.Errorf("%w: uint64 INTEGER length %d", ErrInvalidValue, length)
 	}
-	data, err := bb.ReadBytes(int(length))
+	var data []byte
+	data, err = bb.ReadBytes(int(length))
 	if err != nil {
 		return 0, err
 	}
@@ -211,6 +254,9 @@ func decodeUnconstrainedUint64(bb *BitBuffer, aligned bool) (uint64, error) {
 	}
 	var value uint64
 	for _, item := range data {
+		if value > math.MaxUint64>>8 {
+			return 0, fmt.Errorf("%w: uint64 INTEGER exceeds 64 bits", ErrInvalidValue)
+		}
 		value = value<<8 | uint64(item)
 	}
 	return value, nil

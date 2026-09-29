@@ -6,6 +6,8 @@ import (
 	"math/big"
 )
 
+const bigFragmentThreshold = 64 * 1024 // X.691 (02/2021) 11.9.3.8: four 16K units.
+
 // EncodeIntegerBig encodes an arbitrary-width INTEGER using unaligned PER.
 // See ITU-T X.691 (02/2021), clauses 11.4, 11.7-11.9, and 13.
 func EncodeIntegerBig(bb *BitBuffer, value *big.Int, lower, upper *int64, extensible bool) error {
@@ -325,7 +327,7 @@ func encodeConstrainedBig(bb *BitBuffer, value, lower, upper *big.Int, aligned b
 	data := minimalBigUnsignedBytes(offset)
 	// X.691 (02/2021), 13.2.6 delegates to 11.9.3 when the maximum
 	// content length is at least 64K, including fragmentation when needed.
-	if maximumLength >= 4*perFragmentUnit {
+	if maximumLength >= bigFragmentThreshold {
 		return encodeLengthDelimitedOctets(bb, data, true)
 	}
 	if err := EncodeConstrainedWholeNumber(bb, int64(len(data)), 1, int64(maximumLength)); err != nil {
@@ -374,7 +376,7 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		if err != nil {
 			return nil, err
 		}
-		if maximumLength >= 4*perFragmentUnit {
+		if maximumLength >= bigFragmentThreshold {
 			data, err := decodeLengthDelimitedOctets(bb, true)
 			if err != nil {
 				return nil, err
@@ -395,6 +397,9 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 		if err != nil {
 			return nil, err
 		}
+		if length < 0 || length > int64(math.MaxInt) {
+			return nil, fmt.Errorf("%w: constrained INTEGER length exceeds host int", ErrInvalidValue)
+		}
 		if err := bb.AlignToOctetRead(); err != nil {
 			return nil, err
 		}
@@ -414,8 +419,16 @@ func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*
 }
 
 func writeBigBits(bb *BitBuffer, value *big.Int, bitCount int) error {
-	for index := bitCount - 1; index >= 0; index-- {
-		if err := bb.WriteBit(uint8(value.Bit(index))); err != nil {
+	if bitCount < 0 {
+		return fmt.Errorf("%w: negative INTEGER bit count %d", ErrInvalidValue, bitCount)
+	}
+	for index := bitCount; index > 0; {
+		index--
+		bit := value.Bit(index)
+		if bit > 1 {
+			return fmt.Errorf("%w: invalid INTEGER bit %d", ErrInvalidValue, bit)
+		}
+		if err := bb.WriteBit(uint8(bit)); err != nil {
 			return err
 		}
 	}
@@ -423,8 +436,11 @@ func writeBigBits(bb *BitBuffer, value *big.Int, bitCount int) error {
 }
 
 func readBigBits(bb *BitBuffer, bitCount int) (*big.Int, error) {
+	if bitCount < 0 {
+		return nil, fmt.Errorf("%w: negative INTEGER bit count %d", ErrInvalidValue, bitCount)
+	}
 	value := new(big.Int)
-	for index := 0; index < bitCount; index++ {
+	for index := 0; index < bitCount; {
 		bit, err := bb.ReadBit()
 		if err != nil {
 			return nil, err
@@ -433,6 +449,7 @@ func readBigBits(bb *BitBuffer, bitCount int) (*big.Int, error) {
 		if bit != 0 {
 			value.SetBit(value, 0, 1)
 		}
+		index++
 	}
 	return value, nil
 }
@@ -456,6 +473,9 @@ func decodeBigTwosComplement(bb *BitBuffer, aligned bool) (*big.Int, error) {
 	value := new(big.Int).SetBytes(data)
 	if data[0]&0x80 == 0 {
 		return value, nil
+	}
+	if len(data) > math.MaxInt/8 {
+		return nil, fmt.Errorf("%w: INTEGER bit length exceeds host int", ErrInvalidValue)
 	}
 	modulus := new(big.Int).Lsh(big.NewInt(1), uint(len(data)*8))
 	return value.Sub(value, modulus), nil

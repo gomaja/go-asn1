@@ -33,6 +33,9 @@ func NewBitBufferFromBytes(data []byte) *BitBuffer {
 // to its declared bit length. X.691 (02/2021) 11.1.1(b) permits a complete
 // unaligned encoding in a BIT STRING without octet padding.
 func NewBitBufferFromBits(data []byte, bitLen int) (*BitBuffer, error) {
+	if bitLen < 0 {
+		return nil, fmt.Errorf("%w: negative bit-string length %d", ErrInvalidValue, bitLen)
+	}
 	required, err := octetsForBitLength(bitLen)
 	if err != nil || len(data) != required {
 		return nil, fmt.Errorf("%w: invalid bit-string length %d for %d octets", ErrInvalidValue, bitLen, len(data))
@@ -45,11 +48,17 @@ func NewBitBufferFromBits(data []byte, bitLen int) (*BitBuffer, error) {
 
 // WriteBit writes a single bit (0 or 1).
 func (bb *BitBuffer) WriteBit(bit uint8) error {
+	if bb.bitPos < 0 {
+		return fmt.Errorf("%w: negative PER bit position %d", ErrInvalidValue, bb.bitPos)
+	}
 	if bb.bitPos == math.MaxInt {
 		return fmt.Errorf("%w: PER bit position exceeds int", ErrInvalidValue)
 	}
 	byteIdx := bb.bitPos / 8
 	bitIdx := uint(7 - bb.bitPos%8)
+	if bitIdx > 7 {
+		return fmt.Errorf("%w: invalid PER bit index %d", ErrInvalidValue, bitIdx)
+	}
 
 	// Grow buffer if needed.
 	for byteIdx >= len(bb.data) {
@@ -68,7 +77,8 @@ func (bb *BitBuffer) WriteBits(val uint64, n int) error {
 	if n < 0 || n > 64 {
 		return fmt.Errorf("per: WriteBits n=%d out of range", n)
 	}
-	for i := n - 1; i >= 0; i-- {
+	for i := n; i > 0; {
+		i--
 		bit := uint8((val >> uint(i)) & 1)
 		if err := bb.WriteBit(bit); err != nil {
 			return err
@@ -82,11 +92,17 @@ func (bb *BitBuffer) ReadBit() (uint8, error) {
 	if bb.invalidLength {
 		return 0, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
 	}
+	if bb.bitPos < 0 {
+		return 0, fmt.Errorf("%w: negative PER bit position %d", ErrInvalidValue, bb.bitPos)
+	}
 	if bb.bitPos >= bb.bitLen {
 		return 0, ErrTruncated
 	}
 	byteIdx := bb.bitPos / 8
 	bitIdx := uint(7 - bb.bitPos%8)
+	if bitIdx > 7 {
+		return 0, fmt.Errorf("%w: invalid PER bit index %d", ErrInvalidValue, bitIdx)
+	}
 	bit := (bb.data[byteIdx] >> bitIdx) & 1
 	bb.bitPos++
 	return bit, nil
@@ -104,12 +120,16 @@ func (bb *BitBuffer) ReadBits(n int) (uint64, error) {
 		return 0, nil
 	}
 	var val uint64
-	for i := 0; i < n; i++ {
+	for i := 0; i < n; {
 		bit, err := bb.ReadBit()
 		if err != nil {
 			return 0, err
 		}
+		if val > math.MaxUint64>>1 {
+			return 0, fmt.Errorf("%w: PER bit field exceeds uint64", ErrInvalidValue)
+		}
 		val = (val << 1) | uint64(bit)
+		i++
 	}
 	return val, nil
 }
@@ -136,12 +156,16 @@ func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
 		return nil, fmt.Errorf("%w: requested %d bytes with %d bits remaining", ErrTruncated, n, bb.BitsRemaining())
 	}
 	result := make([]byte, n)
-	for i := 0; i < n; i++ {
+	for i := 0; i < n; {
 		val, err := bb.ReadBits(8)
 		if err != nil {
 			return nil, err
 		}
+		if val > math.MaxUint8 {
+			return nil, fmt.Errorf("%w: PER octet value exceeds byte", ErrInvalidValue)
+		}
 		result[i] = byte(val)
+		i++
 	}
 	return result, nil
 }
@@ -177,6 +201,9 @@ func (bb *BitBuffer) CompleteBytesWithPadding(padding CompletePadding) ([]byte, 
 	out := append([]byte(nil), bb.CompleteBytes()...)
 	if padding.count == 0 {
 		return out, nil
+	}
+	if bb.bitPos < 0 || padding.count > 7 {
+		return nil, fmt.Errorf("%w: invalid complete-encoding padding", ErrInvalidValue)
 	}
 	want := (8 - bb.bitPos%8) % 8
 	if bb.bitPos == 0 || int(padding.count) != want || padding.bits >= 1<<padding.count {
@@ -229,6 +256,9 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 		return CompletePadding{}, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
 	}
 	remaining := bb.BitsRemaining()
+	if remaining < 0 || remaining > 8 {
+		return CompletePadding{}, fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+	}
 	if bb.BitPos() == 0 {
 		switch {
 		case remaining == 0:
@@ -254,6 +284,9 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 	if remaining == 8 {
 		return CompletePadding{}, nil
 	}
+	if padding > math.MaxUint8 {
+		return CompletePadding{}, fmt.Errorf("%w: padding value exceeds byte", ErrInvalidValue)
+	}
 	return CompletePadding{bits: uint8(padding), count: uint8(remaining)}, nil
 }
 
@@ -263,13 +296,14 @@ func (bb *BitBuffer) WriteBitsFromBytes(data []byte, bitLen int) error {
 	if err != nil || required > len(data) {
 		return fmt.Errorf("%w: WriteBitsFromBytes bitLen %d out of range for %d bytes", ErrInvalidValue, bitLen, len(data))
 	}
-	for i := 0; i < bitLen; i++ {
+	for i := 0; i < bitLen; {
 		byteIdx := i / 8
 		bitIdx := uint(7 - i%8)
 		bit := (data[byteIdx] >> bitIdx) & 1
 		if err := bb.WriteBit(bit); err != nil {
 			return err
 		}
+		i++
 	}
 	return nil
 }
@@ -316,16 +350,20 @@ func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
 		return nil, err
 	}
 	result := make([]byte, numBytes)
-	for i := 0; i < bitLen; i++ {
+	for i := 0; i < bitLen; {
 		bit, err := bb.ReadBit()
 		if err != nil {
 			return nil, err
 		}
 		byteIdx := i / 8
 		bitIdx := uint(7 - i%8)
+		if bitIdx > 7 {
+			return nil, fmt.Errorf("%w: invalid PER bit index %d", ErrInvalidValue, bitIdx)
+		}
 		if bit != 0 {
 			result[byteIdx] |= 1 << bitIdx
 		}
+		i++
 	}
 	return result, nil
 }
@@ -336,6 +374,9 @@ func octetsForBitLength(bitLen int) (int, error) {
 	}
 	octets := bitLen / 8
 	if bitLen%8 != 0 {
+		if octets == math.MaxInt {
+			return 0, fmt.Errorf("%w: bit length exceeds host int", ErrInvalidValue)
+		}
 		octets++
 	}
 	return octets, nil

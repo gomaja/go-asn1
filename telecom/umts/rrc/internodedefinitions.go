@@ -4234,6 +4234,10 @@ func (v *ToTargetRNCContainer) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("ToTargetRNCContainer: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 3); err != nil {
 		return err
 	}
@@ -4286,6 +4290,10 @@ func (v *ToTargetRNCContainer) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case ToTargetRNCContainerChoiceInterRATHandoverInfo:
@@ -4324,6 +4332,10 @@ func (v *TargetRNCToSourceRNCContainer) MarshalUPER() ([]byte, error) {
 func (v *TargetRNCToSourceRNCContainer) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("TargetRNCToSourceRNCContainer: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 7); err != nil {
 		return err
@@ -4402,6 +4414,10 @@ func (v *TargetRNCToSourceRNCContainer) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case TargetRNCToSourceRNCContainerChoiceRadioBearerSetup:
@@ -4466,6 +4482,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3) MarshalUPERTo(bb *per.B
 	if v.Choice < 1 {
 		return fmt.Errorf("InterRATHandoverInfoWithInterRATCapabilitiesR3: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -4510,6 +4530,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3) UnmarshalUPERFrom(bb *p
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case InterRATHandoverInfoWithInterRATCapabilitiesR3ChoiceR3:
@@ -4544,6 +4568,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3IEs) MarshalUPERTo(bb *pe
 	}
 	if v.UeRATSpecificCapability != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRATSpecificCapability)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueratspecificcapability < 0 || fragmentOffset_ueratspecificcapability > int64(len(v.UeRATSpecificCapability)) || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(len(v.UeRATSpecificCapability[fragmentOffset_ueratspecificcapability:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRATSpecificCapability[fragmentOffset_ueratspecificcapability : fragmentOffset_ueratspecificcapability+fragmentLength_ueratspecificcapability] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RATSpecificCapability element: %w", err)
@@ -4584,6 +4612,10 @@ func (v *InterRATHandoverInfoWithInterRATCapabilitiesR3IEs) UnmarshalUPERFrom(bb
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueratspecificcapability; i++ {
 				var elem InterRATUERadioAccessCapability
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4831,6 +4863,10 @@ func (v *RFC3095ContextInfoR5) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("RFC3095ContextInfoR5: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -4874,6 +4910,10 @@ func (v *RFC3095ContextInfoR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -4933,6 +4973,10 @@ func MarshalUPERRFC3095ContextInfoListR5(list RFC3095ContextInfoListR5Complete) 
 func MarshalUPERRFC3095ContextInfoListR5To(list RFC3095ContextInfoListR5, bb *per.BitBuffer) error {
 	v := asn1cUPERRFC3095ContextInfoListR5ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -4966,6 +5010,10 @@ func UnmarshalUPERRFC3095ContextInfoListR5From(bb *per.BitBuffer) (RFC3095Contex
 func unmarshalUPERRFC3095ContextInfoListR5Into(v *asn1cUPERRFC3095ContextInfoListR5ListValue, bb *per.BitBuffer) error {
 	v.Value = make(RFC3095ContextInfoListR5, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem RFC3095ContextInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -4993,6 +5041,10 @@ func (v *SRNCRelocationInfoR3) MarshalUPER() ([]byte, error) {
 func (v *SRNCRelocationInfoR3) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -5037,6 +5089,10 @@ func (v *SRNCRelocationInfoR3) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -5131,6 +5187,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -5143,6 +5203,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -5157,6 +5221,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding integrityProtectionStatus: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -5189,6 +5257,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRATSpecificCapability != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRATSpecificCapability)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueratspecificcapability < 0 || fragmentOffset_ueratspecificcapability > int64(len(v.UeRATSpecificCapability)) || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(len(v.UeRATSpecificCapability[fragmentOffset_ueratspecificcapability:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRATSpecificCapability[fragmentOffset_ueratspecificcapability : fragmentOffset_ueratspecificcapability+fragmentLength_ueratspecificcapability] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RATSpecificCapability element: %w", err)
@@ -5209,6 +5281,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -5221,6 +5297,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -5232,6 +5312,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -5242,6 +5326,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -5253,6 +5341,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -5270,6 +5362,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -5290,6 +5386,10 @@ func (v *SRNCRelocationInfoR3IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -5414,6 +5514,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBList, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRB
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5431,6 +5535,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5452,6 +5560,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.IntegrityProtectionStatus = IntegrityProtectionStatus(val_integrityprotectionstatus)
 	v.SrbSpecificIntegrityProtInfo = make(SRBSpecificIntegrityProtInfoList, 0)
 	_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 			var elem SRBSpecificIntegrityProtInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5496,6 +5608,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueratspecificcapability; i++ {
 				var elem InterRATUERadioAccessCapability
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5526,6 +5642,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationList, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5543,6 +5663,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepList, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRep
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5559,6 +5683,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5573,6 +5701,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupList, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetup
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5588,6 +5720,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupList, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetup
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5612,6 +5748,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5639,6 +5779,10 @@ func (v *SRNCRelocationInfoR3IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoList, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5677,6 +5821,10 @@ func (v *SRNCRelocationInfoV380extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding cn-DomainIdentity: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -5712,6 +5860,10 @@ func (v *SRNCRelocationInfoV380extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	v.CnDomainIdentity = CNDomainIdentity(val_cndomainidentity)
 	v.CipheringStatusList = make(CipheringStatusList, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomain
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5752,6 +5904,10 @@ func (v *SRNCRelocationInfoV390extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationListV390ext != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationListV390ext)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlistv390ext, fragmentLength_cndomaininformationlistv390ext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlistv390ext < 0 || fragmentOffset_cndomaininformationlistv390ext > int64(len(v.CnDomainInformationListV390ext)) || fragmentLength_cndomaininformationlistv390ext < 0 || fragmentLength_cndomaininformationlistv390ext > int64(len(v.CnDomainInformationListV390ext[fragmentOffset_cndomaininformationlistv390ext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationListV390ext[fragmentOffset_cndomaininformationlistv390ext : fragmentOffset_cndomaininformationlistv390ext+fragmentLength_cndomaininformationlistv390ext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList-v390ext element: %w", err)
@@ -5819,6 +5975,10 @@ func (v *SRNCRelocationInfoV390extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_cndomaininformationlistv390ext {
 		tmp_cndomaininformationlistv390ext := make(CNDomainInformationListV390ext, 0)
 		_, errCollection_cndomaininformationlistv390ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlistv390ext, fragmentLength_cndomaininformationlistv390ext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlistv390ext < 0 || fragmentLength_cndomaininformationlistv390ext < 0 || fragmentLength_cndomaininformationlistv390ext > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlistv390ext > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlistv390ext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlistv390ext; i++ {
 				var elem CNDomainInformationV390ext
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -5946,6 +6106,10 @@ func (v *SRNCRelocationInfoV3b0extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.StartValueForCipheringV3b0ext != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.StartValueForCipheringV3b0ext)), per.SizeConstraint{Lower: 2, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_startvalueforcipheringv3b0ext, fragmentLength_startvalueforcipheringv3b0ext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_startvalueforcipheringv3b0ext < 0 || fragmentOffset_startvalueforcipheringv3b0ext > int64(len(v.StartValueForCipheringV3b0ext)) || fragmentLength_startvalueforcipheringv3b0ext < 0 || fragmentLength_startvalueforcipheringv3b0ext > int64(len(v.StartValueForCipheringV3b0ext[fragmentOffset_startvalueforcipheringv3b0ext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.StartValueForCipheringV3b0ext[fragmentOffset_startvalueforcipheringv3b0ext : fragmentOffset_startvalueforcipheringv3b0ext+fragmentLength_startvalueforcipheringv3b0ext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding startValueForCiphering-v3b0ext element: %w", err)
@@ -5988,6 +6152,10 @@ func (v *SRNCRelocationInfoV3b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_startvalueforcipheringv3b0ext {
 		tmp_startvalueforcipheringv3b0ext := make(STARTList2, 0)
 		_, errCollection_startvalueforcipheringv3b0ext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_startvalueforcipheringv3b0ext, fragmentLength_startvalueforcipheringv3b0ext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_startvalueforcipheringv3b0ext < 0 || fragmentLength_startvalueforcipheringv3b0ext < 0 || fragmentLength_startvalueforcipheringv3b0ext > int64(^uint(0)>>1) || fragmentOffset_startvalueforcipheringv3b0ext > int64(^uint(0)>>1)-fragmentLength_startvalueforcipheringv3b0ext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_startvalueforcipheringv3b0ext; i++ {
 				var elem STARTSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6205,6 +6373,10 @@ func (v *SRNCRelocationInfoV3h0extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -6251,6 +6423,10 @@ func (v *SRNCRelocationInfoV3h0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6291,6 +6467,10 @@ func (v *SRNCRelocationInfoV4d0extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -6328,6 +6508,10 @@ func (v *SRNCRelocationInfoV4d0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6385,6 +6569,10 @@ func MarshalUPERTPCCombinationInfoList(list TPCCombinationInfoListComplete) ([]b
 func MarshalUPERTPCCombinationInfoListTo(list TPCCombinationInfoList, bb *per.BitBuffer) error {
 	v := asn1cUPERTPCCombinationInfoListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -6418,6 +6606,10 @@ func UnmarshalUPERTPCCombinationInfoListFrom(bb *per.BitBuffer) (TPCCombinationI
 func unmarshalUPERTPCCombinationInfoListInto(v *asn1cUPERTPCCombinationInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(TPCCombinationInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TPCCombinationInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6473,6 +6665,10 @@ func MarshalUPERTPCCombinationInfoListR9(list TPCCombinationInfoListR9Complete) 
 func MarshalUPERTPCCombinationInfoListR9To(list TPCCombinationInfoListR9, bb *per.BitBuffer) error {
 	v := asn1cUPERTPCCombinationInfoListR9ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -6506,6 +6702,10 @@ func UnmarshalUPERTPCCombinationInfoListR9From(bb *per.BitBuffer) (TPCCombinatio
 func unmarshalUPERTPCCombinationInfoListR9Into(v *asn1cUPERTPCCombinationInfoListR9ListValue, bb *per.BitBuffer) error {
 	v.Value = make(TPCCombinationInfoListR9, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem TPCCombinationInfoR9
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6559,6 +6759,10 @@ func MarshalUPERSTARTList2(list STARTList2Complete) ([]byte, error) { return lis
 func MarshalUPERSTARTList2To(list STARTList2, bb *per.BitBuffer) error {
 	v := asn1cUPERSTARTList2ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 2, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -6592,6 +6796,10 @@ func UnmarshalUPERSTARTList2From(bb *per.BitBuffer) (STARTList2, error) {
 func unmarshalUPERSTARTList2Into(v *asn1cUPERSTARTList2ListValue, bb *per.BitBuffer) error {
 	v.Value = make(STARTList2, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 2, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem STARTSingle
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -6972,6 +7180,10 @@ func MarshalUPERCipheringStatusList(list CipheringStatusListComplete) ([]byte, e
 func MarshalUPERCipheringStatusListTo(list CipheringStatusList, bb *per.BitBuffer) error {
 	v := asn1cUPERCipheringStatusListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -7005,6 +7217,10 @@ func UnmarshalUPERCipheringStatusListFrom(bb *per.BitBuffer) (CipheringStatusLis
 func unmarshalUPERCipheringStatusListInto(v *asn1cUPERCipheringStatusListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringStatusList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CipheringStatusCNdomain
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7108,6 +7324,10 @@ func MarshalUPERCodeChangeStatusList(list CodeChangeStatusListComplete) ([]byte,
 func MarshalUPERCodeChangeStatusListTo(list CodeChangeStatusList, bb *per.BitBuffer) error {
 	v := asn1cUPERCodeChangeStatusListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -7141,6 +7361,10 @@ func UnmarshalUPERCodeChangeStatusListFrom(bb *per.BitBuffer) (CodeChangeStatusL
 func unmarshalUPERCodeChangeStatusListInto(v *asn1cUPERCodeChangeStatusListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CodeChangeStatusList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CodeChangeStatus
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7217,6 +7441,10 @@ func (v *StoredCompressedModeInfo) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.StoredTGPSequenceList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_storedtgpsequencelist, fragmentLength_storedtgpsequencelist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_storedtgpsequencelist < 0 || fragmentOffset_storedtgpsequencelist > int64(len(v.StoredTGPSequenceList)) || fragmentLength_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist > int64(len(v.StoredTGPSequenceList[fragmentOffset_storedtgpsequencelist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.StoredTGPSequenceList[fragmentOffset_storedtgpsequencelist : fragmentOffset_storedtgpsequencelist+fragmentLength_storedtgpsequencelist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding storedTGP-SequenceList element: %w", err)
@@ -7228,6 +7456,10 @@ func (v *StoredCompressedModeInfo) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CodeChangeStatusList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CodeChangeStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_codechangestatuslist, fragmentLength_codechangestatuslist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_codechangestatuslist < 0 || fragmentOffset_codechangestatuslist > int64(len(v.CodeChangeStatusList)) || fragmentLength_codechangestatuslist < 0 || fragmentLength_codechangestatuslist > int64(len(v.CodeChangeStatusList[fragmentOffset_codechangestatuslist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CodeChangeStatusList[fragmentOffset_codechangestatuslist : fragmentOffset_codechangestatuslist+fragmentLength_codechangestatuslist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding codeChangeStatusList element: %w", err)
@@ -7264,6 +7496,10 @@ func (v *StoredCompressedModeInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.StoredTGPSequenceList = make(StoredTGPSequenceList, 0)
 	_, errCollection_storedtgpsequencelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_storedtgpsequencelist, fragmentLength_storedtgpsequencelist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist > int64(^uint(0)>>1) || fragmentOffset_storedtgpsequencelist > int64(^uint(0)>>1)-fragmentLength_storedtgpsequencelist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_storedtgpsequencelist; i++ {
 			var elem StoredTGPSequence
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7279,6 +7515,10 @@ func (v *StoredCompressedModeInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_codechangestatuslist {
 		tmp_codechangestatuslist := make(CodeChangeStatusList, 0)
 		_, errCollection_codechangestatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_codechangestatuslist, fragmentLength_codechangestatuslist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_codechangestatuslist < 0 || fragmentLength_codechangestatuslist < 0 || fragmentLength_codechangestatuslist > int64(^uint(0)>>1) || fragmentOffset_codechangestatuslist > int64(^uint(0)>>1)-fragmentLength_codechangestatuslist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_codechangestatuslist; i++ {
 				var elem CodeChangeStatus
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7311,6 +7551,10 @@ func (v *StoredCompressedModeInfoR8) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.StoredTGPSequenceList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_storedtgpsequencelist, fragmentLength_storedtgpsequencelist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_storedtgpsequencelist < 0 || fragmentOffset_storedtgpsequencelist > int64(len(v.StoredTGPSequenceList)) || fragmentLength_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist > int64(len(v.StoredTGPSequenceList[fragmentOffset_storedtgpsequencelist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.StoredTGPSequenceList[fragmentOffset_storedtgpsequencelist : fragmentOffset_storedtgpsequencelist+fragmentLength_storedtgpsequencelist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding storedTGP-SequenceList element: %w", err)
@@ -7322,6 +7566,10 @@ func (v *StoredCompressedModeInfoR8) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CodeChangeStatusList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CodeChangeStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_codechangestatuslist, fragmentLength_codechangestatuslist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_codechangestatuslist < 0 || fragmentOffset_codechangestatuslist > int64(len(v.CodeChangeStatusList)) || fragmentLength_codechangestatuslist < 0 || fragmentLength_codechangestatuslist > int64(len(v.CodeChangeStatusList[fragmentOffset_codechangestatuslist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CodeChangeStatusList[fragmentOffset_codechangestatuslist : fragmentOffset_codechangestatuslist+fragmentLength_codechangestatuslist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding codeChangeStatusList element: %w", err)
@@ -7358,6 +7606,10 @@ func (v *StoredCompressedModeInfoR8) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	}
 	v.StoredTGPSequenceList = make(StoredTGPSequenceListR8, 0)
 	_, errCollection_storedtgpsequencelist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_storedtgpsequencelist, fragmentLength_storedtgpsequencelist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist < 0 || fragmentLength_storedtgpsequencelist > int64(^uint(0)>>1) || fragmentOffset_storedtgpsequencelist > int64(^uint(0)>>1)-fragmentLength_storedtgpsequencelist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_storedtgpsequencelist; i++ {
 			var elem StoredTGPSequenceR8
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7373,6 +7625,10 @@ func (v *StoredCompressedModeInfoR8) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if opt_codechangestatuslist {
 		tmp_codechangestatuslist := make(CodeChangeStatusList, 0)
 		_, errCollection_codechangestatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_codechangestatuslist, fragmentLength_codechangestatuslist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_codechangestatuslist < 0 || fragmentLength_codechangestatuslist < 0 || fragmentLength_codechangestatuslist > int64(^uint(0)>>1) || fragmentOffset_codechangestatuslist > int64(^uint(0)>>1)-fragmentLength_codechangestatuslist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_codechangestatuslist; i++ {
 				var elem CodeChangeStatus
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7430,6 +7686,10 @@ func MarshalUPERStoredTGPSequenceList(list StoredTGPSequenceListComplete) ([]byt
 func MarshalUPERStoredTGPSequenceListTo(list StoredTGPSequenceList, bb *per.BitBuffer) error {
 	v := asn1cUPERStoredTGPSequenceListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -7463,6 +7723,10 @@ func UnmarshalUPERStoredTGPSequenceListFrom(bb *per.BitBuffer) (StoredTGPSequenc
 func unmarshalUPERStoredTGPSequenceListInto(v *asn1cUPERStoredTGPSequenceListListValue, bb *per.BitBuffer) error {
 	v.Value = make(StoredTGPSequenceList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem StoredTGPSequence
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7518,6 +7782,10 @@ func MarshalUPERStoredTGPSequenceListR8(list StoredTGPSequenceListR8Complete) ([
 func MarshalUPERStoredTGPSequenceListR8To(list StoredTGPSequenceListR8, bb *per.BitBuffer) error {
 	v := asn1cUPERStoredTGPSequenceListR8ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -7551,6 +7819,10 @@ func UnmarshalUPERStoredTGPSequenceListR8From(bb *per.BitBuffer) (StoredTGPSeque
 func unmarshalUPERStoredTGPSequenceListR8Into(v *asn1cUPERStoredTGPSequenceListR8ListValue, bb *per.BitBuffer) error {
 	v.Value = make(StoredTGPSequenceListR8, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 6, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem StoredTGPSequenceR8
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -7789,6 +8061,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -7808,6 +8084,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -7820,6 +8100,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -7834,6 +8118,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding integrityProtectionStatus: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -7861,6 +8149,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -7888,6 +8180,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRATSpecificCapability != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRATSpecificCapability)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueratspecificcapability < 0 || fragmentOffset_ueratspecificcapability > int64(len(v.UeRATSpecificCapability)) || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(len(v.UeRATSpecificCapability[fragmentOffset_ueratspecificcapability:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRATSpecificCapability[fragmentOffset_ueratspecificcapability : fragmentOffset_ueratspecificcapability+fragmentLength_ueratspecificcapability] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RATSpecificCapability element: %w", err)
@@ -7908,6 +8204,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -7920,6 +8220,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -7931,6 +8235,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -7941,6 +8249,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -7952,6 +8264,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -7969,6 +8285,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -7991,6 +8311,10 @@ func (v *SRNCRelocationInfoR4IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -8139,6 +8463,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8166,6 +8494,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8183,6 +8515,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8204,6 +8540,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.IntegrityProtectionStatus = IntegrityProtectionStatus(val_integrityprotectionstatus)
 	v.SrbSpecificIntegrityProtInfo = make(SRBSpecificIntegrityProtInfoList, 0)
 	_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 			var elem SRBSpecificIntegrityProtInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8241,6 +8581,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8281,6 +8625,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueratspecificcapability {
 		tmp_ueratspecificcapability := make(InterRATUERadioAccessCapabilityList, 0)
 		_, errCollection_ueratspecificcapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ueratspecificcapability, fragmentLength_ueratspecificcapability int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability < 0 || fragmentLength_ueratspecificcapability > int64(^uint(0)>>1) || fragmentOffset_ueratspecificcapability > int64(^uint(0)>>1)-fragmentLength_ueratspecificcapability {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueratspecificcapability; i++ {
 				var elem InterRATUERadioAccessCapability
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8311,6 +8659,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8328,6 +8680,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR4, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8344,6 +8700,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8358,6 +8718,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupList, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetup
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8373,6 +8737,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR4, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8397,6 +8765,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8428,6 +8800,10 @@ func (v *SRNCRelocationInfoR4IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR4, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8554,6 +8930,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -8573,6 +8953,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -8585,6 +8969,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -8600,6 +8988,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -8628,6 +9020,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -8668,6 +9064,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -8680,6 +9080,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -8691,6 +9095,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -8701,6 +9109,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -8712,6 +9124,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -8729,6 +9145,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -8751,6 +9171,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -8763,6 +9187,10 @@ func (v *SRNCRelocationInfoR5IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -8919,6 +9347,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8946,6 +9378,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8963,6 +9399,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -8985,6 +9425,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9024,6 +9468,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9084,6 +9532,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9101,6 +9553,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR5, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR5
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9117,6 +9573,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9131,6 +9591,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR5, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR5
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9146,6 +9610,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR5, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR5
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9170,6 +9638,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoList, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9201,6 +9673,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR5
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9218,6 +9694,10 @@ func (v *SRNCRelocationInfoR5IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9310,6 +9790,10 @@ func (v *SRNCRelocationInfoV690extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationSetupList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationSetupList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationsetuplist < 0 || fragmentOffset_rabinformationsetuplist > int64(len(v.RabInformationSetupList)) || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(len(v.RabInformationSetupList[fragmentOffset_rabinformationsetuplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationSetupList[fragmentOffset_rabinformationsetuplist : fragmentOffset_rabinformationsetuplist+fragmentLength_rabinformationsetuplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationSetupList element: %w", err)
@@ -9440,6 +9924,10 @@ func (v *SRNCRelocationInfoV690extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_rabinformationsetuplist {
 		tmp_rabinformationsetuplist := make(RABInformationSetupListR6Ext, 0)
 		_, errCollection_rabinformationsetuplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplist, fragmentLength_rabinformationsetuplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist < 0 || fragmentLength_rabinformationsetuplist > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplist > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationsetuplist; i++ {
 				var elem RABInformationSetupR6Ext
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -9588,6 +10076,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -9607,6 +10099,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -9619,6 +10115,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -9634,6 +10134,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -9662,6 +10166,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -9729,6 +10237,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -9741,6 +10253,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -9757,6 +10273,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -9767,6 +10287,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -9778,6 +10302,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -9795,6 +10323,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -9812,6 +10344,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -9824,6 +10360,10 @@ func (v *SRNCRelocationInfoR6IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -10014,6 +10554,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10041,6 +10585,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10058,6 +10606,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10080,6 +10632,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10119,6 +10675,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10233,6 +10793,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10250,6 +10814,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR6, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR6
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10274,6 +10842,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10288,6 +10860,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR6, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR6
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10303,6 +10879,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR6, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR6
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10327,6 +10907,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR6, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR6
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10351,6 +10935,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR5, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR5
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10368,6 +10956,10 @@ func (v *SRNCRelocationInfoR6IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10499,6 +11091,10 @@ func (v *SRNCRelocationInfoV6b0extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationSetupListExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationSetupListExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplistext, fragmentLength_rabinformationsetuplistext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationsetuplistext < 0 || fragmentOffset_rabinformationsetuplistext > int64(len(v.RabInformationSetupListExt)) || fragmentLength_rabinformationsetuplistext < 0 || fragmentLength_rabinformationsetuplistext > int64(len(v.RabInformationSetupListExt[fragmentOffset_rabinformationsetuplistext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationSetupListExt[fragmentOffset_rabinformationsetuplistext : fragmentOffset_rabinformationsetuplistext+fragmentLength_rabinformationsetuplistext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationSetupListExt element: %w", err)
@@ -10539,6 +11135,10 @@ func (v *SRNCRelocationInfoV6b0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_rabinformationsetuplistext {
 		tmp_rabinformationsetuplistext := make(RABInformationSetupListV6b0ext, 0)
 		_, errCollection_rabinformationsetuplistext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationsetuplistext, fragmentLength_rabinformationsetuplistext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationsetuplistext < 0 || fragmentLength_rabinformationsetuplistext < 0 || fragmentLength_rabinformationsetuplistext > int64(^uint(0)>>1) || fragmentOffset_rabinformationsetuplistext > int64(^uint(0)>>1)-fragmentLength_rabinformationsetuplistext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationsetuplistext; i++ {
 				var elem RABInformationSetupV6b0ext
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -10675,6 +11275,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -10694,6 +11298,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -10706,6 +11314,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -10721,6 +11333,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -10749,6 +11365,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -10821,6 +11441,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -10833,6 +11457,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -10849,6 +11477,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -10859,6 +11491,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -10870,6 +11506,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -10887,6 +11527,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -10904,6 +11548,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -10916,6 +11564,10 @@ func (v *SRNCRelocationInfoR7IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -11119,6 +11771,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11146,6 +11802,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11163,6 +11823,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11185,6 +11849,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11224,6 +11892,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11346,6 +12018,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11363,6 +12039,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR7, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR7
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11387,6 +12067,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11401,6 +12085,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR7, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR7
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11416,6 +12104,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR7, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR7
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11440,6 +12132,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR7, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR7
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11464,6 +12160,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR7
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11481,6 +12181,10 @@ func (v *SRNCRelocationInfoR7IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -11890,6 +12594,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -11909,6 +12617,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -11921,6 +12633,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -11936,6 +12652,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -11964,6 +12684,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -12036,6 +12760,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -12048,6 +12776,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -12064,6 +12796,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -12074,6 +12810,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -12085,6 +12825,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -12102,6 +12846,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -12119,6 +12867,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -12131,6 +12883,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -12143,6 +12899,10 @@ func (v *SRNCRelocationInfoR8IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -12359,6 +13119,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12386,6 +13150,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12403,6 +13171,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12425,6 +13197,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12464,6 +13240,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12586,6 +13366,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12603,6 +13387,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR8, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12627,6 +13415,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12641,6 +13433,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR8
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12656,6 +13452,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12680,6 +13480,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12704,6 +13508,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR7, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR7
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12721,6 +13529,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12738,6 +13550,10 @@ func (v *SRNCRelocationInfoR8IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12824,6 +13640,10 @@ func (v *SRNCRelocationInfoV820extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -12861,6 +13681,10 @@ func (v *SRNCRelocationInfoV820extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListV820ext, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupV820ext
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -12894,6 +13718,10 @@ func (v *SRNCRelocationInfoV860extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -12931,6 +13759,10 @@ func (v *SRNCRelocationInfoV860extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13130,6 +13962,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -13149,6 +13985,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -13161,6 +14001,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -13176,6 +14020,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -13204,6 +14052,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -13276,6 +14128,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -13288,6 +14144,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -13304,6 +14164,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -13314,6 +14178,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -13325,6 +14193,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -13342,6 +14214,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -13359,6 +14235,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -13371,6 +14251,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -13383,6 +14267,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -13400,6 +14288,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryTpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryTpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentOffset_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList)) || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist : fragmentOffset_secondarytpccombinationinfolist+fragmentLength_secondarytpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-tpc-CombinationInfoList element: %w", err)
@@ -13412,6 +14304,10 @@ func (v *SRNCRelocationInfoR9IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentOffset_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList)) || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist : fragmentOffset_secondaryergchcombinationinfolist+fragmentLength_secondaryergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-e-RGCH-CombinationInfoList element: %w", err)
@@ -13631,6 +14527,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13658,6 +14558,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13675,6 +14579,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13697,6 +14605,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13736,6 +14648,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13858,6 +14774,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13875,6 +14795,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR9, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13899,6 +14823,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13913,6 +14841,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR8
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13928,6 +14860,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13952,6 +14888,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13976,6 +14916,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -13993,6 +14937,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14010,6 +14958,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14034,6 +14986,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondarytpccombinationinfolist; i++ {
 				var elem TPCCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14051,6 +15007,10 @@ func (v *SRNCRelocationInfoR9IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondaryergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14130,6 +15090,10 @@ func (v *SRNCRelocationInfoV970extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -14167,6 +15131,10 @@ func (v *SRNCRelocationInfoV970extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListV970extIE, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepV970extIEs
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14200,6 +15168,10 @@ func (v *SRNCRelocationInfoV9c0extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlAddReconfTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlAddReconfTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentOffset_dladdreconftranschinfolist > int64(len(v.DlAddReconfTransChInfoList)) || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(len(v.DlAddReconfTransChInfoList[fragmentOffset_dladdreconftranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlAddReconfTransChInfoList[fragmentOffset_dladdreconftranschinfolist : fragmentOffset_dladdreconftranschinfolist+fragmentLength_dladdreconftranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-AddReconfTransChInfoList element: %w", err)
@@ -14237,6 +15209,10 @@ func (v *SRNCRelocationInfoV9c0extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if opt_dladdreconftranschinfolist {
 		tmp_dladdreconftranschinfolist := make(DLAddReconfTransChInfoListTDD128V9c0ext, 0)
 		_, errCollection_dladdreconftranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dladdreconftranschinfolist, fragmentLength_dladdreconftranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist < 0 || fragmentLength_dladdreconftranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dladdreconftranschinfolist > int64(^uint(0)>>1)-fragmentLength_dladdreconftranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dladdreconftranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationTDD128V9c0ext
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14385,6 +15361,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -14404,6 +15384,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -14416,6 +15400,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -14431,6 +15419,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -14459,6 +15451,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -14531,6 +15527,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -14543,6 +15543,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -14559,6 +15563,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -14569,6 +15577,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -14580,6 +15592,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -14602,6 +15618,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -14619,6 +15639,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -14631,6 +15655,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -14643,6 +15671,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -14660,6 +15692,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryTpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryTpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentOffset_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList)) || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist : fragmentOffset_secondarytpccombinationinfolist+fragmentLength_secondarytpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-tpc-CombinationInfoList element: %w", err)
@@ -14672,6 +15708,10 @@ func (v *SRNCRelocationInfoR10IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentOffset_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList)) || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist : fragmentOffset_secondaryergchcombinationinfolist+fragmentLength_secondaryergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-e-RGCH-CombinationInfoList element: %w", err)
@@ -14895,6 +15935,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14922,6 +15966,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14939,6 +15987,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -14961,6 +16013,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15000,6 +16056,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15122,6 +16182,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15139,6 +16203,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR10, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR10
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15163,6 +16231,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15177,6 +16249,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR8, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR8
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15192,6 +16268,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR8, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15224,6 +16304,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15248,6 +16332,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR9, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15265,6 +16353,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15282,6 +16374,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15306,6 +16402,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondarytpccombinationinfolist; i++ {
 				var elem TPCCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15323,6 +16423,10 @@ func (v *SRNCRelocationInfoR10IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondaryergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -15517,6 +16621,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -15536,6 +16644,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -15548,6 +16660,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -15563,6 +16679,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -15591,6 +16711,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -15663,6 +16787,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -15675,6 +16803,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -15691,6 +16823,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -15701,6 +16837,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -15712,6 +16852,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -15734,6 +16878,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -15751,6 +16899,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -15763,6 +16915,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -15775,6 +16931,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -15792,6 +16952,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryTpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryTpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentOffset_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList)) || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist : fragmentOffset_secondarytpccombinationinfolist+fragmentLength_secondarytpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-tpc-CombinationInfoList element: %w", err)
@@ -15804,6 +16968,10 @@ func (v *SRNCRelocationInfoR11IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentOffset_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList)) || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist : fragmentOffset_secondaryergchcombinationinfolist+fragmentLength_secondaryergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-e-RGCH-CombinationInfoList element: %w", err)
@@ -16027,6 +17195,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16054,6 +17226,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16071,6 +17247,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16093,6 +17273,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16132,6 +17316,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16254,6 +17442,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16271,6 +17463,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR11, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16295,6 +17491,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16309,6 +17509,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR11
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16324,6 +17528,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16356,6 +17564,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16380,6 +17592,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16397,6 +17613,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16414,6 +17634,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16438,6 +17662,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondarytpccombinationinfolist; i++ {
 				var elem TPCCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16455,6 +17683,10 @@ func (v *SRNCRelocationInfoR11IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondaryergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -16667,6 +17899,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -16686,6 +17922,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -16698,6 +17938,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -16713,6 +17957,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -16741,6 +17989,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -16813,6 +18065,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -16825,6 +18081,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -16841,6 +18101,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -16851,6 +18115,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -16862,6 +18130,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -16884,6 +18156,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -16901,6 +18177,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -16913,6 +18193,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -16925,6 +18209,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -16942,6 +18230,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryTpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryTpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentOffset_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList)) || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist : fragmentOffset_secondarytpccombinationinfolist+fragmentLength_secondarytpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-tpc-CombinationInfoList element: %w", err)
@@ -16954,6 +18246,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentOffset_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList)) || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist : fragmentOffset_secondaryergchcombinationinfolist+fragmentLength_secondaryergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-e-RGCH-CombinationInfoList element: %w", err)
@@ -16991,6 +18287,10 @@ func (v *SRNCRelocationInfoR12IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlInformationPerRLList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlInformationPerRLList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentOffset_dlinformationperrllist > int64(len(v.DlInformationPerRLList)) || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(len(v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist : fragmentOffset_dlinformationperrllist+fragmentLength_dlinformationperrllist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-InformationPerRL-List element: %w", err)
@@ -17238,6 +18538,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17265,6 +18569,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17282,6 +18590,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17304,6 +18616,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17343,6 +18659,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17465,6 +18785,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17482,6 +18806,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR12, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17506,6 +18834,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17520,6 +18852,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR11
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17535,6 +18871,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17567,6 +18907,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17591,6 +18935,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17608,6 +18956,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17625,6 +18977,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17649,6 +19005,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondarytpccombinationinfolist; i++ {
 				var elem TPCCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17666,6 +19026,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondaryergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17718,6 +19082,10 @@ func (v *SRNCRelocationInfoR12IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR12, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dlinformationperrllist; i++ {
 				var elem DLInformationPerRLR12
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -17930,6 +19298,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -17949,6 +19321,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -17961,6 +19337,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -17976,6 +19356,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -18004,6 +19388,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -18076,6 +19464,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -18088,6 +19480,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -18104,6 +19500,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -18114,6 +19514,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -18125,6 +19529,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -18147,6 +19555,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -18164,6 +19576,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -18176,6 +19592,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -18188,6 +19608,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -18205,6 +19629,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryTpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryTpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentOffset_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList)) || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist : fragmentOffset_secondarytpccombinationinfolist+fragmentLength_secondarytpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-tpc-CombinationInfoList element: %w", err)
@@ -18217,6 +19645,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentOffset_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList)) || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist : fragmentOffset_secondaryergchcombinationinfolist+fragmentLength_secondaryergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-e-RGCH-CombinationInfoList element: %w", err)
@@ -18254,6 +19686,10 @@ func (v *SRNCRelocationInfoR13IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlInformationPerRLList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlInformationPerRLList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentOffset_dlinformationperrllist > int64(len(v.DlInformationPerRLList)) || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(len(v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist : fragmentOffset_dlinformationperrllist+fragmentLength_dlinformationperrllist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-InformationPerRL-List element: %w", err)
@@ -18501,6 +19937,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18528,6 +19968,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18545,6 +19989,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18567,6 +20015,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18606,6 +20058,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18728,6 +20184,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18745,6 +20205,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR13, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18769,6 +20233,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18783,6 +20251,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR11
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18798,6 +20270,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18830,6 +20306,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18854,6 +20334,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18871,6 +20355,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18888,6 +20376,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18912,6 +20404,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondarytpccombinationinfolist; i++ {
 				var elem TPCCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18929,6 +20425,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondaryergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -18981,6 +20481,10 @@ func (v *SRNCRelocationInfoR13IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dlinformationperrllist; i++ {
 				var elem DLInformationPerRLR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -19269,6 +20773,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -19288,6 +20796,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -19300,6 +20812,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -19315,6 +20831,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -19343,6 +20863,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -19415,6 +20939,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -19427,6 +20955,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -19443,6 +20975,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -19453,6 +20989,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -19464,6 +21004,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -19486,6 +21030,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -19503,6 +21051,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -19515,6 +21067,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -19527,6 +21083,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -19544,6 +21104,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryTpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryTpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentOffset_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList)) || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist : fragmentOffset_secondarytpccombinationinfolist+fragmentLength_secondarytpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-tpc-CombinationInfoList element: %w", err)
@@ -19556,6 +21120,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentOffset_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList)) || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist : fragmentOffset_secondaryergchcombinationinfolist+fragmentLength_secondaryergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-e-RGCH-CombinationInfoList element: %w", err)
@@ -19593,6 +21161,10 @@ func (v *SRNCRelocationInfoR14IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlInformationPerRLList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlInformationPerRLList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentOffset_dlinformationperrllist > int64(len(v.DlInformationPerRLList)) || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(len(v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist : fragmentOffset_dlinformationperrllist+fragmentLength_dlinformationperrllist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-InformationPerRL-List element: %w", err)
@@ -19840,6 +21412,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -19867,6 +21443,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -19884,6 +21464,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -19906,6 +21490,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -19945,6 +21533,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20067,6 +21659,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20084,6 +21680,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR14, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR14
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20108,6 +21708,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20122,6 +21726,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR11
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20137,6 +21745,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20169,6 +21781,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20193,6 +21809,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20210,6 +21830,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20227,6 +21851,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20251,6 +21879,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondarytpccombinationinfolist; i++ {
 				var elem TPCCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20268,6 +21900,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondaryergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20320,6 +21956,10 @@ func (v *SRNCRelocationInfoR14IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dlinformationperrllist; i++ {
 				var elem DLInformationPerRLR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -20532,6 +22172,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding stateOfRRC-Procedure: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.CipheringStatusList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentOffset_cipheringstatuslist > int64(len(v.CipheringStatusList)) || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(len(v.CipheringStatusList[fragmentOffset_cipheringstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.CipheringStatusList[fragmentOffset_cipheringstatuslist : fragmentOffset_cipheringstatuslist+fragmentLength_cipheringstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding cipheringStatusList element: %w", err)
@@ -20551,6 +22195,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CountCList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CountCList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_countclist < 0 || fragmentOffset_countclist > int64(len(v.CountCList)) || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(len(v.CountCList[fragmentOffset_countclist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CountCList[fragmentOffset_countclist : fragmentOffset_countclist+fragmentLength_countclist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding count-C-List element: %w", err)
@@ -20563,6 +22211,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CipheringInfoPerRBList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CipheringInfoPerRBList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentOffset_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList)) || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(len(v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CipheringInfoPerRBList[fragmentOffset_cipheringinfoperrblist : fragmentOffset_cipheringinfoperrblist+fragmentLength_cipheringinfoperrblist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cipheringInfoPerRB-List element: %w", err)
@@ -20578,6 +22230,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SrbSpecificIntegrityProtInfo != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SrbSpecificIntegrityProtInfo)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentOffset_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo)) || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(len(v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SrbSpecificIntegrityProtInfo[fragmentOffset_srbspecificintegrityprotinfo : fragmentOffset_srbspecificintegrityprotinfo+fragmentLength_srbspecificintegrityprotinfo] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding srb-SpecificIntegrityProtInfo element: %w", err)
@@ -20606,6 +22262,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UeRadioAccessCapabilityExt != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UeRadioAccessCapabilityExt)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentOffset_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt)) || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(len(v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UeRadioAccessCapabilityExt[fragmentOffset_ueradioaccesscapabilityext : fragmentOffset_ueradioaccesscapabilityext+fragmentLength_ueradioaccesscapabilityext] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ue-RadioAccessCapability-ext element: %w", err)
@@ -20678,6 +22338,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.CnDomainInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.CnDomainInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentOffset_cndomaininformationlist > int64(len(v.CnDomainInformationList)) || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(len(v.CnDomainInformationList[fragmentOffset_cndomaininformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.CnDomainInformationList[fragmentOffset_cndomaininformationlist : fragmentOffset_cndomaininformationlist+fragmentLength_cndomaininformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding cn-DomainInformationList element: %w", err)
@@ -20690,6 +22354,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.OngoingMeasRepList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.OngoingMeasRepList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentOffset_ongoingmeasreplist > int64(len(v.OngoingMeasRepList)) || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(len(v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.OngoingMeasRepList[fragmentOffset_ongoingmeasreplist : fragmentOffset_ongoingmeasreplist+fragmentLength_ongoingmeasreplist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ongoingMeasRepList element: %w", err)
@@ -20706,6 +22374,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		}
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.PredefinedConfigStatusList)), per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentOffset_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList)) || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(len(v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.PredefinedConfigStatusList[fragmentOffset_predefinedconfigstatuslist : fragmentOffset_predefinedconfigstatuslist+fragmentLength_predefinedconfigstatuslist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding predefinedConfigStatusList element: %w", err)
@@ -20716,6 +22388,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding predefinedConfigStatusList: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.SrbInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_srbinformationlist < 0 || fragmentOffset_srbinformationlist > int64(len(v.SrbInformationList)) || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(len(v.SrbInformationList[fragmentOffset_srbinformationlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.SrbInformationList[fragmentOffset_srbinformationlist : fragmentOffset_srbinformationlist+fragmentLength_srbinformationlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding srb-InformationList element: %w", err)
@@ -20727,6 +22403,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.RabInformationList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.RabInformationList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_rabinformationlist < 0 || fragmentOffset_rabinformationlist > int64(len(v.RabInformationList)) || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(len(v.RabInformationList[fragmentOffset_rabinformationlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.RabInformationList[fragmentOffset_rabinformationlist : fragmentOffset_rabinformationlist+fragmentLength_rabinformationlist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding rab-InformationList element: %w", err)
@@ -20749,6 +22429,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.UlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.UlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ultranschinfolist < 0 || fragmentOffset_ultranschinfolist > int64(len(v.UlTransChInfoList)) || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(len(v.UlTransChInfoList[fragmentOffset_ultranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.UlTransChInfoList[fragmentOffset_ultranschinfolist : fragmentOffset_ultranschinfolist+fragmentLength_ultranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding ul-TransChInfoList element: %w", err)
@@ -20766,6 +22450,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlTransChInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlTransChInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dltranschinfolist < 0 || fragmentOffset_dltranschinfolist > int64(len(v.DlTransChInfoList)) || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(len(v.DlTransChInfoList[fragmentOffset_dltranschinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlTransChInfoList[fragmentOffset_dltranschinfolist : fragmentOffset_dltranschinfolist+fragmentLength_dltranschinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-TransChInfoList element: %w", err)
@@ -20778,6 +22466,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.TpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.TpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentOffset_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList)) || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(len(v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.TpcCombinationInfoList[fragmentOffset_tpccombinationinfolist : fragmentOffset_tpccombinationinfolist+fragmentLength_tpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding tpc-CombinationInfoList element: %w", err)
@@ -20790,6 +22482,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.ERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.ERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentOffset_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList)) || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(len(v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.ERGCHCombinationInfoList[fragmentOffset_ergchcombinationinfolist : fragmentOffset_ergchcombinationinfolist+fragmentLength_ergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding e-RGCH-CombinationInfoList element: %w", err)
@@ -20807,6 +22503,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryTpcCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryTpcCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentOffset_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList)) || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(len(v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryTpcCombinationInfoList[fragmentOffset_secondarytpccombinationinfolist : fragmentOffset_secondarytpccombinationinfolist+fragmentLength_secondarytpccombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-tpc-CombinationInfoList element: %w", err)
@@ -20819,6 +22519,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.SecondaryERGCHCombinationInfoList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.SecondaryERGCHCombinationInfoList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentOffset_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList)) || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(len(v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.SecondaryERGCHCombinationInfoList[fragmentOffset_secondaryergchcombinationinfolist : fragmentOffset_secondaryergchcombinationinfolist+fragmentLength_secondaryergchcombinationinfolist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding secondary-e-RGCH-CombinationInfoList element: %w", err)
@@ -20856,6 +22560,10 @@ func (v *SRNCRelocationInfoR15IEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.DlInformationPerRLList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.DlInformationPerRLList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentOffset_dlinformationperrllist > int64(len(v.DlInformationPerRLList)) || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(len(v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.DlInformationPerRLList[fragmentOffset_dlinformationperrllist : fragmentOffset_dlinformationperrllist+fragmentLength_dlinformationperrllist] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dl-InformationPerRL-List element: %w", err)
@@ -21103,6 +22811,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.StateOfRRCProcedure = StateOfRRCProcedure(val_stateofrrcprocedure)
 	v.CipheringStatusList = make(CipheringStatusListR4, 0)
 	_, errCollection_cipheringstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cipheringstatuslist, fragmentLength_cipheringstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist < 0 || fragmentLength_cipheringstatuslist > int64(^uint(0)>>1) || fragmentOffset_cipheringstatuslist > int64(^uint(0)>>1)-fragmentLength_cipheringstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_cipheringstatuslist; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21130,6 +22842,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_countclist {
 		tmp_countclist := make(COUNTCList, 0)
 		_, errCollection_countclist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_countclist, fragmentLength_countclist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_countclist < 0 || fragmentLength_countclist < 0 || fragmentLength_countclist > int64(^uint(0)>>1) || fragmentOffset_countclist > int64(^uint(0)>>1)-fragmentLength_countclist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_countclist; i++ {
 				var elem COUNTCSingle
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21147,6 +22863,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cipheringinfoperrblist {
 		tmp_cipheringinfoperrblist := make(CipheringInfoPerRBListR4, 0)
 		_, errCollection_cipheringinfoperrblist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_cipheringinfoperrblist, fragmentLength_cipheringinfoperrblist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist < 0 || fragmentLength_cipheringinfoperrblist > int64(^uint(0)>>1) || fragmentOffset_cipheringinfoperrblist > int64(^uint(0)>>1)-fragmentLength_cipheringinfoperrblist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cipheringinfoperrblist; i++ {
 				var elem CipheringInfoPerRBR4
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21169,6 +22889,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_srbspecificintegrityprotinfo {
 		tmp_srbspecificintegrityprotinfo := make(SRBSpecificIntegrityProtInfoList, 0)
 		_, errCollection_srbspecificintegrityprotinfo := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbspecificintegrityprotinfo, fragmentLength_srbspecificintegrityprotinfo int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo < 0 || fragmentLength_srbspecificintegrityprotinfo > int64(^uint(0)>>1) || fragmentOffset_srbspecificintegrityprotinfo > int64(^uint(0)>>1)-fragmentLength_srbspecificintegrityprotinfo {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_srbspecificintegrityprotinfo; i++ {
 				var elem SRBSpecificIntegrityProtInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21208,6 +22932,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ueradioaccesscapabilityext {
 		tmp_ueradioaccesscapabilityext := make(UERadioAccessCapabBandFDDList, 0)
 		_, errCollection_ueradioaccesscapabilityext := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_ueradioaccesscapabilityext, fragmentLength_ueradioaccesscapabilityext int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext < 0 || fragmentLength_ueradioaccesscapabilityext > int64(^uint(0)>>1) || fragmentOffset_ueradioaccesscapabilityext > int64(^uint(0)>>1)-fragmentLength_ueradioaccesscapabilityext {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ueradioaccesscapabilityext; i++ {
 				var elem UERadioAccessCapabBandFDD
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21330,6 +23058,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_cndomaininformationlist {
 		tmp_cndomaininformationlist := make(CNDomainInformationListFull, 0)
 		_, errCollection_cndomaininformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_cndomaininformationlist, fragmentLength_cndomaininformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist < 0 || fragmentLength_cndomaininformationlist > int64(^uint(0)>>1) || fragmentOffset_cndomaininformationlist > int64(^uint(0)>>1)-fragmentLength_cndomaininformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_cndomaininformationlist; i++ {
 				var elem CNDomainInformationFull
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21347,6 +23079,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ongoingmeasreplist {
 		tmp_ongoingmeasreplist := make(OngoingMeasRepListR15, 0)
 		_, errCollection_ongoingmeasreplist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_ongoingmeasreplist, fragmentLength_ongoingmeasreplist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist < 0 || fragmentLength_ongoingmeasreplist > int64(^uint(0)>>1) || fragmentOffset_ongoingmeasreplist > int64(^uint(0)>>1)-fragmentLength_ongoingmeasreplist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ongoingmeasreplist; i++ {
 				var elem OngoingMeasRepR15
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21371,6 +23107,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.PredefinedConfigStatusList = make(PredefinedConfigStatusList, 0)
 	_, errCollection_predefinedconfigstatuslist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 16, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_predefinedconfigstatuslist, fragmentLength_predefinedconfigstatuslist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist < 0 || fragmentLength_predefinedconfigstatuslist > int64(^uint(0)>>1) || fragmentOffset_predefinedconfigstatuslist > int64(^uint(0)>>1)-fragmentLength_predefinedconfigstatuslist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_predefinedconfigstatuslist; i++ {
 			var elem PredefinedConfigStatusInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21385,6 +23125,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.SrbInformationList = make(SRBInformationSetupListR11, 0)
 	_, errCollection_srbinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_srbinformationlist, fragmentLength_srbinformationlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_srbinformationlist < 0 || fragmentLength_srbinformationlist < 0 || fragmentLength_srbinformationlist > int64(^uint(0)>>1) || fragmentOffset_srbinformationlist > int64(^uint(0)>>1)-fragmentLength_srbinformationlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_srbinformationlist; i++ {
 			var elem SRBInformationSetupR11
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21400,6 +23144,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_rabinformationlist {
 		tmp_rabinformationlist := make(RABInformationSetupListR11, 0)
 		_, errCollection_rabinformationlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_rabinformationlist, fragmentLength_rabinformationlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_rabinformationlist < 0 || fragmentLength_rabinformationlist < 0 || fragmentLength_rabinformationlist > int64(^uint(0)>>1) || fragmentOffset_rabinformationlist > int64(^uint(0)>>1)-fragmentLength_rabinformationlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_rabinformationlist; i++ {
 				var elem RABInformationSetupR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21432,6 +23180,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ultranschinfolist {
 		tmp_ultranschinfolist := make(ULAddReconfTransChInfoListR8, 0)
 		_, errCollection_ultranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_ultranschinfolist, fragmentLength_ultranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ultranschinfolist < 0 || fragmentLength_ultranschinfolist < 0 || fragmentLength_ultranschinfolist > int64(^uint(0)>>1) || fragmentOffset_ultranschinfolist > int64(^uint(0)>>1)-fragmentLength_ultranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ultranschinfolist; i++ {
 				var elem ULAddReconfTransChInformationR8
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21456,6 +23208,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dltranschinfolist {
 		tmp_dltranschinfolist := make(DLAddReconfTransChInfoListR11, 0)
 		_, errCollection_dltranschinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dltranschinfolist, fragmentLength_dltranschinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dltranschinfolist < 0 || fragmentLength_dltranschinfolist < 0 || fragmentLength_dltranschinfolist > int64(^uint(0)>>1) || fragmentOffset_dltranschinfolist > int64(^uint(0)>>1)-fragmentLength_dltranschinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dltranschinfolist; i++ {
 				var elem DLAddReconfTransChInformationR11
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21473,6 +23229,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_tpccombinationinfolist {
 		tmp_tpccombinationinfolist := make(TPCCombinationInfoList, 0)
 		_, errCollection_tpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_tpccombinationinfolist, fragmentLength_tpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist < 0 || fragmentLength_tpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_tpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_tpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_tpccombinationinfolist; i++ {
 				var elem TPCCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21490,6 +23250,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_ergchcombinationinfolist {
 		tmp_ergchcombinationinfolist := make(ERGCHCombinationInfoList, 0)
 		_, errCollection_ergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_ergchcombinationinfolist, fragmentLength_ergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist < 0 || fragmentLength_ergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_ergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_ergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_ergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfo
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21514,6 +23278,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondarytpccombinationinfolist {
 		tmp_secondarytpccombinationinfolist := make(TPCCombinationInfoListR9, 0)
 		_, errCollection_secondarytpccombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondarytpccombinationinfolist, fragmentLength_secondarytpccombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist < 0 || fragmentLength_secondarytpccombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondarytpccombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondarytpccombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondarytpccombinationinfolist; i++ {
 				var elem TPCCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21531,6 +23299,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_secondaryergchcombinationinfolist {
 		tmp_secondaryergchcombinationinfolist := make(ERGCHCombinationInfoListR9, 0)
 		_, errCollection_secondaryergchcombinationinfolist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_secondaryergchcombinationinfolist, fragmentLength_secondaryergchcombinationinfolist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist < 0 || fragmentLength_secondaryergchcombinationinfolist > int64(^uint(0)>>1) || fragmentOffset_secondaryergchcombinationinfolist > int64(^uint(0)>>1)-fragmentLength_secondaryergchcombinationinfolist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_secondaryergchcombinationinfolist; i++ {
 				var elem ERGCHCombinationInfoR9
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21583,6 +23355,10 @@ func (v *SRNCRelocationInfoR15IEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_dlinformationperrllist {
 		tmp_dlinformationperrllist := make(DLInformationPerRLListR13, 0)
 		_, errCollection_dlinformationperrllist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_dlinformationperrllist, fragmentLength_dlinformationperrllist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist < 0 || fragmentLength_dlinformationperrllist > int64(^uint(0)>>1) || fragmentOffset_dlinformationperrllist > int64(^uint(0)>>1)-fragmentLength_dlinformationperrllist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dlinformationperrllist; i++ {
 				var elem DLInformationPerRLR13
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21860,6 +23636,10 @@ func MarshalUPERCipheringInfoPerRBList(list CipheringInfoPerRBListComplete) ([]b
 func MarshalUPERCipheringInfoPerRBListTo(list CipheringInfoPerRBList, bb *per.BitBuffer) error {
 	v := asn1cUPERCipheringInfoPerRBListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -21893,6 +23673,10 @@ func UnmarshalUPERCipheringInfoPerRBListFrom(bb *per.BitBuffer) (CipheringInfoPe
 func unmarshalUPERCipheringInfoPerRBListInto(v *asn1cUPERCipheringInfoPerRBListListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringInfoPerRBList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CipheringInfoPerRB
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -21948,6 +23732,10 @@ func MarshalUPERCipheringInfoPerRBListR4(list CipheringInfoPerRBListR4Complete) 
 func MarshalUPERCipheringInfoPerRBListR4To(list CipheringInfoPerRBListR4, bb *per.BitBuffer) error {
 	v := asn1cUPERCipheringInfoPerRBListR4ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -21981,6 +23769,10 @@ func UnmarshalUPERCipheringInfoPerRBListR4From(bb *per.BitBuffer) (CipheringInfo
 func unmarshalUPERCipheringInfoPerRBListR4Into(v *asn1cUPERCipheringInfoPerRBListR4ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringInfoPerRBListR4, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CipheringInfoPerRBR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -22036,6 +23828,10 @@ func MarshalUPERCipheringStatusListR4(list CipheringStatusListR4Complete) ([]byt
 func MarshalUPERCipheringStatusListR4To(list CipheringStatusListR4, bb *per.BitBuffer) error {
 	v := asn1cUPERCipheringStatusListR4ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -22069,6 +23865,10 @@ func UnmarshalUPERCipheringStatusListR4From(bb *per.BitBuffer) (CipheringStatusL
 func unmarshalUPERCipheringStatusListR4Into(v *asn1cUPERCipheringStatusListR4ListValue, bb *per.BitBuffer) error {
 	v.Value = make(CipheringStatusListR4, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CipheringStatusCNdomainR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -22222,6 +24022,10 @@ func MarshalUPERCNDomainInformationListV390ext(list CNDomainInformationListV390e
 func MarshalUPERCNDomainInformationListV390extTo(list CNDomainInformationListV390ext, bb *per.BitBuffer) error {
 	v := asn1cUPERCNDomainInformationListV390extListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -22255,6 +24059,10 @@ func UnmarshalUPERCNDomainInformationListV390extFrom(bb *per.BitBuffer) (CNDomai
 func unmarshalUPERCNDomainInformationListV390extInto(v *asn1cUPERCNDomainInformationListV390extListValue, bb *per.BitBuffer) error {
 	v.Value = make(CNDomainInformationListV390ext, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem CNDomainInformationV390ext
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -22426,6 +24234,10 @@ func MarshalUPERCOUNTCList(list COUNTCListComplete) ([]byte, error) { return lis
 func MarshalUPERCOUNTCListTo(list COUNTCList, bb *per.BitBuffer) error {
 	v := asn1cUPERCOUNTCListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -22459,6 +24271,10 @@ func UnmarshalUPERCOUNTCListFrom(bb *per.BitBuffer) (COUNTCList, error) {
 func unmarshalUPERCOUNTCListInto(v *asn1cUPERCOUNTCListListValue, bb *per.BitBuffer) error {
 	v.Value = make(COUNTCList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem COUNTCSingle
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -23150,6 +24966,10 @@ func MarshalUPERERGCHCombinationInfoList(list ERGCHCombinationInfoListComplete) 
 func MarshalUPERERGCHCombinationInfoListTo(list ERGCHCombinationInfoList, bb *per.BitBuffer) error {
 	v := asn1cUPERERGCHCombinationInfoListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -23183,6 +25003,10 @@ func UnmarshalUPERERGCHCombinationInfoListFrom(bb *per.BitBuffer) (ERGCHCombinat
 func unmarshalUPERERGCHCombinationInfoListInto(v *asn1cUPERERGCHCombinationInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERGCHCombinationInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ERGCHCombinationInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -23238,6 +25062,10 @@ func MarshalUPERERGCHCombinationInfoListR9(list ERGCHCombinationInfoListR9Comple
 func MarshalUPERERGCHCombinationInfoListR9To(list ERGCHCombinationInfoListR9, bb *per.BitBuffer) error {
 	v := asn1cUPERERGCHCombinationInfoListR9ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -23271,6 +25099,10 @@ func UnmarshalUPERERGCHCombinationInfoListR9From(bb *per.BitBuffer) (ERGCHCombin
 func unmarshalUPERERGCHCombinationInfoListR9Into(v *asn1cUPERERGCHCombinationInfoListR9ListValue, bb *per.BitBuffer) error {
 	v.Value = make(ERGCHCombinationInfoListR9, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem ERGCHCombinationInfoR9
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -23301,6 +25133,10 @@ func (v *InterRATUERadioAccessCapabilityListR5) MarshalUPERTo(bb *per.BitBuffer)
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.InterRATUERadioAccessCapability)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_interratueradioaccesscapability, fragmentLength_interratueradioaccesscapability int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_interratueradioaccesscapability < 0 || fragmentOffset_interratueradioaccesscapability > int64(len(v.InterRATUERadioAccessCapability)) || fragmentLength_interratueradioaccesscapability < 0 || fragmentLength_interratueradioaccesscapability > int64(len(v.InterRATUERadioAccessCapability[fragmentOffset_interratueradioaccesscapability:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.InterRATUERadioAccessCapability[fragmentOffset_interratueradioaccesscapability : fragmentOffset_interratueradioaccesscapability+fragmentLength_interratueradioaccesscapability] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding interRAT-UE-RadioAccessCapability element: %w", err)
@@ -23341,6 +25177,10 @@ func (v *InterRATUERadioAccessCapabilityListR5) UnmarshalUPERFrom(bb *per.BitBuf
 	}
 	v.InterRATUERadioAccessCapability = make(InterRATUERadioAccessCapabilityList, 0)
 	_, errCollection_interratueradioaccesscapability := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_interratueradioaccesscapability, fragmentLength_interratueradioaccesscapability int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_interratueradioaccesscapability < 0 || fragmentLength_interratueradioaccesscapability < 0 || fragmentLength_interratueradioaccesscapability > int64(^uint(0)>>1) || fragmentOffset_interratueradioaccesscapability > int64(^uint(0)>>1)-fragmentLength_interratueradioaccesscapability {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_interratueradioaccesscapability; i++ {
 			var elem InterRATUERadioAccessCapability
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -23496,6 +25336,10 @@ func (v *MeasurementCommandWithType) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithType: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
@@ -23535,6 +25379,10 @@ func (v *MeasurementCommandWithType) UnmarshalUPERFrom(bb *per.BitBuffer) error 
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeChoiceSetup:
@@ -23563,6 +25411,10 @@ func (v *MeasurementCommandWithTypeR4) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR4) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR4: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -23603,6 +25455,10 @@ func (v *MeasurementCommandWithTypeR4) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR4ChoiceSetup:
@@ -23631,6 +25487,10 @@ func (v *MeasurementCommandWithTypeR6) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR6) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR6: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -23671,6 +25531,10 @@ func (v *MeasurementCommandWithTypeR6) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR6ChoiceSetup:
@@ -23699,6 +25563,10 @@ func (v *MeasurementCommandWithTypeR7) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR7) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR7: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -23739,6 +25607,10 @@ func (v *MeasurementCommandWithTypeR7) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR7ChoiceSetup:
@@ -23767,6 +25639,10 @@ func (v *MeasurementCommandWithTypeR8) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR8) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR8: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -23807,6 +25683,10 @@ func (v *MeasurementCommandWithTypeR8) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR8ChoiceSetup:
@@ -23835,6 +25715,10 @@ func (v *MeasurementCommandWithTypeR9) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR9) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR9: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -23875,6 +25759,10 @@ func (v *MeasurementCommandWithTypeR9) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR9ChoiceSetup:
@@ -23903,6 +25791,10 @@ func (v *MeasurementCommandWithTypeR10) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR10) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR10: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -23943,6 +25835,10 @@ func (v *MeasurementCommandWithTypeR10) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR10ChoiceSetup:
@@ -23971,6 +25867,10 @@ func (v *MeasurementCommandWithTypeR11) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR11: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -24011,6 +25911,10 @@ func (v *MeasurementCommandWithTypeR11) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR11ChoiceSetup:
@@ -24039,6 +25943,10 @@ func (v *MeasurementCommandWithTypeR12) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR12: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -24079,6 +25987,10 @@ func (v *MeasurementCommandWithTypeR12) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR12ChoiceSetup:
@@ -24107,6 +26019,10 @@ func (v *MeasurementCommandWithTypeR13) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR13: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -24147,6 +26063,10 @@ func (v *MeasurementCommandWithTypeR13) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR13ChoiceSetup:
@@ -24175,6 +26095,10 @@ func (v *MeasurementCommandWithTypeR14) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR14: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -24215,6 +26139,10 @@ func (v *MeasurementCommandWithTypeR14) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case MeasurementCommandWithTypeR14ChoiceSetup:
@@ -24243,6 +26171,10 @@ func (v *MeasurementCommandWithTypeR15) MarshalUPER() ([]byte, error) {
 func (v *MeasurementCommandWithTypeR15) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("MeasurementCommandWithTypeR15: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
@@ -24282,6 +26214,10 @@ func (v *MeasurementCommandWithTypeR15) UnmarshalUPERFrom(bb *per.BitBuffer) err
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 2)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -24329,6 +26265,10 @@ func (v *OngoingMeasRep) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -24385,6 +26325,10 @@ func (v *OngoingMeasRep) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -24432,6 +26376,10 @@ func (v *OngoingMeasRepR4) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -24488,6 +26436,10 @@ func (v *OngoingMeasRepR4) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -24544,6 +26496,10 @@ func (v *OngoingMeasRepR5) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -24627,6 +26583,10 @@ func (v *OngoingMeasRepR5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -24695,6 +26655,10 @@ func (v *OngoingMeasRepR6) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -24751,6 +26715,10 @@ func (v *OngoingMeasRepR6) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -24798,6 +26766,10 @@ func (v *OngoingMeasRepR7) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -24854,6 +26826,10 @@ func (v *OngoingMeasRepR7) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -24901,6 +26877,10 @@ func (v *OngoingMeasRepR8) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -24957,6 +26937,10 @@ func (v *OngoingMeasRepR8) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -25004,6 +26988,10 @@ func (v *OngoingMeasRepR9) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25060,6 +27048,10 @@ func (v *OngoingMeasRepR9) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -25101,6 +27093,10 @@ func (v *OngoingMeasRepV970extIEs) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25150,6 +27146,10 @@ func (v *OngoingMeasRepV970extIEs) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -25197,6 +27197,10 @@ func (v *OngoingMeasRepR10) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(16), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25253,6 +27257,10 @@ func (v *OngoingMeasRepR10) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDList, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(16), false)
 				if err != nil {
@@ -25300,6 +27308,10 @@ func (v *OngoingMeasRepR11) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25356,6 +27368,10 @@ func (v *OngoingMeasRepR11) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -25403,6 +27419,10 @@ func (v *OngoingMeasRepR12) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25459,6 +27479,10 @@ func (v *OngoingMeasRepR12) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -25506,6 +27530,10 @@ func (v *OngoingMeasRepR13) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25562,6 +27590,10 @@ func (v *OngoingMeasRepR13) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -25609,6 +27641,10 @@ func (v *OngoingMeasRepR14) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25665,6 +27701,10 @@ func (v *OngoingMeasRepR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -25712,6 +27752,10 @@ func (v *OngoingMeasRepR15) MarshalUPERTo(bb *per.BitBuffer) error {
 	}
 	if v.AdditionalMeasurementIDList != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.AdditionalMeasurementIDList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentOffset_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList)) || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(len(v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.AdditionalMeasurementIDList[fragmentOffset_additionalmeasurementidlist : fragmentOffset_additionalmeasurementidlist+fragmentLength_additionalmeasurementidlist] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(1), int64Ptr(32), false); err != nil {
 					return fmt.Errorf("encoding additionalMeasurementID-List element: %w", err)
@@ -25768,6 +27812,10 @@ func (v *OngoingMeasRepR15) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if opt_additionalmeasurementidlist {
 		tmp_additionalmeasurementidlist := make(AdditionalMeasurementIDListR9, 0)
 		_, errCollection_additionalmeasurementidlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 4, HasUpper: true}, false, func(fragmentOffset_additionalmeasurementidlist, fragmentLength_additionalmeasurementidlist int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist < 0 || fragmentLength_additionalmeasurementidlist > int64(^uint(0)>>1) || fragmentOffset_additionalmeasurementidlist > int64(^uint(0)>>1)-fragmentLength_additionalmeasurementidlist {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_additionalmeasurementidlist; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(1), int64Ptr(32), false)
 				if err != nil {
@@ -25825,6 +27873,10 @@ func MarshalUPEROngoingMeasRepList(list OngoingMeasRepListComplete) ([]byte, err
 func MarshalUPEROngoingMeasRepListTo(list OngoingMeasRepList, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -25858,6 +27910,10 @@ func UnmarshalUPEROngoingMeasRepListFrom(bb *per.BitBuffer) (OngoingMeasRepList,
 func unmarshalUPEROngoingMeasRepListInto(v *asn1cUPEROngoingMeasRepListListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRep
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -25913,6 +27969,10 @@ func MarshalUPEROngoingMeasRepListR4(list OngoingMeasRepListR4Complete) ([]byte,
 func MarshalUPEROngoingMeasRepListR4To(list OngoingMeasRepListR4, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR4ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -25946,6 +28006,10 @@ func UnmarshalUPEROngoingMeasRepListR4From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR4Into(v *asn1cUPEROngoingMeasRepListR4ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR4, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR4
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26001,6 +28065,10 @@ func MarshalUPEROngoingMeasRepListR5(list OngoingMeasRepListR5Complete) ([]byte,
 func MarshalUPEROngoingMeasRepListR5To(list OngoingMeasRepListR5, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR5ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26034,6 +28102,10 @@ func UnmarshalUPEROngoingMeasRepListR5From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR5Into(v *asn1cUPEROngoingMeasRepListR5ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR5, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR5
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26089,6 +28161,10 @@ func MarshalUPEROngoingMeasRepListR6(list OngoingMeasRepListR6Complete) ([]byte,
 func MarshalUPEROngoingMeasRepListR6To(list OngoingMeasRepListR6, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR6ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26122,6 +28198,10 @@ func UnmarshalUPEROngoingMeasRepListR6From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR6Into(v *asn1cUPEROngoingMeasRepListR6ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR6, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR6
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26177,6 +28257,10 @@ func MarshalUPEROngoingMeasRepListR7(list OngoingMeasRepListR7Complete) ([]byte,
 func MarshalUPEROngoingMeasRepListR7To(list OngoingMeasRepListR7, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR7ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26210,6 +28294,10 @@ func UnmarshalUPEROngoingMeasRepListR7From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR7Into(v *asn1cUPEROngoingMeasRepListR7ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR7, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR7
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26265,6 +28353,10 @@ func MarshalUPEROngoingMeasRepListR8(list OngoingMeasRepListR8Complete) ([]byte,
 func MarshalUPEROngoingMeasRepListR8To(list OngoingMeasRepListR8, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR8ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26298,6 +28390,10 @@ func UnmarshalUPEROngoingMeasRepListR8From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR8Into(v *asn1cUPEROngoingMeasRepListR8ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR8, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR8
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26353,6 +28449,10 @@ func MarshalUPEROngoingMeasRepListR9(list OngoingMeasRepListR9Complete) ([]byte,
 func MarshalUPEROngoingMeasRepListR9To(list OngoingMeasRepListR9, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR9ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26386,6 +28486,10 @@ func UnmarshalUPEROngoingMeasRepListR9From(bb *per.BitBuffer) (OngoingMeasRepLis
 func unmarshalUPEROngoingMeasRepListR9Into(v *asn1cUPEROngoingMeasRepListR9ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR9, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR9
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26441,6 +28545,10 @@ func MarshalUPEROngoingMeasRepListV970extIE(list OngoingMeasRepListV970extIEComp
 func MarshalUPEROngoingMeasRepListV970extIETo(list OngoingMeasRepListV970extIE, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListV970extIEListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26474,6 +28582,10 @@ func UnmarshalUPEROngoingMeasRepListV970extIEFrom(bb *per.BitBuffer) (OngoingMea
 func unmarshalUPEROngoingMeasRepListV970extIEInto(v *asn1cUPEROngoingMeasRepListV970extIEListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListV970extIE, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepV970extIEs
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26529,6 +28641,10 @@ func MarshalUPEROngoingMeasRepListR10(list OngoingMeasRepListR10Complete) ([]byt
 func MarshalUPEROngoingMeasRepListR10To(list OngoingMeasRepListR10, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR10ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26562,6 +28678,10 @@ func UnmarshalUPEROngoingMeasRepListR10From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR10Into(v *asn1cUPEROngoingMeasRepListR10ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR10, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR10
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26617,6 +28737,10 @@ func MarshalUPEROngoingMeasRepListR11(list OngoingMeasRepListR11Complete) ([]byt
 func MarshalUPEROngoingMeasRepListR11To(list OngoingMeasRepListR11, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR11ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26650,6 +28774,10 @@ func UnmarshalUPEROngoingMeasRepListR11From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR11Into(v *asn1cUPEROngoingMeasRepListR11ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR11, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR11
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26705,6 +28833,10 @@ func MarshalUPEROngoingMeasRepListR12(list OngoingMeasRepListR12Complete) ([]byt
 func MarshalUPEROngoingMeasRepListR12To(list OngoingMeasRepListR12, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR12ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26738,6 +28870,10 @@ func UnmarshalUPEROngoingMeasRepListR12From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR12Into(v *asn1cUPEROngoingMeasRepListR12ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR12, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR12
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26793,6 +28929,10 @@ func MarshalUPEROngoingMeasRepListR13(list OngoingMeasRepListR13Complete) ([]byt
 func MarshalUPEROngoingMeasRepListR13To(list OngoingMeasRepListR13, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR13ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26826,6 +28966,10 @@ func UnmarshalUPEROngoingMeasRepListR13From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR13Into(v *asn1cUPEROngoingMeasRepListR13ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR13, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR13
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26881,6 +29025,10 @@ func MarshalUPEROngoingMeasRepListR14(list OngoingMeasRepListR14Complete) ([]byt
 func MarshalUPEROngoingMeasRepListR14To(list OngoingMeasRepListR14, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR14ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -26914,6 +29062,10 @@ func UnmarshalUPEROngoingMeasRepListR14From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR14Into(v *asn1cUPEROngoingMeasRepListR14ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR14, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR14
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -26969,6 +29121,10 @@ func MarshalUPEROngoingMeasRepListR15(list OngoingMeasRepListR15Complete) ([]byt
 func MarshalUPEROngoingMeasRepListR15To(list OngoingMeasRepListR15, bb *per.BitBuffer) error {
 	v := asn1cUPEROngoingMeasRepListR15ListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -27002,6 +29158,10 @@ func UnmarshalUPEROngoingMeasRepListR15From(bb *per.BitBuffer) (OngoingMeasRepLi
 func unmarshalUPEROngoingMeasRepListR15Into(v *asn1cUPEROngoingMeasRepListR15ListValue, bb *per.BitBuffer) error {
 	v.Value = make(OngoingMeasRepListR15, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem OngoingMeasRepR15
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -27481,6 +29641,10 @@ func (v *RFC3095ContextInfo) MarshalUPERTo(bb *per.BitBuffer) error {
 		return fmt.Errorf("encoding rb-Identity: %w", err)
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.Rfc3095ContextList)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, false, func(fragmentOffset_rfc3095contextlist, fragmentLength_rfc3095contextlist int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_rfc3095contextlist < 0 || fragmentOffset_rfc3095contextlist > int64(len(v.Rfc3095ContextList)) || fragmentLength_rfc3095contextlist < 0 || fragmentLength_rfc3095contextlist > int64(len(v.Rfc3095ContextList[fragmentOffset_rfc3095contextlist:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Rfc3095ContextList[fragmentOffset_rfc3095contextlist : fragmentOffset_rfc3095contextlist+fragmentLength_rfc3095contextlist] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding rfc3095-Context-List element: %w", err)
@@ -27516,6 +29680,10 @@ func (v *RFC3095ContextInfo) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	v.RbIdentity = RBIdentity(val_rbidentity)
 	v.Rfc3095ContextList = make(RFC3095ContextList, 0)
 	_, errCollection_rfc3095contextlist := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, false, func(fragmentOffset_rfc3095contextlist, fragmentLength_rfc3095contextlist int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_rfc3095contextlist < 0 || fragmentLength_rfc3095contextlist < 0 || fragmentLength_rfc3095contextlist > int64(^uint(0)>>1) || fragmentOffset_rfc3095contextlist > int64(^uint(0)>>1)-fragmentLength_rfc3095contextlist {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_rfc3095contextlist; i++ {
 			var elem RFC3095ContextListElem
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -27571,6 +29739,10 @@ func MarshalUPERRFC3095ContextList(list RFC3095ContextListComplete) ([]byte, err
 func MarshalUPERRFC3095ContextListTo(list RFC3095ContextList, bb *per.BitBuffer) error {
 	v := asn1cUPERRFC3095ContextListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -27604,6 +29776,10 @@ func UnmarshalUPERRFC3095ContextListFrom(bb *per.BitBuffer) (RFC3095ContextList,
 func unmarshalUPERRFC3095ContextListInto(v *asn1cUPERRFC3095ContextListListValue, bb *per.BitBuffer) error {
 	v.Value = make(RFC3095ContextList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem RFC3095ContextListElem
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -27781,6 +29957,10 @@ func MarshalUPERSRBSpecificIntegrityProtInfoList(list SRBSpecificIntegrityProtIn
 func MarshalUPERSRBSpecificIntegrityProtInfoListTo(list SRBSpecificIntegrityProtInfoList, bb *per.BitBuffer) error {
 	v := asn1cUPERSRBSpecificIntegrityProtInfoListListValue{Value: list}
 	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding value element: %w", err)
@@ -27814,6 +29994,10 @@ func UnmarshalUPERSRBSpecificIntegrityProtInfoListFrom(bb *per.BitBuffer) (SRBSp
 func unmarshalUPERSRBSpecificIntegrityProtInfoListInto(v *asn1cUPERSRBSpecificIntegrityProtInfoListListValue, bb *per.BitBuffer) error {
 	v.Value = make(SRBSpecificIntegrityProtInfoList, 0)
 	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 4, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem SRBSpecificIntegrityProtInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -29043,6 +31227,10 @@ func (v *RFC3095ContextInfoR5R5) MarshalUPERTo(bb *per.BitBuffer) error {
 		return err
 	}
 	if err := per.EncodeCollection(bb, int64(len(v.RFC3095ContextInfoListR5)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rfc3095contextinfolistr5, fragmentLength_rfc3095contextinfolistr5 int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_rfc3095contextinfolistr5 < 0 || fragmentOffset_rfc3095contextinfolistr5 > int64(len(v.RFC3095ContextInfoListR5)) || fragmentLength_rfc3095contextinfolistr5 < 0 || fragmentLength_rfc3095contextinfolistr5 > int64(len(v.RFC3095ContextInfoListR5[fragmentOffset_rfc3095contextinfolistr5:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
 		for _, elem := range v.RFC3095ContextInfoListR5[fragmentOffset_rfc3095contextinfolistr5 : fragmentOffset_rfc3095contextinfolistr5+fragmentLength_rfc3095contextinfolistr5] {
 			if err := elem.MarshalUPERTo(bb); err != nil {
 				return fmt.Errorf("encoding rFC3095-ContextInfoList-r5 element: %w", err)
@@ -29083,6 +31271,10 @@ func (v *RFC3095ContextInfoR5R5) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	}
 	v.RFC3095ContextInfoListR5 = make(RFC3095ContextInfoListR5, 0)
 	_, errCollection_rfc3095contextinfolistr5 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 27, HasUpper: true}, false, func(fragmentOffset_rfc3095contextinfolistr5, fragmentLength_rfc3095contextinfolistr5 int64) error {
+		// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+		if fragmentOffset_rfc3095contextinfolistr5 < 0 || fragmentLength_rfc3095contextinfolistr5 < 0 || fragmentLength_rfc3095contextinfolistr5 > int64(^uint(0)>>1) || fragmentOffset_rfc3095contextinfolistr5 > int64(^uint(0)>>1)-fragmentLength_rfc3095contextinfolistr5 {
+			return fmt.Errorf("collection fragment count out of range")
+		}
 		for i := int64(0); i < fragmentLength_rfc3095contextinfolistr5; i++ {
 			var elem RFC3095ContextInfo
 			if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -30310,6 +32502,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3) MarshalUPERTo(bb *per.BitBuffer) error
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -30353,6 +32549,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -31086,6 +33286,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensions) MarshalUPERTo(bb *pe
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -31129,6 +33333,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensions) UnmarshalUPERFrom(bb
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -31744,6 +33952,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions) Ma
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -31787,6 +33999,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensions) Un
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -32180,6 +34396,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -32223,6 +34443,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -32498,6 +34722,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -32541,6 +34769,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -32861,6 +35093,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -32904,6 +35140,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -33224,6 +35464,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -33267,6 +35511,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -33528,6 +35776,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -33571,6 +35823,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -33714,6 +35970,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -33757,6 +36017,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -33900,6 +36164,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -33943,6 +36211,10 @@ func (v *SRNCRelocationInfoR3LaterThanR3CriticalExtensionsCriticalExtensionsCrit
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -34086,6 +36358,10 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfo) MarshalUPERTo(bb *per.BitBuffe
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR3IEsModeSpecificInfo: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -34123,6 +36399,10 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfo) UnmarshalUPERFrom(bb *per.BitB
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -34162,6 +36442,10 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfoFdd) MarshalUPERTo(bb *per.BitBu
 	}
 	if v.Dummy2 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.Dummy2)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dummy2 < 0 || fragmentOffset_dummy2 > int64(len(v.Dummy2)) || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(len(v.Dummy2[fragmentOffset_dummy2:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.Dummy2[fragmentOffset_dummy2 : fragmentOffset_dummy2+fragmentLength_dummy2] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dummy2 element: %w", err)
@@ -34211,6 +36495,10 @@ func (v *SRNCRelocationInfoR3IEsModeSpecificInfoFdd) UnmarshalUPERFrom(bb *per.B
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dummy2; i++ {
 				var elem DRACStaticInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -34273,6 +36561,10 @@ func (v *StoredTGPSequenceCurrentTgpsStatus) MarshalUPERTo(bb *per.BitBuffer) er
 	if v.Choice < 1 {
 		return fmt.Errorf("StoredTGPSequenceCurrentTgpsStatus: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -34310,6 +36602,10 @@ func (v *StoredTGPSequenceCurrentTgpsStatus) UnmarshalUPERFrom(bb *per.BitBuffer
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -34378,6 +36674,10 @@ func (v *StoredTGPSequenceR8CurrentTgpsStatus) MarshalUPERTo(bb *per.BitBuffer) 
 	if v.Choice < 1 {
 		return fmt.Errorf("StoredTGPSequenceR8CurrentTgpsStatus: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -34415,6 +36715,10 @@ func (v *StoredTGPSequenceR8CurrentTgpsStatus) UnmarshalUPERFrom(bb *per.BitBuff
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -34483,6 +36787,10 @@ func (v *SRNCRelocationInfoR4IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR4IEsDummy: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -34520,6 +36828,10 @@ func (v *SRNCRelocationInfoR4IEsDummy) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -34559,6 +36871,10 @@ func (v *SRNCRelocationInfoR4IEsDummyFdd) MarshalUPERTo(bb *per.BitBuffer) error
 	}
 	if v.Dummy2 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.Dummy2)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dummy2 < 0 || fragmentOffset_dummy2 > int64(len(v.Dummy2)) || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(len(v.Dummy2[fragmentOffset_dummy2:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.Dummy2[fragmentOffset_dummy2 : fragmentOffset_dummy2+fragmentLength_dummy2] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dummy2 element: %w", err)
@@ -34608,6 +36924,10 @@ func (v *SRNCRelocationInfoR4IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dummy2; i++ {
 				var elem DRACStaticInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -34637,6 +36957,10 @@ func (v *SRNCRelocationInfoR5IEsDummy) MarshalUPER() ([]byte, error) {
 func (v *SRNCRelocationInfoR5IEsDummy) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoR5IEsDummy: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -34676,6 +37000,10 @@ func (v *SRNCRelocationInfoR5IEsDummy) UnmarshalUPERFrom(bb *per.BitBuffer) erro
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case SRNCRelocationInfoR5IEsDummyChoiceFdd:
@@ -34714,6 +37042,10 @@ func (v *SRNCRelocationInfoR5IEsDummyFdd) MarshalUPERTo(bb *per.BitBuffer) error
 	}
 	if v.Dummy2 != nil {
 		if err := per.EncodeCollection(bb, int64(len(v.Dummy2)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_dummy2 < 0 || fragmentOffset_dummy2 > int64(len(v.Dummy2)) || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(len(v.Dummy2[fragmentOffset_dummy2:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.Dummy2[fragmentOffset_dummy2 : fragmentOffset_dummy2+fragmentLength_dummy2] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding dummy2 element: %w", err)
@@ -34763,6 +37095,10 @@ func (v *SRNCRelocationInfoR5IEsDummyFdd) UnmarshalUPERFrom(bb *per.BitBuffer) e
 	if opt_dummy2 {
 		tmp_dummy2 := make(DRACStaticInformationList, 0)
 		_, errCollection_dummy2 := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, false, func(fragmentOffset_dummy2, fragmentLength_dummy2 int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_dummy2 < 0 || fragmentLength_dummy2 < 0 || fragmentLength_dummy2 > int64(^uint(0)>>1) || fragmentOffset_dummy2 > int64(^uint(0)>>1)-fragmentLength_dummy2 {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_dummy2; i++ {
 				var elem DRACStaticInformation
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -34975,6 +37311,10 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions) MarshalUPE
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -35018,6 +37358,10 @@ func (v *SRNCRelocationInfoLaterCriticalExtensionsCriticalExtensions) UnmarshalU
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -35161,6 +37505,10 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions) MarshalUP
 	if v.Choice < 1 {
 		return fmt.Errorf("SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -35204,6 +37552,10 @@ func (v *SRNCRelocationInfoCriticalExtensionsR15IEsCriticalExtensions) Unmarshal
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -35379,6 +37731,10 @@ func (v *DLPhysChCapabilityFDDR5FddHspdsch) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("DLPhysChCapabilityFDDR5FddHspdsch: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -35416,6 +37772,10 @@ func (v *DLPhysChCapabilityFDDR5FddHspdsch) UnmarshalUPERFrom(bb *per.BitBuffer)
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -35500,6 +37860,10 @@ func (v *DLPhysChCapabilityTDDR5Tdd384Hspdsch) MarshalUPERTo(bb *per.BitBuffer) 
 	if v.Choice < 1 {
 		return fmt.Errorf("DLPhysChCapabilityTDDR5Tdd384Hspdsch: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -35538,6 +37902,10 @@ func (v *DLPhysChCapabilityTDDR5Tdd384Hspdsch) UnmarshalUPERFrom(bb *per.BitBuff
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLPhysChCapabilityTDDR5Tdd384HspdschChoiceSupported:
@@ -35565,6 +37933,10 @@ func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) MarshalUPER() ([]byte, error) 
 func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -35604,6 +37976,10 @@ func (v *DLPhysChCapabilityTDDLCRR5Tdd128Hspdsch) UnmarshalUPERFrom(bb *per.BitB
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case DLPhysChCapabilityTDDLCRR5Tdd128HspdschChoiceSupported:
@@ -35632,12 +38008,20 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) MarshalUPERTo(bb *per.BitBuf
 	if v.Choice < 1 {
 		return fmt.Errorf("OngoingMeasRepR5MeasurementCommandV590ext: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
 	switch v.Choice {
 	case OngoingMeasRepR5MeasurementCommandV590extChoiceIntraFrequency:
 		if err := per.EncodeCollection(bb, int64(len(v.IntraFrequency)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_intrafrequency, fragmentLength_intrafrequency int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_intrafrequency < 0 || fragmentOffset_intrafrequency > int64(len(v.IntraFrequency)) || fragmentLength_intrafrequency < 0 || fragmentLength_intrafrequency > int64(len(v.IntraFrequency[fragmentOffset_intrafrequency:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.IntraFrequency[fragmentOffset_intrafrequency : fragmentOffset_intrafrequency+fragmentLength_intrafrequency] {
 				if err := per.EncodeInteger(bb, int64(elem), int64Ptr(-5), int64Ptr(-1), false); err != nil {
 					return fmt.Errorf("encoding intra-frequency element: %w", err)
@@ -35649,6 +38033,10 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) MarshalUPERTo(bb *per.BitBuf
 		}
 	case OngoingMeasRepR5MeasurementCommandV590extChoiceInterFrequency:
 		if err := per.EncodeCollection(bb, int64(len(v.InterFrequency)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_interfrequency, fragmentLength_interfrequency int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_interfrequency < 0 || fragmentOffset_interfrequency > int64(len(v.InterFrequency)) || fragmentLength_interfrequency < 0 || fragmentLength_interfrequency > int64(len(v.InterFrequency[fragmentOffset_interfrequency:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
 			for _, elem := range v.InterFrequency[fragmentOffset_interfrequency : fragmentOffset_interfrequency+fragmentLength_interfrequency] {
 				if err := elem.MarshalUPERTo(bb); err != nil {
 					return fmt.Errorf("encoding inter-frequency element: %w", err)
@@ -35684,11 +38072,19 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPERFrom(bb *per.Bi
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case OngoingMeasRepR5MeasurementCommandV590extChoiceIntraFrequency:
 		tmp_intrafrequency := make(IntraFreqEventCriteriaListV590ext, 0)
 		_, errCollection_intrafrequency := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_intrafrequency, fragmentLength_intrafrequency int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1188
+			if fragmentOffset_intrafrequency < 0 || fragmentLength_intrafrequency < 0 || fragmentLength_intrafrequency > int64(^uint(0)>>1) || fragmentOffset_intrafrequency > int64(^uint(0)>>1)-fragmentLength_intrafrequency {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_intrafrequency; i++ {
 				val, err := per.DecodeInteger(bb, int64Ptr(-5), int64Ptr(-1), false)
 				if err != nil {
@@ -35705,6 +38101,10 @@ func (v *OngoingMeasRepR5MeasurementCommandV590ext) UnmarshalUPERFrom(bb *per.Bi
 	case OngoingMeasRepR5MeasurementCommandV590extChoiceInterFrequency:
 		tmp_interfrequency := make(InterFreqEventCriteriaListV590ext, 0)
 		_, errCollection_interfrequency := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, false, func(fragmentOffset_interfrequency, fragmentLength_interfrequency int64) error {
+			// arithmetic pattern UPER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_uper.go:1153
+			if fragmentOffset_interfrequency < 0 || fragmentLength_interfrequency < 0 || fragmentLength_interfrequency > int64(^uint(0)>>1) || fragmentOffset_interfrequency > int64(^uint(0)>>1)-fragmentLength_interfrequency {
+				return fmt.Errorf("collection fragment count out of range")
+			}
 			for i := int64(0); i < fragmentLength_interfrequency; i++ {
 				var elem InterFreqEventCriteriaV590ext
 				if err := elem.UnmarshalUPERFrom(bb); err != nil {
@@ -35734,6 +38134,10 @@ func (v *PDCPCapabilityR4SupportForRfc2507) MarshalUPER() ([]byte, error) {
 func (v *PDCPCapabilityR4SupportForRfc2507) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR4SupportForRfc2507: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -35773,6 +38177,10 @@ func (v *PDCPCapabilityR4SupportForRfc2507) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case PDCPCapabilityR4SupportForRfc2507ChoiceNotSupported:
@@ -35800,6 +38208,10 @@ func (v *PDCPCapabilityR4SupportForRfc3095) MarshalUPER() ([]byte, error) {
 func (v *PDCPCapabilityR4SupportForRfc3095) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR4SupportForRfc3095: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -35838,6 +38250,10 @@ func (v *PDCPCapabilityR4SupportForRfc3095) UnmarshalUPERFrom(bb *per.BitBuffer)
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -35939,6 +38355,10 @@ func (v *PDCPCapabilityR5SupportForRfc2507) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR5SupportForRfc2507: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -35977,6 +38397,10 @@ func (v *PDCPCapabilityR5SupportForRfc2507) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case PDCPCapabilityR5SupportForRfc2507ChoiceNotSupported:
@@ -36004,6 +38428,10 @@ func (v *PDCPCapabilityR5SupportForRfc3095) MarshalUPER() ([]byte, error) {
 func (v *PDCPCapabilityR5SupportForRfc3095) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR5SupportForRfc3095: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -36042,6 +38470,10 @@ func (v *PDCPCapabilityR5SupportForRfc3095) UnmarshalUPERFrom(bb *per.BitBuffer)
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
@@ -36151,6 +38583,10 @@ func (v *PDCPCapabilityR6SupportForRfc2507) MarshalUPERTo(bb *per.BitBuffer) err
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR6SupportForRfc2507: choice %d must be positive", v.Choice)
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
@@ -36189,6 +38625,10 @@ func (v *PDCPCapabilityR6SupportForRfc2507) UnmarshalUPERFrom(bb *per.BitBuffer)
 	if err != nil {
 		return err
 	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case PDCPCapabilityR6SupportForRfc2507ChoiceNotSupported:
@@ -36216,6 +38656,10 @@ func (v *PDCPCapabilityR6SupportForRfc3095) MarshalUPER() ([]byte, error) {
 func (v *PDCPCapabilityR6SupportForRfc3095) MarshalUPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PDCPCapabilityR6SupportForRfc3095: choice %d must be positive", v.Choice)
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_uper.go:152
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
 	}
 	if err := per.EncodeConstrainedWholeNumber(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
@@ -36254,6 +38698,10 @@ func (v *PDCPCapabilityR6SupportForRfc3095) UnmarshalUPERFrom(bb *per.BitBuffer)
 	idx, err := per.DecodeConstrainedWholeNumber(bb, 0, 1)
 	if err != nil {
 		return err
+	}
+	// arithmetic pattern UPER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_uper.go:238
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {

@@ -2,6 +2,7 @@ package per
 
 import (
 	"fmt"
+	"math"
 	"math/bits"
 )
 
@@ -43,17 +44,29 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
 		// The length determinant precedes octet alignment of the value.
-		n := (bits.Len64(offset) + 7) / 8
+		var n int
+		n, err := octetsForBitLength(bits.Len64(offset))
+		if err != nil {
+			return err
+		}
 		if n == 0 {
 			n = 1
 		}
 		// Length determinant: number of bytes needed, encoded as constrained [1..maxBytes].
-		maxBytes := (bits.Len64(rangeValue) + 7) / 8
+		var maxBytes int
+		maxBytes, err = octetsForBitLength(bits.Len64(rangeValue))
+		if err != nil {
+			return err
+		}
 		if err := EncodeConstrainedWholeNumber(bb, int64(n), 1, int64(maxBytes)); err != nil {
 			return err
 		}
 		bb.AlignToOctetWrite()
-		for i := n - 1; i >= 0; i-- {
+		for i := n; i > 0; {
+			i--
+			if i >= 8 {
+				return fmt.Errorf("%w: constrained INTEGER octet index %d", ErrInvalidValue, i)
+			}
 			if err := bb.WriteBits((offset>>(uint(i)*8))&0xFF, 8); err != nil {
 				return err
 			}
@@ -107,26 +120,37 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
 		// The length determinant precedes octet alignment of the value.
-		maxBytes := (bits.Len64(rangeValue) + 7) / 8
+		var maxBytes int
+		maxBytes, err := octetsForBitLength(bits.Len64(rangeValue))
+		if err != nil {
+			return 0, err
+		}
 		n, err := DecodeConstrainedWholeNumber(bb, 1, int64(maxBytes))
 		if err != nil {
 			return 0, err
 		}
-		if err := bb.AlignToOctetRead(); err != nil {
-			return 0, err
+		if n >= 1 && n <= 8 {
+			if err := bb.AlignToOctetRead(); err != nil {
+				return 0, err
+			}
+			var data []byte
+			data, err = bb.ReadBytes(int(n))
+			if err != nil {
+				return 0, err
+			}
+			var val uint64
+			for _, b := range data {
+				if val > math.MaxUint64>>8 {
+					return 0, fmt.Errorf("%w: constrained INTEGER exceeds uint64", ErrInvalidValue)
+				}
+				val = (val << 8) | uint64(b)
+			}
+			if val > rangeValue {
+				return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, val, lb, ub)
+			}
+			return addNonNegativeOffset(lb, val)
 		}
-		data, err := bb.ReadBytes(int(n))
-		if err != nil {
-			return 0, err
-		}
-		var val uint64
-		for _, b := range data {
-			val = (val << 8) | uint64(b)
-		}
-		if val > rangeValue {
-			return 0, fmt.Errorf("%w: constrained offset %d exceeds range [%d..%d]", ErrInvalidValue, val, lb, ub)
-		}
-		return addNonNegativeOffset(lb, val)
+		return 0, fmt.Errorf("%w: constrained INTEGER length %d", ErrInvalidValue, n)
 	}
 }
 
@@ -151,6 +175,9 @@ func EncodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, v, lb int64) error {
 		return fmt.Errorf("%w: %d below lower bound %d", ErrConstraintViolation, v, lb)
 	}
 	buf := minimalUnsignedBytes(uint64(v) - uint64(lb))
+	if len(buf) > math.MaxInt/8 {
+		return fmt.Errorf("%w: semi-constrained INTEGER exceeds bit-buffer capacity", ErrInvalidValue)
+	}
 	if err := EncodeUnconstrainedLengthAligned(bb, int64(len(buf))); err != nil {
 		return err
 	}
@@ -166,15 +193,19 @@ func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (int64, er
 	if length == 0 {
 		return lb, nil
 	}
-	if length > 8 {
+	if length < 0 || length > 8 {
 		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
 	}
-	data, err := bb.ReadBytes(int(length))
+	var data []byte
+	data, err = bb.ReadBytes(int(length))
 	if err != nil {
 		return 0, err
 	}
 	var val uint64
 	for _, b := range data {
+		if val > math.MaxUint64>>8 {
+			return 0, fmt.Errorf("%w: semi-constrained INTEGER exceeds uint64", ErrInvalidValue)
+		}
 		val = (val << 8) | uint64(b)
 	}
 	return addNonNegativeOffset(lb, val)
@@ -242,6 +273,9 @@ func DecodeNormallySmallNonNegativeAligned(bb *BitBuffer) (int64, error) {
 		if err != nil {
 			return 0, err
 		}
+		if val > 63 {
+			return 0, fmt.Errorf("%w: normally small INTEGER exceeds six bits", ErrInvalidValue)
+		}
 		return int64(val), nil
 	}
 	return DecodeSemiConstrainedWholeNumberAligned(bb, 0)
@@ -304,8 +338,13 @@ func DecodeIntegerAligned(bb *BitBuffer, lb, ub *int64, extensible bool) (int64,
 
 // EncodeEnumeratedAligned encodes an enumerated value using APER rules.
 func EncodeEnumeratedAligned(bb *BitBuffer, v int64, rootCount int, extensible bool) error {
-	if rootCount < 0 {
-		return fmt.Errorf("%w: negative ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	// X.680 (02/2021) §20.1 requires a root EnumerationItem; X.691
+	// (02/2021) §§14.2, 13.2.1 omit the index only for a singleton root.
+	if rootCount <= 0 {
+		return fmt.Errorf("%w: nonpositive ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	}
+	if v < 0 || !extensible && v >= int64(rootCount) {
+		return fmt.Errorf("%w: ENUMERATED index %d outside %d root values", ErrInvalidValue, v, rootCount)
 	}
 	if extensible {
 		isExtension := v >= int64(rootCount)
@@ -313,6 +352,9 @@ func EncodeEnumeratedAligned(bb *BitBuffer, v int64, rootCount int, extensible b
 			return err
 		}
 		if isExtension {
+			if v < int64(rootCount) {
+				return fmt.Errorf("%w: ENUMERATED extension index below root", ErrInvalidValue)
+			}
 			return EncodeNormallySmallNonNegativeAligned(bb, v-int64(rootCount))
 		}
 	}
@@ -324,8 +366,8 @@ func EncodeEnumeratedAligned(bb *BitBuffer, v int64, rootCount int, extensible b
 
 // DecodeEnumeratedAligned decodes an enumerated value using APER rules.
 func DecodeEnumeratedAligned(bb *BitBuffer, rootCount int, extensible bool) (int64, error) {
-	if rootCount < 0 {
-		return 0, fmt.Errorf("%w: negative ENUMERATED root count %d", ErrInvalidValue, rootCount)
+	if rootCount <= 0 {
+		return 0, fmt.Errorf("%w: nonpositive ENUMERATED root count %d", ErrInvalidValue, rootCount)
 	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
@@ -373,6 +415,9 @@ func EncodeBitStringAlignedExt(bb *BitBuffer, data []byte, bitLen int, lb, ub in
 		if int64(bitLen) != lb {
 			return fmt.Errorf("%w: BIT STRING length %d does not match fixed SIZE(%d)", ErrConstraintViolation, bitLen, lb)
 		}
+		if lb < 0 || lb > int64(math.MaxInt) {
+			return fmt.Errorf("%w: BIT STRING length exceeds host int", ErrInvalidValue)
+		}
 		if lb > 16 {
 			bb.AlignToOctetWrite()
 		}
@@ -410,6 +455,9 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
+		if lb < 0 || lb > int64(math.MaxInt) {
+			return nil, 0, fmt.Errorf("%w: BIT STRING length exceeds host int", ErrInvalidValue)
+		}
 		if lb > 16 {
 			if err := bb.AlignToOctetRead(); err != nil {
 				return nil, 0, err
@@ -431,7 +479,9 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 			}
 		}
 	} else {
-		data, decodedLength, err := decodeLengthDelimitedBitsBounded(bb, true, rootSizeMaximum(ub, constrained))
+		var data []byte
+		var decodedLength int
+		data, decodedLength, err = decodeLengthDelimitedBitsBounded(bb, true, rootSizeMaximum(ub, constrained))
 		if err == nil {
 			err = validateRootSize(int64(decodedLength), lb, ub, constrained)
 		}
@@ -439,6 +489,9 @@ func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensi
 	}
 	if err := validateRootSize(bitLen, lb, ub, constrained); err != nil {
 		return nil, 0, err
+	}
+	if bitLen < 0 || bitLen > int64(math.MaxInt) {
+		return nil, 0, fmt.Errorf("%w: BIT STRING length exceeds host int", ErrInvalidValue)
 	}
 	data, err := bb.ReadBitsToBytes(int(bitLen))
 	return data, int(bitLen), err
@@ -509,6 +562,9 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 		}
 	}
 	if fixedRootSizeOmitsLength(lb, ub, constrained) {
+		if lb < 0 || lb > int64(math.MaxInt) {
+			return nil, fmt.Errorf("%w: OCTET STRING length exceeds host int", ErrInvalidValue)
+		}
 		if lb > 2 {
 			if err := bb.AlignToOctetRead(); err != nil {
 				return nil, err
@@ -529,7 +585,8 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 			}
 		}
 	} else {
-		data, err := decodeLengthDelimitedOctetsBounded(bb, true, rootSizeMaximum(ub, constrained))
+		var data []byte
+		data, err = decodeLengthDelimitedOctetsBounded(bb, true, rootSizeMaximum(ub, constrained))
 		if err == nil {
 			err = validateRootSize(int64(len(data)), lb, ub, constrained)
 		}
@@ -537,6 +594,9 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 	}
 	if err := validateRootSize(length, lb, ub, constrained); err != nil {
 		return nil, err
+	}
+	if length < 0 || length > int64(math.MaxInt) {
+		return nil, fmt.Errorf("%w: OCTET STRING length exceeds host int", ErrInvalidValue)
 	}
 	return bb.ReadBytes(int(length))
 }
@@ -683,8 +743,13 @@ func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
 
 // EncodeChoiceIndexAligned encodes a CHOICE index (APER).
 func EncodeChoiceIndexAligned(bb *BitBuffer, index int64, numAlternatives int, extensible bool) error {
-	if numAlternatives < 0 {
-		return fmt.Errorf("%w: negative CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	// X.680 (02/2021) §29.1 requires a root NamedType; X.691
+	// (02/2021) §23.4 omits the index only for a singleton root.
+	if numAlternatives <= 0 {
+		return fmt.Errorf("%w: nonpositive CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	}
+	if index < 0 || !extensible && index >= int64(numAlternatives) {
+		return fmt.Errorf("%w: CHOICE index %d outside %d root alternatives", ErrInvalidValue, index, numAlternatives)
 	}
 	if extensible {
 		isExtension := index >= int64(numAlternatives)
@@ -692,6 +757,9 @@ func EncodeChoiceIndexAligned(bb *BitBuffer, index int64, numAlternatives int, e
 			return err
 		}
 		if isExtension {
+			if index < int64(numAlternatives) {
+				return fmt.Errorf("%w: CHOICE extension index below root", ErrInvalidValue)
+			}
 			return EncodeNormallySmallNonNegativeAligned(bb, index-int64(numAlternatives))
 		}
 	}
@@ -703,8 +771,8 @@ func EncodeChoiceIndexAligned(bb *BitBuffer, index int64, numAlternatives int, e
 
 // DecodeChoiceIndexAligned decodes a CHOICE index (APER).
 func DecodeChoiceIndexAligned(bb *BitBuffer, numAlternatives int, extensible bool) (int64, bool, error) {
-	if numAlternatives < 0 {
-		return 0, false, fmt.Errorf("%w: negative CHOICE root count %d", ErrInvalidValue, numAlternatives)
+	if numAlternatives <= 0 {
+		return 0, false, fmt.Errorf("%w: nonpositive CHOICE root count %d", ErrInvalidValue, numAlternatives)
 	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)

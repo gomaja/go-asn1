@@ -859,7 +859,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
-			result := CSGId{Bytes: bytes, BitLength: int(bitLen)}
+			result := CSGId{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 145: // id-CellAccessMode -> CellAccessMode (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -1083,7 +1083,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
-			result := CSGId{Bytes: bytes, BitLength: int(bitLen)}
+			result := CSGId{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -1127,7 +1127,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
-			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
+			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 196: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
@@ -1211,7 +1211,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
-			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 301: // id-IAB-Authorized -> IABAuthorized (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -1309,7 +1309,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
-			result := CSGId{Bytes: bytes, BitLength: int(bitLen)}
+			result := CSGId{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
@@ -1488,7 +1488,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
-			result := CSGId{Bytes: bytes, BitLength: int(bitLen)}
+			result := CSGId{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 145: // id-CellAccessMode -> CellAccessMode (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -1708,7 +1708,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
-			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 306: // id-NRV2XServicesAuthorized -> NRV2XServicesAuthorized
 			var v NRV2XServicesAuthorized
@@ -2299,7 +2299,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SecurityKey (%d): %w", ieId, err)
 			}
-			result := SecurityKey{Bytes: bytes, BitLength: int(bitLen)}
+			result := SecurityKey{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 25: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
@@ -2401,7 +2401,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
-			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
+			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 196: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
@@ -2485,7 +2485,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
-			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 301: // id-IAB-Authorized -> IABAuthorized (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -2632,7 +2632,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEIdentityIndexValue (%d): %w", ieId, err)
 			}
-			result := UEIdentityIndexValue{Bytes: bytes, BitLength: int(bitLen)}
+			result := UEIdentityIndexValue{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 43: // id-UEPagingID -> UEPagingID
 			var v UEPagingID
@@ -2702,7 +2702,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ExtendedUEIdentityIndexValue (%d): %w", ieId, err)
 			}
-			result := ExtendedUEIdentityIndexValue{Bytes: bytes, BitLength: int(bitLen)}
+			result := ExtendedUEIdentityIndexValue{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 239: // id-NB-IoT-Paging-eDRXInformation -> NBIoTPagingEDRXInformation
 			var v NBIoTPagingEDRXInformation
@@ -2716,7 +2716,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NBIoTUEIdentityIndexValue (%d): %w", ieId, err)
 			}
-			result := NBIoTUEIdentityIndexValue{Bytes: bytes, BitLength: int(bitLen)}
+			result := NBIoTUEIdentityIndexValue{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 251: // id-EnhancedCoverageRestricted -> EnhancedCoverageRestricted (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -2908,7 +2908,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SecurityKey (%d): %w", ieId, err)
 			}
-			result := SecurityKey{Bytes: bytes, BitLength: int(bitLen)}
+			result := SecurityKey{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 106: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3014,7 +3014,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
-			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 301: // id-IAB-Authorized -> IABAuthorized (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3305,7 +3305,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
-			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3321,7 +3321,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
-			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
+			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3382,7 +3382,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
-			result := CSGId{Bytes: bytes, BitLength: int(bitLen)}
+			result := CSGId{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 75: // id-GUMMEI-ID -> GUMMEI
 			var v GUMMEI
@@ -3404,7 +3404,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
-			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 160: // id-RelayNode-Indicator -> RelayNodeIndicator (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3434,7 +3434,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
-			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 186: // id-LHN-ID -> LHNID (OCTET_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3490,7 +3490,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEApplicationLayerMeasurementCapability (%d): %w", ieId, err)
 			}
-			result := UEApplicationLayerMeasurementCapability{Bytes: bytes, BitLength: int(bitLen)}
+			result := UEApplicationLayerMeasurementCapability{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 281: // id-EDT-Session -> EDTSession (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3567,7 +3567,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
-			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 184: // id-SIPTO-L-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -3575,7 +3575,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
-			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 186: // id-LHN-ID -> LHNID (OCTET_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4235,7 +4235,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEApplicationLayerMeasurementCapability (%d): %w", ieId, err)
 			}
-			result := UEApplicationLayerMeasurementCapability{Bytes: bytes, BitLength: int(bitLen)}
+			result := UEApplicationLayerMeasurementCapability{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 272: // id-LTE-M-Indication -> LTEMIndication (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4435,7 +4435,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
-			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 166: // id-PrivacyIndicator -> PrivacyIndicator (ENUMERATED)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4585,7 +4585,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
-			result := MessageIdentifier{Bytes: bytes, BitLength: int(bitLen)}
+			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4593,7 +4593,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
-			result := SerialNumber{Bytes: bytes, BitLength: int(bitLen)}
+			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 113: // id-WarningAreaList -> WarningAreaList
 			var v WarningAreaList
@@ -4647,7 +4647,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DataCodingScheme (%d): %w", ieId, err)
 			}
-			result := DataCodingScheme{Bytes: bytes, BitLength: int(bitLen)}
+			result := DataCodingScheme{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 119: // id-WarningMessageContents -> WarningMessageContents (OCTET_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4682,7 +4682,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
-			result := MessageIdentifier{Bytes: bytes, BitLength: int(bitLen)}
+			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4690,7 +4690,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
-			result := SerialNumber{Bytes: bytes, BitLength: int(bitLen)}
+			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 120: // id-BroadcastCompletedAreaList -> BroadcastCompletedAreaList
 			var v BroadcastCompletedAreaList
@@ -4777,7 +4777,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
-			result := MessageIdentifier{Bytes: bytes, BitLength: int(bitLen)}
+			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4785,7 +4785,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
-			result := SerialNumber{Bytes: bytes, BitLength: int(bitLen)}
+			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 113: // id-WarningAreaList -> WarningAreaList
 			var v WarningAreaList
@@ -4810,7 +4810,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
-			result := MessageIdentifier{Bytes: bytes, BitLength: int(bitLen)}
+			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -4818,7 +4818,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
-			result := SerialNumber{Bytes: bytes, BitLength: int(bitLen)}
+			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 141: // id-BroadcastCancelledAreaList -> BroadcastCancelledAreaList
 			var v BroadcastCancelledAreaList
@@ -5465,7 +5465,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
-			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
+			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -5527,7 +5527,7 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
-			result := MaskedIMEISV{Bytes: bytes, BitLength: int(bitLen)}
+			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		}
 	case "ENBCPRelocationIndicationIEs":
@@ -5742,7 +5742,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsExtended (%d): %w", extensionId, err)
 			}
-			result := ReceiveStatusOfULPDCPSDUsExtended{Bytes: bytes, BitLength: int(bitLen)}
+			result := ReceiveStatusOfULPDCPSDUsExtended{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 217: // id-ULCOUNTValuePDCP-SNlength18 -> COUNTvaluePDCPSNlength18
 			var v COUNTvaluePDCPSNlength18
@@ -5762,7 +5762,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsPDCPSNlength18 (%d): %w", extensionId, err)
 			}
-			result := ReceiveStatusOfULPDCPSDUsPDCPSNlength18{Bytes: bytes, BitLength: int(bitLen)}
+			result := ReceiveStatusOfULPDCPSDUsPDCPSNlength18{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		}
 	case "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs":
@@ -5788,7 +5788,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
 			}
-			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 332: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
@@ -5802,7 +5802,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
 			}
-			result := TransportLayerAddress{Bytes: bytes, BitLength: int(bitLen)}
+			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		}
 	case "E-RABQoSParameters-ExtIEs":
@@ -5928,7 +5928,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTLocationInfo (%d): %w", extensionId, err)
 			}
-			result := MDTLocationInfo{Bytes: bytes, BitLength: int(bitLen)}
+			result := MDTLocationInfo{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 220: // id-M6Configuration -> M6Configuration
 			var v M6Configuration
@@ -6141,7 +6141,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MobilityInformation (%d): %w", extensionId, err)
 			}
-			result := MobilityInformation{Bytes: bytes, BitLength: int(bitLen)}
+			result := MobilityInformation{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 194: // id-uE-HistoryInformationFromTheUE -> UEHistoryInformationFromTheUE (OCTET_STRING)
 			bb := per.NewBitBufferFromBytes(data)
@@ -6165,7 +6165,7 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
 			}
-			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: int(bitLen)}
+			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
 			return &result, nil
 		case 300: // id-ContextatSource -> ContextatSource
 			var v ContextatSource

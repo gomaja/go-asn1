@@ -20,7 +20,10 @@ type berWorkBudget struct {
 
 func (budget *berWorkBudget) charge(size int) error {
 	if size < 0 || budget.elements < 0 || budget.elements >= budget.limits.MaxElements ||
-		budget.bytes < 0 || budget.bytes > budget.limits.MaxWork || size > budget.limits.MaxWork-budget.bytes {
+		budget.bytes < 0 || budget.bytes > budget.limits.MaxWork {
+		return fmt.Errorf("%w: BER element or total-work limit exceeded", ErrInvalidValue)
+	}
+	if size > budget.limits.MaxWork-budget.bytes {
 		return fmt.Errorf("%w: BER element or total-work limit exceeded", ErrInvalidValue)
 	}
 	budget.elements++
@@ -59,7 +62,8 @@ func DecodeTag(data []byte) (tag.Tag, int, error) {
 		// X.690 (02/2021) §8.1.2.4–8.1.2.5 and Erratum 1
 		// (09/2021, Figure 4): the first group is nonzero and the
 		// accumulated number must fit the tag representation.
-		if offset == 2 && group == 0 || t.Number > (math.MaxInt-group)>>7 {
+		if offset == 2 && group == 0 || t.Number > math.MaxInt>>7 ||
+			t.Number == math.MaxInt>>7 && group > math.MaxInt&0x7f {
 			return tag.Tag{}, 0, fmt.Errorf("%w: non-minimal or overflowing high-tag number", ErrInvalidTag)
 		}
 		t.Number = (t.Number << 7) | group
@@ -89,8 +93,10 @@ func DecodeLength(data []byte) (length int, indefinite bool, consumed int, err e
 	}
 
 	numBytes := int(b & 0x7F)
-	if numBytes > 4 || numBytes == 0 {
-		return 0, false, 0, fmt.Errorf("%w: length field too large (%d bytes)", ErrInvalidLength, numBytes)
+	// X.690 (02/2021) §8.1.3.5 permits up to 126 subsequent octets;
+	// 0xff is reserved. Leading zero length octets are valid in BER.
+	if numBytes == 0 || numBytes == 127 {
+		return 0, false, 0, fmt.Errorf("%w: reserved length-of-length (%d bytes)", ErrInvalidLength, numBytes)
 	}
 	if 1+numBytes > len(data) {
 		return 0, false, 0, ErrTruncated
@@ -99,8 +105,11 @@ func DecodeLength(data []byte) (length int, indefinite bool, consumed int, err e
 	// X.690 (02/2021) §8.1.3: keep the definite length unsigned until it
 	// has been checked against the host's slice-index range.
 	var decoded uint64
-	for i := 1; i <= numBytes; i++ {
-		decoded = decoded<<8 | uint64(data[i])
+	for _, octet := range data[1 : 1+numBytes] {
+		if decoded > math.MaxUint64>>8 {
+			return 0, false, 0, fmt.Errorf("%w: length overflows uint64", ErrInvalidLength)
+		}
+		decoded = decoded<<8 | uint64(octet)
 	}
 	if decoded > uint64(math.MaxInt) {
 		return 0, false, 0, fmt.Errorf("%w: length %d exceeds host int", ErrInvalidLength, decoded)
@@ -125,6 +134,12 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 		return tag.Tag{}, 0, nil, err
 	}
 
+	if tagLen < 0 || tagLen > len(data) {
+		return tag.Tag{}, 0, nil, ErrTruncated
+	}
+	if lenLen < 0 || lenLen > len(data)-tagLen {
+		return tag.Tag{}, 0, nil, ErrTruncated
+	}
 	headerLen := tagLen + lenLen
 
 	if indefinite {
@@ -136,6 +151,9 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 		depth := 0
 		elements := 0
 		for {
+			if pos < headerLen || pos > len(data) {
+				return tag.Tag{}, 0, nil, ErrInvalidLength
+			}
 			if pos-headerLen > limits.MaxWork || elements > limits.MaxElements {
 				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan work limit exceeded", ErrInvalidValue)
 			}
@@ -152,23 +170,35 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 				continue
 			}
 			// Skip nested TLVs.
+			if elements >= limits.MaxElements {
+				return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER scan element limit exceeded", ErrInvalidValue)
+			}
 			elements++
 			_, innerTagLen, err := DecodeTag(data[pos:])
 			if err != nil {
 				return tag.Tag{}, 0, nil, err
 			}
+			if innerTagLen < 0 || innerTagLen > len(data)-pos {
+				return tag.Tag{}, 0, nil, ErrTruncated
+			}
 			innerLen, innerIndef, innerLenLen, err := DecodeLength(data[pos+innerTagLen:])
 			if err != nil {
 				return tag.Tag{}, 0, nil, err
 			}
+			if innerLenLen < 0 || innerLenLen > len(data)-pos-innerTagLen {
+				return tag.Tag{}, 0, nil, ErrTruncated
+			}
 			start := pos + innerTagLen + innerLenLen
 			if innerIndef {
-				depth++
-				if depth > limits.MaxDepth {
+				if depth >= limits.MaxDepth {
 					return tag.Tag{}, 0, nil, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
 				}
+				depth++
 				pos = start
 			} else {
+				if start > len(data) {
+					return tag.Tag{}, 0, nil, ErrTruncated
+				}
 				if innerLen > len(data)-start {
 					return tag.Tag{}, 0, nil, ErrTruncated
 				}
@@ -177,6 +207,9 @@ func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, erro
 		}
 	}
 
+	if headerLen > len(data) {
+		return tag.Tag{}, 0, nil, ErrTruncated
+	}
 	if length > len(data)-headerLen {
 		return tag.Tag{}, 0, nil, ErrTruncated
 	}
@@ -226,6 +259,9 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	if tagLen < 0 || tagLen > len(data) {
+		return 0, ErrTruncated
+	}
 	// X.690 (02/2021) 8.1.2.2 and 8.1.2.4 require the shortest
 	// identifier representation for the decoded tag number.
 	if canonical := t.Encode(); !bytes.Equal(data[:tagLen], canonical) {
@@ -234,6 +270,9 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 	length, indefinite, lenLen, err := DecodeLength(data[tagLen:])
 	if err != nil {
 		return 0, err
+	}
+	if lenLen < 0 || lenLen > len(data)-tagLen {
+		return 0, ErrTruncated
 	}
 	if indefinite {
 		return 0, ErrIndefiniteLength
@@ -278,9 +317,15 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 		// can validate that ordering; this generic pass validates each child.
 		offset := headerLen
 		for offset < end {
+			if depth >= maxDepth {
+				return 0, fmt.Errorf("%w: DER nesting depth exceeded", ErrInvalidValue)
+			}
 			n, err := validateDERTLV(data[offset:end], depth+1, maxDepth)
 			if err != nil {
 				return 0, err
+			}
+			if n <= 0 || n > end-offset {
+				return 0, ErrInvalidLength
 			}
 			offset += n
 		}
@@ -330,15 +375,17 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 			return invalid("nonminimal two's-complement INTEGER")
 		}
 	case tag.TagBitString:
-		if len(value) == 0 || value[0] > 7 {
-			return invalid("invalid BIT STRING unused-bit count")
-		}
-		if len(value) == 1 {
-			if value[0] != 0 {
-				return invalid("empty BIT STRING has unused bits")
+		{
+			if len(value) == 0 || value[0] > 7 {
+				return invalid("invalid BIT STRING unused-bit count")
 			}
-		} else if value[len(value)-1]&byte((1<<value[0])-1) != 0 {
-			return invalid("nonzero unused BIT STRING bits")
+			if len(value) == 1 {
+				if value[0] != 0 {
+					return invalid("empty BIT STRING has unused bits")
+				}
+			} else if value[len(value)-1]&byte((1<<value[0])-1) != 0 {
+				return invalid("nonzero unused BIT STRING bits")
+			}
 		}
 	case tag.TagNull:
 		if len(value) != 0 {
@@ -406,9 +453,15 @@ func validateDEREmbeddedPDV(value []byte) error {
 		if err != nil {
 			return err
 		}
+		if used < 0 || used > len(contents) {
+			return fmt.Errorf("EMBEDDED PDV identification pair exceeds contents")
+		}
 		right, rightLen, rightValue, err := DecodeTLV(contents[used:], encodingStructureOption(contents[used:]))
 		if err != nil {
 			return err
+		}
+		if rightLen < 0 || rightLen > len(contents)-used {
+			return fmt.Errorf("EMBEDDED PDV identification pair exceeds contents")
 		}
 		if used+rightLen != len(contents) || left.Class != tag.ClassContextSpecific || left.Number != 0 || left.Constructed || right.Class != tag.ClassContextSpecific || right.Number != 1 || right.Constructed {
 			return fmt.Errorf("EMBEDDED PDV identification pair has invalid components")
@@ -450,9 +503,15 @@ func validateDEREmbeddedPDV(value []byte) error {
 	if err != nil {
 		return err
 	}
+	if n < 0 || n > len(value) {
+		return fmt.Errorf("EMBEDDED PDV data-value exceeds contents")
+	}
 	dataTag, dataLen, _, err := DecodeTLV(value[n:], encodingStructureOption(value[n:]))
 	if err != nil {
 		return err
+	}
+	if dataLen < 0 || dataLen > len(value)-n {
+		return fmt.Errorf("EMBEDDED PDV data-value exceeds contents")
 	}
 	if n+dataLen != len(value) || dataTag.Class != tag.ClassContextSpecific || dataTag.Number != 2 || dataTag.Constructed {
 		return fmt.Errorf("EMBEDDED PDV requires one primitive [2] data-value")
@@ -467,16 +526,17 @@ func validateBase128Subidentifiers(value []byte) error {
 		return fmt.Errorf("empty subidentifier list")
 	}
 	for offset := 0; offset < len(value); {
-		start := offset
+		first := true
 		for {
 			if offset >= len(value) {
 				return fmt.Errorf("unterminated subidentifier")
 			}
 			b := value[offset]
 			offset++
-			if offset == start+1 && b == 0x80 {
+			if first && b == 0x80 {
 				return fmt.Errorf("nonminimal subidentifier")
 			}
+			first = false
 			if b&0x80 == 0 {
 				break
 			}
@@ -505,7 +565,13 @@ func validateDERExternal(value []byte) error {
 	}
 	if decoded.Encoding == runtime.ExternalArbitrary {
 		bits := decoded.Arbitrary
+		if bits.BitLength < 0 {
+			return fmt.Errorf("%w: invalid EXTERNAL arbitrary bit length", ErrInvalidValue)
+		}
 		unused := (8 - bits.BitLength%8) % 8
+		if unused < 0 || unused > 7 || unused > 0 && len(bits.Bytes) == 0 {
+			return fmt.Errorf("%w: invalid EXTERNAL arbitrary unused-bit count", ErrInvalidValue)
+		}
 		length, err := externalBitLength(len(bits.Bytes), unused)
 		if err != nil || length != bits.BitLength {
 			return fmt.Errorf("%w: invalid EXTERNAL arbitrary bit length", ErrInvalidValue)
@@ -540,7 +606,7 @@ func validateDERGeneralizedTime(value []byte) error {
 
 func compareDEROctetStrings(left, right []byte) int {
 	length := max(len(left), len(right))
-	for index := 0; index < length; index++ {
+	for index := 0; index < length; {
 		var leftOctet, rightOctet byte
 		if index < len(left) {
 			leftOctet = left[index]
@@ -554,6 +620,7 @@ func compareDEROctetStrings(left, right []byte) int {
 		if leftOctet > rightOctet {
 			return 1
 		}
+		index++
 	}
 	return 0
 }
@@ -577,6 +644,9 @@ func DecodeSequenceChildren(data []byte, options ...DecodeOption) ([][]byte, err
 		t, total, value, err := DecodeTLV(data[offset:], options...)
 		if err != nil {
 			return nil, fmt.Errorf("at offset %d: %w", offset, err)
+		}
+		if total <= 0 || total > len(data)-offset {
+			return nil, ErrInvalidLength
 		}
 		_ = t
 		_ = value
@@ -641,6 +711,9 @@ func decodeIntBytes(b []byte) (int64, error) {
 		v = -1 // All 1s.
 	}
 	for _, c := range b {
+		if v < math.MinInt64>>8 || v > math.MaxInt64>>8 {
+			return 0, fmt.Errorf("%w: integer overflows int64", ErrInvalidValue)
+		}
 		v = (v << 8) | int64(c)
 	}
 	return v, nil
@@ -733,9 +806,15 @@ func decodeOctetStringBounded(data []byte, depth int, budget *berWorkBudget) ([]
 	if t.Constructed {
 		var result []byte
 		for offset := 0; offset < len(value); {
+			if depth >= budget.limits.MaxDepth {
+				return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+			}
 			childVal, consumed, err := decodeOctetStringBounded(value[offset:], depth+1, budget)
 			if err != nil {
 				return nil, 0, err
+			}
+			if consumed <= 0 || consumed > len(value)-offset {
+				return nil, 0, ErrInvalidLength
 			}
 			result = append(result, childVal...)
 			offset += consumed
@@ -824,12 +903,17 @@ func DecodeRelativeObjectIdentifier(data []byte, options ...DecodeOption) ([]uin
 func decodeBase128(data []byte, offset int) (uint64, int, error) {
 	var v uint64
 	start := offset
+	if offset < 0 || offset > len(data) {
+		return 0, offset, fmt.Errorf("%w: base-128 offset outside input", ErrInvalidValue)
+	}
+	first := true
 	for offset < len(data) {
 		b := data[offset]
 		offset++
-		if offset == start+1 && b == 0x80 && offset < len(data) {
+		if first && b == 0x80 && offset < len(data) {
 			return 0, offset, fmt.Errorf("%w: non-minimal base-128 subidentifier", ErrInvalidValue)
 		}
+		first = false
 		bits := uint64(b & 0x7f)
 		if v > math.MaxUint64>>7 || v == math.MaxUint64>>7 && bits > math.MaxUint64&0x7f {
 			return 0, offset, fmt.Errorf("%w: base-128 subidentifier overflows uint64", ErrInvalidValue)
@@ -910,6 +994,9 @@ func DecodeString(data []byte, expectedTag int, options ...DecodeOption) (string
 			}
 			if consumed <= 0 {
 				return "", 0, fmt.Errorf("%w: constructed string component consumed no input", ErrInvalidValue)
+			}
+			if consumed > len(value)-offset {
+				return "", 0, ErrInvalidLength
 			}
 			encoded = append(encoded, part...)
 			offset += consumed
@@ -1075,10 +1162,16 @@ func decodeBitStringValueBounded(constructed bool, value []byte, depth int, budg
 	}
 	var result []byte
 	unusedBits := 0
-	for index, offset := 0, 0; offset < len(value); index++ {
+	for index, offset := 0, 0; offset < len(value); {
+		if depth >= budget.limits.MaxDepth {
+			return nil, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrInvalidValue)
+		}
 		segment, segmentUnused, consumed, err := decodeBitStringBounded(value[offset:], depth+1, budget)
 		if err != nil {
 			return nil, 0, fmt.Errorf("decoding constructed BIT STRING segment %d: %w", index, err)
+		}
+		if consumed <= 0 || consumed > len(value)-offset {
+			return nil, 0, ErrInvalidLength
 		}
 		if offset+consumed < len(value) && segmentUnused != 0 {
 			return nil, 0, fmt.Errorf("%w: BIT STRING segment %d has %d unused bits before the final segment", ErrInvalidValue, index, segmentUnused)
@@ -1086,6 +1179,10 @@ func decodeBitStringValueBounded(constructed bool, value []byte, depth int, budg
 		result = append(result, segment...)
 		unusedBits = segmentUnused
 		offset += consumed
+		if index >= math.MaxInt {
+			return nil, 0, fmt.Errorf("%w: BIT STRING segment count exceeds host int", ErrInvalidValue)
+		}
+		index++
 	}
 	return result, unusedBits, nil
 }
@@ -1119,12 +1216,16 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 			return "", fmt.Errorf("%w: BMPString content length %d is not divisible by 2", ErrInvalidValue, len(value))
 		}
 		runes := make([]rune, 0, len(value)/2)
-		for offset := 0; offset < len(value); offset += 2 {
+		for offset := 0; offset < len(value); {
+			if len(value)-offset < 2 {
+				return "", ErrTruncated
+			}
 			r := rune(binary.BigEndian.Uint16(value[offset : offset+2]))
 			if !utf8.ValidRune(r) {
 				return "", fmt.Errorf("%w: BMPString contains invalid code point U+%04X", ErrInvalidValue, r)
 			}
 			runes = append(runes, r)
+			offset += 2
 		}
 		return string(runes), nil
 	case tag.TagUniversalString:
@@ -1132,12 +1233,20 @@ func DecodeStringValueTag(tagNum int, value []byte) (string, error) {
 			return "", fmt.Errorf("%w: UniversalString content length %d is not divisible by 4", ErrInvalidValue, len(value))
 		}
 		runes := make([]rune, 0, len(value)/4)
-		for offset := 0; offset < len(value); offset += 4 {
-			r := rune(binary.BigEndian.Uint32(value[offset : offset+4]))
+		for offset := 0; offset < len(value); {
+			if len(value)-offset < 4 {
+				return "", ErrTruncated
+			}
+			codePoint := binary.BigEndian.Uint32(value[offset : offset+4])
+			if codePoint > utf8.MaxRune {
+				return "", fmt.Errorf("%w: UniversalString code point exceeds Unicode range", ErrInvalidValue)
+			}
+			r := rune(codePoint)
 			if !utf8.ValidRune(r) {
 				return "", fmt.Errorf("%w: UniversalString contains invalid code point U+%04X", ErrInvalidValue, r)
 			}
 			runes = append(runes, r)
+			offset += 4
 		}
 		return string(runes), nil
 	default:
@@ -1228,7 +1337,7 @@ func decodeRealContents(value []byte) (runtime.Real, error) {
 	default:
 		return runtime.Real{}, fmt.Errorf("%w: reserved REAL binary base", ErrInvalidValue)
 	}
-	scaleFactor := int64((info >> 2) & 0x03)
+	scaleFactor := int64(info&0x0c) >> 2
 	expLen := int(info&0x03) + 1
 	offset := 1
 	if info&0x03 == 3 {
@@ -1241,7 +1350,10 @@ func decodeRealContents(value []byte) (runtime.Real, error) {
 			return runtime.Real{}, fmt.Errorf("%w: REAL exponent length is zero", ErrInvalidValue)
 		}
 	}
-	if offset+expLen >= len(value) {
+	if offset > len(value) {
+		return runtime.Real{}, fmt.Errorf("%w: REAL exponent offset exceeds value", ErrTruncated)
+	}
+	if expLen >= len(value)-offset {
 		return runtime.Real{}, fmt.Errorf("%w: REAL exponent or mantissa truncated", ErrTruncated)
 	}
 	exponentBytes := value[offset : offset+expLen]
@@ -1305,7 +1417,7 @@ func decodeDecimalReal(form byte, contents []byte) (runtime.Real, error) {
 				mark = index
 			}
 		}
-		if mark < 0 {
+		if mark < 0 || mark >= len(text) {
 			return runtime.Real{}, fmt.Errorf("%w: REAL NR%d form has no decimal mark", ErrInvalidValue, form)
 		}
 		integerPart = text[:mark]
@@ -1322,7 +1434,7 @@ func decodeDecimalReal(form byte, contents []byte) (runtime.Real, error) {
 					exponentMark = index
 				}
 			}
-			if exponentMark < 0 {
+			if exponentMark < 0 || exponentMark >= len(fractionAndExponent) {
 				return runtime.Real{}, fmt.Errorf("%w: REAL NR3 form has no exponent", ErrInvalidValue)
 			}
 			fractionPart = fractionAndExponent[:exponentMark]

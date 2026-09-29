@@ -270,6 +270,10 @@ func (v *OMActivateTraceModeArg) MarshalBER() ([]byte, error) {
 		children = append(children, enc_tracedepthlist...)
 	}
 	if v.TraceNETypeList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.TraceNETypeList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_tracenetypelist, encodeErr_enc_tracenetypelist := ber.EncodeBitString(v.TraceNETypeList.Bytes, (8-(v.TraceNETypeList.BitLength%8))%8)
 		if encodeErr_enc_tracenetypelist != nil {
 			return nil, fmt.Errorf("encoding traceNE-TypeList: %w", encodeErr_enc_tracenetypelist)
@@ -399,6 +403,10 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tracedepthlist...)
 	}
 	if v.TraceNETypeList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.TraceNETypeList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_tracenetypelist, encodeErr_enc_tracenetypelist := ber.EncodeBitString(v.TraceNETypeList.Bytes, (8-(v.TraceNETypeList.BitLength%8))%8)
 		if encodeErr_enc_tracenetypelist != nil {
 			return nil, fmt.Errorf("encoding traceNE-TypeList: %w", encodeErr_enc_tracenetypelist)
@@ -478,6 +486,11 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_imsi := CommonDataTypesIMSI(rawVal_imsi)
 				v.Imsi = &tmp_imsi
+				if offset < 0 || offset >
+					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_imsi
 			}
 		}
@@ -499,6 +512,12 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		return fmt.Errorf("decoding traceReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tracereference)
 	}
 	v.TraceReference = OMTraceReference(rawVal_tracereference)
+	if offset < 0 || offset >
+		len(content) || n_tracereference < 0 || n_tracereference > len(
+		content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_tracereference
 	// Decode traceType
 	if offset >= len(content) {
@@ -521,6 +540,11 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		return fmt.Errorf("decoding traceType: %w", intErr)
 	}
 	v.TraceType = OMTraceType(decVal_tracetype)
+	if offset < 0 || offset >
+		len(content) || n_tracetype < 0 || n_tracetype > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_tracetype
 	// Decode omc-Id
 	if offset < len(content) {
@@ -536,6 +560,11 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_omcid := CommonDataTypesAddressString(rawVal_omcid)
 				v.OmcId = &tmp_omcid
+				if offset < 0 || offset >
+					len(content) || n_omcid < 0 || n_omcid > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_omcid
 			}
 		}
@@ -561,6 +590,12 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_extensioncontainer
 			}
 		}
@@ -579,6 +614,11 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_tracereference2 := OMTraceReference2(rawVal_tracereference2)
 				v.TraceReference2 = &tmp_tracereference2
+				if offset < 0 || offset >
+					len(content) || n_tracereference2 < 0 || n_tracereference2 > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracereference2
 			}
 		}
@@ -604,6 +644,12 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding traceDepthList: %w", unmErr)
 				}
 				v.TraceDepthList = &dec_tracedepthlist
+				if offset < 0 || offset >
+					len(content) || n_tracedepthlist < 0 || n_tracedepthlist > len(
+					content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracedepthlist
 			}
 		}
@@ -630,6 +676,11 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_tracenetypelist := runtime.BitString{Bytes: bsBytes_tracenetypelist, BitLength: bsBitLength_tracenetypelist}
 				v.TraceNETypeList = &tmp_tracenetypelist
+				if offset < 0 || offset >
+					len(content) || n_tracenetypelist < 0 || n_tracenetypelist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracenetypelist
 			}
 		}
@@ -655,6 +706,12 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding traceInterfaceList: %w", unmErr)
 				}
 				v.TraceInterfaceList = &dec_traceinterfacelist
+				if offset < 0 || offset >
+					len(content) || n_traceinterfacelist < 0 || n_traceinterfacelist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_traceinterfacelist
 			}
 		}
@@ -680,6 +737,12 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding traceEventList: %w", unmErr)
 				}
 				v.TraceEventList = &dec_traceeventlist
+				if offset < 0 || offset >
+					len(content) || n_traceeventlist < 0 || n_traceeventlist > len(
+					content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_traceeventlist
 			}
 		}
@@ -692,8 +755,18 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMActivateTraceModeArg", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
@@ -875,6 +948,12 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_mscstracedepth := OMTraceDepth(decVal_mscstracedepth)
 				v.MscSTraceDepth = &tmp_mscstracedepth
+				if offset < 0 || offset >
+					len(content) || n_mscstracedepth < 0 || n_mscstracedepth >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mscstracedepth
 			}
 		}
@@ -897,6 +976,12 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_mgwtracedepth := OMTraceDepth(decVal_mgwtracedepth)
 				v.MgwTraceDepth = &tmp_mgwtracedepth
+				if offset < 0 || offset >
+					len(content) || n_mgwtracedepth < 0 || n_mgwtracedepth >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mgwtracedepth
 			}
 		}
@@ -919,6 +1004,12 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_sgsntracedepth := OMTraceDepth(decVal_sgsntracedepth)
 				v.SgsnTraceDepth = &tmp_sgsntracedepth
+				if offset < 0 || offset >
+					len(content) || n_sgsntracedepth < 0 || n_sgsntracedepth >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_sgsntracedepth
 			}
 		}
@@ -941,6 +1032,12 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_ggsntracedepth := OMTraceDepth(decVal_ggsntracedepth)
 				v.GgsnTraceDepth = &tmp_ggsntracedepth
+				if offset < 0 || offset >
+					len(content) || n_ggsntracedepth < 0 || n_ggsntracedepth >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_ggsntracedepth
 			}
 		}
@@ -963,6 +1060,12 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_rnctracedepth := OMTraceDepth(decVal_rnctracedepth)
 				v.RncTraceDepth = &tmp_rnctracedepth
+				if offset < 0 || offset >
+					len(content) || n_rnctracedepth < 0 || n_rnctracedepth >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_rnctracedepth
 			}
 		}
@@ -985,6 +1088,12 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_bmsctracedepth := OMTraceDepth(decVal_bmsctracedepth)
 				v.BmscTraceDepth = &tmp_bmsctracedepth
+				if offset < 0 || offset >
+					len(content) || n_bmsctracedepth < 0 || n_bmsctracedepth >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_bmsctracedepth
 			}
 		}
@@ -997,8 +1106,18 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMTraceDepthList", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
@@ -1009,6 +1128,10 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscslist, encodeErr_enc_mscslist := ber.EncodeBitString(v.MscSList.Bytes, (8-(v.MscSList.BitLength%8))%8)
 		if encodeErr_enc_mscslist != nil {
 			return nil, fmt.Errorf("encoding msc-s-List: %w", encodeErr_enc_mscslist)
@@ -1021,6 +1144,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgwlist, encodeErr_enc_mgwlist := ber.EncodeBitString(v.MgwList.Bytes, (8-(v.MgwList.BitLength%8))%8)
 		if encodeErr_enc_mgwlist != nil {
 			return nil, fmt.Errorf("encoding mgw-List: %w", encodeErr_enc_mgwlist)
@@ -1033,6 +1160,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.SgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_sgsnlist, encodeErr_enc_sgsnlist := ber.EncodeBitString(v.SgsnList.Bytes, (8-(v.SgsnList.BitLength%8))%8)
 		if encodeErr_enc_sgsnlist != nil {
 			return nil, fmt.Errorf("encoding sgsn-List: %w", encodeErr_enc_sgsnlist)
@@ -1045,6 +1176,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.GgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_ggsnlist, encodeErr_enc_ggsnlist := ber.EncodeBitString(v.GgsnList.Bytes, (8-(v.GgsnList.BitLength%8))%8)
 		if encodeErr_enc_ggsnlist != nil {
 			return nil, fmt.Errorf("encoding ggsn-List: %w", encodeErr_enc_ggsnlist)
@@ -1057,6 +1192,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.RncList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.RncList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_rnclist, encodeErr_enc_rnclist := ber.EncodeBitString(v.RncList.Bytes, (8-(v.RncList.BitLength%8))%8)
 		if encodeErr_enc_rnclist != nil {
 			return nil, fmt.Errorf("encoding rnc-List: %w", encodeErr_enc_rnclist)
@@ -1069,6 +1208,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_rnclist...)
 	}
 	if v.BmscList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.BmscList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_bmsclist, encodeErr_enc_bmsclist := ber.EncodeBitString(v.BmscList.Bytes, (8-(v.BmscList.BitLength%8))%8)
 		if encodeErr_enc_bmsclist != nil {
 			return nil, fmt.Errorf("encoding bmsc-List: %w", encodeErr_enc_bmsclist)
@@ -1097,6 +1240,10 @@ func (v *OMTraceInterfaceList) MarshalBER() ([]byte, error) {
 func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscslist, encodeErr_enc_mscslist := ber.EncodeBitString(v.MscSList.Bytes, (8-(v.MscSList.BitLength%8))%8)
 		if encodeErr_enc_mscslist != nil {
 			return nil, fmt.Errorf("encoding msc-s-List: %w", encodeErr_enc_mscslist)
@@ -1109,6 +1256,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgwlist, encodeErr_enc_mgwlist := ber.EncodeBitString(v.MgwList.Bytes, (8-(v.MgwList.BitLength%8))%8)
 		if encodeErr_enc_mgwlist != nil {
 			return nil, fmt.Errorf("encoding mgw-List: %w", encodeErr_enc_mgwlist)
@@ -1121,6 +1272,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.SgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_sgsnlist, encodeErr_enc_sgsnlist := ber.EncodeBitString(v.SgsnList.Bytes, (8-(v.SgsnList.BitLength%8))%8)
 		if encodeErr_enc_sgsnlist != nil {
 			return nil, fmt.Errorf("encoding sgsn-List: %w", encodeErr_enc_sgsnlist)
@@ -1133,6 +1288,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.GgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_ggsnlist, encodeErr_enc_ggsnlist := ber.EncodeBitString(v.GgsnList.Bytes, (8-(v.GgsnList.BitLength%8))%8)
 		if encodeErr_enc_ggsnlist != nil {
 			return nil, fmt.Errorf("encoding ggsn-List: %w", encodeErr_enc_ggsnlist)
@@ -1145,6 +1304,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.RncList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.RncList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_rnclist, encodeErr_enc_rnclist := ber.EncodeBitString(v.RncList.Bytes, (8-(v.RncList.BitLength%8))%8)
 		if encodeErr_enc_rnclist != nil {
 			return nil, fmt.Errorf("encoding rnc-List: %w", encodeErr_enc_rnclist)
@@ -1157,6 +1320,10 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rnclist...)
 	}
 	if v.BmscList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.BmscList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_bmsclist, encodeErr_enc_bmsclist := ber.EncodeBitString(v.BmscList.Bytes, (8-(v.BmscList.BitLength%8))%8)
 		if encodeErr_enc_bmsclist != nil {
 			return nil, fmt.Errorf("encoding bmsc-List: %w", encodeErr_enc_bmsclist)
@@ -1220,6 +1387,11 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
+				if offset < 0 || offset >
+					len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mscslist
 			}
 		}
@@ -1246,6 +1418,11 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_mgwlist := runtime.BitString{Bytes: bsBytes_mgwlist, BitLength: bsBitLength_mgwlist}
 				v.MgwList = &tmp_mgwlist
+				if offset < 0 || offset >
+					len(content) || n_mgwlist < 0 || n_mgwlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mgwlist
 			}
 		}
@@ -1272,6 +1449,11 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_sgsnlist := runtime.BitString{Bytes: bsBytes_sgsnlist, BitLength: bsBitLength_sgsnlist}
 				v.SgsnList = &tmp_sgsnlist
+				if offset < 0 || offset >
+					len(content) || n_sgsnlist < 0 || n_sgsnlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_sgsnlist
 			}
 		}
@@ -1298,6 +1480,11 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_ggsnlist := runtime.BitString{Bytes: bsBytes_ggsnlist, BitLength: bsBitLength_ggsnlist}
 				v.GgsnList = &tmp_ggsnlist
+				if offset < 0 || offset >
+					len(content) || n_ggsnlist < 0 || n_ggsnlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_ggsnlist
 			}
 		}
@@ -1324,6 +1511,11 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_rnclist := runtime.BitString{Bytes: bsBytes_rnclist, BitLength: bsBitLength_rnclist}
 				v.RncList = &tmp_rnclist
+				if offset < 0 || offset >
+					len(content) || n_rnclist < 0 || n_rnclist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_rnclist
 			}
 		}
@@ -1350,6 +1542,11 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				}
 				tmp_bmsclist := runtime.BitString{Bytes: bsBytes_bmsclist, BitLength: bsBitLength_bmsclist}
 				v.BmscList = &tmp_bmsclist
+				if offset < 0 || offset >
+					len(content) || n_bmsclist < 0 || n_bmsclist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_bmsclist
 			}
 		}
@@ -1362,8 +1559,18 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMTraceInterfaceList", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
@@ -1374,6 +1581,10 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscslist, encodeErr_enc_mscslist := ber.EncodeBitString(v.MscSList.Bytes, (8-(v.MscSList.BitLength%8))%8)
 		if encodeErr_enc_mscslist != nil {
 			return nil, fmt.Errorf("encoding msc-s-List: %w", encodeErr_enc_mscslist)
@@ -1386,6 +1597,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgwlist, encodeErr_enc_mgwlist := ber.EncodeBitString(v.MgwList.Bytes, (8-(v.MgwList.BitLength%8))%8)
 		if encodeErr_enc_mgwlist != nil {
 			return nil, fmt.Errorf("encoding mgw-List: %w", encodeErr_enc_mgwlist)
@@ -1398,6 +1613,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.SgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_sgsnlist, encodeErr_enc_sgsnlist := ber.EncodeBitString(v.SgsnList.Bytes, (8-(v.SgsnList.BitLength%8))%8)
 		if encodeErr_enc_sgsnlist != nil {
 			return nil, fmt.Errorf("encoding sgsn-List: %w", encodeErr_enc_sgsnlist)
@@ -1410,6 +1629,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.GgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_ggsnlist, encodeErr_enc_ggsnlist := ber.EncodeBitString(v.GgsnList.Bytes, (8-(v.GgsnList.BitLength%8))%8)
 		if encodeErr_enc_ggsnlist != nil {
 			return nil, fmt.Errorf("encoding ggsn-List: %w", encodeErr_enc_ggsnlist)
@@ -1422,6 +1645,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.BmscList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.BmscList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_bmsclist, encodeErr_enc_bmsclist := ber.EncodeBitString(v.BmscList.Bytes, (8-(v.BmscList.BitLength%8))%8)
 		if encodeErr_enc_bmsclist != nil {
 			return nil, fmt.Errorf("encoding bmsc-List: %w", encodeErr_enc_bmsclist)
@@ -1450,6 +1677,10 @@ func (v *OMTraceEventList) MarshalBER() ([]byte, error) {
 func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.MscSList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscslist, encodeErr_enc_mscslist := ber.EncodeBitString(v.MscSList.Bytes, (8-(v.MscSList.BitLength%8))%8)
 		if encodeErr_enc_mscslist != nil {
 			return nil, fmt.Errorf("encoding msc-s-List: %w", encodeErr_enc_mscslist)
@@ -1462,6 +1693,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgwlist, encodeErr_enc_mgwlist := ber.EncodeBitString(v.MgwList.Bytes, (8-(v.MgwList.BitLength%8))%8)
 		if encodeErr_enc_mgwlist != nil {
 			return nil, fmt.Errorf("encoding mgw-List: %w", encodeErr_enc_mgwlist)
@@ -1474,6 +1709,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.SgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_sgsnlist, encodeErr_enc_sgsnlist := ber.EncodeBitString(v.SgsnList.Bytes, (8-(v.SgsnList.BitLength%8))%8)
 		if encodeErr_enc_sgsnlist != nil {
 			return nil, fmt.Errorf("encoding sgsn-List: %w", encodeErr_enc_sgsnlist)
@@ -1486,6 +1725,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.GgsnList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_ggsnlist, encodeErr_enc_ggsnlist := ber.EncodeBitString(v.GgsnList.Bytes, (8-(v.GgsnList.BitLength%8))%8)
 		if encodeErr_enc_ggsnlist != nil {
 			return nil, fmt.Errorf("encoding ggsn-List: %w", encodeErr_enc_ggsnlist)
@@ -1498,6 +1741,10 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.BmscList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.BmscList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_bmsclist, encodeErr_enc_bmsclist := ber.EncodeBitString(v.BmscList.Bytes, (8-(v.BmscList.BitLength%8))%8)
 		if encodeErr_enc_bmsclist != nil {
 			return nil, fmt.Errorf("encoding bmsc-List: %w", encodeErr_enc_bmsclist)
@@ -1561,6 +1808,11 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_mscslist := runtime.BitString{Bytes: bsBytes_mscslist, BitLength: bsBitLength_mscslist}
 				v.MscSList = &tmp_mscslist
+				if offset < 0 || offset >
+					len(content) || n_mscslist < 0 || n_mscslist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mscslist
 			}
 		}
@@ -1587,6 +1839,11 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_mgwlist := runtime.BitString{Bytes: bsBytes_mgwlist, BitLength: bsBitLength_mgwlist}
 				v.MgwList = &tmp_mgwlist
+				if offset < 0 || offset >
+					len(content) || n_mgwlist < 0 || n_mgwlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mgwlist
 			}
 		}
@@ -1613,6 +1870,11 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_sgsnlist := runtime.BitString{Bytes: bsBytes_sgsnlist, BitLength: bsBitLength_sgsnlist}
 				v.SgsnList = &tmp_sgsnlist
+				if offset < 0 || offset >
+					len(content) || n_sgsnlist < 0 || n_sgsnlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_sgsnlist
 			}
 		}
@@ -1639,6 +1901,11 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_ggsnlist := runtime.BitString{Bytes: bsBytes_ggsnlist, BitLength: bsBitLength_ggsnlist}
 				v.GgsnList = &tmp_ggsnlist
+				if offset < 0 || offset >
+					len(content) || n_ggsnlist < 0 || n_ggsnlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_ggsnlist
 			}
 		}
@@ -1665,6 +1932,11 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 				}
 				tmp_bmsclist := runtime.BitString{Bytes: bsBytes_bmsclist, BitLength: bsBitLength_bmsclist}
 				v.BmscList = &tmp_bmsclist
+				if offset < 0 || offset >
+					len(content) || n_bmsclist < 0 || n_bmsclist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_bmsclist
 			}
 		}
@@ -1677,8 +1949,18 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) e
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMTraceEventList", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
@@ -1743,6 +2025,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_rnctracedepth...)
 	}
 	if v.RncInterfaceList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.RncInterfaceList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_rncinterfacelist, encodeErr_enc_rncinterfacelist := ber.EncodeBitString(v.RncInterfaceList.Bytes, (8-(v.RncInterfaceList.BitLength%8))%8)
 		if encodeErr_enc_rncinterfacelist != nil {
 			return nil, fmt.Errorf("encoding rnc-InterfaceList: %w", encodeErr_enc_rncinterfacelist)
@@ -1764,6 +2050,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscstracedepth...)
 	}
 	if v.MscSInterfaceList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSInterfaceList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscsinterfacelist, encodeErr_enc_mscsinterfacelist := ber.EncodeBitString(v.MscSInterfaceList.Bytes, (8-(v.MscSInterfaceList.BitLength%8))%8)
 		if encodeErr_enc_mscsinterfacelist != nil {
 			return nil, fmt.Errorf("encoding msc-s-InterfaceList: %w", encodeErr_enc_mscsinterfacelist)
@@ -1776,6 +2066,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mscsinterfacelist...)
 	}
 	if v.MscSEventList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSEventList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscseventlist, encodeErr_enc_mscseventlist := ber.EncodeBitString(v.MscSEventList.Bytes, (8-(v.MscSEventList.BitLength%8))%8)
 		if encodeErr_enc_mscseventlist != nil {
 			return nil, fmt.Errorf("encoding msc-s-EventList: %w", encodeErr_enc_mscseventlist)
@@ -1797,6 +2091,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwtracedepth...)
 	}
 	if v.MgwInterfaceList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwInterfaceList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgwinterfacelist, encodeErr_enc_mgwinterfacelist := ber.EncodeBitString(v.MgwInterfaceList.Bytes, (8-(v.MgwInterfaceList.BitLength%8))%8)
 		if encodeErr_enc_mgwinterfacelist != nil {
 			return nil, fmt.Errorf("encoding mgw-InterfaceList: %w", encodeErr_enc_mgwinterfacelist)
@@ -1809,6 +2107,10 @@ func (v *OMTracePropagationList) MarshalBER() ([]byte, error) {
 		children = append(children, enc_mgwinterfacelist...)
 	}
 	if v.MgwEventList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwEventList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgweventlist, encodeErr_enc_mgweventlist := ber.EncodeBitString(v.MgwEventList.Bytes, (8-(v.MgwEventList.BitLength%8))%8)
 		if encodeErr_enc_mgweventlist != nil {
 			return nil, fmt.Errorf("encoding mgw-EventList: %w", encodeErr_enc_mgweventlist)
@@ -1891,6 +2193,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rnctracedepth...)
 	}
 	if v.RncInterfaceList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.RncInterfaceList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_rncinterfacelist, encodeErr_enc_rncinterfacelist := ber.EncodeBitString(v.RncInterfaceList.Bytes, (8-(v.RncInterfaceList.BitLength%8))%8)
 		if encodeErr_enc_rncinterfacelist != nil {
 			return nil, fmt.Errorf("encoding rnc-InterfaceList: %w", encodeErr_enc_rncinterfacelist)
@@ -1912,6 +2218,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscstracedepth...)
 	}
 	if v.MscSInterfaceList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSInterfaceList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscsinterfacelist, encodeErr_enc_mscsinterfacelist := ber.EncodeBitString(v.MscSInterfaceList.Bytes, (8-(v.MscSInterfaceList.BitLength%8))%8)
 		if encodeErr_enc_mscsinterfacelist != nil {
 			return nil, fmt.Errorf("encoding msc-s-InterfaceList: %w", encodeErr_enc_mscsinterfacelist)
@@ -1924,6 +2234,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscsinterfacelist...)
 	}
 	if v.MscSEventList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MscSEventList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mscseventlist, encodeErr_enc_mscseventlist := ber.EncodeBitString(v.MscSEventList.Bytes, (8-(v.MscSEventList.BitLength%8))%8)
 		if encodeErr_enc_mscseventlist != nil {
 			return nil, fmt.Errorf("encoding msc-s-EventList: %w", encodeErr_enc_mscseventlist)
@@ -1945,6 +2259,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwtracedepth...)
 	}
 	if v.MgwInterfaceList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwInterfaceList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgwinterfacelist, encodeErr_enc_mgwinterfacelist := ber.EncodeBitString(v.MgwInterfaceList.Bytes, (8-(v.MgwInterfaceList.BitLength%8))%8)
 		if encodeErr_enc_mgwinterfacelist != nil {
 			return nil, fmt.Errorf("encoding mgw-InterfaceList: %w", encodeErr_enc_mgwinterfacelist)
@@ -1957,6 +2275,10 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwinterfacelist...)
 	}
 	if v.MgwEventList != nil {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:486
+		if v.MgwEventList.BitLength < 0 {
+			return nil, fmt.Errorf("negative bit string length")
+		}
 		enc_mgweventlist, encodeErr_enc_mgweventlist := ber.EncodeBitString(v.MgwEventList.Bytes, (8-(v.MgwEventList.BitLength%8))%8)
 		if encodeErr_enc_mgweventlist != nil {
 			return nil, fmt.Errorf("encoding mgw-EventList: %w", encodeErr_enc_mgweventlist)
@@ -2012,6 +2334,12 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_tracereference := OMTraceReference(rawVal_tracereference)
 				v.TraceReference = &tmp_tracereference
+				if offset < 0 || offset >
+					len(content) || n_tracereference < 0 || n_tracereference > len(
+					content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracereference
 			}
 		}
@@ -2034,6 +2362,11 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_tracetype := OMTraceType(decVal_tracetype)
 				v.TraceType = &tmp_tracetype
+				if offset < 0 || offset >
+					len(content) || n_tracetype < 0 || n_tracetype > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracetype
 			}
 		}
@@ -2052,6 +2385,11 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_tracereference2 := OMTraceReference2(rawVal_tracereference2)
 				v.TraceReference2 = &tmp_tracereference2
+				if offset < 0 || offset >
+					len(content) || n_tracereference2 < 0 || n_tracereference2 > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracereference2
 			}
 		}
@@ -2070,6 +2408,12 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_tracerecordingsessionreference := OMTraceRecordingSessionReference(rawVal_tracerecordingsessionreference)
 				v.TraceRecordingSessionReference = &tmp_tracerecordingsessionreference
+				if offset < 0 || offset >
+					len(content) || n_tracerecordingsessionreference < 0 || n_tracerecordingsessionreference >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracerecordingsessionreference
 			}
 		}
@@ -2092,6 +2436,11 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_rnctracedepth := OMTraceDepth(decVal_rnctracedepth)
 				v.RncTraceDepth = &tmp_rnctracedepth
+				if offset < 0 || offset >
+					len(content) || n_rnctracedepth < 0 || n_rnctracedepth > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_rnctracedepth
 			}
 		}
@@ -2118,6 +2467,12 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_rncinterfacelist := runtime.BitString{Bytes: bsBytes_rncinterfacelist, BitLength: bsBitLength_rncinterfacelist}
 				v.RncInterfaceList = &tmp_rncinterfacelist
+				if offset < 0 || offset >
+					len(content) || n_rncinterfacelist < 0 || n_rncinterfacelist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_rncinterfacelist
 			}
 		}
@@ -2140,6 +2495,12 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_mscstracedepth := OMTraceDepth(decVal_mscstracedepth)
 				v.MscSTraceDepth = &tmp_mscstracedepth
+				if offset < 0 || offset >
+					len(content) || n_mscstracedepth < 0 || n_mscstracedepth > len(
+					content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mscstracedepth
 			}
 		}
@@ -2166,6 +2527,12 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_mscsinterfacelist := runtime.BitString{Bytes: bsBytes_mscsinterfacelist, BitLength: bsBitLength_mscsinterfacelist}
 				v.MscSInterfaceList = &tmp_mscsinterfacelist
+				if offset < 0 || offset >
+					len(content) || n_mscsinterfacelist < 0 || n_mscsinterfacelist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mscsinterfacelist
 			}
 		}
@@ -2192,6 +2559,11 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_mscseventlist := runtime.BitString{Bytes: bsBytes_mscseventlist, BitLength: bsBitLength_mscseventlist}
 				v.MscSEventList = &tmp_mscseventlist
+				if offset < 0 || offset >
+					len(content) || n_mscseventlist < 0 || n_mscseventlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mscseventlist
 			}
 		}
@@ -2214,6 +2586,11 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_mgwtracedepth := OMTraceDepth(decVal_mgwtracedepth)
 				v.MgwTraceDepth = &tmp_mgwtracedepth
+				if offset < 0 || offset >
+					len(content) || n_mgwtracedepth < 0 || n_mgwtracedepth > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mgwtracedepth
 			}
 		}
@@ -2240,6 +2617,12 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_mgwinterfacelist := runtime.BitString{Bytes: bsBytes_mgwinterfacelist, BitLength: bsBitLength_mgwinterfacelist}
 				v.MgwInterfaceList = &tmp_mgwinterfacelist
+				if offset < 0 || offset >
+					len(content) || n_mgwinterfacelist < 0 || n_mgwinterfacelist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mgwinterfacelist
 			}
 		}
@@ -2266,6 +2649,11 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				}
 				tmp_mgweventlist := runtime.BitString{Bytes: bsBytes_mgweventlist, BitLength: bsBitLength_mgweventlist}
 				v.MgwEventList = &tmp_mgweventlist
+				if offset < 0 || offset >
+					len(content) || n_mgweventlist < 0 || n_mgweventlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_mgweventlist
 			}
 		}
@@ -2278,8 +2666,18 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMTracePropagationList", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
@@ -2398,6 +2796,12 @@ func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_extensioncontainer
 			}
 		}
@@ -2418,6 +2822,12 @@ func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 					return fmt.Errorf("decoding traceSupportIndicator: %w: NULL content length %d", ber.ErrInvalidValue, len(rawVal_tracesupportindicator))
 				}
 				v.TraceSupportIndicator = &struct{}{}
+				if offset < 0 || offset >
+					len(content) || n_tracesupportindicator < 0 || n_tracesupportindicator >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracesupportindicator
 			}
 		}
@@ -2430,8 +2840,18 @@ func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMActivateTraceModeRes", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
@@ -2593,6 +3013,11 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 				tmp_imsi := CommonDataTypesIMSI(rawVal_imsi)
 				v.Imsi = &tmp_imsi
+				if offset < 0 || offset >
+					len(content) || n_imsi < 0 || n_imsi > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_imsi
 			}
 		}
@@ -2614,6 +3039,11 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		return fmt.Errorf("decoding traceReference: %w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tracereference)
 	}
 	v.TraceReference = OMTraceReference(rawVal_tracereference)
+	if offset < 0 || offset >
+		len(content) || n_tracereference < 0 || n_tracereference > len(content[offset:]) {
+		return fmt.Errorf("invalid BER content window")
+	}
+
 	offset += n_tracereference
 	// Decode extensionContainer
 	if offset < len(content) {
@@ -2636,6 +3066,12 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_extensioncontainer
 			}
 		}
@@ -2654,6 +3090,12 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				}
 				tmp_tracereference2 := OMTraceReference2(rawVal_tracereference2)
 				v.TraceReference2 = &tmp_tracereference2
+				if offset < 0 || offset >
+					len(content) || n_tracereference2 < 0 || n_tracereference2 > len(
+					content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_tracereference2
 			}
 		}
@@ -2666,8 +3108,18 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMDeactivateTraceModeArg", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
@@ -2768,6 +3220,12 @@ func (v *OMDeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return fmt.Errorf("decoding extensionContainer: %w", unmErr)
 				}
 				v.ExtensionContainer = &dec_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
 				offset += n_extensioncontainer
 			}
 		}
@@ -2780,8 +3238,18 @@ func (v *OMDeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		if extErr_ != nil {
 			return &ber.DecodeError{Offset: offset, TypeName: "OMDeactivateTraceModeRes", Cause: extErr_}
 		}
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		v.ExtData_ = append(v.ExtData_, append([]byte(nil), content[offset:offset+nExt_]...))
 		v.ExtPresent_ = append(v.ExtPresent_, true)
+		if offset < 0 || offset >
+			len(content) || nExt_ < 0 || nExt_ > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
 		offset += nExt_
 	}
 	v.ExtCount_ = int64(len(v.ExtData_))
